@@ -92,6 +92,10 @@ public class TopicLabelActivity extends BackActivity {
         }
     }
 
+    public static int getRandomColor() {
+        return 0xFF000000 | new Random().nextInt(0xFFFFFF);
+    }
+
     @AfterViews
     protected final void initTopicLabelActivity() {
         generateColor = getRandomColor();
@@ -140,7 +144,6 @@ public class TopicLabelActivity extends BackActivity {
             beginAddLebel(name);
         }
     }
-
 
     @OnActivityResult(RESULT_PICK_COLOR)
     void onResultPickColor(int result, @OnActivityResult.Extra int resultData) {
@@ -256,10 +259,6 @@ public class TopicLabelActivity extends BackActivity {
         COLOR = String.format("#%06X", generateColor & 0x00FFFFFF);
         RequestData post = labelUrl.addLabel(currentLabelName, COLOR);
         postNetwork(post.url, post.params, "URI_ADD_LABEL");
-    }
-
-    public static int getRandomColor() {
-        return 0xFF000000 | new Random().nextInt(0xFFFFFF);
     }
 
     private void endAddLabel(int code, JSONObject json) throws JSONException {

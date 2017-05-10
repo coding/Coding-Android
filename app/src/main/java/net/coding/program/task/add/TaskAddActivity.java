@@ -85,10 +85,7 @@ import static net.coding.program.common.util.LogUtils.makeLogTag;
 @EActivity(R.layout.activity_task_add)
 public class TaskAddActivity extends BackActivity implements StartActivity, DatePickerFragment.DateSet, NewTaskParam {
 
-    private static final String TAG = makeLogTag(TaskAddActivity.class);
-
     public static final String RESULT_GLOBARKEY = "RESULT_GLOBARKEY";
-
     public static final int RESULT_REQUEST_FOLLOW = 1002;
     public static final int RESULT_REQUEST_SELECT_USER = 3;
     public static final int RESULT_REQUEST_DESCRIPTION = 4;
@@ -97,23 +94,15 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     public static final int RESULT_LABEL = 7;
     public static final int RESULT_REQUEST_PICK_WATCH_USER = 8;
     public static final int RESULT_RESUSE_REFRESOURCE = 9;
-
-    private static final String TAG_HTTP_REMOVE_LABEL = "TAG_HTTP_REMOVE_LABEL";
-    final String HOST_COMMENT_ADD = Global.HOST_API + "/task/%s/comment";
-
-    private final MyImageGetter myImageGetter = new MyImageGetter(this);
-    private final ClickSmallImage onClickImage = new ClickSmallImage(this);
-
     public static final int priorityDrawable[] = new int[]{
             R.drawable.ic_task_priority_0,
             R.drawable.ic_task_priority_1,
             R.drawable.ic_task_priority_2,
             R.drawable.ic_task_priority_3
     };
-    private final String MSG_ADD_TASK_SUCCESS = "新建任务成功";
-
-    View listFooter;
-
+    private static final String TAG = makeLogTag(TaskAddActivity.class);
+    private static final String TAG_HTTP_REMOVE_LABEL = "TAG_HTTP_REMOVE_LABEL";
+    final String HOST_COMMENT_ADD = Global.HOST_API + "/task/%s/comment";
     final String HOST_TASK_ADD = Global.HOST_API + "%s/task";
     final String HOST_FORMAT_TASK_COMMENT = Global.HOST_API + "/activity/task/%s?last_id=999999999";
     final String HOST_TASK_UPDATE = Global.HOST_API + "/task/%s/update";
@@ -121,10 +110,12 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     final String hostDeleteComment = Global.HOST_API + "/task/%s/comment/%s";
     final String tagTaskDetail = "tagTaskDetail";
     final String HOST_PREVIEW = Global.HOST_API + "/markdown/preview";
-
+    private final MyImageGetter myImageGetter = new MyImageGetter(this);
+    private final ClickSmallImage onClickImage = new ClickSmallImage(this);
+    private final String MSG_ADD_TASK_SUCCESS = "新建任务成功";
     @ViewById
     protected View blankLayout;
-
+    View listFooter;
     @Extra
     TaskObject.SingleTask mSingleTask;
     @Extra
@@ -163,20 +154,15 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     String HOST_DESCRIPTER = Global.HOST_API + "/task/%s/description";
     MenuItem mMenuSave;
     String urlComments = "";
-
-    private ArrayList<UserObject> watchUsers = new ArrayList<>();
-
     @Bean
     PriorityAdapter mPriorityAdapter;
     @Bean
     StatusAdapter mStatusAdapter;
-
     ArrayList<DynamicObject.DynamicTask> mData = new ArrayList<>();
     HashMap<String, String> mSendedImages = new HashMap<>();
     String tagUrlCommentPhoto = "";
-
     boolean mTaskNoFound = false;
-
+    private ArrayList<UserObject> watchUsers = new ArrayList<>();
     private View.OnClickListener mOnClickComment = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -306,6 +292,16 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
                     .descriptionData(descriptionDataNew)
                     .startForResult(RESULT_REQUEST_DESCRIPTION_CREATE);
         }
+    };
+    private ArrayList<RefResourceObject> refResourceList = new ArrayList<>();
+    View.OnClickListener clickRefResource = v -> {
+        RefResourceActivity.Param param = new RefResourceActivity.Param(mSingleTask.project.getProjectPath(),
+                mSingleTask.getNumberValue());
+
+        RefResourceActivity_.intent(TaskAddActivity.this)
+                .mData(refResourceList)
+                .mParam(param)
+                .startForResult(RESULT_RESUSE_REFRESOURCE);
     };
 
     @Override
@@ -1105,13 +1101,11 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
 
     @OnActivityResult(RESULT_RESUSE_REFRESOURCE)
     void resultRefResource(int resultCode, @OnActivityResult.Extra ArrayList<RefResourceObject> resultData) {
-       if (resultCode == RESULT_OK) {
-           refResourceList = resultData;
-           updateRefResourceUI();
-       }
+        if (resultCode == RESULT_OK) {
+            refResourceList = resultData;
+            updateRefResourceUI();
+        }
     }
-
-    private ArrayList<RefResourceObject> refResourceList = new ArrayList<>();
 
     private void updateRefResourceNetwork() {
         if (mSingleTask.isEmpty()) {
@@ -1160,16 +1154,6 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             item.setText2(refResourceList.size() + "个资源");
         }
     }
-
-    View.OnClickListener clickRefResource = v -> {
-        RefResourceActivity.Param param = new RefResourceActivity.Param(mSingleTask.project.getProjectPath(),
-                mSingleTask.getNumberValue());
-
-        RefResourceActivity_.intent(TaskAddActivity.this)
-                .mData(refResourceList)
-                .mParam(param)
-                .startForResult(RESULT_RESUSE_REFRESOURCE);
-    };
 
     void updateDescriptionFromResult(Intent data) {
         descriptionDataNew.markdown = data.getStringExtra("data");

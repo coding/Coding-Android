@@ -7,7 +7,7 @@
 
     <ListView
         android:id="@+id/listView"
-        android:background="@drawable/popmenu_background"
         android:layout_width="160dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/popmenu_background" />
 </RelativeLayout>

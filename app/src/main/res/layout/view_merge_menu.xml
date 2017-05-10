@@ -37,8 +37,8 @@
         android:layout_height="60dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:gravity="center_vertical"
         android:button="@null"
+        android:gravity="center_vertical"
         android:text="@string/merge_not"
         android:textColor="@drawable/text_menu_selector"
         android:textSize="16sp" />
@@ -47,10 +47,10 @@
         android:id="@+id/merge_refuse"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:gravity="center_vertical"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:button="@null"
+        android:gravity="center_vertical"
         android:text="@string/merge_refuse"
         android:textColor="@drawable/text_menu_selector"
         android:textSize="16sp" />

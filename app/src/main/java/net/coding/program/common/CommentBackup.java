@@ -11,6 +11,36 @@ import java.util.HashMap;
  */
 public class CommentBackup {
 
+    private static CommentBackup sCommentBackup;
+    private HashMap<BackupParam, String> mData = new HashMap();
+
+    private CommentBackup() {
+    }
+
+    public static CommentBackup getInstance() {
+        if (sCommentBackup == null) {
+            sCommentBackup = new CommentBackup();
+        }
+        return sCommentBackup;
+    }
+
+    public void save(BackupParam param, String comment) {
+        mData.put(param, comment);
+    }
+
+    public String load(BackupParam param) {
+        String comment = mData.get(param);
+        if (comment == null) {
+            comment = "";
+        }
+
+        return comment;
+    }
+
+    public void delete(BackupParam param) {
+        mData.remove(param);
+    }
+
     public enum Type {
         Maopao, Topic, Task
     }
@@ -78,36 +108,5 @@ public class CommentBackup {
             result = 31 * result + owner_id;
             return result;
         }
-    }
-
-    private CommentBackup() {
-    }
-
-    private static CommentBackup sCommentBackup;
-
-    public static CommentBackup getInstance() {
-        if (sCommentBackup == null) {
-            sCommentBackup = new CommentBackup();
-        }
-        return sCommentBackup;
-    }
-
-    private HashMap<BackupParam, String> mData = new HashMap();
-
-    public void save(BackupParam param, String comment) {
-        mData.put(param, comment);
-    }
-
-    public String load(BackupParam param) {
-        String comment = mData.get(param);
-        if (comment == null) {
-            comment = "";
-        }
-
-        return comment;
-    }
-
-    public void delete(BackupParam param) {
-        mData.remove(param);
     }
 }

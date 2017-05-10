@@ -41,7 +41,7 @@ public abstract class RefreshBaseFragment extends BaseFragment implements SwipeR
         if (swipe == null) {
             return;
         }
-        
+
         swipeRefreshLayout = (SwipeRefreshLayout) swipe;
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.font_green);

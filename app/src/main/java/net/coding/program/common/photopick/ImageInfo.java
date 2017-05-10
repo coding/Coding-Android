@@ -7,11 +7,11 @@ import java.io.Serializable;
  * Created by chenchao on 15/5/6.
  */
 public class ImageInfo implements Serializable {
+    private static final String prefix = "file://";
     public String path;
     public long photoId;
     public int width;
     public int height;
-    private static final String prefix = "file://";
 
     public ImageInfo(String path) {
         this.path = pathAddPreFix(path);

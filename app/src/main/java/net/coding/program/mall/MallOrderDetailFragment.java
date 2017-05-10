@@ -30,7 +30,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by libo on 2015/11/22.
- *
  */
 @EFragment(R.layout.fragment_mall_order_detail)
 public class MallOrderDetailFragment extends RefreshBaseFragment {
@@ -43,15 +42,9 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
 
     @FragmentArg
     Type mType;
-
-    private AtomicBoolean footerAdded = new AtomicBoolean(false);
-
     ArrayList<MallOrderObject> mData = new ArrayList<>();
-
     String mUrl;
-
     View.OnClickListener onClickRetry = v -> onRefresh();
-
     BaseAdapter mAdapter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -151,6 +144,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
             return view;
         }
     };
+    private AtomicBoolean footerAdded = new AtomicBoolean(false);
 
     @AfterViews
     protected final void init() {

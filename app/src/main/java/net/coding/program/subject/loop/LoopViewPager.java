@@ -53,135 +53,6 @@ public class LoopViewPager extends ViewPager {
     private boolean mBoundaryCaching = DEFAULT_BOUNDARY_CASHING;
 
     private Scroller mCustomScroller;
-
-    /**
-     * helper function which may be used when implementing FragmentPagerAdapter
-     *
-     * @param position
-     * @param count
-     * @return (position-1)%count
-     */
-    public static int toRealPosition(int position, int count) {
-        position = position - 1;
-        if (position < 0) {
-            position += count;
-        } else {
-            position = position % count;
-        }
-        return position;
-    }
-
-    /**
-     * If set to true, the boundary views (i.e. first and last) will never be destroyed
-     * This may help to prevent "blinking" of some views
-     *
-     * @param flag
-     */
-    public void setBoundaryCaching(boolean flag) {
-        mBoundaryCaching = flag;
-        if (mAdapter != null) {
-            mAdapter.setBoundaryCaching(flag);
-        }
-    }
-
-    @Override
-    public void setAdapter(PagerAdapter adapter) {
-        mAdapter = new LoopPagerAdapterWrapper(adapter);
-        mAdapter.setBoundaryCaching(mBoundaryCaching);
-        super.setAdapter(mAdapter);
-        setCurrentItem(0, false);
-    }
-
-    @Override
-    public PagerAdapter getAdapter() {
-        return mAdapter != null ? mAdapter.getRealAdapter() : null;
-    }
-
-    public void notifyDataSetChanged() {
-        if (mAdapter != null) {
-            mAdapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public int getCurrentItem() {
-        return mAdapter != null ? mAdapter.toRealPosition(super.getCurrentItem()) : 0;
-    }
-
-    @Override
-    public void setCurrentItem(int item, boolean smoothScroll) {
-        int realItem = mAdapter.toInnerPosition(item);
-        super.setCurrentItem(realItem, smoothScroll);
-    }
-
-    public void goForwardSmoothly() {
-        if (mAdapter == null || mAdapter.getRealCount() < 2) {
-            return;
-        }
-        super.setCurrentItem(super.getCurrentItem() + 1, true);
-    }
-
-    @Override
-    public void setCurrentItem(int item) {
-        if (getCurrentItem() != item) {
-            setCurrentItem(item, false);
-        }
-    }
-
-    @Override
-    public void setOnPageChangeListener(OnPageChangeListener listener) {
-        mOuterPageChangeListener = listener;
-    }
-
-    public LoopViewPager(Context context) {
-        super(context);
-        init();
-    }
-
-    public LoopViewPager(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    private void init() {
-        super.setOnPageChangeListener(onPageChangeListener);
-        hackDefaultSmoothScrollDuration();
-    }
-
-    private void hackDefaultSmoothScrollDuration() {
-        try {
-            Field scroller = ViewPager.class.getDeclaredField("mScroller");
-            scroller.setAccessible(true);
-            Field interpolator = ViewPager.class.getDeclaredField("sInterpolator");
-            interpolator.setAccessible(true);
-            mCustomScroller = new CustomScroller(getContext(), (Interpolator) interpolator.get(null));
-            scroller.set(this, mCustomScroller);
-        } catch (Exception e) {
-            mCustomScroller = null;
-        }
-    }
-
-    public final void setSmoothScrollDurationRatio(float r) {
-        if (mCustomScroller != null) {
-            ((CustomScroller) mCustomScroller).mScrollFactor = r;
-        }
-    }
-
-    private static class CustomScroller extends Scroller {
-
-        public float mScrollFactor = 1;
-
-        public CustomScroller(Context context, Interpolator interpolator) {
-            super(context, interpolator);
-        }
-
-        @Override
-        public void startScroll(int startX, int startY, int dx, int dy, int duration) {
-            super.startScroll(startX, startY, dx, dy, (int) (duration * mScrollFactor));
-        }
-
-    }
-
     private OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
         private float mPreviousOffset = -1;
         private float mPreviousPosition = -1;
@@ -234,5 +105,133 @@ public class LoopViewPager extends ViewPager {
             }
         }
     };
+
+    public LoopViewPager(Context context) {
+        super(context);
+        init();
+    }
+
+    public LoopViewPager(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    /**
+     * helper function which may be used when implementing FragmentPagerAdapter
+     *
+     * @param position
+     * @param count
+     * @return (position-1)%count
+     */
+    public static int toRealPosition(int position, int count) {
+        position = position - 1;
+        if (position < 0) {
+            position += count;
+        } else {
+            position = position % count;
+        }
+        return position;
+    }
+
+    /**
+     * If set to true, the boundary views (i.e. first and last) will never be destroyed
+     * This may help to prevent "blinking" of some views
+     *
+     * @param flag
+     */
+    public void setBoundaryCaching(boolean flag) {
+        mBoundaryCaching = flag;
+        if (mAdapter != null) {
+            mAdapter.setBoundaryCaching(flag);
+        }
+    }
+
+    @Override
+    public PagerAdapter getAdapter() {
+        return mAdapter != null ? mAdapter.getRealAdapter() : null;
+    }
+
+    @Override
+    public void setAdapter(PagerAdapter adapter) {
+        mAdapter = new LoopPagerAdapterWrapper(adapter);
+        mAdapter.setBoundaryCaching(mBoundaryCaching);
+        super.setAdapter(mAdapter);
+        setCurrentItem(0, false);
+    }
+
+    public void notifyDataSetChanged() {
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public int getCurrentItem() {
+        return mAdapter != null ? mAdapter.toRealPosition(super.getCurrentItem()) : 0;
+    }
+
+    @Override
+    public void setCurrentItem(int item) {
+        if (getCurrentItem() != item) {
+            setCurrentItem(item, false);
+        }
+    }
+
+    @Override
+    public void setCurrentItem(int item, boolean smoothScroll) {
+        int realItem = mAdapter.toInnerPosition(item);
+        super.setCurrentItem(realItem, smoothScroll);
+    }
+
+    public void goForwardSmoothly() {
+        if (mAdapter == null || mAdapter.getRealCount() < 2) {
+            return;
+        }
+        super.setCurrentItem(super.getCurrentItem() + 1, true);
+    }
+
+    @Override
+    public void setOnPageChangeListener(OnPageChangeListener listener) {
+        mOuterPageChangeListener = listener;
+    }
+
+    private void init() {
+        super.setOnPageChangeListener(onPageChangeListener);
+        hackDefaultSmoothScrollDuration();
+    }
+
+    private void hackDefaultSmoothScrollDuration() {
+        try {
+            Field scroller = ViewPager.class.getDeclaredField("mScroller");
+            scroller.setAccessible(true);
+            Field interpolator = ViewPager.class.getDeclaredField("sInterpolator");
+            interpolator.setAccessible(true);
+            mCustomScroller = new CustomScroller(getContext(), (Interpolator) interpolator.get(null));
+            scroller.set(this, mCustomScroller);
+        } catch (Exception e) {
+            mCustomScroller = null;
+        }
+    }
+
+    public final void setSmoothScrollDurationRatio(float r) {
+        if (mCustomScroller != null) {
+            ((CustomScroller) mCustomScroller).mScrollFactor = r;
+        }
+    }
+
+    private static class CustomScroller extends Scroller {
+
+        public float mScrollFactor = 1;
+
+        public CustomScroller(Context context, Interpolator interpolator) {
+            super(context, interpolator);
+        }
+
+        @Override
+        public void startScroll(int startX, int startY, int dx, int dy, int duration) {
+            super.startScroll(startX, startY, dx, dy, (int) (duration * mScrollFactor));
+        }
+
+    }
 
 }

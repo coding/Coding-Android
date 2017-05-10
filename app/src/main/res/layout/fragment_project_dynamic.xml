@@ -13,8 +13,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/divide"
-            android:dividerHeight="@dimen/divide_height"
             android:divider="@drawable/divide_line_topic_list"
+            android:dividerHeight="@dimen/divide_height"
             android:fastScrollEnabled="true"
             android:overScrollMode="never" />
 

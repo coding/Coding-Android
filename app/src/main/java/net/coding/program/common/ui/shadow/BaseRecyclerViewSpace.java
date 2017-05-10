@@ -21,10 +21,9 @@ public class BaseRecyclerViewSpace extends RecyclerView.ItemDecoration {
 
     protected final int topSpace;
     protected final int lineSpace;
-    protected int bottomSpace;
     protected final int bottomShadowSpace;
     protected final int shadowHigh;
-
+    protected int bottomSpace;
     protected Paint paintDivideLine;
     protected Drawable shadowTop;
     protected Drawable shadowBottom;

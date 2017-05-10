@@ -31,13 +31,27 @@ public class SearchTaskFragment extends SearchBaseFragment {
     ArrayList<TaskObject.SingleTask> mData = new ArrayList<>();
     String page = "&page=%s";
     int pos = 1;
+    SearchReslutAdapter adapter;
     private String keyword = "";
     private String tabPrams;
     private boolean hasMore = true;
     private boolean isLoading = true;
+    AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        }
 
-
-    SearchReslutAdapter adapter;
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                if (hasMore && !isLoading) {
+                    pos++;
+                    isLoading = true;
+                    loadMore();
+                }
+            }
+        }
+    };
 
     @AfterViews
     protected void init() {
@@ -56,25 +70,12 @@ public class SearchTaskFragment extends SearchBaseFragment {
         TaskAddActivity_.intent(this).mJumpParams(params).start();
     }
 
-    AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-        }
-
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            if (firstVisibleItem + visibleItemCount == totalItemCount) {
-                if (hasMore && !isLoading) {
-                    pos++;
-                    isLoading = true;
-                    loadMore();
-                }
-            }
-        }
-    };
-
     public String getKeyword() {
         return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public String getTabPrams() {
@@ -83,10 +84,6 @@ public class SearchTaskFragment extends SearchBaseFragment {
 
     public void setTabPrams(String tabPrams) {
         this.tabPrams = tabPrams;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
     }
 
     private String getUrl(int pos) {

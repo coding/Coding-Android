@@ -41,26 +41,16 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
     private static final int RESULT_ADD = 1;
     private static final int RESULT_EDIT = 2;
     private final String TAG_PROJECT = "TAG_PROJECT";
-
-    @Extra
-    ProjectObject projectObject;
-
-    @Extra
-    ProjectJumpParam jumpParam;
-
-    @ViewById
-    ListView listView;
-
-    @ViewById
-    View blankLayout;
-
-    private String projectMaopaoUrl = "";
-
-    private int lastId = RefreshBaseActivity.UPDATE_ALL_INT;
-
     protected List<Maopao.MaopaoObject> listData = new ArrayList<>();
     protected BaseAdapter projectMaopaoAdapter;
-
+    @Extra
+    ProjectObject projectObject;
+    @Extra
+    ProjectJumpParam jumpParam;
+    @ViewById
+    ListView listView;
+    @ViewById
+    View blankLayout;
     View.OnClickListener clickListItem = v -> {
         Object object = v.getTag();
         if (object instanceof Maopao.MaopaoObject) {
@@ -72,7 +62,9 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
                     .startForResult(RESULT_EDIT);
         }
     };
-
+    private String projectMaopaoUrl = "";
+    private int lastId = RefreshBaseActivity.UPDATE_ALL_INT;
+    View.OnClickListener onClickRetry = v -> onRefresh();
     View.OnClickListener clickDelete = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -139,7 +131,7 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
 
     protected void initListItemClick() {
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            Maopao.MaopaoObject maopao = listData.get((int)id);
+            Maopao.MaopaoObject maopao = listData.get((int) id);
             MaopaoDetailActivity.ClickParam clickParam = new MaopaoDetailActivity.ClickParam(projectObject.owner_user_name,
                     projectObject.name, String.valueOf(maopao.id));
             MaopaoDetailActivity_.intent(ProjectMaopaoActivity.this)
@@ -210,8 +202,6 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
             }
         }
     }
-
-    View.OnClickListener onClickRetry = v -> onRefresh();
 
     @OptionsItem
     void actionAdd() {

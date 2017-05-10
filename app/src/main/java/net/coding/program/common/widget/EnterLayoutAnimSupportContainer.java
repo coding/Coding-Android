@@ -21,6 +21,19 @@ import net.coding.program.R;
  * 输入控件(common_enter_emoji)支持切换动画的父容器,必须保证它只有两个子控件,并且输入控件是第二个
  */
 public class EnterLayoutAnimSupportContainer extends FrameLayout {
+    /**
+     * mEnter关闭时的绝对y坐标
+     */
+    public int closeY;
+    /**
+     * mEnter打开时的绝对y坐标
+     */
+    public int openY;
+    /**
+     * mEnter关闭且输入法弹出将mEnter顶上去时的绝对y坐标
+     */
+    public int softkeyboardOpenY;
+    public int orignalHeight;
     private String TAG = "EnterLayoutAnimSupportContainer";
     private ViewGroup mContent;
     private FrameLayout mEnter;
@@ -44,21 +57,10 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
     private boolean isEnterHeightChanaged;
     private int inputboxHeight;
     private FrameLayout mPanelLayout;
-    /**
-     * mEnter关闭时的绝对y坐标
-     */
-    public int closeY;
-    /**
-     * mEnter打开时的绝对y坐标
-     */
-    public int openY;
-    /**
-     * mEnter关闭且输入法弹出将mEnter顶上去时的绝对y坐标
-     */
-    public int softkeyboardOpenY;
-    public int orignalHeight;
-
     private int mY;
+    private int mOldHeight = -1;
+    private SoftKeyBordState mSoftKeyBordState = SoftKeyBordState.Hide;
+    private boolean isCloseInputMethodBySelf = true;
 
     public EnterLayoutAnimSupportContainer(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -72,10 +74,6 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
         isEnterHeightChanaged = false;
         requestLayout();
     }
-
-    private int mOldHeight = -1;
-
-    private SoftKeyBordState mSoftKeyBordState = SoftKeyBordState.Hide;
 
     public SoftKeyBordState getSoftKeyBordState() {
         return mSoftKeyBordState;
@@ -144,12 +142,6 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
 
     }
 
-    public enum SoftKeyBordState {
-        Opening, Closing, Hide
-    }
-
-    private boolean isCloseInputMethodBySelf = true;
-
     public void setCloseInputMethodBySelf(boolean closeBySelf) {
         isCloseInputMethodBySelf = closeBySelf;
     }
@@ -157,7 +149,6 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
     public boolean isPanelLauoutOpen() {
         return mEnterLayoutBottomMargin == 0;
     }
-
 
     /**
      * 判断输入法弹出时会不会拉伸布局
@@ -175,7 +166,6 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
     public FrameLayout getPanelLayout() {
         return mPanelLayout;
     }
-
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right,
@@ -333,6 +323,11 @@ public class EnterLayoutAnimSupportContainer extends FrameLayout {
             super.onLayout(changed, left, top, right, bottom);
         }
 
+    }
+
+
+    public enum SoftKeyBordState {
+        Opening, Closing, Hide
     }
 
     public interface OnEnterLayoutBottomMarginChanagedCallBack {

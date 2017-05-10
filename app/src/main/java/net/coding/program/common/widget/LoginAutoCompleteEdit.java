@@ -25,6 +25,7 @@ public class LoginAutoCompleteEdit extends AutoCompleteTextView {
     private boolean showClear = true;
 
     private String[] emailSufixs;
+    private Drawable drawable;
 
     public LoginAutoCompleteEdit(Context context) {
         super(context);
@@ -88,10 +89,8 @@ public class LoginAutoCompleteEdit extends AutoCompleteTextView {
     }
 
     public void showClear(boolean show) {
-       showClear = show;
+        showClear = show;
     }
-
-    private Drawable drawable;
 
     private void displayDelete(boolean show) {
         if (show && showClear) {

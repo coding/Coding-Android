@@ -66,11 +66,9 @@ public class AttachmentsFolderSelectorActivity extends BackActivity implements F
 
     @ViewById
     Button btnRight;
-
-    private boolean inChildFolder = false;
-
     @ViewById
     ListView listView;
+    private boolean inChildFolder = false;
     private String HOST_FOLDER = Global.HOST_API + "/project/%s/all_folders?pageSize=9999";
     private String HOST_FOLDER_NEW = Global.HOST_API + "/project/%s/mkdir";
     private ArrayList<AttachmentFolderObject> mData = new ArrayList<>();
@@ -131,6 +129,7 @@ public class AttachmentsFolderSelectorActivity extends BackActivity implements F
         }
 
     };
+    private ArrayList<AttachmentFolderObject> mDefaultData = new ArrayList<>();
 
     private boolean isRootFolder() {
         return sourceRootFolder != null;
@@ -143,8 +142,6 @@ public class AttachmentsFolderSelectorActivity extends BackActivity implements F
     private boolean isFile() {
         return sourceFileObject == null || !sourceFileObject.isFolder;
     }
-
-    private ArrayList<AttachmentFolderObject> mDefaultData = new ArrayList<>();
 
     @OptionsItem(android.R.id.home)
     void close() {
@@ -340,10 +337,6 @@ public class AttachmentsFolderSelectorActivity extends BackActivity implements F
         public RelativeLayout more;
         View rootView;
 
-        public View getRootView() {
-            return rootView;
-        }
-
         public static ViewHolder instance(View convertView, ViewGroup parent) {
             return instance(convertView, parent, null);
         }
@@ -366,6 +359,10 @@ public class AttachmentsFolderSelectorActivity extends BackActivity implements F
 
             return holder;
 
+        }
+
+        public View getRootView() {
+            return rootView;
         }
     }
 

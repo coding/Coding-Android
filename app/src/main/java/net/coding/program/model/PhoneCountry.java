@@ -23,6 +23,14 @@ public class PhoneCountry implements Serializable {
         iso_code = json.optString("iso_code", "");
     }
 
+    public static PhoneCountry getChina() {
+        PhoneCountry phoneCountry = new PhoneCountry();
+        phoneCountry.country = "China";
+        phoneCountry.country_code = "86";
+        phoneCountry.iso_code = "cn";
+        return phoneCountry;
+    }
+
     public String getFirstLetter() {
         String letter = country.substring(0, 1).toUpperCase();
         if (0 <= letter.compareTo("A") && letter.compareTo("Z") <= 0) {
@@ -34,14 +42,6 @@ public class PhoneCountry implements Serializable {
 
     public String getCountryCode() {
         return "+" + country_code;
-    }
-
-    public static PhoneCountry getChina() {
-        PhoneCountry phoneCountry = new PhoneCountry();
-        phoneCountry.country = "China";
-        phoneCountry.country_code = "86";
-        phoneCountry.iso_code = "cn";
-        return phoneCountry;
     }
 
 }

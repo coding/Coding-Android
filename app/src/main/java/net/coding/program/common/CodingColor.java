@@ -12,6 +12,25 @@ import net.coding.program.R;
 
 public class CodingColor {
 
+    public static int fontGreen;
+    public static int fontYellow;
+    public static int divideLine;
+    public static int fontWhite;
+    public static int font1;
+    public static int font2;
+    public static int font3;
+    public static int font4;
+    public static int fontRed;
+    public static int fontOrange;
+    public static int fontBlue;
+    public static int fontPink;
+    public static String fontGreenString;
+    public static String fontOrangeString;
+    public static String fon1String;
+    public static String fon2String;
+    public static String fon3String;
+    public static String fon4String;
+
     public static void init(Context context) {
         Resources r = context.getResources();
         fontGreen = r.getColor(R.color.font_green);
@@ -37,27 +56,4 @@ public class CodingColor {
         fontGreenString = Global.colorToString(fontGreen);
         fontOrangeString = Global.colorToString(fontOrange);
     }
-
-    public static int fontGreen;
-    public static int fontYellow;
-    public static int divideLine;
-
-    public static int fontWhite;
-    public static int font1;
-    public static int font2;
-    public static int font3;
-    public static int font4;
-
-    public static int fontRed;
-    public static int fontOrange;
-    public static int fontBlue;
-    public static int fontPink;
-
-    public static String fontGreenString;
-    public static String fontOrangeString;
-
-    public static String fon1String;
-    public static String fon2String;
-    public static String fon3String;
-    public static String fon4String;
 }

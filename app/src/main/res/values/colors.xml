@@ -43,7 +43,7 @@
 
     <color name="emoji_line">@color/divide_line</color>
 
-     <!--对话框背景色-->
+    <!--对话框背景色-->
     <color name="popDialogBg">#99000000</color>
 
     <!--待修改颜色-->

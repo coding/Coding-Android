@@ -3,15 +3,12 @@ package net.coding.program.maopao;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.model.Maopao;
 

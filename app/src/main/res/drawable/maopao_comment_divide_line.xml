@@ -5,8 +5,7 @@
             <solid android:color="@color/stand_bg" />
         </shape>
     </item>
-    <item
-        android:left="61dp">
+    <item android:left="61dp">
         <shape android:shape="rectangle">
             <solid android:color="@color/emoji_line" />
         </shape>

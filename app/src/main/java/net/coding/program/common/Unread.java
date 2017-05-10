@@ -20,6 +20,16 @@ public class Unread {
     public Unread() {
     }
 
+    public static String countToString(int count) {
+        if (count == 0) {
+            return "";
+        } else if (count > 99) {
+            return "99+";
+        } else {
+            return String.valueOf(count);
+        }
+    }
+
     public String getProject() {
         return countToString(project_update_count);
     }
@@ -34,15 +44,5 @@ public class Unread {
 
     public int getNotifyCount() {
         return notifications + messages;
-    }
-
-    public static String countToString(int count) {
-        if (count == 0) {
-            return "";
-        } else if (count > 99) {
-            return "99+";
-        } else {
-            return String.valueOf(count);
-        }
     }
 }

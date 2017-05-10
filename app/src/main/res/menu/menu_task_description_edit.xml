@@ -1,16 +1,16 @@
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/action_preview"
-        android:title="预览"
         android:orderInCategory="100"
+        android:title="预览"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_save"
-        android:title="保存"
         android:icon="@drawable/ic_menu_ok"
         android:orderInCategory="100"
+        android:title="保存"
         app:showAsAction="always" />
 </menu>

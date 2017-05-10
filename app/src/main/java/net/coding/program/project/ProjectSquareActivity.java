@@ -51,16 +51,20 @@ public class ProjectSquareActivity extends RefreshBaseActivity implements OnClic
     ListView listView;
     @ViewById
     View blankLayout;
-    private ArrayList<ProjectObject> mData = new ArrayList<>();
-    private MyAdapter adapter;
-
     @ViewById(R.id.project_create_layout)
     LinearLayout projectCreateLayout;
     @ViewById
     Button btn_action;
-
+    private ArrayList<ProjectObject> mData = new ArrayList<>();
+    private MyAdapter adapter;
     private boolean mRequestOk;
     private boolean requestOk;
+    private OnClickListener mOnClickRetry = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onRefresh();
+        }
+    };
 
     @AfterViews
     void init() {
@@ -91,13 +95,6 @@ public class ProjectSquareActivity extends RefreshBaseActivity implements OnClic
         ProjectHomeActivity_.intent(this).mProjectObject(item).start();
     }
 
-    private OnClickListener mOnClickRetry = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onRefresh();
-        }
-    };
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -111,6 +108,46 @@ public class ProjectSquareActivity extends RefreshBaseActivity implements OnClic
     void action_search_pick() {
         SearchProjectActivity_.intent(this).start();
         overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
+    }
+
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(hostSquare)) {
+            setRefreshing(false);
+            if (code == 0) {
+                requestOk = true;
+                hideProgressDialog();
+                mData.clear();
+                JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
+                int pinCount = 0;
+                for (int i = 0; i < array.length(); ++i) {
+                    JSONObject item = array.getJSONObject(i);
+                    ProjectObject oneData = new ProjectObject(item);
+                    if (oneData.isPin()) {
+                        mData.add(pinCount++, oneData);
+                    } else {
+                        mData.add(oneData);
+                    }
+                }
+                AccountInfo.saveProjects(this, mData);
+                if (adapter == null) {
+                    adapter = new MyAdapter();
+                    listView.setAdapter(adapter);
+                } else {
+                    adapter.notifyDataSetChanged();
+                }
+                if (!(mData.size() > 0)) {
+                    projectCreateLayout.setVisibility(View.VISIBLE);
+                } else {
+                    projectCreateLayout.setVisibility(View.GONE);
+                }
+            } else {
+                requestOk = false;
+                showErrorMsg(code, respanse);
+                BlankViewDisplay.setBlank(mData.size(), this, mRequestOk, blankLayout, mOnClickRetry);
+//                adapter.notifyDataSetChanged();
+            }
+        }
     }
 
     private static class ViewHolder {
@@ -178,46 +215,6 @@ public class ProjectSquareActivity extends RefreshBaseActivity implements OnClic
             holder.ll_bottom_menu.setVisibility(View.VISIBLE);
             ImageLoader.getInstance().displayImage(item.icon, holder.image, ImageLoadTool.optionsRounded2);
             return view;
-        }
-    }
-
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(hostSquare)) {
-            setRefreshing(false);
-            if (code == 0) {
-                requestOk = true;
-                hideProgressDialog();
-                mData.clear();
-                JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
-                int pinCount = 0;
-                for (int i = 0; i < array.length(); ++i) {
-                    JSONObject item = array.getJSONObject(i);
-                    ProjectObject oneData = new ProjectObject(item);
-                    if (oneData.isPin()) {
-                        mData.add(pinCount++, oneData);
-                    } else {
-                        mData.add(oneData);
-                    }
-                }
-                AccountInfo.saveProjects(this, mData);
-                if (adapter == null) {
-                    adapter = new MyAdapter();
-                    listView.setAdapter(adapter);
-                } else {
-                    adapter.notifyDataSetChanged();
-                }
-                if (!(mData.size() > 0)) {
-                    projectCreateLayout.setVisibility(View.VISIBLE);
-                } else {
-                    projectCreateLayout.setVisibility(View.GONE);
-                }
-            } else {
-                requestOk = false;
-                showErrorMsg(code, respanse);
-                BlankViewDisplay.setBlank(mData.size(), this, mRequestOk, blankLayout, mOnClickRetry);
-//                adapter.notifyDataSetChanged();
-            }
         }
     }
 }

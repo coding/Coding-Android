@@ -35,7 +35,6 @@ public abstract class EnterLayout implements InputAction {
     public TextView sendText;
     public ImageButton send;
     public EditText content;
-    private Activity mActivity;
     protected ViewGroup commonEnterRoot;
     protected Type mType = Type.Default;
     protected int inputBoxHeight = 0;
@@ -43,6 +42,7 @@ public abstract class EnterLayout implements InputAction {
     protected int panelHeight;
     protected EnterLayoutAnimSupportContainer mEnterLayoutAnimSupportContainer;
     protected boolean mEnterLayoutStatus;
+    private Activity mActivity;
     private TextWatcher restoreWatcher = new SimpleTextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
@@ -54,10 +54,6 @@ public abstract class EnterLayout implements InputAction {
             CommentBackup.getInstance().save(CommentBackup.BackupParam.create(tag), s.toString());
         }
     };
-
-    public EnterLayoutAnimSupportContainer getEnterLayoutAnimSupportContainer() {
-        return mEnterLayoutAnimSupportContainer;
-    }
 
     public EnterLayout(Activity activity, View.OnClickListener sendTextOnClick, Type type) {
         mType = type;
@@ -161,6 +157,23 @@ public abstract class EnterLayout implements InputAction {
         });
     }
 
+    public EnterLayout(Activity activity, View.OnClickListener sendTextOnClick) {
+        this(activity, sendTextOnClick, Type.Default);
+    }
+
+    public static void insertText(EditText edit, String s) {
+        edit.requestFocus();
+        int insertPos = edit.getSelectionStart();
+
+        String insertString = s + " ";
+        Editable editable = edit.getText();
+        editable.insert(insertPos, insertString);
+    }
+
+    public EnterLayoutAnimSupportContainer getEnterLayoutAnimSupportContainer() {
+        return mEnterLayoutAnimSupportContainer;
+    }
+
     private void interceptInputMethod(EditText et) {
         // Android.edittext点击时,隐藏系统弹出的键盘,显示出光标
         // 3.0以下版本可以用editText.setInputType(InputType.TYPE_NULL)来实现。
@@ -178,19 +191,6 @@ public abstract class EnterLayout implements InputAction {
         } else {
             et.setInputType(EditorInfo.TYPE_NULL);
         }
-    }
-
-    public EnterLayout(Activity activity, View.OnClickListener sendTextOnClick) {
-        this(activity, sendTextOnClick, Type.Default);
-    }
-
-    public static void insertText(EditText edit, String s) {
-        edit.requestFocus();
-        int insertPos = edit.getSelectionStart();
-
-        String insertString = s + " ";
-        Editable editable = edit.getText();
-        editable.insert(insertPos, insertString);
     }
 
     public void animEnterLayoutStatusChanaged(final boolean isOpen) {

@@ -99,6 +99,14 @@ class ProjectMaopaoAdapter extends BaseAdapter {
 
     class ViewHolder {
 
+        ImageView icon;
+        TextView name;
+        TextView time;
+        TextView content;
+        TextView comment;
+        View delete;
+        ContentArea contentArea;
+
         public ViewHolder(View v) {
             icon = (ImageView) v.findViewById(R.id.icon);
             name = (TextView) v.findViewById(R.id.name);
@@ -109,15 +117,6 @@ class ProjectMaopaoAdapter extends BaseAdapter {
             delete.setOnClickListener(clickDelete);
             contentArea = new ContentArea(v, clickListItem, onClickImage, myImageGetter, imageLoadTool, mPxImageWidth);
         }
-
-        ImageView icon;
-        TextView name;
-        TextView time;
-        TextView content;
-        TextView comment;
-        View delete;
-
-        ContentArea contentArea;
     }
 
 }

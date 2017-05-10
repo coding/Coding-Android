@@ -16,10 +16,10 @@
             android:id="@+id/icon"
             android:layout_width="47dp"
             android:layout_height="47dp"
-            android:layout_marginRight="@dimen/padding_15"
-            android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
-            android:layout_marginLeft="@dimen/padding_15" />
+            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginRight="@dimen/padding_15"
+            android:layout_marginTop="12dp" />
 
         <!--4.1下必须这样布局才正常-->
         <LinearLayout
@@ -103,9 +103,9 @@
     </LinearLayout>
 
     <View
-        android:layout_marginLeft="74dp"
-        android:layout_gravity="bottom"
         android:id="@+id/bottomLine"
-        style="@style/DivideLine" />
+        style="@style/DivideLine"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="74dp" />
 
 </FrameLayout>

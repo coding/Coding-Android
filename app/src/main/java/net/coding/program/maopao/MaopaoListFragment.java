@@ -54,24 +54,23 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
 
     final String friendUrl = Global.HOST_API + "/activities/user_tweet?last_id=%s";
     final String myUrl = Global.HOST_API + "/tweet/user_public?user_id=%s&last_id=%s";
+    final String TAG_BANNER = "TAG_BANNER";
+    @FragmentArg
+    Type mType;
+    @FragmentArg
+    int userId;
+    @ViewById
+    FloatingActionButton floatButton;
+    ConvenientBanner banner;
+    ArrayList<BannerObject> mBannerDatas = new ArrayList<>();
+    private IndicatorView bannerIndicator;
+    private TextView bannerName;
+    private TextView bannerTitle;
 
     @Override
     protected String getMaopaoUrlFormat() {
         return Global.HOST_API + "/tweet/public_tweets?last_id=%s&sort=%s";
     }
-
-    final String TAG_BANNER = "TAG_BANNER";
-
-    @FragmentArg
-    Type mType;
-
-    @FragmentArg
-    int userId;
-
-    @ViewById
-    FloatingActionButton floatButton;
-
-    ConvenientBanner banner;
 
     @Override
     public void onResume() {
@@ -95,11 +94,6 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         SubjectWallActivity_.intent(this).start();
         getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
     }
-
-    private IndicatorView bannerIndicator;
-    private TextView bannerName;
-    private TextView bannerTitle;
-
 
     @AfterViews
     protected void initMaopaoListFragment() {
@@ -313,7 +307,6 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         }
     }
 
-
     @Override
     protected void initData() {
     }
@@ -356,8 +349,6 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         }
     }
 
-    ArrayList<BannerObject> mBannerDatas = new ArrayList<>();
-
     class LocalImageHolder implements CBPageAdapter.Holder<BannerObject> {
         GifImageView imageView;
 
@@ -380,12 +371,12 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         @Override
         public void UpdateUI(Context context, int position, BannerObject data) {
             imageView.setTag(R.id.image, position);
-            getImageLoad().loadImage(imageView, mBannerDatas.get(position).getImage(), ImageLoadTool.bannerOptions, new SimpleImageLoadingListener(){
+            getImageLoad().loadImage(imageView, mBannerDatas.get(position).getImage(), ImageLoadTool.bannerOptions, new SimpleImageLoadingListener() {
                 @Override
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                     super.onLoadingComplete(imageUri, view, loadedImage);
-                    if(imageUri.startsWith("http://") || imageUri.startsWith("https://")){
-                        if(imageUri.endsWith(".gif")){
+                    if (imageUri.startsWith("http://") || imageUri.startsWith("https://")) {
+                        if (imageUri.endsWith(".gif")) {
                             LoadGifUtil gifUtil = new LoadGifUtil(getActivity());
                             gifUtil.getGifImage(imageView, imageUri);
                         }

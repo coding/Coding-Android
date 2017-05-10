@@ -11,7 +11,7 @@
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <!-- battomBar 的阴影是 4 dp -->
         <FrameLayout

@@ -14,6 +14,11 @@ import java.util.ArrayList;
  */
 public class Maopao {
 
+    public static String getHttpProjectMaopao(int projectId, int maopaoId) {
+//        https://coding.net/api/project/205646/tweet/2417
+        return String.format("%s/project/%d/tweet/%d", Global.HOST_API, projectId, maopaoId);
+    }
+
     public static class MaopaoObject implements Serializable {
 
         public String activity_id = "";
@@ -136,12 +141,15 @@ public class Maopao {
     public static class Like_user extends DynamicObject.User implements Serializable {
         public Type type = Type.Like; // 0表示点赞，1表示打赏
 
-        public enum Type {
-            Like, Reward
-        }
-
         public Like_user(JSONObject json) throws JSONException {
             super(json);
+        }
+
+        public Like_user(UserObject user) {
+            avatar = user.avatar;
+            global_key = user.global_key;
+            name = user.name;
+            path = user.path;
         }
 
         public Type getType() {
@@ -152,16 +160,8 @@ public class Maopao {
             this.type = type;
         }
 
-        public Like_user(UserObject user) {
-            avatar = user.avatar;
-            global_key = user.global_key;
-            name = user.name;
-            path = user.path;
+        public enum Type {
+            Like, Reward
         }
-    }
-
-    public static String getHttpProjectMaopao(int projectId, int maopaoId) {
-//        https://coding.net/api/project/205646/tweet/2417
-        return String.format("%s/project/%d/tweet/%d", Global.HOST_API, projectId, maopaoId);
     }
 }

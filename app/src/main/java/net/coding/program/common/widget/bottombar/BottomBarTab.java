@@ -26,5 +26,4 @@ public class BottomBarTab extends FrameLayout {
     }
 
 
-
 }

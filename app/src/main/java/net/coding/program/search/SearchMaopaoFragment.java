@@ -25,32 +25,15 @@ import java.util.ArrayList;
 public class SearchMaopaoFragment extends SearchBaseFragment {
     final String url = Global.HOST_API + "/esearch/all?q=%s";
     final String tmp = "&types=%s&pageSize=10";
+    @InstanceState
+    protected String keyword = "";
     String page = "&page=%s";
     int pos = 1;
     ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
+    SearchMaopaoAdapter adapter;
     private String tabPrams;
     private boolean hasMore = true;
     private boolean isLoading = true;
-    private MyImageGetter myImageGetter;
-
-    @InstanceState
-    protected String keyword = "";
-
-    SearchMaopaoAdapter adapter;
-
-    @AfterViews
-    protected void init() {
-        initRefreshLayout();
-        myImageGetter = new MyImageGetter(getActivity());
-        setRefreshing(true);
-        mFootUpdate.init(listView, mInflater, this);
-
-        adapter = new SearchMaopaoAdapter(mData, myImageGetter, getActivity());
-        listView.setAdapter(adapter);
-        listView.setOnScrollListener(mOnScrollListener);
-        loadMore();
-    }
-
     AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -67,9 +50,27 @@ public class SearchMaopaoFragment extends SearchBaseFragment {
             }
         }
     };
+    private MyImageGetter myImageGetter;
+
+    @AfterViews
+    protected void init() {
+        initRefreshLayout();
+        myImageGetter = new MyImageGetter(getActivity());
+        setRefreshing(true);
+        mFootUpdate.init(listView, mInflater, this);
+
+        adapter = new SearchMaopaoAdapter(mData, myImageGetter, getActivity());
+        listView.setAdapter(adapter);
+        listView.setOnScrollListener(mOnScrollListener);
+        loadMore();
+    }
 
     public String getKeyword() {
         return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public String getTabPrams() {
@@ -78,10 +79,6 @@ public class SearchMaopaoFragment extends SearchBaseFragment {
 
     public void setTabPrams(String tabPrams) {
         this.tabPrams = tabPrams;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
     }
 
     private String getUrl(int pos) {

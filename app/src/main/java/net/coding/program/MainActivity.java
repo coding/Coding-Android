@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.transition.Visibility;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -47,8 +46,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.DimensionPixelSizeRes;
-import org.androidannotations.annotations.res.DimensionRes;
-import org.androidannotations.annotations.res.StringArrayRes;
 import org.androidannotations.api.builder.FragmentBuilder;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -63,37 +60,28 @@ public class MainActivity extends BaseActivity {
 
     public static final String TAG = "MainActivity";
     public static final String BroadcastPushStyle = "BroadcastPushStyle";
-
+    private static boolean sNeedWarnEmailNoValidLogin = false;
+    private static boolean sNeedWarnEmailNoValidRegister = false;
     @Extra
     String mPushUrl;
-
     @ViewById
     BottomBar bottomBar;
-
     @ViewById
     ViewGroup container;
-
     @DimensionPixelSizeRes(R.dimen.main_container_merge_bottom)
     int bottomMerge;
-
-    private static boolean sNeedWarnEmailNoValidLogin = false;
+    boolean mFirstEnter = true;
+    BroadcastReceiver mUpdatePushReceiver;
+    private long exitTime = 0;
+    private boolean mKeyboardUp;
 
     public static void setNeedWarnEmailNoValidLogin() {
         sNeedWarnEmailNoValidLogin = true;
     }
 
-    private static boolean sNeedWarnEmailNoValidRegister = false;
-
     public static void setNeedWarnEmailNoValidRegister() {
         sNeedWarnEmailNoValidRegister = true;
     }
-
-    boolean mFirstEnter = true;
-    BroadcastReceiver mUpdatePushReceiver;
-
-    private long exitTime = 0;
-
-    private boolean mKeyboardUp;
 
     private void setListenerToRootView() {
         final View rootView = getWindow().getDecorView().findViewById(R.id.frameLayout);

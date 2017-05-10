@@ -27,7 +27,7 @@ public class ContentAreaBase {
         content = (TextView) convertView.findViewById(R.id.content);
         if (PhoneUtil.isFlyme()) {
             content.setMovementMethod(null);
-        }else{
+        } else {
             content.setMovementMethod(LongClickLinkMovementMethod.getInstance());
         }
         content.setOnClickListener(onClickContent);

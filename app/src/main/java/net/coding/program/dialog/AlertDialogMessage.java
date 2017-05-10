@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-
 import net.coding.program.R;
 
 
@@ -43,8 +42,9 @@ public class AlertDialogMessage {
         input.requestFocus();
     }
 
-    public interface OnBottomClickListener{
+    public interface OnBottomClickListener {
         void onPositiveButton(String editStr);
+
         void onNegativeButton();
     }
 }

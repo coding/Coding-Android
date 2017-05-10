@@ -108,6 +108,15 @@ public class WikiHistoryActivity extends BackActivity {
 
     protected class MyAdapter extends easyRegularAdapter<WikiHistory, ViewHolder> {
 
+        private View.OnClickListener clickItem = v -> {
+            WikiHistory history = (WikiHistory) v.getTag();
+            WikiHistoryDetailActivity_.intent(WikiHistoryActivity.this)
+                    .wiki(wiki)
+                    .version(history.version)
+                    .project(jumpParam)
+                    .start();
+        };
+
         public MyAdapter(List<WikiHistory> list) {
             super(list);
         }
@@ -144,15 +153,6 @@ public class WikiHistoryActivity extends BackActivity {
 
             holder.rootLayout.setTag(data);
         }
-
-        private View.OnClickListener clickItem = v -> {
-            WikiHistory history = (WikiHistory) v.getTag();
-            WikiHistoryDetailActivity_.intent(WikiHistoryActivity.this)
-                    .wiki(wiki)
-                    .version(history.version)
-                    .project(jumpParam)
-                    .start();
-        };
     }
 
     class ViewHolder extends UltimateRecyclerviewViewHolder {

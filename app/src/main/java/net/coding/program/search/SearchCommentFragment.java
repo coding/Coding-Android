@@ -30,24 +30,11 @@ public class SearchCommentFragment extends SearchBaseFragment {
     String page = "&page=%s";
     int pos = 1;
     ArrayList<TopicObject> mData = new ArrayList<>();
+    SearchTopicAdapter adapter;
     private String keyword = "";
     private String tabPrams;
     private boolean hasMore = true;
     private boolean isLoading = true;
-
-    SearchTopicAdapter adapter;
-
-    @AfterViews
-    protected void init() {
-        initRefreshLayout();
-        setRefreshing(true);
-        mFootUpdate.init(listView, mInflater, this);
-        adapter = new SearchTopicAdapter(mData, getActivity(), keyword);
-        listView.setAdapter(adapter);
-        listView.setOnScrollListener(mOnScrollListener);
-        loadMore();
-    }
-
     AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -65,8 +52,23 @@ public class SearchCommentFragment extends SearchBaseFragment {
         }
     };
 
+    @AfterViews
+    protected void init() {
+        initRefreshLayout();
+        setRefreshing(true);
+        mFootUpdate.init(listView, mInflater, this);
+        adapter = new SearchTopicAdapter(mData, getActivity(), keyword);
+        listView.setAdapter(adapter);
+        listView.setOnScrollListener(mOnScrollListener);
+        loadMore();
+    }
+
     public String getKeyword() {
         return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public String getTabPrams() {
@@ -75,10 +77,6 @@ public class SearchCommentFragment extends SearchBaseFragment {
 
     public void setTabPrams(String tabPrams) {
         this.tabPrams = tabPrams;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
     }
 
     private String getUrl(int pos) {

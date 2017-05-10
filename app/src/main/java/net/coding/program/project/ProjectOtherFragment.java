@@ -48,12 +48,10 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
 
     boolean requestOk = true;
     boolean needRefresh = true;
-    private int postion = 0;
     @FragmentArg
     ArrayList<ProjectObject> mData = new ArrayList<>();
     @FragmentArg
     ProjectFragment.Type type = ProjectFragment.Type.Main;
-
     @ViewById
     StickyListHeadersListView listView;
     @ViewById
@@ -62,8 +60,8 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
     RelativeLayout project_create_layout;
     @ViewById
     Button btn_action;
-
     boolean mRequestOk;
+    private int postion = 0;
     private String title;
 
     private MyAdapter adapter;

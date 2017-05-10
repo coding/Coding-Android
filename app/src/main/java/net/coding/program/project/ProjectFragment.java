@@ -65,9 +65,9 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     Type type = Type.Main;
 
     boolean requestOk = true;
-    private int pageIndex = 0;
     boolean needRefresh = true;
     ArrayList<ProjectObject> mData = new ArrayList<>();
+    private int pageIndex = 0;
     private MyProjectPagerAdapter adapter;
     private BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
         @Override

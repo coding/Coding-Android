@@ -64,32 +64,32 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
         if (!mProjectObject.is_public) {
             toolbarTitle.setText(status[0]);
             mUrlMerge = mProjectObject.getMergesFilter();
-        }else{
+        } else {
             toolbarTitle.setText(prStatus[0]);
             mUrlMerge = mProjectObject.getMergesFilterAll();
         }
-        Drawable drawable= getResources().getDrawable(R.drawable.arrow_drop_down_green);
+        Drawable drawable = getResources().getDrawable(R.drawable.arrow_drop_down_green);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        toolbarTitle.setCompoundDrawables(null,null,drawable,null);
+        toolbarTitle.setCompoundDrawables(null, null, drawable, null);
         toolbarTitle.setCompoundDrawablePadding(Global.dpToPx(10));
         toolbarTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mProjectObject.is_public) {
-                    if(prRoot.getVisibility() == View.GONE||prRoot.getVisibility() == View.INVISIBLE){
+                    if (prRoot.getVisibility() == View.GONE || prRoot.getVisibility() == View.INVISIBLE) {
                         prRoot.setVisibility(View.VISIBLE);
                         listView.setVisibility(View.INVISIBLE);
                         rgRoot.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         prRoot.setVisibility(View.GONE);
                         listView.setVisibility(View.VISIBLE);
                     }
-                }else{
-                    if(rgRoot.getVisibility() == View.GONE||rgRoot.getVisibility() == View.INVISIBLE){
+                } else {
+                    if (rgRoot.getVisibility() == View.GONE || rgRoot.getVisibility() == View.INVISIBLE) {
                         rgRoot.setVisibility(View.VISIBLE);
                         listView.setVisibility(View.INVISIBLE);
                         prRoot.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         rgRoot.setVisibility(View.GONE);
                         listView.setVisibility(View.VISIBLE);
                     }
@@ -111,18 +111,18 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
     @Click
     void toolbarTitle(View v) {
         if (mProjectObject.is_public) {
-            if(prRoot.getVisibility() == View.GONE||prRoot.getVisibility() == View.INVISIBLE){
+            if (prRoot.getVisibility() == View.GONE || prRoot.getVisibility() == View.INVISIBLE) {
                 prRoot.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.INVISIBLE);
-            }else {
+            } else {
                 prRoot.setVisibility(View.GONE);
                 listView.setVisibility(View.VISIBLE);
             }
-        }else{
-            if(rgRoot.getVisibility() == View.GONE||rgRoot.getVisibility() == View.INVISIBLE){
+        } else {
+            if (rgRoot.getVisibility() == View.GONE || rgRoot.getVisibility() == View.INVISIBLE) {
                 rgRoot.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.INVISIBLE);
-            }else {
+            } else {
                 rgRoot.setVisibility(View.GONE);
                 listView.setVisibility(View.VISIBLE);
             }
@@ -249,15 +249,15 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
         showDialogLoading();
     }
 
-    private void setMenuViewGone(){
+    private void setMenuViewGone() {
         rgRoot.setVisibility(View.GONE);
     }
 
-    private void setPrMenuViewGone(){
+    private void setPrMenuViewGone() {
         prRoot.setVisibility(View.GONE);
     }
 
-    private void setToolbarTitle(String title){
+    private void setToolbarTitle(String title) {
         toolbarTitle.setText(title);
     }
 

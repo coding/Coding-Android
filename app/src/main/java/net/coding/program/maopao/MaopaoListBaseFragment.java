@@ -82,6 +82,276 @@ import jp.wasabeef.recyclerview.internal.ViewHelper;
 public abstract class MaopaoListBaseFragment extends BaseFragment implements StartActivity {
 
     public static final String TAG = Global.makeLogTag(MaopaoListBaseFragment.class);
+    //    public final static int TAG_USER_GLOBAL_KEY = R.id.name;
+    public final static int TAG_MAOPAO_ID = R.id.maopaoMore;
+    public final static int TAG_MAOPAO = R.id.clickMaopao;
+    public final static int TAG_COMMENT = R.id.comment;
+    public final static int TAG_COMMENT_TEXT = R.id.commentArea;
+    public static final String TAG_DELETE_MAOPAO = "TAG_DELETE_MAOPAO";
+    public static final String TAG_DELETE_MAOPAO_COMMENT = "TAG_DELETE_MAOPAO_COMMENT";
+    static final int RESULT_EDIT_MAOPAO = 100;
+    static final int RESULT_AT = 101;
+    public final String HOST_GOOD = getHostGood();
+    public final String URI_COMMENT = Global.HOST_API + "/tweet/%s/comment";
+    final int[] commentsId = new int[]{
+            R.id.comment0,
+            R.id.comment1,
+            R.id.comment2,
+            R.id.comment3,
+            R.id.comment4,
+    };
+    @ViewById
+    protected UltimateRecyclerView listView;
+    @ViewById
+    protected View blankLayout;
+    @ViewById
+    protected View commonEnterRoot;
+    @ViewById
+    protected MainInputView mEnterLayout;
+    protected boolean mIsToMaopaoTopic = false;
+    protected int id = RefreshBaseFragment.UPDATE_ALL_INT;
+    protected long lastTime = 0;
+    protected MyAdapter mAdapter;
+    protected ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
+    int needScrollY = 0;
+    int oldListHigh = 0;
+    int cal1 = 0;
+    boolean mNoMore = false;
+    View.OnClickListener onClickRetry = v -> onRefresh();
+    View baseLoadinggView;
+    View.OnClickListener onClickSendText = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            String input = mEnterLayout.getContent();
+
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), input)) {
+                return;
+            }
+
+            Maopao.Comment commentObject = (Maopao.Comment) mEnterLayout.getEditText().getTag();
+            String uri = String.format(URI_COMMENT, commentObject.tweet_id);
+
+            RequestParams params = new RequestParams();
+
+            String commentString;
+            if (commentObject.id == 0) {
+                commentString = input;
+            } else {
+                commentString = Global.encodeInput(commentObject.owner.name, input);
+            }
+            params.put("content", commentString);
+            postNetwork(uri, params, URI_COMMENT, 0, commentObject);
+
+            showProgressBar(R.string.sending_comment);
+        }
+    };
+    View.OnClickListener onClickDeleteMaopao = v -> {
+        final int maopaoId = (int) v.getTag(TAG_MAOPAO_ID);
+        showDialog(R.string.delete_maopao, (dialog, which) -> {
+            String HOST_MAOPAO_DELETE = Global.HOST_API + "/tweet/%s";
+            deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO,
+                    -1, maopaoId);
+        });
+    };
+    View.OnClickListener mOnClickMaopaoItem = v -> {
+        Maopao.MaopaoObject data = (Maopao.MaopaoObject) v.getTag();
+        Fragment parent = getParentFragment();
+        MaopaoDetailActivity_
+                .intent(parent != null ? parent : MaopaoListBaseFragment.this)
+                .mMaopaoObject(data)
+                .startForResult(RESULT_EDIT_MAOPAO);
+    };
+    ClickSmallImage onClickImage = new ClickSmallImage(MaopaoListBaseFragment.this);
+    View.OnClickListener onClickComment = v -> {
+        final Maopao.Comment comment = (Maopao.Comment) v.getTag(TAG_COMMENT);
+        if (MyApp.sUserObject.id == (comment.owner_id)) {
+            showDialog("冒泡", "删除评论？", (dialog, which) -> {
+                final String URI_COMMENT_DELETE = Global.HOST_API + "/tweet/%s/comment/%s";
+                deleteNetwork(String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id), TAG_DELETE_MAOPAO_COMMENT, -1, comment);
+            });
+        } else {
+            popComment(v);
+        }
+    };
+    private MyImageGetter myImageGetter;
+    private int mPxImageWidth;
+    private MaopaoListFragment.Type mType;//冒泡类型
+
+    public static String getHostGood() {
+        return Global.HOST_API + "/tweet/%s/%s";
+    }
+
+    public static void popReward(final BaseActivity activity, View v, final UltimateViewAdapter adapter) {
+        Object data = v.getTag();
+        if (data instanceof Maopao.MaopaoObject) {
+            final Maopao.MaopaoObject maopaoData = (Maopao.MaopaoObject) data;
+
+            if (maopaoData.rewarded) {
+                activity.showMiddleToast("您已给该用户打赏过");
+                return;
+            }
+
+            if (maopaoData.owner.isMe() || maopaoData.owner_id == MyApp.sUserObject.id) {
+                activity.showMiddleToast("您不能给自己打赏");
+                return;
+            }
+
+            // show loading
+            View root = LayoutInflater.from(activity).inflate(R.layout.maopao_reward_dialog, null);
+            final AlertDialog dialog = new AlertDialog.Builder(activity)
+                    .setView(root)
+                    .show();
+
+            final TextView myPoints = (TextView) root.findViewById(R.id.myPoints);
+            final String MY_POINT_FORMAT = "我的码币余额: <font color=\"#F5A623\">%.2f</font>";
+            myPoints.setText(Html.fromHtml(String.format(MY_POINT_FORMAT, MyApp.sUserObject.points_left)));
+
+            final EditText password = (EditText) root.findViewById(R.id.password);
+
+            ImageView userIcon = (ImageView) root.findViewById(R.id.userIcon);
+            activity.getImageLoad().loadImageDefaultCoding(userIcon, maopaoData.owner.avatar);
+
+            TextView title = (TextView) root.findViewById(R.id.title);
+            title.setText(Html.fromHtml("打赏给该用户 <font color=\"#F5A623\">0.01</font> 码币"));
+
+            final View inputLayout = root.findViewById(R.id.inputLayout);
+            final View editLayout = root.findViewById(R.id.editLayout);
+            final View rewardButton = root.findViewById(R.id.buttonReward);
+            final TextView cannotRewardLayout = (TextView) root.findViewById(R.id.cannotReward);
+
+            inputLayout.setVisibility(View.VISIBLE);
+            editLayout.setVisibility(View.GONE);
+            rewardButton.setVisibility(View.VISIBLE);
+            cannotRewardLayout.setVisibility(View.GONE);
+
+            rewardButton.setOnClickListener(new View.OnClickListener() {
+
+                boolean mNeedPassword = false;
+
+                @Override
+                public void onClick(View v) {
+                    String passwordString = "";
+                    if (mNeedPassword) {
+                        passwordString = password.getText().toString();
+                        if (passwordString.isEmpty()) {
+                            activity.showMiddleToast("请输入密码");
+                            return;
+                        }
+                    }
+
+                    final String format = "%s/tweet/%d/app_reward";
+                    String url = String.format(format, Global.HOST_API, maopaoData.id);
+                    RequestParams params = new RequestParams();
+                    if (mNeedPassword) {
+                        params.put("encodedPassword", SimpleSHA1.sha1(passwordString));
+                    }
+                    AsyncHttpClient client = MyAsyncHttpClient.createClient(activity);
+                    client.post(activity, url, params, new JsonHttpResponseHandler() {
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            if (!dialog.isShowing()) {
+                                return;
+                            }
+
+                            int code = response.optInt("code");
+                            if (code == 0) {
+                                activity.showMiddleToast("打赏成功");
+                                maopaoData.rewarded = true;
+                                ++maopaoData.rewards;
+                                Maopao.Like_user me = new Maopao.Like_user(MyApp.sUserObject);
+                                MyApp.sUserObject.reward();
+                                AccountInfo.saveAccount(activity, MyApp.sUserObject);
+                                me.setType(Maopao.Like_user.Type.Reward);
+                                maopaoData.reward_users.add(0, me);
+                                dialog.dismiss();
+                                if (adapter != null) {
+                                    adapter.notifyDataSetChanged();
+                                }
+                            } else if (code == 1401) {
+                                mNeedPassword = true;
+                                editLayout.setVisibility(View.VISIBLE);
+                            } else if (2900 <= code && response.has("msg")) {
+                                editLayout.setVisibility(View.GONE);
+                                rewardButton.setVisibility(View.GONE);
+                                cannotRewardLayout.setVisibility(View.VISIBLE);
+                                JSONObject jsonMsg = response.optJSONObject("msg");
+                                String rewardFailString = "";
+                                if (jsonMsg != null && jsonMsg.length() > 0) {
+                                    Iterator<String> iterator = jsonMsg.keys();
+                                    String key = iterator.next();
+                                    rewardFailString = jsonMsg.optString(key, "打赏失败");
+                                    cannotRewardLayout.setText(rewardFailString);
+                                }
+
+                                if (rewardFailString.contains("验证了手机才能打赏")) { // 自己的手机未验证
+                                    cannotRewardLayout.setOnClickListener(v1 -> {
+                                        ValidePhoneActivity_.intent(activity).start();
+                                        dialog.dismiss();
+                                    });
+                                }
+                            } else {
+                                activity.showErrorMsg(code, response);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            if (!dialog.isShowing()) {
+                                return;
+                            }
+
+                            activity.showMiddleToast("打赏失败");
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            if (!dialog.isShowing()) {
+                                return;
+                            }
+
+                            activity.showMiddleToast("打赏失败");
+                        }
+
+                    });
+                }
+            });
+
+
+            root.findViewById(R.id.closeDialog).setOnClickListener(v12 -> dialog.dismiss());
+
+            AsyncHttpClient client = MyAsyncHttpClient.createClient(activity);
+            String urlBalance = Global.HOST_API + "/point/balance";
+            client.get(activity, urlBalance, new JsonHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    if (!dialog.isShowing()) {
+                        return;
+                    }
+
+                    int code = response.optInt("code");
+                    if (code == 0) {
+                        double points = response.optJSONObject("data").optDouble("point_left");
+                        myPoints.setVisibility(View.VISIBLE);
+                        myPoints.setText(Html.fromHtml(String.format(MY_POINT_FORMAT, points)));
+                    } else {
+                        activity.showErrorMsg(code, response);
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    if (!dialog.isShowing()) {
+                        return;
+                    }
+
+                    activity.showMiddleToast("获取码币余额失败");
+                }
+            });
+        }
+    }
 
     abstract protected String createUrl();
 
@@ -92,57 +362,6 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
     abstract protected void initMaopaoType();
 
     abstract protected void initData();
-
-    @ViewById
-    protected UltimateRecyclerView listView;
-    @ViewById
-    protected View blankLayout;
-    @ViewById
-    protected View commonEnterRoot;
-
-    @ViewById
-    protected MainInputView mEnterLayout;
-
-    protected boolean mIsToMaopaoTopic = false;
-
-    protected int id = RefreshBaseFragment.UPDATE_ALL_INT;
-    protected long lastTime = 0;
-
-    int needScrollY = 0;
-    int oldListHigh = 0;
-    int cal1 = 0;
-
-    //    public final static int TAG_USER_GLOBAL_KEY = R.id.name;
-    public final static int TAG_MAOPAO_ID = R.id.maopaoMore;
-    public final static int TAG_MAOPAO = R.id.clickMaopao;
-    public final static int TAG_COMMENT = R.id.comment;
-    public final static int TAG_COMMENT_TEXT = R.id.commentArea;
-
-    public final String HOST_GOOD = getHostGood();
-
-    public final String URI_COMMENT = Global.HOST_API + "/tweet/%s/comment";
-
-    public static final String TAG_DELETE_MAOPAO = "TAG_DELETE_MAOPAO";
-    public static final String TAG_DELETE_MAOPAO_COMMENT = "TAG_DELETE_MAOPAO_COMMENT";
-    static final int RESULT_EDIT_MAOPAO = 100;
-
-    static final int RESULT_AT = 101;
-    private MyImageGetter myImageGetter;
-
-    private int mPxImageWidth;
-    boolean mNoMore = false;
-
-    protected MyAdapter mAdapter;
-
-    protected ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
-
-    private MaopaoListFragment.Type mType;//冒泡类型
-
-    View.OnClickListener onClickRetry = v -> onRefresh();
-
-    public static String getHostGood() {
-        return Global.HOST_API + "/tweet/%s/%s";
-    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -167,8 +386,6 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         listView.setRefreshing(true);
         onRefresh();
     }
-
-    View baseLoadinggView;
 
     public void showLoading(boolean show) {
         if (baseLoadinggView == null) {
@@ -510,7 +727,6 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         }
     }
 
-
     @Override
     protected void initSetting() {
         super.initSetting();
@@ -526,214 +742,6 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
     public void onRefresh() {
         initSetting();
         getNetwork(createUrl(), getMaopaoUrlFormat());
-    }
-
-    View.OnClickListener onClickSendText = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-            String input = mEnterLayout.getContent();
-
-            if (EmojiFilter.containsEmptyEmoji(v.getContext(), input)) {
-                return;
-            }
-
-            Maopao.Comment commentObject = (Maopao.Comment) mEnterLayout.getEditText().getTag();
-            String uri = String.format(URI_COMMENT, commentObject.tweet_id);
-
-            RequestParams params = new RequestParams();
-
-            String commentString;
-            if (commentObject.id == 0) {
-                commentString = input;
-            } else {
-                commentString = Global.encodeInput(commentObject.owner.name, input);
-            }
-            params.put("content", commentString);
-            postNetwork(uri, params, URI_COMMENT, 0, commentObject);
-
-            showProgressBar(R.string.sending_comment);
-        }
-    };
-
-    View.OnClickListener onClickDeleteMaopao = v -> {
-        final int maopaoId = (int) v.getTag(TAG_MAOPAO_ID);
-        showDialog(R.string.delete_maopao, (dialog, which) -> {
-            String HOST_MAOPAO_DELETE = Global.HOST_API + "/tweet/%s";
-            deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO,
-                    -1, maopaoId);
-        });
-    };
-
-    public static void popReward(final BaseActivity activity, View v, final UltimateViewAdapter adapter) {
-        Object data = v.getTag();
-        if (data instanceof Maopao.MaopaoObject) {
-            final Maopao.MaopaoObject maopaoData = (Maopao.MaopaoObject) data;
-
-            if (maopaoData.rewarded) {
-                activity.showMiddleToast("您已给该用户打赏过");
-                return;
-            }
-
-            if (maopaoData.owner.isMe() || maopaoData.owner_id == MyApp.sUserObject.id) {
-                activity.showMiddleToast("您不能给自己打赏");
-                return;
-            }
-
-            // show loading
-            View root = LayoutInflater.from(activity).inflate(R.layout.maopao_reward_dialog, null);
-            final AlertDialog dialog = new AlertDialog.Builder(activity)
-                    .setView(root)
-                    .show();
-
-            final TextView myPoints = (TextView) root.findViewById(R.id.myPoints);
-            final String MY_POINT_FORMAT = "我的码币余额: <font color=\"#F5A623\">%.2f</font>";
-            myPoints.setText(Html.fromHtml(String.format(MY_POINT_FORMAT, MyApp.sUserObject.points_left)));
-
-            final EditText password = (EditText) root.findViewById(R.id.password);
-
-            ImageView userIcon = (ImageView) root.findViewById(R.id.userIcon);
-            activity.getImageLoad().loadImageDefaultCoding(userIcon, maopaoData.owner.avatar);
-
-            TextView title = (TextView) root.findViewById(R.id.title);
-            title.setText(Html.fromHtml("打赏给该用户 <font color=\"#F5A623\">0.01</font> 码币"));
-
-            final View inputLayout = root.findViewById(R.id.inputLayout);
-            final View editLayout = root.findViewById(R.id.editLayout);
-            final View rewardButton = root.findViewById(R.id.buttonReward);
-            final TextView cannotRewardLayout = (TextView) root.findViewById(R.id.cannotReward);
-
-            inputLayout.setVisibility(View.VISIBLE);
-            editLayout.setVisibility(View.GONE);
-            rewardButton.setVisibility(View.VISIBLE);
-            cannotRewardLayout.setVisibility(View.GONE);
-
-            rewardButton.setOnClickListener(new View.OnClickListener() {
-
-                boolean mNeedPassword = false;
-
-                @Override
-                public void onClick(View v) {
-                    String passwordString = "";
-                    if (mNeedPassword) {
-                        passwordString = password.getText().toString();
-                        if (passwordString.isEmpty()) {
-                            activity.showMiddleToast("请输入密码");
-                            return;
-                        }
-                    }
-
-                    final String format = "%s/tweet/%d/app_reward";
-                    String url = String.format(format, Global.HOST_API, maopaoData.id);
-                    RequestParams params = new RequestParams();
-                    if (mNeedPassword) {
-                        params.put("encodedPassword", SimpleSHA1.sha1(passwordString));
-                    }
-                    AsyncHttpClient client = MyAsyncHttpClient.createClient(activity);
-                    client.post(activity, url, params, new JsonHttpResponseHandler() {
-
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            if (!dialog.isShowing()) {
-                                return;
-                            }
-
-                            int code = response.optInt("code");
-                            if (code == 0) {
-                                activity.showMiddleToast("打赏成功");
-                                maopaoData.rewarded = true;
-                                ++maopaoData.rewards;
-                                Maopao.Like_user me = new Maopao.Like_user(MyApp.sUserObject);
-                                MyApp.sUserObject.reward();
-                                AccountInfo.saveAccount(activity, MyApp.sUserObject);
-                                me.setType(Maopao.Like_user.Type.Reward);
-                                maopaoData.reward_users.add(0, me);
-                                dialog.dismiss();
-                                if (adapter != null) {
-                                    adapter.notifyDataSetChanged();
-                                }
-                            } else if (code == 1401) {
-                                mNeedPassword = true;
-                                editLayout.setVisibility(View.VISIBLE);
-                            } else if (2900 <= code && response.has("msg")) {
-                                editLayout.setVisibility(View.GONE);
-                                rewardButton.setVisibility(View.GONE);
-                                cannotRewardLayout.setVisibility(View.VISIBLE);
-                                JSONObject jsonMsg = response.optJSONObject("msg");
-                                String rewardFailString = "";
-                                if (jsonMsg != null && jsonMsg.length() > 0) {
-                                    Iterator<String> iterator = jsonMsg.keys();
-                                    String key = iterator.next();
-                                    rewardFailString = jsonMsg.optString(key, "打赏失败");
-                                    cannotRewardLayout.setText(rewardFailString);
-                                }
-
-                                if (rewardFailString.contains("验证了手机才能打赏")) { // 自己的手机未验证
-                                    cannotRewardLayout.setOnClickListener(v1 -> {
-                                        ValidePhoneActivity_.intent(activity).start();
-                                        dialog.dismiss();
-                                    });
-                                }
-                            } else {
-                                activity.showErrorMsg(code, response);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                            if (!dialog.isShowing()) {
-                                return;
-                            }
-
-                            activity.showMiddleToast("打赏失败");
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            if (!dialog.isShowing()) {
-                                return;
-                            }
-
-                            activity.showMiddleToast("打赏失败");
-                        }
-
-                    });
-                }
-            });
-
-
-            root.findViewById(R.id.closeDialog).setOnClickListener(v12 -> dialog.dismiss());
-
-            AsyncHttpClient client = MyAsyncHttpClient.createClient(activity);
-            String urlBalance = Global.HOST_API + "/point/balance";
-            client.get(activity, urlBalance, new JsonHttpResponseHandler() {
-
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    if (!dialog.isShowing()) {
-                        return;
-                    }
-
-                    int code = response.optInt("code");
-                    if (code == 0) {
-                        double points = response.optJSONObject("data").optDouble("point_left");
-                        myPoints.setVisibility(View.VISIBLE);
-                        myPoints.setText(Html.fromHtml(String.format(MY_POINT_FORMAT, points)));
-                    } else {
-                        activity.showErrorMsg(code, response);
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    if (!dialog.isShowing()) {
-                        return;
-                    }
-
-                    activity.showMiddleToast("获取码币余额失败");
-                }
-            });
-        }
     }
 
     protected void popComment(View v) {
@@ -783,6 +791,47 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
 
         comment.requestFocus();
         mEnterLayout.showSystemInput(true);
+    }
+
+    void action_share_third(Maopao.MaopaoObject mMaopaoObject) {
+        mEnterLayout.hideKeyboard();
+        CustomShareBoard.ShareData shareData = new CustomShareBoard.ShareData(mMaopaoObject);
+        CustomShareBoard shareBoard = new CustomShareBoard(getActivity(), shareData);
+        shareBoard.showAtLocation(getActivity().getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
+    }
+
+    static class ViewHolder {
+        View maopaoItemTop;
+
+        View maopaoItem;
+
+        ImageView icon;
+        TextView name;
+        TextView time;
+        ContentArea contentArea;
+
+//        View maopaoDelete;
+
+        TextView photoType;
+        CheckBox likeBtn;
+        TextView commentBtn;
+        TextView reward;
+        View shareBtn;
+
+        LikeUsersArea likeUsersArea;
+        View commentLikeArea;
+
+        CommentArea commentArea;
+
+        View[] divides;
+
+        View likeAreaDivide;
+        TextView location;
+
+        View maopaoGoodView;
+        View maopaoDelete;
+        View divider;
+        View divider2;
     }
 
     class MyHolder extends UltimateRecyclerviewViewHolder {
@@ -850,6 +899,8 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
     protected class MyAdapter extends easyRegularAdapter<Maopao.MaopaoObject, MyHolder> {
 
         private final LinearInterpolator interpolator = new LinearInterpolator();
+        private boolean showAnimator = false;
+        private int mLastPosition = -1;
 
         public MyAdapter(List<Maopao.MaopaoObject> list, boolean showAnimator) {
             super(list);
@@ -880,7 +931,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         protected void withBindHolder(MyHolder holderLayout, Maopao.MaopaoObject data, int position) {
             ViewHolder holder = holderLayout.holder;
 
-            if(mType != null && mType == MaopaoListFragment.Type.user && position == 0){
+            if (mType != null && mType == MaopaoListFragment.Type.user && position == 0) {
                 holder.divider.setVisibility(View.GONE);
                 holder.divider2.setVisibility(View.GONE);
             }
@@ -1019,80 +1070,5 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
                 }
             }
         }
-
-        private boolean showAnimator = false;
-        private int mLastPosition = -1;
-    }
-
-    View.OnClickListener mOnClickMaopaoItem = v -> {
-        Maopao.MaopaoObject data = (Maopao.MaopaoObject) v.getTag();
-        Fragment parent = getParentFragment();
-        MaopaoDetailActivity_
-                .intent(parent != null ? parent : MaopaoListBaseFragment.this)
-                .mMaopaoObject(data)
-                .startForResult(RESULT_EDIT_MAOPAO);
-    };
-    ClickSmallImage onClickImage = new ClickSmallImage(MaopaoListBaseFragment.this);
-
-    void action_share_third(Maopao.MaopaoObject mMaopaoObject) {
-        mEnterLayout.hideKeyboard();
-        CustomShareBoard.ShareData shareData = new CustomShareBoard.ShareData(mMaopaoObject);
-        CustomShareBoard shareBoard = new CustomShareBoard(getActivity(), shareData);
-        shareBoard.showAtLocation(getActivity().getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
-    }
-
-
-    View.OnClickListener onClickComment = v -> {
-        final Maopao.Comment comment = (Maopao.Comment) v.getTag(TAG_COMMENT);
-        if (MyApp.sUserObject.id == (comment.owner_id)) {
-            showDialog("冒泡", "删除评论？", (dialog, which) -> {
-                final String URI_COMMENT_DELETE = Global.HOST_API + "/tweet/%s/comment/%s";
-                deleteNetwork(String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id), TAG_DELETE_MAOPAO_COMMENT, -1, comment);
-            });
-        } else {
-            popComment(v);
-        }
-    };
-
-    final int[] commentsId = new int[]{
-            R.id.comment0,
-            R.id.comment1,
-            R.id.comment2,
-            R.id.comment3,
-            R.id.comment4,
-    };
-
-    static class ViewHolder {
-        View maopaoItemTop;
-
-        View maopaoItem;
-
-        ImageView icon;
-        TextView name;
-        TextView time;
-        ContentArea contentArea;
-
-//        View maopaoDelete;
-
-        TextView photoType;
-        CheckBox likeBtn;
-        TextView commentBtn;
-        TextView reward;
-        View shareBtn;
-
-        LikeUsersArea likeUsersArea;
-        View commentLikeArea;
-
-        CommentArea commentArea;
-
-        View[] divides;
-
-        View likeAreaDivide;
-        TextView location;
-
-        View maopaoGoodView;
-        View maopaoDelete;
-        View divider;
-        View divider2;
     }
 }

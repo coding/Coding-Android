@@ -32,20 +32,12 @@ import java.util.ArrayList;
 @EActivity(R.layout.activity_like_users_list)
 public class LikeUsersListActivity extends BackActivity {
 
+    public final String HOST_LIKES_USER = getHostLikesUser();
+    public String UriLikeUsers = HOST_LIKES_USER;
     @Extra
     int id;
-
     @ViewById
     ListView listView;
-
-    public final String HOST_LIKES_USER = getHostLikesUser();
-
-    public static String getHostLikesUser() {
-        return Global.HOST_API + "/tweet/%s/allLikesAndRewards?pageSize=5000";
-    }
-
-    public String UriLikeUsers = HOST_LIKES_USER;
-
     private ArrayList<DynamicObject.User> mData = new ArrayList<>();
     BaseAdapter baseAdapter = new BaseAdapter() {
         @Override
@@ -110,6 +102,10 @@ public class LikeUsersListActivity extends BackActivity {
         }
     };
 
+    public static String getHostLikesUser() {
+        return Global.HOST_API + "/tweet/%s/allLikesAndRewards?pageSize=5000";
+    }
+
     @AfterViews
     protected final void initLikeUsersListActivity() {
         UriLikeUsers = String.format(UriLikeUsers, id);
@@ -117,7 +113,7 @@ public class LikeUsersListActivity extends BackActivity {
         listView.setAdapter(baseAdapter);
         listView.setOnItemClickListener((parent, view, position, id1) -> {
             CodingCompat.instance().launchUserDetailActivity(LikeUsersListActivity.this,
-                            mData.get((int) id1).global_key);
+                    mData.get((int) id1).global_key);
         });
 
         getNetwork(UriLikeUsers, UriLikeUsers);

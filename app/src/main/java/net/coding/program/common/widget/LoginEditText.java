@@ -103,14 +103,6 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
         }
     }
 
-    public void setText(String text) {
-        if (text == null) {
-            return;
-        }
-
-        editText.setText(text);
-    }
-
     private void togglePassword() {
         showPassword = !showPassword;
 
@@ -164,6 +156,14 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
     @Override
     public Editable getText() {
         return editText.getText();
+    }
+
+    public void setText(String text) {
+        if (text == null) {
+            return;
+        }
+
+        editText.setText(text);
     }
 
     public EditText getEditText() {

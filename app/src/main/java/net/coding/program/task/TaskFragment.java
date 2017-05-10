@@ -313,6 +313,46 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
         }
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
+
+    // 用于处理推送
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(EventFilter eventFilter) {
+        //确定是我的任务筛选
+        if (eventFilter.index == 1) {
+            meActionFilter();
+        }
+    }
+
+    // 用于处理推送
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainRefresh(EventRefreshTask event) {
+        getNetwork(host, host);
+    }
+
+    @OptionsItem
+    protected final void action_filter() {
+        actionFilter();
+    }
+
+    @Override
+    protected void sureFilter() {
+        super.sureFilter();
+        //筛选了状态，相应的筛选标签也变化
+        //getNetwork(urlTaskLabel + getRole(), urlTaskLabel);
+        loadLabels();
+    }
+
     public static class TaskCount {
         public int project;
         public int processing;
@@ -383,45 +423,5 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
 
             return fragment;
         }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        EventBus.getDefault().unregister(this);
-    }
-
-    // 用于处理推送
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThread(EventFilter eventFilter) {
-        //确定是我的任务筛选
-        if (eventFilter.index == 1) {
-            meActionFilter();
-        }
-    }
-
-    // 用于处理推送
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainRefresh(EventRefreshTask event) {
-        getNetwork(host, host);
-    }
-
-    @OptionsItem
-    protected final void action_filter() {
-        actionFilter();
-    }
-
-    @Override
-    protected void sureFilter() {
-        super.sureFilter();
-        //筛选了状态，相应的筛选标签也变化
-        //getNetwork(urlTaskLabel + getRole(), urlTaskLabel);
-        loadLabels();
     }
 }

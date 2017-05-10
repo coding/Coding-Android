@@ -22,6 +22,7 @@ public class MergeObject implements Serializable {
     private static final String STYLE_CANNEL = "CANCEL";
     private static final String STYLE_CANMERGE = "CANMERGE";
     private static final String STYLE_CANNOTMERGE = "CANNOTMERGE";
+    public String merge_status = "";
     private int id;
     private String srcBranch = "";
     private String desBranch = "";
@@ -30,15 +31,36 @@ public class MergeObject implements Serializable {
     private int iid;
     private int granted;
     private int granted_by_id;
-    public String merge_status = "";
     private String path = "";
     private long created_at;
     private UserObject author;
     private String body;
     private long action_at;
     private int commentCount;
+    private String color;
 
-
+    public MergeObject(JSONObject json) throws JSONException {
+        id = json.optInt("id");
+        srcBranch = json.optString("source_branch");
+        desBranch = json.optString("target_branch");
+        title = json.optString("title");
+        iid = json.optInt("iid");
+        author_id = json.optInt("author_id");
+        JSONArray body = json.optJSONArray("body");
+        if (body != null && body.length() > 0) {
+            this.body = body.getString(0);
+        } else {
+            this.body = "";
+        }
+        merge_status = json.optString("merge_status");
+        path = ProjectObject.translatePath(json.optString("path", ""));
+        created_at = json.optLong("created_at");
+        granted = json.optInt("granted");
+        granted_by_id = json.optInt("granted_by_id");
+        author = new UserObject(json.optJSONObject("author"));
+        action_at = json.optLong("action_at");
+        commentCount = json.optInt("comment_count", 0);
+    }
 
     public String getBody() {
         return body;
@@ -64,10 +86,6 @@ public class MergeObject implements Serializable {
         this.srcBranch = srcBranch;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getPath() {
         return path;
     }
@@ -78,6 +96,10 @@ public class MergeObject implements Serializable {
 
     public long getCreated_at() {
         return created_at;
+    }
+
+    public void setCreated_at(long created_at) {
+        this.created_at = created_at;
     }
 
     public boolean isMergeAccept() {
@@ -105,14 +127,6 @@ public class MergeObject implements Serializable {
         return merge_status.equals(STYLE_CANNEL);
     }
 
-    public void setCreated_at(long created_at) {
-        this.created_at = created_at;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public int getGranted() {
         return granted;
     }
@@ -137,39 +151,6 @@ public class MergeObject implements Serializable {
         this.author_id = author_id;
     }
 
-    public void setAuthor(UserObject author) {
-        this.author = author;
-    }
-
-    public void setAction_at(long action_at) {
-        this.action_at = action_at;
-    }
-
-
-    public MergeObject(JSONObject json) throws JSONException {
-        id = json.optInt("id");
-        srcBranch = json.optString("source_branch");
-        desBranch = json.optString("target_branch");
-        title = json.optString("title");
-        iid = json.optInt("iid");
-        author_id = json.optInt("author_id");
-        JSONArray body = json.optJSONArray("body");
-        if (body != null && body.length() > 0) {
-            this.body = body.getString(0);
-        } else {
-            this.body = "";
-        }
-        merge_status = json.optString("merge_status");
-        path = ProjectObject.translatePath(json.optString("path", ""));
-        created_at = json.optLong("created_at");
-        granted = json.optInt("granted");
-        granted_by_id = json.optInt("granted_by_id");
-        author = new UserObject(json.optJSONObject("author"));
-        action_at = json.optLong("action_at");
-        commentCount = json.optInt("comment_count", 0);
-    }
-
-
     public boolean authorIsMe() {
         return author.isMe();
     }
@@ -178,8 +159,16 @@ public class MergeObject implements Serializable {
         return author;
     }
 
+    public void setAuthor(UserObject author) {
+        this.author = author;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public int getIid() {
@@ -190,12 +179,13 @@ public class MergeObject implements Serializable {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getCommentCount() {
         return commentCount;
     }
-
-    private String color;
-
 
     public String getColor() {
         return color;
@@ -224,13 +214,16 @@ public class MergeObject implements Serializable {
         }
     }
 
-
     public long getCreatedAt() {
         return created_at;
     }
 
     public long getAction_at() {
         return action_at;
+    }
+
+    public void setAction_at(long action_at) {
+        this.action_at = action_at;
     }
 
     private String getHostPublicHead(String end) {

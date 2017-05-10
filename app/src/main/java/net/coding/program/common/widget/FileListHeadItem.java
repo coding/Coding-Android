@@ -67,7 +67,7 @@ public class FileListHeadItem extends FrameLayout {
 
         if (splitName.length > 1) {
             if (AttachmentFileObject.isImage(suffix)) {
-                imageLoadTool.loadImage( ((ImageView) findViewById(R.id.icon)), Uri.fromFile(postParam.file).toString());
+                imageLoadTool.loadImage(((ImageView) findViewById(R.id.icon)), Uri.fromFile(postParam.file).toString());
             } else {
                 iconId = AttachmentFileObject.getIconResourceId(suffix);
                 ((ImageView) findViewById(R.id.icon)).setImageResource(iconId);

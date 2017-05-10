@@ -78,7 +78,7 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.search_project_git_item, parent,false);
+                convertView = mInflater.inflate(R.layout.search_project_git_item, parent, false);
             }
 
             final TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
@@ -88,7 +88,7 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
 
             Pattern p = Pattern.compile(inputName, Pattern.CASE_INSENSITIVE);
             Matcher m = p.matcher(s);
-            while (m.find()){
+            while (m.find()) {
                 int start = m.start();
                 int end = m.end();
                 s.setSpan(new BackgroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -100,7 +100,7 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
     };
 
     @AfterViews
-    void init(){
+    void init() {
         View actionBar = getLayoutInflater().inflate(R.layout.activity_search_project_git_actionbar, null);
         getSupportActionBar().setCustomView(actionBar);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -149,14 +149,14 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
                     String name = jsData.optString(i);
                     fileNames.add(name);
                 }
-            }else {
+            } else {
                 showErrorMsg(code, respanse);
             }
         }
     }
 
     private void searchFile(String name) {
-        if(!TextUtils.isEmpty(name)){
+        if (!TextUtils.isEmpty(name)) {
             tvLength.setVisibility(View.VISIBLE);
             for (String fileName : fileNames) {
                 if (StringUtil.isExist(fileName, name)) {
@@ -164,7 +164,7 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
                 }
             }
             updateView(name);
-        }else{
+        } else {
             tvLength.setVisibility(View.GONE);
             clearNames();
         }
@@ -173,12 +173,12 @@ public class SearchProjectGitActivity extends BackActivity implements TextWatche
 
     private void updateView(String name) {
         String size = String.valueOf(searchNames.size());
-        String headStr = this.getString(R.string.search_head, size , name);
+        String headStr = this.getString(R.string.search_head, size, name);
         tvLength.setText(headStr);
         adapter.notifyDataSetChanged();
     }
 
-    public void clearNames(){
+    public void clearNames() {
         searchNames.clear();
         adapter.notifyDataSetChanged();
     }

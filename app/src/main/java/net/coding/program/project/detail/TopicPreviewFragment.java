@@ -34,9 +34,8 @@ public class TopicPreviewFragment extends BaseFragment {
     protected TopicLabelBar labelBar;
     @ViewById
     protected WebView content;
-    private EditPreviewMarkdown editPreviewMarkdown;
-
     protected MyJsonResponse myJsonResponse;
+    private EditPreviewMarkdown editPreviewMarkdown;
 
     @AfterViews
     protected void init() {

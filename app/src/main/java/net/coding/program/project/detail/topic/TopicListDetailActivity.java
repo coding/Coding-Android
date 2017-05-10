@@ -286,7 +286,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
         TextView topicTitleTextView = ((TextView) mListHead.findViewById(R.id.title));
         topicTitleTextView.setText(topicObject.title);
 
-        Spanned timeString = Global.createGreenHtml("",  topicObject.owner.name, " 发布于" + Global.dayToNow(topicObject.updated_at));
+        Spanned timeString = Global.createGreenHtml("", topicObject.owner.name, " 发布于" + Global.dayToNow(topicObject.updated_at));
         ((TextView) mListHead.findViewById(R.id.time)).setText(timeString);
 
         ((TextView) mListHead.findViewById(R.id.referenceId)).setText(topicObject.getRefId());

@@ -44,7 +44,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
     View versionLayout, expandableIndicator, linearLayout, tvBranches, tvTags;
     @ViewById
     TextView versionButton;
-//    @ViewById
+    //    @ViewById
 //    ExpandableListView versionList;
     @ViewById
     ListView versionListView;
@@ -54,8 +54,49 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 
     private ArrayList<BranchItem> mDataVers[] = new ArrayList[]{new ArrayList<>(), new ArrayList<>()};
     private List<BranchItem> mData = new ArrayList<>();
+    BaseAdapter adapter = new BaseAdapter() {
+        @Override
+        public int getCount() {
+            return mData.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mData.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.git_view_child, parent, false);
+                holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            BranchItem data = mData.get(position);
+            holder.title.setText(data.name);
+
+            if (mVersion.equals(data.name)) {
+                holder.title.setSelected(true);
+                holder.icon.setVisibility(View.VISIBLE);
+            } else {
+                holder.title.setSelected(false);
+                holder.icon.setVisibility(View.GONE);
+            }
+            return convertView;
+        }
+
+    };
     private List<BranchItem> mBranchesData = new ArrayList<>();
-    private List<BranchItem> mTagsData = new ArrayList<>();
 
 //    ExpandableListAdapter versionAdapter = new BaseExpandableListAdapter() {
 //        @Override
@@ -132,48 +173,15 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 //        }
 //
 //    };
+    private List<BranchItem> mTagsData = new ArrayList<>();
+    private View.OnClickListener onClickRetry = v -> {
+        String urlBranches = String.format(HOST_LIST_BRANCHES, mProjectPath);
+        getNetwork(urlBranches, HOST_LIST_BRANCHES);
 
-    BaseAdapter adapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return mData.size();
-        }
+        String urlTag = String.format(HOST_LIST_TAG, mProjectPath);
+        getNetwork(urlTag, HOST_LIST_TAG);
 
-        @Override
-        public Object getItem(int position) {
-            return mData.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.git_view_child, parent, false);
-                holder = new ViewHolder(convertView);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            BranchItem data = mData.get(position);
-            holder.title.setText(data.name);
-
-            if (mVersion.equals(data.name)) {
-                holder.title.setSelected(true);
-                holder.icon.setVisibility(View.VISIBLE);
-            }else{
-                holder.title.setSelected(false);
-                holder.icon.setVisibility(View.GONE);
-            }
-            return convertView;
-        }
-
+        showProgressBar(true);
     };
 
     @AfterViews
@@ -217,16 +225,6 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 //        });
     }
 
-    private View.OnClickListener onClickRetry = v -> {
-        String urlBranches = String.format(HOST_LIST_BRANCHES, mProjectPath);
-        getNetwork(urlBranches, HOST_LIST_BRANCHES);
-
-        String urlTag = String.format(HOST_LIST_TAG, mProjectPath);
-        getNetwork(urlTag, HOST_LIST_TAG);
-
-        showProgressBar(true);
-    };
-
     @Click
     protected final void versionButton() {
         showList(versionLayout.getVisibility() != View.VISIBLE);
@@ -238,13 +236,13 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
     }
 
     @Click
-    protected final void tvBranches(){
+    protected final void tvBranches() {
         updateTab(tvBranches);
         setData(mBranchesData);
     }
 
     @Click
-    protected final void tvTags(){
+    protected final void tvTags() {
         updateTab(tvTags);
         setData(mTagsData);
     }
@@ -331,11 +329,11 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
             }
         }
 
-        if(tag.equals(HOST_LIST_BRANCHES)){
+        if (tag.equals(HOST_LIST_BRANCHES)) {
             mBranchesData.clear();
             mBranchesData.addAll(data);
             setData(mBranchesData);
-        }else if(tag.equals(HOST_LIST_TAG)){
+        } else if (tag.equals(HOST_LIST_TAG)) {
             mTagsData.clear();
             mTagsData.addAll(data);
         }
@@ -343,7 +341,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 //        ((BaseExpandableListAdapter) versionAdapter).notifyDataSetChanged();
     }
 
-    private void setData(List<BranchItem> datas){
+    private void setData(List<BranchItem> datas) {
         mData.clear();
         mData.addAll(datas);
         adapter.notifyDataSetChanged();
@@ -399,12 +397,12 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
         }
     }
 
-    private void updateTab(View view){
-        switch (view.getId()){
+    private void updateTab(View view) {
+        switch (view.getId()) {
             case R.id.tvBranches:
                 tvBranches.setSelected(true);
                 tvTags.setSelected(false);
-            break;
+                break;
             case R.id.tvTags:
                 tvBranches.setSelected(false);
                 tvTags.setSelected(true);
@@ -422,7 +420,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
         }
     }
 
-    private static class ViewHolder{
+    private static class ViewHolder {
         TextView title;
         ImageView icon;
 

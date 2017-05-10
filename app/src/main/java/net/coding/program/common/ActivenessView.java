@@ -20,22 +20,21 @@ import static net.coding.program.common.util.DensityUtil.dip2px;
  */
 public class ActivenessView extends View {
 
+    private final int COUNT_LINE = 7;
+    private final int WIDTH = 15;
+    ActiveModel activeModel;
     //高度宽度相关
     private int CHUNK_WIDTH;
     private int CHUNK_HEIGHT;
     private int CHUNK_GREY;
     private int LINE_HEIGHT;
-    private final int COUNT_LINE = 7;
     private int countX;
-
     //颜色
     private int LINE_WHITE;
     private int CHUNK_GREEN1;
     private int CHUNK_GREEN2;
     private int CHUNK_GREEN3;
     private int CHUNK_GREEN4;
-    private final int WIDTH = 15;
-
     private Context mContext;
     private Paint paint;
 
@@ -63,8 +62,6 @@ public class ActivenessView extends View {
         CHUNK_GREEN4 = context.getResources().getColor(R.color.chunkGreen4);
     }
 
-    ActiveModel activeModel;
-
     public void setActiveModel(ActiveModel activeModel) {
         this.activeModel = activeModel;
         int size = activeModel.daily_activeness.size();
@@ -80,7 +77,7 @@ public class ActivenessView extends View {
     }
 
     public int getTrendHeight() {
-        return  COUNT_LINE * dip2px(mContext, WIDTH);
+        return COUNT_LINE * dip2px(mContext, WIDTH);
     }
 
     @Override

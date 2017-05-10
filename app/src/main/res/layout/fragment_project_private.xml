@@ -49,29 +49,25 @@
                     layout="@layout/project_home_list_head_button1" />
 
 
-                <View
-                    style="@style/DivideLineHomeList" />
+                <View style="@style/DivideLineHomeList" />
 
                 <include
                     android:id="@+id/itemTask"
                     layout="@layout/project_home_list_head_button" />
 
-                <View
-                    style="@style/DivideLineHomeList" />
+                <View style="@style/DivideLineHomeList" />
 
                 <include
                     android:id="@+id/itemTopic"
                     layout="@layout/project_home_list_head_button" />
 
-                <View
-                    style="@style/DivideLineHomeList" />
+                <View style="@style/DivideLineHomeList" />
 
                 <include
                     android:id="@+id/itemDocment"
                     layout="@layout/project_home_list_head_button" />
 
-                <View
-                    style="@style/DivideLineHomeList" />
+                <View style="@style/DivideLineHomeList" />
 
                 <LinearLayout
                     android:id="@+id/codeLayout0"
@@ -84,8 +80,8 @@
                         layout="@layout/project_home_list_head_button" />
 
                     <View
-                        android:layout_marginLeft="50dp"
-                        style="@style/DivideLineHomeList" />
+                        style="@style/DivideLineHomeList"
+                        android:layout_marginLeft="50dp" />
 
                 </LinearLayout>
 
@@ -115,18 +111,17 @@
                     android:id="@+id/itemReadme"
                     layout="@layout/project_home_list_head_button" />
 
-                <View
-                    style="@style/DivideLineHomeList" />
+                <View style="@style/DivideLineHomeList" />
 
                 <include
                     android:id="@+id/itemMerge"
                     layout="@layout/project_home_list_head_button" />
 
-                 <!--迟早要加-->
+                <!--迟早要加-->
                 <include
-                    android:visibility="gone"
                     android:id="@+id/itemWiki"
-                    layout="@layout/project_home_list_head_button" />
+                    layout="@layout/project_home_list_head_button"
+                    android:visibility="gone" />
 
             </LinearLayout>
 

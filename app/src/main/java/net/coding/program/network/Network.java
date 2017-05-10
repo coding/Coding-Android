@@ -29,15 +29,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Network {
 
-    public static String BASE_URL = Global.HOST_API + "/";
-
     private static final int MAX_STALE = 60 * 60 * 24 * 28; // 无网络时，设置超时为4周
-
-    public enum CacheType {
-        noCache, // 不缓存数据, 仅使用网络
-        useCache, // 有网络就用网络取到的数据, 没有就用 cache
-        onlyCache // 只使用 cache
-    }
+    public static String BASE_URL = Global.HOST_API + "/";
 
     public static CodingRequest getRetrofit(Context context) {
         return getRetrofit(context, CacheType.noCache);
@@ -216,5 +209,11 @@ public class Network {
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build();
+    }
+
+    public enum CacheType {
+        noCache, // 不缓存数据, 仅使用网络
+        useCache, // 有网络就用网络取到的数据, 没有就用 cache
+        onlyCache // 只使用 cache
     }
 }

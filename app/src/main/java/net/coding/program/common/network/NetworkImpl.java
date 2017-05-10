@@ -36,10 +36,9 @@ public class NetworkImpl {
     public static final int NETWORK_ERROR_SERVICE = -2;
     public static final int NETWORK_CONNECT_FAIL = -2; // 联网失败
     public static final int NETWORK_ERROR_NEED_CAPTCHA = 907;
-    private final NetworkCallback callback;
     public static final String ERROR_MSG_CONNECT_FAIL = "连接服务器失败，请检查网络或稍后重试";
     public static final String ERROR_MSG_SERVICE_ERROR = "服务器内部错误，请稍后重试";
-
+    private final NetworkCallback callback;
     public HashMap<String, PageInfo> mPages = new HashMap<>();
     Context appContext;
     private HashMap<String, Boolean> mUpdateing = new HashMap<>();
@@ -92,7 +91,7 @@ public class NetworkImpl {
 
                     if (code == HTTP_CODE_RELOGIN || code == HTTP_CODE_RELOGIN_2FA) {
                         appContext.startActivity(new Intent(appContext, CodingCompat.instance().getLoginActivity()));
-                    }  else if (code == HTTP_CODE_NEED_ACTIVITY) {
+                    } else if (code == HTTP_CODE_NEED_ACTIVITY) {
                         if (!SetGlobalKeyActivity.isShowing()) {
                             Intent activityIntent = new Intent(appContext, SetGlobalKeyActivity_.class);
                             appContext.startActivity(activityIntent);

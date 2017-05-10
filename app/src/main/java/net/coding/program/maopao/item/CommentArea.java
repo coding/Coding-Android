@@ -22,14 +22,12 @@ public class CommentArea {
             R.id.comment3,
             R.id.comment4
     };
-
+    private static final int commentMaxCount = commentIds.length;
     private View commentMore;
     private Html.ImageGetter imageGetter;
     private TextView commentMoreCount;
     private View commentLayout;
-
     private CommentItem comment[];
-    private static final int commentMaxCount = commentIds.length;
 
     public CommentArea(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetterParamer) {
         imageGetter = imageGetterParamer;

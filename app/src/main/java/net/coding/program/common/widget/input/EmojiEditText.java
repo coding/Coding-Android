@@ -23,6 +23,7 @@ public class EmojiEditText extends EditText {
     int rootViewHigh;
 
     AppCompatActivity mActivity;
+    InputBaseCallback callback;
 
     public EmojiEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -125,8 +126,6 @@ public class EmojiEditText extends EditText {
         int rootParentHigh = rootView.getRootView().getHeight();
         return rootParentHigh - rootViewHigh > bottomHigh;
     }
-
-    InputBaseCallback callback;
 
     public void setCallback(InputBaseCallback callback) {
         this.callback = callback;

@@ -71,7 +71,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
 
     ArrayList<Object> mSearchData = new ArrayList<>();
     ArrayList<Merge.Reviewer> mReviewers = new ArrayList<>();
-    ArrayList<TaskObject.Members> mMembers= new ArrayList<>();
+    ArrayList<TaskObject.Members> mMembers = new ArrayList<>();
     ArrayList<String> mReviewerKey = new ArrayList<>();
     BaseAdapter adapter = new BaseAdapter() {
 
@@ -178,7 +178,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                     if (value > 0) {
                         if (TextUtils.equals(volunteer, "invitee")) {
                             holder.invitee.setVisibility(View.VISIBLE);
-                        } else{
+                        } else {
                             holder.invitee.setVisibility(View.GONE);
                         }
                         holder.reviewerStatus.setText("+1");
@@ -206,7 +206,6 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
             if (mSearchData.size() - 1 == position) {
                 loadMore();
             }
-
 
 
             return convertView;
@@ -339,7 +338,6 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
 //        showProgressBar(true);
         RequestParams params = new RequestParams("user_id", String.valueOf(user.id));
         postNetwork(mMerge.getHttpAddReviewer(), params, TAG_URL_ADD_REVIEWER, 0, member);
-
 
 
 //        new AlertDialog.Builder(getActivity())

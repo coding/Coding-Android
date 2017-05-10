@@ -26,13 +26,12 @@ import org.json.JSONObject;
 @OptionsMenu(R.menu.menu_fragment_project_home)
 public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
 
+    public static final String TAG_HOST_PROJECT = "TAG_HOST_PROJECT";
     @ViewById
     View codeLayout0, codeLayout1;
 
-    public static final String TAG_HOST_PROJECT = "TAG_HOST_PROJECT";
-
     protected ProjectFunction[] getItems() {
-        return new ProjectFunction[] {
+        return new ProjectFunction[]{
                 ProjectFunction.dynamic,
                 ProjectFunction.task,
                 ProjectFunction.topic,

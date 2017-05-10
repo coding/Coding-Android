@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="16dp"
-    android:background="@color/color_F6F6F6">
+    android:background="@color/color_F6F6F6"
+    android:paddingBottom="16dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/personImg"

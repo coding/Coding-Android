@@ -5,7 +5,7 @@
         android:id="@+id/action_code_search"
         android:icon="@drawable/ic_menu_search"
         android:title="@string/search"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_history"
         android:icon="@drawable/ic_menu_history"
@@ -31,10 +31,10 @@
                 android:title="@string/action_exit_code"
                 app:showAsAction="always" />
             <!--<item-->
-                <!--android:id="@+id/action_copy"-->
-                <!--android:icon="@drawable/ic_menu_link"-->
-                <!--android:title="@string/copy_link"-->
-                <!--app:showAsAction="ifRoom" />-->
+            <!--android:id="@+id/action_copy"-->
+            <!--android:icon="@drawable/ic_menu_link"-->
+            <!--android:title="@string/copy_link"-->
+            <!--app:showAsAction="ifRoom" />-->
         </menu>
     </item>
 </menu>

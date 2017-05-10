@@ -24,28 +24,23 @@ import org.json.JSONObject;
  */
 public class ValidePhoneView extends AppCompatTextView {
 
-    public enum Type {
-        normal(Global.HOST_API + "/user/generate_phone_code"),
-        register(Global.HOST_API + "/account/register/generate_phone_code"),
-        setPassword(Global.HOST_API + "/account/password/forget"),
-        close2FA(Global.HOST_API + "/twofa/close/code"),
-        valide(Global.HOST_API + "/account/phone/change/code");
-
-        String url = "";
-
-        Type(String url) {
-            this.url = url;
-        }
-    }
-
-    private MyJsonResponse parseJson;
-
     OnTextChange editPhone;
     String inputPhone = "";
-
     PhoneCountry pickCountry = PhoneCountry.getChina();
-
+    private MyJsonResponse parseJson;
     private Type type = Type.normal;
+    private CountDownTimer countDownTimer = new CountDownTimer(60000, 1000) {
+
+        public void onTick(long millisUntilFinished) {
+            ValidePhoneView.this.setText(String.format("%d秒", millisUntilFinished / 1000));
+            ValidePhoneView.this.setEnabled(false);
+        }
+
+        public void onFinish() {
+            ValidePhoneView.this.setEnabled(true);
+            ValidePhoneView.this.setText("发送验证码");
+        }
+    };
 
     public ValidePhoneView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -77,19 +72,6 @@ public class ValidePhoneView extends AppCompatTextView {
         countDownTimer.cancel();
         countDownTimer.start();
     }
-
-    private CountDownTimer countDownTimer = new CountDownTimer(60000, 1000) {
-
-        public void onTick(long millisUntilFinished) {
-            ValidePhoneView.this.setText(String.format("%d秒", millisUntilFinished / 1000));
-            ValidePhoneView.this.setEnabled(false);
-        }
-
-        public void onFinish() {
-            ValidePhoneView.this.setEnabled(true);
-            ValidePhoneView.this.setText("发送验证码");
-        }
-    };
 
     public void onStop() {
         countDownTimer.cancel();
@@ -147,5 +129,19 @@ public class ValidePhoneView extends AppCompatTextView {
         client.post(getContext(), type.url, params, parseJson);
 
         countDownTimer.start();
+    }
+
+    public enum Type {
+        normal(Global.HOST_API + "/user/generate_phone_code"),
+        register(Global.HOST_API + "/account/register/generate_phone_code"),
+        setPassword(Global.HOST_API + "/account/password/forget"),
+        close2FA(Global.HOST_API + "/twofa/close/code"),
+        valide(Global.HOST_API + "/account/phone/change/code");
+
+        String url = "";
+
+        Type(String url) {
+            this.url = url;
+        }
     }
 }

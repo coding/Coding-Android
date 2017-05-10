@@ -78,16 +78,16 @@
             android:id="@+id/linkContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/title"
             android:layout_marginTop="@dimen/padding_14"
-            android:padding="8dp"
+            android:background="@color/gray_dark"
             android:lineSpacingExtra="3dp"
-            android:visibility="gone"
+            android:padding="8dp"
             android:text="1111"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/font_2"
-            android:background="@color/gray_dark"
-            android:layout_below="@id/title"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 

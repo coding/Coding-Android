@@ -20,20 +20,18 @@ import java.util.ArrayList;
  * 根据音量大小产生音波扩散效果
  */
 public class SoundWaveView extends View {
-    private Context context;
-    //音波颜色
-    private int waveColor = 0xfffb8638;
     //最小声音大小(分贝)
     private final float minDecibel = 15.0f;
     //最大声音大小
     private final float maxDecibel = 85.0f;
-
     private final int Orientation_Left = 1;
     private final int Orientation_Right = 0;
+    private final int waveCout = 9;
+    private Context context;
+    //音波颜色
+    private int waveColor = 0xfffb8638;
     //音波震源位置
     private int soundOriginOrientation = Orientation_Right;
-
-    private final int waveCout = 9;
     //存储声音的队列
     private ArrayList<Float> queen = new ArrayList<Float>(waveCout);
     private Paint mPaint;

@@ -34,13 +34,13 @@ public class ProjectPullFragment extends BaseFragment {
 
         ((RadioGroup) getView().findViewById(R.id.checkGroup))
                 .setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.checkClose) {
-                mAdapter.setState(1);
-            } else {
-                mAdapter.setState(0);
-            }
-            mAdapter.notifyDataSetChanged();
-        });
+                    if (checkedId == R.id.checkClose) {
+                        mAdapter.setState(1);
+                    } else {
+                        mAdapter.setState(0);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                });
     }
 
     private static class PullPagerAdapter extends FragmentStatePagerAdapter {

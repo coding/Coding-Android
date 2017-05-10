@@ -41,21 +41,7 @@ import java.util.regex.Pattern;
 @EActivity(R.layout.activity_notify_list1)
 public class NotifyListActivity extends BackActivity implements FootUpdate.LoadMore {
 
-    final String HOST_MARK_AT = Global.HOST_API + "/notification/mark-read?all=1&type=0";
-    final String HOST_MARK_COMMENT = Global.HOST_API + "/notification/mark-read?all=1&type=1&type=2";
-    final String HOST_MARK_SYSTEM = Global.HOST_API + "/notification/mark-read?all=1&type=4&type=6";
-    private final String HOST_MARK_READ = Global.HOST_API + "/notification/mark-read";
-    @Extra
-    int type; // 1 和 2 为一类, 4 和 6 为一类
-
-    @ViewById
-    ListView listView;
-
-    @ViewById
-    View blankLayout;
-
     private static HashMap<String, Pair<Integer, Integer>> sHashMap = new HashMap<>();
-
 
     static {
         final int DEFAULT_BG = 0xFF14A9DA;
@@ -87,10 +73,19 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
         sHashMap.put("ProjectTweetComment", new Pair<>(R.drawable.ic_notify_project_tweet_comment, 0xFFFB8638));
     }
 
-    int defaultIcon = R.drawable.ic_notify_at;
-
-    ArrayList<NotifyObject> mData = new ArrayList<>();
+    final String HOST_MARK_AT = Global.HOST_API + "/notification/mark-read?all=1&type=0";
+    final String HOST_MARK_COMMENT = Global.HOST_API + "/notification/mark-read?all=1&type=1&type=2";
+    final String HOST_MARK_SYSTEM = Global.HOST_API + "/notification/mark-read?all=1&type=4&type=6";
     final String TAG_NOTIFY = "TAG_NOTIFY";
+    private final String HOST_MARK_READ = Global.HOST_API + "/notification/mark-read";
+    @Extra
+    int type; // 1 和 2 为一类, 4 和 6 为一类
+    @ViewById
+    ListView listView;
+    @ViewById
+    View blankLayout;
+    int defaultIcon = R.drawable.ic_notify_at;
+    ArrayList<NotifyObject> mData = new ArrayList<>();
     String URI_NOTIFY;
     View.OnClickListener onClickItem = new View.OnClickListener() {
         @Override
@@ -247,8 +242,10 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
             return convertView;
         }
     };
-
+    View.OnClickListener onClickRetry = v -> loadMore();
     private boolean isShowNoRead = false;
+    private MenuItem menuItemShowNoRead;
+    private MenuItem menuItemShowAll;
 
     private void setUrl(boolean showNoRead) {
         isShowNoRead = showNoRead;
@@ -268,7 +265,6 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
         }
     }
 
-
     @AfterViews
     protected final void initNotifyListActivity() {
         showDialogLoading();
@@ -284,20 +280,6 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
         loadMore();
     }
 
-    private MenuItem menuItemShowNoRead;
-    private MenuItem menuItemShowAll;
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(net.coding.program.R.menu.notify_list_activity, menu);
-        menuItemShowNoRead = menu.findItem(R.id.showNoRead);
-        menuItemShowAll = menu.findItem(R.id.showAll);
-        menuItemShowAll.setVisible(false);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
 //        int itemId_ = item.getItemId();
@@ -311,6 +293,17 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 //        }
 //        return super.onOptionsItemSelected(item);
 //    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(net.coding.program.R.menu.notify_list_activity, menu);
+        menuItemShowNoRead = menu.findItem(R.id.showNoRead);
+        menuItemShowAll = menu.findItem(R.id.showAll);
+        menuItemShowAll.setVisible(false);
+
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @OptionsItem
     void showNoRead() {
@@ -363,8 +356,6 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
             defaultIcon = R.drawable.ic_notify_comment;
         }
     }
-
-    View.OnClickListener onClickRetry = v -> loadMore();
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {

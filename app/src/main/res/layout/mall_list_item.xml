@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:addStatesFromChildren="true"
+    android:background="@color/white"
     android:orientation="vertical"
     android:paddingBottom="10dp"
     android:paddingLeft="7dp"
-    android:background="@color/white"
     android:paddingRight="7dp"
     android:paddingTop="10dp">
     <!--android:paddingLeft="16dp"-->

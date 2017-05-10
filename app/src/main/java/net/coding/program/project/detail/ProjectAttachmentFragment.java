@@ -46,8 +46,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-import static android.R.id.input;
-
 /**
  * Created by yangzhen on 2014/10/25.
  * 文件列表的一级目录
@@ -56,28 +54,24 @@ import static android.R.id.input;
 public class ProjectAttachmentFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
     public static final int RESULT_REQUEST_FILES = 1;
     final public static int RESULT_MOVE_FOLDER = 13;
-
+    private final String TAG_MOVE_FOLDER = "TAG_MOVE_FOLDER";
     @FragmentArg
     ProjectObject mProjectObject;
-
     @ViewById
     ListView listView;
-    
     @ViewById
     View blankLayout;
-
     ArrayList<AttachmentFolderObject> selectFolder;
+    AttachmentFolderObject pickedFolderObject;
     private ArrayList<AttachmentFolderObject> mData = new ArrayList<>();
     private String HOST_FOLDER = Global.HOST_API + "/project/%d/all_folders?pageSize=9999";
     private String HOST_FILECOUNT = Global.HOST_API + "/project/%d/folders/all-file-count-with-share";
     private String HOST_FOLDER_NAME = Global.HOST_API + "/project/%d/dir/%s/name/%s";
     private String HOST_FOLDER_NEW = Global.HOST_API + "/project/%d/mkdir";
-
     private String HOST_FOLDER_DELETE_FORMAT = Global.HOST_API + "/project/%d/rmdir/%s";
     private String HOST_FOLDER_DELETE;
     private HashMap<String, Integer> fileCountMap = new HashMap<>();
     private boolean isEditMode = false;
-
     /**
      * 弹出框
      */
@@ -351,6 +345,7 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
 
     /**
      * 重命名文件
+     *
      * @param position
      * @param folderObject
      */
@@ -448,6 +443,7 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
 
     /**
      * 删除单个文件
+     *
      * @param selectedFolderObject
      */
     void action_delete_single(AttachmentFolderObject selectedFolderObject) {
@@ -543,8 +539,6 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
                 .show();
     }
 
-    AttachmentFolderObject pickedFolderObject;
-
     private void actionMove(AttachmentFolderObject folderObject) {
         pickedFolderObject = folderObject;
         AttachmentsFolderSelectorActivity_.intent(this)
@@ -571,8 +565,6 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
             putNetwork(host, null, TAG_MOVE_FOLDER, selectedFolder);
         }
     }
-
-    private final String TAG_MOVE_FOLDER = "TAG_MOVE_FOLDER";
 
     static class ViewHolder {
         ImageView icon;

@@ -35,6 +35,41 @@ public class TeamMemberListActivity extends BackActivity {
     ListView listView;
 
     ArrayList<TeamMember> listData = new ArrayList<>();
+    SimpleAdapter listAdapter = new SimpleAdapter<TeamMember, ViewHolder>(listData) {
+        @Override
+        public void bindData(ViewHolder holder, TeamMember data, int postion) {
+            TaskObject.Members.Type type = TaskObject.Members.Type.idToEnum(data.role);
+            int iconRes = type.getIcon();
+            if (iconRes == 0) {
+                holder.ic.setVisibility(View.INVISIBLE);
+            } else {
+                holder.ic.setVisibility(View.VISIBLE);
+                holder.ic.setImageResource(iconRes);
+            }
+
+            if (!data.alias.isEmpty()) {
+                holder.alias.setText(data.alias);
+                holder.alias.setVisibility(View.VISIBLE);
+            } else {
+                holder.alias.setVisibility(View.GONE);
+            }
+
+            holder.name.setText(data.user.name);
+            iconfromNetwork(holder.icon, data.user.avatar);
+
+            holder.bottomLine.setVisibility(postion >= getCount() - 1 ? View.INVISIBLE : View.VISIBLE);
+        }
+
+        @Override
+        public int getItemlayoutId() {
+            return R.layout.team_member_list_item;
+        }
+
+        @Override
+        public ViewHolder createViewHolder(View v) {
+            return new ViewHolder(v);
+        }
+    };
 
     @AfterViews
     void initTeamMemberListAcitvity() {
@@ -73,42 +108,6 @@ public class TeamMemberListActivity extends BackActivity {
             super.parseJson(code, respanse, tag, pos, data);
         }
     }
-
-    SimpleAdapter listAdapter = new SimpleAdapter<TeamMember, ViewHolder>(listData) {
-        @Override
-        public void bindData(ViewHolder holder, TeamMember data, int postion) {
-            TaskObject.Members.Type type = TaskObject.Members.Type.idToEnum(data.role);
-            int iconRes = type.getIcon();
-            if (iconRes == 0) {
-                holder.ic.setVisibility(View.INVISIBLE);
-            } else {
-                holder.ic.setVisibility(View.VISIBLE);
-                holder.ic.setImageResource(iconRes);
-            }
-
-            if (!data.alias.isEmpty()) {
-                holder.alias.setText(data.alias);
-                holder.alias.setVisibility(View.VISIBLE);
-            } else {
-                holder.alias.setVisibility(View.GONE);
-            }
-
-            holder.name.setText(data.user.name);
-            iconfromNetwork(holder.icon, data.user.avatar);
-
-            holder.bottomLine.setVisibility(postion >= getCount() - 1 ? View.INVISIBLE : View.VISIBLE);
-        }
-
-        @Override
-        public int getItemlayoutId() {
-            return R.layout.team_member_list_item;
-        }
-
-        @Override
-        public ViewHolder createViewHolder(View v) {
-            return new ViewHolder(v);
-        }
-    };
 
     static class ViewHolder {
         ImageView icon;

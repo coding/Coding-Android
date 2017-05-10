@@ -72,29 +72,12 @@ public class Merge implements Serializable {
         srcExist = json.optBoolean("srcExist");
         content = json.optString("content", "");
         body_plan = json.optString("body_plan", "");
-        body = json.optString("body","");
+        body = json.optString("body", "");
         granted = json.optInt("granted", 0);
         commentCount = json.optInt("comment_count", 0);
     }
 
-    public void setAuthor(UserObject author) {
-        this.author = author;
-    }
-
-    public void setAction_at(long action_at) {
-        this.action_at = action_at;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setSrcBranch(String srcBranch) {
-        this.srcBranch = srcBranch;
+    public Merge() {
     }
 
     public String getDesBranch() {
@@ -103,14 +86,6 @@ public class Merge implements Serializable {
 
     public void setDesBranch(String desBranch) {
         this.desBranch = desBranch;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setIid(int iid) {
-        this.iid = iid;
     }
 
     public String getMerge_status() {
@@ -177,6 +152,10 @@ public class Merge implements Serializable {
         return body_plan;
     }
 
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public boolean authorIsMe() {
         return author.isMe();
     }
@@ -185,6 +164,9 @@ public class Merge implements Serializable {
         return author;
     }
 
+    public void setAuthor(UserObject author) {
+        this.author = author;
+    }
 
     public boolean isStyleCanMerge() {
         return merge_status.equals(STYLE_CANMERGE);
@@ -198,12 +180,24 @@ public class Merge implements Serializable {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public int getIid() {
         return iid;
     }
 
+    public void setIid(int iid) {
+        this.iid = iid;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public ActionAuthor getActionAuthor() {
@@ -218,7 +212,8 @@ public class Merge implements Serializable {
         }
     }
 
-    public Merge() {
+    public void setSrcBranch(String srcBranch) {
+        this.srcBranch = srcBranch;
     }
 
     public boolean isPull() {
@@ -262,6 +257,10 @@ public class Merge implements Serializable {
 
     public long getAction_at() {
         return action_at;
+    }
+
+    public void setAction_at(long action_at) {
+        this.action_at = action_at;
     }
 
     public String getBody() {
@@ -435,6 +434,7 @@ public class Merge implements Serializable {
         public int value;
         public String volunteer; //invitee
         public UserObject user = new UserObject();
+
         public Reviewer(JSONObject json) throws JSONException {
             value = json.optInt("value");
             volunteer = json.optString("volunteer");

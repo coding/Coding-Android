@@ -29,7 +29,7 @@ public class TopicLabelObject implements Serializable {
         String colorString = json.optString("color", "");
         try {
             color = Color.parseColor(colorString);
-        } catch (Exception e){
+        } catch (Exception e) {
             color = CodingColor.font1;
         }
     }

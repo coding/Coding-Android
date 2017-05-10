@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/divide"
+    android:orientation="vertical"
     tools:context="net.coding.program.maopao.InformMaopaoActivity">
 
     <TextView
@@ -13,11 +13,11 @@
         android:text="举报类型" />
 
     <ListView
-        android:headerDividersEnabled="true"
-        android:footerDividersEnabled="true"
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/stand_bg"
-        android:id="@+id/listView"/>
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true" />
 
 </LinearLayout>

@@ -24,7 +24,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Vernon on 15/11/30.
- *
  */
 public class SearchUserAdapter extends BaseAdapter {
     private List<UserObject> mData;

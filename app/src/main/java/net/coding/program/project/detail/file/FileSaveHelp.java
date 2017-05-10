@@ -22,6 +22,19 @@ public class FileSaveHelp {
         defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
     }
 
+    public static String getFileDownloadPath(Context context) {
+        if (context == null) {
+            return Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
+        }
+
+        return new FileSaveHelp(context).getFileDownloadPath();
+    }
+
+    public static String getFileDownloadAbsolutePath(Context context) {
+        String path = new FileSaveHelp(context).getFileDownloadPath();
+        return FileUtil.getDestinationInExternalPublicDir(path);
+    }
+
     public String getFileDownloadPath() {
         String path;
         if (share.contains(FileUtil.DOWNLOAD_PATH)) {
@@ -44,18 +57,5 @@ public class FileSaveHelp {
 
     public String getDefaultPath() {
         return defaultPath;
-    }
-
-    public static String getFileDownloadPath(Context context) {
-        if (context == null) {
-            return Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
-        }
-
-        return new FileSaveHelp(context).getFileDownloadPath();
-    }
-
-    public static String getFileDownloadAbsolutePath(Context context) {
-        String path = new FileSaveHelp(context).getFileDownloadPath();
-        return FileUtil.getDestinationInExternalPublicDir(path);
     }
 }

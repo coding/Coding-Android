@@ -23,11 +23,9 @@ public class ProjectMaopaoAddActivity extends BackActivity implements EditPrevie
 
     @Extra
     ProjectObject projectObject;
-
-    private TopicData modifyData = new TopicData();
-
     ProjectMaopaoEditFragment editFragment;
     ProjectMaopaoPreviewFragment previewFragment;
+    private TopicData modifyData = new TopicData();
 
     @AfterViews
     protected final void initProjectMaopaoAddActivity() {

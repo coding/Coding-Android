@@ -46,7 +46,7 @@
         <attr name="taskIconUser" format="boolean" />
         <attr name="taskTopLine" format="boolean" />
     </declare-styleable>
-    
+
     <declare-styleable name="IconTextView">
         <attr name="iconTextIcon" format="reference" />
         <attr name="iconTextTitle" format="string" />
@@ -66,14 +66,14 @@
     </declare-styleable>
 
     <declare-styleable name="SoundWaveView">
-        <attr name="waveColor" format="color"/>
+        <attr name="waveColor" format="color" />
         <attr name="soundOriginOrientation">
-            <enum name="left" value="1"/>
-            <enum name="right" value="0"/>
+            <enum name="left" value="1" />
+            <enum name="right" value="0" />
         </attr>
     </declare-styleable>
     <declare-styleable name="EnterLayoutAnimSupportContainer">
-        <attr name="isAdjustResize" format="boolean"/>
+        <attr name="isAdjustResize" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="LoginEditText">
@@ -91,7 +91,7 @@
     </declare-styleable>
 
     <declare-styleable name="VoiceView">
-        <attr name="InputType" format="enum" >
+        <attr name="InputType" format="enum">
             <enum name="message" value="0" />
             <enum name="comment" value="1" />
         </attr>

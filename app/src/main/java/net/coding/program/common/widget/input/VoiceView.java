@@ -48,42 +48,19 @@ import java.util.UUID;
 @EViewGroup(R.layout.input_view_voice_view)
 public class VoiceView extends FrameLayout {
 
-    private AppCompatActivity activity;
-
-    private AnimationDrawable voiceRecrodAnimtion;
-
-    private AmrAudioRecorder mAmrAudioRecorder;
-    private boolean isRecoding;
-
-    private String out = null;
-
-    private float touchY;
-
     @ViewById
     ViewGroup soundWaveLayout;
-
     @ViewById
     ImageButton voiceRecordButton;
-
     @ViewById
     SoundWaveView soundWaveLeft, soundWaveRight;
-
     @ViewById
     TextView recordTime, tips_hold_to_talk;
-
-    public VoiceView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-
-
-        activity = (AppCompatActivity) getContext();
-    }
-
-    @AfterViews
-    void initVoiceView() {
-        voiceRecrodAnimtion = (AnimationDrawable) voiceRecordButton.getBackground();
-    }
-
-
+    private AppCompatActivity activity;
+    private AnimationDrawable voiceRecrodAnimtion;
+    private AmrAudioRecorder mAmrAudioRecorder;
+    private boolean isRecoding;
+    private String out = null;
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -116,6 +93,31 @@ public class VoiceView extends FrameLayout {
             }
         }
     };
+    private float touchY;
+    private AmrAudioRecorder.VoiceRecordingCallBack mVoiceRecordingCallBack = new AmrAudioRecorder.VoiceRecordingCallBack() {
+        @Override
+        public void onRecord(long duration, double volume) {
+            Message m = Message.obtain();
+            Bundle data = new Bundle();
+            data.putDouble("volume", volume);
+            data.putLong("duration", duration);
+            m.setData(data);
+            mHandler.sendMessage(m);
+        }
+    };
+
+
+    public VoiceView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+
+
+        activity = (AppCompatActivity) getContext();
+    }
+
+    @AfterViews
+    void initVoiceView() {
+        voiceRecrodAnimtion = (AnimationDrawable) voiceRecordButton.getBackground();
+    }
 
     private void sendVoice() {
         tips_hold_to_talk.setText(R.string.hold_to_talk);
@@ -234,7 +236,6 @@ public class VoiceView extends FrameLayout {
         return false;
     }
 
-
     private void cancelRecord() {
         stopRecord();
         isRecoding = false;
@@ -293,19 +294,6 @@ public class VoiceView extends FrameLayout {
             isRecoding = true;
         }
     }
-
-    private AmrAudioRecorder.VoiceRecordingCallBack mVoiceRecordingCallBack = new AmrAudioRecorder.VoiceRecordingCallBack() {
-        @Override
-        public void onRecord(long duration, double volume) {
-            Message m = Message.obtain();
-            Bundle data = new Bundle();
-            data.putDouble("volume", volume);
-            data.putLong("duration", duration);
-            m.setData(data);
-            mHandler.sendMessage(m);
-        }
-    };
-
 
     private void showToast(int rid) {
         TextView tv = new TextView(activity);

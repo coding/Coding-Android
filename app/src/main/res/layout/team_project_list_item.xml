@@ -61,8 +61,8 @@
         tools:text="aaaaa" />
 
     <View
-        style="@style/DivideLine"
         android:id="@+id/bottomLine"
+        style="@style/DivideLine"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="15dp" />
 

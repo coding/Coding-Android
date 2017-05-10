@@ -25,21 +25,21 @@
             <ImageView
                 android:id="@+id/colorPreview"
                 android:layout_width="30dp"
-                android:src="@drawable/ic_custom_color"
-                android:scaleType="center"
                 android:layout_height="30dp"
-                android:background="@drawable/round_color_preview" />
+                android:background="@drawable/round_color_preview"
+                android:scaleType="center"
+                android:src="@drawable/ic_custom_color" />
 
             <EditText
                 android:id="@+id/editText"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="14dp"
                 android:layout_marginRight="@dimen/padding_15"
                 android:layout_weight="1"
                 android:background="@null"
                 android:ellipsize="end"
                 android:hint="新增标签"
-                android:layout_marginLeft="14dp"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:text=""
@@ -49,12 +49,12 @@
 
             <ImageView
                 android:id="@+id/action_add"
-                android:src="@drawable/ic_label_color_add"
-                android:scaleType="center"
                 android:layout_width="55.7dp"
                 android:layout_height="30.7dp"
                 android:background="@drawable/topic_label_add_btn_bg"
                 android:gravity="center"
+                android:scaleType="center"
+                android:src="@drawable/ic_label_color_add"
                 android:textColor="@color/font_green"
                 android:textSize="12sp" />
 

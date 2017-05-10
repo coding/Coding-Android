@@ -29,17 +29,14 @@ public class PhotoPickDetailActivity extends UmengActivity {
     public static final String FOLDER_NAME = "FOLDER_NAME";
     public static final String PHOTO_BEGIN = "PHOTO_BEGIN";
     public static final String EXTRA_MAX = "EXTRA_MAX";
-
-    private ArrayList<ImageInfo> mPickPhotos;
-    private ArrayList<ImageInfo> mAllPhotos;
-
-    private ViewPager mViewPager;
-    private CheckBox mCheckBox;
-
-    private int mMaxPick = MaopaoAddActivity.PHOTO_MAX_COUNT;
-    private MenuItem mMenuSend;
     private final String actionbarTitle = "%d/%d";
     Cursor mCursor;
+    private ArrayList<ImageInfo> mPickPhotos;
+    private ArrayList<ImageInfo> mAllPhotos;
+    private ViewPager mViewPager;
+    private CheckBox mCheckBox;
+    private int mMaxPick = MaopaoAddActivity.PHOTO_MAX_COUNT;
+    private MenuItem mMenuSend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,6 +199,28 @@ public class PhotoPickDetailActivity extends UmengActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    String getImagePath(int pos) {
+        if (mAllPhotos != null) {
+            return mAllPhotos.get(pos).path;
+        } else {
+            String path = "";
+            if (mCursor.moveToPosition(pos)) {
+                path = ImageInfo.pathAddPreFix(mCursor.getString(1));
+            }
+            return path;
+        }
+    }
+
+    int getImageCount() {
+        if (mAllPhotos != null) {
+            return mAllPhotos.size();
+        } else if (mCursor != null) {
+            return mCursor.getCount();
+        } else {
+            return 0;
+        }
+    }
+
     class ImagesAdapter extends FragmentStatePagerAdapter {
 
         ImagesAdapter(FragmentManager fm) {
@@ -222,28 +241,6 @@ public class PhotoPickDetailActivity extends UmengActivity {
         @Override
         public int getCount() {
             return getImageCount();
-        }
-    }
-
-    String getImagePath(int pos) {
-        if (mAllPhotos != null) {
-            return mAllPhotos.get(pos).path;
-        } else {
-            String path = "";
-            if (mCursor.moveToPosition(pos)) {
-                path = ImageInfo.pathAddPreFix(mCursor.getString(1));
-            }
-            return path;
-        }
-    }
-
-    int getImageCount() {
-        if (mAllPhotos != null) {
-            return mAllPhotos.size();
-        } else if (mCursor != null) {
-            return mCursor.getCount();
-        } else {
-            return 0;
         }
     }
 

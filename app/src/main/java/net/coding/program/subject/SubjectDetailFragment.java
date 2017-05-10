@@ -11,7 +11,6 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.maopao.MaopaoListBaseFragment;
-import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.Maopao;
 import net.coding.program.model.Subject;
 import net.coding.program.model.UserObject;
@@ -45,14 +44,8 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
 
     View mListHeaderView;
     TextView mSubjectDetailJoin;
-
-    @Override
-    protected void setActionTitle() {
-    }
-
     private TextView mJoinedPeopleTv;
     private FlowLayout mAllJoinedPeopleLayout;
-
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -64,6 +57,10 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
             }
         }
     };
+
+    @Override
+    protected void setActionTitle() {
+    }
 
     @AfterViews
     protected void init() {

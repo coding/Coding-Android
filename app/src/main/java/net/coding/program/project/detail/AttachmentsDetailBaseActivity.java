@@ -47,8 +47,11 @@ import cz.msebera.android.httpclient.Header;
 public class AttachmentsDetailBaseActivity extends BackActivity {
 
     private static final int RESULT_SHARE_LINK = 1;
+    private static final String TAG_SHARE_LINK_ON = "TAG_SHARE_LINK_ON";
     private static String TAG = AttachmentsDetailBaseActivity.class.getSimpleName();
     protected File mFile;
+    @Extra
+    protected File mExtraFile;
     @Extra
     boolean mHideHistory = false;
     @Extra
@@ -59,9 +62,6 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
     AttachmentFileObject mAttachmentFileObject;
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
-    @Extra
-    protected File mExtraFile;
-
     String urlDownload = "";
     AsyncHttpClient client;
     String fileInfoFormat =
@@ -210,8 +210,6 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
         Global.copy(this, preViewUrl);
         showButtomToast("已复制 " + preViewUrl);
     }
-
-    private static final String TAG_SHARE_LINK_ON = "TAG_SHARE_LINK_ON";
 
     @OptionsItem
     protected final void action_link_public() {

@@ -27,16 +27,14 @@ import org.json.JSONObject;
 public class SetGlobalKeyActivity extends BackActivity {
 
     private static boolean isShowing = false;
+    @ViewById
+    LoginEditText globalKeyEdit;
+    @ViewById
+    View loginButton;
 
     public static boolean isShowing() {
         return isShowing;
     }
-
-    @ViewById
-    LoginEditText globalKeyEdit;
-
-    @ViewById
-    View loginButton;
 
     @AfterViews
     final void initPhoneSetPasswordActivity() {

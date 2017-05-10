@@ -53,9 +53,8 @@ public class WebActivity extends BaseActivity {
 
     @ViewById
     protected ProgressBar progressBar;
-
-    String loading = "";
     protected TextView actionbarTitle;
+    String loading = "";
 
     @AfterViews
     protected final void initWebActivity() {
@@ -217,6 +216,16 @@ public class WebActivity extends BaseActivity {
         shareBoard.showAtLocation(decorView, Gravity.BOTTOM, 0, winHeight - rect.bottom);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMSsoHandler ssoHandler = CustomShareBoard.getShareController().getConfig().getSsoHandler(
+                requestCode);
+        if (ssoHandler != null) {
+            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
+    }
+
     public static class CustomWebViewClient extends WebViewClient {
 
         Context mContext;
@@ -233,16 +242,6 @@ public class WebActivity extends BaseActivity {
             }
 
             return !openActivity;
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        UMSsoHandler ssoHandler = CustomShareBoard.getShareController().getConfig().getSsoHandler(
-                requestCode);
-        if (ssoHandler != null) {
-            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
     }
 }

@@ -22,7 +22,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Vernon on 15/11/30.
- *
  */
 public class SearchMergeAdapter extends BaseAdapter {
     private List<MergeObject> mData;

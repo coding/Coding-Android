@@ -30,29 +30,11 @@ public class SearchFileFragment extends SearchBaseFragment {
     ArrayList<AttachmentFileObject> mData = new ArrayList<>();
     String page = "&page=%s";
     int pos = 1;
+    SearchFileAdapter adapter;
     private String keyword = "";
     private String tabPrams;
     private boolean hasMore = true;
     private boolean isLoading = true;
-
-    SearchFileAdapter adapter;
-
-    @AfterViews
-    protected void init() {
-        initRefreshLayout();
-        setRefreshing(true);
-        mFootUpdate.init(listView, mInflater, this);
-        adapter = new SearchFileAdapter(mData, keyword, getActivity());
-        listView.setOnScrollListener(mOnScrollListener);
-        listView.setAdapter(adapter);
-        loadMore();
-    }
-
-    @ItemClick
-    final void listView(AttachmentFileObject itemData) {
-        AttachmentsDetailBaseActivity_.intent(this).mAttachmentFileObject(itemData).start();
-    }
-
     AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -70,8 +52,28 @@ public class SearchFileFragment extends SearchBaseFragment {
         }
     };
 
+    @AfterViews
+    protected void init() {
+        initRefreshLayout();
+        setRefreshing(true);
+        mFootUpdate.init(listView, mInflater, this);
+        adapter = new SearchFileAdapter(mData, keyword, getActivity());
+        listView.setOnScrollListener(mOnScrollListener);
+        listView.setAdapter(adapter);
+        loadMore();
+    }
+
+    @ItemClick
+    final void listView(AttachmentFileObject itemData) {
+        AttachmentsDetailBaseActivity_.intent(this).mAttachmentFileObject(itemData).start();
+    }
+
     public String getKeyword() {
         return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public String getTabPrams() {
@@ -80,10 +82,6 @@ public class SearchFileFragment extends SearchBaseFragment {
 
     public void setTabPrams(String tabPrams) {
         this.tabPrams = tabPrams;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
     }
 
     private String getUrl(int pos) {

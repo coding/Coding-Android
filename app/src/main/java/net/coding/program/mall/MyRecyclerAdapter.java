@@ -36,6 +36,14 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
     private int lastPosition = -1;
 
+    public MyRecyclerAdapter(ArrayList<MallItemObject> mData, double userPoint,
+                             ImageLoadTool imageLoader, Context context) {
+        this.mDataList.addAll(mData);
+        this.userPoint = userPoint;
+        this.imageLoader = imageLoader;
+        this.context = context;
+    }
+
     public void addAll(ArrayList<MallItemObject> data) {
         this.mDataList.addAll(data);
     }
@@ -50,36 +58,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
     public void setUserPoint(double userPoint) {
         this.userPoint = userPoint;
-    }
-
-    public MyRecyclerAdapter(ArrayList<MallItemObject> mData, double userPoint,
-                             ImageLoadTool imageLoader, Context context) {
-        this.mDataList.addAll(mData);
-        this.userPoint = userPoint;
-        this.imageLoader = imageLoader;
-        this.context = context;
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView name;
-
-        TextView points_cost;
-
-        ImageView image;
-
-        ImageView exchange;
-
-        LinearLayout container;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            name = (TextView) itemView.findViewById(R.id.mall_list_item_title);
-            points_cost = (TextView) itemView.findViewById(R.id.mall_list_item_cost);
-            image = (ImageView) itemView.findViewById(R.id.mall_list_item_img);
-            exchange = (ImageView) itemView.findViewById(R.id.mall_list_item_exchange);
-            container = (LinearLayout) itemView.findViewById(R.id.mall_list_item_container);
-        }
     }
 
     @Override
@@ -147,6 +125,28 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                     .loadAnimation(context, R.anim.item_bottom_in);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
+        }
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView name;
+
+        TextView points_cost;
+
+        ImageView image;
+
+        ImageView exchange;
+
+        LinearLayout container;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            name = (TextView) itemView.findViewById(R.id.mall_list_item_title);
+            points_cost = (TextView) itemView.findViewById(R.id.mall_list_item_cost);
+            image = (ImageView) itemView.findViewById(R.id.mall_list_item_img);
+            exchange = (ImageView) itemView.findViewById(R.id.mall_list_item_exchange);
+            container = (LinearLayout) itemView.findViewById(R.id.mall_list_item_container);
         }
     }
 }

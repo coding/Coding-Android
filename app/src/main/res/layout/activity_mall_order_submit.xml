@@ -109,9 +109,9 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1.5dp"
-                android:background="@color/divide_line"
                 android:layout_marginBottom="14dp"
-                android:layout_marginTop="14dp" />
+                android:layout_marginTop="14dp"
+                android:background="@color/divide_line" />
 
             <!--android:paddingTop="15dp"-->
             <!--android:layout_gravity="center_vertical"-->
@@ -205,9 +205,9 @@
                 android:id="@+id/mall_order_edit_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:layout_marginTop="18dp"
                 android:hint="街道地址"
                 android:paddingBottom="14dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"

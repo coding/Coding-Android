@@ -57,17 +57,16 @@ public class TaskFilterFragment extends LoadingFragment {
     //某个成员的任务数量
     protected final String urlSome_Count = Global.HOST_API + "/project/%s/user/%s/tasks/counts";
     protected final String urlSome_Label = Global.HOST_API + "/project/%s/user/%s/tasks/labels";
-
+    protected final String[] mMeActions = new String[]{"owner", "watcher", "creator"};
     //任务筛选
     protected TextView toolBarTitle;
     protected List<TaskLabelModel> taskLabelModels = new ArrayList<>();
-    protected final String[] mMeActions = new String[]{"owner", "watcher", "creator"};
     protected FilterModel mFilterModel;
     protected int statusIndex = 0;////筛选的index
 
     //数量关联的唯一对象
     protected TaskProjectCountModel mTaskProjectCountModel;
-
+    private DrawerLayout drawerLayout;
 
     protected String getRole() {
         if (statusIndex >= mMeActions.length) {
@@ -93,7 +92,6 @@ public class TaskFilterFragment extends LoadingFragment {
         View viewById = getActivity().findViewById(R.id.ll_task_filter);
         viewById.setVisibility(viewById.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
     }
-
 
     private void iniTaskStatus() {
         if (getActivity() == null) return;
@@ -154,7 +152,7 @@ public class TaskFilterFragment extends LoadingFragment {
         EventBus.getDefault().post(new EventFilterDetail(mMeActions[statusIndex], mFilterModel));
     }
 
-    protected void setDrawerData(){
+    protected void setDrawerData() {
         if (mFilterModel == null) {
             mFilterModel = new FilterModel(taskLabelModels);
         } else {
@@ -177,8 +175,7 @@ public class TaskFilterFragment extends LoadingFragment {
         updateDrawer(mFilterModel);
     }
 
-    private DrawerLayout drawerLayout;
-    private void updateDrawer(FilterModel filterModel){
+    private void updateDrawer(FilterModel filterModel) {
         drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         if (drawerLayout == null) {
             return;
@@ -207,12 +204,12 @@ public class TaskFilterFragment extends LoadingFragment {
         }
     }
 
-    public void setStatusIndex(int statusIndex) {
-        this.statusIndex = statusIndex;
-    }
-
     public int getStatusIndex() {
         return statusIndex;
+    }
+
+    public void setStatusIndex(int statusIndex) {
+        this.statusIndex = statusIndex;
     }
 
     @Override

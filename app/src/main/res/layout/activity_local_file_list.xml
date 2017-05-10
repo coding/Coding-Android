@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/divide"
+    android:orientation="vertical"
     tools:context="net.coding.program.project.detail.file.LocalFileListActivity">
 
     <ListView
@@ -19,9 +19,9 @@
     <FrameLayout
         android:id="@+id/common_files_delete"
         android:layout_width="match_parent"
-        android:visibility="gone"
+        android:layout_height="48dp"
         android:background="@color/stand_bg"
-        android:layout_height="48dp" >
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"

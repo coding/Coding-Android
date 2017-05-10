@@ -125,7 +125,7 @@ public class SearchTopicAdapter extends BaseAdapter {
 
     static class ViewHolder {
         TextView nameTask;
-//        TextView descTask;
+        //        TextView descTask;
         TextView bottomName;
         TextView bottomTime;
         TextView bottomCommentCount;

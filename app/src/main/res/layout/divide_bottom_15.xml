@@ -4,7 +4,6 @@
     android:layout_height="15dp"
     android:background="@color/divide">
 
-    <View
-        style="@style/DivideSectionBottom5" />
+    <View style="@style/DivideSectionBottom5" />
 
 </FrameLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/MaopaoItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,17 +9,16 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools"
     android:paddingLeft="@dimen/padding_12"
     android:paddingRight="@dimen/padding_12">
 
     <View
         android:id="@+id/view_divider"
         android:layout_width="match_parent"
-        android:background="@color/divide"
+        android:layout_height="6dp"
         android:layout_marginLeft="-15dp"
         android:layout_marginRight="-15dp"
-        android:layout_height="6dp" />
+        android:background="@color/divide" />
 
     <include
         android:id="@+id/view_divider2"
@@ -234,60 +234,60 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="@null"
-                android:visibility="gone"
-                android:src="@drawable/maopao_item_share" />
+                android:src="@drawable/maopao_item_share"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/commentBtn"
+                style="@style/ListItemComment"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                tools:text="17"
-                android:src="@drawable/checkbox_comment"
                 android:layout_marginRight="3dp"
-                style="@style/ListItemComment" />
+                android:src="@drawable/checkbox_comment"
+                tools:text="17" />
 
             <CheckBox
                 android:id="@+id/likeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="3dp"
                 android:layout_marginRight="8dp"
                 android:background="@null"
-                android:paddingLeft="9dp"
 
-                android:textSize="14sp"
-                android:textColor="@color/font_3"
-                android:text="0"
-                tools:text="55"
                 android:button="@drawable/checkbox_good"
-                android:layout_marginLeft="3dp" />
+                android:paddingLeft="9dp"
+                android:text="0"
+                android:textColor="@color/font_3"
+                android:textSize="14sp"
+                tools:text="55" />
 
             <TextView
+                android:id="@+id/rewardCount"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:drawableLeft="@drawable/maopao_extra_reward"
-                android:layout_toRightOf="@id/likeBtn"
-                android:drawablePadding="9dp"
-                android:id="@+id/rewardCount"
                 android:layout_marginLeft="8dp"
-                android:textSize="14sp"
-                android:textColor="@color/font_3"
+                android:layout_toRightOf="@id/likeBtn"
+                android:drawableLeft="@drawable/maopao_extra_reward"
+                android:drawablePadding="9dp"
                 android:gravity="center"
-                tools:text="2"/>
+                android:textColor="@color/font_3"
+                android:textSize="14sp"
+                tools:text="2" />
 
             <TextView
                 android:id="@+id/deleteButton"
+                style="@style/MaopaoDelete"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/commentBtn"
-                style="@style/MaopaoDelete" />
+                android:layout_toLeftOf="@id/commentBtn" />
 
 
             <ImageView
                 android:id="@+id/maopaoGood"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.0"
                 android:layout_centerVertical="true"
+                android:alpha="0.0"
                 android:src="@drawable/maopao_extra_liked" />
 
         </RelativeLayout>

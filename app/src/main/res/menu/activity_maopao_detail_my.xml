@@ -1,5 +1,5 @@
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/action_more"
@@ -15,8 +15,8 @@
                 app:showAsAction="always" />
             <item
                 android:id="@+id/action_del_maopao"
-                android:title="@string/delete_maopao"
                 android:icon="@drawable/ic_menu_delete"
+                android:title="@string/delete_maopao"
                 app:showAsAction="always" />
         </menu>
     </item>

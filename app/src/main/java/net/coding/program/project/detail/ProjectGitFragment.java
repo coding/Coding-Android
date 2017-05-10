@@ -83,17 +83,6 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     View blankLayout;
 
     private ArrayList<GitFileInfoObject> mData = new ArrayList<>();
-    private String host_git_tree_url = "";
-    private String host_git_treeinfo_url = "";
-    private String host_git_new_file_prepare = "";
-    private String host_git_new_file = "";
-    private String host_git_upload_file_prepare = "";
-    private String host_git_upload_file = "";
-
-
-    private String commentFormat = "%s 发布于%s";
-    private boolean mTooManyFiles = false;
-
     BaseAdapter adapter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -128,13 +117,13 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             holder.name.setText(data.name);
             if (data.isTree()) {
                 holder.icon.setImageResource(R.drawable.ic_project_code_folder);
-            }else if(data.isExecutable()){
+            } else if (data.isExecutable()) {
                 holder.icon.setImageResource(R.drawable.ic_project_code_exe);
             } else if (data.isGitLink()) {
                 holder.icon.setImageResource(R.drawable.ic_project_code_sub_module);
-            }else if (data.isImage()) {
+            } else if (data.isImage()) {
                 holder.icon.setImageResource(R.drawable.ic_git_img);
-            }else {
+            } else {
                 holder.icon.setImageResource(R.drawable.ic_project_code_file);
             }
 
@@ -153,6 +142,14 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         }
 
     };
+    private String host_git_tree_url = "";
+    private String host_git_treeinfo_url = "";
+    private String host_git_new_file_prepare = "";
+    private String host_git_new_file = "";
+    private String host_git_upload_file_prepare = "";
+    private String host_git_upload_file = "";
+    private String commentFormat = "%s 发布于%s";
+    private boolean mTooManyFiles = false;
     private Stack<String> pathStack = new Stack<String>();
     View.OnClickListener onClickRetry = new View.OnClickListener() {
         @Override
@@ -160,6 +157,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             onRefresh();
         }
     };
+    private GitUploadPrepareObject uploadPrepareObject;
 
     @AfterViews
     protected final void initProjectGitFragment() {
@@ -220,7 +218,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     }
 
     @OptionsItem
-    protected final void action_code_search(){
+    protected final void action_code_search() {
         SearchProjectGitActivity_.intent(getActivity()).mProjectPath(mProjectPath).mVersion(mVersion).start();
         getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
     }
@@ -239,21 +237,21 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
     }
 
     @OptionsItem
-    protected final void action_create_file(){
+    protected final void action_create_file() {
         //获取lastCommit
         host_git_new_file_prepare = UrlCreate.gitNewFile(mProjectPath, mVersion, pathStack.peek());
         getNetwork(host_git_new_file_prepare, HOST_GIT_NEW_FILE_PREPARE);
     }
 
     @OptionsItem
-    protected final void action_upload_picture(){
+    protected final void action_upload_picture() {
         //获取lastCommitId
         host_git_upload_file_prepare = UrlCreate.gitUploadFile(mProjectPath, mVersion, pathStack.peek());
         getNetwork(host_git_upload_file_prepare, HOST_GIT_UPLOAD_FILE_PREPARE);
     }
 
     @OptionsItem
-    protected final void action_exit_code(){
+    protected final void action_exit_code() {
         EventExitCode bottom = new EventExitCode();
         EventBus.getDefault().post(bottom);
     }
@@ -348,34 +346,34 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                     BlankViewDisplay.setBlank(0, this, true, blankLayout, onClickRetry);
                 }
             }
-        }else if(tag.equals(HOST_GIT_NEW_FILE_PREPARE)){
-            if(code == 0){
+        } else if (tag.equals(HOST_GIT_NEW_FILE_PREPARE)) {
+            if (code == 0) {
                 JSONObject jsonData = respanse.optJSONObject("data");
                 GitLastCommitObject lastCommitObject = new GitLastCommitObject(jsonData);
                 newFile(lastCommitObject);
-            }else{
+            } else {
                 showErrorMsg(code, respanse);
             }
-        }else if(tag.equals(HOST_GIT_NEW_FILE)){
-            if(code == 0){
+        } else if (tag.equals(HOST_GIT_NEW_FILE)) {
+            if (code == 0) {
                 onRefresh();
-            }else{
+            } else {
                 showErrorMsg(code, respanse);
             }
-        }else if(tag.equals(HOST_GIT_UPLOAD_FILE_PREPARE)){
-            if(code == 0){
+        } else if (tag.equals(HOST_GIT_UPLOAD_FILE_PREPARE)) {
+            if (code == 0) {
                 JSONObject jsonData = respanse.optJSONObject("data");
                 uploadPrepareObject = new GitUploadPrepareObject(jsonData);
                 uploadFile();
-            }else{
+            } else {
                 showErrorMsg(code, respanse);
             }
-        }else if(tag.equals(HOST_GIT_UPLOAD_FILE)){
+        } else if (tag.equals(HOST_GIT_UPLOAD_FILE)) {
             showProgressBar(false);
             if (code == 0) {
                 showButtomToast(getString(R.string.upload_img_success));
                 onRefresh();
-            }else {
+            } else {
                 showErrorMsg(code, respanse);
             }
         }
@@ -393,14 +391,14 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                 Pattern namePattern = Pattern.compile(namePatternStr);
                 if (newName.equals("")) {
                     showButtomToast(getString(R.string.name_not_null));
-                }  else if (!namePattern.matcher(newName).find()) {
+                } else if (!namePattern.matcher(newName).find()) {
                     showButtomToast(getString(R.string.file_name_error));
                 } else {
                     host_git_new_file = UrlCreate.gitNewFile(mProjectPath, mVersion, pathStack.peek());
                     RequestParams params = new RequestParams();
                     params.put("title", newName);
                     params.put("content", "");
-                    params.put("message", "new file" +""+ newName);
+                    params.put("message", "new file" + "" + newName);
                     params.put("lastCommitSha", lastCommitObject.commitId);
                     postNetwork(host_git_new_file, params, HOST_GIT_NEW_FILE);
                 }
@@ -428,7 +426,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
     }
 
-    @OnActivityResult(RESULT_REQUEST_PICK_PHOTO )
+    @OnActivityResult(RESULT_REQUEST_PICK_PHOTO)
     void onResult(int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             try {
@@ -441,15 +439,14 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                     files[i] = outputFile;
                 }
                 postUploadFile(files);
-            }catch (Exception e){
+            } catch (Exception e) {
                 showProgressBar(false);
                 e.printStackTrace();
             }
         }
     }
 
-    private GitUploadPrepareObject uploadPrepareObject;
-    private  void postUploadFile(File[] files){
+    private void postUploadFile(File[] files) {
         try {
             showProgressBar(true, getString(R.string.upload_ing));
             host_git_upload_file = UrlCreate.gitUploadFile(mProjectPath, mVersion, pathStack.peek());

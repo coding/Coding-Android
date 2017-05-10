@@ -56,10 +56,9 @@ import java.io.File;
 @OptionsMenu(R.menu.menu_fragment_create)
 public class ProjectCreateFragment extends BaseFragment {
 
-    private static final String TAG_CREATE_PROJECT = "TAG_CREATE_PROJECT";
-
     public static final int RESULT_REQUEST_PHOTO = 2003;
     public static final int RESULT_REQUEST_PICK_TYPE = 2004;
+    private static final String TAG_CREATE_PROJECT = "TAG_CREATE_PROJECT";
     private static final String TAG = "ProjectCreateFragment";
     private final int RESULT_REQUEST_PHOTO_CROP = 2006;
     String currentType = ProjectTypeActivity.TYPE_PRIVATE;

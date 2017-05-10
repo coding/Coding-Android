@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.coding.program.project.detail.AttachmentsPicDetailActivity"
-    android:background="@android:color/black">
+    android:background="@android:color/black"
+    tools:context="net.coding.program.project.detail.AttachmentsPicDetailActivity">
 
     <net.coding.program.PhotoViewPager
         android:id="@+id/pager"
@@ -19,18 +19,18 @@
 
     <!--todo 88323A45 颜色不对 -->
     <LinearLayout
-        style="?android:attr/buttonBarStyle"
         android:id="@+id/rl_btn_layout"
-        android:layout_alignParentBottom="true"
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
         android:background="#88323A45"
+        android:orientation="horizontal"
         android:visibility="gone">
 
         <Button
-            style="?android:attr/buttonBarButtonStyle"
             android:id="@+id/btnLeft"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -38,23 +38,23 @@
             android:gravity="center"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
+            android:text="删除"
             android:textColor="@color/attachment_btn_color"
-            android:textSize="16dp"
-            android:text="删除" />
+            android:textSize="16dp" />
 
         <Button
-            style="?android:attr/buttonBarButtonStyle"
             android:id="@+id/btnRight"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:drawableLeft="@drawable/ic_attachment_btn_download"
+            android:gravity="center"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
-            android:gravity="center"
+            android:text="保存"
             android:textColor="@color/attachment_btn_color"
-            android:textSize="16dp"
-            android:text="保存" />
+            android:textSize="16dp" />
     </LinearLayout>
 
 </RelativeLayout>

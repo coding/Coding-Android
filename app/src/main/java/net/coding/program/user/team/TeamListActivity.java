@@ -36,6 +36,27 @@ public class TeamListActivity extends BackActivity {
     View blankLayout;
 
     ArrayList<TeamListObject> listData = new ArrayList<>();
+    View.OnClickListener onClickRetry = v -> loadData();
+    SimpleAdapter baseAdapter = new SimpleAdapter<TeamListObject, ViewHolder>() {
+        @Override
+        public void bindData(ViewHolder holder, TeamListObject data, int position) {
+            imagefromNetwork(holder.icon, data.avatar, ImageLoadTool.optionsRounded2);
+            holder.name.setText(data.name);
+            holder.projectCount.setText(String.valueOf(data.projectcount));
+            holder.memberCount.setText(String.valueOf(data.membercount));
+            holder.bottomLine.setVisibility(position == getCount() - 1 ? View.INVISIBLE : View.VISIBLE);
+        }
+
+        @Override
+        public int getItemlayoutId() {
+            return R.layout.activity_team_list_item;
+        }
+
+        @Override
+        public ViewHolder createViewHolder(View v) {
+            return new ViewHolder(v);
+        }
+    };
 
     @AfterViews
     void initTeamListActivity() {
@@ -76,8 +97,6 @@ public class TeamListActivity extends BackActivity {
         }
     }
 
-    View.OnClickListener onClickRetry = v -> loadData();
-
     @ItemClick
     public void listView(TeamListObject item) {
         TeamListDetailActivity_.intent(this).team(item).start();
@@ -87,27 +106,6 @@ public class TeamListActivity extends BackActivity {
     void onResultDetail(int resultCode) {
         loadData();
     }
-
-    SimpleAdapter baseAdapter = new SimpleAdapter<TeamListObject, ViewHolder>() {
-        @Override
-        public void bindData(ViewHolder holder, TeamListObject data, int position) {
-            imagefromNetwork(holder.icon, data.avatar, ImageLoadTool.optionsRounded2);
-            holder.name.setText(data.name);
-            holder.projectCount.setText(String.valueOf(data.projectcount));
-            holder.memberCount.setText(String.valueOf(data.membercount));
-            holder.bottomLine.setVisibility(position == getCount() - 1 ? View.INVISIBLE : View.VISIBLE);
-        }
-
-        @Override
-        public int getItemlayoutId() {
-            return R.layout.activity_team_list_item;
-        }
-
-        @Override
-        public ViewHolder createViewHolder(View v) {
-            return new ViewHolder(v);
-        }
-    };
 
 //    BaseAdapter baseAdapter = new SimpleAdapter<TeamListObject, ViewHolder>() {} {
 //        @Override
@@ -146,7 +144,6 @@ public class TeamListActivity extends BackActivity {
 //            return convertView;
 //        }
 //    };
-
 
     class ViewHolder {
         ImageView icon;

@@ -14,22 +14,33 @@ import java.util.List;
  */
 public class TopicLastCache {
 
+    public static final int TOPIC_CACHE_COUNT = 3;
     private static final String TOPIC_CACHE = TopicLastCache.class.getName() + "_search_cache";
     private static final String TOPIC_CACHE_KEY = TopicLastCache.class.getName() + "_search_cache_key";
     private static final String TOPIC_CACHE_SIZE = TopicLastCache.class.getName() + "_search_cache_size";
-    public static final int TOPIC_CACHE_COUNT = 3;
-
-    private List<String> topicLastCacheList = null;
-    private Context mContext;
-
     private static TopicLastCache mInstance = null;
     private static Object mSyncObject = new Object();
+    private List<String> topicLastCacheList = null;
+    private Context mContext;
 
     private TopicLastCache(Context context) {
         mContext = context;
         if (topicLastCacheList == null) {
             loadCache();
         }
+    }
+
+    public static TopicLastCache getInstance(Context context) {
+        if (context != null) {
+            if (mInstance == null) {
+                synchronized (mSyncObject) {
+                    if (mInstance == null) {
+                        mInstance = new TopicLastCache(context);
+                    }
+                }
+            }
+        }
+        return mInstance;
     }
 
     public void add(String topic) {
@@ -70,20 +81,6 @@ public class TopicLastCache {
             edit.putString(TOPIC_CACHE_KEY + "_" + i, topicLastCacheList.get(i));
         }
         edit.commit();
-    }
-
-
-    public static TopicLastCache getInstance(Context context) {
-        if (context != null) {
-            if (mInstance == null) {
-                synchronized (mSyncObject) {
-                    if (mInstance == null) {
-                        mInstance = new TopicLastCache(context);
-                    }
-                }
-            }
-        }
-        return mInstance;
     }
 
     private void loadCache() {

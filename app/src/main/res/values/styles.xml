@@ -41,7 +41,7 @@
 
         <item name="colorPrimary">@color/color_primary</item>
         <item name="actionMenuTextColor">@color/font_green</item>
-        
+
         <item name="navigationIcon">@drawable/ic_menu_back</item>
 
         <item name="searchViewStyle">@style/MySearchViewStyle</item>
@@ -158,8 +158,7 @@
 
     </style>
 
-    <style name="ActionbarNoIcon" parent="AppTheme">
-    </style>
+    <style name="ActionbarNoIcon" parent="AppTheme"></style>
 
     <style name="ActionbarTranslate" parent="ActionbarNoIcon">
         <!--<item name="actionBarStyle">@style/ActionbarTranslate</item>-->
@@ -326,8 +325,7 @@
         <item name="android:background">@color/divide_line</item>
     </style>
 
-    <style name="TreeDivideLine" parent="DivideLine">
-    </style>
+    <style name="TreeDivideLine" parent="DivideLine"></style>
 
     <style name="LoginBottomLine" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">match_parent</item>
@@ -339,7 +337,7 @@
         <item name="android:layout_marginLeft">@dimen/padding_15</item>
         <item name="android:layout_marginRight">0dp</item>
     </style>
-    
+
     <style name="DivideLine15LeftRight" parent="DivideLine_15">
         <item name="android:layout_marginRight">@dimen/padding_15</item>
     </style>

@@ -62,6 +62,7 @@ public class ContentAreaImages extends ContentAreaBase {
             R.id.image5
     };
     private static final int itemImagesMaxCount = itemImages.length;
+    private static final HashMap<String, Boolean> mUpdating = new HashMap<>();
     protected ImageLoadTool imageLoad;
     protected View imageLayout0;
     protected View imageLayout1;
@@ -69,7 +70,6 @@ public class ContentAreaImages extends ContentAreaBase {
     protected LinearLayout voiceLayout;
     protected View linearLayout;//气泡
     protected boolean isRight;
-    private AnimationDrawable voicePlayAnim;
     protected DisplayImageOptions imageOptions = new DisplayImageOptions
             .Builder()
             .showImageOnLoading(R.drawable.ic_default_image)
@@ -80,10 +80,25 @@ public class ContentAreaImages extends ContentAreaBase {
             .considerExifParams(true)
             .imageScaleType(ImageScaleType.EXACTLY)
             .build();
+    int frame = 0;
+    private AnimationDrawable voicePlayAnim;
     private int contentMarginBottom = 0;
     private ImageView images[] = new ImageView[itemImagesMaxCount];
+    private Handler mHandler = new Handler();
+    private boolean isAnimRuning;
+    private int id;
+    private boolean isNeedDownload = true;
+    private String voicePath;
+    private VoicePlayCallBack mVoicePlayCallBack;
+    private Runnable task = new Runnable() {
+        @Override
+        public void run() {
+            if (isAnimRuning) {
+                playVoiceAnim();
+            }
 
-    private static final HashMap<String, Boolean> mUpdating = new HashMap<>();
+        }
+    };
 
     public ContentAreaImages(View convertView, View.OnClickListener onClickContent, View.OnClickListener onclickImage, Html.ImageGetter imageGetterParamer, ImageLoadTool loadParams, int pxImageWidth) {
         super(convertView, onClickContent, imageGetterParamer);
@@ -109,15 +124,6 @@ public class ContentAreaImages extends ContentAreaBase {
         contentMarginBottom = convertView.getResources().getDimensionPixelSize(R.dimen.message_text_margin_bottom);
     }
 
-    // 用来设置冒泡的
-    public void setData(Maopao.MaopaoObject maopaoObject) {
-        setDataContent(maopaoObject.content, maopaoObject);
-    }
-
-    public void setData(BaseComment comment) {
-        setDataContent(comment.content, comment);
-    }
-
     //[voice]{'id':1,'voiceUrl':'/sd/voice/a.amr','voiceDuration':10,'played':1}[voice]
     public static MessageParse parseVoice(String s) {
         String str = s.substring(7, s.length() - 7);
@@ -136,6 +142,15 @@ public class ContentAreaImages extends ContentAreaBase {
         return mp;
     }
 
+    // 用来设置冒泡的
+    public void setData(Maopao.MaopaoObject maopaoObject) {
+        setDataContent(maopaoObject.content, maopaoObject);
+    }
+
+    public void setData(BaseComment comment) {
+        setDataContent(comment.content, comment);
+    }
+
     private void setDataContent(String data, Object contentObject) {
         MessageParse maopaoData = HtmlContent.parseMessage(data);
         if (maopaoData.text.isEmpty()) {
@@ -151,7 +166,6 @@ public class ContentAreaImages extends ContentAreaBase {
 
         setImageUrl(maopaoData.uris);
     }
-
 
     public String getVocicePath() {
         return voicePath;
@@ -215,10 +229,6 @@ public class ContentAreaImages extends ContentAreaBase {
         }
     }
 
-    private Handler mHandler = new Handler();
-    int frame = 0;
-    private boolean isAnimRuning;
-
     private void playVoiceAnim() {
         if (mVoicePlayCallBack.getPlayingVoiceId() == id) {
             isAnimRuning = true;
@@ -249,26 +259,9 @@ public class ContentAreaImages extends ContentAreaBase {
         }
     }
 
-
-    private Runnable task = new Runnable() {
-        @Override
-        public void run() {
-            if (isAnimRuning) {
-                playVoiceAnim();
-            }
-
-        }
-    };
-
-
     public void setVoiceNeedDownload(boolean isNeedDownload) {
         this.isNeedDownload = isNeedDownload;
     }
-
-    private int id;
-    private boolean isNeedDownload = true;
-    private String voicePath;
-    private VoicePlayCallBack mVoicePlayCallBack;
 
     // 用来设置message的
     public void setData(String data) {

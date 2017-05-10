@@ -47,6 +47,14 @@ public class BaseCommentHolder {
         }
     }
 
+    public BaseCommentHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser) {
+        this(convertView, R.id.Commentlayout, onClickComment, imageGetter, imageLoadTool, clickUser);
+    }
+
+    public BaseCommentHolder(View convertView, BaseCommentParam param) {
+        this(convertView, param.onClickComment, param.imageGetter, param.imageLoadTool, param.clickUser);
+    }
+
     protected void bindMathLabButton(String string) {
         if (mathLabButton == null) {
             return;
@@ -58,14 +66,6 @@ public class BaseCommentHolder {
         } else {
             mathLabButton.setVisibility(View.GONE);
         }
-    }
-
-    public BaseCommentHolder(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetter, ImageLoadTool imageLoadTool, View.OnClickListener clickUser) {
-        this(convertView, R.id.Commentlayout, onClickComment, imageGetter, imageLoadTool, clickUser);
-    }
-
-    public BaseCommentHolder(View convertView, BaseCommentParam param) {
-        this(convertView, param.onClickComment, param.imageGetter, param.imageLoadTool, param.clickUser);
     }
 
     public void setContent(Object param) {

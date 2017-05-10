@@ -7,5 +7,5 @@
     android:gravity="center_vertical"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:paddingLeft="@dimen/padding_12"
-    tools:text="信息"
-    android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+    tools:text="信息" />

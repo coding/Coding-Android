@@ -1,4 +1,3 @@
-
 package net.coding.program.project.detail;
 
 import android.os.Bundle;

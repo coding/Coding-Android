@@ -39,50 +39,6 @@ public class RefResourceActivity extends BackActivity {
 
     @ViewById
     ListView listView;
-
-    @AfterViews
-    final void initRefResourceActivity() {
-        listView.setAdapter(adapter);
-    }
-
-    @ItemClick(R.id.listView)
-    void itemClick(RefResourceObject item) {
-        URLSpanNoUnderline.openActivityByUri(this, item.link, false);
-    }
-
-    @ItemLongClick(R.id.listView)
-    void itemLongClick(RefResourceObject item) {
-        new AlertDialog.Builder(this)
-                .setItems(new String[]{"取消关联"},
-                        (dialog, which) -> {
-                            if (which == 0) {
-                                deleteRef(item);
-                            }
-                        })
-                .show();
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent();
-        intent.putExtra("resultData", mData);
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    private void deleteRef(RefResourceObject item) {
-        String url = String.format("%s%s/resource_reference/%d?iid=%d", Global.HOST_API,
-                mParam.projectPath, mParam.taskId, item.code);
-        MyAsyncHttpClient.delete(this, url, new MyJsonResponse(this) {
-            @Override
-            public void onMySuccess(JSONObject response) {
-                super.onMySuccess(response);
-                mData.remove(item);
-                adapter.notifyDataSetChanged();
-            }
-        });
-    }
-
     BaseAdapter adapter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -141,6 +97,49 @@ public class RefResourceActivity extends BackActivity {
             TextView title;
         }
     };
+
+    @AfterViews
+    final void initRefResourceActivity() {
+        listView.setAdapter(adapter);
+    }
+
+    @ItemClick(R.id.listView)
+    void itemClick(RefResourceObject item) {
+        URLSpanNoUnderline.openActivityByUri(this, item.link, false);
+    }
+
+    @ItemLongClick(R.id.listView)
+    void itemLongClick(RefResourceObject item) {
+        new AlertDialog.Builder(this)
+                .setItems(new String[]{"取消关联"},
+                        (dialog, which) -> {
+                            if (which == 0) {
+                                deleteRef(item);
+                            }
+                        })
+                .show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("resultData", mData);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    private void deleteRef(RefResourceObject item) {
+        String url = String.format("%s%s/resource_reference/%d?iid=%d", Global.HOST_API,
+                mParam.projectPath, mParam.taskId, item.code);
+        MyAsyncHttpClient.delete(this, url, new MyJsonResponse(this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                super.onMySuccess(response);
+                mData.remove(item);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
 
     public static class Param implements Serializable {
         String projectPath;

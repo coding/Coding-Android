@@ -27,30 +27,15 @@ public class SearchMergeRequestsFragment extends SearchBaseFragment {
     private static final String TAG = SearchTaskFragment.class.getSimpleName();
     final String url = Global.HOST_API + "/esearch/%s?q=%s";
     final String tmp = "&types=%s&pageSize=10";
+    @InstanceState
+    protected String tabPrams;
     ArrayList<MergeObject> mData = new ArrayList<>();
     String page = "&page=%s";
     int pos = 1;
+    SearchMergeAdapter adapter;
     private String keyword = "";
-
-    @InstanceState
-    protected String tabPrams;
-
     private boolean hasMore = true;
     private boolean isLoading = true;
-
-    SearchMergeAdapter adapter;
-
-    @AfterViews
-    protected void init() {
-        initRefreshLayout();
-        setRefreshing(true);
-        mFootUpdate.init(listView, mInflater, this);
-        adapter = new SearchMergeAdapter(mData, keyword, getActivity());
-        listView.setAdapter(adapter);
-        listView.setOnScrollListener(mOnScrollListener);
-        loadMore();
-    }
-
     AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -68,6 +53,17 @@ public class SearchMergeRequestsFragment extends SearchBaseFragment {
         }
     };
 
+    @AfterViews
+    protected void init() {
+        initRefreshLayout();
+        setRefreshing(true);
+        mFootUpdate.init(listView, mInflater, this);
+        adapter = new SearchMergeAdapter(mData, keyword, getActivity());
+        listView.setAdapter(adapter);
+        listView.setOnScrollListener(mOnScrollListener);
+        loadMore();
+    }
+
     @ItemClick
     final void listView(MergeObject itemData) {
         if (itemData.isMergeCannel()) {
@@ -82,16 +78,16 @@ public class SearchMergeRequestsFragment extends SearchBaseFragment {
         return keyword;
     }
 
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
     public String getTabPrams() {
         return tabPrams;
     }
 
     public void setTabPrams(String tabPrams) {
         this.tabPrams = tabPrams;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
     }
 
     private String getUrl(int pos) {

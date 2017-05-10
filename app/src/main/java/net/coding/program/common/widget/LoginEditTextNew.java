@@ -11,10 +11,6 @@ import net.coding.program.common.CodingColor;
  */
 public class LoginEditTextNew extends LoginEditText {
 
-    protected int getLayoutId() {
-        return R.layout.login_edit_text_new;
-    }
-
     public LoginEditTextNew(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -27,5 +23,9 @@ public class LoginEditTextNew extends LoginEditText {
         }
 
         hideDisplayPassword();
+    }
+
+    protected int getLayoutId() {
+        return R.layout.login_edit_text_new;
     }
 }

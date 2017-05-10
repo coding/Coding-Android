@@ -10,12 +10,12 @@ import java.util.regex.Pattern;
 
 public class PhoneUtil {
 
-    public static boolean isFlyme(){
+    public static boolean isFlyme() {
         return Build.FINGERPRINT.contains("Flyme") ||
                 Pattern.compile("Flyme", Pattern.CASE_INSENSITIVE).matcher(Build.DISPLAY).find();
     }
 
-    public static boolean isAndroidLOLLIPOP(){
+    public static boolean isAndroidLOLLIPOP() {
         return Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP;
     }
 }

@@ -35,13 +35,12 @@ public abstract class BaseListActivity extends BackActivity implements FootUpdat
 //    public abstract View getBindView(int position, View convertView, ViewGroup parent);
 
 
+    //    private static final String TAG_HTTP_BASE_LIST_ACTIVITY = "TAG_HTTP_BASE_LIST_ACTIVITY";
+    private static final String TAG_LOAD_MORE = "TAG_LOAD_MORE";
     ActivityParam mActivityParam;
     private ArrayAdapter<Object> mAdapter;
 
     public abstract ActivityParam getActivityParam();
-
-    //    private static final String TAG_HTTP_BASE_LIST_ACTIVITY = "TAG_HTTP_BASE_LIST_ACTIVITY";
-    private static final String TAG_LOAD_MORE = "TAG_LOAD_MORE";
 
     @Override
     public void loadMore() {
@@ -90,6 +89,28 @@ public abstract class BaseListActivity extends BackActivity implements FootUpdat
         }
     }
 
+    public interface BaseViewHold {
+        int getLayout();
+
+        void init(View v, ImageLoadTool imageLoadTool);
+
+        void setData(Object data);
+    }
+
+    public static class ActivityParam {
+        String mTitle;
+        String mUrl;
+        AdapterView.OnItemClickListener mItemClick;
+        Class<BaseViewHold> mViewHold;
+
+        public ActivityParam(String mTitle, String mUrl, Class<BaseViewHold> mViewHold, AdapterView.OnItemClickListener mItemClick) {
+            this.mTitle = mTitle;
+            this.mUrl = mUrl;
+            this.mViewHold = mViewHold;
+            this.mItemClick = mItemClick;
+        }
+    }
+
     class CustomArrayAdapter<T> extends ArrayAdapter<T> {
 
         public CustomArrayAdapter(Context context, List<T> objects) {
@@ -121,28 +142,6 @@ public abstract class BaseListActivity extends BackActivity implements FootUpdat
             }
         }
 
-    }
-
-    public static class ActivityParam {
-        String mTitle;
-        String mUrl;
-        AdapterView.OnItemClickListener mItemClick;
-        Class<BaseViewHold> mViewHold;
-
-        public ActivityParam(String mTitle, String mUrl, Class<BaseViewHold> mViewHold, AdapterView.OnItemClickListener mItemClick) {
-            this.mTitle = mTitle;
-            this.mUrl = mUrl;
-            this.mViewHold = mViewHold;
-            this.mItemClick = mItemClick;
-        }
-    }
-
-    public interface BaseViewHold {
-        int getLayout();
-
-        void init(View v, ImageLoadTool imageLoadTool);
-
-        void setData(Object data);
     }
 
 }

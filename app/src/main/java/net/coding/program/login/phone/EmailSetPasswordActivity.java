@@ -23,14 +23,12 @@ import org.json.JSONObject;
 @EActivity(R.layout.activity_email_set_password)
 public class EmailSetPasswordActivity extends BackActivity {
 
-    @Extra
-    String account = "";
-
     @ViewById
     protected LoginEditText emailEdit, captchaEdit;
-
     @ViewById
     protected View loginButton;
+    @Extra
+    String account = "";
 
     @AfterViews
     void initEmailSetPasswordActivity() {

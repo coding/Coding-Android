@@ -17,7 +17,16 @@ import android.widget.TextView;
  */
 public class LongClickLinkMovementMethod extends LinkMovementMethod {
 
+    private static LongClickLinkMovementMethod sInstance;
     private long mActionDownTime = 0;
+
+    public static MovementMethod getInstance() {
+        if (sInstance == null) {
+            sInstance = new LongClickLinkMovementMethod();
+        }
+
+        return sInstance;
+    }
 
     @Override
     public boolean onTouchEvent(TextView widget, Spannable buffer,
@@ -62,15 +71,4 @@ public class LongClickLinkMovementMethod extends LinkMovementMethod {
 
         return super.onTouchEvent(widget, buffer, event);
     }
-
-
-    public static MovementMethod getInstance() {
-        if (sInstance == null) {
-            sInstance = new LongClickLinkMovementMethod();
-        }
-
-        return sInstance;
-    }
-
-    private static LongClickLinkMovementMethod sInstance;
 }

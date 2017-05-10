@@ -8,8 +8,8 @@
 
     <net.coding.program.third.WechatTab
         android:id="@+id/tabs"
-        android:visibility="gone"
-        style="@style/TextTabBar" />
+        style="@style/TextTabBar"
+        android:visibility="gone" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
@@ -19,8 +19,8 @@
 
     <!--没有搜索内容也没有历史记录-->
     <LinearLayout
-        android:layout_width="256dp"
         android:id="@+id/allEmptyView"
+        android:layout_width="256dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="51dp"
@@ -31,9 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:text="搜索更多内容"
             android:textColor="@color/font_3"
-            android:textSize="15sp"
-            android:text="搜索更多内容" />
+            android:textSize="15sp" />
 
         <View
             style="@style/DivideLine"

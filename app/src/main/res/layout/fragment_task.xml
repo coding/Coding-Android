@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="net.coding.program.task.TaskFragment">
 
@@ -14,8 +13,8 @@
 
         <View
             android:id="@+id/actionDivideLine"
-            android:visibility="gone"
-            style="@style/DivideLine" />
+            style="@style/DivideLine"
+            android:visibility="gone" />
 
         <net.coding.program.third.MyPagerSlidingTabStrip
             android:id="@+id/tabs"

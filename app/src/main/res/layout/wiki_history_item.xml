@@ -15,8 +15,8 @@
 
     <TextView
         android:id="@+id/style"
-        android:layout_alignBaseline="@id/title"
-        style="@style/OrderRight" />
+        style="@style/OrderRight"
+        android:layout_alignBaseline="@id/title" />
 
     <View
         android:id="@+id/divideLine"
@@ -26,40 +26,40 @@
     <TextView
         android:id="@+id/orderId"
         style="@style/OrderLeft"
-        android:text="创建者"
-        android:layout_below="@id/divideLine" />
+        android:layout_below="@id/divideLine"
+        android:text="创建者" />
 
     <TextView
         android:id="@+id/orderUser"
-        android:text="提交信息"
         style="@style/OrderLeft"
-        android:layout_below="@id/orderId" />
+        android:layout_below="@id/orderId"
+        android:text="提交信息" />
 
     <TextView
         android:id="@+id/id"
-        android:layout_alignBaseline="@id/orderId"
-        style="@style/OrderRight" />
+        style="@style/OrderRight"
+        android:layout_alignBaseline="@id/orderId" />
 
     <TextView
         android:id="@+id/submitMessage"
+        style="@style/OrderRight"
         android:layout_alignBaseline="@id/orderUser"
-        android:layout_marginLeft="100dp"
-        style="@style/OrderRight" />
+        android:layout_marginLeft="100dp" />
 
     <View
-        android:layout_below="@id/orderUser"
         android:id="@+id/bottomDivide"
+        style="@style/DivideSectionBottom5"
+        android:layout_below="@id/orderUser"
         android:layout_marginLeft="-15dp"
-        android:layout_marginTop="15dp"
         android:layout_marginRight="-15dp"
-        style="@style/DivideSectionBottom5" />
+        android:layout_marginTop="15dp" />
 
     <View
-        android:layout_below="@id/bottomDivide"
         android:id="@+id/nextTopDivide"
+        style="@style/DivideSectionTop5"
+        android:layout_below="@id/bottomDivide"
         android:layout_marginLeft="-15dp"
-        android:layout_marginRight="-15dp"
-        style="@style/DivideSectionTop5" />
+        android:layout_marginRight="-15dp" />
 
 
 </RelativeLayout>

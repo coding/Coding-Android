@@ -43,12 +43,12 @@
                 android:src="@drawable/ic_project_git_folder2" />
 
             <ImageView
+                android:id="@+id/shareMark"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignRight="@id/icon"
                 android:layout_alignTop="@id/icon"
-                android:id="@+id/shareMark"
-                android:src="@drawable/icon_file_share_mark"
-                android:layout_height="wrap_content" />
+                android:src="@drawable/icon_file_share_mark" />
 
             <TextView
                 android:id="@+id/icon_txt"
@@ -188,10 +188,10 @@
             android:layout_height="70dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:paddingBottom="12dp"
             android:paddingLeft="12dp"
             android:paddingRight="15dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp">
+            android:paddingTop="12dp">
 
             <TextView
                 android:id="@+id/downloadFlag"

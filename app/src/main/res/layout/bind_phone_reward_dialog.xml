@@ -13,8 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:scaleType="centerCrop"
         android:layout_marginTop="10dp"
+        android:scaleType="centerCrop"
         android:src="@mipmap/ic_porint" />
 
     <TextView
@@ -34,9 +34,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
+        android:text="获得 0.1 MB 的奖励"
         android:textColor="@color/font_2"
         android:visibility="visible"
-        android:text="获得 0.1 MB 的奖励"
         tools:visibility="visible" />
 
     <LinearLayout

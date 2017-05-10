@@ -25,22 +25,22 @@ public class MyMediaPlayer extends MediaPlayer {
         this.mOnPreparedListener = mOnPreparedListener;
     }
 
+    public String getDataSource() {
+        return path;
+    }
+
     @Override
     public void setDataSource(String path) throws IOException, IllegalArgumentException, SecurityException, IllegalStateException {
         super.setDataSource(path);
         this.path = path;
     }
 
-    public String getDataSource() {
-        return path;
+    public int getVoiceId() {
+        return voiceId;
     }
 
     public void setVoiceId(int id) {
         voiceId = id;
-    }
-
-    public int getVoiceId() {
-        return voiceId;
     }
 
     @Override

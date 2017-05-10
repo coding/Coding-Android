@@ -30,22 +30,19 @@ import java.util.ArrayList;
 @EActivity(R.layout.activity_country_pick)
 public class CountryPickActivity extends BackActivity {
 
-    @ViewById
-    IndexableListView listView;
-
-    CountryAdapter countryAdapter;
-
-    private ArrayList<PhoneCountry> countryDataSrc = new ArrayList<>();
-    private ArrayList<PhoneCountry> countryDataTargetFull = new ArrayList<>();
-    private ArrayList<PhoneCountry> countryDataTargetSearch = new ArrayList<>();
-//    private Tess adapter;
-
     private final String[] topCountryCode = new String[]{
             "86",
             "852",
             "853",
             "886"
     };
+    @ViewById
+    IndexableListView listView;
+    CountryAdapter countryAdapter;
+    private ArrayList<PhoneCountry> countryDataSrc = new ArrayList<>();
+    private ArrayList<PhoneCountry> countryDataTargetFull = new ArrayList<>();
+//    private Tess adapter;
+    private ArrayList<PhoneCountry> countryDataTargetSearch = new ArrayList<>();
 
 //    private RecyclerView.LayoutManager manager;
 
@@ -155,14 +152,12 @@ public class CountryPickActivity extends BackActivity {
         private final String TOP_SECTION = "常用";
 //        private ArrayList<String> mSectionTitle = new ArrayList<>();
 //        private ArrayList<Integer> mSectionId = new ArrayList<>();
-
+        ArrayList<String> headData = new ArrayList<>();
+        ArrayList<Integer> posData = new ArrayList<>();
         private ArrayList<PhoneCountry> mData;
         private LayoutInflater mInflater;
 
-        ArrayList<String> headData = new ArrayList<>();
-        ArrayList<Integer> posData = new ArrayList<>();
-
-        public CountryAdapter(ArrayList<PhoneCountry> data , LayoutInflater mInflater, int topItemCount) {
+        public CountryAdapter(ArrayList<PhoneCountry> data, LayoutInflater mInflater, int topItemCount) {
             this.mData = data;
             this.mInflater = mInflater;
             updateSection(topItemCount);

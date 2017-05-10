@@ -56,8 +56,8 @@
             </RelativeLayout>
 
             <View
-                style="@style/DivideLine"
                 android:id="@+id/actionBarCompShadow"
+                style="@style/DivideLine"
                 android:layout_alignParentBottom="true" />
 
             <ScrollView

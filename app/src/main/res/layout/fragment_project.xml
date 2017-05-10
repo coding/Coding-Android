@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <net.coding.program.common.widget.NoHorizontalScrollViewPager
         android:id="@+id/pagerFragmentProgram"
         android:layout_width="match_parent"

@@ -51,6 +51,17 @@ public class UserDetailActivity extends UserDetailCommonActivity {
     public final int RESULT_EDIT = 0;
 
     final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
+    @Extra
+    String globalKey;
+    @ViewById
+    ImageView icon;
+    @StringArrayRes
+    String[] user_detail_activity_list_first;
+    @StringArrayRes
+    String[] user_detail_list_first;
+    String[] user_detail_list_second;
+    boolean isMe = false;
+    boolean mNeedUpdate = false;
 
     @NonNull
     public static String getHostFollow() {
@@ -62,19 +73,15 @@ public class UserDetailActivity extends UserDetailCommonActivity {
         return Global.HOST_API + "/user/unfollow?";
     }
 
-    @Extra
-    String globalKey;
-    @ViewById
-    ImageView icon;
-    @StringArrayRes
-    String[] user_detail_activity_list_first;
-    @StringArrayRes
-    String[] user_detail_list_first;
-    String[] user_detail_list_second;
-    boolean isMe = false;
+    public static SpannableString createSpan(Context context, String s) {
+        SpannableString itemContent = new SpannableString(s);
+        final ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.font_1));
 
-    boolean mNeedUpdate = false;
-
+        itemContent.setSpan(colorSpan, 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        itemContent.setSpan(new AbsoluteSizeSpan(15, true), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        itemContent.setSpan(new StyleSpan(Typeface.BOLD), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return itemContent;
+    }
 
     @AfterViews
     protected final void initUserDetailActivity() {
@@ -230,17 +237,6 @@ public class UserDetailActivity extends UserDetailCommonActivity {
         tv_follow_state.setTextColor(getResources().getColor(txtColor));
         tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(logo, 0, 0, 0);
     }
-
-    public static SpannableString createSpan(Context context, String s) {
-        SpannableString itemContent = new SpannableString(s);
-        final ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.font_1));
-
-        itemContent.setSpan(colorSpan, 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        itemContent.setSpan(new AbsoluteSizeSpan(15, true), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        itemContent.setSpan(new StyleSpan(Typeface.BOLD), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return itemContent;
-    }
-
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {

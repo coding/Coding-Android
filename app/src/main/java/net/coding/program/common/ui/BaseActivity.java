@@ -52,6 +52,10 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
     private ImageLoadTool imageLoadTool = new ImageLoadTool();
     private ProgressDialog mProgressDialog;
     private NetworkImpl networkImpl;
+    /**
+     * 载入动画
+     */
+    private DialogUtil.LoadingPopupWindow mDialogProgressPopWindow = null;
 
     protected void listViewAddFootSection(ListView listView) {
         View listViewFooter = getLayoutInflater().inflate(R.layout.divide_bottom_15, listView, false);
@@ -67,11 +71,6 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
     protected View.OnFocusChangeListener createEditLineFocus(View line) {
         return (v, hasFocus) -> line.setBackgroundColor(hasFocus ? CodingColor.font1 : CodingColor.divideLine);
     }
-
-    /**
-     * 载入动画
-     */
-    private DialogUtil.LoadingPopupWindow mDialogProgressPopWindow = null;
 
     protected void showProgressBar(boolean show) {
         showProgressBar(show, "");

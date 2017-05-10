@@ -9,11 +9,11 @@ import android.view.MotionEvent;
  * Created by Vernon on 15/11/17.
  */
 public class NoHorizontalScrollViewPager extends ViewPager {
+    private boolean isCanScroll = false;
+
     public NoHorizontalScrollViewPager(Context context) {
         super(context);
     }
-
-    private boolean isCanScroll = false;
 
 
     public NoHorizontalScrollViewPager(Context context, AttributeSet attrs) {

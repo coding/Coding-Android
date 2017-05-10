@@ -44,61 +44,44 @@ import java.util.ArrayList;
 public class MallOrderSubmitActivity extends BackActivity {
 
     private static final int RESULT_LOCAL = 1;
-
-    @ViewById
-    EditText mall_order_edit_username;
-
-    @ViewById
-    EditText mall_order_edit_address;
-
-    @ViewById
-    EditText mall_order_edit_phone;
-
-    @ViewById
-    EditText mall_order_edit_note;
-
-    @ViewById
-    ImageView mall_order_img;
-
-    @ViewById
-    TextView mall_order_title;
-
-    @ViewById
-    TextView mall_order_point;
-
-    @ViewById
-    TextView mall_order_desc;
-
-    @ViewById
-    TextView mall_order_edit_city;
-
-    @ViewById
-    View mall_order_title_options, mall_order_divide_options;
-
-    @ViewById
-    TextView mall_order_edit_options;
-
-
-    @Click
-    void mall_order_button_submit() {
-        parseParams();
-    }
-
     @Extra
     static MallItemObject mallItemObject = new MallItemObject();
-
+    @ViewById
+    EditText mall_order_edit_username;
+    @ViewById
+    EditText mall_order_edit_address;
+    @ViewById
+    EditText mall_order_edit_phone;
+    @ViewById
+    EditText mall_order_edit_note;
+    @ViewById
+    ImageView mall_order_img;
+    @ViewById
+    TextView mall_order_title;
+    @ViewById
+    TextView mall_order_point;
+    @ViewById
+    TextView mall_order_desc;
+    @ViewById
+    TextView mall_order_edit_city;
+    @ViewById
+    View mall_order_title_options, mall_order_divide_options;
+    @ViewById
+    TextView mall_order_edit_options;
     MallItemObject.Option option;
-
     String submitPassword = "";
-
     Local local = new Local("", 0, "", 0, "", 0);
-
     private View.OnFocusChangeListener foucusChangeListener = new View.OnFocusChangeListener() {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             Global.popSoftkeyboard(MallOrderSubmitActivity.this, v, hasFocus);
         }
     };
+
+    @Click
+    void mall_order_button_submit() {
+        parseParams();
+    }
 
     @AfterViews
     void initView() {
@@ -374,14 +357,14 @@ public class MallOrderSubmitActivity extends BackActivity {
         City city;
         City district;
 
-        public String getLocalString() {
-            return String.format("%s %s %s", provicen.getName(), city.getName(), district.getName());
-        }
-
         public Local(String provicen, int proviceId, String city, int cityId, String district, int districtId) {
             this.provicen = new City(proviceId, provicen);
             this.city = new City(cityId, city);
             this.district = new City(districtId, district);
+        }
+
+        public String getLocalString() {
+            return String.format("%s %s %s", provicen.getName(), city.getName(), district.getName());
         }
 
         public City getProvicen() {

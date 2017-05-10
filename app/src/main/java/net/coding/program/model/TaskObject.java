@@ -23,65 +23,14 @@ public class TaskObject {
 
     public static class Members implements Serializable {
 
-        public enum Type {
-            ower(100),
-            member(80),
-            manager(90),
-            limited(75);
-
-            Type(int type) {
-                this.type = type;
-            }
-
-            public int getIcon() {
-                switch (this) {
-                    case ower:
-                        return R.drawable.ic_project_member_create;
-                    case manager:
-                        return R.drawable.ic_project_member_manager;
-                    case limited:
-                        return R.drawable.ic_project_member_limited;
-                    default: // member
-                        return 0;
-                }
-            }
-
-            public static boolean canReadCode(int type) {
-                return type >= member.type;
-            }
-
-            public static boolean canManagerMember(int type) {
-                return type >= manager.type;
-            }
-
-            private int type;
-
-            public int getType() {
-                return type;
-            }
-
-            public static Type idToEnum(int id) {
-                if (ower.type == id) {
-                    return ower;
-                } else if (member.type == id) {
-                    return member;
-                } else if (manager.type == id) {
-                    return manager;
-                } else {
-                    return limited;
-                }
-            }
-        }
-
         public long created_at;
         public int id;
         public long last_visit_at;
         public int project_id;
-        private int type;
         public int user_id;
         public String alias = "";
         public UserObject user = new UserObject();
-
+        private int type;
         public Members(JSONObject json) {
             created_at = json.optLong("created_at");
             id = json.optInt("id");
@@ -94,6 +43,19 @@ public class TaskObject {
             if (json.has("user")) {
                 user = new UserObject(json.optJSONObject("user"));
             }
+        }
+
+        public Members(UserObject data) {
+            created_at = data.created_at;
+            id = data.id;
+            last_visit_at = data.last_activity_at;
+            project_id = 0;
+            type = 0;
+            user_id = data.id;
+            user = data;
+        }
+
+        public Members() {
         }
 
         public Type getType() {
@@ -114,17 +76,54 @@ public class TaskObject {
             return user.isMe();
         }
 
-        public Members(UserObject data) {
-            created_at = data.created_at;
-            id = data.id;
-            last_visit_at = data.last_activity_at;
-            project_id = 0;
-            type = 0;
-            user_id = data.id;
-            user = data;
-        }
+        public enum Type {
+            ower(100),
+            member(80),
+            manager(90),
+            limited(75);
 
-        public Members() {
+            private int type;
+
+            Type(int type) {
+                this.type = type;
+            }
+
+            public static boolean canReadCode(int type) {
+                return type >= member.type;
+            }
+
+            public static boolean canManagerMember(int type) {
+                return type >= manager.type;
+            }
+
+            public static Type idToEnum(int id) {
+                if (ower.type == id) {
+                    return ower;
+                } else if (member.type == id) {
+                    return member;
+                } else if (manager.type == id) {
+                    return manager;
+                } else {
+                    return limited;
+                }
+            }
+
+            public int getIcon() {
+                switch (this) {
+                    case ower:
+                        return R.drawable.ic_project_member_create;
+                    case manager:
+                        return R.drawable.ic_project_member_manager;
+                    case limited:
+                        return R.drawable.ic_project_member_limited;
+                    default: // member
+                        return 0;
+                }
+            }
+
+            public int getType() {
+                return type;
+            }
         }
     }
 
@@ -187,9 +186,9 @@ public class TaskObject {
         public int comments;
         public boolean has_description;
         public ArrayList<TopicLabelObject> labels = new ArrayList<>();
+        public String description = "";
         private int number;
         private int id;
-        public String description = "";
 
         public SingleTask(JSONObject json) throws JSONException {
             this(json, false);

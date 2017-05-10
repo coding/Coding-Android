@@ -41,14 +41,11 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
     protected final String TAG_DELETE_PROJECT_2FA = "TAG_DELETE_PROJECT_2FA";
     protected final String TAG_TRANSFER_PROJECT = "TAG_TRANSFER_PROJECT";
     private final String HOST_NEED_2FA = Global.HOST_API + "/user/2fa/method";
-    @ViewById
-    Button deleteBut;
-
-    Handler hander2fa;
-
     @Extra
     protected ProjectObject mProjectObject;
-
+    @ViewById
+    Button deleteBut;
+    Handler hander2fa;
     private EditText edit2fa;
 
     @AfterViews
@@ -121,7 +118,7 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
                     }
                     actionDelete2FA(editStr1);
                 })
-                .setNegativeButton("取消",null)
+                .setNegativeButton("取消", null)
                 .show();
 
         dialog.setOnDismissListener(dialog1 -> {

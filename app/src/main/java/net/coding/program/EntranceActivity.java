@@ -44,14 +44,9 @@ import java.io.File;
 @EActivity(R.layout.entrance_image)
 public class EntranceActivity extends BaseActivity implements Handler.Callback {
 
-    public final String HOST_CURRENT = getHostCurrent();
-
-    public static String getHostCurrent() {
-        return Global.HOST_API + "/current_user";
-    }
-
     private static final int HANDLER_MESSAGE_ANIMATION = 0;
     private static final int HANDLER_MESSAGE_NEXT_ACTIVITY = 1;
+    public final String HOST_CURRENT = getHostCurrent();
     @ViewById
     ImageView image;
     @ViewById
@@ -65,6 +60,10 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
     Uri background = null;
     boolean mNeedUpdateUser = false;
     WeakRefHander mWeakRefHandler;
+
+    public static String getHostCurrent() {
+        return Global.HOST_API + "/current_user";
+    }
 
     @AfterViews
     void init() {

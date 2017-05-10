@@ -66,7 +66,6 @@ public class PermissionUtil {
     }
 
 
-
     private static boolean checkPermission(Activity activity, int result, String[] permission, String tipString) {
         List<String> needApply = new ArrayList<>();
         for (String item : permission) {

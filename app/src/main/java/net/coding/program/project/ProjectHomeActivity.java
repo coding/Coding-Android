@@ -49,6 +49,14 @@ public class ProjectHomeActivity extends BaseActivity {
     String mProjectUrl;
 
     private Fragment mCurrentFragment;
+    private BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(BROADCAST_CLOSE)) {
+                finish();
+            }
+        }
+    };
 
     @AfterViews
     protected void initProjectHomeActivity() {
@@ -66,15 +74,6 @@ public class ProjectHomeActivity extends BaseActivity {
             finish();
         }
     }
-
-    private BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(BROADCAST_CLOSE)) {
-                finish();
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -16,9 +16,9 @@
             android:cacheColorHint="@color/transparent"
             android:clipToPadding="false"
             android:divider="@color/divide_line"
-            android:footerDividersEnabled="false"
             android:dividerHeight="0.5dp"
             android:drawSelectorOnTop="true"
+            android:footerDividersEnabled="false"
             android:listSelector="@color/transparent"
             android:overScrollMode="never"
             android:scrollbarStyle="outsideOverlay" />
@@ -49,7 +49,7 @@
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
             android:text="什么都没有搜到，换个词再试试？"
-            android:textSize="15sp"
-            android:textColor="@color/font_3" />
+            android:textColor="@color/font_3"
+            android:textSize="15sp" />
     </LinearLayout>
 </FrameLayout>

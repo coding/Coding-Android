@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.flyco.roundview.RoundTextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.flyco.roundview.RoundTextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -13,4 +12,4 @@
     app:rv_backgroundColor="@color/divide"
     app:rv_cornerRadius="2dp"
     app:rv_strokeColor="@color/divide_line"
-    app:rv_strokeWidth="@dimen/divide_height"/>
+    app:rv_strokeWidth="@dimen/divide_height" />

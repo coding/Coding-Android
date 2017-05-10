@@ -72,7 +72,7 @@ public class TopicComment extends BaseComment implements Serializable {
     }
 
     public String getUrlAllComment(int projectId) {
-        return String.format( "%s/project/%s/topic/%s/comment/%s/comments?page=1&pageSize=99999",
+        return String.format("%s/project/%s/topic/%s/comment/%s/comments?page=1&pageSize=99999",
                 Global.HOST_API, projectId, topicid, id);
     }
 

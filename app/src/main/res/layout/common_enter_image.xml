@@ -6,8 +6,8 @@
     android:background="@color/color_bottom_bar"
     android:orientation="vertical">
 
-    <View
-        style="@style/DivideLine" />
+    <View style="@style/DivideLine" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -34,8 +34,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/font_1"
-            android:background="@drawable/edit" />
+            android:background="@drawable/edit"
+            android:textColor="@color/font_1" />
 
         <RelativeLayout
             android:layout_width="60dp"

@@ -123,6 +123,35 @@ public class DialogUtil {
         }
     }
 
+    public static BottomPopupWindow initBottomPopupWindow(final Activity mActivity, String title, ArrayList<BottomPopupItem> popupItemArrayList, AdapterView.OnItemClickListener onItemClickListener) {
+
+        final BottomPopupWindow mAttachmentPopupWindow = new BottomPopupWindow(mActivity);
+        mAttachmentPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mAttachmentPopupWindow.setOutsideTouchable(true);
+        //mAttachmentPopupWindow.setAnimationStyle(R.style.PopupReversalAnimation);// android.R.style.Animation_Dialog
+        mAttachmentPopupWindow.setTouchable(true);
+        mAttachmentPopupWindow.setFocusable(true);
+
+        mAttachmentPopupWindow.tvTitle.setText(title);
+        mAttachmentPopupWindow.adapter.addAll(popupItemArrayList);
+        mAttachmentPopupWindow.listView.setOnItemClickListener(onItemClickListener);
+        return mAttachmentPopupWindow;
+    }
+
+    public static RightTopPopupWindow initRightTopPopupWindow(final Activity mActivity, ArrayList<RightTopPopupItem> popupItemArrayList, AdapterView.OnItemClickListener onItemClickListener) {
+
+        final RightTopPopupWindow mRightTopPopupWindow = new RightTopPopupWindow(mActivity);
+        mRightTopPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mRightTopPopupWindow.setOutsideTouchable(true);
+        //mRightTopPopupWindow.setAnimationStyle(R.style.PopupReversalAnimation);// android.R.style.Animation_Dialog
+        mRightTopPopupWindow.setTouchable(true);
+        mRightTopPopupWindow.setFocusable(true);
+
+        mRightTopPopupWindow.adapter.addAll(popupItemArrayList);
+        mRightTopPopupWindow.listView.setOnItemClickListener(onItemClickListener);
+        return mRightTopPopupWindow;
+    }
+
     public static class LoadingPopupWindow extends PopupWindow {
 
         public LoadingPopupWindow(Activity activity) {
@@ -154,21 +183,6 @@ public class DialogUtil {
             listView.setAdapter(adapter);
 
         }
-    }
-
-    public static BottomPopupWindow initBottomPopupWindow(final Activity mActivity, String title, ArrayList<BottomPopupItem> popupItemArrayList, AdapterView.OnItemClickListener onItemClickListener) {
-
-        final BottomPopupWindow mAttachmentPopupWindow = new BottomPopupWindow(mActivity);
-        mAttachmentPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mAttachmentPopupWindow.setOutsideTouchable(true);
-        //mAttachmentPopupWindow.setAnimationStyle(R.style.PopupReversalAnimation);// android.R.style.Animation_Dialog
-        mAttachmentPopupWindow.setTouchable(true);
-        mAttachmentPopupWindow.setFocusable(true);
-
-        mAttachmentPopupWindow.tvTitle.setText(title);
-        mAttachmentPopupWindow.adapter.addAll(popupItemArrayList);
-        mAttachmentPopupWindow.listView.setOnItemClickListener(onItemClickListener);
-        return mAttachmentPopupWindow;
     }
 
     public static class BottomPopupItem {
@@ -216,20 +230,6 @@ public class DialogUtil {
             listView.setAdapter(adapter);
 
         }
-    }
-
-    public static RightTopPopupWindow initRightTopPopupWindow(final Activity mActivity, ArrayList<RightTopPopupItem> popupItemArrayList, AdapterView.OnItemClickListener onItemClickListener) {
-
-        final RightTopPopupWindow mRightTopPopupWindow = new RightTopPopupWindow(mActivity);
-        mRightTopPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mRightTopPopupWindow.setOutsideTouchable(true);
-        //mRightTopPopupWindow.setAnimationStyle(R.style.PopupReversalAnimation);// android.R.style.Animation_Dialog
-        mRightTopPopupWindow.setTouchable(true);
-        mRightTopPopupWindow.setFocusable(true);
-
-        mRightTopPopupWindow.adapter.addAll(popupItemArrayList);
-        mRightTopPopupWindow.listView.setOnItemClickListener(onItemClickListener);
-        return mRightTopPopupWindow;
     }
 
     public static class RightTopPopupItem {

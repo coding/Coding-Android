@@ -38,30 +38,15 @@ public class SearchResultListFragment extends SearchBaseFragment {
     private static final String TAG = SearchResultListFragment.class.getSimpleName();
     final String url = Global.HOST_API + "/esearch/all?q=%s";
     final String tmp = "&types=%s&pageSize=10";
+    @InstanceState
+    protected String keyword = "";
     ArrayList<ProjectObject> mData = new ArrayList<>();
     String page = "&page=%s";
     int pos = 1;
+    MyAdapter adapter;
     private String tabPrams;
     private boolean hasMore = true;
     private boolean isLoading = true;
-
-    @InstanceState
-    protected String keyword = "";
-
-    MyAdapter adapter;
-
-    @AfterViews
-    protected void init() {
-        initRefreshLayout();
-        setRefreshing(true);
-        mFootUpdate.init(listView, mInflater, this);
-        adapter = new MyAdapter();
-        listView.setAdapter(adapter);
-        listView.setOnScrollListener(mOnScrollListener);
-        loadMore();
-    }
-
-
     AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -79,8 +64,23 @@ public class SearchResultListFragment extends SearchBaseFragment {
         }
     };
 
+    @AfterViews
+    protected void init() {
+        initRefreshLayout();
+        setRefreshing(true);
+        mFootUpdate.init(listView, mInflater, this);
+        adapter = new MyAdapter();
+        listView.setAdapter(adapter);
+        listView.setOnScrollListener(mOnScrollListener);
+        loadMore();
+    }
+
     public String getKeyword() {
         return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public String getTabPrams() {
@@ -89,10 +89,6 @@ public class SearchResultListFragment extends SearchBaseFragment {
 
     public void setTabPrams(String tabPrams) {
         this.tabPrams = tabPrams;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
     }
 
     private String getUrl(int pos) {
@@ -121,6 +117,50 @@ public class SearchResultListFragment extends SearchBaseFragment {
     public void onRefresh() {
 //        pos = 1;
         loadMore();
+    }
+
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(keyword)) {
+            setRefreshing(false);
+            if (code == 0) {
+                if (pos == 1) {
+                    mData.clear();
+                }
+                JSONArray array = respanse.getJSONObject("data").getJSONObject("projects").getJSONArray("list");
+                for (int i = 0; i < array.length(); ++i) {
+                    JSONObject item = array.getJSONObject(i);
+                    ProjectObject oneData = new ProjectObject(item);
+                    mData.add(oneData);
+                }
+                emptyView.setVisibility(mData.size() == 0 ? View.VISIBLE : View.GONE);
+                if (array.length() > 0) {
+                    hasMore = true;
+                    mFootUpdate.updateState(code, false, mData.size());
+                } else {
+                    hasMore = false;
+                    mFootUpdate.updateState(code, true, mData.size());
+                }
+                adapter.notifyDataSetChanged();
+                isLoading = false;
+            } else {
+                showErrorMsg(code, respanse);
+                hasMore = false;
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == InitProUtils.REQUEST_PRO_UPDATE) {
+            if (resultCode == Activity.RESULT_OK) {
+                String action = data.getStringExtra("action");
+                if (action.equals(InitProUtils.FLAG_REFRESH)) {
+                    onRefresh();
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private static class ViewHolder {
@@ -208,49 +248,5 @@ public class SearchResultListFragment extends SearchBaseFragment {
             iconfromNetwork(holder.image, item.icon, ImageLoadTool.optionsRounded2);
             return view;
         }
-    }
-
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(keyword)) {
-            setRefreshing(false);
-            if (code == 0) {
-                if (pos == 1) {
-                    mData.clear();
-                }
-                JSONArray array = respanse.getJSONObject("data").getJSONObject("projects").getJSONArray("list");
-                for (int i = 0; i < array.length(); ++i) {
-                    JSONObject item = array.getJSONObject(i);
-                    ProjectObject oneData = new ProjectObject(item);
-                    mData.add(oneData);
-                }
-                emptyView.setVisibility(mData.size() == 0 ? View.VISIBLE : View.GONE);
-                if (array.length() > 0) {
-                    hasMore = true;
-                    mFootUpdate.updateState(code, false, mData.size());
-                } else {
-                    hasMore = false;
-                    mFootUpdate.updateState(code, true, mData.size());
-                }
-                adapter.notifyDataSetChanged();
-                isLoading = false;
-            } else {
-                showErrorMsg(code, respanse);
-                hasMore = false;
-            }
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == InitProUtils.REQUEST_PRO_UPDATE) {
-            if (resultCode == Activity.RESULT_OK) {
-                String action = data.getStringExtra("action");
-                if (action.equals(InitProUtils.FLAG_REFRESH)) {
-                    onRefresh();
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }

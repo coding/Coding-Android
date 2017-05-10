@@ -31,7 +31,7 @@ public interface CodingRequest {
 
     @GET("user/{user}/project/{project}/wiki/{id}")
     Observable<HttpResult<Wiki>> getWikiDetail(@Path("user") String user, @Path("project") String project,
-                                                     @Path("id") int id, @Query("version") int version);
+                                               @Path("id") int id, @Query("version") int version);
 
     @GET("user/{user}/project/{project}/wiki/{id}/histories")
     Observable<HttpResult<List<WikiHistory>>> getWikiHistory(@Path("user") String user, @Path("project") String project,
@@ -39,5 +39,5 @@ public interface CodingRequest {
 
     @POST("user/{user}/project/{project}/wiki/{id}/history")
     Observable<HttpResult<WikiHistory>> rollbackWiki(@Path("user") String user, @Path("project") String project,
-                                                             @Path("id") int id, @Query("version") int version);
+                                                     @Path("id") int id, @Query("version") int version);
 }

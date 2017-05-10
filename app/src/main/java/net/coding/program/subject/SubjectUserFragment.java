@@ -35,13 +35,11 @@ import java.util.List;
  */
 @EFragment(R.layout.fragment_subject_list)
 public class SubjectUserFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
+    static final int RESULT_USER_DETAIL = 5;
     public final String HOST_FOLLOW = Global.HOST_API + "/user/follow?";
     public final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";
     final String subjectUserListUrlFormat = Global.HOST_API + "/tweet_topic/%s/joined?pageSize=10";
     final String subjectUserListTag = "subject_user_list_tag";
-
-    static final int RESULT_USER_DETAIL = 5;
-
     @FragmentArg
     int topicId;
 
@@ -52,6 +50,35 @@ public class SubjectUserFragment extends RefreshBaseFragment implements FootUpda
 
     SubjectUserListAdapter mAdapter = null;
     private List<UserObject> mUserList = new ArrayList<>();
+    private AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if (firstVisibleItem + visibleItemCount >= totalItemCount) {
+                loadMore();
+            }
+        }
+    };
+    private View.OnClickListener mFollowClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int pos = Integer.valueOf(v.getTag().toString());
+            UserObject data = mUserList.get(pos);
+            if (data != null) {
+                RequestParams params = new RequestParams();
+                params.put("users", data.global_key);
+                if (((CheckBox) v).isChecked()) {
+                    postNetwork(HOST_FOLLOW, params, HOST_FOLLOW, pos, null);
+                } else {
+                    postNetwork(HOST_UNFOLLOW, params, HOST_UNFOLLOW, pos, null);
+                }
+            }
+        }
+    };
 
     @AfterViews
     protected void init() {
@@ -67,21 +94,6 @@ public class SubjectUserFragment extends RefreshBaseFragment implements FootUpda
         listView.setOnScrollListener(mOnScrollListener);
         loadMore();
     }
-
-
-    private AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-        }
-
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            if (firstVisibleItem + visibleItemCount >= totalItemCount) {
-                loadMore();
-            }
-        }
-    };
 
     @Override
     public void onRefresh() {
@@ -162,21 +174,4 @@ public class SubjectUserFragment extends RefreshBaseFragment implements FootUpda
     private String getUrl() {
         return String.format(subjectUserListUrlFormat, topicId);
     }
-
-    private View.OnClickListener mFollowClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int pos = Integer.valueOf(v.getTag().toString());
-            UserObject data = mUserList.get(pos);
-            if (data != null) {
-                RequestParams params = new RequestParams();
-                params.put("users", data.global_key);
-                if (((CheckBox) v).isChecked()) {
-                    postNetwork(HOST_FOLLOW, params, HOST_FOLLOW, pos, null);
-                } else {
-                    postNetwork(HOST_UNFOLLOW, params, HOST_UNFOLLOW, pos, null);
-                }
-            }
-        }
-    };
 }

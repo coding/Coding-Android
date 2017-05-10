@@ -34,9 +34,9 @@ public class DateSectionDynamicAdapter<T extends DynamicObject.DynamicBaseObject
         StickyListHeadersAdapter, SectionIndexer {
 
     private final LayoutInflater mInflater;
+    public boolean mNoMore = false;
     protected ImageLoadTool mImageLoader;
     private MyImageGetter myImageGetter;
-    public boolean  mNoMore = false;
     private int mLastId;
     private FootUpdate.LoadMore mLoadMoreObj;
     private SimpleDateFormat mDataDyanmicItem = new SimpleDateFormat("HH:mm");
@@ -265,26 +265,6 @@ public class DateSectionDynamicAdapter<T extends DynamicObject.DynamicBaseObject
         super.notifyDataSetChanged();
     }
 
-    private class HeaderViewHolder {
-        TextView mHead;
-    }
-
-    protected class ViewHolder {
-        public ImageView mIcon;
-        TextView mTitle;
-        public TextView mContent;
-        TextView mTime;
-
-        ViewGroup mLayoutClick;
-
-        public View timeLineUp;
-        public View timeLinePoint;
-        public View timeLineDown;
-
-        public View divideLeft;
-        protected View divideRight;
-    }
-
     public void setDynamics(ArrayList<T> data) {
         super.setData(data);
     }
@@ -298,11 +278,28 @@ public class DateSectionDynamicAdapter<T extends DynamicObject.DynamicBaseObject
     }
 
     public int lastId() {
-        return  mLastId;
+        return mLastId;
     }
 
     public void resetLastId() {
         mLastId = RefreshBaseFragment.UPDATE_ALL_INT;
+    }
+
+    private class HeaderViewHolder {
+        TextView mHead;
+    }
+
+    protected class ViewHolder {
+        public ImageView mIcon;
+        public TextView mContent;
+        public View timeLineUp;
+        public View timeLinePoint;
+        public View timeLineDown;
+        public View divideLeft;
+        protected View divideRight;
+        TextView mTitle;
+        TextView mTime;
+        ViewGroup mLayoutClick;
     }
 
 }

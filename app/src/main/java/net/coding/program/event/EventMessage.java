@@ -6,14 +6,14 @@ package net.coding.program.event;
 
 public class EventMessage {
 
-    public enum Type {
-        loginOut
-    }
-
     public final Type type;
 
     public EventMessage(Type type) {
         this.type = type;
+    }
+
+    public enum Type {
+        loginOut
     }
 
 }

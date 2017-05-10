@@ -24,17 +24,14 @@ import org.androidannotations.annotations.ViewById;
 @EViewGroup(R.layout.input_view_main)
 public class MainInputView extends FrameLayout implements KeyboardControl, InputOperate {
 
+    private final boolean showEmojiOnly;
     AppCompatActivity activity;
-
     @ViewById
     TopBar_ topBar;
-
     @ViewById
     VoiceView_ voiceView;
-
     @ViewById
     EmojiKeyboard_ emojiKeyboard;
-    private final boolean showEmojiOnly;
 
     public MainInputView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -115,6 +112,11 @@ public class MainInputView extends FrameLayout implements KeyboardControl, Input
     }
 
     @Override
+    public void setContent(String s) {
+        topBar.setContent(s);
+    }
+
+    @Override
     public void hideKeyboard() {
         topBar.hideKeyboard();
     }
@@ -133,11 +135,6 @@ public class MainInputView extends FrameLayout implements KeyboardControl, Input
     @Override
     public void addTextWatcher(TextWatcher textWatcher) {
         topBar.addTextWatcher(textWatcher);
-    }
-
-    @Override
-    public void setContent(String s) {
-        topBar.setContent(s);
     }
 
     public void restoreLoad(Object object) {

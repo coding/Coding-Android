@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/emptyLayout"
     android:layout_width="match_parent"
-    android:layout_height="44dp" >
+    android:layout_height="44dp">
 
     <TextView
+        style="@style/OrderLeft"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
-        style="@style/OrderLeft"
-        android:textColor="@color/font_1"
-        android:text="充值订单" />
+        android:text="充值订单"
+        android:textColor="@color/font_1" />
 
     <View
-        android:layout_alignParentBottom="true"
-        style="@style/DivideLine" />
+        style="@style/DivideLine"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

@@ -84,9 +84,9 @@
 
             <net.coding.program.third.WechatTab
                 android:id="@+id/mallTab"
+                style="@style/TextTabBar"
                 app:tabGravity="fill"
-                app:tabMode="fixed"
-                style="@style/TextTabBar" />
+                app:tabMode="fixed" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"

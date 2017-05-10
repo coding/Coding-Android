@@ -57,6 +57,24 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     AttachmentFileObject mFiles = new AttachmentFileObject();
     String markdown;
 
+    public static String readTextFile(InputStream inputStream) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte buf[] = new byte[1024];
+        int len;
+        try {
+            while ((len = inputStream.read(buf)) != -1) {
+                outputStream.write(buf, 0, len);
+            }
+            outputStream.close();
+            inputStream.close();
+
+        } catch (IOException e) {
+            Global.errorLog(e);
+        }
+
+        return outputStream.toString();
+    }
+
     @AfterViews
     void initAttachmentsHtmlDetailActivity() {
         textView.setMovementMethod(new ScrollingMovementMethod());
@@ -166,24 +184,6 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
 
     @OptionsItem
     public void action_add() {
-    }
-
-    public static String readTextFile(InputStream inputStream) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte buf[] = new byte[1024];
-        int len;
-        try {
-            while ((len = inputStream.read(buf)) != -1) {
-                outputStream.write(buf, 0, len);
-            }
-            outputStream.close();
-            inputStream.close();
-
-        } catch (IOException e) {
-            Global.errorLog(e);
-        }
-
-        return outputStream.toString();
     }
 
     @OptionsItem

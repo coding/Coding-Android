@@ -12,10 +12,10 @@ public class NotifyObject {
     public long created_at;
     public int id;
     public int owner_id;
-    private int status; // 0表示未读，1表示已读
     public int target_id;
     public String target_type = "";
     public int type;
+    private int status; // 0表示未读，1表示已读
 
     public NotifyObject(JSONObject json) throws JSONException {
         content = json.optString("content"); //<a href=Global.HOST + "/u/8206503">chenchao</a> 在 <a href=Global.HOST + "/u/wangfeiping/pp/6852">收到月饼了，可是还想要抱枕，coding再办...</a> 中提到了你 :@chenchao : vvvvv"

@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/divide"
     android:orientation="vertical">
 
@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_selector"
         android:gravity="center_vertical"
+        android:minHeight="48dp"
         android:paddingLeft="@dimen/padding_15"
-        android:paddingRight="@dimen/padding_15"
-        android:minHeight="48dp">
+        android:paddingRight="@dimen/padding_15">
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,9 +30,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            tools:text="邮箱"
             android:textColor="@color/font_2"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            tools:text="邮箱" />
 
     </RelativeLayout>
 
@@ -49,12 +49,12 @@
         android:paddingRight="@dimen/padding_15">
 
         <TextView
+            android:id="@+id/emailTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:text="邮箱"
             android:textColor="@color/font_1"
-            android:id="@+id/emailTitle"
             android:textSize="18sp" />
 
 
@@ -63,10 +63,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="未绑定"
-            android:textColor="@color/font_2"
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/ic_list_right_arr"
+            android:text="未绑定"
+            android:textColor="@color/font_2"
             android:textSize="18sp" />
 
     </RelativeLayout>
@@ -84,13 +84,13 @@
         android:paddingRight="@dimen/padding_15">
 
         <TextView
+            android:id="@+id/phoneTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
-            android:text="手机号码"
 
+            android:text="手机号码"
             android:textColor="@color/font_1"
-            android:id="@+id/phoneTitle"
             android:textSize="18sp" />
 
         <TextView
@@ -100,9 +100,9 @@
             android:layout_alignParentRight="true"
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/ic_list_right_arr"
+            android:text="未绑定"
             android:textColor="@color/font_2"
-            android:textSize="18sp"
-            android:text="未绑定" />
+            android:textSize="18sp" />
 
     </RelativeLayout>
 
@@ -121,16 +121,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
             android:text="修改密码"
             android:textColor="@color/font_1"
-            android:drawablePadding="5dp"
             android:textSize="18sp" />
 
         <ImageView
-            android:src="@drawable/ic_list_right_arr"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_list_right_arr" />
 
     </RelativeLayout>
 

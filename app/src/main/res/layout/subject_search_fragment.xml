@@ -9,9 +9,9 @@
         android:layout_height="wrap_content"
         android:background="@color/divide"
         android:clipToPadding="false"
-        android:drawSelectorOnTop="true"
         android:divider="@null"
         android:dividerHeight="0dp"
+        android:drawSelectorOnTop="true"
         android:overScrollMode="never"
         android:scrollbarStyle="outsideOverlay"
         android:visibility="visible" />

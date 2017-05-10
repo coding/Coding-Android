@@ -54,15 +54,15 @@ public class GitFileInfoObject implements Serializable {
         return mode.equals(MODE_TREE);
     }
 
-    public boolean isGitLink(){
+    public boolean isGitLink() {
         return mode.equals(MODE_GIT_LINK);
     }
 
-    public boolean isExecutable(){
+    public boolean isExecutable() {
         return mode.equals(MODE_EXECUTABLE);
     }
 
-    public boolean isImage(){
+    public boolean isImage() {
         return mode.equals(MODE_IMAGE);
     }
 }

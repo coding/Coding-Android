@@ -29,16 +29,14 @@ import org.json.JSONObject;
 public abstract class BaseProjectHomeFragment extends BaseFragment {
 
     public final String HOST_VISTIT = getHostVisit();
-
-    public static String getHostVisit() {
-        return Global.HOST_API + "/project/%d/update_visit";
-    }
-
     protected boolean isUpdateDynamic = false;
-
     @FragmentArg
     ProjectObject mProjectObject;
-
+    protected View.OnClickListener clickProjectSetting = v -> {
+        Intent intent = new Intent(getActivity(), ProjectSetActivity_.class);
+        intent.putExtra("projectObject", mProjectObject);
+        startActivityForResult(intent, InitProUtils.REQUEST_PRO_UPDATE);
+    };
     @FragmentArg
     boolean needReload = true;
 
@@ -54,11 +52,9 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
     BadgeView dynamicBadge;
     private boolean isBackToRefresh = false;
 
-    protected View.OnClickListener clickProjectSetting = v -> {
-        Intent intent = new Intent(getActivity(), ProjectSetActivity_.class);
-        intent.putExtra("projectObject", mProjectObject);
-        startActivityForResult(intent, InitProUtils.REQUEST_PRO_UPDATE);
-    };
+    public static String getHostVisit() {
+        return Global.HOST_API + "/project/%d/update_visit";
+    }
 
     @AfterViews
     protected final void initBaseProjectHomeFragment() {
@@ -76,7 +72,7 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
         initProjectSettingEntrance(projectHeaderLayout);
     }
 
-     protected void initProjectSettingEntrance(View view) {
+    protected void initProjectSettingEntrance(View view) {
         if (mProjectObject.isMy()) {
 
             view.findViewById(R.id.projectHeaderLayout).setOnClickListener(clickProjectSetting);

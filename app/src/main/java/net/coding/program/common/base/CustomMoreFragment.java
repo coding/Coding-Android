@@ -22,6 +22,7 @@ public abstract class CustomMoreFragment extends RefreshBaseFragment {
         showButtomToast("已复制链接 " + link);
     }
 
-    public void search(String text) {}
+    public void search(String text) {
+    }
 
 }

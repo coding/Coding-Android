@@ -86,31 +86,20 @@ public class MergeDetailActivity extends BackActivity {
     private static final String HOST_DELETE_COMMENT = "HOST_DELETE_COMMENT";
 
     private static final String TAG_REVIEW_GOOD = "TAG_REVIEW_GOOD";
-
+    private final ClickSmallImage onClickImage = new ClickSmallImage(this);
     @Extra
     ProjectObject mProject;
-
     @Extra
     Merge mMerge;
-
     @Extra
     String mMergeUrl;
-
     @ViewById
     View actionLayout, actionAccept, actionRefuse, actionCancel, actionAuth, actionCancelAuth, blankLayout;
-
     @ViewById
     ListView listView;
-
     DataAdapter mAdapter;
     MyImageGetter myImageGetter = new MyImageGetter(this);
-
-    private ArrayList<RefResourceObject> refResourceList = new ArrayList<>();
-    private ArrayList<Merge.Reviewer> reviewerList = new ArrayList<>();
-    private ArrayList<DynamicObject.DynamicMergeRequest> dynamicList = new ArrayList<>();
-
     Comparator<DynamicObject.DynamicBaseObject> mDynamicSorter = (lhs, rhs) -> (int) (lhs.created_at - rhs.created_at);
-
     View.OnClickListener mOnClickItem = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -127,10 +116,11 @@ public class MergeDetailActivity extends BackActivity {
             }
         }
     };
-
+    private ArrayList<RefResourceObject> refResourceList = new ArrayList<>();
+    private ArrayList<Merge.Reviewer> reviewerList = new ArrayList<>();
+    private ArrayList<DynamicObject.DynamicMergeRequest> dynamicList = new ArrayList<>();
     private MergeDetail mMergeDetail;
     private WebView contentWeb;
-
     private View.OnClickListener mOnClickComment = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -147,9 +137,6 @@ public class MergeDetailActivity extends BackActivity {
             }
         }
     };
-
-    private final ClickSmallImage onClickImage = new ClickSmallImage(this);
-
     DataAdapter<DynamicObject.DynamicMergeRequest> commentAdpter = new DataAdapter<DynamicObject.DynamicMergeRequest>() {
         @Override
         public int getItemViewType(int position) {
@@ -228,46 +215,6 @@ public class MergeDetailActivity extends BackActivity {
         intent.putExtra("mMerge", mMerge);
         startActivityForResult(intent, MergeReviewerListFragment.RESULT_ADD_USER);
     };
-
-    class DynamicHolder {
-        public ImageView mIcon;
-        public TextView mContent;
-        public TextView mContent2;
-        private View timeLineUp;
-        private View timeLineDown;
-
-        public DynamicHolder(View convertView) {
-            mIcon = (ImageView) convertView.findViewById(R.id.icon);
-            mContent = (TextView) convertView.findViewById(R.id.content);
-            mContent2 = (TextView) convertView.findViewById(R.id.linkContent);
-            mContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
-            timeLineUp = convertView.findViewById(R.id.timeLineUp);
-            timeLineDown = convertView.findViewById(R.id.timeLineDown);
-        }
-
-        public void updateLine(int position, int count) {
-            switch (count) {
-                case 1:
-                    setLine(false, false);
-                    break;
-
-                default:
-                    if (position == 0) {
-                        setLine(false, true);
-                    } else if (position == count - 1) {
-                        setLine(true, false);
-                    } else {
-                        setLine(true, true);
-                    }
-                    break;
-            }
-        }
-
-        private void setLine(boolean up, boolean down) {
-            timeLineUp.setVisibility(up ? View.VISIBLE : View.INVISIBLE);
-            timeLineDown.setVisibility(down ? View.VISIBLE : View.INVISIBLE);
-        }
-    }
 
     @AfterViews
     protected final void initMergeDetailActivity() {
@@ -364,7 +311,6 @@ public class MergeDetailActivity extends BackActivity {
             setActionStyle(false, false, false, false, false);
         }
     }
-
 
     /**
      * @param accept 这个参数可以为 null，代表不可合并，但是显示合并按钮，并 50% 透明
@@ -563,7 +509,6 @@ public class MergeDetailActivity extends BackActivity {
         });
     }
 
-
     public CommentActivity.CommentParam createParam(final String atSomeOne) {
         return new MergeCommentParam(mMerge, atSomeOne);
     }
@@ -625,7 +570,7 @@ public class MergeDetailActivity extends BackActivity {
                 }
 
                 updateBottomBarStyle();
-                if(!TextUtils.isEmpty(mMergeDetail.getBody())){
+                if (!TextUtils.isEmpty(mMergeDetail.getBody())) {
                     contentWeb.setVisibility(View.VISIBLE);
                     Global.setWebViewContent(contentWeb, "topic-android.html", mMergeDetail.getBody());
                 }
@@ -647,7 +592,6 @@ public class MergeDetailActivity extends BackActivity {
             }
         }
     }
-
 
     private void refreshRefResource() {
         if (!mMerge.isPull()) {
@@ -780,43 +724,6 @@ public class MergeDetailActivity extends BackActivity {
         EventBus.getDefault().post(MergeListFragment.EVENT_UPDATE);
 
         finish();
-    }
-
-    private static class MergeCommentParam extends CommentActivity.CommentParam implements Serializable {
-        private Merge mMerge;
-        private String atSomeOne;
-
-        public MergeCommentParam(Merge mMerge, String atSomeOne) {
-            this.mMerge = mMerge;
-            this.atSomeOne = atSomeOne;
-        }
-
-        @Override
-        public RequestData getSendCommentParam(String input) {
-            RequestData request = mMerge.getHttpSendComment();
-            request.setContent(input);
-            return request;
-        }
-
-        @Override
-        public String getAtSome() {
-            return atSomeOne;
-        }
-
-        @Override
-        public String getAtSomeUrl() {
-            return mMerge.getMergeAtMemberUrl();
-        }
-
-        @Override
-        public String getProjectPath() {
-            return mMerge.getProjectPath();
-        }
-
-        @Override
-        public boolean isPublicProject() {
-            return mMerge.isPull();
-        }
     }
 
     private void updateReviewer() {
@@ -972,6 +879,83 @@ public class MergeDetailActivity extends BackActivity {
     public void onAddReviewer(int result) {
         if (result == Activity.RESULT_OK) {
             refreshReviewers();
+        }
+    }
+
+    private static class MergeCommentParam extends CommentActivity.CommentParam implements Serializable {
+        private Merge mMerge;
+        private String atSomeOne;
+
+        public MergeCommentParam(Merge mMerge, String atSomeOne) {
+            this.mMerge = mMerge;
+            this.atSomeOne = atSomeOne;
+        }
+
+        @Override
+        public RequestData getSendCommentParam(String input) {
+            RequestData request = mMerge.getHttpSendComment();
+            request.setContent(input);
+            return request;
+        }
+
+        @Override
+        public String getAtSome() {
+            return atSomeOne;
+        }
+
+        @Override
+        public String getAtSomeUrl() {
+            return mMerge.getMergeAtMemberUrl();
+        }
+
+        @Override
+        public String getProjectPath() {
+            return mMerge.getProjectPath();
+        }
+
+        @Override
+        public boolean isPublicProject() {
+            return mMerge.isPull();
+        }
+    }
+
+    class DynamicHolder {
+        public ImageView mIcon;
+        public TextView mContent;
+        public TextView mContent2;
+        private View timeLineUp;
+        private View timeLineDown;
+
+        public DynamicHolder(View convertView) {
+            mIcon = (ImageView) convertView.findViewById(R.id.icon);
+            mContent = (TextView) convertView.findViewById(R.id.content);
+            mContent2 = (TextView) convertView.findViewById(R.id.linkContent);
+            mContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
+            timeLineUp = convertView.findViewById(R.id.timeLineUp);
+            timeLineDown = convertView.findViewById(R.id.timeLineDown);
+        }
+
+        public void updateLine(int position, int count) {
+            switch (count) {
+                case 1:
+                    setLine(false, false);
+                    break;
+
+                default:
+                    if (position == 0) {
+                        setLine(false, true);
+                    } else if (position == count - 1) {
+                        setLine(true, false);
+                    } else {
+                        setLine(true, true);
+                    }
+                    break;
+            }
+        }
+
+        private void setLine(boolean up, boolean down) {
+            timeLineUp.setVisibility(up ? View.VISIBLE : View.INVISIBLE);
+            timeLineDown.setVisibility(down ? View.VISIBLE : View.INVISIBLE);
         }
     }
 }

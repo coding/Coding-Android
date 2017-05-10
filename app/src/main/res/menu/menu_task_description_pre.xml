@@ -1,14 +1,14 @@
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_edit"
-        android:title="编辑"
         android:orderInCategory="100"
+        android:title="编辑"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_save"
-        android:title="保存"
         android:orderInCategory="100"
+        android:title="保存"
         app:showAsAction="always" />
 </menu>

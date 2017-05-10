@@ -42,6 +42,27 @@ public class LocalProjectFileActivity extends BackActivity {
     private LocalAdapter adapter;
     private String[] setStrings;
 
+    public static ArrayList<File> getListFiles(Object obj) {
+        File directory;
+        if (obj instanceof File) {
+            directory = (File) obj;
+        } else {
+            directory = new File(obj.toString());
+        }
+        ArrayList<File> files = new ArrayList<File>();
+        if (directory.isFile()) {
+            files.add(directory);
+            return files;
+        } else if (directory.isDirectory()) {
+            File[] fileArr = directory.listFiles();
+            for (int i = 0; i < fileArr.length; i++) {
+                File fileOne = fileArr[i];
+                files.addAll(getListFiles(fileOne));
+            }
+        }
+        return files;
+    }
+
     @AfterViews
     protected final void initLocalProjectFileActivity() {
         HashMap<Integer, String> idName = new HashMap<>();
@@ -113,27 +134,6 @@ public class LocalProjectFileActivity extends BackActivity {
         }
         setStrings = createListData();
         adapter.notifyDataSetChanged();
-    }
-
-    public static ArrayList<File> getListFiles(Object obj) {
-        File directory;
-        if (obj instanceof File) {
-            directory = (File) obj;
-        } else {
-            directory = new File(obj.toString());
-        }
-        ArrayList<File> files = new ArrayList<File>();
-        if (directory.isFile()) {
-            files.add(directory);
-            return files;
-        } else if (directory.isDirectory()) {
-            File[] fileArr = directory.listFiles();
-            for (int i = 0; i < fileArr.length; i++) {
-                File fileOne = fileArr[i];
-                files.addAll(getListFiles(fileOne));
-            }
-        }
-        return files;
     }
 
     class LocalAdapter extends BaseAdapter {

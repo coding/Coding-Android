@@ -22,8 +22,9 @@ public class TestActivity extends BackActivity {
 
         click();
     }
+
     private void click() {
-       openGuide();
+        openGuide();
     }
 
     private void openGuide() {

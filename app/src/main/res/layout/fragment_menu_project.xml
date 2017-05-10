@@ -39,8 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="20dp"
-            android:gravity="center_vertical"
             android:button="@null"
+            android:gravity="center_vertical"
             android:text="我参与的 "
             android:textColor="@drawable/text_menu_selector"
             android:textSize="16sp" />
@@ -56,9 +56,9 @@
             android:id="@+id/rb_my_intrest"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:button="@null"
+            android:gravity="center_vertical"
             android:text="我关注的 "
             android:textColor="@drawable/text_menu_selector"
             android:textSize="16sp" />

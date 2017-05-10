@@ -39,12 +39,12 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
 //    public static final String EXTRA_TIP = "EXTRA_TIP";
 
     public static final String EXTRA_OPEN_AUTH_LIST = "EXTRA_OPEN_AUTH_LIST"; // true 表示需要打开二次验证列表
-
-    private QRCodeReaderView qrCodeView;
-
     private final int RESULT_REQUEST_PHOTO = 1;
-
+    View codeViewRoot;
+    boolean enableScan = true;
+    private QRCodeReaderView qrCodeView;
     private boolean openAuthList = true;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +82,6 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
         return super.onOptionsItemSelected(item);
     }
 
-    View codeViewRoot;
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -101,7 +99,6 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
         startActivityForResult(i, RESULT_REQUEST_PHOTO);
     }
 
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -114,8 +111,6 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
         }
 
     }
-
-    boolean enableScan = true;
 
     @Override
     public void onQRCodeRead(String s, PointF[] pointFs) {
@@ -169,8 +164,6 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
             finish();
         }
     }
-
-    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

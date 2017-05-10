@@ -94,7 +94,7 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
         }
 
         RequestParams params = new RequestParams();
-        String url =  Global.HOST_API + "/account/password/reset";
+        String url = Global.HOST_API + "/account/password/reset";
         String sha1Password = SimpleSHA1.sha1(password);
         params.put("password", sha1Password);
         params.put("confirm", sha1Password);

@@ -34,14 +34,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 //    };
     private DateSet mDateSet;
 
-    @Override
-    public void onAttach(Activity activity) {
-        if (activity instanceof DateSet) {
-            mDateSet = (DateSet) activity;
-        }
-        super.onAttach(activity);
-    }
-
     private static boolean isBrokenSamsungDevice() {
         return (Build.MANUFACTURER.equalsIgnoreCase("samsung")
                 && isBetweenAndroidVersions(
@@ -51,6 +43,14 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     private static boolean isBetweenAndroidVersions(int min, int max) {
         return Build.VERSION.SDK_INT >= min && Build.VERSION.SDK_INT <= max;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        if (activity instanceof DateSet) {
+            mDateSet = (DateSet) activity;
+        }
+        super.onAttach(activity);
     }
 
     @Override

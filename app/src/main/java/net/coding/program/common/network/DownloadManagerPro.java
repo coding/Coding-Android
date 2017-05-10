@@ -64,6 +64,45 @@ public class DownloadManagerPro {
     }
 
     /**
+     * whether exist pauseDownload and resumeDownload method in {@link DownloadManager}
+     *
+     * @return
+     */
+    public static boolean isExistPauseAndResumeMethod() {
+        initPauseMethod();
+        initResumeMethod();
+        return pauseDownload != null && resumeDownload != null;
+    }
+
+    private static void initPauseMethod() {
+        if (isInitPauseDownload) {
+            return;
+        }
+
+        isInitPauseDownload = true;
+        try {
+            pauseDownload = DownloadManager.class.getMethod(METHOD_NAME_PAUSE_DOWNLOAD, long[].class);
+        } catch (Exception e) {
+            // accept all exception
+            e.printStackTrace();
+        }
+    }
+
+    private static void initResumeMethod() {
+        if (isInitResumeDownload) {
+            return;
+        }
+
+        isInitResumeDownload = true;
+        try {
+            resumeDownload = DownloadManager.class.getMethod(METHOD_NAME_RESUME_DOWNLOAD, long[].class);
+        } catch (Exception e) {
+            // accept all exception
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * get download status
      *
      * @param downloadId
@@ -167,45 +206,6 @@ public class DownloadManagerPro {
     }
 
     /**
-     * whether exist pauseDownload and resumeDownload method in {@link DownloadManager}
-     *
-     * @return
-     */
-    public static boolean isExistPauseAndResumeMethod() {
-        initPauseMethod();
-        initResumeMethod();
-        return pauseDownload != null && resumeDownload != null;
-    }
-
-    private static void initPauseMethod() {
-        if (isInitPauseDownload) {
-            return;
-        }
-
-        isInitPauseDownload = true;
-        try {
-            pauseDownload = DownloadManager.class.getMethod(METHOD_NAME_PAUSE_DOWNLOAD, long[].class);
-        } catch (Exception e) {
-            // accept all exception
-            e.printStackTrace();
-        }
-    }
-
-    private static void initResumeMethod() {
-        if (isInitResumeDownload) {
-            return;
-        }
-
-        isInitResumeDownload = true;
-        try {
-            resumeDownload = DownloadManager.class.getMethod(METHOD_NAME_RESUME_DOWNLOAD, long[].class);
-        } catch (Exception e) {
-            // accept all exception
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * get download file name
      *
      * @param downloadId
@@ -267,6 +267,54 @@ public class DownloadManagerPro {
      */
     public int getErrorCode(long downloadId) {
         return getInt(downloadId, DownloadManager.COLUMN_REASON);
+    }
+
+    /**
+     * get string column
+     *
+     * @param downloadId
+     * @param columnName
+     * @return
+     */
+    private String getString(long downloadId, String columnName) {
+        DownloadManager.Query query = new DownloadManager.Query().setFilterById(downloadId);
+        String result = null;
+        Cursor c = null;
+        try {
+            c = downloadManager.query(query);
+            if (c != null && c.moveToFirst()) {
+                result = c.getString(c.getColumnIndex(columnName));
+            }
+        } finally {
+            if (c != null) {
+                c.close();
+            }
+        }
+        return result;
+    }
+
+    /**
+     * get int column
+     *
+     * @param downloadId
+     * @param columnName
+     * @return
+     */
+    private int getInt(long downloadId, String columnName) {
+        DownloadManager.Query query = new DownloadManager.Query().setFilterById(downloadId);
+        int result = -1;
+        Cursor c = null;
+        try {
+            c = downloadManager.query(query);
+            if (c != null && c.moveToFirst()) {
+                result = c.getInt(c.getColumnIndex(columnName));
+            }
+        } finally {
+            if (c != null) {
+                c.close();
+            }
+        }
+        return result;
     }
 
     public static class RequestPro extends Request {
@@ -350,53 +398,5 @@ public class DownloadManagerPro {
                 }
             }
         }
-    }
-
-    /**
-     * get string column
-     *
-     * @param downloadId
-     * @param columnName
-     * @return
-     */
-    private String getString(long downloadId, String columnName) {
-        DownloadManager.Query query = new DownloadManager.Query().setFilterById(downloadId);
-        String result = null;
-        Cursor c = null;
-        try {
-            c = downloadManager.query(query);
-            if (c != null && c.moveToFirst()) {
-                result = c.getString(c.getColumnIndex(columnName));
-            }
-        } finally {
-            if (c != null) {
-                c.close();
-            }
-        }
-        return result;
-    }
-
-    /**
-     * get int column
-     *
-     * @param downloadId
-     * @param columnName
-     * @return
-     */
-    private int getInt(long downloadId, String columnName) {
-        DownloadManager.Query query = new DownloadManager.Query().setFilterById(downloadId);
-        int result = -1;
-        Cursor c = null;
-        try {
-            c = downloadManager.query(query);
-            if (c != null && c.moveToFirst()) {
-                result = c.getInt(c.getColumnIndex(columnName));
-            }
-        } finally {
-            if (c != null) {
-                c.close();
-            }
-        }
-        return result;
     }
 }

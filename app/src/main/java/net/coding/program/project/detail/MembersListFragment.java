@@ -58,36 +58,19 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     final String urlDeleteUser = Global.HOST_API + "/project/%d/kickout/%d";
     String urlMembers = Global.HOST_API + "/project/%d/members?pagesize=1000";
     String urlQuit = Global.HOST_API + "/project/%d/quit";
-
-    public enum Type {
-        Member,
-        Pick,
-    }
-
-    public enum DataType {
-        Member,
-        User
-    }
-
     @FragmentArg
     ProjectObject mProjectObject;
     @FragmentArg
     String mMergeUrl;
     @FragmentArg
     Type type = Type.Member;
-
     @FragmentArg
     DataType dataType;
-
     @ViewById
     ListView listView;
-
-
     ArrayList<Object> mSearchData = new ArrayList<>();
     ArrayList<Object> mData = new ArrayList<>();
-
     TaskObject.Members mMySelf = new TaskObject.Members();
-
     BaseAdapter adapter = new BaseAdapter() {
         private View.OnClickListener quitProject = v -> {
             new AlertDialog.Builder(getActivity())
@@ -538,6 +521,16 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     @Override
     protected String getLink() {
         return Global.HOST + mProjectObject.project_path + "/members";
+    }
+
+    public enum Type {
+        Member,
+        Pick,
+    }
+
+    public enum DataType {
+        Member,
+        User
     }
 
     static class ViewHolder {

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
-        
+
         <include layout="@layout/divide_top_15" />
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

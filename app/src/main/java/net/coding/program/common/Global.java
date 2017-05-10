@@ -87,6 +87,9 @@ public class Global {
     private static final SimpleDateFormat sFormatMessageToday = new SimpleDateFormat("今天");
     private static final SimpleDateFormat sFormatMessageThisYear = new SimpleDateFormat("MM/dd");
     private static final SimpleDateFormat sFormatMessageOtherYear = new SimpleDateFormat("yy/MM/dd");
+    private static final String LOG_PREFIX = "coding_";
+    private static final int LOG_PREFIX_LENGTH = LOG_PREFIX.length();
+    private static final int MAX_LOG_TAG_LENGTH = 23;
     public static String HOST = DEFAULT_HOST;
     public static String HOST_MOBILE = "https://m.coding.net";
     public static String HOST_API = HOST + "/api";
@@ -108,15 +111,25 @@ public class Global {
         }
     };
     public static DecimalFormat df = new DecimalFormat("#.00");
+    public static View.OnClickListener clickJumpWebView = v -> {
+        Object object = v.getTag();
+        if (object instanceof String) {
+            WebviewDetailActivity_.intent(v.getContext())
+                    .comment((String) object)
+                    .start();
+        }
+    };
+    public static View.OnClickListener clickUser = v -> {
+        String globalKey = (String) v.getTag();
+        UserDetailActivity_.intent(v.getContext())
+                .globalKey(globalKey)
+                .start();
+    };
     private static SimpleDateFormat DayFormatTime = new SimpleDateFormat("yyyy-MM-dd");
 
     public static String dayFromTime(long time) {
         return DayFormatTime.format(time);
     }
-
-    private static final String LOG_PREFIX = "coding_";
-    private static final int LOG_PREFIX_LENGTH = LOG_PREFIX.length();
-    private static final int MAX_LOG_TAG_LENGTH = 23;
 
     public static String makeLogTag(Class cls) {
         return makeLogTag(cls.getSimpleName());
@@ -133,8 +146,9 @@ public class Global {
     public static Spanned createBlueHtml(String begin, String middle, String end) {
         return createColorHtml(begin, middle, end, "#4F95E8");
     }
+
     public static Spanned createColorHtml(String s, int color) {
-       return createColorHtml("", s, "", color);
+        return createColorHtml("", s, "", color);
     }
 
     public static Spanned createColorHtml(String begin, String middle, String end, int color) {
@@ -146,14 +160,6 @@ public class Global {
         return String.format("#%06X", 0xFFFFFF & color);
     }
 
-    public static Spanned createColorHtml(String begin, String middle, String end, String color) {
-        return Html.fromHtml(String.format("%s<font color=\"%s\">%s</font>%s", begin, color, middle, end));
-    }
-
-    public static Spanned createGreenHtml(String begin, String middle, String end) {
-        return createColorHtml(begin, middle, end, CodingColor.fontGreen);
-    }
-
 //    public static String getAppPackage(Context context) {
 //        try {
 //            return context.getPackageName();
@@ -162,6 +168,14 @@ public class Global {
 //            version.setText(packageInfo.packageName);
 //        } catch (NameNotFoundException e) {}
 //    }
+
+    public static Spanned createColorHtml(String begin, String middle, String end, String color) {
+        return Html.fromHtml(String.format("%s<font color=\"%s\">%s</font>%s", begin, color, middle, end));
+    }
+
+    public static Spanned createGreenHtml(String begin, String middle, String end) {
+        return createColorHtml(begin, middle, end, CodingColor.fontGreen);
+    }
 
     public static void display(Context context) {
         PersistentCookieStore cookieStore = new PersistentCookieStore(context);
@@ -181,7 +195,8 @@ public class Global {
                 String appVersion = pInfo.versionName;
                 String phoneModel = Build.MODEL;
                 FEED_EXTRA = String.format("Coding_Android/%s (Android %s; %s)", appVersion, Build.VERSION.SDK_INT, phoneModel);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
 
         return FEED_EXTRA;
@@ -260,12 +275,11 @@ public class Global {
     }
 
     public static Drawable tintDrawable(Drawable drawable, int color) {
-         ColorStateList colors = ColorStateList.valueOf(color);
+        ColorStateList colors = ColorStateList.valueOf(color);
         final Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
         DrawableCompat.setTintList(wrappedDrawable, colors);
         return wrappedDrawable;
     }
-
 
     public static void copy(Context context, String content) {
         ClipboardManager cmb = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -395,7 +409,6 @@ public class Global {
     public static Spannable changeHyperlinkColor(String content, Html.ImageGetter imageGetter, Html.TagHandler tagHandler) {
         return changeHyperlinkColor(content, imageGetter, tagHandler, CodingColor.fontGreen);
     }
-
 
     public static Spannable changeHyperlinkColorMaopao(String content, Html.ImageGetter imageGetter, Html.TagHandler tagHandler, AssetManager assetManager) {
         Spannable s = changeHyperlinkColor(content, imageGetter, tagHandler, CodingColor.fontGreen);
@@ -835,20 +848,4 @@ public class Global {
 
         activity.startActivity(intent);
     }
-
-    public static View.OnClickListener clickJumpWebView = v -> {
-        Object object = v.getTag();
-        if (object instanceof String) {
-            WebviewDetailActivity_.intent(v.getContext())
-                    .comment((String) object)
-                    .start();
-        }
-    };
-
-    public static View.OnClickListener clickUser = v -> {
-        String globalKey = (String) v.getTag();
-        UserDetailActivity_.intent(v.getContext())
-                .globalKey(globalKey)
-                .start();
-    };
 }

@@ -15,8 +15,8 @@
 
     <TextView
         android:id="@+id/style"
-        android:layout_alignBaseline="@id/title"
-        style="@style/OrderRight" />
+        style="@style/OrderRight"
+        android:layout_alignBaseline="@id/title" />
 
     <View
         android:id="@+id/divideLine"
@@ -26,50 +26,50 @@
     <TextView
         android:id="@+id/orderId"
         style="@style/OrderLeft"
-        android:text="订单编号"
-        android:layout_below="@id/divideLine" />
+        android:layout_below="@id/divideLine"
+        android:text="订单编号" />
 
     <TextView
         android:id="@+id/orderUser"
-        android:text="创建者"
         style="@style/OrderLeft"
-        android:layout_below="@id/orderId" />
+        android:layout_below="@id/orderId"
+        android:text="创建者" />
 
     <TextView
         android:id="@+id/orderTime"
         style="@style/OrderLeft"
-        android:text="创建时间"
+        android:layout_below="@+id/orderUser"
         android:layout_marginBottom="10dp"
-        android:layout_below="@+id/orderUser" />
+        android:text="创建时间" />
 
     <View
-        android:layout_below="@id/orderTime"
         android:id="@+id/bottomDivide"
+        style="@style/DivideSectionBottom5"
+        android:layout_below="@id/orderTime"
         android:layout_marginLeft="-15dp"
-        android:layout_marginRight="-15dp"
-        style="@style/DivideSectionBottom5" />
+        android:layout_marginRight="-15dp" />
 
     <View
-        android:layout_below="@id/bottomDivide"
         android:id="@+id/nextTopDivide"
+        style="@style/DivideSectionTop5"
+        android:layout_below="@id/bottomDivide"
         android:layout_marginLeft="-15dp"
-        android:layout_marginRight="-15dp"
-        style="@style/DivideSectionTop5" />
+        android:layout_marginRight="-15dp" />
 
     <TextView
         android:id="@+id/id"
-        android:layout_alignBaseline="@id/orderId"
-        style="@style/OrderRight" />
+        style="@style/OrderRight"
+        android:layout_alignBaseline="@id/orderId" />
 
     <TextView
         android:id="@+id/user"
-        android:layout_alignBaseline="@id/orderUser"
-        style="@style/OrderRight" />
+        style="@style/OrderRight"
+        android:layout_alignBaseline="@id/orderUser" />
 
     <TextView
         android:id="@+id/time"
-        android:layout_alignBaseline="@id/orderTime"
-        style="@style/OrderRight" />
+        style="@style/OrderRight"
+        android:layout_alignBaseline="@id/orderTime" />
 
 
 </RelativeLayout>

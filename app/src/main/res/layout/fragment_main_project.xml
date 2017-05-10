@@ -5,8 +5,7 @@
     android:orientation="vertical"
     tools:context="net.coding.program.project.MainProjectFragment">
 
-    <android.support.design.widget.AppBarLayout
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.design.widget.AppBarLayout xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/appbarProjectLayout"
         style="@style/AppBarLayout">
 

@@ -107,9 +107,9 @@
 
                 <ImageView
                     android:id="@+id/loginButton"
+                    style="@style/loginButton"
                     android:layout_gravity="right"
-                    android:layout_marginTop="25dp"
-                    style="@style/loginButton" />
+                    android:layout_marginTop="25dp" />
 
             </LinearLayout>
 

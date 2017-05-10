@@ -5,16 +5,16 @@
     android:orientation="vertical">
 
     <FrameLayout
+        android:id="@+id/iconLayout"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:id="@+id/iconLayout">
+        android:layout_height="48dp">
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_marginRight="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="15dp"
             android:scaleType="center"
             android:src="@mipmap/wiki_tree_down" />
 
@@ -24,9 +24,9 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:gravity="center_vertical|left"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/iconLayout"
+        android:gravity="center_vertical|left"
         android:textColor="@color/font_1"
         android:textSize="15sp" />
 

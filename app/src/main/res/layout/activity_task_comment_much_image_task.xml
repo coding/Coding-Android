@@ -107,10 +107,10 @@
 
             <TextView
                 android:id="@+id/commentWebviewDetail"
-                android:text="查看详情"
+                style="@style/commentWebviewDetail"
                 android:layout_marginRight="0dp"
-                android:visibility="invisible"
-                style="@style/commentWebviewDetail" />
+                android:text="查看详情"
+                android:visibility="invisible" />
 
         </RelativeLayout>
     </LinearLayout>
@@ -120,6 +120,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/layout_1"
-        android:layout_marginTop="0dp"  />
+        android:layout_marginTop="0dp" />
 
 </RelativeLayout>

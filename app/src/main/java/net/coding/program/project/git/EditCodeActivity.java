@@ -40,7 +40,8 @@ public class EditCodeActivity extends BackActivity {
     GitFileObject file;
 
     @Extra
-    String mVersion = ProjectGitFragment.MASTER;;
+    String mVersion = ProjectGitFragment.MASTER;
+    ;
 
     private PreviewCodeFragment previewFragment;
     private EditCodeFragment editFragment;
@@ -99,7 +100,7 @@ public class EditCodeActivity extends BackActivity {
         RequestParams params = new RequestParams();
         params.put("content", editFragment.getInput());
         mGitAll.getGitFileObject().data = editFragment.getInput();
-        params.put("message", "update " +  mGitFileInfoObject.name);
+        params.put("message", "update " + mGitFileInfoObject.name);
         params.put("lastCommitSha", mGitAll.getCommitId());
         MyAsyncHttpClient.post(this, url, params, new MyJsonResponse(EditCodeActivity.this) {
             @Override

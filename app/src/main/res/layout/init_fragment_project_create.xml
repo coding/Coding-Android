@@ -79,8 +79,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="启用README.md文件初始化项目"
-            android:textSize="@dimen/project_icon_text"
-            android:textColor="@color/font_1" />
+            android:textColor="@color/font_1"
+            android:textSize="@dimen/project_icon_text" />
 
         <CheckBox
             android:id="@+id/generateReadme"

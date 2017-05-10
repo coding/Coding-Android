@@ -20,8 +20,8 @@
         android:id="@+id/icon"
         android:layout_width="33dp"
         android:layout_height="33dp"
-        android:layout_marginTop="19.5dp"
         android:layout_marginLeft="47dp"
+        android:layout_marginTop="19.5dp"
         android:src="@drawable/ic_default_user" />
 
     <TextView
@@ -106,9 +106,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:lines="1"
                 android:drawableLeft="@drawable/icon_task_des"
                 android:drawablePadding="4dp"
+                android:lines="1"
                 android:text="描述"
                 android:textColor="@color/font_3"
                 android:textSize="12sp" />

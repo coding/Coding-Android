@@ -19,7 +19,8 @@ public class CodingCompat implements ClassCompatInterface {
 
     private static ClassCompatInterface substance;
 
-    private CodingCompat() {}
+    private CodingCompat() {
+    }
 
     public static void init(ClassCompatInterface substance) {
         CodingCompat.substance = substance;
@@ -91,7 +92,7 @@ public class CodingCompat implements ClassCompatInterface {
 
     @Override
     public void launchPickUser(Activity activity, String relayString) {
-       substance.launchPickUser(activity, relayString);
+        substance.launchPickUser(activity, relayString);
     }
 
     @Override
@@ -100,7 +101,7 @@ public class CodingCompat implements ClassCompatInterface {
     }
 
     @Override
-    public void closePushReceiverActivity(Activity context, String url){
+    public void closePushReceiverActivity(Activity context, String url) {
         substance.closePushReceiverActivity(context, url);
     }
 

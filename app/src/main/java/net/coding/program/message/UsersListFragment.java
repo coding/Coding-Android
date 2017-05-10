@@ -47,34 +47,23 @@ import java.util.ArrayList;
 @OptionsMenu(R.menu.message_users_list)
 public class UsersListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
-    public final String HOST_MARK_MESSAGE = getHostMarkMessage();
-    private View listHeader;
-
-    public static String getHostMarkMessage() {
-        return Global.HOST_API + "/message/conversations/%s/read";
-    }
-
     static WeakReference<UsersListFragment> mInstance = new WeakReference<>(null);
+    public final String HOST_MARK_MESSAGE = getHostMarkMessage();
     final String HOST_MESSAGE_USERS = Global.HOST_API + "/message/conversations?pageSize=10";
     final String HOST_UNREAD_AT = Global.HOST_API + "/notification/unread-count?type=0";
     final String HOST_UNREAD_COMMENT = Global.HOST_API + "/notification/unread-count?type=1&type=2";
     final String HOST_UNREAD_SYSTEM = Global.HOST_API + "/notification/unread-count?type=4&type=6";
     final String TAG_DELETE_MESSAGE = "TAG_DELETE_MESSAGE";
     private final int RESULT_SELECT_USER = 2001;
-
     @ViewById
     ListView listView;
-
     @ViewById
     View blankLayout;
-
     ArrayList<Message.MessageObject> mData = new ArrayList<>();
     BadgeView badgeAt;
     BadgeView badgeComment;
-
     BadgeView badgeSystem;
     boolean mUpdateAll = false;
-
     MyImageGetter myImageGetter;
     BaseAdapter adapter = new BaseAdapter() {
         @Override
@@ -138,6 +127,11 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
             return convertView;
         }
     };
+    private View listHeader;
+
+    public static String getHostMarkMessage() {
+        return Global.HOST_API + "/message/conversations/%s/read";
+    }
 
     public static void receiverMessagePush(String globalKey, String content) {
         if (mInstance != null) {

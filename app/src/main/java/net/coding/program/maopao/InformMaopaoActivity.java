@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 @EActivity(R.layout.activity_inform_maopao)
 public class InformMaopaoActivity extends BackActivity {
+    private static final String TAG_INFORM_MAOPAO = "TAG_INFORM_MAOPAO";
     private final String[] types = new String[]{
             "淫秽色情",
             "垃圾广告",
@@ -29,9 +30,6 @@ public class InformMaopaoActivity extends BackActivity {
             "侵犯版权",
             "骚扰我"
     };
-
-    private static final String TAG_INFORM_MAOPAO = "TAG_INFORM_MAOPAO";
-
     @Extra
     int maopaoId = 1;
 

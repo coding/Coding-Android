@@ -12,8 +12,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="@color/divide"
         android:layout_height="match_parent"
+        android:background="@color/divide"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/padding_15"
         android:paddingRight="@dimen/padding_15">

@@ -47,7 +47,7 @@
                 android:icon="@drawable/ic_menu_add_task_2fa"
                 android:title="@string/title_activity_login2_fatip"
                 app:showAsAction="always" />
-             <item
+            <item
                 android:id="@+id/action_scan"
                 android:icon="@drawable/ic_menu_scan"
                 android:title="扫一扫"

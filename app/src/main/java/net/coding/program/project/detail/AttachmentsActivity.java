@@ -86,16 +86,17 @@ import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
 @EActivity(R.layout.activity_attachments)
 public class AttachmentsActivity extends FileDownloadBaseActivity implements FootUpdate.LoadMore, UploadStyle {
     public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
-
-    public final String HOST_PROJECT_ID = Global.HOST_API + "/project/%d";
     final public static int FILE_SELECT_CODE = 10;
     final public static int FILE_DELETE_CODE = 11;
     final public static int FILE_MOVE_CODE = 12;
     final public static int RESULT_MOVE_FOLDER = 13;
-
     private static final String TAG_HTTP_FILE_EXIST = "TAG_HTTP_FILE_EXIST";
     private static final String HOST_HTTP_FILE_RENAME = "HOST_HTTP_FILE_RENAME";
     private static String TAG = AttachmentsActivity.class.getSimpleName();
+    public final String HOST_PROJECT_ID = Global.HOST_API + "/project/%d";
+    private final String TAG_MOVE_FOLDER = "TAG_MOVE_FOLDER";
+    @ViewById
+    protected SwipeRefreshLayout swipeRefreshLayout;
     @Extra
     int mProjectObjectId;
     @Extra
@@ -114,12 +115,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         }
     };
     boolean mNoMore = false;
-
     @ViewById
     ListView listView;
-    @ViewById
-    protected SwipeRefreshLayout swipeRefreshLayout;
-
     //    @ViewById
 //    RelativeLayout uploadLayout;
     //var EDITABLE_FILE_REG=/\.(txt|md|html|htm)$/
@@ -130,13 +127,12 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     View folder_actions_layout;
     @ViewById
     View files_actions_layout;
-
     ActionMode mActionMode;
     ArrayList<AttachmentFileObject> selectFile;
     ArrayList<AttachmentFolderObject> selectFolder;
-    View.OnClickListener mClickReload = v -> loadMore();
 //    private AttachmentFolderObject sourceFolder;
-
+    View.OnClickListener mClickReload = v -> loadMore();
+    ViewGroup listHead;
     private String HOST_FILE_DELETE = Global.HOST_API + "/project/%s/file/delete?%s";
     private String HOST_FILE_MOVETO = Global.HOST_API + "/project/%s/files/moveto/%s?%s";
     private String HOST_FILECOUNT = Global.HOST_API + "/project/%s/folders/all_file_count";
@@ -144,12 +140,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     private String HOST_FOLDER_NEW = Global.HOST_API + "/project/%s/mkdir";
     private String HOST_FOLDER_DELETE_FORMAT = Global.HOST_API + "/project/%s/rmdir/%s";
     private String HOST_FOLDER_DELETE;
-
-    private final String TAG_MOVE_FOLDER = "TAG_MOVE_FOLDER";
-
     private HashMap<String, Integer> fileCountMap = new HashMap<>();
     private boolean isEditMode = false;
-
     BaseAdapter adapter = new BaseAdapter() {
 
         @Override
@@ -402,35 +394,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             mRightTopPopupWindow.dismiss();
         }
     };
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventUpdate(String name) {
-        if (!TextUtils.isEmpty(name) && name.equals(mAttachmentFolderObject.name)) {
-            initSetting();
-            loadMore();
-        }
-    }
-
-    private void showFolderAction() {
-        if (mAttachmentFolderObject.file_id.equals(AttachmentFolderObject.SHARE_FOLDER_ID)) {
-            folder_actions_layout.setVisibility(View.GONE);
-        } else {
-            folder_actions_layout.setVisibility(View.VISIBLE);
-        }
-    }
-
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
         @Override
@@ -476,6 +439,36 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             setListEditMode(false);
         }
     };
+    private List<String> tags = new ArrayList<>();
+    private boolean isUpload = false;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventUpdate(String name) {
+        if (!TextUtils.isEmpty(name) && name.equals(mAttachmentFolderObject.name)) {
+            initSetting();
+            loadMore();
+        }
+    }
+
+    private void showFolderAction() {
+        if (mAttachmentFolderObject.file_id.equals(AttachmentFolderObject.SHARE_FOLDER_ID)) {
+            folder_actions_layout.setVisibility(View.GONE);
+        } else {
+            folder_actions_layout.setVisibility(View.VISIBLE);
+        }
+    }
 
     @OptionsItem
     protected final void action_copy() {
@@ -512,8 +505,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
         return true;
     }
-
-    ViewGroup listHead;
 
     @AfterViews
     final void initAttachmentsActivity() {
@@ -661,7 +652,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                     .startForResult(FILE_DELETE_CODE);
         }
     }
-
 
     /**
      * 获取当前文件列表中的所有图片文件，提供给AttachmentsPicDetailActivity
@@ -861,7 +851,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             }
         }
 
-        if(isUpload){
+        if (isUpload) {
             for (String fileTag : tags) {
                 if (tag.equals(fileTag)) {
                     String s = respanse.optJSONObject("data").optString("conflict_file");
@@ -876,7 +866,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                             }
                         });
                     }
-                }else {
+                } else {
                     showErrorMsg(code, respanse);
                 }
             }
@@ -907,20 +897,20 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         builder.setItems(R.array.file_type, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch (which){
+                switch (which) {
                     case 0:
                         startPhotoPickActivity();
                         break;
                     case 1:
-                            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                            intent.setType("*/*");
-                            intent.addCategory(Intent.CATEGORY_OPENABLE);
-                            try {
-                                startActivityForResult(Intent.createChooser(intent, "请选择一个要上传的文件"),
-                                        FILE_SELECT_CODE);
-                            } catch (android.content.ActivityNotFoundException ex) {
-                                showButtomToast("请安装文件管理器");
-                            }
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("*/*");
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        try {
+                            startActivityForResult(Intent.createChooser(intent, "请选择一个要上传的文件"),
+                                    FILE_SELECT_CODE);
+                        } catch (android.content.ActivityNotFoundException ex) {
+                            showButtomToast("请安装文件管理器");
+                        }
                         break;
                     default:
                         break;
@@ -962,7 +952,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 //                    uploadFilePrepare(outputFile);
                 }
                 uploadFilePrepareList(files);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -973,10 +963,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         getNetwork(httpHost, TAG_HTTP_FILE_EXIST, -1, selectedFile);
     }
 
-    private List<String> tags = new ArrayList<>();
-    private boolean isUpload = false;
-
-    private void uploadFilePrepareList(List<File> files){
+    private void uploadFilePrepareList(List<File> files) {
         isUpload = true;
         tags.clear();
         for (File file : files) {

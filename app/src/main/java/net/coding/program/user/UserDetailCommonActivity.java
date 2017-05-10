@@ -39,7 +39,7 @@ import java.util.Locale;
 public class UserDetailCommonActivity extends BackActivity {
 
     private final String USER_ACTIVENESS = Global.HOST_API + "/user/activeness/data/";
-
+    protected UserObject mUserObject;
     ImageView icon;
     TextView name;
     TextView location;
@@ -57,25 +57,15 @@ public class UserDetailCommonActivity extends BackActivity {
     SyncHorizontalScrollView scrollView0;
     SyncHorizontalScrollView scrollView1;
     TextView fans, follows;
-
-    protected UserObject mUserObject;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
     int sexs[] = new int[]{
             R.drawable.ic_sex_boy,
             R.drawable.ic_sex_girl,
             android.R.color.transparent
     };
-
     View.OnClickListener onClickFans = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (mUserObject == null){
+            if (mUserObject == null) {
                 return;
             }
             UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(mUserObject,
@@ -91,7 +81,7 @@ public class UserDetailCommonActivity extends BackActivity {
     View.OnClickListener onClickFollow = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (mUserObject == null){
+            if (mUserObject == null) {
                 return;
             }
             UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(mUserObject,
@@ -105,8 +95,58 @@ public class UserDetailCommonActivity extends BackActivity {
         }
     };
 
+    /**
+     * 统计月份
+     *
+     * @return
+     */
+    @NonNull
+    public static List<String> getMonths() {
+
+        String[] monthStr = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH);
+
+        List<String> sortMonth = new ArrayList<>();
+        List<String> sortMonth2 = new ArrayList<>();
+
+        for (int i = 0; i < monthStr.length; i++) {
+            if (i > month) {
+                sortMonth2.add(monthStr[i]);
+            } else {
+                sortMonth.add(monthStr[i]);
+            }
+        }
+        sortMonth.addAll(0, sortMonth2);
+
+        return sortMonth;
+    }
+
+    public static void initTextData(TextView textView, String data) {
+        if (TextUtils.isEmpty(data)) {
+            isShow(false, textView);
+            return;
+        }
+        isShow(true, textView);
+        textView.setText(data);
+    }
+
+    public static void isShow(boolean isShow, View view) {
+        if (view == null) {
+            return;
+        }
+        view.setVisibility(isShow ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
     protected void bindUI(UserObject mUserObject) {
-        if (mUserObject == null){
+        if (mUserObject == null) {
             return;
         }
         this.mUserObject = mUserObject;
@@ -193,6 +233,7 @@ public class UserDetailCommonActivity extends BackActivity {
 
     /**
      * 绘制活动图
+     *
      * @param code
      * @param respanse
      * @param tag
@@ -252,50 +293,6 @@ public class UserDetailCommonActivity extends BackActivity {
                     LinearLayout.LayoutParams(titleWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
             llTitle.addView(inflate, lp2);
         }
-    }
-
-    /**
-     * 统计月份
-     *
-     * @return
-     */
-    @NonNull
-    public static List<String> getMonths() {
-
-        String[] monthStr = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-
-        Calendar calendar = Calendar.getInstance();
-        int month = calendar.get(Calendar.MONTH);
-
-        List<String> sortMonth = new ArrayList<>();
-        List<String> sortMonth2 = new ArrayList<>();
-
-        for (int i = 0; i < monthStr.length; i++) {
-            if (i > month) {
-                sortMonth2.add(monthStr[i]);
-            } else {
-                sortMonth.add(monthStr[i]);
-            }
-        }
-        sortMonth.addAll(0, sortMonth2);
-
-        return sortMonth;
-    }
-
-    public static void initTextData(TextView textView, String data) {
-        if (TextUtils.isEmpty(data)) {
-            isShow(false, textView);
-            return;
-        }
-        isShow(true, textView);
-        textView.setText(data);
-    }
-
-    public static void isShow(boolean isShow, View view) {
-        if (view == null) {
-            return;
-        }
-        view.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 
 }

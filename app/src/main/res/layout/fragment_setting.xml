@@ -19,8 +19,8 @@
             android:background="@drawable/list_item_selector"
             android:gravity="center_vertical"
             android:minHeight="48dp"
-            android:paddingRight="@dimen/padding_15"
-            android:paddingLeft="@dimen/padding_15">
+            android:paddingLeft="@dimen/padding_15"
+            android:paddingRight="@dimen/padding_15">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -71,8 +71,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/list_item_selector"
             android:gravity="center_vertical"
-            android:paddingLeft="@dimen/padding_15"
             android:minHeight="48dp"
+            android:paddingLeft="@dimen/padding_15"
             android:paddingRight="@dimen/padding_15">
 
             <TextView
@@ -89,13 +89,13 @@
 
         <RelativeLayout
             android:id="@+id/clearCache"
-            android:paddingLeft="@dimen/padding_15"
-            android:paddingRight="@dimen/padding_15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/list_item_selector"
             android:gravity="center_vertical"
-            android:minHeight="48dp">
+            android:minHeight="48dp"
+            android:paddingLeft="@dimen/padding_15"
+            android:paddingRight="@dimen/padding_15">
 
             <TextView
                 android:layout_width="wrap_content"

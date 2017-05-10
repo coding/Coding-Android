@@ -74,16 +74,16 @@
                     android:textSize="16sp" />
 
                 <!--<TextView-->
-                    <!--android:id="@+id/mall_order_count"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:gravity="right|center_vertical"-->
-                    <!--android:paddingLeft="10dp"-->
-                    <!--android:paddingRight="11dp"-->
-                    <!--android:text="X 1"-->
-                    <!--android:textColor="@color/font_green"-->
-                    <!--android:textSize="16sp" />-->
+                <!--android:id="@+id/mall_order_count"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:gravity="right|center_vertical"-->
+                <!--android:paddingLeft="10dp"-->
+                <!--android:paddingRight="11dp"-->
+                <!--android:text="X 1"-->
+                <!--android:textColor="@color/font_green"-->
+                <!--android:textSize="16sp" />-->
             </RelativeLayout>
 
             <LinearLayout

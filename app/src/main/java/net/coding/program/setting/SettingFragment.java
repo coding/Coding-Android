@@ -61,13 +61,13 @@ public class SettingFragment extends BaseFragment {
         for (File dir : cacheDir) {
             size += getFileSize(dir);
         }
-        String sizeString = String.format("%.2f MB", (double) size / 1024 /1024);
+        String sizeString = String.format("%.2f MB", (double) size / 1024 / 1024);
 
         dispayCacheSize(sizeString);
     }
 
     File[] getAllCacheDir() {
-        return new File[] {
+        return new File[]{
                 getActivity().getCacheDir(),
                 getActivity().getExternalCacheDir()
         };
@@ -99,7 +99,7 @@ public class SettingFragment extends BaseFragment {
                 deleteFiles(item);
             }
             file.delete();
-        } else if (file.isFile()){
+        } else if (file.isFile()) {
             file.delete();
         }
     }

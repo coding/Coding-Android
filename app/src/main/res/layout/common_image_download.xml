@@ -19,16 +19,16 @@
         android:textSize="16sp" />
 
     <ProgressBar
+        android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:id="@+id/progressBar"
         android:layout_gravity="center"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:max="100"
-        android:visibility="invisible"
         android:progressDrawable="@drawable/progressbar_bg"
+        android:visibility="invisible"
         tools:visibility="visible" />
 
 </FrameLayout>

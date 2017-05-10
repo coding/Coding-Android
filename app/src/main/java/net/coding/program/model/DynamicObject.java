@@ -196,7 +196,7 @@ public class DynamicObject {
             if (actionString == null) {
                 actionString = "";
             }
-            String title = String.format(farmat, user.getHtml(),  actionString);
+            String title = String.format(farmat, user.getHtml(), actionString);
             return Global.changeHyperlinkColor(title);
         }
 
@@ -642,12 +642,12 @@ public class DynamicObject {
     }
 
     public static class DynamicProjectFile extends DynamicBaseObject implements Serializable {
+        public String version = "";
         String content = "";
         File file;
         Project project;
         String type = "";
         int mProjectId;
-        public String version = "";
 
         public DynamicProjectFile(JSONObject json) throws JSONException {
             super(json);

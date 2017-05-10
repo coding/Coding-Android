@@ -33,7 +33,6 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
-import cz.msebera.android.httpclient.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,13 +40,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import cz.msebera.android.httpclient.Header;
+
 @EActivity(R.layout.activity_gitview)
 @OptionsMenu(R.menu.git_view)
 public class GitViewActivity extends BackActivity {
-    private static String TAG = GitViewActivity.class.getSimpleName();
-
     private static final int RESULT_EDIT = 1;
-
+    private static String TAG = GitViewActivity.class.getSimpleName();
     @Extra
     String mProjectPath;
 

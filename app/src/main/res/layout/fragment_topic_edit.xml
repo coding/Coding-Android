@@ -13,38 +13,38 @@
         android:layout_marginTop="15dp"
         android:background="@null"
         android:hint="标题"
+        android:textColor="#FF272C33"
         android:textColorHint="#a3a3a3"
-        android:textSize="17sp"
-        android:textColor="#FF272C33" />
+        android:textSize="17sp" />
 
     <net.coding.program.project.detail.TopicLabelBar_
         android:id="@+id/labelBar"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
 
     <View
         android:id="@+id/topDivideLine"
         style="@style/DivideLine"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp" />
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp" />
 
     <EditText
         android:id="@+id/edit"
-        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
         android:layout_weight="1"
         android:background="@color/transparent"
         android:gravity="start"
         android:hint="讨论内容"
-        android:textSize="16sp"
-        android:textColorHint="#a3a3a3"
         android:minHeight="600dp"
-        android:textColor="@color/font_2" />
+        android:textColor="@color/font_2"
+        android:textColorHint="#a3a3a3"
+        android:textSize="16sp" />
 
     <include layout="@layout/md_edit_bar" />
 

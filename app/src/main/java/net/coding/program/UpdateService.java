@@ -22,11 +22,12 @@ import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.setting.UpdateTipActivity;
 
-import cz.msebera.android.httpclient.Header;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.Serializable;
+
+import cz.msebera.android.httpclient.Header;
 
 /*
  * 该服务的作用是检查是否有新版本程序，有的话就升级

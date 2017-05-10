@@ -27,6 +27,22 @@ public class PhotoOperate {
         this.context = context;
     }
 
+    private static void copyFileUsingFileChannels(File source, File dest)
+            throws IOException {
+        FileChannel inputChannel = null;
+        FileChannel outputChannel = null;
+        try {
+            inputChannel = new FileInputStream(source).getChannel();
+            outputChannel = new FileOutputStream(dest).getChannel();
+            outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
+        } catch (Exception e) {
+            Global.errorLog(e);
+        } finally {
+            inputChannel.close();
+            outputChannel.close();
+        }
+    }
+
     private File getTempFile(Context context) {
         File file = null;
         try {
@@ -86,22 +102,6 @@ public class PhotoOperate {
         }
 
         return outputFile;
-    }
-
-    private static void copyFileUsingFileChannels(File source, File dest)
-            throws IOException {
-        FileChannel inputChannel = null;
-        FileChannel outputChannel = null;
-        try {
-            inputChannel = new FileInputStream(source).getChannel();
-            outputChannel = new FileOutputStream(dest).getChannel();
-            outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
-        } catch (Exception e) {
-            Global.errorLog(e);
-        } finally {
-            inputChannel.close();
-            outputChannel.close();
-        }
     }
 
 }

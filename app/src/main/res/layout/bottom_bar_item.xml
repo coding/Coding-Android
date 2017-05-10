@@ -5,33 +5,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center_horizontal"
-            android:paddingTop="8dp"
-            tools:src="@mipmap/tab_project" />
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="top|center_horizontal"
+        android:paddingTop="8dp"
+        tools:src="@mipmap/tab_project" />
 
-        <TextView
-            android:id="@+id/bb_bottom_bar_title"
-            style="@style/BB_BottomBarItem_TitleStyle"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/icon"
-            android:layout_gravity="bottom|center_horizontal"
-            android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
-            tools:text="项目" />
+    <TextView
+        android:id="@+id/bb_bottom_bar_title"
+        style="@style/BB_BottomBarItem_TitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/icon"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom|center_horizontal"
+        android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+        tools:text="项目" />
 
     <com.readystatesoftware.viewbadger.BadgeView
         android:id="@+id/badge"
         android:layout_width="9dp"
         android:layout_height="9dp"
-        android:layout_marginTop="5dp"
         android:layout_alignRight="@id/icon"
         android:layout_marginRight="-4dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/ic_notify"
         android:gravity="center"
         android:visibility="gone" />
@@ -40,9 +40,9 @@
         android:id="@+id/badgeCount"
         android:layout_width="9dp"
         android:layout_height="9dp"
-        android:layout_marginTop="5dp"
         android:layout_alignRight="@id/icon"
         android:layout_marginRight="-4dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/ic_notify"
         android:gravity="center"
         android:visibility="gone" />

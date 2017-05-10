@@ -94,7 +94,7 @@ public class MainSettingFragment extends BaseFragment {
         }
         super.parseJson(code, respanse, tag, pos, data);
     }
-    
+
     @Click
     void projectLayout() {
         MyCreateProjectListActivity_.intent(this).start();
@@ -104,7 +104,7 @@ public class MainSettingFragment extends BaseFragment {
     void teamLayout() {
         TeamListActivity_.intent(this).start();
     }
-    
+
     @Click
     void itemAccount() {
         UserPointActivity_.intent(this).start();

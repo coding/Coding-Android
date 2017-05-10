@@ -21,7 +21,8 @@ public class AttachmentFileObject implements Serializable {
     public static final String RESULT = "AttachmentFileObject";
     public static final String ACTION_EDIT = "ACTION_EDIT";
     public static final String ACTION_DELETE = "ACTION_DELETE";
-
+    // 保存在本地的名字
+    public static final int INFO_COUNT = 4;
     // .file-icon.doc,.file-icon.docx{background-color:#4a83dc}
     // .file-icon.ppt,.file-icon.pptx{background-color:#fcba17}
     // .file-icon.pdf{background-color:#ff0034}
@@ -64,7 +65,6 @@ public class AttachmentFileObject implements Serializable {
     public String file_id = "";
     public UserObject owner = new UserObject();
     public String owner_id = "";
-
     /* https://coding.net/api/project/1/files/70699/imagePreview
      * 可以看到图片的原图，如果是其它类型的文件
      * 就需要去掉 imagePreview,推荐的用法是拼接url出来，
@@ -86,12 +86,15 @@ public class AttachmentFileObject implements Serializable {
     private String name = "";
     private int size = 0;
     private int history_id;
-
     private String share_url = ""; // 早期的版本是使用 share_url，现在的版本改成了 share
     private AttachmentFileObject.Share share;
 
     public AttachmentFileObject() {
     }
+
+//    public void setShare(Share shareParam) {
+//        share = shareParam;
+//    }
 
     public AttachmentFileObject(JSONObject json) {
         created_at = json.optLong("created_at");
@@ -122,10 +125,6 @@ public class AttachmentFileObject implements Serializable {
         }
     }
 
-//    public void setShare(Share shareParam) {
-//        share = shareParam;
-//    }
-
     public static AttachmentFileObject parseFileObject(AttachmentFolderObject folderObject) {
         AttachmentFileObject returnFileObject = new AttachmentFileObject();
 
@@ -151,6 +150,94 @@ public class AttachmentFileObject implements Serializable {
         return returnFileObject;
     }
 
+    public static boolean isImage(String suffix) {
+        return imagePattern.matcher(suffix.toLowerCase()).find();
+    }
+
+    public static boolean isDoc(String fileName) {
+        return docPattern.matcher(fileName.toLowerCase()).find();
+    }
+
+    public static boolean isPpt(String fileName) {
+        return pptPattern.matcher(fileName.toLowerCase()).find();
+    }
+
+    public static boolean isPdf(String fileName) {
+        return pdfPattern.matcher(fileName.toLowerCase()).find();
+    }
+
+    public static boolean isXls(String fileName) {
+        return xlsPattern.matcher(fileName.toLowerCase()).find();
+    }
+
+    public static boolean isTxt(String fileName) {
+        return txtPattern.matcher(fileName.toLowerCase()).find();
+    }
+
+    public static boolean isZip(String fileName) {
+        return zipPattern.matcher(fileName.toLowerCase()).find();
+    }
+
+    public static boolean isHtml(String fileName) {
+        return htmlPattern.matcher(fileName.toLowerCase()).find();
+    }
+
+    public static boolean isMd(String fileName) {
+        return mdPattern.matcher(fileName.toLowerCase()).find();
+    }
+
+    public static boolean isAi(String fileName) {
+        return aiPattern.matcher(fileName.toLowerCase()).find();
+    }
+
+    public static boolean isApk(String fileName) {
+        return apkPattern.matcher(fileName.toLowerCase()).find();
+    }
+
+    public static boolean isPsd(String fileName) {
+        return psdPattern.matcher(fileName.toLowerCase()).find();
+    }
+
+    public static boolean isSound(String fileName) {
+        return soundPattern.matcher(fileName.toLowerCase()).find();
+    }
+
+    public static boolean isVideo(String fileName) {
+        return videoPattern.matcher(fileName.toLowerCase()).find();
+    }
+
+    public static int getIconResourceId(String fileName) {
+        if (AttachmentFileObject.isAi(fileName)) {
+            return R.drawable.ic_file_ai;
+        } else if (AttachmentFileObject.isApk(fileName)) {
+            return R.drawable.ic_file_apk;
+        } else if (AttachmentFileObject.isDoc(fileName)) {
+            return R.drawable.ic_file_docx;
+        } else if (AttachmentFileObject.isHtml(fileName)) {
+            return R.drawable.ic_file_html;
+        } else if (AttachmentFileObject.isMd(fileName)) {
+            return R.drawable.ic_file_md;
+        } else if (AttachmentFileObject.isPdf(fileName)) {
+            return R.drawable.ic_file_pdf;
+        } else if (AttachmentFileObject.isPpt(fileName)) {
+            return R.drawable.ic_file_ppt;
+        } else if (AttachmentFileObject.isPsd(fileName)) {
+            return R.drawable.ic_file_psd;
+        } else if (AttachmentFileObject.isSound(fileName)) {
+            return R.drawable.ic_file_sound;
+        } else if (AttachmentFileObject.isTxt(fileName)) {
+            return R.drawable.ic_file_txt;
+        } else if (AttachmentFileObject.isVideo(fileName)) {
+            return R.drawable.ic_file_video;
+        } else if (AttachmentFileObject.isXls(fileName)) {
+            return R.drawable.ic_file_x;
+        } else if (AttachmentFileObject.isZip(fileName)) {
+            return R.drawable.ic_file_zip;
+        } else {
+            return R.drawable.ic_file_unknown;
+        }
+    }
+
     public boolean isShared() {
         return !share_url.isEmpty();
     }
@@ -169,9 +256,6 @@ public class AttachmentFileObject implements Serializable {
     public int getHistory_id() {
         return history_id;
     }
-
-    // 保存在本地的名字
-    public static final int INFO_COUNT = 4;
 
     public String getSaveName(int projectId) {
 //        修改字段要记得修改 INFO_COUNT
@@ -217,104 +301,16 @@ public class AttachmentFileObject implements Serializable {
         return isImage(fileType);
     }
 
-    public static boolean isImage(String suffix) {
-        return imagePattern.matcher(suffix.toLowerCase()).find();
-    }
-
     public boolean isGif() {
         return this.fileType.toLowerCase().equals("gif");
-    }
-
-    public static boolean isDoc(String fileName) {
-        return docPattern.matcher(fileName.toLowerCase()).find();
-    }
-
-    public static boolean isPpt(String fileName) {
-        return pptPattern.matcher(fileName.toLowerCase()).find();
-    }
-
-    public static boolean isPdf(String fileName) {
-        return pdfPattern.matcher(fileName.toLowerCase()).find();
-    }
-
-    public static boolean isXls(String fileName) {
-        return xlsPattern.matcher(fileName.toLowerCase()).find();
-    }
-
-    public static boolean isTxt(String fileName) {
-        return txtPattern.matcher(fileName.toLowerCase()).find();
     }
 
     public boolean needJump() {
         return isTxt(fileType) || isMd(fileType) || isImage();
     }
 
-    public static boolean isZip(String fileName) {
-        return zipPattern.matcher(fileName.toLowerCase()).find();
-    }
-
-    public static boolean isHtml(String fileName) {
-        return htmlPattern.matcher(fileName.toLowerCase()).find();
-    }
-
-    public static boolean isMd(String fileName) {
-        return mdPattern.matcher(fileName.toLowerCase()).find();
-    }
-
-    public static boolean isAi(String fileName) {
-        return aiPattern.matcher(fileName.toLowerCase()).find();
-    }
-
-    public static boolean isApk(String fileName) {
-        return apkPattern.matcher(fileName.toLowerCase()).find();
-    }
-
-    public static boolean isPsd(String fileName) {
-        return psdPattern.matcher(fileName.toLowerCase()).find();
-    }
-
-    public static boolean isSound(String fileName) {
-        return soundPattern.matcher(fileName.toLowerCase()).find();
-    }
-
-    public static boolean isVideo(String fileName) {
-        return videoPattern.matcher(fileName.toLowerCase()).find();
-    }
-
     public int getIconResourceId() {
-       return getIconResourceId(fileType);
-    }
-
-    public static int getIconResourceId(String fileName) {
-        if (AttachmentFileObject.isAi(fileName)) {
-            return R.drawable.ic_file_ai;
-        } else if (AttachmentFileObject.isApk(fileName)) {
-            return R.drawable.ic_file_apk;
-        } else if (AttachmentFileObject.isDoc(fileName)) {
-            return R.drawable.ic_file_docx;
-        } else if (AttachmentFileObject.isHtml(fileName)) {
-            return R.drawable.ic_file_html;
-        } else if (AttachmentFileObject.isMd(fileName)) {
-            return R.drawable.ic_file_md;
-        } else if (AttachmentFileObject.isPdf(fileName)) {
-            return R.drawable.ic_file_pdf;
-        } else if (AttachmentFileObject.isPpt(fileName)) {
-            return R.drawable.ic_file_ppt;
-        } else if (AttachmentFileObject.isPsd(fileName)) {
-            return R.drawable.ic_file_psd;
-        } else if (AttachmentFileObject.isSound(fileName)) {
-            return R.drawable.ic_file_sound;
-        } else if (AttachmentFileObject.isTxt(fileName)) {
-            return R.drawable.ic_file_txt;
-        } else if (AttachmentFileObject.isVideo(fileName)) {
-            return R.drawable.ic_file_video;
-        } else if (AttachmentFileObject.isXls(fileName)) {
-            return R.drawable.ic_file_x;
-        } else if (AttachmentFileObject.isZip(fileName)) {
-            return R.drawable.ic_file_zip;
-        } else {
-            return R.drawable.ic_file_unknown;
-        }
+        return getIconResourceId(fileType);
     }
 
     public boolean isOwner() {

@@ -60,11 +60,6 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public class TaskListFragment extends RefreshBaseFragment implements TaskListUpdate {
 
     public final String hostTaskDelete = getHostTaskDelete();
-
-    public static String getHostTaskDelete() {
-        return Global.HOST_API + "/user/%s/project/%s/task/%s";
-    }
-
     final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     //统计，已完成，进行中数量
     final String urlTaskCountProject = Global.HOST_API + "/project/%d/task/user/count";
@@ -72,10 +67,12 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     final String URL_TASK_SATUS = Global.HOST_API + "/task/%s/status";
     //筛选
     final String URL_TASK_FILTER = Global.HOST_API + "/tasks/search?";
-
-
     @FragmentArg
     boolean mShowAdd = false;
+    // 4.关键字筛选
+    // https://coding.net/api/tasks/search?keyword=Bug
+    @FragmentArg
+    String mMeAction;
 
     //筛选 有4种类型，
     // https://coding.net/api/tasks/search?creator=52353&label=bug&status=2&keyword=Bug
@@ -91,37 +88,27 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
     // 3.标签筛选 标签内容
     // https://coding.net/api/tasks/search?label=Bug
-
-    // 4.关键字筛选
-    // https://coding.net/api/tasks/search?keyword=Bug
-    @FragmentArg
-    String mMeAction;
     @FragmentArg
     String mStatus;
     @FragmentArg
     String mLabel;
     @FragmentArg
     String mKeyword;
-
     @FragmentArg
     TaskObject.Members mMembers;
     @FragmentArg
     ProjectObject mProjectObject;
-
     @ViewById
     View blankLayout;
     @ViewById
     FloatingActionButton fab;
     @ViewById
     StickyListHeadersListView listView;
-
     @StringArrayRes
     String[] task_titles;
-
     boolean mNeedUpdate = true;
     ArrayList<TaskObject.SingleTask> mData = new ArrayList<>();
     int mSectionId;
-
     int mTaskCount[] = new int[2];
     boolean mUpdateAll = true;
     String urlAll = "";
@@ -132,6 +119,10 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     WeakHashMap<View, Integer> mOriginalViewHeightPool = new WeakHashMap<>();
     private net.coding.program.task.TaskListParentUpdate mParent;
     private View listFooter;
+
+    public static String getHostTaskDelete() {
+        return Global.HOST_API + "/user/%s/project/%s/task/%s";
+    }
 
     public void setParent(net.coding.program.task.TaskListParentUpdate parent) {
         mParent = parent;
@@ -440,6 +431,31 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         putNetwork(String.format(URL_TASK_SATUS, id), params, URL_TASK_SATUS, new TaskParam(mData.get(pos), completeStatus));
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
+
+    //筛选后刷新
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EventFilterDetail eventFilter) {
+        mMeAction = eventFilter.meAction;
+        mStatus = eventFilter.status;
+        mLabel = eventFilter.label;
+        mKeyword = eventFilter.keyword;
+
+        //重新加载所有
+        mUpdateAll = true;
+        initUrlAndLoadData();
+    }
+
     static class TaskParam {
         TaskObject.SingleTask mTask;
         int mStatus;
@@ -631,30 +647,5 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 mDeadline.setTextColor(color);
             }
         }
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        EventBus.getDefault().unregister(this);
-    }
-
-    //筛选后刷新
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(EventFilterDetail eventFilter) {
-        mMeAction = eventFilter.meAction;
-        mStatus = eventFilter.status;
-        mLabel = eventFilter.label;
-        mKeyword = eventFilter.keyword;
-
-        //重新加载所有
-        mUpdateAll = true;
-        initUrlAndLoadData();
     }
 }

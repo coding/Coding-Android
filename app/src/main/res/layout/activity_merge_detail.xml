@@ -17,9 +17,9 @@
             android:layout_height="wrap_content"
             android:background="@color/stand_bg"
             android:clipToPadding="false"
-            android:drawSelectorOnTop="true"
             android:divider="@null"
             android:dividerHeight="0dp"
+            android:drawSelectorOnTop="true"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false" />
 
@@ -38,12 +38,12 @@
         android:id="@+id/actionLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:visibility="gone"
         android:background="@color/stand_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/bottom_button_padding"
-        android:paddingRight="@dimen/bottom_button_padding">
+        android:paddingRight="@dimen/bottom_button_padding"
+        android:visibility="gone">
 
 
         <TextView
@@ -61,10 +61,10 @@
             android:id="@+id/actionRefuse"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_merge_refuse"
-
             android:layout_marginLeft="@dimen/bottom_button_padding"
+            android:layout_weight="1"
+
+            android:background="@drawable/button_merge_refuse"
             android:gravity="center"
             android:text="拒绝"
             android:textColor="@color/font_white" />
@@ -93,13 +93,12 @@
             android:textColor="@color/font_white" />
 
 
-
         <TextView
             android:id="@+id/actionAccept"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_weight="1"
             android:layout_marginLeft="@dimen/bottom_button_padding"
+            android:layout_weight="1"
             android:background="@drawable/button_merge_accept"
             android:gravity="center"
             android:text="合并"

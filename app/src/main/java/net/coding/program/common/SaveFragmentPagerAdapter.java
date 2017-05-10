@@ -15,6 +15,10 @@ public abstract class SaveFragmentPagerAdapter extends FragmentStatePagerAdapter
 
     private List<WeakReference<Fragment>> mList = new ArrayList<>();
 
+    protected SaveFragmentPagerAdapter(FragmentManager fm) {
+        super(fm);
+    }
+
     public List<WeakReference<Fragment>> getFragments() {
         for (int i = mList.size() - 1; i >= 0; --i) {
             if (mList.get(i).get() == null) {
@@ -37,10 +41,6 @@ public abstract class SaveFragmentPagerAdapter extends FragmentStatePagerAdapter
         }
 
         mList.add(new WeakReference(fragment));
-    }
-
-    protected SaveFragmentPagerAdapter(FragmentManager fm) {
-        super(fm);
     }
 
 

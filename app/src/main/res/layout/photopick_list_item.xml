@@ -27,9 +27,9 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -49,14 +49,13 @@
 
         <View
             android:id="@+id/check"
-            android:visibility="invisible"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/pick_photo_list_checked"
-            android:layout_marginRight="10dp" />
+            android:visibility="invisible" />
     </LinearLayout>
 
-    <View
-        style="@style/DivideLine" />
+    <View style="@style/DivideLine" />
 
 </LinearLayout>

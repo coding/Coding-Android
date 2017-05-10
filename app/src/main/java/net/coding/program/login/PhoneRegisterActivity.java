@@ -70,7 +70,7 @@ public class PhoneRegisterActivity extends BackActivity {
         ViewStyleUtil.editTextBindButton(loginButton, globalKeyEdit, phoneEdit,
                 passwordEdit, phoneCodeEdit, captchaEdit);
 
-            textClause.setText(REGIST_TIP);
+        textClause.setText(REGIST_TIP);
 
         sendCode.setEditPhone(phoneEdit);
         sendCode.setType(ValidePhoneView.Type.register);

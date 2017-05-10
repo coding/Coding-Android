@@ -6,10 +6,10 @@ package net.coding.program.event;
 public class EventNotifyBottomBar {
     private static EventNotifyBottomBar ourInstance = new EventNotifyBottomBar();
 
-    public static EventNotifyBottomBar getInstance() {
-        return ourInstance;
+    private EventNotifyBottomBar() {
     }
 
-    private EventNotifyBottomBar() {
+    public static EventNotifyBottomBar getInstance() {
+        return ourInstance;
     }
 }

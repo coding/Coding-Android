@@ -34,12 +34,11 @@
                     <net.coding.program.common.widget.LoginEditText
                         android:id="@+id/globalKeyEdit"
                         style="@style/EmailEdit"
-                        app:hint="用户名(个性后缀)"
                         app:digits="@string/input_format_global_key"
+                        app:hint="用户名(个性后缀)"
                         app:topLine="false" />
 
-                    <include
-                        layout="@layout/divideline_15" />
+                    <include layout="@layout/divideline_15" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -81,8 +80,8 @@
                         android:id="@+id/passwordEdit"
                         style="@style/EmailEdit"
                         app:hint="设置密码"
-                        app:showPassword="true"
                         app:loginInput="password"
+                        app:showPassword="true"
                         app:topLine="false" />
 
                     <include
@@ -122,9 +121,9 @@
                     <net.coding.program.common.widget.LoginEditText
                         android:id="@+id/captchaEdit"
                         style="@style/EmailEdit"
+                        android:visibility="gone"
                         app:captcha="true"
-                        app:hint="验证码"
-                        android:visibility="gone" />
+                        app:hint="验证码" />
 
                 </LinearLayout>
 

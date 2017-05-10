@@ -12,8 +12,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="66dp"
         android:layout_marginEnd="66dp"
+        android:layout_marginRight="66dp"
         android:background="@color/transparent"
         android:hint="@string/search_hint"
         android:imeOptions="actionSearch"
@@ -26,10 +26,10 @@
         android:id="@+id/btnCancel"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:visibility="invisible"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:scaleType="center"
         android:src="@drawable/ic_actionbar_cancel"
-        android:scaleType="center" />
+        android:visibility="invisible" />
 </RelativeLayout>

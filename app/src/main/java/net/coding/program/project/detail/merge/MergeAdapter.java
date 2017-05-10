@@ -22,19 +22,13 @@ import java.util.ArrayList;
  */
 public class MergeAdapter extends DataAdapter<Merge> {
 
-//    ImageLoadTool mImageLoadr;
+    //    ImageLoadTool mImageLoadr;
     FootUpdate.LoadMore mLoadMore;
 
     public MergeAdapter(ArrayList<Merge> data, FootUpdate.LoadMore loadMore, ImageLoadTool imageLoader) {
         super(data);
         mLoadMore = loadMore;
 //        mImageLoadr = imageLoader;
-    }
-
-    class MergeItemHolder extends TopicListFragment.ViewHolder {
-        TextView mergeId;
-        TextView branchSrc;
-        TextView branchDesc;
     }
 
     @Override
@@ -58,8 +52,8 @@ public class MergeAdapter extends DataAdapter<Merge> {
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.mergeId = (TextView) convertView.findViewById(R.id.mergeId);
 
-            holder.branchSrc = (TextView)convertView.findViewById(R.id.branchSrc);
-            holder.branchDesc = (TextView)convertView.findViewById(R.id.branchDesc);
+            holder.branchSrc = (TextView) convertView.findViewById(R.id.branchSrc);
+            holder.branchDesc = (TextView) convertView.findViewById(R.id.branchDesc);
 
             convertView.setTag(holder);
 
@@ -78,9 +72,9 @@ public class MergeAdapter extends DataAdapter<Merge> {
             holder.icon.setImageResource(R.drawable.merge_can_merge);
         } else if (data.isStyleCannotMerge()) {
             holder.icon.setImageResource(R.drawable.merge_can_not_merge);
-        }else if (data.isMergeAccept()) {
+        } else if (data.isMergeAccept()) {
             holder.icon.setImageResource(R.drawable.merge_accepted);
-        }else if (data.isMergeRefuse()) {
+        } else if (data.isMergeRefuse()) {
             holder.icon.setImageResource(R.drawable.merge_refused);
         }
         holder.icon.setTag(data.getAuthor().global_key);
@@ -95,6 +89,12 @@ public class MergeAdapter extends DataAdapter<Merge> {
         holder.branchDesc.setText(data.getDescBranch());
 
         return convertView;
+    }
+
+    class MergeItemHolder extends TopicListFragment.ViewHolder {
+        TextView mergeId;
+        TextView branchSrc;
+        TextView branchDesc;
     }
 
 }

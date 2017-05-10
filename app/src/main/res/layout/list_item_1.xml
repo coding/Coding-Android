@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/clickProject"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:id="@+id/clickProject"
     android:background="@drawable/list_item_selector">
 
     <View
         android:id="@+id/icon"
-        android:layout_marginLeft="15dp"
-        android:layout_centerVertical="true"
         android:layout_width="@dimen/project_icon_width"
         android:layout_height="@dimen/project_icon_width"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
         android:background="@drawable/user_home_project" />
 
     <LinearLayout
-        android:layout_toRightOf="@id/icon"
+        android:id="@+id/contentLayout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:id="@+id/contentLayout"
-        android:gravity="center_vertical"
         android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/icon"
+        android:gravity="center_vertical"
         android:paddingRight="15sp">
 
         <TextView
@@ -59,10 +59,10 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/bottomLine"
+        style="@style/DivideLine"
         android:layout_alignLeft="@id/contentLayout"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        android:id="@+id/bottomLine"
-        style="@style/DivideLine" />
+        android:visibility="gone" />
 
 </RelativeLayout>

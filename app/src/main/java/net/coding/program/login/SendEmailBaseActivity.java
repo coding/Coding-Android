@@ -18,10 +18,11 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-import cz.msebera.android.httpclient.Header;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import cz.msebera.android.httpclient.Header;
 
 //        (R.layout.activity_base_send_email)
 @EActivity

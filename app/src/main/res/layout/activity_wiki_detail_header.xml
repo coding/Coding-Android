@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -10,11 +9,11 @@
     </data>
 
     <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
         android:id="@+id/wikiHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:layout_height="wrap_content"
         tools:context="net.coding.program.project.detail.wiki.WikiHistoryActivity">
 
         <TextView
@@ -23,9 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="@{wiki.title}"
-            android:textStyle="bold"
             android:textColor="#FF272C33"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/wikiTitleTip"

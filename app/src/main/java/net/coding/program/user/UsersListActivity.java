@@ -59,68 +59,53 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 @EActivity(R.layout.activity_users_list)
 public class UsersListActivity extends BackActivity implements FootUpdate.LoadMore {
 
-    public final String HOST_FOLLOW = getHostFollow();
-
-    public static String getHostFollow() {
-        return Global.HOST_API + "/user/follow?";
-    }
-
-    public final String HOST_UNFOLLOW = getHostUnfollow();
-
-    public static String getHostUnfollow() {
-        return Global.HOST_API + "/user/unfollow?";
-    }
-
     public static final String TAG_USER_FOLLOWS = "TAG_USER_FOLLOWS";
     public static final String TAG_USER_FANS = "TAG_USER_FANS";
     public static final String RESULT_EXTRA_NAME = "name";
     public static final String RESULT_EXTRA_USESR = "RESULT_EXTRA_USESR";
     private static final String TAG_RELAY_MESSAGE = "TAG_RELAY_MESSAGE";
+    private static final String TAG_ADD_PROJECT_MEMBER = "TAG_ADD_PROJECT_MEMBER";
+    public final String HOST_FOLLOW = getHostFollow();
+    public final String HOST_UNFOLLOW = getHostUnfollow();
     final String HOST_FOLLOWS = Global.HOST_API + "/user/friends?pageSize=20";
     final String HOST_FANS = Global.HOST_API + "/user/followers?pageSize=20";
-
-    private static final String TAG_ADD_PROJECT_MEMBER = "TAG_ADD_PROJECT_MEMBER";
-
     final int RESULT_REQUEST_ADD = 1;
     final int RESULT_REQUEST_DETAIL = 2;
     @Extra
     Friend type;
-
     @Extra
     boolean selectType;
-
     @Extra
     ProjectObject projectObject;
-
     @Extra
     boolean hideFollowButton; // 隐藏互相关注按钮，用于发私信选人的界面
-
     @Extra
     String titleName = ""; // 设置title
-
     @Extra
     String relayString = "";
-
     @Extra
     String statUrl; // 收藏项目的人
-
     @Extra
     ProjectServiceInfo projectServiceInfo;
-
     @Extra
     UserParams mUserParam;
     ArrayList<UserObject> mData = new ArrayList<>();
     ArrayList<UserObject> mSearchData = new ArrayList<>();
-
     @ViewById
     IndexableListView listView;
-
     @ViewById
     TextView maxUserCount;
-
     @ViewById
     FloatingActionButton floatButton;
     UserAdapter adapter = new UserAdapter();
+
+    public static String getHostFollow() {
+        return Global.HOST_API + "/user/follow?";
+    }
+
+    public static String getHostUnfollow() {
+        return Global.HOST_API + "/user/unfollow?";
+    }
 
     @Override
     protected void initSetting() {
@@ -425,6 +410,10 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         Follow, Fans
     }
 
+    public enum Type {
+        Select
+    }
+
     public static class UserParams implements Serializable {
         public UserObject mUser;
         private Friend mType;
@@ -616,9 +605,5 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         class HeaderViewHolder {
             TextView mHead;
         }
-    }
-
-    public enum Type {
-        Select
     }
 }

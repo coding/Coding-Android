@@ -17,13 +17,13 @@
         android:src="@drawable/maopao_extra_close" />
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userIcon"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="-10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_default_user"
-        android:id="@+id/userIcon"
         app:civ_border_color="#FFCCCCCC"
         app:civ_border_width="0.4dp" />
 
@@ -64,8 +64,8 @@
                 android:layout_height="30dp"
                 android:background="@null"
                 android:hint="请输入密码"
-                android:textColorHint="#FFCCCCCC"
                 android:inputType="textPassword"
+                android:textColorHint="#FFCCCCCC"
                 android:textSize="16sp" />
 
             <include
@@ -77,20 +77,20 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/buttonReward"
                 android:layout_width="130dp"
                 android:layout_height="45dp"
+                android:layout_centerInParent="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/login_button"
                 android:gravity="center"
                 android:text="赏"
-                android:layout_centerInParent="true"
                 android:textColor="@color/white"
-                tools:visibility="gone"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                tools:visibility="gone" />
 
             <TextView
                 android:id="@+id/cannotReward"
@@ -120,9 +120,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="14dp"
+        android:textColor="#FF808080"
         android:visibility="visible"
         tools:text="我的码币余额：0.41 "
-        android:textColor="#FF808080"
         tools:visibility="visible" />
 
 

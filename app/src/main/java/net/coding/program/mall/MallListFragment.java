@@ -28,28 +28,21 @@ import java.util.ArrayList;
 @EFragment(R.layout.fragment_mall_index_list)
 public class MallListFragment extends RefreshBaseAppCompatFragment {
 
+    final String USER_POINT_URL = Global.HOST_API + "/account/points";
     @ViewById
     RecyclerView mallListHeaderGridView;
-
     @ViewById
     View blankLayout;
-
     @FragmentArg
     Type mType;
-
     boolean isSlidingToLast = false;
-
-    final String USER_POINT_URL = Global.HOST_API + "/account/points";
-
     double userPoint = 0.0;
 
     ArrayList<MallItemObject> mData = new ArrayList<>();
 
     String mDataUrl = Global.HOST_API + "/gifts?pageSize=20";
-
-    private MyRecyclerAdapter mAdapter;
-
     View.OnClickListener onClickRetry = v -> onRefresh();
+    private MyRecyclerAdapter mAdapter;
 
     @AfterViews
     void initView() {

@@ -52,13 +52,10 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
 
     public static final int RESULT_USER_DETAIL = 1000;
     private static final int RESULT_ADD_PROJECT_MEMBER = 1;
-
+    private static final String TAG_SERVICE_INFO = "TAG_SERVICE_INFO";
     String HOST_SEARCH_USER = Global.HOST_API + "/user/search?key=%s";
     String urlAddUser = "";
     ArrayList<UserObject> mData = new ArrayList<>();
-
-    private static final String TAG_SERVICE_INFO = "TAG_SERVICE_INFO";
-
     boolean mNeedUpdate = false;
 
     @Extra
@@ -80,6 +77,22 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
     BaseAdapter baseAdapter;
 
     ProjectServiceInfo serviceInfo;
+
+    public static void bindData(TextView maxUserCount, ProjectServiceInfo serviceInfo) {
+        if (TextUtils.isEmpty(MyApp.getEnterpriseGK())) {
+            maxUserCount.setVisibility(View.VISIBLE);
+            int count = serviceInfo.maxmember - serviceInfo.member;
+            if (count > 0) {
+                maxUserCount.setText(String.format("你还可以添加 %s 个项目成员", count));
+                maxUserCount.setTextColor(CodingColor.font2);
+            } else {
+                maxUserCount.setText("已达到成员最大数，不能再继续添加成员！");
+                maxUserCount.setTextColor(R.color.font_red);
+            }
+        } else {
+            maxUserCount.setVisibility(View.GONE);
+        }
+    }
 
     @AfterViews
     protected final void initAddFollowActivity() {
@@ -119,7 +132,6 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
         loadServiceInfo();
     }
 
-
     private void loadServiceInfo() {
         if (mProjectObject == null) {
             return;
@@ -127,22 +139,6 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
 
         final String url = mProjectObject.getHttpProjectApi() + "/service_info";
         getNetwork(url, TAG_SERVICE_INFO);
-    }
-
-    public static void bindData(TextView maxUserCount, ProjectServiceInfo serviceInfo) {
-        if (TextUtils.isEmpty(MyApp.getEnterpriseGK())) {
-            maxUserCount.setVisibility(View.VISIBLE);
-            int count = serviceInfo.maxmember - serviceInfo.member;
-            if (count > 0) {
-                maxUserCount.setText(String.format("你还可以添加 %s 个项目成员", count));
-                maxUserCount.setTextColor(CodingColor.font2);
-            } else {
-                maxUserCount.setText("已达到成员最大数，不能再继续添加成员！");
-                maxUserCount.setTextColor(R.color.font_red);
-            }
-        } else {
-            maxUserCount.setVisibility(View.GONE);
-        }
     }
 
     @Override

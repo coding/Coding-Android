@@ -112,12 +112,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 //    EnterVoiceLayout mEnterLayout;
 
     WeakRefHander mWeakRefHandler;
-
-    //    MainInputView inputView;
-    public static String getSendMessage() {
-        return Global.HOST_API + "/message/send?";
-    }
-
     int mLastId = 0;
     View.OnClickListener onClickRetry = new View.OnClickListener() {
         @Override
@@ -128,28 +122,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     String HOST_INSERT_IMAGE = Global.HOST_API + "/tweet/insert_image";
     String HOST_SEND_VOICE = Global.HOST_API + "/message/send_voice";
     MyImageGetter myImageGetter = new MyImageGetter(this);
-    View.OnClickListener mOnClickSendText = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String s = mEnterLayout.getContent();
-            if (EmojiFilter.containsEmptyEmoji(v.getContext(), s)) {
-                return;
-            }
-
-            RequestParams params = new RequestParams();
-            params.put("content", s);
-            params.put("receiver_global_key", mUserObject.global_key);
-
-            MyMessage temp = new MyMessage(MyMessage.REQUEST_TEXT, params, mUserObject);
-            temp.content = s;
-            mData.add(temp);
-            adapter.notifyDataSetChanged();
-
-            postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + temp.getCreateTime(), -1, temp.getCreateTime());
-
-            mEnterLayout.clearContent();
-        }
-    };
     private PhotoOperate photoOperate = new PhotoOperate(this);
     private Uri fileUri;
     private int mPxImageWidth = 0;
@@ -297,12 +269,40 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
         }
     };
+    View.OnClickListener mOnClickSendText = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String s = mEnterLayout.getContent();
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), s)) {
+                return;
+            }
+
+            RequestParams params = new RequestParams();
+            params.put("content", s);
+            params.put("receiver_global_key", mUserObject.global_key);
+
+            MyMessage temp = new MyMessage(MyMessage.REQUEST_TEXT, params, mUserObject);
+            temp.content = s;
+            mData.add(temp);
+            adapter.notifyDataSetChanged();
+
+            postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + temp.getCreateTime(), -1, temp.getCreateTime());
+
+            mEnterLayout.clearContent();
+        }
+    };
+    private int mPxImageDivide = 0;
+    private MyMediaPlayer mMyMediaPlayer;
+    private int minBottom = Global.dpToPx(200);
+
+    //    MainInputView inputView;
+    public static String getSendMessage() {
+        return Global.HOST_API + "/message/send?";
+    }
 
     public boolean isVoice(Message.MessageObject item) {
         return item.extra != null && item.extra.startsWith("[voice]{") && item.extra.endsWith("}[voice]");
     }
-
-    private int mPxImageDivide = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -867,10 +867,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         }
     }
 
-
-    private MyMediaPlayer mMyMediaPlayer;
-
-
     @Override
     public void onStartPlay(String path, int id, MediaPlayer.OnPreparedListener mOnPreparedListener, MediaPlayer.OnCompletionListener mOnCompletionListener) {
         try {
@@ -941,8 +937,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     public int getPlayingVoiceId() {
         return mMyMediaPlayer == null ? -1 : mMyMediaPlayer.getVoiceId();
     }
-
-    private int minBottom = Global.dpToPx(200);
 //    @Override
 //    public void onChanage(int lastBottomMargin,int newBottomMargin) {
 ////        if(!mEnterLayout.isKeyboardOpen){

@@ -4,7 +4,7 @@
     tools:context="net.coding.program.project.git.BranchMainActivity">
     <item
         android:id="@+id/action_search"
-        android:title="话题搜索"
         android:icon="@drawable/ic_menu_search"
+        android:title="话题搜索"
         app:showAsAction="always" />
 </menu>

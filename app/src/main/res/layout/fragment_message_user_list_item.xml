@@ -37,13 +37,13 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="12dp"
         android:lines="1"
-        android:textSize="12sp"
         android:textColor="@color/font_3"
+        android:textSize="12sp"
         tools:text="3分钟前" />
 
     <com.readystatesoftware.viewbadger.BadgeView
-        style="@style/RedPointTxt"
         android:id="@+id/badge"
+        style="@style/RedPointTxt"
         android:layout_alignParentRight="true"
         android:layout_below="@id/time"
         android:layout_gravity="center_vertical|right"

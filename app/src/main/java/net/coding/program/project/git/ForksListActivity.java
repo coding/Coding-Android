@@ -23,6 +23,13 @@ public class ForksListActivity extends BaseListActivity {
 
     @Extra
     ProjectObject mProjectObject;
+    AdapterView.OnItemClickListener mItemClick = (parent, view, position, id) -> {
+        ProjectObject projectObject = (ProjectObject) parent.getItemAtPosition(position);
+        ProjectJumpParam param = new ProjectJumpParam(projectObject.depot_path);
+        ProjectHomeActivity_.intent(ForksListActivity.this)
+                .mJumpParam(param)
+                .startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+    };
 
     @Override
     public ActivityParam getActivityParam() {
@@ -33,14 +40,6 @@ public class ForksListActivity extends BaseListActivity {
                 .setItemClick(mItemClick)
                 .createActivityParam();
     }
-
-    AdapterView.OnItemClickListener mItemClick = (parent, view, position, id) -> {
-        ProjectObject projectObject = (ProjectObject) parent.getItemAtPosition(position);
-        ProjectJumpParam param = new ProjectJumpParam(projectObject.depot_path);
-        ProjectHomeActivity_.intent(ForksListActivity.this)
-                .mJumpParam(param)
-                .startForResult(InitProUtils.REQUEST_PRO_UPDATE);
-    };
 
     public static class ViewHold implements BaseViewHold {
         ImageView icon;

@@ -30,11 +30,25 @@ public class SearchUserFragment extends SearchBaseFragment {
     String page = "&page=%s";
     int pos = 1;
     ArrayList<UserObject> mData = new ArrayList<>();
+    SearchUserAdapter adapter;
     private String keyword = "";
     private String tabPrams;
     private boolean hasMore = true;
+    AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        }
 
-    SearchUserAdapter adapter;
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                if (hasMore) {
+                    pos++;
+                    loadMore();
+                }
+            }
+        }
+    };
 
     @AfterViews
     protected void init() {
@@ -53,24 +67,12 @@ public class SearchUserFragment extends SearchBaseFragment {
         CodingCompat.instance().launchUserDetailActivity(getActivity(), globalKey);
     }
 
-    AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-        }
-
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            if (firstVisibleItem + visibleItemCount == totalItemCount) {
-                if (hasMore) {
-                    pos++;
-                    loadMore();
-                }
-            }
-        }
-    };
-
     public String getKeyword() {
         return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public String getTabPrams() {
@@ -79,10 +81,6 @@ public class SearchUserFragment extends SearchBaseFragment {
 
     public void setTabPrams(String tabPrams) {
         this.tabPrams = tabPrams;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
     }
 
     private String getUrl(int pos) {

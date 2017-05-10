@@ -24,6 +24,7 @@ public class EditCodeFragment extends Fragment {
         GitFileObject file = ((EditCodeActivity) getActivity()).getFile().getGitFileObject();
         editText.setText(file.data);
     }
+
     public String getInput() {
         return editText.getText().toString();
     }

@@ -70,6 +70,71 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
     private MyImageGetter myImageGetter;
     private LoadingAnimation mLoadingAnimation;
 
+    public static DynamicObject.DynamicBaseObject getDynamicObject(JSONObject json, int projectId) throws JSONException {
+        String itemType = json.optString("target_type");
+        DynamicObject.DynamicBaseObject baseObject;
+
+        if (itemType.equals("ProjectMember")) {
+            baseObject = new DynamicObject.DynamicProjectMember(json);
+
+        } else if (itemType.equals("Depot")) { // 项目分支
+            baseObject = new DynamicObject.DynamicDepotPush(json);
+
+        } else if (itemType.equals("Task")) {
+            baseObject = new DynamicObject.DynamicTask(json);
+
+        } else if (itemType.equals("ProjectFile")) {
+            baseObject = new DynamicObject.DynamicProjectFile(json).projectId(projectId);
+
+        } else if (itemType.equals("QcTask")) {
+            baseObject = new DynamicObject.DynamicQcTask(json);
+
+        } else if (itemType.equals("ProjectTopic")) {
+            baseObject = new DynamicObject.DynamicProjectTopic(json);
+
+        } else if (itemType.equals("Project")) {
+            baseObject = new DynamicObject.DynamicProject(json);
+
+        } else if (itemType.equals("ProjectStar")) {
+            baseObject = new DynamicObject.ProjectStar(json);
+
+        } else if (itemType.equals("ProjectWatcher")) {
+            baseObject = new DynamicObject.ProjectWatcher(json);
+
+        } else if (itemType.equals("PullRequestComment")) {
+            baseObject = new DynamicObject.PullRequestComment(json);
+
+        } else if (itemType.equals("PullRequestBean")) {
+            baseObject = new DynamicObject.PullRequestBean(json);
+
+        } else if (itemType.equals("MergeRequestComment")) {
+            baseObject = new DynamicObject.MergeRequestComment(json);
+
+        } else if (itemType.equals("MergeRequestBean")) {
+            baseObject = new DynamicObject.MergeRequestBean(json);
+
+        } else if (itemType.equals("ProjectTweet")) {
+            baseObject = new DynamicObject.ProjectTweet(json);
+
+        } else if (itemType.equals("TaskComment")) {
+            baseObject = new DynamicObject.MyTaskComment(json);
+
+        } else if (itemType.equals("CommitLineNote")) {
+            baseObject = new DynamicObject.CommitLineNote(json);
+
+        } else if (itemType.equals("ProjectFileComment")) {
+            baseObject = new DynamicObject.DynamicProjectFileComment(json);
+
+        } else if (itemType.equals("Wiki")) {
+            baseObject = new DynamicObject.Wiki(json);
+
+        } else {
+            Log.e("", "新的动态类型 " + itemType);
+            baseObject = new DynamicObject.DynamicBaseObject(json);
+        }
+        return baseObject;
+    }
+
     protected void destoryLoadingAnimation() {
         if (mLoadingAnimation != null) {
             mLoadingAnimation.destory();
@@ -112,7 +177,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
 
     @Override
     public void loadMore() {
-        mLastId  = mAdapter.lastId();
+        mLastId = mAdapter.lastId();
         String getUrl;
         if (mUser_id == 0) {
             getUrl = String.format(HOST, mProjectObject.getId(), mLastId, mProjectObject.owner_id, mType);
@@ -192,71 +257,6 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
                 BlankViewDisplay.setBlank(mData.size(), this, false, blankLayout, onClickRetry);
             }
         }
-    }
-
-    public static DynamicObject.DynamicBaseObject getDynamicObject(JSONObject json, int projectId) throws JSONException {
-        String itemType = json.optString("target_type");
-        DynamicObject.DynamicBaseObject baseObject;
-
-        if (itemType.equals("ProjectMember")) {
-            baseObject = new DynamicObject.DynamicProjectMember(json);
-
-        } else if (itemType.equals("Depot")) { // 项目分支
-            baseObject = new DynamicObject.DynamicDepotPush(json);
-
-        } else if (itemType.equals("Task")) {
-            baseObject = new DynamicObject.DynamicTask(json);
-
-        } else if (itemType.equals("ProjectFile")) {
-            baseObject = new DynamicObject.DynamicProjectFile(json).projectId(projectId);
-
-        } else if (itemType.equals("QcTask")) {
-            baseObject = new DynamicObject.DynamicQcTask(json);
-
-        } else if (itemType.equals("ProjectTopic")) {
-            baseObject = new DynamicObject.DynamicProjectTopic(json);
-
-        } else if (itemType.equals("Project")) {
-            baseObject = new DynamicObject.DynamicProject(json);
-
-        } else if (itemType.equals("ProjectStar")) {
-            baseObject = new DynamicObject.ProjectStar(json);
-
-        } else if (itemType.equals("ProjectWatcher")) {
-            baseObject = new DynamicObject.ProjectWatcher(json);
-
-        } else if (itemType.equals("PullRequestComment")) {
-            baseObject = new DynamicObject.PullRequestComment(json);
-
-        } else if (itemType.equals("PullRequestBean")) {
-            baseObject = new DynamicObject.PullRequestBean(json);
-
-        } else if (itemType.equals("MergeRequestComment")) {
-            baseObject = new DynamicObject.MergeRequestComment(json);
-
-        } else if (itemType.equals("MergeRequestBean")) {
-            baseObject = new DynamicObject.MergeRequestBean(json);
-
-        } else if (itemType.equals("ProjectTweet")) {
-            baseObject = new DynamicObject.ProjectTweet(json);
-
-        } else if (itemType.equals("TaskComment")) {
-            baseObject = new DynamicObject.MyTaskComment(json);
-
-        } else if (itemType.equals("CommitLineNote")) {
-            baseObject = new DynamicObject.CommitLineNote(json);
-
-        } else if (itemType.equals("ProjectFileComment")) {
-            baseObject = new DynamicObject.DynamicProjectFileComment(json);
-
-        } else if (itemType.equals("Wiki")) {
-            baseObject = new DynamicObject.Wiki(json);
-
-        } else {
-            Log.e("", "新的动态类型 " + itemType);
-            baseObject = new DynamicObject.DynamicBaseObject(json);
-        }
-        return baseObject;
     }
 
     protected int getListSectionResourceId() {

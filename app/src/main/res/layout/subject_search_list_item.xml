@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/stand_bg"
-    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center_vertical"
     android:orientation="vertical">
 
@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/padding_12"
+        android:layout_marginRight="@dimen/padding_12"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:layout_marginRight="@dimen/padding_12">
+        android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/maopao_user_icon"
@@ -25,18 +25,18 @@
 
         <TextView
             android:id="@+id/maopao_content"
-            tools:text="一k狂卡k矿坑龙到访e矿E酷氪氪一k狂卡k矿坑龙到访e矿E酷氪氪一k狂卡k矿坑龙到访e矿E酷氪氪一k狂卡k矿坑龙到访e矿E酷氪氪"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_14"
             android:layout_toRightOf="@+id/maopao_user_icon"
             android:ellipsize="end"
-            android:maxLines="2"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
+            android:maxLines="2"
             android:singleLine="false"
             android:textColor="@color/font_1"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            tools:text="一k狂卡k矿坑龙到访e矿E酷氪氪一k狂卡k矿坑龙到访e矿E酷氪氪一k狂卡k矿坑龙到访e矿E酷氪氪一k狂卡k矿坑龙到访e矿E酷氪氪" />
 
         <LinearLayout
             android:layout_width="match_parent"

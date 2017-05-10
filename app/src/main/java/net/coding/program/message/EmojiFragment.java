@@ -22,20 +22,6 @@ import java.util.HashMap;
  */
 public class EmojiFragment extends Fragment {
 
-    public enum Type {
-        Small, Big, Zhongqiu, CODE
-    }
-
-    private LayoutInflater mInflater;
-    private String[] mEmojiData;
-    private MyImageGetter myImageGetter;
-    private int deletePos;
-    private InputAction mEnterLayout;
-
-    private Type mType;
-    private int mItemLayout = R.layout.gridview_emotion_emoji;
-    private int mGridViewColumns;
-
     public static HashMap<String, String> emojiMonkeyMap = new HashMap<String, String>();
     public static HashMap<String, String> textToMonkdyMap = new HashMap<String, String>();
 
@@ -146,6 +132,61 @@ public class EmojiFragment extends Fragment {
         textToMonkdyMap.put("爬爬", "festival_emoji_08");
     }
 
+    private LayoutInflater mInflater;
+    private String[] mEmojiData;
+    private MyImageGetter myImageGetter;
+    private int deletePos;
+    private InputAction mEnterLayout;
+    private Type mType;
+    private int mItemLayout = R.layout.gridview_emotion_emoji;
+    BaseAdapter adapterIcon = new BaseAdapter() {
+
+        @Override
+        public int getCount() {
+            return mEmojiData.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mEmojiData[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(mItemLayout, parent, false);
+                holder = new ViewHolder();
+                holder.icon = convertView.findViewById(R.id.icon);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            String iconName = mEmojiData[position];
+            if (!iconName.isEmpty()) {
+                holder.icon.setBackgroundDrawable(myImageGetter.getDrawable(iconName));
+            }
+
+            return convertView;
+        }
+
+        @Override
+        public boolean isEnabled(int position) {
+            return !mEmojiData[position].isEmpty() && super.isEnabled(position);
+        }
+
+        class ViewHolder {
+            public View icon;
+        }
+    };
+    private int mGridViewColumns;
+
     public EmojiFragment() {
         super();
     }
@@ -210,7 +251,7 @@ public class EmojiFragment extends Fragment {
                     } else {
                         String name = (String) adapterIcon.getItem((int) id);
 
-                        if(name.isEmpty()){
+                        if (name.isEmpty()) {
                             return;
                         }
 
@@ -219,11 +260,11 @@ public class EmojiFragment extends Fragment {
                             return;
                         }
 
-                        if(name.equals("one") || name.equals("two")
+                        if (name.equals("one") || name.equals("two")
                                 || name.equals("three") || name.equals("four")
                                 || name.equals("five") || name.equals("six")
                                 || name.equals("seven") || name.equals("eight")
-                                || name.equals("nine") || name.equals("zero")){
+                                || name.equals("nine") || name.equals("zero")) {
                             switch (name) {
                                 case "one":
                                     name = "1";
@@ -281,52 +322,9 @@ public class EmojiFragment extends Fragment {
         return v;
     }
 
-    BaseAdapter adapterIcon = new BaseAdapter() {
-
-        @Override
-        public int getCount() {
-            return mEmojiData.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mEmojiData[position];
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = mInflater.inflate(mItemLayout, parent, false);
-                holder = new ViewHolder();
-                holder.icon = convertView.findViewById(R.id.icon);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            String iconName = mEmojiData[position];
-            if(!iconName.isEmpty()){
-                holder.icon.setBackgroundDrawable(myImageGetter.getDrawable(iconName));
-            }
-
-            return convertView;
-        }
-
-        @Override
-        public boolean isEnabled(int position) {
-            return !mEmojiData[position].isEmpty() && super.isEnabled(position);
-        }
-
-        class ViewHolder {
-            public View icon;
-        }
-    };
+    public enum Type {
+        Small, Big, Zhongqiu, CODE
+    }
 
     public interface EnterEmojiLayout {
         EnterLayout getEnterLayout();

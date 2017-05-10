@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -20,9 +20,9 @@
                 android:id="@+id/toolbarTitle"
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:layout_width="wrap_content"
-                tools:text="WebActivity"
                 android:layout_height="wrap_content"
-                android:maxLines="1" />
+                android:maxLines="1"
+                tools:text="WebActivity" />
 
         </android.support.v7.widget.Toolbar>
 

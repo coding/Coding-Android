@@ -32,31 +32,217 @@ import org.androidannotations.annotations.ViewById;
 public class EmojiKeyboard extends FrameLayout {
 
 
-    private MyImageGetter myImageGetter;
-    private FragmentActivity mActivity;
+    private static String emojiIcons[][] = {{
+            "smiley",
+            "heart_eyes",
+            "pensive",
+            "flushed",
+            "grin",
+            "kissing_heart",
+            "wink",
+            "angry",
+            "disappointed",
+            "disappointed_relieved",
+            "sob",
+            "stuck_out_tongue_closed_eyes",
+            "rage",
+            "persevere",
+            "unamused",
+            "smile",
+            "mask",
+            "kissing_face",
+            "sweat",
+            "joy",
+            "ic_keyboard_delete"
+    }, {
+            "blush",
+            "cry",
+            "stuck_out_tongue_winking_eye",
+            "fearful",
+            "cold_sweat",
+            "dizzy_face",
+            "smirk",
+            "scream",
+            "sleepy",
+            "confounded",
+            "relieved",
+            "smiling_imp",
+            "ghost",
+            "santa",
+            "dog",
+            "pig",
+            "cat",
+            "a00001",
+            "a00002",
+            "facepunch",
+            "ic_keyboard_delete"
+    }, {
+            "fist",
+            "v",
+            "muscle",
+            "clap",
+            "point_left",
+            "point_up_2",
+            "point_right",
+            "point_down",
+            "ok_hand",
+            "heart",
+            "broken_heart",
+            "sunny",
+            "moon",
+            "star2",
+            "zap",
+            "cloud",
+            "lips",
+            "rose",
+            "coffee",
+            "birthday",
 
-    private InputAction inputAction;
-
+            "ic_keyboard_delete"
+    }, {
+            "clock10",
+            "beer",
+            "mag",
+            "iphone",
+            "house",
+            "car",
+            "gift",
+            "soccer",
+            "bomb",
+            "gem",
+            "alien",
+            "my100",
+            "money_with_wings",
+            "video_game",
+            "hankey",
+            "sos",
+            "zzz",
+            "microphone",
+            "umbrella",
+            "book",
+            "ic_keyboard_delete"}
+    };
+    private static String monkeyIcons[][] = new String[][]{{
+            "coding_emoji_01",
+            "coding_emoji_02",
+            "coding_emoji_03",
+            "coding_emoji_04",
+            "coding_emoji_05",
+            "coding_emoji_06",
+            "coding_emoji_07",
+            "coding_emoji_08"
+    }, {
+            "coding_emoji_09",
+            "coding_emoji_10",
+            "coding_emoji_11",
+            "coding_emoji_12",
+            "coding_emoji_13",
+            "coding_emoji_14",
+            "coding_emoji_15",
+            "coding_emoji_16"
+    }, {
+            "coding_emoji_17",
+            "coding_emoji_18",
+            "coding_emoji_19",
+            "coding_emoji_20",
+            "coding_emoji_21",
+            "coding_emoji_22",
+            "coding_emoji_23",
+            "coding_emoji_24"
+    }, {
+            "coding_emoji_25",
+            "coding_emoji_26",
+            "coding_emoji_27",
+            "coding_emoji_28",
+            "coding_emoji_29",
+            "coding_emoji_30",
+            "coding_emoji_31",
+            "coding_emoji_32",
+    }, {
+            "coding_emoji_33",
+            "coding_emoji_34",
+            "coding_emoji_35",
+            "coding_emoji_36",
+            "coding_emoji_38",
+            "coding_emoji_39",
+            "coding_emoji_40",
+            "coding_emoji_41",
+    }, {
+            "coding_emoji_42",
+            "coding_emoji_43",
+    }};
+    private static String zhongqiuIcons[][] = new String[][]{{
+            "festival_emoji_01",
+            "festival_emoji_02",
+            "festival_emoji_03",
+            "festival_emoji_04",
+            "festival_emoji_05",
+            "festival_emoji_06",
+            "festival_emoji_07",
+            "festival_emoji_08"
+    }};
+    private static String codeIcons[][] = new String[][]{{
+            "one",
+            "two",
+            "three",
+            "four",
+            "five",
+            "six",
+            "seven",
+            "eight",
+            "nine",
+            "zero",
+            "point_right",
+            "eyes",
+            "pencil",
+            "monkey",
+            "monkey_face",
+            "see_no_evil",
+            "a00001",
+            "a00002",
+            "poultry_leg",
+            "leftwards_arrow_with_hook",
+            "ic_keyboard_delete"
+    }, {
+            "poop",
+            "question",
+            "banana",
+            "ghost",
+            "scream",
+            "mailbox_with_no_mail",
+            "loudspeaker",
+            "leftwards_arrow_with_hook",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "ic_keyboard_delete",
+    }};
     @ViewById
     LinearLayout emojiKeyboardIndicator;
-
     @ViewById
     ViewPager viewPager;
-
+    @ViewById
+    View emojiButton, monkeyButton, zhongqiuButton, codeButton;
+    PageChangeListener pageChange = new PageChangeListener();
+    @ViewById
+    View emojiKeyboardLayout, codeButtonLeftLine;
+    private MyImageGetter myImageGetter;
+    private FragmentActivity mActivity;
+    private InputAction inputAction;
     private EmojiPagerAdapter mEmojiPagerAdapter;
     private MonkeyPagerAdapter mMonkeyPagerAdapter;
     private ZhongqiuPagerAdapter mZhongqiuPagerAdapter;
     private CodePagerAdapter mCodePagerAdapter;
-
-    @ViewById
-    View emojiButton, monkeyButton, zhongqiuButton, codeButton;
-
-    PageChangeListener pageChange = new PageChangeListener();
-
     private CheckBox checkBoxEmoji;
-
-    @ViewById
-    View emojiKeyboardLayout, codeButtonLeftLine;
 
     public EmojiKeyboard(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -105,7 +291,6 @@ public class EmojiKeyboard extends FrameLayout {
         setPressEmojiType(EmojiFragment.Type.Small);
     }
 
-
     @Click
     void monkeyButton() {
         setIndicatorCount(monkeyIcons.length);
@@ -139,16 +324,15 @@ public class EmojiKeyboard extends FrameLayout {
         setPressEmojiType(EmojiFragment.Type.CODE);
     }
 
-
     private void setPressEmojiType(EmojiFragment.Type type) {
 
         if (type == EmojiFragment.Type.Small) {
             setEmojiButtonBackground(emojiButton);
         } else if (type == EmojiFragment.Type.Big) {
             setEmojiButtonBackground(monkeyButton);
-        } else if(type == EmojiFragment.Type.Zhongqiu){
+        } else if (type == EmojiFragment.Type.Zhongqiu) {
             setEmojiButtonBackground(zhongqiuButton);
-        }else {
+        } else {
             setEmojiButtonBackground(codeButton);
         }
     }
@@ -192,7 +376,6 @@ public class EmojiKeyboard extends FrameLayout {
     public enum EmojiType {
         Default, SmallOnly
     }
-
 
     class PageChangeListener extends ViewPager.SimpleOnPageChangeListener {
         int oldPos = 0;
@@ -323,202 +506,4 @@ public class EmojiKeyboard extends FrameLayout {
         public void restoreState(Parcelable state, ClassLoader loader) {
         }
     }
-
-    private static String emojiIcons[][] = {{
-            "smiley",
-            "heart_eyes",
-            "pensive",
-            "flushed",
-            "grin",
-            "kissing_heart",
-            "wink",
-            "angry",
-            "disappointed",
-            "disappointed_relieved",
-            "sob",
-            "stuck_out_tongue_closed_eyes",
-            "rage",
-            "persevere",
-            "unamused",
-            "smile",
-            "mask",
-            "kissing_face",
-            "sweat",
-            "joy",
-            "ic_keyboard_delete"
-    }, {
-            "blush",
-            "cry",
-            "stuck_out_tongue_winking_eye",
-            "fearful",
-            "cold_sweat",
-            "dizzy_face",
-            "smirk",
-            "scream",
-            "sleepy",
-            "confounded",
-            "relieved",
-            "smiling_imp",
-            "ghost",
-            "santa",
-            "dog",
-            "pig",
-            "cat",
-            "a00001",
-            "a00002",
-            "facepunch",
-            "ic_keyboard_delete"
-    }, {
-            "fist",
-            "v",
-            "muscle",
-            "clap",
-            "point_left",
-            "point_up_2",
-            "point_right",
-            "point_down",
-            "ok_hand",
-            "heart",
-            "broken_heart",
-            "sunny",
-            "moon",
-            "star2",
-            "zap",
-            "cloud",
-            "lips",
-            "rose",
-            "coffee",
-            "birthday",
-
-            "ic_keyboard_delete"
-    }, {
-            "clock10",
-            "beer",
-            "mag",
-            "iphone",
-            "house",
-            "car",
-            "gift",
-            "soccer",
-            "bomb",
-            "gem",
-            "alien",
-            "my100",
-            "money_with_wings",
-            "video_game",
-            "hankey",
-            "sos",
-            "zzz",
-            "microphone",
-            "umbrella",
-            "book",
-            "ic_keyboard_delete"}
-    };
-
-    private static String monkeyIcons[][] = new String[][]{{
-            "coding_emoji_01",
-            "coding_emoji_02",
-            "coding_emoji_03",
-            "coding_emoji_04",
-            "coding_emoji_05",
-            "coding_emoji_06",
-            "coding_emoji_07",
-            "coding_emoji_08"
-    }, {
-            "coding_emoji_09",
-            "coding_emoji_10",
-            "coding_emoji_11",
-            "coding_emoji_12",
-            "coding_emoji_13",
-            "coding_emoji_14",
-            "coding_emoji_15",
-            "coding_emoji_16"
-    }, {
-            "coding_emoji_17",
-            "coding_emoji_18",
-            "coding_emoji_19",
-            "coding_emoji_20",
-            "coding_emoji_21",
-            "coding_emoji_22",
-            "coding_emoji_23",
-            "coding_emoji_24"
-    }, {
-            "coding_emoji_25",
-            "coding_emoji_26",
-            "coding_emoji_27",
-            "coding_emoji_28",
-            "coding_emoji_29",
-            "coding_emoji_30",
-            "coding_emoji_31",
-            "coding_emoji_32",
-    }, {
-            "coding_emoji_33",
-            "coding_emoji_34",
-            "coding_emoji_35",
-            "coding_emoji_36",
-            "coding_emoji_38",
-            "coding_emoji_39",
-            "coding_emoji_40",
-            "coding_emoji_41",
-    }, {
-            "coding_emoji_42",
-            "coding_emoji_43",
-    }};
-
-    private static String zhongqiuIcons[][] = new String[][]{{
-            "festival_emoji_01",
-            "festival_emoji_02",
-            "festival_emoji_03",
-            "festival_emoji_04",
-            "festival_emoji_05",
-            "festival_emoji_06",
-            "festival_emoji_07",
-            "festival_emoji_08"
-    }};
-
-   private static String codeIcons[][] = new String[][]{{
-            "one",
-            "two",
-            "three",
-            "four",
-            "five",
-            "six",
-            "seven",
-            "eight",
-            "nine",
-            "zero",
-            "point_right",
-            "eyes",
-            "pencil",
-            "monkey",
-            "monkey_face",
-            "see_no_evil",
-            "a00001",
-            "a00002",
-            "poultry_leg",
-            "leftwards_arrow_with_hook",
-            "ic_keyboard_delete"
-    },{
-            "poop",
-            "question",
-            "banana",
-            "ghost",
-            "scream",
-            "mailbox_with_no_mail",
-            "loudspeaker",
-            "leftwards_arrow_with_hook",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "ic_keyboard_delete",
-    }};
 }

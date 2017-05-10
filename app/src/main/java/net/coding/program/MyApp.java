@@ -46,6 +46,7 @@ public class MyApp extends MultiDexApplication {
     public static Unread sUnread;
 
     private static int sMainCreate = 0;
+    private static String enterpriseGK = "";
 
     public static boolean getMainActivityState() {
         return sMainCreate > 0;
@@ -99,8 +100,6 @@ public class MyApp extends MultiDexApplication {
 
         return uri;
     }
-
-    private static String enterpriseGK = "";
 
     public static String getEnterpriseGK() {
         return enterpriseGK;

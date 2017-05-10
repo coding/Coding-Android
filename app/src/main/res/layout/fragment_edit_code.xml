@@ -13,9 +13,9 @@
         android:background="@color/transparent"
         android:gravity="start"
         android:hint="编辑代码"
-        android:textSize="16sp"
-        android:textColorHint="#a3a3a3"
         android:minHeight="600dp"
-        android:textColor="@color/font_2" />
+        android:textColor="@color/font_2"
+        android:textColorHint="#a3a3a3"
+        android:textSize="16sp" />
 
 </FrameLayout>

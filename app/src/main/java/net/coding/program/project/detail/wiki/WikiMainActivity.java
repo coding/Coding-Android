@@ -95,7 +95,7 @@ public class WikiMainActivity extends BackActivity {
 
     BubblePopupWindow bubbleWindowTree = null;
     BubblePopupWindow bubbleWindowHistory = null;
-
+    int oldToolbarFlags = 0;
 
     @AfterViews
     void initWikiMainActivity() {
@@ -120,7 +120,7 @@ public class WikiMainActivity extends BackActivity {
         }
 
         if (RedPointTip.show(this, RedPointTip.Type.WikiTree200)) {
-             bubbleWindowTree = popGuide(RedPointTip.Type.WikiTree200, "这里可查看页面目录", R.id.clickPopDrawer, v -> popGuide1());
+            bubbleWindowTree = popGuide(RedPointTip.Type.WikiTree200, "这里可查看页面目录", R.id.clickPopDrawer, v -> popGuide1());
         } else {
             popGuide1();
         }
@@ -224,8 +224,6 @@ public class WikiMainActivity extends BackActivity {
             actionMore.setVisible(false);
         }
     }
-
-    int oldToolbarFlags = 0;
 
     private void disableToolbarScroll(boolean disable) {
         AppBarLayout.LayoutParams lp = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();

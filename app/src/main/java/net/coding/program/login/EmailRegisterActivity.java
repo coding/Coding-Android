@@ -46,6 +46,23 @@ public class EmailRegisterActivity extends BackActivity {
     @ViewById
     TextView textClause;
 
+    static void parseRegisterSuccess(Activity activity, JSONObject respanse) {
+        UserObject user = new UserObject(respanse.optJSONObject("data"));
+        AccountInfo.saveAccount(activity, user);
+        MyApp.sUserObject = user;
+        AccountInfo.saveReloginInfo(activity, user);
+
+        Global.syncCookie(activity);
+
+        AccountInfo.saveLastLoginName(activity, user.name);
+
+        activity.startActivity(new Intent(activity, CodingCompat.instance().getMainActivity()));
+
+        activity.sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
+        activity.setResult(Activity.RESULT_OK);
+        activity.finish();
+    }
+
     @AfterViews
     void initPhoneVerifyFragment() {
         View androidContent = findViewById(android.R.id.content);
@@ -135,23 +152,6 @@ public class EmailRegisterActivity extends BackActivity {
         showProgressBar(true, "");
 
 
-    }
-
-    static void parseRegisterSuccess(Activity activity, JSONObject respanse) {
-        UserObject user = new UserObject(respanse.optJSONObject("data"));
-        AccountInfo.saveAccount(activity, user);
-        MyApp.sUserObject = user;
-        AccountInfo.saveReloginInfo(activity, user);
-
-        Global.syncCookie(activity);
-
-        AccountInfo.saveLastLoginName(activity, user.name);
-
-        activity.startActivity(new Intent(activity, CodingCompat.instance().getMainActivity()));
-
-        activity.sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
-        activity.setResult(Activity.RESULT_OK);
-        activity.finish();
     }
 
     private void needShowCaptch() {

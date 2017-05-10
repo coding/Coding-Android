@@ -11,9 +11,9 @@
         android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="3"
-        android:listSelector="@android:color/transparent"
         android:horizontalSpacing="5dp"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="3"
         android:verticalSpacing="5dp" />
 
 </LinearLayout>

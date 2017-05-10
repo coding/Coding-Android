@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:paddingBottom="12dp">
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:src="@drawable/ic_default_user"/>
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_default_user" />
 
     <LinearLayout
         android:id="@+id/layout1"
@@ -36,11 +36,10 @@
             android:textSize="16sp" />
 
         <include
+            layout="@layout/layout_merge_flowlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            layout="@layout/layout_merge_flowlayout"
-            />
+            android:layout_marginTop="5dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -62,8 +61,8 @@
             android:singleLine="true"
             android:text="Medium Text"
             android:textColor="@color/font_1"
-            tools:text="#2245"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:text="#2245" />
 
         <include layout="@layout/common_ref_id" />
 

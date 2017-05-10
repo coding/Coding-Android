@@ -31,6 +31,7 @@ import static net.coding.program.common.util.LogUtils.makeLogTag;
 public class MyAsyncHttpClient {
 
     private static final String TAG = makeLogTag(MyAsyncHttpClient.class);
+    private static HashMap<String, String> mapHeaders = new HashMap<>();
 
     public static void put(Context context, String url, RequestParams params, ResponseHandlerInterface response) {
         LogUtils.LOGD(TAG, "put " + url);
@@ -67,8 +68,6 @@ public class MyAsyncHttpClient {
         AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
         client.delete(context, url, response);
     }
-
-    private static HashMap<String, String> mapHeaders = new HashMap<>();
 
     public static void init(Context context) {
         mapHeaders.clear();

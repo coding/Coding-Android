@@ -70,10 +70,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_vertical"
                     android:layout_marginLeft="0dp"
-                    android:maxHeight="105dp"
                     android:layout_marginTop="3dp"
                     android:layout_weight="1"
                     android:background="@null"
+                    android:maxHeight="105dp"
                     android:maxLines="4"
                     android:textColor="@color/font_1" />
 

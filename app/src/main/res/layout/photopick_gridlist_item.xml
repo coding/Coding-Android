@@ -7,16 +7,16 @@
         android:id="@+id/icon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:adjustViewBounds="true" />
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop" />
 
     <ImageView
         android:id="@+id/iconFore"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         android:background="#66666666"
-        android:adjustViewBounds="true" />
+        android:scaleType="centerCrop" />
 
     <CheckBox
         android:id="@+id/check"

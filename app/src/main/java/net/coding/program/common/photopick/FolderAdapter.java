@@ -18,8 +18,8 @@ import java.util.ArrayList;
  */
 public class FolderAdapter extends BaseAdapter {
 
-    private String mSelect = "";
     ArrayList<ImageInfoExtra> mFolderData = new ArrayList<>();
+    private String mSelect = "";
 
     public FolderAdapter(ArrayList<ImageInfoExtra> mFolderData) {
         this.mFolderData = mFolderData;

@@ -49,12 +49,12 @@
 
     <TextView
         android:id="@+id/third"
-        android:layout_marginTop="-5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginTop="-5dp"
         android:textColor="@color/font_3"
         android:textSize="16sp"
         tools:text="男" />

@@ -21,8 +21,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="30dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="30dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -32,9 +32,9 @@
 
                     <net.coding.program.common.widget.LoginEditText
                         android:id="@+id/emailEdit"
-                        app:topLine="false"
                         style="@style/EmailEdit"
-                        app:hint="邮箱" />
+                        app:hint="邮箱"
+                        app:topLine="false" />
 
                     <net.coding.program.common.widget.LoginEditText
                         android:id="@+id/captchaEdit"
@@ -52,8 +52,8 @@
 
                     <net.coding.program.common.widget.LoginEditText
                         android:id="@+id/twoFAEdit"
-                        android:visibility="gone"
                         style="@style/EmailEdit"
+                        android:visibility="gone"
                         app:hint="两步验证码" />
 
                 </LinearLayout>

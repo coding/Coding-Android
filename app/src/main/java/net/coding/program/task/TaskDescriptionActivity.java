@@ -8,8 +8,8 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.TaskObject;
-import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.param.TopicData;
+import net.coding.program.project.detail.EditPreviewMarkdown;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

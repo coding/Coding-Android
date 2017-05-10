@@ -14,22 +14,33 @@ import java.util.List;
  */
 public class SearchProjectCache {
 
+    public static final int SERACH_CACHE_COUNT = 8;
     private static final String SEARCH_CACHE = SearchCache.class.getName() + "_search_project_cache";
     private static final String SEARCH_CACHE_KEY = SearchCache.class.getName() + "_search_cache_key";
     private static final String SEARCH_CACHE_SIZE = SearchCache.class.getName() + "_search_cache_size";
-    public static final int SERACH_CACHE_COUNT = 8;
-
-    private List<String> searchCacheList = null;
-    private Context mContext;
-
     private static SearchProjectCache mInstance = null;
     private static Object mSyncObject = new Object();
+    private List<String> searchCacheList = null;
+    private Context mContext;
 
     private SearchProjectCache(Context context) {
         mContext = context;
         if (searchCacheList == null) {
             loadCache();
         }
+    }
+
+    public static SearchProjectCache getInstance(Context context) {
+        if (context != null) {
+            if (mInstance == null) {
+                synchronized (mSyncObject) {
+                    if (mInstance == null) {
+                        mInstance = new SearchProjectCache(context);
+                    }
+                }
+            }
+        }
+        return mInstance;
     }
 
     public void add(String searchKey) {
@@ -70,20 +81,6 @@ public class SearchProjectCache {
             edit.putString(SEARCH_CACHE_KEY + "_" + i, searchCacheList.get(i));
         }
         edit.commit();
-    }
-
-
-    public static SearchProjectCache getInstance(Context context) {
-        if (context != null) {
-            if (mInstance == null) {
-                synchronized (mSyncObject) {
-                    if (mInstance == null) {
-                        mInstance = new SearchProjectCache(context);
-                    }
-                }
-            }
-        }
-        return mInstance;
     }
 
     private void loadCache() {

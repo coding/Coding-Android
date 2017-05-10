@@ -65,18 +65,15 @@ import cz.msebera.android.httpclient.Header;
 public class LoginActivity extends BaseActivity {
 
     public static final String EXTRA_BACKGROUND = "background";
-    public String HOST_USER = Global.HOST_API + "/user/key/%s";
-    private String HOST_NEED_CAPTCHA = Global.HOST_API + "/captcha/login";
     final float radius = 8;
     final double scaleFactor = 16;
-    private final String TAG_LOGIN = "TAG_LOGIN";
     final String HOST_USER_RELOGIN = "HOST_USER_RELOGIN";
     final String HOST_USER_NEED_2FA = Global.HOST_API + "/check_two_factor_auth_code";
+    private final String TAG_LOGIN = "TAG_LOGIN";
     final private int RESULT_CLOSE = 100;
-
+    public String HOST_USER = Global.HOST_API + "/user/key/%s";
     @Extra
     Uri background;
-
     @ViewById
     ImageView userIcon, backgroundImage, imageValify;
     @ViewById
@@ -85,10 +82,6 @@ public class LoginActivity extends BaseActivity {
     EditText editPassword, editValify, edit2FA;
     @ViewById
     View captchaLayout, loginButton, layout2fa, loginLayout, layoutRoot;
-
-    private int clickIconCount = 0;
-    private long lastClickTime = 0;
-
     DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.icon_user_monkey)
             .showImageOnFail(R.drawable.icon_user_monkey)
@@ -113,6 +106,9 @@ public class LoginActivity extends BaseActivity {
 //            userIcon.setBackgroundResource(R.drawable.icon_user_monkey);
         }
     };
+    private String HOST_NEED_CAPTCHA = Global.HOST_API + "/captcha/login";
+    private int clickIconCount = 0;
+    private long lastClickTime = 0;
     private String globalKey = "";
 
     @Override
@@ -208,19 +204,19 @@ public class LoginActivity extends BaseActivity {
 //            if (ZhongQiuGuideActivity.isZhongqiu()) {
 //                bitmapDrawable = createBlur(R.drawable.zhongqiu_init_photo);
 //            } else {
-                if (background == null) {
-                    LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();
-                    File file = photoItem.getCacheFile(this);
-                    if (file.exists()) {
-                        background = Uri.fromFile(file);
-                    }
+            if (background == null) {
+                LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();
+                File file = photoItem.getCacheFile(this);
+                if (file.exists()) {
+                    background = Uri.fromFile(file);
                 }
+            }
 
-                if (background == null) {
-                    bitmapDrawable = createBlur(R.drawable.entrance1);
-                } else {
-                    bitmapDrawable = createBlur(background);
-                }
+            if (background == null) {
+                bitmapDrawable = createBlur(R.drawable.entrance1);
+            } else {
+                bitmapDrawable = createBlur(background);
+            }
 //            }
             backgroundImage.setImageDrawable(bitmapDrawable);
         } catch (Exception e) {

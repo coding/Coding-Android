@@ -128,8 +128,8 @@
 
                 <TextView
                     android:id="@+id/commentWebviewDetail"
-                    android:text="查看详情"
-                    style="@style/commentWebviewDetail" />
+                    style="@style/commentWebviewDetail"
+                    android:text="查看详情" />
 
             </RelativeLayout>
 

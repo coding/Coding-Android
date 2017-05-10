@@ -174,6 +174,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
     };
     private Uri fileUri;
     private MenuItem mMenuAdd;
+    private boolean mFirstFocus = true;
 
     private static String ensureLength(String src, int maxLength) {
         if (TextUtils.isEmpty(src)) return "";
@@ -265,8 +266,6 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         });
         hander.start(0, 500);
     }
-
-    private boolean mFirstFocus = true;
 
     @Override
     public EnterLayout getEnterLayout() {

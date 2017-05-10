@@ -18,6 +18,26 @@ import rx.Observer;
 
 public abstract class HttpObserver<T1> implements Observer<HttpResult<T1>> {
 
+    static JSONObject sNetworkError;
+    static JSONObject sServiceError;
+
+    static {
+        try {
+            String connectFailString = String.format("{\"code\":%d,\"msg\":{\"error\":\"%s\"}}",
+                    NetworkImpl.NETWORK_CONNECT_FAIL, NetworkImpl.ERROR_MSG_CONNECT_FAIL);
+            sNetworkError = new JSONObject(connectFailString);
+
+
+            String serviceFailString = String.format("{\"code\":%d,\"msg\":{\"error\":\"%s\"}}",
+                    NetworkImpl.NETWORK_ERROR_SERVICE, NetworkImpl.ERROR_MSG_SERVICE_ERROR);
+            sServiceError = new JSONObject(serviceFailString);
+
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+
+    }
+
     // 主要是为了方便用 Toast 提示出错信息,
     private Context mActivity;
     private boolean showErrorTip = true;
@@ -90,25 +110,5 @@ public abstract class HttpObserver<T1> implements Observer<HttpResult<T1>> {
             }
             SingleToast.showErrorMsg(mActivity, error);
         }
-    }
-
-    static JSONObject sNetworkError;
-    static JSONObject sServiceError;
-
-    static {
-        try {
-            String connectFailString = String.format("{\"code\":%d,\"msg\":{\"error\":\"%s\"}}",
-                    NetworkImpl.NETWORK_CONNECT_FAIL, NetworkImpl.ERROR_MSG_CONNECT_FAIL);
-            sNetworkError = new JSONObject(connectFailString);
-
-
-            String serviceFailString = String.format("{\"code\":%d,\"msg\":{\"error\":\"%s\"}}",
-                    NetworkImpl.NETWORK_ERROR_SERVICE, NetworkImpl.ERROR_MSG_SERVICE_ERROR);
-            sServiceError = new JSONObject(serviceFailString);
-
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
-
     }
 }

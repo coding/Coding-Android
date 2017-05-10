@@ -4,7 +4,7 @@
     tools:context="net.coding.program.project.detail.merge.CommentActivity">
     <item
         android:id="@+id/action_photo"
-        android:title="相册"
         android:orderInCategory="100"
+        android:title="相册"
         app:showAsAction="always" />
 </menu>

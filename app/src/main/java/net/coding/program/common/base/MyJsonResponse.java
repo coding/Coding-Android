@@ -17,12 +17,35 @@ import cz.msebera.android.httpclient.Header;
  */
 public abstract class MyJsonResponse extends JsonHttpResponseHandler {
 
-    private long startTime;
+    static JSONObject sNetworkError;
+    static JSONObject sServiceError;
 
+    static {
+        try {
+            String connectFailString = String.format("{\"code\":%d,\"msg\":{\"error\":\"%s\"}}",
+                    NetworkImpl.NETWORK_ERROR, NetworkImpl.ERROR_MSG_CONNECT_FAIL);
+            sNetworkError = new JSONObject(connectFailString);
+
+
+            String serviceFailString = String.format("{\"code\":%d,\"msg\":{\"error\":\"%s\"}}",
+                    NetworkImpl.NETWORK_ERROR_SERVICE, NetworkImpl.ERROR_MSG_SERVICE_ERROR);
+            sServiceError = new JSONObject(serviceFailString);
+
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+    }
+
+    private long startTime;
+    private Context mActivity;
+
+    public MyJsonResponse(Context activity) {
+        super();
+        mActivity = activity;
+    }
 
     public void onMySuccess(JSONObject response) {
     }
-
 
     @Override
     public void onStart() {
@@ -37,13 +60,6 @@ public abstract class MyJsonResponse extends JsonHttpResponseHandler {
             int code = response.optInt("code", NetworkImpl.NETWORK_ERROR);
             SingleToast.showErrorMsg(mActivity, code, response);
         }
-    }
-
-    private Context mActivity;
-
-    public MyJsonResponse(Context activity) {
-        super();
-        mActivity = activity;
     }
 
     @Override
@@ -78,25 +94,6 @@ public abstract class MyJsonResponse extends JsonHttpResponseHandler {
     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
         super.onFailure(statusCode, headers, responseString, throwable);
         onMyFailure(sServiceError);
-    }
-
-    static JSONObject sNetworkError;
-    static JSONObject sServiceError;
-
-    static {
-        try {
-            String connectFailString = String.format("{\"code\":%d,\"msg\":{\"error\":\"%s\"}}",
-                    NetworkImpl.NETWORK_ERROR, NetworkImpl.ERROR_MSG_CONNECT_FAIL);
-            sNetworkError = new JSONObject(connectFailString);
-
-
-            String serviceFailString = String.format("{\"code\":%d,\"msg\":{\"error\":\"%s\"}}",
-                    NetworkImpl.NETWORK_ERROR_SERVICE, NetworkImpl.ERROR_MSG_SERVICE_ERROR);
-            sServiceError = new JSONObject(serviceFailString);
-
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
     }
 }
 

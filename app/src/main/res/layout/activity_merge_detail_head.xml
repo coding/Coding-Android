@@ -129,7 +129,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <include layout="@layout/divideline_15" />
+
         <net.coding.program.common.widget.ListItem1
             android:id="@+id/itemRefResource"
             android:layout_width="match_parent"

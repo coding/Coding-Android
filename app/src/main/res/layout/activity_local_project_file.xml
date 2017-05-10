@@ -7,8 +7,7 @@
     android:fitsSystemWindows="true"
     tools:context="net.coding.program.project.detail.file.LocalProjectFileActivity">
 
-    <android.support.design.widget.AppBarLayout
-        style="@style/AppBarLayout">
+    <android.support.design.widget.AppBarLayout style="@style/AppBarLayout">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"

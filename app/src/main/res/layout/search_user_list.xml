@@ -37,16 +37,16 @@
         <ImageView
             android:layout_width="12dp"
             android:layout_height="12dp"
-            android:scaleType="centerInside"
             android:layout_gravity="center_vertical"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_clock" />
 
         <TextView
             android:id="@+id/txtContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="6dp"
             android:singleLine="true"
             android:textColor="@color/font_3"
             android:textSize="12sp" />
@@ -59,23 +59,24 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="5dp"
         android:layout_marginTop="18dp"
-        android:background="@drawable/round_solider_gray"
-         >
+        android:background="@drawable/round_solider_gray">
+
         <ImageView
             android:id="@+id/email"
             android:layout_width="12dp"
-            android:layout_centerVertical="true"
             android:layout_height="9dp"
-            android:scaleType="centerInside"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="18dp"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_private_email" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="2dp"
             android:layout_toRightOf="@id/email"
             android:text="私信"
-            android:layout_centerVertical="true"
             android:textColor="@color/font_3"
             android:textSize="10sp" />
     </RelativeLayout>

@@ -63,10 +63,6 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
     private UMEvernoteHandler mEvernoteHandler;
     private ViewGroup allButtonsLayout;
 
-    public static UMSocialService getShareController() {
-        return mController;
-    }
-
     public CustomShareBoard(Activity activity, ShareData shareData) {
         super(activity);
         this.mActivity = activity;
@@ -74,6 +70,51 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
         mController.getConfig().closeToast();
 
         mShareData = shareData;
+    }
+
+    public static UMSocialService getShareController() {
+        return mController;
+    }
+
+    public static void performShare(SHARE_MEDIA platform, Activity mActivity, ShareData mShareData) {
+        mController.setShareContent(mShareData.des);
+
+        UMImage umImage;
+        if (!mShareData.getImg().isEmpty()) {
+            umImage = new UMImage(mActivity, mShareData.getImg());
+        } else {
+            umImage = new UMImage(mActivity, R.drawable.share_default_icon);
+        }
+        mController.setShareImage(umImage);
+
+        if (platform == SHARE_MEDIA.SINA) {
+            SinaShareContent sinaContent = new SinaShareContent();
+            sinaContent.setShareContent(mShareData.des + " " + mShareData.link);
+            sinaContent.setTargetUrl(mShareData.link);
+            sinaContent.setShareImage(umImage);
+            sinaContent.setTitle(mShareData.name);
+            mController.setShareMedia(sinaContent);
+        } else if (platform == SHARE_MEDIA.QZONE) {
+            QZoneShareContent qzone = new QZoneShareContent();
+            qzone.setShareContent(mShareData.des);
+            qzone.setTitle(mShareData.name);
+            qzone.setTargetUrl(mShareData.link);
+            qzone.setShareImage(umImage);
+            mController.setShareMedia(qzone);
+        }
+
+        mController.postShare(mActivity, platform, new SocializeListeners.SnsPostListener() {
+
+                    @Override
+                    public void onStart() {
+                    }
+
+                    @Override
+                    public void onComplete(SHARE_MEDIA platform, int eCode, SocializeEntity entity) {
+                    }
+                }
+
+        );
     }
 
     private void addQQ() {
@@ -107,79 +148,6 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
     private void addEvernote() {
         mEvernoteHandler.addToSocialSDK();
-    }
-
-    public static class ShareData implements Parcelable {
-        public String name = "";
-        public String link = "";
-        private String img = "";
-        public String des = "";
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(name);
-            dest.writeString(link);
-            dest.writeString(img);
-            dest.writeString(des);
-        }
-
-        private ShareData(Parcel in) {
-            name = in.readString();
-            link = in.readString();
-            img = in.readString();
-            des = in.readString();
-        }
-
-
-        public ShareData(String name, String des, String link) {
-            this.name = name;
-            this.des = des;
-            this.link = link;
-            this.img = "";
-        }
-
-        public ShareData(Maopao.MaopaoObject mMaopaoObject) {
-            this.name = mMaopaoObject.owner.name + "的冒泡";
-            this.link = mMaopaoObject.getMobileLink();
-
-            MessageParse parse = HtmlContent.parseMessage(mMaopaoObject.content);
-            this.des = HtmlContent.parseToShareText(parse.text);
-            if (parse.uris.size() > 0) {
-                this.img = parse.uris.get(0);
-            }
-
-//            String des = HtmlContent.parseToShareText(mMaopaoObject.content);
-//            this.des = HtmlContent.parseToShareText(des);
-//            ArrayList<String> uris = HtmlContent.parseMessage(mMaopaoObject).uris;
-//            if (uris.size() > 0) {
-//                this.img = uris.get(0);
-//            }
-        }
-
-        public String getImg() {
-            return img;
-        }
-
-        public void setImg(String img) {
-            this.img = img;
-        }
-
-        public static final Parcelable.Creator<ShareData> CREATOR = new Parcelable.Creator<ShareData>() {
-            @Override
-            public ShareData createFromParcel(Parcel in) {
-                return new ShareData(in);
-            }
-
-            @Override
-            public ShareData[] newArray(int size) {
-                return new ShareData[size];
-            }
-        };
     }
 
     private void addButton(IconTextView.Data data) {
@@ -348,45 +316,76 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
         performShare(platform, mActivity, mShareData);
     }
 
-    public static void performShare(SHARE_MEDIA platform, Activity mActivity, ShareData mShareData) {
-        mController.setShareContent(mShareData.des);
+    public static class ShareData implements Parcelable {
+        public static final Parcelable.Creator<ShareData> CREATOR = new Parcelable.Creator<ShareData>() {
+            @Override
+            public ShareData createFromParcel(Parcel in) {
+                return new ShareData(in);
+            }
 
-        UMImage umImage;
-        if (!mShareData.getImg().isEmpty()) {
-            umImage = new UMImage(mActivity, mShareData.getImg());
-        } else {
-            umImage = new UMImage(mActivity, R.drawable.share_default_icon);
-        }
-        mController.setShareImage(umImage);
+            @Override
+            public ShareData[] newArray(int size) {
+                return new ShareData[size];
+            }
+        };
+        public String name = "";
+        public String link = "";
+        public String des = "";
+        private String img = "";
 
-        if (platform == SHARE_MEDIA.SINA) {
-            SinaShareContent sinaContent = new SinaShareContent();
-            sinaContent.setShareContent(mShareData.des + " " + mShareData.link);
-            sinaContent.setTargetUrl(mShareData.link);
-            sinaContent.setShareImage(umImage);
-            sinaContent.setTitle(mShareData.name);
-            mController.setShareMedia(sinaContent);
-        } else if (platform == SHARE_MEDIA.QZONE) {
-            QZoneShareContent qzone = new QZoneShareContent();
-            qzone.setShareContent(mShareData.des);
-            qzone.setTitle(mShareData.name);
-            qzone.setTargetUrl(mShareData.link);
-            qzone.setShareImage(umImage);
-            mController.setShareMedia(qzone);
+        private ShareData(Parcel in) {
+            name = in.readString();
+            link = in.readString();
+            img = in.readString();
+            des = in.readString();
         }
 
-        mController.postShare(mActivity, platform, new SocializeListeners.SnsPostListener() {
+        public ShareData(String name, String des, String link) {
+            this.name = name;
+            this.des = des;
+            this.link = link;
+            this.img = "";
+        }
 
-                    @Override
-                    public void onStart() {
-                    }
 
-                    @Override
-                    public void onComplete(SHARE_MEDIA platform, int eCode, SocializeEntity entity) {
-                    }
-                }
+        public ShareData(Maopao.MaopaoObject mMaopaoObject) {
+            this.name = mMaopaoObject.owner.name + "的冒泡";
+            this.link = mMaopaoObject.getMobileLink();
 
-        );
+            MessageParse parse = HtmlContent.parseMessage(mMaopaoObject.content);
+            this.des = HtmlContent.parseToShareText(parse.text);
+            if (parse.uris.size() > 0) {
+                this.img = parse.uris.get(0);
+            }
+
+//            String des = HtmlContent.parseToShareText(mMaopaoObject.content);
+//            this.des = HtmlContent.parseToShareText(des);
+//            ArrayList<String> uris = HtmlContent.parseMessage(mMaopaoObject).uris;
+//            if (uris.size() > 0) {
+//                this.img = uris.get(0);
+//            }
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(name);
+            dest.writeString(link);
+            dest.writeString(img);
+            dest.writeString(des);
+        }
+
+        public String getImg() {
+            return img;
+        }
+
+        public void setImg(String img) {
+            this.img = img;
+        }
     }
 
 }

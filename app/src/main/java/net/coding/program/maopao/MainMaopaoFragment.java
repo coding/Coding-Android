@@ -32,6 +32,7 @@ public class MainMaopaoFragment extends Fragment {
     String[] maopaoActionTypes;
 
     MaopaoTypeAdapter mSpinnerAdapter;
+    long lastClick = 0;
 
     @AfterViews
     void initMainMaopaoFragment() {
@@ -77,8 +78,6 @@ public class MainMaopaoFragment extends Fragment {
         });
 
     }
-
-    long lastClick = 0;
 
     @Click
     void maoPaoToolbar() {

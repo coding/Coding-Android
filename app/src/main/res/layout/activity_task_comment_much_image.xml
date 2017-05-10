@@ -10,10 +10,10 @@
         android:id="@+id/icon"
         android:layout_width="37dp"
         android:layout_height="37dp"
-        android:layout_marginLeft="@dimen/padding_15"
-        android:layout_marginTop="@dimen/padding_12"
         android:layout_marginBottom="@dimen/padding_12"
+        android:layout_marginLeft="@dimen/padding_15"
         android:layout_marginRight="@dimen/padding_12"
+        android:layout_marginTop="@dimen/padding_12"
         android:focusable="false"
         android:src="@drawable/ic_default_user" />
 
@@ -83,8 +83,8 @@
 
             <TextView
                 android:id="@+id/commentWebviewDetail"
-                android:text="查看详情"
-                style="@style/commentWebviewDetail" />
+                style="@style/commentWebviewDetail"
+                android:text="查看详情" />
 
         </RelativeLayout>
     </LinearLayout>

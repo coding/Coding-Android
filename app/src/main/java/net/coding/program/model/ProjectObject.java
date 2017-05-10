@@ -40,13 +40,13 @@ public class ProjectObject implements Serializable {
     public long update_at;
     public int watch_count;
     public boolean watched;
-    private int id;
     public boolean is_public;
+    public int member_num;
+    private int id;
     private boolean pin;
     private int type;
     private String fork_path = "";
     private DynamicObject.Owner owner;
-    public int member_num;
 
     public ProjectObject(JSONObject json) throws JSONException {
         backend_project_path = json.optString("backend_project_path", "").replace("/team/", "/user/");
@@ -88,26 +88,6 @@ public class ProjectObject implements Serializable {
     public ProjectObject() {
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public boolean canReadCode() {
-        return TaskObject.Members.Type.canReadCode(current_user_role_id);
-    }
-
-    public boolean canManagerMember() {
-        return TaskObject.Members.Type.canManagerMember(current_user_role_id);
-    }
-
-    public boolean isJoined() {
-        return current_user_role_id > 0;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
     public static String translatePath(String path) {
         return MyApp.transformEnterpriseUri(path)
                 .replace("/u/", "/user/")
@@ -126,6 +106,38 @@ public class ProjectObject implements Serializable {
     public static String getMdPreview(String projectPath) {
         final String HOST_PREVIEW = Global.HOST_API + "%s/markdownNoAt";
         return String.format(HOST_PREVIEW, projectPath);
+    }
+
+    public static String teamPath2User(String path) {
+        if (path == null) {
+            return "";
+        }
+
+        return path.replace("/team/", "/user/").replace("/t/", "/u/");
+    }
+
+    public static String getHttpProject(String user, String project) {
+        return String.format("%s/user/%s/project/%s", Global.HOST_API, user, project);
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public boolean canReadCode() {
+        return TaskObject.Members.Type.canReadCode(current_user_role_id);
+    }
+
+    public boolean canManagerMember() {
+        return TaskObject.Members.Type.canManagerMember(current_user_role_id);
+    }
+
+    public boolean isJoined() {
+        return current_user_role_id > 0;
     }
 
     public void setReadActivities() {
@@ -185,28 +197,32 @@ public class ProjectObject implements Serializable {
         return star_count;
     }
 
-    public String getStarString() {
-        return String.valueOf(star_count);
-    }
-
     public void setStar_count(int star_count) {
         this.star_count = star_count;
+    }
+
+    public String getStarString() {
+        return String.valueOf(star_count);
     }
 
     public int getWatch_count() {
         return watch_count;
     }
 
-    public String getWatchCountString() {
-        return String.valueOf(watch_count);
-    }
-
     public void setWatch_count(int watch_count) {
         this.watch_count = watch_count;
     }
 
+    public String getWatchCountString() {
+        return String.valueOf(watch_count);
+    }
+
     public int getFork_count() {
         return fork_count;
+    }
+
+    public void setFork_count(int fork_count) {
+        this.fork_count = fork_count;
     }
 
     public String getForkCountString() {
@@ -219,10 +235,6 @@ public class ProjectObject implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setFork_count(int fork_count) {
-        this.fork_count = fork_count;
     }
 
     public String getHttpProjectApi() {
@@ -262,10 +274,6 @@ public class ProjectObject implements Serializable {
         return Global.HOST_API + backend_project_path + pull + type + "?";
     }
 
-    public enum MergeExamine {
-        review, mine, other
-    }
-
     public ProjectJumpParam generateJumpParam() {
         return new ProjectJumpParam(backend_project_path);
     }
@@ -275,17 +283,14 @@ public class ProjectObject implements Serializable {
         return Global.HOST_API + backend_project_path + "/git/merges/list/" + mineType + "?&status=" + type;
     }
 
-
     public String getHttpDeleteProject2fa(String code) {
         String params = String.format("?name=%s&two_factor_code=%s", name, code);
         return Global.HOST_API + backend_project_path + params;
     }
 
-
     public String getHttpTransferProject(String globalKey) {
         return Global.HOST_API + backend_project_path + "/transfer_to/" + globalKey;
     }
-
 
     public String getHttptStargazers() {
         return Global.HOST_API + backend_project_path + "/stargazers/paging?pageSize=20";
@@ -299,20 +304,20 @@ public class ProjectObject implements Serializable {
         return fork_path;
     }
 
-    public String getMergesFilterAll(){
+    public String getMergesFilterAll() {
         String pull = isPublic() ? "/git/pulls/" : "/git/merges/";
-        return Global.HOST_API + backend_project_path +pull+"all?";
+        return Global.HOST_API + backend_project_path + pull + "all?";
     }
 
-    public String getMergesFilter(){
+    public String getMergesFilter() {
         String pull = "/git/merges/";
-        return Global.HOST_API + backend_project_path +pull+"filter?";
+        return Global.HOST_API + backend_project_path + pull + "filter?";
     }
 
-    public String getMergesFilterStatus(String status){
+    public String getMergesFilterStatus(String status) {
         String pull = isPublic() ? "/git/pulls/" : "/git/merges/";
         String params = String.format("status=%s", status);
-        return Global.HOST_API + backend_project_path + pull + "filter?"+ params;
+        return Global.HOST_API + backend_project_path + pull + "filter?" + params;
     }
 
     public DynamicObject.Owner getOwner() {
@@ -322,16 +327,8 @@ public class ProjectObject implements Serializable {
         return owner;
     }
 
-    public static String teamPath2User(String path) {
-        if (path == null) {
-            return "";
-        }
-
-        return path.replace("/team/", "/user/").replace("/t/", "/u/");
-    }
-
-    public static String getHttpProject(String user, String project) {
-        return String.format("%s/user/%s/project/%s", Global.HOST_API, user, project);
+    public enum MergeExamine {
+        review, mine, other
     }
 
 }

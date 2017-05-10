@@ -43,7 +43,20 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
     String mUrlUnstar;
     String mUrlWatch;
     String mUrlUnwatch;
-
+    View.OnClickListener onClickStatCount = v -> {
+        String title = String.format("收藏了 %s 的人", mProjectObject.name);
+        String url = mProjectObject.getHttptStargazers();
+        startUserList(title, url);
+    };
+    View.OnClickListener onClickFollowCount = v -> {
+        String title = String.format("关注了 %s 的人", mProjectObject.name);
+        String url = mProjectObject.getHttptwatchers();
+        startUserList(title, url);
+    };
+    View.OnClickListener onClickForkCount = v -> ForksListActivity_
+            .intent(PublicProjectHomeFragment.this)
+            .mProjectObject(mProjectObject)
+            .start();
     private String httpProjectObject;
     private String forkUrl;
 
@@ -157,18 +170,6 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         mButtonFork = new ProjectMarkButton(buttonFork, titles[2], titlesColors[2], icons[2], backgroundLeft[2], backgroundRight[2], mProjectObject.forked, mProjectObject.fork_count, onClickForkCount);
     }
 
-    View.OnClickListener onClickStatCount = v -> {
-        String title = String.format("收藏了 %s 的人", mProjectObject.name);
-        String url = mProjectObject.getHttptStargazers();
-        startUserList(title, url);
-    };
-
-    View.OnClickListener onClickFollowCount = v -> {
-        String title = String.format("关注了 %s 的人", mProjectObject.name);
-        String url = mProjectObject.getHttptwatchers();
-        startUserList(title, url);
-    };
-
     private void startUserList(String title, String url) {
 //        UsersListActivity_.intent(PublicProjectHomeFragment.this)
 //                .titleName(title)
@@ -180,13 +181,8 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                 .start();
     }
 
-    View.OnClickListener onClickForkCount = v -> ForksListActivity_
-            .intent(PublicProjectHomeFragment.this)
-            .mProjectObject(mProjectObject)
-            .start();
-
     protected ProjectFunction[] getItems() {
-        return new ProjectFunction[] {
+        return new ProjectFunction[]{
                 ProjectFunction.dynamic,
                 ProjectFunction.topic,
                 ProjectFunction.code,

@@ -55,7 +55,7 @@ public class RecyclerViewSpace extends BaseRecyclerViewSpace {
             }
 
             if (pos == parent.getAdapter().getItemCount() - 1) {
-                Rect rect = new Rect(view.getLeft(), view.getBottom() , view.getRight(), view.getBottom() + bottomSpace);
+                Rect rect = new Rect(view.getLeft(), view.getBottom(), view.getRight(), view.getBottom() + bottomSpace);
                 c.drawRect(rect, paintDivide);
 
                 Rect rectShadow = new Rect(rect);

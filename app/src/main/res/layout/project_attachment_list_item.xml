@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/stand_bg"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/stand_bg">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,13 +24,13 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
+            android:layout_toLeftOf="@+id/more"
             android:layout_toRightOf="@id/icon"
-            android:singleLine="true"
             android:ellipsize="end"
+            android:singleLine="true"
             android:text="Medium Text"
             android:textColor="@color/font_1"
-            android:textSize="17sp"
-            android:layout_toLeftOf="@+id/more" />
+            android:textSize="17sp" />
 
         <RelativeLayout
             android:id="@+id/more"

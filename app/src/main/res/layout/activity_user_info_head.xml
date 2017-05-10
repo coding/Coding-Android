@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include layout="@layout/divide_top_15" />
 
     <RelativeLayout
-        android:paddingLeft="@dimen/padding_15"
-        android:paddingRight="@dimen/padding_15"
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="80dp"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:textSize="16sp"
+            android:text="头像"
             android:textColor="@color/font_1"
-            android:text="头像" />
+            android:textSize="16sp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_centerVertical="true"
+            android:id="@+id/icon"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_alignParentRight="true"
-            app:civ_border_width="0.5dp"
+            android:layout_centerVertical="true"
             app:civ_border_color="@color/divide_line"
-            android:id="@+id/icon" />
+            app:civ_border_width="0.5dp" />
 
     </RelativeLayout>
 

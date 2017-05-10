@@ -2,8 +2,6 @@ package net.coding.program.common.widget;
 
 import android.widget.BaseAdapter;
 
-import net.coding.program.model.DynamicObject;
-
 import java.util.ArrayList;
 
 /**

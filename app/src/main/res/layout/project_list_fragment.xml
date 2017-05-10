@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -15,8 +15,8 @@
             android:layout_height="wrap_content"
             android:background="@color/divide"
             android:clipToPadding="false"
-            android:dividerHeight="0.5dp"
             android:divider="@drawable/divide_line_project_item"
+            android:dividerHeight="0.5dp"
             android:overScrollMode="never"
             android:scrollbarStyle="outsideOverlay" />
 
@@ -29,8 +29,8 @@
         android:background="@color/color_F6F6F6"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        tools:visibility="visible"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <ImageView
             android:id="@+id/icon"

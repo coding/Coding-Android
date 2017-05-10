@@ -17,6 +17,7 @@ public class AmrAudioRecorder {
     private final static int[] sampleRates = {44100, 22050, 11025, 8000};
     // Used only in uncompressed mode
     private static final int BUFFER_FRAME_SIZE = 960;
+    private final Object mLock = new Object();
     private String outPath;
     private int sampleRate;
     private int bufferSize;
@@ -29,11 +30,11 @@ public class AmrAudioRecorder {
     private boolean isAddAmrFileHead;
     private boolean isRecording;
     private long duration = 0l;
-    private final Object mLock = new Object();
     private String TAG = "AmrAudioRecorder";
     private int audioSource;
     private int channelConfig;
     private int audioFormat;
+    private VoiceRecordingCallBack mVoiceRecordingCallBack;
 
     public AmrAudioRecorder(int audioSource, int channelConfig, int audioFormat, String outPath) {
         this.outPath = outPath;
@@ -74,15 +75,6 @@ public class AmrAudioRecorder {
         this.state = state;
     }
 
-    /**
-     * INITIALIZING : recorder is initializing; READY : recorder has been
-     * initialized, recorder not yet started RECORDING : recording ERROR :
-     * reconstruction needed STOPPED: reset needed
-     */
-    public enum State {
-        INITIALIZING, READY, RECORDING, ERROR, STOPPED
-    }
-
     public void prepare() {
         if (state == State.INITIALIZING) {
             if ((audioRecorder.getState() == AudioRecord.STATE_INITIALIZED)
@@ -99,8 +91,6 @@ public class AmrAudioRecorder {
             }
         }
     }
-
-    private VoiceRecordingCallBack mVoiceRecordingCallBack;
 
     public void setVoiceRecordingCallBack(VoiceRecordingCallBack mVoiceRecordingCallBack) {
         this.mVoiceRecordingCallBack = mVoiceRecordingCallBack;
@@ -122,7 +112,6 @@ public class AmrAudioRecorder {
             start();
         }
     }
-
 
     /**
      * Starts the recording, and sets the state to RECORDING. Call after
@@ -246,6 +235,15 @@ public class AmrAudioRecorder {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * INITIALIZING : recorder is initializing; READY : recorder has been
+     * initialized, recorder not yet started RECORDING : recording ERROR :
+     * reconstruction needed STOPPED: reset needed
+     */
+    public enum State {
+        INITIALIZING, READY, RECORDING, ERROR, STOPPED
     }
 
 

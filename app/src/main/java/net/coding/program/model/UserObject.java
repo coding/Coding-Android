@@ -44,22 +44,11 @@ public class UserObject implements Serializable, Comparable {
     public long updated_at;
     public int tweets_count;
     public String email = "";
-    private String pingYin = "";
     public double points_left = 0;
     public int email_validation = 0;
     public int phone_validation = 0;
     public String phone_country_code = "+86";
-
-    public boolean isMe() {
-        return MyApp.sUserObject.id == id;
-    }
-
-    public void reward() {
-        double result = points_left - 0.01;
-        if (result > 0) {
-            points_left = result;
-        }
-    }
+    private String pingYin = "";
 
     public UserObject(JSONObject json) {
         if (json == null) {
@@ -105,6 +94,40 @@ public class UserObject implements Serializable, Comparable {
     }
 
     public UserObject() {
+    }
+
+    public static String getFirstLetters(String chinese) {
+        StringBuffer pybf = new StringBuffer();
+        char[] arr = chinese.toCharArray();
+        HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
+        defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+        defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > 128) {
+                try {
+                    String[] temp = PinyinHelper.toHanyuPinyinStringArray(arr[i], defaultFormat);
+                    if (temp != null) {
+                        pybf.append(temp[0].charAt(0));
+                    }
+                } catch (BadHanyuPinyinOutputFormatCombination e) {
+                    e.printStackTrace();
+                }
+            } else {
+                pybf.append(arr[i]);
+            }
+        }
+        return pybf.toString().replaceAll("\\W", "").trim();
+    }
+
+    public boolean isMe() {
+        return MyApp.sUserObject.id == id;
+    }
+
+    public void reward() {
+        double result = points_left - 0.01;
+        if (result > 0) {
+            points_left = result;
+        }
     }
 
     public String getFirstLetter() {
@@ -200,29 +223,6 @@ public class UserObject implements Serializable, Comparable {
         result = 31 * result + tweets_count;
         result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
-    }
-
-    public static String getFirstLetters(String chinese) {
-        StringBuffer pybf = new StringBuffer();
-        char[] arr = chinese.toCharArray();
-        HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
-        defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
-        defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] > 128) {
-                try {
-                    String[] temp = PinyinHelper.toHanyuPinyinStringArray(arr[i], defaultFormat);
-                    if (temp != null) {
-                        pybf.append(temp[0].charAt(0));
-                    }
-                } catch (BadHanyuPinyinOutputFormatCombination e) {
-                    e.printStackTrace();
-                }
-            } else {
-                pybf.append(arr[i]);
-            }
-        }
-        return pybf.toString().replaceAll("\\W", "").trim();
     }
 
     public void setPhone(String phone, String countryCode) {

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.design.widget.AppBarLayout xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/appbarUserListLayout"
         style="@style/AppBarLayout">
 
@@ -22,8 +21,8 @@
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="消息"
                 android:lines="1"
+                android:text="消息"
                 android:textColor="@color/font_1" />
 
         </android.support.v7.widget.Toolbar>
@@ -51,32 +50,32 @@
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/blankLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:gravity="center"
             android:background="@color/white"
+            android:gravity="center"
             android:orientation="vertical"
             android:visibility="invisible">
 
             <ImageView
-                android:layout_marginTop="-40dp"
                 android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:src="@drawable/ic_exception_no_network"
-                android:layout_centerInParent="true"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/ic_exception_no_network" />
+                android:layout_centerInParent="true"
+                android:layout_marginTop="-40dp"
+                android:background="@drawable/ic_exception_no_network"
+                tools:src="@drawable/ic_exception_no_network" />
 
             <TextView
                 android:id="@+id/message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_centerHorizontal="true"
                 android:layout_below="@id/icon"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
                 android:gravity="center"
                 android:text="加载失败，请检查下网络"
                 android:textColor="@color/font_3"
@@ -84,13 +83,13 @@
 
             <com.flyco.roundview.RoundTextView
                 android:id="@+id/btnRetry"
+                style="@style/retryButton"
                 android:layout_below="@+id/message"
-                android:text="点击重试"
-                style="@style/retryButton"/>
+                android:text="点击重试" />
 
         </RelativeLayout>
 
         <include layout="@layout/actionbar_shadow" />
-        
+
     </FrameLayout>
 </LinearLayout>

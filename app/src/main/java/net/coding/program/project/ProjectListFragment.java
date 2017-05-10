@@ -47,9 +47,9 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 @EFragment(R.layout.project_list_fragment)
 public class ProjectListFragment extends RefreshBaseFragment implements View.OnClickListener, ProjectActionUtil.OnSettingListener {
 
+    private static final String TAG = ProjectListFragment.class.getSimpleName();
     private final String URL_PIN_DELETE = Global.HOST_API + "/user/projects/pin?ids=%d";
     private final String URL_PIN_SET = Global.HOST_API + "/user/projects/pin";
-    private static final String TAG = ProjectListFragment.class.getSimpleName();
     @FragmentArg
     ArrayList<ProjectObject> mData = new ArrayList<>();
     ArrayList<ProjectObject> mDataBackup = new ArrayList<>();
@@ -61,11 +61,6 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
     StickyListHeadersListView listView;
 
     boolean mRequestOk;
-    private ProjectActionUtil projectActionUtil;
-
-    private String title = "";
-    private int pos = 0;
-
     @ViewById
     View blankLayout;
     @ViewById
@@ -74,9 +69,11 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
     SwipeRefreshLayout swipeRefreshLayout;
     @ViewById
     RelativeLayout project_create_layout;
-
     MyAdapter myAdapter = null;
     int msectionId = 0;
+    private ProjectActionUtil projectActionUtil;
+    private String title = "";
+    private int pos = 0;
     private View.OnClickListener mOnClickRetry = v -> onRefresh();
 
     public void setData(ArrayList<ProjectObject> data, boolean requestOk) {

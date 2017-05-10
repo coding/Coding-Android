@@ -37,11 +37,9 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
 
     @Extra
     Wiki wiki;
-
-    private TopicData modifyData = new TopicData();
-
     TopicEditFragment editFragment;
     TopicPreviewFragment previewFragment;
+    private TopicData modifyData = new TopicData();
 
     @AfterViews
     void initWikiEditActivity() {

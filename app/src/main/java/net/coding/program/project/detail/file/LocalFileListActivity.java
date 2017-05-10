@@ -50,13 +50,51 @@ public class LocalFileListActivity extends BackActivity {
     ListView listView;
     @ViewById
     View common_files_delete;
-
-    private LocalAdapter adapter;
-
     boolean editMode = false;
-
     HashSet<Integer> pickItems = new HashSet<>();
+    private LocalAdapter adapter;
     private ActionMode actionMode;
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.project_attachment_file_edit, menu);
+
+            common_files_delete.setVisibility(View.VISIBLE);
+
+            editMode = true;
+            adapter.notifyDataSetChanged();
+
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;// Return false if nothing is done
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.action_all:
+                    action_all();
+                    return true;
+                case R.id.action_inverse:
+                    action_inverse();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode actionMode) {
+            common_files_delete.setVisibility(View.GONE);
+            editMode = false;
+            adapter.notifyDataSetChanged();
+        }
+    };
 
     @AfterViews
     protected void initLocalFileListActivity() {
@@ -197,7 +235,56 @@ public class LocalFileListActivity extends BackActivity {
         actionMode = startActionMode(mActionModeCallback);
     }
 
+    private AttachmentFileObject createFileHelp(File data) {
+        AttachmentFileObject fileHelp = new AttachmentFileObject();
+        String[] split = data.getName().split("\\|\\|\\|");
+        String name = split[split.length - 1];
+        fileHelp.setName(name);
+
+        int pos = name.lastIndexOf(".");
+        String fileSuffix;
+        if (pos != -1 && pos != name.length() - 1) {
+            fileSuffix = name.substring(pos + 1, name.length());
+        } else {
+            fileSuffix = name;
+        }
+
+        fileHelp.fileType = fileSuffix.toLowerCase();
+
+        return fileHelp;
+    }
+
+    private void action_all() {
+        for (int i = 0; i < files.size(); ++i) {
+            pickItems.add(i);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    private void action_inverse() {
+        HashSet<Integer> temp = new HashSet<>();
+        for (int i = 0; i < files.size(); ++i) {
+            if (!pickItems.contains(i)) {
+                temp.add(i);
+            }
+        }
+        pickItems = temp;
+        adapter.notifyDataSetChanged();
+    }
+
     class LocalAdapter extends BaseAdapter {
+
+        CompoundButton.OnCheckedChangeListener checkChange = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                int pos = (int) compoundButton.getTag();
+                if (b) {
+                    pickItems.add(pos);
+                } else {
+                    pickItems.remove(pos);
+                }
+            }
+        };
 
         @Override
         public int getCount() {
@@ -213,18 +300,6 @@ public class LocalFileListActivity extends BackActivity {
         public long getItemId(int position) {
             return position;
         }
-
-        CompoundButton.OnCheckedChangeListener checkChange = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                int pos = (int) compoundButton.getTag();
-                if (b) {
-                    pickItems.add(pos);
-                } else {
-                    pickItems.remove(pos);
-                }
-            }
-        };
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -253,84 +328,5 @@ public class LocalFileListActivity extends BackActivity {
 
             return holder.getRootView();
         }
-    }
-
-    private AttachmentFileObject createFileHelp(File data) {
-        AttachmentFileObject fileHelp = new AttachmentFileObject();
-        String[] split = data.getName().split("\\|\\|\\|");
-        String name = split[split.length - 1];
-        fileHelp.setName(name);
-
-        int pos = name.lastIndexOf(".");
-        String fileSuffix;
-        if (pos != -1 && pos != name.length() - 1) {
-            fileSuffix = name.substring(pos + 1, name.length());
-        } else {
-            fileSuffix = name;
-        }
-
-        fileHelp.fileType = fileSuffix.toLowerCase();
-
-        return fileHelp;
-    }
-
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.project_attachment_file_edit, menu);
-
-            common_files_delete.setVisibility(View.VISIBLE);
-
-            editMode = true;
-            adapter.notifyDataSetChanged();
-
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;// Return false if nothing is done
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.action_all:
-                    action_all();
-                    return true;
-                case R.id.action_inverse:
-                    action_inverse();
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode actionMode) {
-            common_files_delete.setVisibility(View.GONE);
-            editMode = false;
-            adapter.notifyDataSetChanged();
-        }
-    };
-
-    private void action_all() {
-        for (int i = 0; i < files.size(); ++i) {
-            pickItems.add(i);
-        }
-        adapter.notifyDataSetChanged();
-    }
-
-    private void action_inverse() {
-        HashSet<Integer> temp = new HashSet<>();
-        for (int i = 0; i < files.size(); ++i) {
-            if (!pickItems.contains(i)) {
-                temp.add(i);
-            }
-        }
-        pickItems = temp;
-        adapter.notifyDataSetChanged();
     }
 }

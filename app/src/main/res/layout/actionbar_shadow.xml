@@ -4,6 +4,6 @@
     android:id="@+id/actionBarCompShadow"
     android:layout_width="match_parent"
     android:layout_height="2dp"
-    android:visibility="gone"
     android:background="@drawable/actionbar_shadow"
+    android:visibility="gone"
     tools:showIn="@layout/activity_main" />

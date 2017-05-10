@@ -35,13 +35,13 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
-import cz.msebera.android.httpclient.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
 
+import cz.msebera.android.httpclient.Header;
 import pl.droidsonroids.gif.GifImageView;
 
 /**
@@ -63,7 +63,7 @@ public class ImagePagerFragment extends BaseFragment {
             .imageScaleType(ImageScaleType.NONE_SAFE)
             .build();
     private final View.OnClickListener onClickImageClose = v -> getActivity().onBackPressed();
-//    private final PhotoViewAttacher.OnPhotoTapListener onPhotoTapClose = (view, v, v2) -> getActivity().onBackPressed();
+    //    private final PhotoViewAttacher.OnPhotoTapListener onPhotoTapClose = (view, v, v2) -> getActivity().onBackPressed();
 //    private final PhotoViewAttacher.OnViewTapListener onViewTapListener = (view, v, v1) -> getActivity().onBackPressed();
     @ViewById
     DonutProgress circleLoading;
@@ -87,7 +87,7 @@ public class ImagePagerFragment extends BaseFragment {
     int mProjectObjectId;
 
     @FragmentArg // 是否允许使用自己的菜单
-    boolean customMenu = true;
+            boolean customMenu = true;
 
     private String URL_FILES_BASE = Global.HOST_API + "/project/%d/files/%s/view";
     private String URL_FILES = "";

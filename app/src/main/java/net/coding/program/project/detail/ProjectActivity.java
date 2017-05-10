@@ -48,14 +48,11 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
 
     List<WeakReference<Fragment>> mFragments = new ArrayList<>();
     String urlProject;
-
-    private NetworkImpl networkImpl;
-
     @ViewById
     TextView toolbarProjectTitle;
-
     @ViewById(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+    private NetworkImpl networkImpl;
 
     @AfterViews
     protected void initProjectActivity() {

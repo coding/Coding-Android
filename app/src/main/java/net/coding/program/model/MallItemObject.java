@@ -79,6 +79,68 @@ public class MallItemObject implements Serializable {
 
     }
 
+    public MallItemObject(int id, String name, String image, String description, double points_cost,
+                          long updated_at) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+        this.description = description;
+        this.points_cost = points_cost;
+        this.updated_at = updated_at;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public ArrayList<Option> getOptions() {
+        return options;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPoints_cost() {
+        return points_cost;
+    }
+
+    public void setPoints_cost(double points_cost) {
+        this.points_cost = points_cost;
+    }
+
+    public long getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(long updated_at) {
+        this.updated_at = updated_at;
+    }
+
     public static class Option implements Serializable {
 
         int gift_id; //: 3,
@@ -126,68 +188,6 @@ public class MallItemObject implements Serializable {
         public int getId() {
             return id;
         }
-    }
-
-    public MallItemObject(int id, String name, String image, String description, double points_cost,
-                          long updated_at) {
-        this.id = id;
-        this.name = name;
-        this.image = image;
-        this.description = description;
-        this.points_cost = points_cost;
-        this.updated_at = updated_at;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public ArrayList<Option> getOptions() {
-        return options;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getPoints_cost() {
-        return points_cost;
-    }
-
-    public void setPoints_cost(double points_cost) {
-        this.points_cost = points_cost;
-    }
-
-    public long getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(long updated_at) {
-        this.updated_at = updated_at;
     }
 
 //    @Override

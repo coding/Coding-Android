@@ -125,9 +125,9 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
                 meActionFilter();
             });
             toolBarTitle.setBackgroundResource(0);
-            Drawable drawable= getResources().getDrawable(R.drawable.arrow_drop_down_green);
+            Drawable drawable = getResources().getDrawable(R.drawable.arrow_drop_down_green);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            toolBarTitle.setCompoundDrawables(null,null,drawable,null);
+            toolBarTitle.setCompoundDrawables(null, null, drawable, null);
             toolBarTitle.setCompoundDrawablePadding(Global.dpToPx(10));
             toolBarTitle.setText("全部任务");
         }
@@ -371,6 +371,17 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
                 .startForResult(ListModify.RESULT_EDIT_LIST);
     }
 
+    @OptionsItem
+    protected final void action_filter() {
+        actionFilter();
+    }
+
+    @Override
+    protected void sureFilter() {
+        super.sureFilter();
+        loadAllLabels();
+    }
+
     private static class MemberTaskCount {
 
         private ArrayList<Count> mData = new ArrayList<>();
@@ -463,16 +474,5 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
         public String getPageIconUrl(int position) {
             return mMembersAll.get(position).user.avatar;
         }
-    }
-
-    @OptionsItem
-    protected final void action_filter() {
-        actionFilter();
-    }
-
-    @Override
-    protected void sureFilter() {
-        super.sureFilter();
-        loadAllLabels();
     }
 }

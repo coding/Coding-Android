@@ -10,7 +10,7 @@ import java.io.Serializable;
  * 文件上传前需要拿到lastCommit
  */
 
-public class GitUploadPrepareObject implements Serializable{
+public class GitUploadPrepareObject implements Serializable {
     public String lastCommit;
 
     public GitUploadPrepareObject(JSONObject json) throws JSONException {

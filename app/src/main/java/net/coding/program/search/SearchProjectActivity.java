@@ -47,16 +47,13 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
     ViewPager pager;
     @ViewById
     ListView emptyListView;
+    @ViewById
+    View allEmptyView;
+    SearchHistoryListAdapter mSearchHistoryListAdapter;
     // footer
     private TextView mSearchFooterClearAllView;
     private View mSearchFooterDivider;
-
-    @ViewById
-    View allEmptyView;
-
     private InputMethodManager imm;
-
-    SearchHistoryListAdapter mSearchHistoryListAdapter;
     // 历史搜索的记录
     private List<String> mSearchHistoryList = new ArrayList<String>();
     private String mSearchData = "";

@@ -25,6 +25,17 @@ import net.coding.program.model.AccountInfo;
  */
 public class ZhongQiuGuideActivity extends BaseActivity {
 
+    ViewPager mViewPager;
+    IndicatorView mIndicatorView;
+    View entranceButton;
+    View jumpButton;
+    int[] mBackgroundResId = new int[]{
+            R.drawable.guide_zhongqiu_1,
+            R.drawable.guide_zhongqiu_2,
+            R.drawable.guide_zhongqiu_3
+    };
+    FragmentPagerAdapter pagerAdapter;
+
     public static void showHolidayGuide(Activity activity) {
         if (AccountInfo.needDisplayGuide(activity)) {
             AccountInfo.markGuideReaded(activity);
@@ -42,11 +53,6 @@ public class ZhongQiuGuideActivity extends BaseActivity {
 //        int month = calendar.get(Calendar.MONTH);
 //        return month == Calendar.SEPTEMBER && 25 <= day && day <= 27;
     }
-
-    ViewPager mViewPager;
-    IndicatorView mIndicatorView;
-    View entranceButton;
-    View jumpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,14 +145,21 @@ public class ZhongQiuGuideActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    int[] mBackgroundResId = new int[]{
-            R.drawable.guide_zhongqiu_1,
-            R.drawable.guide_zhongqiu_2,
-            R.drawable.guide_zhongqiu_3
-    };
+    public static class GuideFragment extends Fragment {
 
+        public static final String ARGUMENT_IMAGE = "ARGUMENT_IMAGE";
 
-    FragmentPagerAdapter pagerAdapter;
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View v = inflater.inflate(R.layout.holiday_fragment, container, false);
+            ImageView imageView = (ImageView) v.findViewById(R.id.image);
+            int resId = getArguments().getInt(ARGUMENT_IMAGE, 0);
+            if (resId != 0) {
+                imageView.setImageResource(resId);
+            }
+            return v;
+        }
+    }
 
     class HolidayPager extends FragmentPagerAdapter {
 
@@ -166,22 +179,6 @@ public class ZhongQiuGuideActivity extends BaseActivity {
         @Override
         public int getCount() {
             return mBackgroundResId.length;
-        }
-    }
-
-    public static class GuideFragment extends Fragment {
-
-        public static final String ARGUMENT_IMAGE = "ARGUMENT_IMAGE";
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View v = inflater.inflate(R.layout.holiday_fragment, container, false);
-            ImageView imageView = (ImageView) v.findViewById(R.id.image);
-            int resId = getArguments().getInt(ARGUMENT_IMAGE, 0);
-            if (resId != 0) {
-                imageView.setImageResource(resId);
-            }
-            return v;
         }
     }
 }

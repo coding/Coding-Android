@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * Created by yangzhen on 2014/10/25.
  */
 public class AttachmentFolderObject implements Serializable {
+    public static final String SHARE_FOLDER_ID = "-1";
     public long created_at;//创建时间
     public String file_id = "";//文件ID
     public String name = "";//文件名称
@@ -20,9 +21,6 @@ public class AttachmentFolderObject implements Serializable {
     public long updated_at;//更新时间
     public int count;//文件数量
     public boolean isSelected = false;
-
-    public static final String SHARE_FOLDER_ID = "-1";
-
     public ArrayList<AttachmentFolderObject> sub_folders = new ArrayList<>();
     public AttachmentFolderObject parent;
 

@@ -345,7 +345,7 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
             ChildHolder childHolder3 = new ChildHolder(convertView.findViewById(R.id.child3), R.id.child3, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
             ChildHolder childHolder4 = new ChildHolder(convertView.findViewById(R.id.child4), R.id.child4, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
             ChildHolder childHolder5 = new ChildHolder(convertView.findViewById(R.id.child5), R.id.child5, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
-            childHolders = new ChildHolder[] {
+            childHolders = new ChildHolder[]{
                     childHolder0,
                     childHolder1,
                     childHolder2,

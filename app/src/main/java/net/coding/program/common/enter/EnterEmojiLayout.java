@@ -219,7 +219,7 @@ public class EnterEmojiLayout extends EnterLayout {
             "poultry_leg",
             "leftwards_arrow_with_hook",
             "ic_keyboard_delete"
-    },{
+    }, {
             "poop",
             "question",
             "banana",
@@ -731,9 +731,9 @@ public class EnterEmojiLayout extends EnterLayout {
             setEmojiButtonBackground(selectEmoji);
         } else if (type == EmojiFragment.Type.Big) {
             setEmojiButtonBackground(selectMonkey);
-        } else if(type == EmojiFragment.Type.Zhongqiu){
+        } else if (type == EmojiFragment.Type.Zhongqiu) {
             setEmojiButtonBackground(selectZhongqiu);
-        }else{
+        } else {
             setEmojiButtonBackground(selectSpringFestival);
         }
     }
