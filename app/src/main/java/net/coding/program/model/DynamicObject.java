@@ -1061,7 +1061,7 @@ public class DynamicObject {
                 default:
                     if (target_type.equals("MergeRequestBean")) {
 
-                        String mergeInfo = String.format("<a href=\"%s\">#%d %s</a>", mergeRequest.merge_request_path,
+                        String mergeInfo = String.format("<a href=\"%s\">#%s %s</a>", mergeRequest.merge_request_path,
                                 mergeRequest.merge_request_iid, mergeRequest.merge_request_title);
                         format = "%s %s合并请求%s - %s";
                         title = String.format(format, userString, action_msg, mergeInfo, time);

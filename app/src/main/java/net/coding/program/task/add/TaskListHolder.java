@@ -31,21 +31,17 @@ public class TaskListHolder {
     }
 
     public void updateLine(int position, int count) {
-        switch (count) {
-            case 1:
-                setLine(false, false);
-                break;
-
-            default:
-                if (position == 0) {
-                    setLine(false, true);
-                } else if (position == count - 1) {
-                    setLine(true, false);
-                } else {
-                    setLine(true, true);
-                }
-                break;
+        boolean top = true;
+        boolean bottom = true;
+        if (position == 0) {
+            top = false;
         }
+        if (position == count - 1) {
+            bottom = false;
+        }
+
+        setLine(top, bottom);
+
     }
 
     private void setLine(boolean up, boolean down) {
