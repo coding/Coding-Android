@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.CBPageAdapter;
-import com.bigkoo.convenientbanner.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.melnykov.fab.FloatingActionButton;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -226,12 +225,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         if (mBannerDatas.isEmpty()) {
             mBannerDatas.add(new BannerObject());
         }
-        banner.setPages(new CBViewHolderCreator() {
-            @Override
-            public Object createHolder() {
-                return new LocalImageHolder();
-            }
-        }, mBannerDatas);
+        banner.setPages(() -> new LocalImageHolder(), mBannerDatas);
 
         int bannerStartPos = 0;
         bannerIndicator.setCount(mBannerDatas.size(), bannerStartPos);

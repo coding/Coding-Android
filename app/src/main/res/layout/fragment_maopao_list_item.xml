@@ -54,16 +54,15 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="68dp"
+        android:layout_height="75dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_centerVertical="true" />
-
 
         <TextView
             android:id="@+id/name"
@@ -75,9 +74,8 @@
             android:layout_toRightOf="@id/icon"
             android:layout_weight="1"
             android:text="wwww"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/font_1"
-            android:textSize="16sp" />
+            android:textColor="@color/font_2"
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/time"
@@ -111,9 +109,7 @@
         android:background="@drawable/content_pressed_selector"
         android:lineSpacingExtra="1dp"
         android:lineSpacingMultiplier="1.1"
-        android:singleLine="false"
-        android:text="去"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        tools:text="去"
         android:textColor="@color/font_1"
         android:textSize="15sp" />
 
@@ -125,9 +121,9 @@
             android:id="@+id/imageSingle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
             android:adjustViewBounds="true"
             android:longClickable="true"
+            android:layout_marginTop="3dp"
             android:maxHeight="@dimen/image_single_width"
             android:maxWidth="@dimen/image_single_width"
             android:minHeight="@dimen/image_single_min_width"
@@ -142,16 +138,17 @@
         android:id="@+id/imageLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        tools:layout_height="30dp"
+        android:layout_marginTop="4dp"
         android:orientation="vertical"
-        android:padding="2dp"
         android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/imagesLayout0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:orientation="horizontal"
+            tools:visibility="visible"
             android:visibility="gone">
 
             <include
@@ -172,6 +169,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            tools:visibility="visible"
             android:visibility="gone">
 
             <include
@@ -192,18 +190,19 @@
         android:id="@+id/goodCommentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:clipChildren="false"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/location"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="bottom"
+            android:layout_marginBottom="10dp"
             android:singleLine="true"
-            android:text="北京"
+            tools:text="北京"
             android:textColor="@color/font_green"
             android:textSize="12sp" />
 
@@ -211,19 +210,19 @@
             android:id="@+id/photoType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
             android:drawableLeft="@drawable/icon_maopao_send_phone"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="来自 iPhone 6"
             android:textColor="@color/font_3"
-            android:textSize="13sp" />
+            android:textSize="12sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="14dp"
+            android:layout_height="wrap_content"
+            tools:layout_height="22dp"
+            android:layout_marginTop="25dp"
             android:clipChildren="false"
             android:minHeight="30dp"
             android:orientation="horizontal">
@@ -254,7 +253,6 @@
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="8dp"
                 android:background="@null"
-
                 android:button="@drawable/checkbox_good"
                 android:paddingLeft="9dp"
                 android:text="0"
@@ -307,7 +305,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="10.8dp"
             android:background="@drawable/maopao_item_1" />
 
         <LinearLayout
@@ -340,6 +338,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_gravity="bottom"
+                    android:layout_marginLeft="15dp"
                     android:background="@drawable/maopao_comment_divide" />
             </LinearLayout>
 

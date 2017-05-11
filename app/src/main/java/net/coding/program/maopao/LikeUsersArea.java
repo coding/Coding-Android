@@ -95,7 +95,7 @@ public class LikeUsersArea extends BaseUsersArea {
 
                 TextView textV = (TextView) likeUsersLayout.getChildAt(imageCount);
                 textV.setVisibility(View.VISIBLE);
-                textV.setText(readUserCount + "");
+                textV.setText(String.valueOf(readUserCount));
             }
 
         } else {
@@ -107,7 +107,7 @@ public class LikeUsersArea extends BaseUsersArea {
             likeUsersLayout.getChildAt(imageCount).setVisibility(View.GONE);
             TextView textView = (TextView) likeUsersLayout.getChildAt(imageCount + 1);
             textView.setVisibility(View.VISIBLE);
-            textView.setText(readUserCount + "");
+            textView.setText(String.valueOf(readUserCount));
         }
 
         imageCount = likeUsersLayout.getChildCount() - 1;
