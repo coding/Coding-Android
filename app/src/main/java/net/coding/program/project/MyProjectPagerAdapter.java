@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.model.ProjectObject;
@@ -13,6 +12,7 @@ import java.util.ArrayList;
 
 /**
  * Created by chenchao on 15/8/1.
+ *
  */
 class MyProjectPagerAdapter extends SaveFragmentPagerAdapter {
 
@@ -38,21 +38,10 @@ class MyProjectPagerAdapter extends SaveFragmentPagerAdapter {
         return PagerAdapter.POSITION_NONE;
     }
 
-//    @Override
-//    public Object instantiateItem(ViewGroup container, int position) {
-//        ProjectListFragment fragment = (ProjectListFragment) super.instantiateItem(container, position);
-//        fragment.setData(getChildData(position), projectFragment.requestOk);
-//
-//        return fragment;
-//    }
-
     @Override
     public Fragment getItem(int position) {
-        Log.d("", "all p " + position);
-
         if (position == projectFragment.program_title.length) {
-            MenuProjectFragment menuProjectFragment = new MenuProjectFragment_();
-            return menuProjectFragment;
+            return new MenuProjectFragment_();
         }
         if (position == 3) {
             ProjectOtherFragment projectOtherFragment = new ProjectOtherFragment_();

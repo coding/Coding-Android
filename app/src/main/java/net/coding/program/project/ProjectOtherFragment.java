@@ -37,6 +37,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created by Vernon on 15/11/15.
+ *
  */
 @EFragment(R.layout.project_list_fragment)
 public class ProjectOtherFragment extends RefreshBaseFragment implements ProjectListFragment.UpdateData, View.OnClickListener {
@@ -192,10 +193,6 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
                 ProjectSquareActivity_.intent(this).start();
                 break;
         }
-    }
-
-    static class HeaderViewHolder {
-        TextView mHead;
     }
 
     private static class ViewHolder {
