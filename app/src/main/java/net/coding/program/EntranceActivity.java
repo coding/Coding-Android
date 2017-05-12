@@ -30,6 +30,7 @@ import net.coding.program.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.AnimationRes;
 import org.json.JSONException;
@@ -231,6 +232,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
         }
     }
 
+    @UiThread(delay = 2000)
     void next() {
         Intent intent;
         String mGlobalKey = AccountInfo.loadAccount(this).global_key;
@@ -249,7 +251,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
         }
 
         startActivity(intent);
-        overridePendingTransition(R.anim.scroll_in, R.anim.scroll_out);
+        overridePendingTransition(R.anim.umeng_socialize_fade_in, R.anim.umeng_socialize_fade_out);
 
         UnreadNotify.update(this);
         finish();
