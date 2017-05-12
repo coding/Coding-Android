@@ -60,7 +60,7 @@
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
                 android:drawablePadding="8dp"
-                android:drawableRight="@drawable/user_home_arrow"
+                android:drawableRight="@drawable/task_arrow"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/padding_15"
                 android:text="查看描述"
