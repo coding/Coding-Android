@@ -39,7 +39,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import pl.droidsonroids.gif.GifImageView;
 
@@ -147,39 +146,38 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
             getNetwork(BannerObject.getHttpBanners(), TAG_BANNER);
         }
 
-        addDoubleClickActionbar();
 
         getNetwork(createUrl(), getMaopaoUrlFormat());
     }
 
-    private void addDoubleClickActionbar() {
-        ActionBar actionBar = getActionBarActivity().getSupportActionBar();
-        View v = actionBar.getCustomView();
-        // 有些界面没有下拉刷新
-        if (v != null && v.getParent() != null) {
-            ((View) v.getParent()).setOnClickListener(new View.OnClickListener() {
-
-                final long DOUBLE_CLICK_TIME = 300;
-                long mLastTime = 0;
-
-                @Override
-                public void onClick(View v) {
-                    long lastTime = mLastTime;
-                    long nowTime = Calendar.getInstance().getTimeInMillis();
-                    mLastTime = nowTime;
-
-                    if (nowTime - lastTime < DOUBLE_CLICK_TIME) {
-                        if (listView.mSwipeRefreshLayout != null &&
-                                !listView.mSwipeRefreshLayout.isRefreshing()) {
-                            listView.setRefreshing(true);
-                            onRefresh();
-                        }
-                    }
-                }
-            });
-        }
-
-    }
+//    private void addDoubleClickActionbar() {
+//        ActionBar actionBar = getActionBarActivity().getSupportActionBar();
+//        View v = actionBar.getCustomView();
+//        // 有些界面没有下拉刷新
+//        if (v != null && v.getParent() != null) {
+//            ((View) v.getParent()).setOnClickListener(new View.OnClickListener() {
+//
+//                final long DOUBLE_CLICK_TIME = 300;
+//                long mLastTime = 0;
+//
+//                @Override
+//                public void onClick(View v) {
+//                    long lastTime = mLastTime;
+//                    long nowTime = Calendar.getInstance().getTimeInMillis();
+//                    mLastTime = nowTime;
+//
+//                    if (nowTime - lastTime < DOUBLE_CLICK_TIME) {
+//                        if (listView.mSwipeRefreshLayout != null &&
+//                                !listView.mSwipeRefreshLayout.isRefreshing()) {
+//                            listView.setRefreshing(true);
+//                            onRefresh();
+//                        }
+//                    }
+//                }
+//            });
+//        }
+//
+//    }
 
     @Override
     public void onPause() {

@@ -1,6 +1,7 @@
 package net.coding.program.setting;
 
 
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,14 +22,11 @@ import net.coding.program.user.team.TeamListActivity_;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 @EFragment(R.layout.fragment_main_setting)
-@OptionsMenu(R.menu.main_setting)
 public class MainSettingFragment extends BaseFragment {
 
     private static final String TAG_SERVICE_INFO = "TAG_SERVICE_INFO";
@@ -37,6 +35,9 @@ public class MainSettingFragment extends BaseFragment {
     @ViewById
     TextView userName, userGK, projectCount, teamCount;
 
+    @ViewById
+    Toolbar mainSettingToolbar;
+
     ServiceInfo serviceInfo;
 
     @ViewById
@@ -44,7 +45,13 @@ public class MainSettingFragment extends BaseFragment {
 
     @AfterViews
     void initMainSettingFragment() {
-        setToolbar("我的", R.id.mainSettingToolbar);
+        mainSettingToolbar.inflateMenu(R.menu.main_setting);
+        mainSettingToolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.actionAddFollow) {
+                actionAddFollow();
+            }
+            return true;
+        });
 
         bindDataUserinfo();
     }
@@ -141,7 +148,6 @@ public class MainSettingFragment extends BaseFragment {
         AboutActivity_.intent(this).start();
     }
 
-    @OptionsItem
     void actionAddFollow() {
         AddFollowActivity_.intent(this).start();
     }

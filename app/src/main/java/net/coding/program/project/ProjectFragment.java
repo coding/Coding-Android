@@ -13,24 +13,16 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.NoHorizontalScrollViewPager;
 import net.coding.program.event.EventFilter;
 import net.coding.program.event.EventPosition;
 import net.coding.program.event.EventRefresh;
-import net.coding.program.login.auth.QRScanActivity;
-import net.coding.program.maopao.MaopaoAddActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.init.create.ProjectCreateActivity_;
 import net.coding.program.search.SearchProjectActivity_;
-import net.coding.program.task.add.TaskAddActivity_;
-import net.coding.program.user.AddFollowActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -136,9 +128,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (type == Type.Main) {
-            inflater.inflate(R.menu.menu_fragment_project, menu);
-        } else if (type == Type.Create) {
+        if (type == Type.Main || type == Type.Create) {
             // 不显示菜单
         } else {
             inflater.inflate(R.menu.menu_project_pick_search, menu);
@@ -195,50 +185,6 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
             getActivity().setResult(Activity.RESULT_OK, intent);
             getActivity().finish();
         }
-    }
-
-    @OptionsItem
-    void action_create_friend() {
-        umengEvent(UmengEvent.LOCAL, "快捷添加好友");
-        AddFollowActivity_.intent(this).start();
-    }
-
-    @OptionsItem
-    final void action_create() {
-        umengEvent(UmengEvent.LOCAL, "快捷创建项目");
-        ProjectCreateActivity_.intent(this).start();
-    }
-
-    @OptionsItem
-    final void action_create_task() {
-        umengEvent(UmengEvent.LOCAL, "快捷创建任务");
-        TaskAddActivity_.intent(this).mUserOwner(MyApp.sUserObject).start();
-    }
-
-    @OptionsItem
-    final void action_create_maopao() {
-        umengEvent(UmengEvent.LOCAL, "快捷创建冒泡");
-        MaopaoAddActivity_.intent(this).start();
-    }
-
-    @OptionsItem
-    final void action_scan() {
-        if (!PermissionUtil.checkCamera(getActivity())) {
-            return;
-        }
-
-        Intent intent = new Intent(getActivity(), QRScanActivity.class);
-        intent.putExtra(QRScanActivity.EXTRA_OPEN_AUTH_LIST, false);
-        startActivity(intent);
-    }
-
-    @OptionsItem
-    final void action_2fa() {
-        if (!PermissionUtil.checkCamera(getActivity())) {
-            return;
-        }
-
-        Global.start2FAActivity(getActivity());
     }
 
     @Override

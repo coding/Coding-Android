@@ -105,8 +105,8 @@
 
             <TextView
                 android:id="@+id/sendText"
-                android:layout_width="53dp"
-                android:layout_height="39dp"
+                android:layout_width="44dp"
+                android:layout_height="32dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/edit_send_green"
                 android:gravity="center"

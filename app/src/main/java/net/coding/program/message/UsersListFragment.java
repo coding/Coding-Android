@@ -3,6 +3,7 @@ package net.coding.program.message;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +34,6 @@ import net.coding.program.user.UsersListActivity;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +43,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 @EFragment(R.layout.fragment_users_list)
-@OptionsMenu(R.menu.message_users_list)
 public class UsersListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
 
     static WeakReference<UsersListFragment> mInstance = new WeakReference<>(null);
@@ -57,6 +55,9 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     private final int RESULT_SELECT_USER = 2001;
     @ViewById
     ListView listView;
+
+    @ViewById
+    Toolbar usersListToolbar;
     @ViewById
     View blankLayout;
     ArrayList<Message.MessageObject> mData = new ArrayList<>();
@@ -149,7 +150,13 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
 
     @AfterViews
     protected void initUsersListFragment() {
-        setToolbar("消息", R.id.usersListToolbar);
+        usersListToolbar.inflateMenu(R.menu.message_users_list);
+        usersListToolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_message_add) {
+                action_message_add();
+            }
+            return true;
+        });
 
         initRefreshLayout();
 
@@ -275,7 +282,6 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
                 .startForResult(type);
     }
 
-    @OptionsItem
     void action_message_add() {
         TextWatcherAt.startActivityAt(getActivity(), this, RESULT_SELECT_USER);
     }

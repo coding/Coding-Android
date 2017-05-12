@@ -3,6 +3,7 @@ package net.coding.program.maopao;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +21,18 @@ import net.coding.program.subject.SubjectWallActivity_;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
 import org.greenrobot.eventbus.EventBus;
 
 @EFragment(R.layout.fragment_main_maopao)
-@OptionsMenu(R.menu.menu_fragment_maopao)
 public class MainMaopaoFragment extends BaseFragment {
 
     @ViewById
     Spinner toolbarMaopaoTitle;
+
+    @ViewById
+    Toolbar mainMaopaoToolbar;
 
     @StringArrayRes(R.array.maopao_action_types)
     String[] maopaoActionTypes;
@@ -41,7 +42,14 @@ public class MainMaopaoFragment extends BaseFragment {
 
     @AfterViews
     void initMainMaopaoFragment() {
-        setToolbar("", R.id.mainMaopaoToolbar);
+        mainMaopaoToolbar.inflateMenu(R.menu.menu_fragment_maopao);
+        mainMaopaoToolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_search) {
+                action_search();
+            }
+
+            return true;
+        });
 
         mSpinnerAdapter = new MaopaoTypeAdapter(getActivity().getLayoutInflater(), maopaoActionTypes);
         toolbarMaopaoTitle.setAdapter(mSpinnerAdapter);
@@ -96,7 +104,6 @@ public class MainMaopaoFragment extends BaseFragment {
         }
     }
 
-    @OptionsItem
     void action_search() {
         SubjectWallActivity_.intent(this).start();
     }
