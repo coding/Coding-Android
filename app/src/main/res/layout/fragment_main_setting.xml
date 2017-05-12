@@ -172,9 +172,9 @@
         android:id="@+id/itemAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:itemIcon="@mipmap/ic_setting_account"
+        app:itemIcon="@mipmap/ic_setting_mabi"
         app:itemShowBottomLine="false"
-        app:itemTitle="我的账户" />
+        app:itemTitle="我的码币" />
 
     <include layout="@layout/divide_middle_15" />
 

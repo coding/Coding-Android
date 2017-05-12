@@ -84,13 +84,8 @@ public class SubjectWallActivity extends BaseActivity {
             ImageView imageView = new ImageView(SubjectWallActivity.this);
             imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             imageView.setTag(position);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SubjectDetailActivity_.intent(SubjectWallActivity.this).subjectDescObject(mHotTweetDescObjects.get(position)).start();
-                }
-            });
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setOnClickListener(v -> SubjectDetailActivity_.intent(SubjectWallActivity.this).subjectDescObject(mHotTweetDescObjects.get(position)).start());
             getImageLoad().loadImage(imageView, mHotTweetDescObjects.get(position).image_url, ImageLoadTool.bannerOptions);
             container.addView(imageView);
             return imageView;

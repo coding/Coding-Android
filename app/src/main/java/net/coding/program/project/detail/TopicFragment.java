@@ -13,7 +13,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
-
 @EFragment(R.layout.fragment_topic)
 public class TopicFragment extends BaseFragment {
 
