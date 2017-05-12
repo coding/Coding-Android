@@ -211,9 +211,20 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         }
     }
 
+    private View bannerLayout;
+
+    @Override
+    public void showLoading(boolean show) {
+        super.showLoading(show);
+        if (!show && bannerLayout != null) {
+            bannerLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void initBannerData() {
-        View bannerLayout = mInflater.inflate(R.layout.maopao_banner_view_pager, listView, false);
+        bannerLayout = mInflater.inflate(R.layout.maopao_banner_view_pager, listView, false);
         banner = (ConvenientBanner) bannerLayout.findViewById(R.id.bannerViewPager);
+        bannerLayout.setVisibility(View.INVISIBLE);
 
         ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
         layoutParams.height = MyApp.sWidthPix * 130 / 360;
@@ -318,21 +329,18 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         }
     }
 
-    class LocalImageHolder implements CBPageAdapter.Holder<BannerObject> {
+    private class LocalImageHolder implements CBPageAdapter.Holder<BannerObject> {
         GifImageView imageView;
 
         @Override
         public View createView(Context context) {
             imageView = new GifImageView(getActivity());
             imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = (int) v.getTag(R.id.image);
-                    BannerObject bannerObject = mBannerDatas.get(position);
-                    URLSpanNoUnderline.openActivityByUri(getActivity(), bannerObject.getLink(), false, true, true);
-                }
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setOnClickListener(v -> {
+                int position = (int) v.getTag(R.id.image);
+                BannerObject bannerObject = mBannerDatas.get(position);
+                URLSpanNoUnderline.openActivityByUri(getActivity(), bannerObject.getLink(), false, true, true);
             });
             return imageView;
         }
