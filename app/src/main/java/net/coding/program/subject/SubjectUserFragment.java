@@ -32,6 +32,7 @@ import java.util.List;
 
 /**
  * Created by david on 15-7-28.
+ *
  */
 @EFragment(R.layout.fragment_subject_list)
 public class SubjectUserFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {

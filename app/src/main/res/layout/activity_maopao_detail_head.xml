@@ -28,7 +28,6 @@
                 android:layout_height="40dp"
                 android:layout_centerVertical="true" />
 
-
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
@@ -66,7 +65,7 @@
             android:background="@color/transparent"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
-            android:text="陈可辛果然是香港最成功的导演，从《投名状》、《十月围城》、《武侠》"
+            tools:text="陈可辛果然是香港最成功的导演，从《投名状》、《十月围城》、《武侠》"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/font_1"
             android:textSize="15sp" />
@@ -207,8 +206,12 @@
             android:layout_height="50dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="8dp"
+            android:paddingLeft="15dp"
             android:paddingRight="8dp" />
+
     </LinearLayout>
+
+    <View
+        style="@style/DivideLine_15" />
 
 </LinearLayout>

@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -30,14 +28,11 @@ import net.coding.program.common.util.LoadGifUtil;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.BannerObject;
 import net.coding.program.model.UserObject;
-import net.coding.program.subject.SubjectWallActivity_;
-import net.coding.program.user.MyDetailActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,29 +75,9 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         }
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (!(getActivity() instanceof MyDetailActivity)) {
-            inflater.inflate(R.menu.menu_fragment_maopao, menu);
-            super.onCreateOptionsMenu(menu, inflater);
-        }
-    }
-
-    @OptionsItem
-    void action_search() {
-        SubjectWallActivity_.intent(this).start();
-        getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
-    }
-
     @AfterViews
     protected void initMaopaoListFragment() {
         initMaopaoListBaseFragmen(mType);
-
-        if (getActivity() instanceof MyDetailActivity) {
-            setHasOptionsMenu(false);
-        } else {
-            setHasOptionsMenu(true);
-        }
     }
 
     @Override

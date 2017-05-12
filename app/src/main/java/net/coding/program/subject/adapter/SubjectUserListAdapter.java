@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by david on 15-7-20.
+ *
  */
 public class SubjectUserListAdapter extends BaseAdapter {
 

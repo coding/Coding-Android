@@ -13,17 +13,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.event.EventRefrushMaopao;
+import net.coding.program.subject.SubjectWallActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
 import org.greenrobot.eventbus.EventBus;
 
 @EFragment(R.layout.fragment_main_maopao)
-public class MainMaopaoFragment extends Fragment {
+@OptionsMenu(R.menu.menu_fragment_maopao)
+public class MainMaopaoFragment extends BaseFragment {
 
     @ViewById
     Spinner toolbarMaopaoTitle;
@@ -36,6 +41,8 @@ public class MainMaopaoFragment extends Fragment {
 
     @AfterViews
     void initMainMaopaoFragment() {
+        setToolbar("", R.id.mainMaopaoToolbar);
+
         mSpinnerAdapter = new MaopaoTypeAdapter(getActivity().getLayoutInflater(), maopaoActionTypes);
         toolbarMaopaoTitle.setAdapter(mSpinnerAdapter);
         toolbarMaopaoTitle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -76,11 +83,10 @@ public class MainMaopaoFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
     }
 
     @Click
-    void maoPaoToolbar() {
+    void mainMaopaoToolbar() {
         long now = System.currentTimeMillis();
         if (now - lastClick < 500) {
             EventBus.getDefault().post(new EventRefrushMaopao());
@@ -90,7 +96,12 @@ public class MainMaopaoFragment extends Fragment {
         }
     }
 
-    class MaopaoTypeAdapter extends BaseAdapter {
+    @OptionsItem
+    void action_search() {
+        SubjectWallActivity_.intent(this).start();
+    }
+
+    private class MaopaoTypeAdapter extends BaseAdapter {
 
         final int spinnerIcons[] = new int[]{
                 R.drawable.ic_spinner_maopao_time,
@@ -102,12 +113,12 @@ public class MainMaopaoFragment extends Fragment {
         private LayoutInflater inflater;
         private String[] project_activity_action_list;
 
-        public MaopaoTypeAdapter(LayoutInflater inflater, String[] titles) {
+        private MaopaoTypeAdapter(LayoutInflater inflater, String[] titles) {
             this.inflater = inflater;
             this.project_activity_action_list = titles;
         }
 
-        public void setCheckPos(int pos) {
+        private void setCheckPos(int pos) {
             checkPos = pos;
         }
 

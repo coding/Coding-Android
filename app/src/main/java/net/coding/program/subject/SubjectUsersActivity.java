@@ -22,13 +22,11 @@ public class SubjectUsersActivity extends BackActivity {
 
     @AfterViews
     protected final void initSubjectUserActivity() {
-
         setTitle("全部参与者");
         if (topicId > 0) {
             showSubjectDetailFragment();
         }
     }
-
 
     private void showSubjectDetailFragment() {
         Fragment fragment = SubjectUserFragment_.builder()
