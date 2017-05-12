@@ -22,7 +22,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/divide"
                 android:divider="@null"
-                android:dividerHeight="6dp"
+                android:dividerHeight="0dp"
                 android:footerDividersEnabled="false"
                 android:scrollingCache="false" />
 

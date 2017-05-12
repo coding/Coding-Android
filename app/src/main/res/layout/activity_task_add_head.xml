@@ -32,40 +32,43 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_clock"
-            android:drawablePadding="2dp"
-            android:text="Small Text"
             android:textColor="@color/font_3"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:text="2小时前" />
     </LinearLayout>
 
-    <include layout="@layout/divideline_15" />
-
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/list_item_selector"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:background="@color/stand_bg"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/descriptionButton"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
+            android:layout_height="36dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="@color/divide"
             android:gravity="center_vertical"
-            android:paddingLeft="@dimen/padding_15"
-            android:text="查看描述" />
+            android:orientation="horizontal">
 
-        <include
-            layout="@layout/list_item_common_arrow"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/padding_15" />
+            <TextView
+                android:id="@+id/descriptionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:drawablePadding="8dp"
+                android:drawableRight="@drawable/user_home_arrow"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/padding_15"
+                android:text="查看描述"
+                android:textColor="@color/font_green"
+                android:textSize="14sp" />
 
-    </RelativeLayout>
+        </RelativeLayout>
+    </FrameLayout>
 
     <include
         android:id="@+id/line1"

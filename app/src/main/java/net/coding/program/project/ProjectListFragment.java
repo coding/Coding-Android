@@ -382,19 +382,16 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
         }
 
         private void setClickEvent(final View fLayoutAction, final int position) {
-            fLayoutAction.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    projectActionUtil.show(fLayoutAction, position);
-                    if (!mData.get(position).isPin()) {
-                        projectActionUtil.getTxtSetting().setText("设为常用");
-                        projectActionUtil.getTxtSetting().setTextColor(getActivity().getResources().getColor(R.color.white));
-                        projectActionUtil.getTxtSetting().setBackgroundColor(getActivity().getResources().getColor(R.color.font_green));
-                    } else {
-                        projectActionUtil.getTxtSetting().setText("取消常用");
-                        projectActionUtil.getTxtSetting().setTextColor(getActivity().getResources().getColor(R.color.font_green));
-                        projectActionUtil.getTxtSetting().setBackgroundColor(getActivity().getResources().getColor(R.color.color_E5E5E5));
-                    }
+            fLayoutAction.setOnClickListener(v -> {
+                projectActionUtil.show(fLayoutAction, position);
+                if (!mData.get(position).isPin()) {
+                    projectActionUtil.getTxtSetting().setText("设为常用");
+                    projectActionUtil.getTxtSetting().setTextColor(getActivity().getResources().getColor(R.color.white));
+                    projectActionUtil.getTxtSetting().setBackgroundColor(getActivity().getResources().getColor(R.color.font_green));
+                } else {
+                    projectActionUtil.getTxtSetting().setText("取消常用");
+                    projectActionUtil.getTxtSetting().setTextColor(getActivity().getResources().getColor(R.color.font_green));
+                    projectActionUtil.getTxtSetting().setBackgroundColor(getActivity().getResources().getColor(R.color.divide));
                 }
             });
         }

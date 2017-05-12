@@ -11,7 +11,6 @@
         android:minHeight="48dp"
         android:orientation="horizontal">
 
-
         <CheckBox
             android:id="@+id/popVoice"
             android:layout_width="32dp"
@@ -70,8 +69,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_vertical"
                     android:layout_marginLeft="0dp"
-                    android:layout_marginTop="3dp"
                     android:layout_weight="1"
+                    android:textColorHint="@color/font_4"
                     android:background="@null"
                     android:maxHeight="105dp"
                     android:maxLines="4"
@@ -102,14 +101,12 @@
                 android:layout_height="32dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/message_button_add"
-
                 android:padding="5dp" />
-
 
             <TextView
                 android:id="@+id/sendText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="53dp"
+                android:layout_height="39dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/edit_send_green"
                 android:gravity="center"

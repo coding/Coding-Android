@@ -23,10 +23,13 @@
         <TextView
             android:id="@+id/bannerName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="16dp"
+            android:gravity="center"
             android:background="@drawable/round_rect_edge"
             android:textColor="@color/font_3"
-            android:textSize="12sp"
+            android:textSize="10sp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
             android:visibility="invisible"
             tools:text="活动" />
 
@@ -37,7 +40,7 @@
             android:layout_marginLeft="6dp"
             android:layout_weight="1"
             android:ellipsize="end"
-            android:singleLine="true"
+            android:lines="1"
             android:textColor="@color/font_2"
             android:textSize="13sp"
             tools:text="hahahah" />
@@ -50,8 +53,7 @@
 
     </LinearLayout>
 
-
-    <include layout="@layout/divide_shade_up" />
+    <include layout="@layout/divide_bottom_5" />
 
 </LinearLayout>
 

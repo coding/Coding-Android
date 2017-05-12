@@ -140,7 +140,7 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
                     sendText.setBackgroundResource(R.drawable.edit_send_green);
                     sendText.setTextColor(CodingColor.fontWhite);
                 } else {
-                    sendText.setBackgroundResource(R.drawable.edit_send);
+                    sendText.setBackgroundResource(R.drawable.round_rect_send);
                     sendText.setTextColor(CodingColor.font3);
                 }
             }

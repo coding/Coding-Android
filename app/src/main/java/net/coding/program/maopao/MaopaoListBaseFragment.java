@@ -831,7 +831,6 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         View maopaoGoodView;
         View maopaoDelete;
         View divider;
-        View divider2;
     }
 
     class MyHolder extends UltimateRecyclerviewViewHolder {
@@ -844,8 +843,8 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
 
         public MyHolder(View convertView) {
             super(convertView);
+
             holder.divider = convertView.findViewById(R.id.view_divider);
-            holder.divider2 = convertView.findViewById(R.id.view_divider2);
             holder.maopaoItemTop = convertView.findViewById(R.id.maopao_item_top);
 
             holder.maopaoItem = convertView.findViewById(R.id.MaopaoItem);
@@ -933,7 +932,8 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
 
             if (mType != null && mType == MaopaoListFragment.Type.user && position == 0) {
                 holder.divider.setVisibility(View.GONE);
-                holder.divider2.setVisibility(View.GONE);
+            } else {
+                holder.divider.setVisibility(View.VISIBLE);
             }
             holder.likeUsersArea.likeUsersLayout.setTag(TAG_MAOPAO, data);
             holder.likeUsersArea.displayLikeUser();

@@ -12,21 +12,19 @@
     android:paddingLeft="@dimen/padding_12"
     android:paddingRight="@dimen/padding_12">
 
-    <View
+    <FrameLayout
         android:id="@+id/view_divider"
         android:layout_width="match_parent"
-        android:layout_height="6dp"
+        android:layout_height="5dp"
         android:layout_marginLeft="-15dp"
         android:layout_marginRight="-15dp"
-        android:background="@color/divide" />
+        android:background="@color/divide">
 
-    <include
-        android:id="@+id/view_divider2"
-        layout="@layout/divide_shade_down"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginLeft="-15dp"
-        android:layout_marginRight="-15dp" />
+        <View
+            style="@style/DivideSectionTop5"
+            android:layout_gravity="bottom" />
+
+    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/maopao_item_top"
@@ -404,12 +402,16 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <include
-        layout="@layout/divide_shade_up"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="-15dp"
         android:layout_marginRight="-15dp"
-        android:layout_marginTop="@dimen/padding_12" />
+        android:background="@color/divide">
+
+        <View style="@style/DivideSectionBottom5" />
+
+    </FrameLayout>
 
 </LinearLayout>
