@@ -30,6 +30,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 @EActivity(R.layout.activity_enterprise_setting)
 public class EnterpriseSettingActivity extends BackActivity {
     private static final int REQUEST_UPDATE_NAME = 1000;

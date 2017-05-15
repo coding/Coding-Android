@@ -28,6 +28,8 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.ColorRes;
 import org.json.JSONObject;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 @EActivity(R.layout.activity_enterprise_account)
 @OptionsMenu(R.menu.enterprise_account_menu)
 public class EnterpriseAccountActivity extends BackActivity {
