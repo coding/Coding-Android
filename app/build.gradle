@@ -55,13 +55,18 @@ android {
     }
     productFlavors {
 
+        // 版本号不能放在
         person {
             dimension "person"
             applicationId "net.coding.program"
+            versionCode 138
+            versionName "4.4"
         }
         enterprise {
             dimension "enterprise"
             applicationId "net.coding.program.enterprise"
+            versionCode 18
+            versionName "2.0"
         }
 
         dev {
