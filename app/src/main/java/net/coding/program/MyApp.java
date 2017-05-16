@@ -2,6 +2,7 @@ package net.coding.program;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.os.Environment;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
@@ -116,6 +117,12 @@ public class MyApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        try {
+            ApplicationInfo info = getApplicationInfo();
+            isDebug = (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        } catch (Exception e) {
+
+        }
 
         CodingColor.init(this);
 
@@ -165,5 +172,11 @@ public class MyApp extends MultiDexApplication {
                 SDKInitializer.initialize(this);
             }
         }
+    }
+
+    private static boolean isDebug = false;
+
+    public static boolean isDebug() {
+        return isDebug;
     }
 }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.FileUrlActivity;
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.NetworkCallback;
@@ -20,6 +21,7 @@ import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
+import net.coding.program.project.detail.file.v2.ProjectFileMainActivity_;
 import net.coding.program.project.detail.wiki.WikiMainActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -64,22 +66,14 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            AppBarLayout appbar = (AppBarLayout) findViewById(R.id.appbar);
-//            appbar.setElevation(GlobalUnit.ACTIONBAR_SHADOW);
-//        }
-
         if (mJumpParam != null) {
             urlProject = String.format(FileUrlActivity.getHostProject(), mJumpParam.user, mJumpParam.project);
-            //setActionBarTitle(mJumpParam.mProject);
-
             networkImpl = new NetworkImpl(this, this);
             networkImpl.initSetting();
 
             getNetwork(urlProject, urlProject);
 
         } else if (mProjectObject != null) {
-            //setActionBarTitle(mProjectObject.name);
             selectFragment();
 
         } else {
@@ -107,6 +101,11 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
     private void selectFragment() {
         if (mJumpType == ProjectFunction.wiki) {
             WikiMainActivity_.intent(this).project(mProjectObject).start();
+            finish();
+            overridePendingTransition(0, 0);
+            return;
+        } else if (mJumpType == ProjectFunction.document && !MyApp.getEnterpriseGK().isEmpty()) {
+            ProjectFileMainActivity_.intent(this).project(mProjectObject).start();
             finish();
             overridePendingTransition(0, 0);
             return;

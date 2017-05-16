@@ -1,6 +1,8 @@
 package net.coding.program.network;
 
+import net.coding.program.network.model.HttpPageResult;
 import net.coding.program.network.model.HttpResult;
+import net.coding.program.network.model.file.CodingFile;
 import net.coding.program.network.model.wiki.Wiki;
 import net.coding.program.network.model.wiki.WikiHistory;
 
@@ -40,4 +42,9 @@ public interface CodingRequest {
     @POST("user/{user}/project/{project}/wiki/{id}/history")
     Observable<HttpResult<WikiHistory>> rollbackWiki(@Path("user") String user, @Path("project") String project,
                                                      @Path("id") int id, @Query("version") int version);
+
+    @GET("user/{user}/project/{project}/folder/{folder}/all?height=90&width=90&page=1&pageSize=500")
+    Observable<HttpPageResult<CodingFile>> getFileList(@Path("user") String user, @Path("project") String project,
+                                                       @Path("folder") int folder);
+
 }

@@ -79,6 +79,10 @@ public class ImageLoadTool {
         ImageLoader.getInstance().displayImage(url, imageView, options);
     }
 
+    public static void loadFileImage(ImageView imageView, String url, DisplayImageOptions options) {
+        ImageLoader.getInstance().displayImage(url, imageView, options);
+    }
+
     public void loadImage(ImageView imageView, String url) {
         imageLoader.displayImage(Global.makeSmallUrl(imageView, url), imageView, options);
     }

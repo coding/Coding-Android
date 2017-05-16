@@ -40,6 +40,7 @@ import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.setting.MainSettingFragment_;
 import net.coding.program.task.MainTaskFragment_;
+import net.coding.program.user.MyDetailActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -170,8 +171,11 @@ public class MainActivity extends BaseActivity {
 
 //        XGPushConfig.enableDebug(this, true);
         // qq push
-        updateNotifyService();
-        pushInXiaomi();
+
+        if (!MyApp.isDebug()) {
+            updateNotifyService();
+            pushInXiaomi();
+        }
     }
 
     private void startNetworkCheckService() {

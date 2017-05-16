@@ -119,8 +119,8 @@
 
         <service
             android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote" />
+            android:enabled="true" />
+            <!--android:process=":remote" />-->
 
         <meta-data
             android:name="UMENG_CHANNEL"
@@ -367,14 +367,14 @@
         <activity
             android:name=".common.photopick.PhotoPickDetailActivity"
             android:label="@string/title_activity_photo_pick_detail"
-            android:process=":pickimage"
             android:screenOrientation="portrait" />
+        <!--android:process=":pickimage"-->
         <activity
             android:name=".common.photopick.PhotoPickActivity"
             android:label="@string/app_name"
-            android:process=":pickimage"
             android:screenOrientation="portrait"
             android:theme="@style/TranslateTheme" />
+        <!--android:process=":pickimage"-->
         <activity
             android:name=".project.detail.GitTreeActivity_"
             android:icon="@drawable/ic_lancher"
@@ -422,9 +422,9 @@
             android:name=".WebActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/empty"
-            android:process=":customweb"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar" />
+        <!--android:process=":customweb"-->
         <activity
             android:name=".setting.HelpActivity_"
             android:label="@string/title_activity_help"
@@ -824,6 +824,9 @@
         <activity
             android:name=".project.detail.wiki.WikiHistoryDetailActivity_"
             android:label="@string/title_activity_history"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.file.v2.ProjectFileMainActivity_"
             android:screenOrientation="portrait" />
     </application>
 
