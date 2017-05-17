@@ -113,12 +113,9 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
             shareMark.setVisibility(View.INVISIBLE);
         }
 
-        checkBox.setTag(position);
+        checkBox.setTag(data);
         if (isEditMode) {
-            if (!data.isFolder())
-                checkBox.setVisibility(View.VISIBLE);
-            else
-                checkBox.setVisibility(View.INVISIBLE);
+            checkBox.setVisibility(View.VISIBLE);
 
             if (selectFiles.contains(data)) {
                 checkBox.setChecked(true);
@@ -133,7 +130,6 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
             ((RelativeLayout.LayoutParams) bottomLine.getLayoutParams()).leftMargin = Global.dpToPx(15);
         }
 
-//        checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
 //        if (data.downloadId != 0L) {
 //            cancel.setTag(position);
 //            int status = data.bytesAndStatus[2];

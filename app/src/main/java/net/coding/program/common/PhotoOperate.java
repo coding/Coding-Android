@@ -58,6 +58,7 @@ public class PhotoOperate {
         return scal(path);
     }
 
+    // // TODO: 2017/5/17 那些不需要缩放的地方也用了缩放
     public File scal(String path) throws IOException {
         String prefix = "file://";
         if (path.toLowerCase().startsWith(prefix)) {

@@ -7,12 +7,15 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.PhotoOperate;
@@ -45,6 +48,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -54,7 +58,6 @@ import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
 /**
  * Created by chenchao on 2017/5/15.
  */
-
 @EActivity(R.layout.project_file_listview)
 @OptionsMenu(R.menu.project_file_listview)
 public class ProjectFileMainActivity extends BackActivity implements UploadCallback {
@@ -83,6 +86,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
     private ViewGroup listHead;
 
     Set<CodingFile> selectFiles = new HashSet<>();
+    Set<CodingFile> actionFiles = new HashSet<>();  // 实际操作的 item，有时候是单选，这时候与 select 就不同了
 
     List<CodingFile> listData = new ArrayList<>();
     private ProjectFileAdapter listAdapter;
@@ -94,7 +98,6 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.addItemDecoration(new RecyclerViewSpace(this));
         listView.setEmptyView(R.layout.fragment_enterprise_project_empty, R.layout.fragment_enterprise_project_empty);
-
 
         listHead = (ViewGroup) getLayoutInflater().inflate(R.layout.upload_file_layout, listView, false);
         listView.setNormalHeader(listHead);
@@ -180,7 +183,45 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
     @Click(R.id.common_folder_bottom_add)
     void folderAdd() {
+        LayoutInflater li = LayoutInflater.from(this);
+        View v1 = li.inflate(R.layout.dialog_input, null);
+        final EditText input = (EditText) v1.findViewById(R.id.value);
+        input.setHint("请输入文件夹名称");
+        new AlertDialog.Builder(this)
+                .setTitle("新建文件夹")
+                .setView(v1)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    String newName = input.getText().toString();
+                    String namePatternStr = "[,`~!@#$%^&*:;()'\"><|.\\ /=]";
+                    Pattern namePattern = Pattern.compile(namePatternStr);
+                    if (newName.equals("")) {
+                        showButtomToast("名字不能为空");
+                    } else if (namePattern.matcher(newName).find()) {
+                        showButtomToast("文件夹名：" + newName + " 不能采用");
+                    } else {
+                        Network.getRetrofit(this)
+                                .createFolder(project.owner_user_name, project.name, newName, parentFolder.fileId)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new HttpObserver<CodingFile>(this) {
+                                    @Override
+                                    public void onSuccess(CodingFile data) {
+                                        super.onSuccess(data);
 
+                                        data.owner = MyApp.sUserObject;
+
+                                        umengEvent(UmengEvent.FILE, "新建文件夹");
+                                        parentFolder.count++;
+                                        listData.add(0, data);
+                                        listAdapter.notifyDataSetChanged();
+                                        setResult(Activity.RESULT_OK);
+                                    }
+                                });
+                    }
+                }).setNegativeButton("取消", null)
+                .show();
+
+        input.requestFocus();
     }
 
     @Click(R.id.common_folder_bottom_upload)
@@ -208,6 +249,66 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                 }).show();
     }
 
+    @Click(R.id.common_files_move)
+    void actionFilesMove() {
+//        action_move();
+    }
+
+    @Click(R.id.common_files_download)
+    void actionFilesDownload() {
+//        action_download(mFilesArray);
+    }
+
+    @Click(R.id.common_files_delete)
+    void actionFilesDelete() {
+        actionFiles.clear();
+        actionFiles.addAll(selectFiles);
+        action_delete();
+    }
+
+    void action_delete() {
+        if (actionFiles.isEmpty()) {
+            showButtomToast("没有选中文件");
+            return;
+        }
+
+        String messageFormat = "确定要删除%s个文件么？";
+        new AlertDialog.Builder(this)
+                .setTitle("删除文件")
+                .setMessage(String.format(messageFormat, selectFiles.size()))
+                .setPositiveButton("确定", (dialog, which) -> deleteFiles())
+                .setNegativeButton("取消", null)
+                .show();
+    }
+
+    void deleteFiles() {
+        ArrayList<Integer> fileIds = new ArrayList<>();
+        for (CodingFile item : actionFiles) {
+            fileIds.add(item.fileId);
+        }
+        Network.getRetrofit(this)
+                .deleteFiles(project.getId(), fileIds)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpObserver<Integer>(this) {
+                    @Override
+                    public void onSuccess(Integer data) {
+                        super.onSuccess(data);
+                        selectFiles.removeAll(actionFiles);
+                        listData.removeAll(actionFiles);
+                        actionFiles.clear();
+
+                        listAdapter.notifyDataSetChanged();
+                        showButtomToast("删除成功");
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, @NonNull String error) {
+                        super.onFail(errorCode, error);
+                    }
+                });
+    }
+
     private void startPhotoPickActivity() {
         if (!PermissionUtil.writeExtralStorage(this)) {
             return;
@@ -224,7 +325,6 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
             Uri uri = data.getData();
             String path = FileUtil.getPath(this, uri);
             File selectedFile = new File(path);
-//            uploadFilePrepare(selectedFile);
             uploadFileInfo(selectedFile);
         }
     }
@@ -235,13 +335,10 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
             try {
                 @SuppressWarnings("unchecked")
                 ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
-                List<File> files = new ArrayList<>();
                 for (ImageInfo pickPhot : pickPhots) {
                     File outputFile = new PhotoOperate(this).scal(pickPhot.path);
-                    files.add(outputFile);
-//                    uploadFilePrepare(outputFile);
+                    uploadFileInfo(outputFile);
                 }
-                uploadFilePrepareList(files);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -266,16 +363,6 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
     private List<String> tags = new ArrayList<>();
     private boolean isUpload = false;
 
-    private void uploadFilePrepareList(List<File> files) {
-        isUpload = true;
-        tags.clear();
-        for (File file : files) {
-            String tag = file.getName();
-            tags.add(tag);
-            String httpHost = getHttpFileExist(file.getName(), parentFolder);
-            getNetwork(httpHost, file.getName(), -1, file);
-        }
-    }
 
     private void uploadFile() {
 //        String path = "";

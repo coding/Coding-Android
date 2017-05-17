@@ -1,6 +1,7 @@
 package net.coding.program.project.detail.file.v2;
 
 import android.view.View;
+import android.widget.CompoundButton;
 
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 
@@ -17,6 +18,17 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
 
     private boolean editMode = false;
     private Set<CodingFile> selectFiles;
+    private CompoundButton.OnCheckedChangeListener checkListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            CodingFile codingFile = (CodingFile) buttonView.getTag();
+            if (isChecked) {
+                selectFiles.add(codingFile);
+            } else {
+                selectFiles.remove(codingFile);
+            }
+        }
+    };
 
     public void setEditMode(boolean editMode) {
         if (this.editMode != editMode) {
@@ -37,7 +49,9 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
 
     @Override
     protected ProjectFileHolder newViewHolder(View view) {
-        return new ProjectFileHolder(view);
+        ProjectFileHolder holder = new ProjectFileHolder(view);
+        holder.checkBox.setOnCheckedChangeListener(checkListener);
+        return holder;
     }
 
     @Override

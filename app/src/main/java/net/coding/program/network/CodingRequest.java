@@ -7,10 +7,12 @@ import net.coding.program.network.model.file.UploadToken;
 import net.coding.program.network.model.wiki.Wiki;
 import net.coding.program.network.model.wiki.WikiHistory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -53,5 +55,16 @@ public interface CodingRequest {
     Observable<HttpResult<UploadToken>> uploadFileToken(@Query("projectId") int projectId,
                                                         @Query("fileName") String fileName,
                                                         @Query("fileSize") long fileSize);
+
+    @FormUrlEncoded
+    @POST("user/{user}/project/{project}/folder")
+    Observable<HttpResult<CodingFile>> createFolder(@Path("user") String user,
+                                                    @Path("project") String project,
+                                                    @Field("name") String name,
+                                                    @Field("parentId") int parent);
+
+    @DELETE("project/{projectId}/file/delete")
+    Observable<HttpResult<Integer>> deleteFiles(@Path("projectId") int projectId,
+                                           @Query("fileIds") ArrayList<Integer> files);
 
 }
