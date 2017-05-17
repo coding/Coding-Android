@@ -1,5 +1,6 @@
 package net.coding.program.network;
 
+import net.coding.program.network.model.BaseHttpResult;
 import net.coding.program.network.model.HttpPageResult;
 import net.coding.program.network.model.HttpResult;
 import net.coding.program.network.model.file.CodingFile;
@@ -66,5 +67,12 @@ public interface CodingRequest {
     @DELETE("project/{projectId}/file/delete")
     Observable<HttpResult<Integer>> deleteFiles(@Path("projectId") int projectId,
                                            @Query("fileIds") ArrayList<Integer> files);
+
+    @FormUrlEncoded
+    @POST("user/{user}/project/{project}/folder/{folder}/move-files")
+    Observable<BaseHttpResult> moveFolder(@Path("user") String user,
+                                          @Path("project") String project,
+                                          @Path("folder") int folder,
+                                          @Field("fileId") ArrayList<Integer> files);
 
 }

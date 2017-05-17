@@ -28,11 +28,14 @@ import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.CommonListView;
 import net.coding.program.common.widget.FileListHeadItem2;
+import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.Pager;
 import net.coding.program.network.model.file.CodingFile;
+import net.coding.program.project.detail.AttachmentsFolderSelectorActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -251,24 +254,86 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
     @Click(R.id.common_files_move)
     void actionFilesMove() {
-//        action_move();
+        fillActionData();
+        actionMove();
     }
 
     @Click(R.id.common_files_download)
     void actionFilesDownload() {
-//        action_download(mFilesArray);
+        fillActionData();
+        actionDownload();
     }
 
     @Click(R.id.common_files_delete)
     void actionFilesDelete() {
-        actionFiles.clear();
-        actionFiles.addAll(selectFiles);
-        action_delete();
+        fillActionData();
+        actionDelete();
     }
 
-    void action_delete() {
+    private void fillActionData() {
+        actionFiles.clear();
+        actionFiles.addAll(selectFiles);
+    }
+
+    private void actionMove() {
+        if (checkIsEmpty()) {
+            return;
+        }
+
+        AttachmentsFolderSelectorActivity_.intent(this)
+                .mProjectObjectId(project.getId())
+                .startForResult(RESULT_MOVE_FOLDER);
+    }
+
+    private void actionDownload() {
+
+    }
+
+    @OnActivityResult(RESULT_MOVE_FOLDER)
+    void onResultFolderMove(int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        if (actionFiles.isEmpty()) {
+            return;
+        }
+
+        AttachmentFolderObject selectedFolder = (AttachmentFolderObject) data.getSerializableExtra("mAttachmentFolderObject");
+        if (selectedFolder.file_id.equals(String.valueOf(parentFolder.fileId))) {
+            return;
+        }
+
+        ArrayList<Integer> fileIds = getActionItemsIds();
+        Network.getRetrofit(this)
+                .moveFolder(project.owner_user_name, project.name, Integer.valueOf(selectedFolder.file_id), fileIds)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseHttpObserver(this) {
+
+                    @Override
+                    public void onSuccess() {
+                        super.onSuccess();
+                        selectFiles.removeAll(actionFiles);
+                        listData.removeAll(actionFiles);
+                        actionFiles.clear();
+
+                        listAdapter.notifyDataSetChanged();
+                        showButtomToast("移动成功");
+                    }
+                });
+    }
+
+    private boolean checkIsEmpty() {
         if (actionFiles.isEmpty()) {
             showButtomToast("没有选中文件");
+        }
+
+        return actionFiles.isEmpty();
+    }
+
+    private void actionDelete() {
+        if (checkIsEmpty()) {
             return;
         }
 
@@ -282,10 +347,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
     }
 
     void deleteFiles() {
-        ArrayList<Integer> fileIds = new ArrayList<>();
-        for (CodingFile item : actionFiles) {
-            fileIds.add(item.fileId);
-        }
+        ArrayList<Integer> fileIds = getActionItemsIds();
         Network.getRetrofit(this)
                 .deleteFiles(project.getId(), fileIds)
                 .subscribeOn(Schedulers.io())
@@ -307,6 +369,15 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                         super.onFail(errorCode, error);
                     }
                 });
+    }
+
+    @NonNull
+    private ArrayList<Integer> getActionItemsIds() {
+        ArrayList<Integer> fileIds = new ArrayList<>();
+        for (CodingFile item : actionFiles) {
+            fileIds.add(item.fileId);
+        }
+        return fileIds;
     }
 
     private void startPhotoPickActivity() {

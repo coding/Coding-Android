@@ -8,7 +8,7 @@ import com.orhanobut.logger.Logger;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.util.SingleToast;
-import net.coding.program.network.model.HttpResult;
+import net.coding.program.network.model.BaseHttpResult;
 
 import org.json.JSONObject;
 
@@ -16,7 +16,7 @@ import java.util.Map;
 
 import rx.Observer;
 
-public abstract class BaseHttpObserver implements Observer<HttpResult> {
+public class BaseHttpObserver implements Observer<BaseHttpResult> {
 
     static JSONObject sNetworkError;
     static JSONObject sServiceError;
@@ -81,7 +81,7 @@ public abstract class BaseHttpObserver implements Observer<HttpResult> {
     }
 
     @Override
-    public void onNext(HttpResult t1HttpResult) {
+    public void onNext(BaseHttpResult t1HttpResult) {
         if (t1HttpResult == null) {
             onFail(NetworkImpl.NETWORK_ERROR_SERVICE, NetworkImpl.ERROR_MSG_SERVICE_ERROR);
             return;
