@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.liulishuo.filedownloader.FileDownloader;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -161,6 +162,8 @@ public class MyApp extends MultiDexApplication {
 
         RedPointTip.init(this);
         GlobalUnit.init(this);
+
+        FileDownloader.init(getApplicationContext());
     }
 
     private void loadBaiduMap() {

@@ -276,5 +276,4 @@ public class CodingFile implements Serializable {
     public boolean isFolder() {
         return type == 0;
     }
-
 }

@@ -15,10 +15,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.liulishuo.filedownloader.FileDownloadSampleListener;
+import com.orhanobut.logger.Logger;
+
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.PhotoOperate;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.common.ui.BackActivity;
@@ -36,6 +41,7 @@ import net.coding.program.network.Network;
 import net.coding.program.network.model.Pager;
 import net.coding.program.network.model.file.CodingFile;
 import net.coding.program.project.detail.AttachmentsFolderSelectorActivity_;
+import net.coding.program.project.detail.file.FileSaveHelp;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -286,8 +292,67 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
     }
 
     private void actionDownload() {
+        actionFiles.clear();
+        for (CodingFile item : selectFiles) {
+            if (!item.isFolder()) {
+                actionFiles.add(item);
+            }
+        }
 
+        if (checkIsEmpty()) {
+            return;
+        }
+
+        DownloadHelp.instance().addTask(actionFiles, MyAsyncHttpClient.getLoginCookie(this),
+                FileSaveHelp.getFileDownloadAbsolutePath(this), project.getId(),
+                new FileDownloadSampleListener() {
+                    @Override
+                    protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                        super.progress(task, soFarBytes, totalBytes);
+
+                        Logger.d(String.format("%s\t%s\n%s", task.getUrl(), soFarBytes, totalBytes));
+                    }
+
+                    @Override
+                    protected void completed(BaseDownloadTask task) {
+                        super.completed(task);
+
+                        Logger.d(String.format("%s\tcomplete", task.getUrl()));
+                    }
+                });
     }
+
+//    private void download(ArrayList<AttachmentFileObject> mFileObjects) {
+//        try {
+//            if (!PermissionUtil.writeExtralStorage(this)) {
+//                return;
+//            }
+//
+//            for (AttachmentFileObject mFileObject : mFileObjects) {
+//                final String urlDownload = Global.HOST_API + "%s/files/%s/download";
+//                String url = String.format(urlDownload, "/project/" + project.getId(), mFileObject.file_id);
+//
+//                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+//                request.addRequestHeader("Cookie", MyAsyncHttpClient.getLoginCookie(this));
+//
+//
+//                request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName(getProjectId()));
+//                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
+//                request.setTitle(mFileObject.getName());
+//                request.setVisibleInDownloadsUi(false);
+//
+//
+//                long downloadId = downloadManager.enqueue(request);
+//                downloadListEditor.putLong(mFileObject.file_id + mFileObject.getHistory_id(), downloadId);
+////                backgroundUpdate(downloadId);
+//            }
+//            downloadListEditor.commit();
+//            mUpdateDownloadHandler.start();
+//            checkFileDownloadStatus();
+//        } catch (Exception e) {
+//            Toast.makeText(this, R.string.no_system_download_service, Toast.LENGTH_LONG).show();
+//        }
+//    }
 
     @OnActivityResult(RESULT_MOVE_FOLDER)
     void onResultFolderMove(int resultCode, Intent data) {
