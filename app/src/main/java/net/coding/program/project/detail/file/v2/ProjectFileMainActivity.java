@@ -16,8 +16,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
-import com.liulishuo.filedownloader.FileDownloadSampleListener;
-import com.orhanobut.logger.Logger;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -36,6 +34,7 @@ import net.coding.program.common.widget.FileListHeadItem2;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.network.BaseHttpObserver;
+import net.coding.program.network.FileDownloadCallback;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.Pager;
@@ -69,7 +68,7 @@ import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
  */
 @EActivity(R.layout.project_file_listview)
 @OptionsMenu(R.menu.project_file_listview)
-public class ProjectFileMainActivity extends BackActivity implements UploadCallback {
+public class ProjectFileMainActivity extends BackActivity implements UploadCallback, FileDownloadCallback {
 
     public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
     public static final int FILE_SELECT_CODE = 10;
@@ -133,6 +132,18 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                         super.onFail(errorCode, error);
                     }
                 });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        DownloadHelp.instance().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        DownloadHelp.instance().unregister(this);
     }
 
     @OptionsItem
@@ -304,22 +315,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         }
 
         DownloadHelp.instance().addTask(actionFiles, MyAsyncHttpClient.getLoginCookie(this),
-                FileSaveHelp.getFileDownloadAbsolutePath(this), project.getId(),
-                new FileDownloadSampleListener() {
-                    @Override
-                    protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                        super.progress(task, soFarBytes, totalBytes);
-
-                        Logger.d(String.format("%s\t%s\n%s", task.getUrl(), soFarBytes, totalBytes));
-                    }
-
-                    @Override
-                    protected void completed(BaseDownloadTask task) {
-                        super.completed(task);
-
-                        Logger.d(String.format("%s\tcomplete", task.getUrl()));
-                    }
-                });
+                FileSaveHelp.getFileDownloadAbsolutePath(this), project.getId());
     }
 
 //    private void download(ArrayList<AttachmentFileObject> mFileObjects) {
@@ -594,5 +590,39 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         setResult(Activity.RESULT_OK);
 
 //        BlankViewDisplay.setBlank(listData.size(), this, true, blankLayout, mClickReload);
+
+    }
+
+    @Override
+    public void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+        for (int i = 0; i < listData.size(); ++i) {
+            CodingFile item = listData.get(i);
+            if (!item.isFolder() && item.url.equals(task.getUrl())) {
+                item.downloadProgress = soFarBytes * 100 / totalBytes;
+                listAdapter.notifyItemChanged(i);
+            }
+        }
+    }
+
+    @Override
+    public void completed(BaseDownloadTask task) {
+        for (int i = 0; i < listData.size(); ++i) {
+            CodingFile item = listData.get(i);
+            if (!item.isFolder() && item.url.equals(task.getUrl())) {
+                item.downloadProgress = CodingFile.MAX_PROGRESS;
+                listAdapter.notifyItemChanged(i);
+            }
+        }
+    }
+
+    @Override
+    public void error(BaseDownloadTask task, Throwable e) {
+        for (int i = 0; i < listData.size(); ++i) {
+            CodingFile item = listData.get(i);
+            if (!item.isFolder() && item.url.equals(task.getUrl())) {
+                item.downloadProgress = 0;
+                listAdapter.notifyItemChanged(i);
+            }
+        }
     }
 }

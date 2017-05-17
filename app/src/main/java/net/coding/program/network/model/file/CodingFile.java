@@ -99,6 +99,10 @@ public class CodingFile implements Serializable {
     @Expose
     public Share share;
 
+    public static final int MAX_PROGRESS = 100;
+
+    public int downloadProgress = 0; // max 1000
+
     private static final String SAVE_NAME_SPLIT = "|||";
     public static String imagePatternStr = "(gif|png|jpeg|jpg|GIF|PNG|JPEG|JPG)"; // /\.(gif|png|jpeg|jpg)$/
     static Pattern imagePattern = Pattern.compile(imagePatternStr);
@@ -275,5 +279,15 @@ public class CodingFile implements Serializable {
 
     public boolean isFolder() {
         return type == 0;
+    }
+
+    // 已下载
+    public boolean isDownloaded() {
+        return downloadProgress == MAX_PROGRESS;
+    }
+
+    // 下载中
+    public boolean isDownloading() {
+        return downloadProgress != 0 && downloadProgress != MAX_PROGRESS;
     }
 }

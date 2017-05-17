@@ -13,6 +13,7 @@ import java.util.Set;
 
 /**
  * Created by chenchao on 2017/5/15.
+ *
  */
 public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFileHolder> {
 

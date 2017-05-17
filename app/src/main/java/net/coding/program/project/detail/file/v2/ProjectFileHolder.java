@@ -130,52 +130,30 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
             ((RelativeLayout.LayoutParams) bottomLine.getLayoutParams()).leftMargin = Global.dpToPx(15);
         }
 
-//        if (data.downloadId != 0L) {
-//            cancel.setTag(position);
-//            int status = data.bytesAndStatus[2];
-//            if (AttachmentsDownloadDetailActivity.isDownloading(status)) {
-//                if (data.bytesAndStatus[1] < 0) {
-//                    progressBar.setProgress(0);
-//                } else {
-//                    progressBar.setProgress(data.bytesAndStatus[0] * 100 / data.bytesAndStatus[1]);
-//                }
-//                data.isDownload = false;
-//                desc_layout.setVisibility(View.GONE);
-//                content.setVisibility(View.GONE);
-//                more.setVisibility(View.GONE);
-//                progress_layout.setVisibility(View.VISIBLE);
-//            } else {
-//                if (status == DownloadManager.STATUS_FAILED) {
-//                    data.isDownload = false;
-//                } else if (status == DownloadManager.STATUS_SUCCESSFUL) {
-//                    data.isDownload = true;
-//                    downloadFileSuccess(data.file_id);
-//                } else {
-//                    data.isDownload = false;
-//                }
-//
-//                data.downloadId = 0L;
-//
-//                desc_layout.setVisibility(View.VISIBLE);
-//                content.setVisibility(View.VISIBLE);
-//                more.setVisibility(View.VISIBLE);
-//                progress_layout.setVisibility(View.GONE);
-//            }
-//        } else {
-//            desc_layout.setVisibility(View.VISIBLE);
-//            content.setVisibility(View.VISIBLE);
-//            more.setVisibility(View.VISIBLE);
-//            progress_layout.setVisibility(View.GONE);
-//        }
-
+        if (data.isDownloading()) {
+            cancel.setTag(position);
+            progressBar.setProgress(data.downloadProgress);
+            desc_layout.setVisibility(View.GONE);
+            content.setVisibility(View.GONE);
+            more.setVisibility(View.GONE);
+            progress_layout.setVisibility(View.VISIBLE);
 //        cancel.setOnClickListener(cancelClickListener);
 
-//        more.setTag(position);
+        } else {
+            desc_layout.setVisibility(View.VISIBLE);
+            content.setVisibility(View.VISIBLE);
+            more.setVisibility(View.VISIBLE);
+            progress_layout.setVisibility(View.GONE);
+        }
+
+
+        more.setTag(position);
 //        more.setOnClickListener(onMoreClickListener);
-//        downloadFlag.setText(data.isDownload ? "查看" : "下载");
-//        item_layout_root.setBackgroundResource(data.isDownload
-//                ? R.drawable.list_item_selector_project_file
-//                : R.drawable.list_item_selector);
+        downloadFlag.setText(data.isDownloaded() ? "查看" : "下载");
+        item_layout_root.setBackgroundResource(data.isDownloaded()
+                ? R.drawable.list_item_selector_project_file
+                : R.drawable.list_item_selector);
+
 
         if (data.isFolder()) {
             more.setVisibility(View.INVISIBLE);
