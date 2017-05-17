@@ -72,6 +72,18 @@ public class Network {
         return "";
     }
 
+    public static UpQboxRequest getRetrofitLoad(Context context) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://up.qbox.me/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(generateClient(context, null, null))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+        return retrofit.create(UpQboxRequest.class);
+    }
+
     public static CodingRequest getRetrofit(Context context, CacheType cacheType) {
         Interceptor interceptorCookie = chain -> {
             Request request = chain.request();
@@ -131,7 +143,7 @@ public class Network {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        return okHttpClient
+        OkHttpClient.Builder builder = okHttpClient
                 .addInterceptor(interceptor)
                 .addNetworkInterceptor(chain -> {
                     Request request = chain.request();
@@ -162,8 +174,13 @@ public class Network {
                     }
 
                     return proceed;
-                })
-                .addInterceptor(interceptorCookie)
+                });
+
+        if (interceptorCookie != null) {
+            builder.addInterceptor(interceptorCookie);
+        }
+
+        return builder
                 .addInterceptor(chain -> {
                     Request request = chain.request();
 

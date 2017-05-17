@@ -83,6 +83,7 @@ import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
  * 之后加了二级目录，那么有些实现方式就不太合适了
  * Created by yangzhen
  */
+@Deprecated
 @EActivity(R.layout.activity_attachments)
 public class AttachmentsActivity extends FileDownloadBaseActivity implements FootUpdate.LoadMore, UploadStyle {
     public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
@@ -875,21 +876,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
     @Click
     protected final void common_folder_bottom_upload() {
-//        if (isUploading) {
-//            return;
-//        }
-
         showListDialog();
-
-//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//        intent.setType("*/*");
-//        intent.addCategory(Intent.CATEGORY_OPENABLE);
-//        try {
-//            startActivityForResult(Intent.createChooser(intent, "请选择一个要上传的文件"),
-//                    FILE_SELECT_CODE);
-//        } catch (android.content.ActivityNotFoundException ex) {
-//            showButtomToast("请安装文件管理器");
-//        }
     }
 
     private void showListDialog() {

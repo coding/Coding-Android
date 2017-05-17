@@ -28,16 +28,16 @@ public class CodingFile implements Serializable {
     public int fileId;
     @SerializedName("preview")
     @Expose
-    public String preview;
+    public String preview = "";
     @SerializedName("fileType")
     @Expose
-    public String fileType;
+    public String fileType = "";
     @SerializedName("current_user_role_id")
     @Expose
     public int currentUserRoleId;
     @SerializedName("owner_preview")
     @Expose
-    public String ownerPreview;
+    public String ownerPreview = "";
     @SerializedName("number")
     @Expose
     public int number;
@@ -46,7 +46,7 @@ public class CodingFile implements Serializable {
     public int comments;
     @SerializedName("image_info_url")
     @Expose
-    public String imageInfoUrl;
+    public String imageInfoUrl = "";
     @SerializedName("version")
     @Expose
     public int version;
@@ -67,7 +67,7 @@ public class CodingFile implements Serializable {
     public long updatedAt;
     @SerializedName("deleted_at")
     @Expose
-    public String deletedAt;
+    public String deletedAt = "";
     @SerializedName("type")
     @Expose
     public int type; // 0 文件夹 2 png 文件
@@ -76,13 +76,13 @@ public class CodingFile implements Serializable {
     public int size;
     @SerializedName("name")
     @Expose
-    public String name;
+    public String name = "";
     @SerializedName("storage_type")
     @Expose
-    public String storageType;
+    public String storageType = "";
     @SerializedName("storage_key")
     @Expose
-    public String storageKey;
+    public String storageKey = "";
     @SerializedName("history_id")
     @Expose
     public int historyId;
@@ -94,7 +94,7 @@ public class CodingFile implements Serializable {
     public UserObject owner;
     @SerializedName("url")
     @Expose
-    public String url;
+    public String url = "";
     @SerializedName("share")
     @Expose
     public Share share;

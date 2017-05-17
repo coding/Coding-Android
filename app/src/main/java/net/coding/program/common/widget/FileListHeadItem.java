@@ -31,6 +31,7 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Created by chenchao on 16/2/27.
  */
+@Deprecated
 public class FileListHeadItem extends FrameLayout {
 
     View retryUpload;

@@ -3,6 +3,7 @@ package net.coding.program.network;
 import net.coding.program.network.model.HttpPageResult;
 import net.coding.program.network.model.HttpResult;
 import net.coding.program.network.model.file.CodingFile;
+import net.coding.program.network.model.file.UploadToken;
 import net.coding.program.network.model.wiki.Wiki;
 import net.coding.program.network.model.wiki.WikiHistory;
 
@@ -46,5 +47,11 @@ public interface CodingRequest {
     @GET("user/{user}/project/{project}/folder/{folder}/all?height=90&width=90&page=1&pageSize=500")
     Observable<HttpPageResult<CodingFile>> getFileList(@Path("user") String user, @Path("project") String project,
                                                        @Path("folder") int folder);
+
+
+    @GET("upload_token")
+    Observable<HttpResult<UploadToken>> uploadFileToken(@Query("projectId") int projectId,
+                                                        @Query("fileName") String fileName,
+                                                        @Query("fileSize") long fileSize);
 
 }

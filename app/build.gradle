@@ -181,6 +181,9 @@ dependencies {
     // 圆形头像
     compile 'com.mikhaellopez:circularimageview:3.0.2'
 
+    // 文件下载
+    compile 'com.liulishuo.filedownloader:library:1.4.3'
+
 }
 
 // 新功能提示，使用弹出框的样式 start ----------------------------------------------------------------

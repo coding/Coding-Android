@@ -50,11 +50,11 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
 //        return new ProjectFileHolder(view);
 //    }
 //
-//    @Override
-//    public ProjectFileHolder newHeaderHolder(View view) {
-//        return new ProjectFileHolder(view);
-//    }
-//
+    @Override
+    public ProjectFileHolder newHeaderHolder(View view) {
+        return new ProjectFileHolder(view);
+    }
+
 //    @Override
 //    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 //        return super.onCreateViewHolder(parent, viewType);
