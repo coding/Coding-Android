@@ -117,21 +117,22 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         listHead = (ViewGroup) getLayoutInflater().inflate(R.layout.upload_file_layout, listView, false);
         listView.setNormalHeader(listHead);
 
-        listAdapter = new ProjectFileAdapter(listData, selectFiles);
-        listAdapter.setClickMore(v -> {
-            CodingFile codingFile = (CodingFile) v.getTag();
-            if (codingFile.isDownloaded()) {
-                listViewItemClicked(codingFile);
-            } else if (codingFile.isDownloading()) {
-                // todo 取消下载
-            } else {
-                actionDownload(codingFile);
-                updateItem(codingFile.url, 1);
-            }
-        })
-                .setOnClickListItem(v -> {
+        listAdapter = new ProjectFileAdapter(listData, selectFiles)
+                .setClickMore(v -> {
                     CodingFile codingFile = (CodingFile) v.getTag();
-                    listViewItemClicked(codingFile);
+                    if (codingFile.isDownloaded()) {
+                        listViewItemClicked(codingFile);
+                    } else if (codingFile.isDownloading()) {
+                        // todo 取消下载
+                    } else {
+                        actionDownload(codingFile);
+                        updateItem(codingFile.url, 1);
+                    }
+                })
+                .setOnClickListItem(v -> listViewItemClicked((CodingFile) v.getTag()))
+                .setOnLongClickListItem(v -> {
+                    showPop((CodingFile) v.getTag());
+                    return true;
                 });
 
         listView.setAdapter(listAdapter);
@@ -417,6 +418,12 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         actionFiles.addAll(selectFiles);
     }
 
+    private void actionMove(CodingFile codingFile) {
+        actionFiles.clear();
+        actionFiles.add(codingFile);
+        actionMove();
+    }
+
     private void actionMove() {
         if (checkIsEmpty()) {
             return;
@@ -526,19 +533,123 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         return actionFiles.isEmpty();
     }
 
+    private void actionDelete(CodingFile codingFile) {
+        actionFiles.clear();
+        actionFiles.add(codingFile);
+        actionDelete();
+    }
+
     private void actionDelete() {
         if (checkIsEmpty()) {
             return;
         }
 
-        String messageFormat = "确定要删除%s个文件么？";
         new AlertDialog.Builder(this)
                 .setTitle("删除文件")
-                .setMessage(String.format(messageFormat, selectFiles.size()))
+                .setMessage("确定要删除所选文件么？")
                 .setPositiveButton("确定", (dialog, which) -> deleteFiles())
                 .setNegativeButton("取消", null)
                 .show();
     }
+
+    private void showPop(CodingFile codingFile) {
+        CodingFile selectedFileObject = codingFile;
+        if (selectedFileObject.isFolder()) {
+            CodingFile selectedFolderObject = codingFile;
+
+            String[] itemNames;
+            if (selectedFolderObject.fileId == 0) {
+                itemNames = new String[]{};
+            } else if (selectedFolderObject.count != 0) {
+                itemNames = new String[]{"重命名", "移动到"};
+            } else {
+                itemNames = new String[]{"重命名", "移动到", "删除"};
+            }
+            if (itemNames.length == 0) {
+                return;
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setItems(itemNames, (dialog, which) -> {
+                if (which == 0) {
+                    doRename(codingFile);
+                } else if (which == 1) {
+                    actionMove(codingFile);
+                } else {
+                    if (codingFile.isDeleteable()) {
+                        actionDelete(codingFile);
+                    } else {
+                        showButtomToast("请先清空文件夹");
+                    }
+                }
+            });
+            builder.show();
+
+        } else {
+            String[] itemTitles;
+            if (selectedFileObject.isOwner()) {
+                itemTitles = new String[]{"重命名", "移动到", "删除"};
+            } else {
+                itemTitles = new String[]{"重命名", "移动到"};
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setItems(itemTitles, (dialog, which) -> {
+                if (which == 0) {
+                    doRename(codingFile);
+                } else if (which == 1) {
+                    actionMove(codingFile);
+                } else {
+                    actionDelete(codingFile);
+                }
+            });
+            builder.show();
+        }
+    }
+
+    private void doRename(CodingFile folderObject) {
+        LayoutInflater li = LayoutInflater.from(this);
+        View v1 = li.inflate(R.layout.dialog_input, null);
+        final EditText input = (EditText) v1.findViewById(R.id.value);
+        input.setText(folderObject.name);
+        new AlertDialog.Builder(this)
+                .setTitle("重命名")
+                .setView(v1)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    String newName = input.getText().toString();
+                    //从网页版扒来的正则
+                    String namePatternStr = "[,`~!@#$%^&*:;()'\"><|.\\ /=]";
+                    Pattern namePattern = Pattern.compile(namePatternStr);
+                    if (newName.equals("")) {
+                        showButtomToast("名字不能为空");
+                    } else if (namePattern.matcher(newName).find()) {
+                        showButtomToast("文件夹名：" + newName + " 不能采用");
+                    } else {
+                        if (!newName.equals(folderObject.name)) {
+                            Network.getRetrofit(this)
+                                    .renameFile(project.owner_user_name, project.name, folderObject.fileId, newName)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new HttpObserver<Boolean>(this) {
+                                        @Override
+                                        public void onSuccess(Boolean data) {
+                                            super.onSuccess(data);
+
+                                            folderObject.name = newName;
+                                            listAdapter.notifyDataSetChanged();
+
+                                            showButtomToast("重命名成功");
+                                        }
+                                    });
+                        }
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .show();
+
+        input.requestFocus();
+    }
+
 
     void deleteFiles() {
         ArrayList<Integer> fileIds = getActionItemsIds();

@@ -18,6 +18,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -75,4 +76,10 @@ public interface CodingRequest {
                                           @Path("folder") int folder,
                                           @Field("fileId") ArrayList<Integer> files);
 
+    @FormUrlEncoded
+    @PUT("user/{user}/project/{project}/folder/{folder}")
+    Observable<HttpResult<Boolean>> renameFile(@Path("user") String user,
+                                          @Path("project") String project,
+                                          @Path("folder") int folder,
+                                          @Field("name") String name);
 }

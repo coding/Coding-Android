@@ -290,4 +290,8 @@ public class CodingFile implements Serializable {
     public boolean isDownloading() {
         return 0 < downloadProgress && downloadProgress < MAX_PROGRESS;
     }
+
+    public boolean isDeleteable() {
+        return count == 0;
+    }
 }

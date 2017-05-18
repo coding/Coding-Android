@@ -33,6 +33,7 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
 
     private View.OnClickListener onMoreClickListener;
     private View.OnClickListener onClickListItem;
+    private View.OnLongClickListener onLongClickListItem;
 
     public void setEditMode(boolean editMode) {
         if (this.editMode != editMode) {
@@ -69,6 +70,11 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
         return this;
     }
 
+    public ProjectFileAdapter setOnLongClickListItem(View.OnLongClickListener onLongClickListItem) {
+        this.onLongClickListItem = onLongClickListItem;
+        return this;
+    }
+
     @Override
     protected int getNormalLayoutResId() {
         return R.layout.project_file_list_item ;
@@ -80,6 +86,7 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
         holder.checkBox.setOnCheckedChangeListener(checkListener);
         holder.more.setOnClickListener(onMoreClickListener);
         holder.item_layout_root.setOnClickListener(onClickListItem);
+        holder.item_layout_root.setOnLongClickListener(onLongClickListItem);
         return holder;
     }
 
