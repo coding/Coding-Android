@@ -76,6 +76,7 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
     }
 
     public void bind(CodingFile data, boolean isEditMode, Set<CodingFile> selectFiles) {
+        item_layout_root.setTag(data);
         name.setText(data.getName());
 
         if (data.isFolder()) {
@@ -147,8 +148,7 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
         }
 
 
-        more.setTag(position);
-//        more.setOnClickListener(onMoreClickListener);
+        more.setTag(data);
         downloadFlag.setText(data.isDownloaded() ? "查看" : "下载");
         item_layout_root.setBackgroundResource(data.isDownloaded()
                 ? R.drawable.list_item_selector_project_file

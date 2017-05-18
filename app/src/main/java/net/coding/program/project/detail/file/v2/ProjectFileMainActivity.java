@@ -32,6 +32,7 @@ import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.CommonListView;
 import net.coding.program.common.widget.FileListHeadItem2;
+import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.network.BaseHttpObserver;
@@ -40,7 +41,12 @@ import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.Pager;
 import net.coding.program.network.model.file.CodingFile;
+import net.coding.program.project.detail.AttachmentsDownloadDetailActivity_;
 import net.coding.program.project.detail.AttachmentsFolderSelectorActivity_;
+import net.coding.program.project.detail.AttachmentsHtmlDetailActivity_;
+import net.coding.program.project.detail.AttachmentsPhotoDetailActivity_;
+import net.coding.program.project.detail.AttachmentsTextDetailActivity_;
+import net.coding.program.project.detail.ProjectAttachmentFragment;
 import net.coding.program.project.detail.file.FileSaveHelp;
 
 import org.androidannotations.annotations.AfterViews;
@@ -112,10 +118,27 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         listView.setNormalHeader(listHead);
 
         listAdapter = new ProjectFileAdapter(listData, selectFiles);
+        listAdapter.setClickMore(v -> {
+            CodingFile codingFile = (CodingFile) v.getTag();
+            if (codingFile.isDownloaded()) {
+                listViewItemClicked(codingFile);
+            } else {
+                actionDownload(codingFile);
+            }
+        })
+                .setOnClickListItem(v -> {
+                    CodingFile codingFile = (CodingFile) v.getTag();
+                    listViewItemClicked(codingFile);
+                });
+
         listView.setAdapter(listAdapter);
 
+        int folder = 0;
+        if (parentFolder != null) {
+            folder = parentFolder.fileId;
+        }
         Network.getRetrofit(this)
-                .getFileList(project.owner_user_name, project.name, 0)
+                .getFileList(project.owner_user_name, project.name, folder)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpObserver<Pager<CodingFile>>(this) {
@@ -139,6 +162,80 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                         super.onFail(errorCode, error);
                     }
                 });
+    }
+
+    void listViewItemClicked(CodingFile fileObject) {
+        if (listAdapter.isEditMode()) {
+            if (!fileObject.isFolder()) {
+                listAdapter.invert(fileObject);
+            }
+        } else {
+            if (fileObject.isFolder()) {
+                ProjectFileMainActivity_.intent(this)
+                        .project(project)
+                        .parentFolder(fileObject)
+                        .startForResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES);
+            } else {
+                AttachmentFolderObject folder = new AttachmentFolderObject(parentFolder);
+                AttachmentFileObject attachmentFile = new AttachmentFileObject(fileObject);
+
+                if (fileObject.isDownloaded()) {
+                    jumpToDetail(folder, attachmentFile);
+                } else if (fileObject.isImage()) {
+                    AttachmentsPhotoDetailActivity_
+                            .intent(this)
+                            .mProjectObjectId(project.getId())
+                            .mAttachmentFolderObject(folder)
+                            .mAttachmentFileObject(attachmentFile)
+                            .mProject(project)
+                            .startForResult(FILE_DELETE_CODE);
+                } else {
+                    AttachmentsDownloadDetailActivity_.intent(this)
+                            .mProjectObjectId(project.getId())
+                            .mAttachmentFolderObject(folder)
+                            .mAttachmentFileObject(attachmentFile)
+                            .mProject(project)
+                            .startForResult(FILE_DELETE_CODE);
+                }
+            }
+        }
+    }
+
+    private void jumpToDetail(AttachmentFolderObject mAttachmentFolderObject, AttachmentFileObject data) {
+        if (AttachmentFileObject.isTxt(data.fileType)) {
+            AttachmentsTextDetailActivity_
+                    .intent(this)
+                    .mProjectObjectId(project.getId())
+                    .mAttachmentFolderObject(mAttachmentFolderObject)
+                    .mAttachmentFileObject(data)
+                    .mProject(project)
+                    .startForResult(FILE_DELETE_CODE);
+
+        } else if (AttachmentFileObject.isMd(data.fileType)) {
+            AttachmentsHtmlDetailActivity_
+                    .intent(this)
+                    .mProjectObjectId(project.getId())
+                    .mAttachmentFolderObject(mAttachmentFolderObject)
+                    .mAttachmentFileObject(data)
+                    .mProject(project)
+                    .startForResult(FILE_DELETE_CODE);
+
+        } else if (data.isImage()) {
+            AttachmentsPhotoDetailActivity_
+                    .intent(this)
+                    .mProjectObjectId(project.getId())
+                    .mAttachmentFolderObject(mAttachmentFolderObject)
+                    .mAttachmentFileObject(data)
+                    .mProject(project)
+                    .startForResult(FILE_DELETE_CODE);
+        } else {
+            AttachmentsDownloadDetailActivity_.intent(this)
+                    .mProjectObjectId(project.getId())
+                    .mAttachmentFolderObject(mAttachmentFolderObject)
+                    .mAttachmentFileObject(data)
+                    .mProject(project)
+                    .startForResult(FILE_DELETE_CODE);
+        }
     }
 
     private void setDownloadStatus(CodingFile codingFile, String downloadPath, int projectId) {
@@ -320,6 +417,14 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         AttachmentsFolderSelectorActivity_.intent(this)
                 .mProjectObjectId(project.getId())
                 .startForResult(RESULT_MOVE_FOLDER);
+    }
+
+    private void actionDownload(CodingFile single) {
+        actionFiles.clear();
+        actionFiles.add(single);
+
+        DownloadHelp.instance().addTask(actionFiles, MyAsyncHttpClient.getLoginCookie(this),
+                FileSaveHelp.getFileDownloadAbsolutePath(this), project.getId());
     }
 
     private void actionDownload() {

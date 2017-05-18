@@ -4,6 +4,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.network.model.file.CodingFile;
 
 import org.json.JSONObject;
 
@@ -121,6 +122,30 @@ public class AttachmentFileObject implements Serializable {
 
         if (json.has("share")) {
             share = new AttachmentFileObject.Share(json.optJSONObject("share"));
+            share_url = share.getUrl();
+        }
+    }
+
+    public AttachmentFileObject(CodingFile file) {
+        created_at = file.createdAt;
+        current_user_role_id = file.currentUserRoleId;
+        fileType = file.fileType;
+        file_id = String.valueOf(file.fileId);
+        name = file.name;
+            owner = file.owner;
+        owner_id = String.valueOf(file.ownerId);
+        owner_preview = file.ownerPreview;
+        parent_id = String.valueOf(file.parentId);
+        preview = file.preview;
+        size = file.size;
+        storage_key = file.storageKey;
+        storage_type = file.storageType;
+        type = file.type;
+        updated_at = file.updatedAt;
+        history_id = file.historyId;
+
+        if (file.share != null) {
+            share = new Share(file.share);
             share_url = share.getUrl();
         }
     }
@@ -354,6 +379,18 @@ public class AttachmentFileObject implements Serializable {
             created_at = json.optLong("created_at");
             hash = json.optString("hash");
             url = json.optString("url");
+        }
+
+        public Share(net.coding.program.network.model.file.Share file) {
+            resource_type = file.resourceType;
+            resource_id = file.resourceId;
+            user_id = file.userId;
+            access_type = file.accessType;
+            project_id = file.projectId;
+            overdue = file.overdue;
+            created_at = file.createdAt;
+            hash = file.hash;
+            url = file.url;
         }
 
         public String getUrl() {

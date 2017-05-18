@@ -31,6 +31,9 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
         }
     };
 
+    private View.OnClickListener onMoreClickListener;
+    private View.OnClickListener onClickListItem;
+
     public void setEditMode(boolean editMode) {
         if (this.editMode != editMode) {
             this.editMode = editMode;
@@ -38,9 +41,32 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
         }
     }
 
+    public void invert(CodingFile codingFile) {
+        if (selectFiles.contains(codingFile)) {
+            selectFiles.remove(codingFile);
+        } else {
+            selectFiles.add(codingFile);
+        }
+        notifyDataSetChanged();
+    }
+
+    public boolean isEditMode() {
+        return editMode;
+    }
+
     public ProjectFileAdapter(List<CodingFile> list, Set<CodingFile> selectFiles) {
         super(list);
         this.selectFiles = selectFiles;
+    }
+
+    public ProjectFileAdapter setClickMore(View.OnClickListener click) {
+        onMoreClickListener = click;
+        return this;
+    }
+
+    public ProjectFileAdapter setOnClickListItem(View.OnClickListener onClickListItem) {
+        this.onClickListItem = onClickListItem;
+        return this;
     }
 
     @Override
@@ -52,6 +78,8 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
     protected ProjectFileHolder newViewHolder(View view) {
         ProjectFileHolder holder = new ProjectFileHolder(view);
         holder.checkBox.setOnCheckedChangeListener(checkListener);
+        holder.more.setOnClickListener(onMoreClickListener);
+        holder.item_layout_root.setOnClickListener(onClickListItem);
         return holder;
     }
 

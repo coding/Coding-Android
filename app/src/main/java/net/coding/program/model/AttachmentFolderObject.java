@@ -1,5 +1,7 @@
 package net.coding.program.model;
 
+import net.coding.program.network.model.file.CodingFile;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +47,16 @@ public class AttachmentFolderObject implements Serializable {
             subFolder.parent = this;
             sub_folders.add(subFolder);
         }
+    }
+
+    public AttachmentFolderObject(CodingFile file) {
+        created_at = file.createdAt;
+        file_id = String.valueOf(file.fileId);
+        name = file.name;
+        owner_id = String.valueOf(file.ownerId);
+        parent_id = String.valueOf(file.parentId);
+        type = file.type;
+        updated_at = file.updatedAt;
     }
 
     public int getCount() {
