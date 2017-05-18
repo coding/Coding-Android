@@ -122,8 +122,11 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
             CodingFile codingFile = (CodingFile) v.getTag();
             if (codingFile.isDownloaded()) {
                 listViewItemClicked(codingFile);
+            } else if (codingFile.isDownloading()) {
+                // todo 取消下载
             } else {
                 actionDownload(codingFile);
+                updateItem(codingFile.url, 1);
             }
         })
                 .setOnClickListItem(v -> {
@@ -266,6 +269,11 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
     @OptionsItem
     void actionEdit() {
         setEditMode(true);
+    }
+
+    @OptionsItem
+    void actionSearch() {
+
     }
 
     private void setEditMode(boolean editMode) {
@@ -720,37 +728,42 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
     @Override
     public void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-        Logger.d(String.format("progress %s\n%s\t%s", task.getUrl(), soFarBytes, totalBytes));
-        for (int i = 0; i < listData.size(); ++i) {
-            CodingFile item = listData.get(i);
-            if (!item.isFolder() && item.url.equals(task.getUrl())) {
-                item.downloadProgress = soFarBytes * 100 / totalBytes;
-                listAdapter.notifyItemChanged(i + 1);
-                break;
-            }
+        String taskUrl = task.getUrl();
+
+        int progress;
+        if (totalBytes > 10000) { // 传大文件可能超出 int 的范围
+            progress = soFarBytes / (totalBytes / 100);
+        } else {
+            progress = soFarBytes * 100 / totalBytes;
         }
+        if (progress < 1) {
+            progress = 1;
+        }
+
+        updateItem(taskUrl, progress);
+        Logger.d(String.format("progress %s\t%s\t%s\t%s", task.getId(), soFarBytes, totalBytes, progress));
     }
+
 
     @Override
     public void completed(BaseDownloadTask task) {
         Logger.d(String.format("completed %s\n", task.getUrl()));
-        for (int i = 0; i < listData.size(); ++i) {
-            CodingFile item = listData.get(i);
-            if (!item.isFolder() && item.url.equals(task.getUrl())) {
-                item.downloadProgress = CodingFile.MAX_PROGRESS;
-                listAdapter.notifyItemChanged(i + 1);
-            }
-        }
+        updateItem(task.getUrl(), CodingFile.MAX_PROGRESS);
     }
 
     @Override
     public void error(BaseDownloadTask task, Throwable e) {
         Logger.d(String.format("error %s\n", task.getUrl()));
+        updateItem(task.getUrl(), 0);
+    }
+
+    private void updateItem(String taskUrl, int progress) {
         for (int i = 0; i < listData.size(); ++i) {
             CodingFile item = listData.get(i);
-            if (!item.isFolder() && item.url.equals(task.getUrl())) {
-                item.downloadProgress = 0;
+            if (!item.isFolder() && item.url.equals(taskUrl)) {
+                item.downloadProgress = progress;
                 listAdapter.notifyItemChanged(i + 1);
+                break;
             }
         }
     }

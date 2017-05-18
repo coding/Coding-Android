@@ -37,8 +37,8 @@ public class DownloadHelp {
     private DownloadHelp() {
         queueSet = new FileDownloadQueueSet(downloadListener);
         queueSet.setAutoRetryTimes(1);
-        queueSet.setCallbackProgressTimes(100);
-        queueSet.setCallbackProgressMinInterval(100);
+        queueSet.setCallbackProgressTimes(1000);
+        queueSet.setCallbackProgressMinInterval(1000);
     }
 
     private FileDownloadListener downloadListener = new FileDownloadSampleListener() {

@@ -71,7 +71,7 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
 
     @Override
     protected int getNormalLayoutResId() {
-        return R.layout.project_attachment_file_list_item ;
+        return R.layout.project_file_list_item ;
     }
 
     @Override

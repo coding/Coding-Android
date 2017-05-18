@@ -2,6 +2,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MyActivity">
+
+    <item
+        android:id="@+id/actionSearch"
+        android:title="搜索"
+        android:icon="@drawable/ic_menu_search"
+        app:showAsAction="always" />
+
     <item
         android:id="@+id/actionEdit"
         android:icon="@drawable/ic_menu_edit"

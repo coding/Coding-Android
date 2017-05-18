@@ -41,9 +41,8 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
 
     public RelativeLayout icon_layout;
 
-    public LinearLayout desc_layout, progress_layout;
+    public LinearLayout desc_layout;
     public ProgressBar progressBar;
-    public TextView cancel;
     public TextView downloadFlag;
     public View item_layout_root;
 
@@ -69,9 +68,7 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
         icon_layout = (RelativeLayout) convertView.findViewById(R.id.icon_layout);
 
         desc_layout = (LinearLayout) convertView.findViewById(R.id.desc_layout);
-        progress_layout = (LinearLayout) convertView.findViewById(R.id.progress_layout);
         progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
-        cancel = (TextView) convertView.findViewById(R.id.cancel);
         shareMark = convertView.findViewById(R.id.shareMark);
     }
 
@@ -123,33 +120,27 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
             } else {
                 checkBox.setChecked(false);
             }
-            //((RelativeLayout.LayoutParams) bottomLine.getLayoutParams()).addRule(RelativeLayout.LEFT_OF, R.id.icon);
-            ((RelativeLayout.LayoutParams) bottomLine.getLayoutParams()).leftMargin = Global.dpToPx(62);
         } else {
             checkBox.setVisibility(View.GONE);
-            //((RelativeLayout.LayoutParams) bottomLine.getLayoutParams()).removeRule(RelativeLayout.LEFT_OF);
-            ((RelativeLayout.LayoutParams) bottomLine.getLayoutParams()).leftMargin = Global.dpToPx(15);
         }
 
         if (data.isDownloading()) {
-            cancel.setTag(position);
             progressBar.setProgress(data.downloadProgress);
-            desc_layout.setVisibility(View.GONE);
-            content.setVisibility(View.GONE);
-            more.setVisibility(View.GONE);
-            progress_layout.setVisibility(View.VISIBLE);
-//        cancel.setOnClickListener(cancelClickListener);
-
+            progressBar.setVisibility(View.VISIBLE);
         } else {
-            desc_layout.setVisibility(View.VISIBLE);
-            content.setVisibility(View.VISIBLE);
-            more.setVisibility(View.VISIBLE);
-            progress_layout.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
         }
 
-
         more.setTag(data);
-        downloadFlag.setText(data.isDownloaded() ? "查看" : "下载");
+
+        if (data.isDownloaded()) {
+            downloadFlag.setText("查看");
+        } else if (data.isDownloading()) {
+            downloadFlag.setText("取消");
+        } else {
+            downloadFlag.setText("下载");
+        }
+
         item_layout_root.setBackgroundResource(data.isDownloaded()
                 ? R.drawable.list_item_selector_project_file
                 : R.drawable.list_item_selector);
