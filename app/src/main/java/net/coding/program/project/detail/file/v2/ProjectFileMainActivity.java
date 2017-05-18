@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.orhanobut.logger.Logger;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -124,6 +125,12 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
                         listData.clear();
                         listData.addAll(data.list);
+
+                        String downloadPath = FileSaveHelp.getFileDownloadPath(ProjectFileMainActivity.this);
+                        for (CodingFile item : listData) {
+                            setDownloadStatus(item, downloadPath, project.getId());
+                        }
+
                         listAdapter.notifyDataSetChanged();
                     }
 
@@ -132,6 +139,19 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                         super.onFail(errorCode, error);
                     }
                 });
+    }
+
+    private void setDownloadStatus(CodingFile codingFile, String downloadPath, int projectId) {
+        if (codingFile.isFolder()) {
+            codingFile.downloadProgress = 0;
+        } else {
+            File localFile = FileUtil.getDestinationInExternalPublicDir(downloadPath, codingFile.getSaveName(projectId));
+            if (localFile.exists() && localFile.isFile()) {
+                codingFile.downloadProgress = CodingFile.MAX_PROGRESS;
+            } else {
+                codingFile.downloadProgress = 0;
+            }
+        }
     }
 
     @Override
@@ -595,33 +615,37 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
     @Override
     public void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+        Logger.d(String.format("progress %s\n%s\t%s", task.getUrl(), soFarBytes, totalBytes));
         for (int i = 0; i < listData.size(); ++i) {
             CodingFile item = listData.get(i);
             if (!item.isFolder() && item.url.equals(task.getUrl())) {
                 item.downloadProgress = soFarBytes * 100 / totalBytes;
-                listAdapter.notifyItemChanged(i);
+                listAdapter.notifyItemChanged(i + 1);
+                break;
             }
         }
     }
 
     @Override
     public void completed(BaseDownloadTask task) {
+        Logger.d(String.format("completed %s\n", task.getUrl()));
         for (int i = 0; i < listData.size(); ++i) {
             CodingFile item = listData.get(i);
             if (!item.isFolder() && item.url.equals(task.getUrl())) {
                 item.downloadProgress = CodingFile.MAX_PROGRESS;
-                listAdapter.notifyItemChanged(i);
+                listAdapter.notifyItemChanged(i + 1);
             }
         }
     }
 
     @Override
     public void error(BaseDownloadTask task, Throwable e) {
+        Logger.d(String.format("error %s\n", task.getUrl()));
         for (int i = 0; i < listData.size(); ++i) {
             CodingFile item = listData.get(i);
             if (!item.isFolder() && item.url.equals(task.getUrl())) {
                 item.downloadProgress = 0;
-                listAdapter.notifyItemChanged(i);
+                listAdapter.notifyItemChanged(i + 1);
             }
         }
     }

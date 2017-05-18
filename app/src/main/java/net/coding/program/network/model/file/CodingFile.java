@@ -288,6 +288,6 @@ public class CodingFile implements Serializable {
 
     // 下载中
     public boolean isDownloading() {
-        return downloadProgress != 0 && downloadProgress != MAX_PROGRESS;
+        return 0 < downloadProgress && downloadProgress < MAX_PROGRESS;
     }
 }

@@ -37,9 +37,11 @@ public class DownloadHelp {
     private DownloadHelp() {
         queueSet = new FileDownloadQueueSet(downloadListener);
         queueSet.setAutoRetryTimes(1);
+        queueSet.setCallbackProgressTimes(100);
+        queueSet.setCallbackProgressMinInterval(100);
     }
 
-    FileDownloadListener downloadListener = new FileDownloadSampleListener() {
+    private FileDownloadListener downloadListener = new FileDownloadSampleListener() {
         @Override
         protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
             super.progress(task, soFarBytes, totalBytes);
