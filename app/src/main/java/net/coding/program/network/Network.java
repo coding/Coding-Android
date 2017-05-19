@@ -6,6 +6,7 @@ import com.loopj.android.http.PersistentCookieStore;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.widget.CommonListView;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,7 +34,11 @@ public class Network {
     public static String BASE_URL = Global.HOST_API + "/";
 
     public static CodingRequest getRetrofit(Context context) {
-        return getRetrofit(context, CacheType.noCache);
+        return getRetrofit(context, CacheType.noCache, null);
+    }
+
+    public static CodingRequest getRetrofit(Context context, CommonListView listView) {
+        return getRetrofit(context, CacheType.noCache, listView);
     }
 
     private static String inputStream2String(InputStream is) throws IOException {
@@ -84,7 +89,7 @@ public class Network {
         return retrofit.create(UpQboxRequest.class);
     }
 
-    public static CodingRequest getRetrofit(Context context, CacheType cacheType) {
+    public static CodingRequest getRetrofit(Context context, CacheType cacheType, CommonListView listView) {
         Interceptor interceptorCookie = chain -> {
             Request request = chain.request();
 
@@ -131,6 +136,10 @@ public class Network {
                 .client(generateClient(context, interceptorCookie, cacheType))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
+
+        if (listView != null) {
+            listView.update(context, CommonListView.Style.loading);
+        }
 
         return retrofit.create(CodingRequest.class);
     }

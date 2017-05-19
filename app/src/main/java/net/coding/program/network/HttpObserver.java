@@ -8,6 +8,7 @@ import com.orhanobut.logger.Logger;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.util.SingleToast;
+import net.coding.program.common.widget.CommonListView;
 import net.coding.program.network.model.HttpResult;
 
 import org.json.JSONObject;
@@ -20,6 +21,8 @@ public abstract class HttpObserver<T1> implements Observer<HttpResult<T1>> {
 
     static JSONObject sNetworkError;
     static JSONObject sServiceError;
+
+    private CommonListView listView;
 
     static {
         try {
@@ -43,15 +46,21 @@ public abstract class HttpObserver<T1> implements Observer<HttpResult<T1>> {
     private boolean showErrorTip = true;
 
     public HttpObserver(Context mActivity) {
-        this(mActivity, Network.CacheType.noCache);
+        this(mActivity, Network.CacheType.noCache, null);
     }
 
-    public HttpObserver(Context context, Network.CacheType cacheType) {
+    public HttpObserver(Context mActivity, CommonListView listView) {
+        this(mActivity, Network.CacheType.noCache, listView);
+    }
+
+    public HttpObserver(Context context, Network.CacheType cacheType, CommonListView listView) {
         this.mActivity = context;
 
         if (cacheType == Network.CacheType.onlyCache) {
             showErrorTip = false;
         }
+
+        this.listView = listView;
     }
 
     @Override
@@ -94,10 +103,16 @@ public abstract class HttpObserver<T1> implements Observer<HttpResult<T1>> {
                 showErrorMessage = (String) errorMessage.values().iterator().next();
             }
             onFail(t1HttpResult.code, showErrorMessage);
+            if (listView != null) {
+                listView.update(mActivity, CommonListView.Style.fail);
+            }
             return;
         }
 
         onSuccess(t1HttpResult.data);
+        if (listView != null) {
+            listView.update(mActivity, CommonListView.Style.success);
+        }
     }
 
     public void onSuccess(T1 data) {

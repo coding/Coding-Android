@@ -74,6 +74,7 @@ import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
 
 /**
  * Created by chenchao on 2017/5/15.
+ *
  */
 @EActivity(R.layout.project_file_listview)
 @OptionsMenu(R.menu.project_file_listview)
@@ -117,7 +118,6 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         }
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.addItemDecoration(new RecyclerViewSpace(this));
-        listView.setEmptyView(R.layout.fragment_enterprise_project_empty, R.layout.fragment_enterprise_project_empty);
 
         listHead = (ViewGroup) getLayoutInflater().inflate(R.layout.upload_file_layout, listView, false);
         listView.setNormalHeader(listHead);
@@ -146,11 +146,11 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         if (parentFolder != null) {
             folder = parentFolder.fileId;
         }
-        Network.getRetrofit(this)
+        Network.getRetrofit(this, listView)
                 .getFileList(project.owner_user_name, project.name, folder)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpObserver<Pager<CodingFile>>(this) {
+                .subscribe(new HttpObserver<Pager<CodingFile>>(this, listView) {
                     @Override
                     public void onSuccess(Pager<CodingFile> data) {
                         super.onSuccess(data);

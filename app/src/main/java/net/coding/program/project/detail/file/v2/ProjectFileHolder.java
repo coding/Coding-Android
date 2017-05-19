@@ -37,7 +37,7 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
     public RelativeLayout more;
 
     public TextView username;
-    public View bottomLine;
+//    public View bottomLine;
 
     public RelativeLayout icon_layout;
 
@@ -63,7 +63,7 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
         downloadFlag = (TextView) convertView.findViewById(R.id.downloadFlag);
 
         username = (TextView) convertView.findViewById(R.id.username);
-        bottomLine = convertView.findViewById(R.id.bottomLine);
+//        bottomLine = convertView.findViewById(R.id.bottomLine);
 
         icon_layout = (RelativeLayout) convertView.findViewById(R.id.icon_layout);
 

@@ -184,6 +184,13 @@ dependencies {
     // 文件下载
     compile 'com.liulishuo.filedownloader:library:1.4.3'
 
+    // dagger 2 依赖
+    def daggerVersion = '2.10'
+    compile "com.google.dagger:dagger:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    compile "com.google.dagger:dagger-android:$daggerVersion"
+    compile "com.google.dagger:dagger-android-support:$daggerVersion" // if you use the support libraries
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
 }
 
 // 新功能提示，使用弹出框的样式 start ----------------------------------------------------------------
