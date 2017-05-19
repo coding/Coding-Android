@@ -1,12 +1,14 @@
 package net.coding.program.project.detail.file.v2;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -110,6 +112,9 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
     @AfterViews
     void initProjectFileMainActivity() {
+        if (!TextUtils.isEmpty(parentFolder.name)) {
+            setActionBarTitle(parentFolder.name);
+        }
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.addItemDecoration(new RecyclerViewSpace(this));
         listView.setEmptyView(R.layout.fragment_enterprise_project_empty, R.layout.fragment_enterprise_project_empty);
@@ -174,41 +179,47 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                 listAdapter.invert(fileObject);
             }
         } else {
-            if (fileObject.isFolder()) {
-                ProjectFileMainActivity_.intent(this)
-                        .project(project)
-                        .parentFolder(fileObject)
-                        .startForResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES);
-            } else {
-                AttachmentFolderObject folder = new AttachmentFolderObject(parentFolder);
-                AttachmentFileObject attachmentFile = new AttachmentFileObject(fileObject);
+            fileItemJump(fileObject, parentFolder, project, this);
+        }
+    }
 
-                if (fileObject.isDownloaded()) {
-                    jumpToDetail(folder, attachmentFile);
-                } else if (fileObject.isImage()) {
-                    AttachmentsPhotoDetailActivity_
-                            .intent(this)
-                            .mProjectObjectId(project.getId())
-                            .mAttachmentFolderObject(folder)
-                            .mAttachmentFileObject(attachmentFile)
-                            .mProject(project)
-                            .startForResult(FILE_DELETE_CODE);
-                } else {
-                    AttachmentsDownloadDetailActivity_.intent(this)
-                            .mProjectObjectId(project.getId())
-                            .mAttachmentFolderObject(folder)
-                            .mAttachmentFileObject(attachmentFile)
-                            .mProject(project)
-                            .startForResult(FILE_DELETE_CODE);
-                }
+    public static void fileItemJump(CodingFile fileObject, CodingFile parentFolder, ProjectObject project, Context context) {
+        if (fileObject.isFolder()) {
+            ProjectFileMainActivity_.intent(context)
+                    .project(project)
+                    .parentFolder(fileObject)
+                    .startForResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES);
+        } else {
+            AttachmentFolderObject folder = new AttachmentFolderObject(parentFolder);
+            AttachmentFileObject attachmentFile = new AttachmentFileObject(fileObject);
+
+            if (fileObject.isDownloaded()) {
+                jumpToDetail(context, folder, attachmentFile, project);
+            } else if (fileObject.isImage()) {
+                AttachmentsPhotoDetailActivity_
+                        .intent(context)
+                        .mProjectObjectId(project.getId())
+                        .mAttachmentFolderObject(folder)
+                        .mAttachmentFileObject(attachmentFile)
+                        .mProject(project)
+                        .startForResult(FILE_DELETE_CODE);
+            } else {
+                AttachmentsDownloadDetailActivity_.intent(context)
+                        .mProjectObjectId(project.getId())
+                        .mAttachmentFolderObject(folder)
+                        .mAttachmentFileObject(attachmentFile)
+                        .mProject(project)
+                        .startForResult(FILE_DELETE_CODE);
             }
         }
     }
 
-    private void jumpToDetail(AttachmentFolderObject mAttachmentFolderObject, AttachmentFileObject data) {
+    private static void jumpToDetail(Context context, AttachmentFolderObject mAttachmentFolderObject,
+                                     AttachmentFileObject data,
+                                     ProjectObject project) {
         if (AttachmentFileObject.isTxt(data.fileType)) {
             AttachmentsTextDetailActivity_
-                    .intent(this)
+                    .intent(context)
                     .mProjectObjectId(project.getId())
                     .mAttachmentFolderObject(mAttachmentFolderObject)
                     .mAttachmentFileObject(data)
@@ -217,7 +228,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
         } else if (AttachmentFileObject.isMd(data.fileType)) {
             AttachmentsHtmlDetailActivity_
-                    .intent(this)
+                    .intent(context)
                     .mProjectObjectId(project.getId())
                     .mAttachmentFolderObject(mAttachmentFolderObject)
                     .mAttachmentFileObject(data)
@@ -226,14 +237,14 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
         } else if (data.isImage()) {
             AttachmentsPhotoDetailActivity_
-                    .intent(this)
+                    .intent(context)
                     .mProjectObjectId(project.getId())
                     .mAttachmentFolderObject(mAttachmentFolderObject)
                     .mAttachmentFileObject(data)
                     .mProject(project)
                     .startForResult(FILE_DELETE_CODE);
         } else {
-            AttachmentsDownloadDetailActivity_.intent(this)
+            AttachmentsDownloadDetailActivity_.intent(context)
                     .mProjectObjectId(project.getId())
                     .mAttachmentFolderObject(mAttachmentFolderObject)
                     .mAttachmentFileObject(data)
@@ -274,7 +285,12 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
     @OptionsItem
     void actionSearch() {
-
+        SearchProjectFileActivity.setsCodingFiles(listData);
+        SearchProjectFileActivity_.intent(this)
+                .project(project)
+                .folder(parentFolder)
+                .start();
+        overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
     }
 
     private void setEditMode(boolean editMode) {
