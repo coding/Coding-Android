@@ -3,6 +3,7 @@ package net.coding.program.project;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +36,9 @@ import net.coding.program.message.MessageListActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.UserObject;
+import net.coding.program.network.HttpObserver;
+import net.coding.program.network.Network;
+import net.coding.program.network.model.Pager;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.project.init.create.ProjectCreateActivity_;
 import net.coding.program.task.add.TaskAddActivity_;
@@ -48,7 +52,6 @@ import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,10 +60,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 @EFragment(R.layout.fragment_enterprise_project)
 public class EnterpriseProjectFragment extends BaseFragment {
 
-    final String host = Global.HOST_API + "/projects?pageSize=100&type=all&sort=hot";
     private final String URL_PIN_DELETE = Global.HOST_API + "/user/projects/pin?ids=%s";
     private final String URL_PIN_SET = Global.HOST_API + "/user/projects/pin";
 
@@ -145,7 +150,49 @@ public class EnterpriseProjectFragment extends BaseFragment {
     }
 
     private void onRefresh() {
-        getNetwork(host, host);
+        Network.getRetrofit(getContext())
+                .getProjects()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpObserver<Pager<ProjectObject>>(getActivity()) {
+                    @Override
+                    public void onSuccess(Pager<ProjectObject> data) {
+                        super.onSuccess(data);
+
+                        allListData.clear();
+                        listData.clear();
+                        int pinCount = 0;
+                        for (ProjectObject item : data.list) {
+                            if (item.isPin()) {
+                                allListData.add(pinCount++, item);
+                            } else {
+                                allListData.add(item);
+                            }
+                        }
+                        listData.addAll(allListData);
+
+                        msectionId = 0;
+                        for (ProjectObject item : listData) {
+                            if (!item.isPin()) {
+                                break;
+                            }
+                            ++msectionId;
+                        }
+
+                        AccountInfo.saveProjects(getActivity(), allListData);
+                        projectAdapter.notifyDataSetChanged();
+
+                        BlankViewDisplay.setBlank(allListData.size(), this, true, blankLayout, mOnClickRetry);
+
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, @NonNull String error) {
+                        super.onFail(errorCode, error);
+                        projectAdapter.notifyDataSetChanged();
+                        BlankViewDisplay.setBlank(allListData.size(), this, true, blankLayout, mOnClickRetry);
+                    }
+                });
     }
 
     private View.OnClickListener clickItem = v -> {
@@ -218,41 +265,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(host)) {
-            if (code == 0) {
-                allListData.clear();
-                listData.clear();
-                JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
-                int pinCount = 0;
-                for (int i = 0; i < array.length(); ++i) {
-                    ProjectObject oneData = new ProjectObject(array.getJSONObject(i));
-                    if (oneData.isPin()) {
-                        allListData.add(pinCount++, oneData);
-                    } else {
-                        allListData.add(oneData);
-                    }
-                }
-                listData.addAll(allListData);
-
-                msectionId = 0;
-                for (ProjectObject item : listData) {
-                    if (!item.isPin()) {
-                        break;
-                    }
-                    ++msectionId;
-                }
-
-
-                AccountInfo.saveProjects(getActivity(), allListData);
-                projectAdapter.notifyDataSetChanged();
-
-                BlankViewDisplay.setBlank(allListData.size(), this, true, blankLayout, mOnClickRetry);
-
-            } else {
-                projectAdapter.notifyDataSetChanged();
-                BlankViewDisplay.setBlank(allListData.size(), this, true, blankLayout, mOnClickRetry);
-            }
-        } else if (tag.equals(URL_PIN_SET)) {
+        if (tag.equals(URL_PIN_SET)) {
             if (code == 0) {
                 updatePin((ProjectObject) data, true);
             } else {

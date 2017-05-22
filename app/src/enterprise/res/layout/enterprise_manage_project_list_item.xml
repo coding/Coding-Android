@@ -44,4 +44,22 @@
         android:textColor="@color/font_3"
         android:textSize="12sp" />
 
+    <FrameLayout
+        android:id="@+id/actionMore"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/icon"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="-15dp"
+        android:paddingRight="15dp">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="3dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="20dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_more_action" />
+    </FrameLayout>
+
 </RelativeLayout>

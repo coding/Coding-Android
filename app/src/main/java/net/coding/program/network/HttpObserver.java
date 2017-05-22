@@ -106,6 +106,7 @@ public abstract class HttpObserver<T1> implements Observer<HttpResult<T1>> {
             if (listView != null) {
                 listView.update(mActivity, CommonListView.Style.fail);
                 listView.setRefreshing(false);
+                listView.getAdapter().notifyDataSetChanged();
             }
             return;
         }
@@ -114,6 +115,7 @@ public abstract class HttpObserver<T1> implements Observer<HttpResult<T1>> {
         if (listView != null) {
             listView.update(mActivity, CommonListView.Style.success);
             listView.setRefreshing(false);
+            listView.getAdapter().notifyDataSetChanged();
         }
     }
 

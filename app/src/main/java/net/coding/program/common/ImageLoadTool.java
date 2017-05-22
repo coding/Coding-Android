@@ -12,6 +12,7 @@ import net.coding.program.R;
 
 /**
  * Created by chaochen on 14-9-22.
+ *
  */
 public class ImageLoadTool {
     public static final DisplayImageOptions optionsRounded2 = new DisplayImageOptions.Builder()

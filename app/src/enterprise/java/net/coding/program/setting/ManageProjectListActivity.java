@@ -3,19 +3,21 @@ package net.coding.program.setting;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
+import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import net.coding.program.EnterpriseApp;
 import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.WeakRefHander;
@@ -36,9 +38,6 @@ import net.coding.program.project.init.InitProUtils;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,17 +48,17 @@ import rx.schedulers.Schedulers;
 @EActivity(R.layout.common_simple_listview)
 public class ManageProjectListActivity extends BackActivity {
 
-    private static final String TAG_PROJECT = "TAG_PROJECT";
-
     @ViewById
     CommonListView listView;
 
     ProjectAdapter adapter;
 
     ArrayList<ProjectObject> listData = new ArrayList<>();
+    private List<ProjectObject> listJoinData = new ArrayList<>();
 
     Handler hander2fa;
     private EditText edit2fa;
+
 
     @AfterViews
     void initManageProjectListActivity() {
@@ -67,6 +66,9 @@ public class ManageProjectListActivity extends BackActivity {
         listView.addItemDecoration(new RecyclerViewSpace(this));
 
         adapter = new ProjectAdapter(listData);
+        StickyRecyclerHeadersDecoration stickyHeader = new StickyRecyclerHeadersDecoration(adapter);
+        listView.addItemDecoration(stickyHeader);
+
         listView.setAdapter(adapter);
         listView.setDefaultOnRefreshListener(() -> onRefresh());
         listView.enableDefaultSwipeRefresh(true);
@@ -89,8 +91,43 @@ public class ManageProjectListActivity extends BackActivity {
     }
 
     private void onRefresh() {
-        String host = String.format("%s/team/%s/projects", Global.HOST_API, EnterpriseApp.getEnterpriseGK());
-        getNetwork(host, TAG_PROJECT);
+        Network.getRetrofit(this)
+                .getProjects()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(listHttpResult -> {
+                    if (listHttpResult == null) {
+                        return null;
+                    }
+                    listJoinData.clear();
+                    listJoinData.addAll(listHttpResult.data.list);
+                    return Network.getRetrofit(ManageProjectListActivity.this, listView)
+                            .getManagerProjects(EnterpriseApp.getEnterpriseGK())
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread());
+                })
+                .subscribe(new HttpObserver<List<ProjectObject>>(this, listView) {
+                    @Override
+                    public void onSuccess(List<ProjectObject> data) {
+                        super.onSuccess(data);
+                        listData.clear();
+
+                        int joinedPos = 0;
+                        for (ProjectObject item : data) {
+                            for (ProjectObject join : listJoinData) {
+                                if (join.id == item.id) {
+                                    item.setJoin();
+                                    listData.add(joinedPos++, item);
+                                    break;
+                                }
+                            }
+
+                            if (!listData.contains(item)) {
+                                listData.add(item);
+                            }
+                        }
+                    }
+                });
     }
 
     protected class ProjectAdapter extends CommonAdapter<ProjectObject, ProjectHolder> {
@@ -109,6 +146,7 @@ public class ManageProjectListActivity extends BackActivity {
             ProjectHolder holder = new ProjectHolder(view);
             holder.rootLayout.setOnClickListener(clickItem);
             holder.rootLayout.setOnLongClickListener(longClickItem);
+            holder.actionMore.setOnLongClickListener(longClickItem);
             return holder;
         }
 
@@ -118,12 +156,38 @@ public class ManageProjectListActivity extends BackActivity {
             holder.name.setText(item.name);
             holder.memberCount.setText(String.format("%s 人", data.memberNum));
             holder.rootLayout.setTag(item);
+            holder.actionMore.setTag(item);
             iconfromNetwork(holder.image, item.icon, ImageLoadTool.optionsRounded2);
+        }
+
+        @Override
+        public long generateHeaderId(int i) {
+            return super.generateHeaderId(i);
         }
 
         @Override
         public ProjectHolder newHeaderHolder(View view) {
             return new ProjectHolder(view, true);
+        }
+
+        @Override
+        public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int pos) {
+            super.onBindHeaderViewHolder(viewHolder, pos);
+        }
+
+        @Override
+        public UltimateRecyclerviewViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+            return super.onCreateHeaderViewHolder(parent);
+        }
+
+        @Override
+        public boolean hasHeaderView() {
+            return super.hasHeaderView();
+        }
+
+        @Override
+        public long getHeaderId(int position) {
+            return super.getHeaderId(position);
         }
 
         @Override
@@ -138,6 +202,7 @@ public class ManageProjectListActivity extends BackActivity {
         public TextView memberCount;
         public ImageView image;
         public View rootLayout;
+        public View actionMore;
 
         public ProjectHolder(View view, boolean isHeader) {
             super(view);
@@ -149,23 +214,7 @@ public class ManageProjectListActivity extends BackActivity {
             name = (TextView) view.findViewById(R.id.name);
             memberCount = (TextView) view.findViewById(R.id.memberCount);
             image = (ImageView) view.findViewById(R.id.icon);
-        }
-    }
-
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(TAG_PROJECT)) {
-            if (code == 0) {
-                listData.clear();
-                JSONArray array = respanse.optJSONArray("data");
-                for (int i = 0; i < array.length(); ++i) {
-                    listData.add(new ProjectObject(array.optJSONObject(i)));
-                }
-
-                adapter.notifyDataSetChanged();
-            } else {
-                showErrorMsg(code, respanse);
-            }
+            actionMore = view.findViewById(R.id.actionMore);
         }
     }
 

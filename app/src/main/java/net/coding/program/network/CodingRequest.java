@@ -1,10 +1,12 @@
 package net.coding.program.network;
 
+import net.coding.program.model.ProjectObject;
 import net.coding.program.network.model.BaseHttpResult;
 import net.coding.program.network.model.HttpPageResult;
 import net.coding.program.network.model.HttpResult;
 import net.coding.program.network.model.file.CodingFile;
 import net.coding.program.network.model.file.UploadToken;
+import net.coding.program.network.model.user.ManagerUser;
 import net.coding.program.network.model.wiki.Wiki;
 import net.coding.program.network.model.wiki.WikiHistory;
 
@@ -92,4 +94,15 @@ public interface CodingRequest {
                                              @Field("two_factor_code") String twoFA);
 
 
+    // 我参与的项目
+    @GET("projects")
+    Observable<HttpPageResult<ProjectObject>> getProjects();
+
+//     企业所有者获取全部项目
+    @GET("team/{user}/projects")
+    Observable<HttpResult<List<ProjectObject>>> getManagerProjects(@Path("user") String user);
+
+    //     企业所有者获取参与中的项目中自己的个人信息
+    @GET("team/{user}/members")
+    Observable<HttpResult<List<ManagerUser>>> getManagerProjectsMember(@Path("user") String user);
 }

@@ -220,6 +220,10 @@ public class ProjectObject implements Serializable {
         return current_user_role_id > 0;
     }
 
+    public void setJoin() {
+        current_user_role_id = 10;
+    }
+
     public void setReadActivities() {
         unReadActivitiesCount = 0;
     }
