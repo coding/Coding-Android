@@ -261,7 +261,7 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
             if (type == ProjectFragment.Type.Pick) {
                 holder.badge.setVisibility(View.INVISIBLE);
             } else {
-                int count = item.un_read_activities_count;
+                int count = item.unReadActivitiesCount;
                 BadgeView badge = holder.badge;
                 Global.setBadgeView(badge, count);
             }

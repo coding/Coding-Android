@@ -61,7 +61,7 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
         prStatus = getResources().getStringArray(R.array.pr_status);
 
         toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarProjectTitle);
-        if (!mProjectObject.is_public) {
+        if (!mProjectObject.isPublic) {
             toolbarTitle.setText(status[0]);
             mUrlMerge = mProjectObject.getMergesFilter();
         } else {
@@ -75,7 +75,7 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
         toolbarTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mProjectObject.is_public) {
+                if (mProjectObject.isPublic) {
                     if (prRoot.getVisibility() == View.GONE || prRoot.getVisibility() == View.INVISIBLE) {
                         prRoot.setVisibility(View.VISIBLE);
                         listView.setVisibility(View.INVISIBLE);
@@ -110,7 +110,7 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
 
     @Click
     void toolbarTitle(View v) {
-        if (mProjectObject.is_public) {
+        if (mProjectObject.isPublic) {
             if (prRoot.getVisibility() == View.GONE || prRoot.getVisibility() == View.INVISIBLE) {
                 prRoot.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.INVISIBLE);

@@ -99,7 +99,7 @@ public class SearchResultListFragment extends SearchBaseFragment {
 
     @ItemClick
     final void listView(ProjectObject itemData) {
-        itemData.is_public = itemData.getType() == 1 ? true : false;
+        itemData.isPublic = itemData.getType() == 1 ? true : false;
         itemData.description = itemData.description.replace("<em>", "").replace("</em>", "");
         itemData.name = itemData.name.replace("<em>", "").replace("</em>", "");
         itemData.getOwner().global_key = itemData.project_path.substring(0, itemData.project_path.indexOf("/p/")).replace("/u/", "");

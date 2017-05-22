@@ -224,7 +224,7 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
 
             if (item == ProjectFunction.dynamic) {
                 dynamicBadge = (BadgeView) view.findViewById(R.id.badge);
-                Global.setBadgeView(dynamicBadge, mProjectObject.un_read_activities_count);
+                Global.setBadgeView(dynamicBadge, mProjectObject.unReadActivitiesCount);
             } else {
                 Global.setBadgeView((BadgeView) view.findViewById(R.id.badge), 0);
             }

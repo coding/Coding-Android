@@ -116,7 +116,7 @@ public class ManageProjectListActivity extends BackActivity {
         protected void withBindHolder(ProjectHolder holder, ProjectObject data, int position) {
             ProjectObject item = getItem(position);
             holder.name.setText(item.name);
-            holder.memberCount.setText(String.format("%s 人", data.member_num));
+            holder.memberCount.setText(String.format("%s 人", data.memberNum));
             holder.rootLayout.setTag(item);
             iconfromNetwork(holder.image, item.icon, ImageLoadTool.optionsRounded2);
         }

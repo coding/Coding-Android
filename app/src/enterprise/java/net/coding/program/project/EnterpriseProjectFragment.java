@@ -342,7 +342,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
             holder.desc.setText(item.getDescription());
             setClickEvent(holder.fLayoutAction, position);
-            int count = item.un_read_activities_count;
+            int count = item.unReadActivitiesCount;
             BadgeView badge = holder.badge;
             Global.setBadgeView(badge, count);
 

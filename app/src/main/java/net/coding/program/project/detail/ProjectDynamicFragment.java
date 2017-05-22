@@ -294,20 +294,20 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
         @Override
         public void afterGetView(int position, View convertView, ViewGroup parent, DateSectionDynamicAdapter.ViewHolder holder) {
             super.afterGetView(position, convertView, parent, holder);
-            if (position < mProjectObject.un_read_activities_count) {
+            if (position < mProjectObject.unReadActivitiesCount) {
                 holder.timeLinePoint.setBackgroundResource(R.drawable.ic_dynamic_timeline_new);
             } else {
                 holder.timeLinePoint.setBackgroundResource(R.drawable.ic_dynamic_timeline_old);
             }
 
-            if (position == mProjectObject.un_read_activities_count - 1) {
+            if (position == mProjectObject.unReadActivitiesCount - 1) {
                 holder.divideLeft.setVisibility(View.VISIBLE);
                 holder.timeLineDown.setVisibility(View.INVISIBLE);
             } else {
                 holder.divideLeft.setVisibility(View.INVISIBLE);
             }
 
-            if (position == mProjectObject.un_read_activities_count) {
+            if (position == mProjectObject.unReadActivitiesCount) {
                 holder.timeLineUp.setVisibility(View.INVISIBLE);
             }
         }

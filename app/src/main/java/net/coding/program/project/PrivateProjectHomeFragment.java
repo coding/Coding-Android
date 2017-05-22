@@ -92,7 +92,7 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
 
             if (item.id == R.id.itemDynamic) {
                 dynamicBadge = (BadgeView) view.findViewById(R.id.badge);
-                Global.setBadgeView(dynamicBadge, mProjectObject.un_read_activities_count);
+                Global.setBadgeView(dynamicBadge, mProjectObject.unReadActivitiesCount);
             } else {
                 Global.setBadgeView((BadgeView) view.findViewById(R.id.badge), 0);
             }
@@ -110,7 +110,7 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
     }
 
     protected void bindUI() {
-        Global.setBadgeView(dynamicBadge, mProjectObject.un_read_activities_count);
+        Global.setBadgeView(dynamicBadge, mProjectObject.unReadActivitiesCount);
 
         if (mProjectObject.canReadCode()) {
             codeLayout0.setVisibility(View.VISIBLE);

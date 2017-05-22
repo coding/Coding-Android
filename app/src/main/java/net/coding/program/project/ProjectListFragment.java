@@ -170,7 +170,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
     public void setRead(int id) {
         for (int i = 0; i < mData.size(); ++i) {
             if (mData.get(i).getId() == id) {
-                mData.get(i).un_read_activities_count = 0;
+                mData.get(i).unReadActivitiesCount = 0;
                 myAdapter.notifyDataSetChanged();
                 break;
             }
@@ -367,7 +367,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
             if (type == ProjectFragment.Type.Pick) {
                 holder.badge.setVisibility(View.INVISIBLE);
             } else {
-                int count = item.un_read_activities_count;
+                int count = item.unReadActivitiesCount;
                 BadgeView badge = holder.badge;
                 Global.setBadgeView(badge, count);
             }
