@@ -65,7 +65,6 @@ public class ManageProjectListActivity extends BackActivity {
     void initManageProjectListActivity() {
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.addItemDecoration(new RecyclerViewSpace(this));
-        listView.setEmptyView(R.layout.fragment_enterprise_project_empty, R.layout.fragment_enterprise_project_empty);
 
         adapter = new ProjectAdapter(listData);
         listView.setAdapter(adapter);
@@ -107,8 +106,6 @@ public class ManageProjectListActivity extends BackActivity {
 
         @Override
         protected ProjectHolder newViewHolder(View view) {
-            // // TODO: 2017/1/23 获取的 current_user_role_id 有问题。/api/team/codingapp/projects
-//            view.setOnClickListener(clickItem);
             ProjectHolder holder = new ProjectHolder(view);
             holder.rootLayout.setOnClickListener(clickItem);
             holder.rootLayout.setOnLongClickListener(longClickItem);
@@ -225,7 +222,7 @@ public class ManageProjectListActivity extends BackActivity {
                 .setPositiveButton("确定", (dialog1, whichButton) -> {
                     String editStr1 = edit2fa.getText().toString().trim();
                     if (TextUtils.isEmpty(editStr1)) {
-                        showMiddleToast("密码不能为空");
+                        showMiddleToast("验证码不能为空");
                         return;
                     }
                     actionDelete2FA(project, editStr1);
