@@ -2,6 +2,7 @@ package net.coding.program.network.model.file;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
@@ -22,6 +23,7 @@ public class CodingFile implements Serializable {
     private static final long serialVersionUID = 101080554918581348L;
 
     public static final int ROLE_TYPE_OWNER = 100;
+    public static final int SHARE_FOLDER = -1;
 
     @SerializedName("file_id")
     @Expose
@@ -102,6 +104,18 @@ public class CodingFile implements Serializable {
     public static final int MAX_PROGRESS = 100;
 
     public int downloadProgress = 0; // max 1000
+    public BaseDownloadTask task;
+
+    public static CodingFile craeteShareFolder() {
+        CodingFile codingFile = new CodingFile();
+        codingFile.fileId = SHARE_FOLDER;
+        codingFile.name = "分享中";
+        return codingFile;
+    }
+
+    public boolean isShareFolder() {
+        return fileId == SHARE_FOLDER;
+    }
 
     private static final String SAVE_NAME_SPLIT = "|||";
     public static String imagePatternStr = "(gif|png|jpeg|jpg|GIF|PNG|JPEG|JPG)"; // /\.(gif|png|jpeg|jpg)$/

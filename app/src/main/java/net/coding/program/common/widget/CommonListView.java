@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.marshalchen.ultimaterecyclerview.CustomUltimateRecyclerview;
+import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 
 import net.coding.program.R;
@@ -15,7 +15,7 @@ import net.coding.program.common.util.BlankViewHelp;
  * 包装了一下，免得要改全局样式
  */
 
-public class CommonListView extends CustomUltimateRecyclerview {
+public class CommonListView extends UltimateRecyclerView {
 
     public enum Style {
         success,
@@ -41,6 +41,7 @@ public class CommonListView extends CustomUltimateRecyclerview {
     private void init() {
         setEmptyView(R.layout.view_exception, R.layout.view_exception);
         BlankViewHelp.setBlankLoading(getEmptyView(), true);
+        mRecyclerView.setBackgroundResource(R.color.divide);
     }
 
     public void update(Context context, Style style) {

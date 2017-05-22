@@ -112,4 +112,8 @@
     <color name="chunkGreen2">#8cc665</color>
     <color name="chunkGreen3">#44a340</color>
     <color name="chunkGreen4">#1e6923</color>
+
+    <array name="pull_to_refrush">
+        <item>@color/font_green</item>
+    </array>
 </resources>

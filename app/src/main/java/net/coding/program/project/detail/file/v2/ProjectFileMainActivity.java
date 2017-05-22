@@ -128,7 +128,10 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                     if (codingFile.isDownloaded()) {
                         listViewItemClicked(codingFile);
                     } else if (codingFile.isDownloading()) {
-                        // todo 取消下载
+                        if (codingFile.task != null) {
+                            codingFile.task.pause();
+                        }
+                        updateItem(codingFile.url, 0);
                     } else {
                         actionDownload(codingFile);
                         updateItem(codingFile.url, 1);
@@ -142,20 +145,35 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
         listView.setAdapter(listAdapter);
 
-        int folder = 0;
+
+        listView.setDefaultOnRefreshListener(() -> onRefresh());
+        onRefresh();
+    }
+
+    protected void onRefresh() {
+        String folderPath = "0/all";
         if (parentFolder != null) {
-            folder = parentFolder.fileId;
+            if (parentFolder.isShareFolder()) {
+                folderPath = "shared_files";
+            } else {
+                folderPath = String.format("%s/all", parentFolder.fileId);
+            }
         }
         Network.getRetrofit(this, listView)
-                .getFileList(project.owner_user_name, project.name, folder)
+                .getFileList(project.owner_user_name, project.name, folderPath)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpObserver<Pager<CodingFile>>(this, listView) {
+                .subscribe(new HttpObserver<Pager<CodingFile>>(ProjectFileMainActivity.this, listView) {
                     @Override
                     public void onSuccess(Pager<CodingFile> data) {
                         super.onSuccess(data);
 
                         listData.clear();
+
+                        if (parentFolder.fileId == 0) {
+                            CodingFile shareFolder = CodingFile.craeteShareFolder();
+                            listData.add(shareFolder);
+                        }
                         listData.addAll(data.list);
 
                         String downloadPath = FileSaveHelp.getFileDownloadPath(ProjectFileMainActivity.this);
@@ -889,6 +907,10 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
             CodingFile item = listData.get(i);
             if (!item.isFolder() && item.url.equals(taskUrl)) {
                 item.downloadProgress = progress;
+                if (item.downloadProgress == 0
+                        || item.downloadProgress == CodingFile.MAX_PROGRESS) {
+                    item.task = null;
+                }
                 listAdapter.notifyItemChanged(i + 1);
                 break;
             }

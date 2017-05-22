@@ -1,5 +1,6 @@
 package net.coding.program.network;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -14,24 +15,28 @@ import okio.BufferedSink;
 public class ProgressRequestBody extends RequestBody {
     private File mFile;
     private String mPath;
+    private MediaType mMediaType;
     private UploadCallbacks mListener;
 
     private static final int DEFAULT_BUFFER_SIZE = 2048;
 
     public interface UploadCallbacks {
         void onProgressUpdate(int percentage);
+
         void onError();
+
         void onFinish();
     }
 
-    public ProgressRequestBody(final File file, final  UploadCallbacks listener) {
+    public ProgressRequestBody(Context context, final File file, final UploadCallbacks listener) {
         mFile = file;
         mListener = listener;
+        mMediaType = MediaType.parse("*/*");
     }
 
     @Override
     public MediaType contentType() {
-        return MediaType.parse("image/*");
+        return mMediaType;
     }
 
     @Override
@@ -65,6 +70,7 @@ public class ProgressRequestBody extends RequestBody {
     private class ProgressUpdater implements Runnable {
         private long mUploaded;
         private long mTotal;
+
         public ProgressUpdater(long uploaded, long total) {
             mUploaded = uploaded;
             mTotal = total;
@@ -72,7 +78,7 @@ public class ProgressRequestBody extends RequestBody {
 
         @Override
         public void run() {
-            mListener.onProgressUpdate((int)(100 * mUploaded / mTotal));
+            mListener.onProgressUpdate((int) (100 * mUploaded / mTotal));
         }
     }
 }

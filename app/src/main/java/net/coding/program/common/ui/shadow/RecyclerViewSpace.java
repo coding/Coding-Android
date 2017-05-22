@@ -62,6 +62,7 @@ public class RecyclerViewSpace extends BaseRecyclerViewSpace {
                 rectShadow.bottom = view.getTop() + shadowHigh;
                 shadowBottom.setBounds(rectShadow);
                 shadowBottom.draw(c);
+
             } else {
                 Rect rectDivideLine = new Rect(view.getLeft(), view.getBottom(), view.getLeft() + leftSapce, view.getBottom() + lineSpace);
                 c.drawRect(rectDivideLine, paintBg);

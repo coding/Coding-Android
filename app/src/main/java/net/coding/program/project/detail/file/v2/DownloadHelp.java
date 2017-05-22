@@ -37,8 +37,8 @@ public class DownloadHelp {
     private DownloadHelp() {
         queueSet = new FileDownloadQueueSet(downloadListener);
         queueSet.setAutoRetryTimes(1);
-        queueSet.setCallbackProgressTimes(1000);
-        queueSet.setCallbackProgressMinInterval(1000);
+//        queueSet.setCallbackProgressTimes(1000);
+//        queueSet.setCallbackProgressMinInterval(1000);
     }
 
     private FileDownloadListener downloadListener = new FileDownloadSampleListener() {
@@ -87,10 +87,13 @@ public class DownloadHelp {
         for (CodingFile item : set) {
             String url = item.url;
             String path = basePath + "/" + item.getSaveName(projectId);
-            tasks.add(FileDownloader.getImpl()
+            BaseDownloadTask task = FileDownloader.getImpl()
                     .create(url)
                     .setPath(path)
-                    .addHeader("Cookie", cookie));
+                    .addHeader("Cookie", cookie);
+            item.task = task;
+
+            tasks.add(task);
         }
 
         queueSet.downloadSequentially(tasks);

@@ -48,9 +48,9 @@ public interface CodingRequest {
     Observable<HttpResult<WikiHistory>> rollbackWiki(@Path("user") String user, @Path("project") String project,
                                                      @Path("id") int id, @Query("version") int version);
 
-    @GET("user/{user}/project/{project}/folder/{folder}/all?height=90&width=90&page=1&pageSize=500")
+    @GET("user/{user}/project/{project}/folder/{folder}?height=90&width=90&page=1&pageSize=500")
     Observable<HttpPageResult<CodingFile>> getFileList(@Path("user") String user, @Path("project") String project,
-                                                       @Path("folder") int folder);
+                                                       @Path("folder") String folder);
 
 
     @GET("upload_token")

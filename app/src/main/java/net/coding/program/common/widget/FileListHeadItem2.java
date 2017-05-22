@@ -23,7 +23,6 @@ import net.coding.program.project.detail.file.v2.UploadCallback;
 import java.io.File;
 import java.util.UUID;
 
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import rx.android.schedulers.AndroidSchedulers;
@@ -109,12 +108,11 @@ public class FileListHeadItem2 extends FrameLayout {
                         super.onFail(errorCode, error);
                     }
                 });
-        }
+    }
 
     private void uploadFileToQbox(UploadToken data) {
         File file = postParam.file;
-        MediaType type = MediaType.parse("image");
-        ProgressRequestBody body = new ProgressRequestBody(file, new ProgressRequestBody.UploadCallbacks() {
+        ProgressRequestBody body = new ProgressRequestBody(getContext(), file, new ProgressRequestBody.UploadCallbacks() {
             @Override
             public void onProgressUpdate(int percentage) {
                 setProgress(percentage);
@@ -134,13 +132,7 @@ public class FileListHeadItem2 extends FrameLayout {
         String fileName = file.getName();
         MultipartBody.Part part = MultipartBody.Part.createFormData("file", fileName, body);
 
-        String suffix = "";
-        int pos = 0;
-        if ((pos = fileName.lastIndexOf('.')) != -1) {
-            suffix = fileName.substring(pos + 1, fileName.length());
-        }
-
-        RequestBody key = RequestBody.create(MultipartBody.FORM, UUID.randomUUID().toString() + suffix);
+        RequestBody key = RequestBody.create(MultipartBody.FORM, UUID.randomUUID().toString());
         RequestBody dir = RequestBody.create(MultipartBody.FORM, String.valueOf(postParam.folderId));
         RequestBody projectId = RequestBody.create(MultipartBody.FORM, String.valueOf(postParam.projectId));
         RequestBody token = RequestBody.create(MultipartBody.FORM, data.uptoken);

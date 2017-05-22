@@ -128,7 +128,7 @@
     <dimen name="guide_0_content_line_space">1dp</dimen>
 
     <dimen name="list_header_space">0dp</dimen>
-    <dimen name="list_footer_space">0dp</dimen>
+    <dimen name="list_footer_space">10dp</dimen>
     <dimen name="list_footer_shadow_space">15dp</dimen>
     <dimen name="list_divide_line_height">0.5dp</dimen>
 

@@ -77,12 +77,17 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
         name.setText(data.getName());
 
         if (data.isFolder()) {
-            icon.setImageResource(R.drawable.ic_project_git_folder2);
+            if (data.isShareFolder()) {
+                icon.setImageResource(R.drawable.icon_file_folder_share);
+                folder_name.setText(data.getName());
+            } else {
+                icon.setImageResource(R.drawable.ic_project_git_folder2);
+                folder_name.setText(String.format("%s (%s)", data.getName(), data.count));
+            }
             icon.setVisibility(View.VISIBLE);
             icon.setBackgroundResource(android.R.color.transparent);
             icon_txt.setVisibility(View.GONE);
             file_info_layout.setVisibility(View.GONE);
-            folder_name.setText(data.getName());
             folder_name.setVisibility(View.VISIBLE);
         } else if (data.isImage()) {
             //Log.d("imagePattern", "data.preview:" + data.preview);
@@ -103,7 +108,12 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
 
         content.setText(Global.HumanReadableFilesize(data.getSize()));
         desc.setText(String.format("发布于%s", Global.dayToNow(data.createdAt)));
-        username.setText(data.owner.name);
+
+        if (data.owner != null && data.owner.name != null) {
+            username.setText(data.owner.name);
+        } else {
+            username.setText("");
+        }
 
         if (data.isShared()) {
             shareMark.setVisibility(View.VISIBLE);
