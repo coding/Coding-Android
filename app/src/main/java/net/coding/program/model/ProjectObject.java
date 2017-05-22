@@ -88,6 +88,14 @@ public class ProjectObject implements Serializable {
     public ProjectObject() {
     }
 
+    public String getV2PathByName() {
+        return String.format("team/%s/project/%s", owner_user_name, name);
+    }
+
+    public String getV2PathById() {
+        return String.format("team/%s/project/%s", owner_user_name, id);
+    }
+
     public static String translatePath(String path) {
         return MyApp.transformEnterpriseUri(path)
                 .replace("/u/", "/user/")

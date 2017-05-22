@@ -82,4 +82,14 @@ public interface CodingRequest {
                                           @Path("project") String project,
                                           @Path("folder") int folder,
                                           @Field("name") String name);
+
+    @GET("user/2fa/method")
+    Observable<HttpResult<String>> need2FA();
+
+    @FormUrlEncoded
+    @POST("{projectPath}/delete")
+    Observable<BaseHttpResult> deleteProject(@Path("projectPath") String projectPath,
+                                             @Field("two_factor_code") String twoFA);
+
+
 }
