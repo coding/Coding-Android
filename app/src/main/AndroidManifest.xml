@@ -530,6 +530,10 @@
             android:label="@string/title_activity_merge"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".project.init.setting.v2.EnterpriseProjectSetActivity_"
+            android:label="@string/title_activity_project_set"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".project.detail.merge.MergeDetailActivity_"
             android:label="@string/title_activity_merge_detail"
             android:screenOrientation="portrait" />

@@ -82,7 +82,7 @@ public class TaskObject {
             manager(90),
             limited(75);
 
-            private int type;
+            public int type;
 
             Type(int type) {
                 this.type = type;

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.readystatesoftware.viewbadger.BadgeView;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
@@ -17,6 +18,7 @@ import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.project.init.setting.ProjectSetActivity_;
+import net.coding.program.project.init.setting.v2.EnterpriseProjectSetActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -35,9 +37,15 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
     ProjectObject mProjectObject;
 
     protected View.OnClickListener clickProjectSetting = v -> {
-        Intent intent = new Intent(getActivity(), ProjectSetActivity_.class);
-        intent.putExtra("projectObject", mProjectObject);
-        startActivityForResult(intent, InitProUtils.REQUEST_PRO_UPDATE);
+        if (MyApp.getEnterpriseGK().isEmpty()) {
+            ProjectSetActivity_.intent(BaseProjectHomeFragment.this)
+                    .projectObject(mProjectObject)
+                    .startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+        } else {
+            EnterpriseProjectSetActivity_.intent(BaseProjectHomeFragment.this)
+                    .project(mProjectObject)
+                    .startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+        }
     };
 
     @FragmentArg

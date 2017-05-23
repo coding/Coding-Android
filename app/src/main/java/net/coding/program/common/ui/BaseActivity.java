@@ -356,6 +356,10 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         }
     }
 
+    protected void projectIconfromNetwork(ImageView view, String url) {
+        iconfromNetwork(view, url, ImageLoadTool.optionsRounded2);
+    }
+
     public void showDialogLoading() {
         initDialogLoading();
         DialogUtil.showProgressDialog(this, mDialogProgressPopWindow);

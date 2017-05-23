@@ -105,4 +105,12 @@ public interface CodingRequest {
     //     企业所有者获取参与中的项目中自己的个人信息
     @GET("team/{user}/members")
     Observable<HttpResult<List<ManagerUser>>> getManagerProjectsMember(@Path("user") String user);
+
+    @PUT("project")
+    Observable<HttpResult<ProjectObject>> setProjectInfo(@Query("id") int id,
+                                                         @Query("name") String name,
+                                                         @Query("description") String desc);
+
+    @POST("project/{id}/quit")
+    Observable<BaseHttpResult> quitProject(@Path("id") int projectId);
 }

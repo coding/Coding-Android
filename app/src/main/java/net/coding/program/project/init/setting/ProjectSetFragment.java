@@ -1,18 +1,13 @@
 package net.coding.program.project.init.setting;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
@@ -21,12 +16,10 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.enter.SimpleTextWatcher;
-import net.coding.program.common.photopick.CameraPhotoUtil;
-import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.init.InitProUtils;
+import net.coding.program.project.init.setting.v2.ProjectSetFragmentBase;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -36,29 +29,18 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-
 /**
  * Created by jack wang on 2015/3/31.
  * 项目设置页面
  */
 @EFragment(R.layout.init_fragment_project_set)
 @OptionsMenu(R.menu.menu_fragment_create)
-public class ProjectSetFragment extends BaseFragment {
+public class ProjectSetFragment extends ProjectSetFragmentBase {
 
-    public static final int RESULT_REQUEST_PHOTO = 3003;
     private static final String TAG = "ProjectSetFragment";
-    final String host = Global.HOST_API + "/project";
-    private final int RESULT_REQUEST_PHOTO_CROP = 3006;
-    ProjectObject mProjectObject;
-
-    String iconPath;
 
     boolean isBackToRefresh = false;
     MenuItem mMenuSave;
-
-    @ViewById
-    ImageView projectIcon;
 
     @ViewById
     TextView projectName;
@@ -69,13 +51,9 @@ public class ProjectSetFragment extends BaseFragment {
     @ViewById
     View item, itemTransfer, iconPrivate;
 
-    private Uri fileUri;
-    private Uri fileCropUri;
 
     @AfterViews
     protected void init() {
-        mProjectObject = (ProjectObject) getArguments().getSerializable("projectObject");
-
         ((TextView) itemTransfer.findViewById(R.id.title)).setText("项目转让");
         ((TextView) item.findViewById(R.id.title)).setText("删除项目");
 
@@ -93,36 +71,6 @@ public class ProjectSetFragment extends BaseFragment {
             }
         });
         Global.popSoftkeyboard(getActivity(), description, false);
-    }
-
-    @Click
-    void projectIcon() {
-        new AlertDialog.Builder(getActivity())
-                .setTitle("选择图片")
-                .setCancelable(true)
-                .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            camera();
-                        } else {
-                            photo();
-                        }
-                    }
-                })
-                .show();
-    }
-
-    private void camera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        fileUri = CameraPhotoUtil.getOutputMediaFileUri();
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        startActivityForResult(intent, RESULT_REQUEST_PHOTO);
-    }
-
-    private void photo() {
-        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, RESULT_REQUEST_PHOTO);
     }
 
 
@@ -224,34 +172,6 @@ public class ProjectSetFragment extends BaseFragment {
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT_REQUEST_PHOTO) {
-            if (resultCode == Activity.RESULT_OK) {
-                if (data != null) {
-                    fileUri = data.getData();
-                }
-                fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
-                Global.cropImageUri(this, fileUri, fileCropUri, 600, 600, RESULT_REQUEST_PHOTO_CROP);
-            }
-
-        } else if (requestCode == RESULT_REQUEST_PHOTO_CROP) {
-            if (resultCode == Activity.RESULT_OK) {
-                try {
-                    iconPath = FileUtil.getPath(getActivity(), fileCropUri);
-                    projectIcon.setImageURI(fileCropUri);
-                    showProgressBar(true, "正在上传图片...");
-                    String uploadUrl = host + "/" + mProjectObject.getId() + "/project_icon";
-                    RequestParams params = new RequestParams();
-                    params.put("file", new File(iconPath));
-                    postNetwork(uploadUrl, params, uploadUrl);
-                } catch (Exception e) {
-                }
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
 
     public void backToRefresh() {
         Intent intent = new Intent();

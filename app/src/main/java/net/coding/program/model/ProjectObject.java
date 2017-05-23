@@ -415,4 +415,8 @@ public class ProjectObject implements Serializable {
         review, mine, other
     }
 
+    public boolean isManagerLevel() {
+        return current_user_role_id >= TaskObject.Members.Type.manager.type;
+    }
+
 }

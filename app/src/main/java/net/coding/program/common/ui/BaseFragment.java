@@ -373,6 +373,7 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
     }
 
     protected void iconfromNetwork(ImageView view, String url) {
+        url = Global.translateStaticIcon(url);
         imageLoadTool.loadImage(view, Global.makeSmallUrl(view, url));
     }
 
