@@ -80,7 +80,8 @@ public class TaskObject {
             ower(100),
             member(80),
             manager(90),
-            limited(75);
+            limited(75),
+            noJoin(-1);
 
             public int type;
 

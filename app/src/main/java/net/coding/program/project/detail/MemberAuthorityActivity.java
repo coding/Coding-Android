@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
@@ -37,13 +38,22 @@ public class MemberAuthorityActivity extends BackActivity {
     int projectId;
 
     @ViewById
-    DropdownListItemView projectManager, projectMember, projectMemberLimited;
+    DropdownListItemView projectNo, projectManager, projectMember, projectMemberLimited;
 
     @ViewById
-    View managerDivide;
+    View managerDivide, divideNo;
 
     @AfterViews
     void initMemberAuthorityActivity() {
+        if (MyApp.getEnterpriseGK().isEmpty()) {
+            projectNo.setVisibility(View.GONE);
+            divideNo.setVisibility(View.GONE);
+        } else {
+            projectNo.setVisibility(View.VISIBLE);
+            divideNo.setVisibility(View.VISIBLE);
+            projectNo.setText("无");
+        }
+
         if (me.getType() == TaskObject.Members.Type.manager) {
             projectManager.setVisibility(View.GONE);
             managerDivide.setVisibility(View.GONE);
@@ -67,6 +77,9 @@ public class MemberAuthorityActivity extends BackActivity {
             case limited:
                 projectMemberLimited.setChecked(true);
                 break;
+            case noJoin:
+                projectNo.setChecked(true);
+                break;
         }
     }
 
@@ -83,6 +96,11 @@ public class MemberAuthorityActivity extends BackActivity {
     @Click
     void projectMemberLimited() {
         modifyAuthority(TaskObject.Members.Type.limited.getType());
+    }
+
+    @Click
+    void projectNo() {
+        modifyAuthority(TaskObject.Members.Type.noJoin.getType());
     }
 
     private void modifyAuthority(int id) {

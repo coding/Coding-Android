@@ -264,7 +264,7 @@ public class ManageProjectListActivity extends BackActivity {
                 .show();
     }
 
-    private View.OnClickListener clickItemMore = v -> actionMore(v);
+    private View.OnClickListener clickItemMore = this::actionMore;
 
     private void showDeleteDialog2fa(ProjectObject project) {
         hander2fa.sendEmptyMessage(0);

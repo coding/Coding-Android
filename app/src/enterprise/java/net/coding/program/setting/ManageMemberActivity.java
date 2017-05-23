@@ -1,5 +1,6 @@
 package net.coding.program.setting;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
@@ -71,7 +72,10 @@ public class ManageMemberActivity extends BackActivity {
 
         @Override
         protected ProjectHolder newViewHolder(View view) {
-            return new ProjectHolder(view);
+            ProjectHolder holder = new ProjectHolder(view);
+            holder.actionMore.setOnClickListener(clickItemMore);
+            holder.rootLayout.setOnLongClickListener(longClickItem);
+            return holder;
         }
 
         @Override
@@ -80,6 +84,7 @@ public class ManageMemberActivity extends BackActivity {
             holder.name.setText(item.user.name);
             holder.joinTime.setText(String.format("加入时间：%s", Global.mDateYMDHH.format(data.updatedat)));
             holder.rootLayout.setTag(item);
+            holder.actionMore.setTag(item);
 
             TaskObject.Members.Type memberType = item.getType();
             int iconRes = memberType.getIcon();
@@ -98,12 +103,52 @@ public class ManageMemberActivity extends BackActivity {
         }
     }
 
+    private View.OnClickListener clickItemMore = this::actionMore;
+
+    private View.OnLongClickListener longClickItem = v -> {
+        actionMore(v);
+        return true;
+    };
+
+    private void actionMore(View v) {
+        TeamMember user = (TeamMember) v.getTag();
+        TaskObject.Members.Type type = TaskObject.Members.Type.idToEnum(user.role);
+        if (type == TaskObject.Members.Type.ower) { // 没有账户可以管理企业所有者
+            return;
+        }
+
+        if (type == TaskObject.Members.Type.ower) {
+            new AlertDialog.Builder(this)
+                    .setItems(R.array.manager_member_by_owner, ((dialog, which) -> {
+                        if (which == 0) {
+                            actionModifyEnterpriseRole(user);
+                        } else if (which == 1) {
+                            actionModifyProjectRole(user);
+                        } else if (which == 2) {
+                            actionRemove(user);
+                        }
+                    }))
+                    .show();
+        } else if (type == TaskObject.Members.Type.manager) {
+            new AlertDialog.Builder(this)
+                    .setItems(R.array.manager_member_by_owner, ((dialog, which) -> {
+                        if (which == 0) {
+                            actionModifyProjectRole(user);
+                        } else if (which == 1) {
+                            actionRemove(user);
+                        }
+                    }))
+                    .show();
+        }
+    }
+
     public static class ProjectHolder extends UltimateRecyclerviewViewHolder {
 
         public TextView name;
         public TextView joinTime;
         public ImageView image;
         public View rootLayout;
+        public View actionMore;
 
         public ProjectHolder(View view, boolean isHeader) {
             super(view);
@@ -115,6 +160,7 @@ public class ManageMemberActivity extends BackActivity {
             name = (TextView) view.findViewById(R.id.name);
             joinTime = (TextView) view.findViewById(R.id.joinTime);
             image = (ImageView) view.findViewById(R.id.icon);
+            actionMore = view.findViewById(R.id.actionMore);
         }
     }
 
@@ -133,5 +179,17 @@ public class ManageMemberActivity extends BackActivity {
                 showErrorMsg(code, respanse);
             }
         }
+    }
+
+    private void actionRemove(TeamMember user) {
+
+    }
+
+    private void actionModifyProjectRole(TeamMember user) {
+
+    }
+
+    private void actionModifyEnterpriseRole(TeamMember user) {
+
     }
 }
