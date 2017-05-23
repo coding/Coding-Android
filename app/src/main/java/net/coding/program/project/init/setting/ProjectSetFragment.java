@@ -56,20 +56,19 @@ public class ProjectSetFragment extends BaseFragment {
 
     boolean isBackToRefresh = false;
     MenuItem mMenuSave;
+
     @ViewById
     ImageView projectIcon;
-    @ViewById
-    View iconPrivate;
+
     @ViewById
     TextView projectName;
+
     @ViewById
     EditText description;
-    @ViewById
-    View item;
-    @ViewById
-    View itemTransfer;
 
-    TextView advanceText;
+    @ViewById
+    View item, itemTransfer, iconPrivate;
+
     private Uri fileUri;
     private Uri fileCropUri;
 
@@ -78,9 +77,8 @@ public class ProjectSetFragment extends BaseFragment {
         mProjectObject = (ProjectObject) getArguments().getSerializable("projectObject");
 
         ((TextView) itemTransfer.findViewById(R.id.title)).setText("项目转让");
+        ((TextView) item.findViewById(R.id.title)).setText("删除项目");
 
-        advanceText = (TextView) item.findViewById(R.id.title);
-        advanceText.setText("删除项目");
         iconfromNetwork(projectIcon, mProjectObject.icon, ImageLoadTool.optionsRounded2);
         projectName.setText(mProjectObject.name);
         description.setText(mProjectObject.description);
@@ -254,7 +252,6 @@ public class ProjectSetFragment extends BaseFragment {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
-
 
     public void backToRefresh() {
         Intent intent = new Intent();

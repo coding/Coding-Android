@@ -11,6 +11,7 @@ import org.androidannotations.annotations.EActivity;
 
 /**
  * Created by jack wang on 2015/3/31.
+ *
  */
 @EActivity(R.layout.init_activity_common)
 public class ProjectSetActivity extends BackActivity {

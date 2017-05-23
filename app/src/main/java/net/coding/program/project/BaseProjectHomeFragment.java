@@ -30,13 +30,16 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
 
     public final String HOST_VISTIT = getHostVisit();
     protected boolean isUpdateDynamic = false;
+
     @FragmentArg
     ProjectObject mProjectObject;
+
     protected View.OnClickListener clickProjectSetting = v -> {
         Intent intent = new Intent(getActivity(), ProjectSetActivity_.class);
         intent.putExtra("projectObject", mProjectObject);
         startActivityForResult(intent, InitProUtils.REQUEST_PRO_UPDATE);
     };
+
     @FragmentArg
     boolean needReload = true;
 
@@ -74,11 +77,8 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
 
     protected void initProjectSettingEntrance(View view) {
         if (mProjectObject.isMy()) {
-
             view.findViewById(R.id.projectHeaderLayout).setOnClickListener(clickProjectSetting);
-
         } else {
-            //fix bug -gone掉后页面会乱
             view.findViewById(R.id.iconRight).setVisibility(View.INVISIBLE);
         }
     }
