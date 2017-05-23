@@ -114,15 +114,16 @@ public class ManageProjectListActivity extends BackActivity {
 
                         int joinedPos = 0;
                         for (ProjectObject item : data) {
+                            boolean find = false;
                             for (ProjectObject join : listJoinData) {
                                 if (join.id == item.id) {
-                                    item.setJoin();
-                                    listData.add(joinedPos++, item);
+                                    find = true;
+                                    listData.add(joinedPos++, join);
                                     break;
                                 }
                             }
 
-                            if (!listData.contains(item)) {
+                            if (!find) {
                                 listData.add(item);
                             }
                         }
@@ -146,7 +147,7 @@ public class ManageProjectListActivity extends BackActivity {
             ProjectHolder holder = new ProjectHolder(view);
             holder.rootLayout.setOnClickListener(clickItem);
             holder.rootLayout.setOnLongClickListener(longClickItem);
-            holder.actionMore.setOnLongClickListener(longClickItem);
+            holder.actionMore.setOnClickListener(clickItemMore);
             return holder;
         }
 
@@ -234,6 +235,12 @@ public class ManageProjectListActivity extends BackActivity {
     };
 
     private View.OnLongClickListener longClickItem = v -> {
+        actionMore(v);
+
+        return true;
+    };
+
+    private void actionMore(View v) {
         ProjectObject project = (ProjectObject) v.getTag();
         new AlertDialog.Builder(v.getContext())
                 .setItems(R.array.manager_project_item, (dialog, which) -> {
@@ -255,9 +262,9 @@ public class ManageProjectListActivity extends BackActivity {
                     }
                 })
                 .show();
+    }
 
-        return true;
-    };
+    private View.OnClickListener clickItemMore = v -> actionMore(v);
 
     private void showDeleteDialog2fa(ProjectObject project) {
         hander2fa.sendEmptyMessage(0);
