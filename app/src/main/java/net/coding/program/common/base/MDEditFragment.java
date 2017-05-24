@@ -167,7 +167,7 @@ public class MDEditFragment extends BaseFragment {
                         }
                     }
 
-                    File outputFile = new PhotoOperate(getActivity()).scal(fileUri);
+                    File outputFile = new PhotoOperate(getActivity()).getFile(fileUri);
                     RequestParams params = new RequestParams();
                     params.put("dir", 0);
                     params.put("file", outputFile);

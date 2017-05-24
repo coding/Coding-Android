@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import net.coding.program.common.util.FileUtil;
@@ -58,12 +59,13 @@ public class PhotoOperate {
         return scal(path);
     }
 
-    // // TODO: 2017/5/17 那些不需要缩放的地方也用了缩放
+    public File getFile(Uri fileUri) throws Exception {
+        String path = FileUtil.getPath(context, fileUri);
+        return new File(translatePath(path));
+    }
+
     public File scal(String path) throws IOException {
-        String prefix = "file://";
-        if (path.toLowerCase().startsWith(prefix)) {
-            path = path.substring(prefix.length(), path.length());
-        }
+        path = translatePath(path);
 
         File outputFile = new File(path);
         if (Global.isGif(path)) {
@@ -103,6 +105,15 @@ public class PhotoOperate {
         }
 
         return outputFile;
+    }
+
+    @NonNull
+    public static String translatePath(String path) {
+        String prefix = "file://";
+        if (path.toLowerCase().startsWith(prefix)) {
+            path = path.substring(prefix.length(), path.length());
+        }
+        return path;
     }
 
 }

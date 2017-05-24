@@ -45,12 +45,15 @@ public class CommonListView extends UltimateRecyclerView {
     }
 
     public void update(Context context, Style style) {
-        View v = getEmptyView();
         int count = 0;
         if (getAdapter() != null) {
             count = ((UltimateViewAdapter) getAdapter()).getAdapterItemCount();
         }
+        update(context, style, count);
+    }
 
+    public void update(Context context, Style style, int count) {
+        View v = getEmptyView();
         if (style == Style.loading) {
             BlankViewHelp.setBlankLoading(v, count <= 0);
         } else if (style == Style.fail) {
@@ -59,5 +62,6 @@ public class CommonListView extends UltimateRecyclerView {
             BlankViewHelp.setBlank(count, context, true, v, null);
         }
     }
+
 
 }

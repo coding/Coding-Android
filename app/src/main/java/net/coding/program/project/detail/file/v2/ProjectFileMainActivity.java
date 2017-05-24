@@ -711,6 +711,8 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                         listAdapter.notifyDataSetChanged();
                         showButtomToast("删除成功");
 
+                        updateBlank();
+
                         setResultChanged();
                     }
 
@@ -760,8 +762,8 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
             try {
                 @SuppressWarnings("unchecked")
                 ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
-                for (ImageInfo pickPhot : pickPhots) {
-                    File outputFile = new PhotoOperate(this).scal(pickPhot.path);
+                for (ImageInfo item : pickPhots) {
+                    File outputFile = new File(PhotoOperate.translatePath(item.path));
                     uploadFileInfo(outputFile);
                 }
             } catch (Exception e) {
@@ -780,47 +782,6 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                 encodeName;
     }
 
-    private void uploadFilePrepare(File selectedFile) {
-//        String httpHost = getHttpFileExist(selectedFile.getName(), parentFolder);
-//        getNetwork(httpHost, TAG_HTTP_FILE_EXIST, -1, selectedFile);
-    }
-
-    private List<String> tags = new ArrayList<>();
-    private boolean isUpload = false;
-
-
-    private void uploadFile() {
-//        String path = "";
-//        File file = new File(path);
-//        MediaType type = MediaType.parse("image");
-//        RequestBody body = RequestBody.create(type, file);
-//        MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), body);
-//        RequestBody idBody = RequestBody.create(MultipartBody.FORM, "aaa");
-//        Network.getRetrofit(getActivity())
-//                .postImage(part)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new BaseObserver<Attachment>(getActivity()) {
-//                               @Override
-//                               public void onSuccess(Attachment data) {
-//                                   super.onSuccess(data);
-//
-//                                   String imageUri = data.url;
-//                                   String messageData = String.format("<img class=\"chat-image\" src=\"%s\"/>", imageUri);
-//                                   String messageDesc = IMAGE_DESC;
-//                                   sendMessage(messageData, messageDesc, sending);
-//                               }
-//
-//                               @Override
-//                               public void onFail(int errorCode, @NonNull String error) {
-//                                   super.onFail(errorCode, error);
-//                                   sending.setStyle(CustomMessage.Style.sendingFail);
-//                               }
-//                           }
-//                );
-
-    }
-
     private void uploadFileInfo(File file) {
         FileListHeadItem2 uploadItem = new FileListHeadItem2(this);
         listHead.addView(uploadItem);
@@ -828,6 +789,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         FileListHeadItem2.Param param = new FileListHeadItem2.Param(project.getId(), parentFolder.fileId, file);
         uploadItem.setData(param, this, getImageLoad());
 
+        updateBlank();
     }
 
     private void actionAll() {
@@ -933,4 +895,10 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
             }
         }
     }
+
+    private void updateBlank() {
+        int count = listHead.getChildCount() + listData.size();
+        listView.update(this, CommonListView.Style.success, count);
+    }
+
 }

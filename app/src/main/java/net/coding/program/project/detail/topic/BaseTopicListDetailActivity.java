@@ -205,7 +205,7 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
                     File fileImage = new File(imagePath);
                     if (!Global.isGifByFile(fileImage)) {
                         Uri uri = Uri.parse(imagePath);
-                        fileImage = new PhotoOperate(this).scal(uri);
+                        fileImage = new PhotoOperate(this).getFile(uri);
                     }
 
                     params.put("file", fileImage);

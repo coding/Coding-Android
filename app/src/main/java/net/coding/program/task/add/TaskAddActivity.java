@@ -1233,7 +1233,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
                     RequestParams params = new RequestParams();
                     params.put("dir", 0);
                     Uri uri = Uri.parse(imagePath);
-                    File file = new PhotoOperate(this).scal(uri);
+                    File file = new PhotoOperate(this).getFile(uri);
                     params.put("file", file);
                     tagUrlCommentPhoto = imagePath; // tag必须不同，否则无法调用下一次
                     postNetwork(url, params, tagUrlCommentPhoto, 0, imagePath);

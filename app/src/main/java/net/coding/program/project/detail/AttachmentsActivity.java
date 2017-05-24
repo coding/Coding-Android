@@ -131,7 +131,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     ActionMode mActionMode;
     ArrayList<AttachmentFileObject> selectFile;
     ArrayList<AttachmentFolderObject> selectFolder;
-//    private AttachmentFolderObject sourceFolder;
+    //    private AttachmentFolderObject sourceFolder;
     View.OnClickListener mClickReload = v -> loadMore();
     ViewGroup listHead;
     private String HOST_FILE_DELETE = Global.HOST_API + "/project/%s/file/delete?%s";
@@ -934,7 +934,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
                 List<File> files = new ArrayList<>();
                 for (ImageInfo pickPhot : pickPhots) {
-                    File outputFile = new PhotoOperate(this).scal(pickPhot.path);
+                    File outputFile = new File(PhotoOperate.translatePath(pickPhot.path));
                     files.add(outputFile);
 //                    uploadFilePrepare(outputFile);
                 }

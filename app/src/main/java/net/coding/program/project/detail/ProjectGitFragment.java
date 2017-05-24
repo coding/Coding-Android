@@ -435,7 +435,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
                 File[] files = new File[pickPhots.size()];
                 for (int i = 0; i < pickPhots.size(); i++) {
                     ImageInfo item = pickPhots.get(i);
-                    File outputFile = new PhotoOperate(getActivity()).scal(item.path);
+                    File outputFile = new File(PhotoOperate.translatePath(item.path));
                     files[i] = outputFile;
                 }
                 postUploadFile(files);

@@ -78,7 +78,6 @@ public class Network {
     }
 
     public static UpQboxRequest getRetrofitLoad(Context context) {
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://up.qbox.me/")
                 .addConverterFactory(GsonConverterFactory.create())
