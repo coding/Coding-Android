@@ -29,6 +29,7 @@ public class EnterpriseMainActivity extends MainActivity {
         if (tag.equals(TAG_ENTERPRSE)) {
             if (code == 0) { // 服务过期了
                 EnterpriseDetail enterpriseDetail = new EnterpriseDetail(respanse.optJSONObject("data"));
+
                 if (enterpriseDetail.isLocked()) {
                     String title = "服务已暂停";
                     String message = "您订购的服务已过期，项目、任务等功能操作与高级权限将会失效。如需正常使用，请前往企业版网站订购。";

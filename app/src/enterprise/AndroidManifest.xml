@@ -867,6 +867,11 @@
             android:label="@string/title_common_pick_project"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".setting.SetEnterpriseAuthorityActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_set_enterprise_authority"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".guide.EnterpriseGuideActivity_"
             android:icon="@drawable/ic_lancher"
             android:theme="@style/AppThemeNoActionbar"

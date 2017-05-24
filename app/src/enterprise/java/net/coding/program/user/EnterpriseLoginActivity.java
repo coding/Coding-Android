@@ -425,7 +425,9 @@ public class EnterpriseLoginActivity extends BaseActivity {
                 showProgressBar(false);
                  boolean isAdmin = respanse.optBoolean("data", false);
                 if (isAdmin) {
-                    enterpriseDetail.setIdentity(UserIdentity.manager);
+                    if (!EnterpriseInfo.instance().canManagerEnterprise()) {
+                        enterpriseDetail.setIdentity(UserIdentity.manager);
+                    }
                 }
                 jumpMainActivity();
             } else {

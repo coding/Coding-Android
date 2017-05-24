@@ -126,4 +126,10 @@ public interface CodingRequest {
 
     @POST("project/{id}/quit")
     Observable<BaseHttpResult> quitProject(@Path("id") int projectId);
+
+    @POST("team/{enterprise}/member/{user}/role/{role}")
+    Observable<BaseHttpResult> setEnterpriseRole(@Path("enterprise") String enterprise,
+                                                 @Path("user") String user,
+                                                 @Path("role") int role);
+
 }

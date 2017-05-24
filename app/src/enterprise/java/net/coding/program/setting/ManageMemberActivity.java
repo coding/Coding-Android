@@ -15,11 +15,13 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
+import net.coding.program.model.EnterpriseInfo;
 import net.coding.program.model.team.TeamMember;
 import net.coding.program.network.constant.MemberAuthority;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +34,9 @@ import java.util.List;
 public class ManageMemberActivity extends BackActivity {
 
     private static final String TAG_PROJECT = "TAG_PROJECT";
+
+    private static final int RESULT_SET_ENTERPRISE_ROLE = 1;
+    private static final int RESULT_REMOVE_MEMBER = 2;
 
     @ViewById
     UltimateRecyclerView listView;
@@ -113,19 +118,7 @@ public class ManageMemberActivity extends BackActivity {
 
     private void actionMore(View v) {
         TeamMember user = (TeamMember) v.getTag();
-        MemberAuthority type = MemberAuthority.idToEnum(user.role);
-
-        if (type == MemberAuthority.ower) {
-            new AlertDialog.Builder(this)
-                    .setItems(R.array.manager_member_by_owner, ((dialog, which) -> {
-                        if (which == 0) {
-                            actionModifyProjectRole(user);
-                        } else if (which == 1) {
-                            actionRemove(user);
-                        }
-                    }))
-                    .show();
-        } else {
+        if (EnterpriseInfo.instance().isOwner() && (user.getType() != MemberAuthority.ower)) {
             new AlertDialog.Builder(this)
                     .setItems(R.array.manager_member_by_owner, ((dialog, which) -> {
                         if (which == 0) {
@@ -137,7 +130,16 @@ public class ManageMemberActivity extends BackActivity {
                         }
                     }))
                     .show();
-
+        } else {
+            new AlertDialog.Builder(this)
+                    .setItems(R.array.manager_member_by_manager, ((dialog, which) -> {
+                        if (which == 0) {
+                            actionModifyProjectRole(user);
+                        } else if (which == 1) {
+                            actionRemove(user);
+                        }
+                    }))
+                    .show();
         }
     }
 
@@ -191,5 +193,23 @@ public class ManageMemberActivity extends BackActivity {
     }
 
     private void actionModifyEnterpriseRole(TeamMember user) {
+        SetEnterpriseAuthorityActivity_.intent(this)
+                .globayKey(user.user.global_key)
+                .authority(user.getType())
+                .startForResult(RESULT_SET_ENTERPRISE_ROLE);
     }
+
+    @OnActivityResult(RESULT_SET_ENTERPRISE_ROLE)
+    void onResultSetEnterpriseRole(int resultCode, @OnActivityResult.Extra int intentData,
+                                   @OnActivityResult.Extra String intentData1) {
+        if (resultCode == RESULT_OK) {
+            for (TeamMember item : listData) {
+                if (item.user.global_key.equals(intentData1)) {
+                    item.role = intentData;
+                    break;
+                }
+            }
+        }
+    }
+
 }

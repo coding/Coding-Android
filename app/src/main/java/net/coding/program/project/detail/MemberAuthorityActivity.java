@@ -53,7 +53,7 @@ public class MemberAuthorityActivity extends BackActivity {
     DropdownListItemView projectNo, projectManager, projectMember, projectMemberLimited;
 
     @ViewById
-    View managerDivide, divideNo, blankLayout;
+    View managerDivide, divideNo;
 
     @AfterViews
     void initMemberAuthorityActivity() {

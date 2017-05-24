@@ -14,33 +14,20 @@
         <include layout="@layout/divide_top_15" />
 
         <include
-            android:id="@+id/projectNo"
+            android:id="@+id/enterprseManager"
             layout="@layout/dropdown_tab_list_item" />
 
         <View
-            android:id="@+id/divideNo"
             style="@style/DivideLine_15" />
 
         <include
-            android:id="@+id/projectManager"
-            layout="@layout/dropdown_tab_list_item" />
-
-        <View
-            android:id="@+id/managerDivide"
-            style="@style/DivideLine_15" />
-
-        <include
-            android:id="@+id/projectMember"
-            layout="@layout/dropdown_tab_list_item" />
-
-        <View style="@style/DivideLine_15" />
-
-        <include
-            android:id="@+id/projectMemberLimited"
+            android:id="@+id/enterpriseMember"
             layout="@layout/dropdown_tab_list_item" />
 
         <include layout="@layout/divide_bottom_15" />
 
     </LinearLayout>
+
+    <include layout="@layout/view_exception" android:id="@+id/blankLayout" />
 
 </FrameLayout>

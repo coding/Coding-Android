@@ -250,13 +250,13 @@
     </string-array>
 
     <string-array name="manager_member_by_manager">
-        <item>权限设置</item>
+        <item>项目权限设置</item>
         <item>移除成员</item>
     </string-array>
 
     <string-array name="manager_member_by_owner">
         <item>企业角色设置</item>
-        <item>权限设置</item>
+        <item>项目权限设置</item>
         <item>移除成员</item>
     </string-array>
     <!--<string-array name="commnet_my">-->
