@@ -29,6 +29,7 @@ import net.coding.program.model.TaskLabelModel;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.TaskProjectCountModel;
 import net.coding.program.model.UserObject;
+import net.coding.program.network.model.user.Member;
 import net.coding.program.task.TaskListParentUpdate;
 import net.coding.program.task.TaskListUpdate;
 import net.coding.program.task.add.TaskAddActivity;
@@ -67,9 +68,9 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
     @ViewById
     View blankLayout;
 
-    ArrayList<TaskObject.Members> mUsersInfo = new ArrayList<>();
-    ArrayList<TaskObject.Members> mMembersAll = new ArrayList<>();
-    ArrayList<TaskObject.Members> mMembersAllAll = new ArrayList<>();
+    ArrayList<Member> mUsersInfo = new ArrayList<>();
+    ArrayList<Member> mMembersAll = new ArrayList<>();
+    ArrayList<Member> mMembersAllAll = new ArrayList<>();
     String HOST_TASK_MEMBER = Global.HOST_API + "/project/%d/task/user/count";
     View.OnClickListener onClickRetry = v -> refresh();
 
@@ -154,7 +155,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
 
             loadAllLabels();
         } else {
-            TaskObject.Members members = mMembersAll.get(index);
+            Member members = mMembersAll.get(index);
 
             //某个成员
             getNetwork(String.format(urlSome_Count, mProjectObject.getId(), members.user_id), urlSome_Count);
@@ -166,7 +167,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
 //        int cur = tabs.getCurrentPosition();
         int cur = pager.getCurrentItem();
         if (cur != 0) {
-            TaskObject.Members members = mMembersAll.get(cur);
+            Member members = mMembersAll.get(cur);
             getNetwork(String.format(urlSome_Label, mProjectObject.getId(), members.user_id), urlSome_Label);
         } else {
             if (statusIndex == 0) {
@@ -186,12 +187,12 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
         if (tag.equals(HOST_MEMBERS)) {
             hideDialogLoading();
             if (code == 0) {
-                ArrayList<TaskObject.Members> usersInfo = new ArrayList<>();
+                ArrayList<Member> usersInfo = new ArrayList<>();
 
                 JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
 
                 for (int i = 0; i < jsonArray.length(); ++i) {
-                    TaskObject.Members userInfo = new TaskObject.Members(jsonArray.getJSONObject(i));
+                    Member userInfo = new Member(jsonArray.getJSONObject(i));
                     if (mMemberTask.memberHasTask(userInfo.user_id)) { // 只显示有任务的
                         if (userInfo.user.global_key.equals(MyApp.sUserObject.global_key)) {
                             usersInfo.add(0, userInfo);
@@ -205,7 +206,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
 
                 mUsersInfo = usersInfo;
                 mMembersAll = new ArrayList<>();
-                mMembersAll.add(new TaskObject.Members());
+                mMembersAll.add(new Member());
                 mMembersAll.addAll(mUsersInfo);
 
                 adapter.notifyDataSetChanged();
@@ -318,7 +319,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
             taskListParentUpdate();
             String globarKey = data.getStringExtra(TaskAddActivity.RESULT_GLOBARKEY);
 
-            TaskObject.Members modifyMember = null;
+            Member modifyMember = null;
             for (int i = 0; i < mMembersAllAll.size(); ++i) {
                 if (mMembersAllAll.get(i).user.global_key.equals(globarKey)) {
                     modifyMember = mMembersAllAll.get(i);
@@ -355,7 +356,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
     }
 
     public final void floatButton() {
-        TaskObject.Members member = adapter.getItemData(pager.getCurrentItem());
+        Member member = adapter.getItemData(pager.getCurrentItem());
 
 //        Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
         TaskObject.SingleTask task = new TaskObject.SingleTask();
@@ -461,7 +462,7 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
             return fragment;
         }
 
-        public TaskObject.Members getItemData(int postion) {
+        public Member getItemData(int postion) {
             return mMembersAll.get(postion);
         }
 

@@ -26,8 +26,9 @@ import net.coding.program.common.Global;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.Merge;
-import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
+import net.coding.program.network.constant.MemberAuthority;
+import net.coding.program.network.model.user.Member;
 import net.coding.program.project.detail.MembersSelectActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -71,7 +72,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
 
     ArrayList<Object> mSearchData = new ArrayList<>();
     ArrayList<Merge.Reviewer> mReviewers = new ArrayList<>();
-    ArrayList<TaskObject.Members> mMembers = new ArrayList<>();
+    ArrayList<Member> mMembers = new ArrayList<>();
     ArrayList<String> mReviewerKey = new ArrayList<>();
     BaseAdapter adapter = new BaseAdapter() {
 
@@ -129,11 +130,11 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
             holder.ic.setVisibility(View.GONE);
 
             if (mSelect) {
-                if (object instanceof TaskObject.Members) {
-                    TaskObject.Members data = (TaskObject.Members) object;
+                if (object instanceof Member) {
+                    Member data = (Member) object;
                     user = data.user;
 
-                    TaskObject.Members.Type memberType = data.getType();
+                    MemberAuthority memberType = data.getType();
                     int iconRes = memberType.getIcon();
                     if (iconRes == 0) {
                         holder.ic.setVisibility(View.GONE);
@@ -228,7 +229,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
             mListClickJump = new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    TaskObject.Members member = (TaskObject.Members) mSearchData.get(position);
+                    Member member = (Member) mSearchData.get(position);
                     if (!mReviewerKey.contains(member.user.global_key)) {
                         addReviewer(member);
                     } else {
@@ -277,7 +278,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, final long id) {
                     Merge.Reviewer reviewer = null;
                     if (mSelect) {
-                        TaskObject.Members member = (TaskObject.Members) mSearchData.get(position);
+                        Member member = (Member) mSearchData.get(position);
                         for (Merge.Reviewer r : mReviewers) {
                             if (r.user.global_key.equals(member.user.global_key)) {
                                 if (mReviewerKey.contains(member.user.global_key))
@@ -330,7 +331,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
         deleteNetwork(mMerge.getHttpDelReviewer() + "?user_id=" + user.id, TAG_URL_DEL_REVIEWER, reviewer);
     }
 
-    private void addReviewer(TaskObject.Members member) {
+    private void addReviewer(Member member) {
         UserObject user = member.user;
 
         // #22 去掉弹窗，直接发请求。
@@ -356,8 +357,8 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
         } else {
             for (Object item : mSelect ? mMembers : mReviewers) {
                 UserObject user;
-                if (item instanceof TaskObject.Members) {
-                    user = ((TaskObject.Members) item).user;
+                if (item instanceof Member) {
+                    user = ((Member) item).user;
                 } else {
                     user = (UserObject) item;
                 }
@@ -490,11 +491,11 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                     members = respanse.getJSONObject("data").getJSONArray("list");
 
                     for (int i = 0; i < members.length(); ++i) {
-                        TaskObject.Members member = new TaskObject.Members(members.getJSONObject(i));
+                        Member member = new Member(members.getJSONObject(i));
                         if (member.user.global_key.equals(mMerge.getAuthor().global_key)) {
                             continue;
                         }
-                        if (member.getType() == TaskObject.Members.Type.limited) {
+                        if (member.getType() == MemberAuthority.limited) {
                             continue;
                         }
                         if (member.isOwner()) {
@@ -532,7 +533,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
             showProgressBar(false);
             if (code == 0) {
 
-                TaskObject.Members member = (TaskObject.Members) data;
+                Member member = (Member) data;
                 UserObject user = member.user;
                 Merge.Reviewer reviewer = null;
                 for (Merge.Reviewer r : mReviewers) {

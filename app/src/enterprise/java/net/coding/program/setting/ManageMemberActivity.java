@@ -15,8 +15,8 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
-import net.coding.program.model.TaskObject;
 import net.coding.program.model.team.TeamMember;
+import net.coding.program.network.constant.MemberAuthority;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -74,6 +74,7 @@ public class ManageMemberActivity extends BackActivity {
         protected ProjectHolder newViewHolder(View view) {
             ProjectHolder holder = new ProjectHolder(view);
             holder.actionMore.setOnClickListener(clickItemMore);
+            holder.rootLayout.setOnClickListener(clickItemMore);
             holder.rootLayout.setOnLongClickListener(longClickItem);
             return holder;
         }
@@ -86,7 +87,7 @@ public class ManageMemberActivity extends BackActivity {
             holder.rootLayout.setTag(item);
             holder.actionMore.setTag(item);
 
-            TaskObject.Members.Type memberType = item.getType();
+            MemberAuthority memberType = item.getType();
             int iconRes = memberType.getIcon();
             holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, iconRes, 0);
             iconfromNetwork(holder.image, item.user.avatar);
@@ -112,12 +113,19 @@ public class ManageMemberActivity extends BackActivity {
 
     private void actionMore(View v) {
         TeamMember user = (TeamMember) v.getTag();
-        TaskObject.Members.Type type = TaskObject.Members.Type.idToEnum(user.role);
-        if (type == TaskObject.Members.Type.ower) { // 没有账户可以管理企业所有者
-            return;
-        }
+        MemberAuthority type = MemberAuthority.idToEnum(user.role);
 
-        if (type == TaskObject.Members.Type.ower) {
+        if (type == MemberAuthority.ower) {
+            new AlertDialog.Builder(this)
+                    .setItems(R.array.manager_member_by_owner, ((dialog, which) -> {
+                        if (which == 0) {
+                            actionModifyProjectRole(user);
+                        } else if (which == 1) {
+                            actionRemove(user);
+                        }
+                    }))
+                    .show();
+        } else {
             new AlertDialog.Builder(this)
                     .setItems(R.array.manager_member_by_owner, ((dialog, which) -> {
                         if (which == 0) {
@@ -129,16 +137,7 @@ public class ManageMemberActivity extends BackActivity {
                         }
                     }))
                     .show();
-        } else if (type == TaskObject.Members.Type.manager) {
-            new AlertDialog.Builder(this)
-                    .setItems(R.array.manager_member_by_owner, ((dialog, which) -> {
-                        if (which == 0) {
-                            actionModifyProjectRole(user);
-                        } else if (which == 1) {
-                            actionRemove(user);
-                        }
-                    }))
-                    .show();
+
         }
     }
 
@@ -186,10 +185,11 @@ public class ManageMemberActivity extends BackActivity {
     }
 
     private void actionModifyProjectRole(TeamMember user) {
-
+        CommonPickProjectActivity_.intent(this)
+                .member(user)
+                .start();
     }
 
     private void actionModifyEnterpriseRole(TeamMember user) {
-
     }
 }

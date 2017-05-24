@@ -837,6 +837,10 @@
         <activity
             android:name=".project.detail.file.v2.ProjectFileMainActivity_"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.member.MemberAuthorityManualActivity_"
+            android:label="@string/title_activity_member_authority_manual"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

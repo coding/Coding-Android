@@ -28,8 +28,9 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.model.TaskObject;
 import net.coding.program.model.UserObject;
+import net.coding.program.network.constant.MemberAuthority;
+import net.coding.program.network.model.user.Member;
 import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.ProjectHomeActivity;
 
@@ -70,7 +71,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     ListView listView;
     ArrayList<Object> mSearchData = new ArrayList<>();
     ArrayList<Object> mData = new ArrayList<>();
-    TaskObject.Members mMySelf = new TaskObject.Members();
+    Member mMySelf = new Member();
     BaseAdapter adapter = new BaseAdapter() {
         private View.OnClickListener quitProject = v -> {
             new AlertDialog.Builder(getActivity())
@@ -124,11 +125,11 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             UserObject user;
             holder.ic.setVisibility(View.GONE);
 
-            if (object instanceof TaskObject.Members) {
-                TaskObject.Members data = (TaskObject.Members) object;
+            if (object instanceof Member) {
+                Member data = (Member) object;
                 user = data.user;
 
-                TaskObject.Members.Type memberType = data.getType();
+                MemberAuthority memberType = data.getType();
                 int iconRes = memberType.getIcon();
                 if (iconRes == 0) {
                     holder.ic.setVisibility(View.GONE);
@@ -162,8 +163,8 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             } else if (user.name.equals(MyApp.sUserObject.name)) {
                 holder.btn.setImageResource(R.drawable.ic_member_list_quit);
                 holder.btn.setOnClickListener(quitProject);
-                if (object instanceof TaskObject.Members) {
-                    TaskObject.Members data = (TaskObject.Members) object;
+                if (object instanceof Member) {
+                    Member data = (Member) object;
                     if (data.isOwner()) {
                         holder.btn.setVisibility(View.GONE);
                     } else {
@@ -184,8 +185,8 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             Intent intent = new Intent();
             UserObject userObject;
 
-            if (object instanceof TaskObject.Members) {
-                userObject = ((TaskObject.Members) object).user;
+            if (object instanceof Member) {
+                userObject = ((Member) object).user;
             } else {
                 userObject = (UserObject) object;
             }
@@ -202,7 +203,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             UserDynamicActivity_
                     .intent(getActivity())
                     .mProjectObject(mProjectObject)
-                    .mMember((TaskObject.Members) object)
+                    .mMember((Member) object)
                     .start();
         }
     }
@@ -224,13 +225,13 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
         if (type != Type.Pick) {
             listView.setOnItemLongClickListener((parent, view, position, id) -> {
-                TaskObject.Members member = (TaskObject.Members) mSearchData.get((int) id);
+                Member member = (Member) mSearchData.get((int) id);
 //                    if (member.user.isMe()) {
 //                        return true;
 //                    }
 
-                if (mMySelf.getType() != TaskObject.Members.Type.ower
-                        && mMySelf.getType() != TaskObject.Members.Type.manager) {
+                if (mMySelf.getType() != MemberAuthority.ower
+                        && mMySelf.getType() != MemberAuthority.manager) {
                     return true;
                 }
 
@@ -260,8 +261,8 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                         };
                         break;
                     case manager:
-                        if (member.getType() == TaskObject.Members.Type.manager
-                                || member.getType() == TaskObject.Members.Type.ower) {
+                        if (member.getType() == MemberAuthority.manager
+                                || member.getType() == MemberAuthority.ower) {
                             items = new String[]{
                                     "修改备注"
                             };
@@ -310,15 +311,16 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         setHasOptionsMenu(true);
     }
 
-    private void modifyMemberAuthority(TaskObject.Members member) {
+    private void modifyMemberAuthority(Member member) {
         MemberAuthorityActivity_.intent(this)
-                .member(member)
+                .authority(member.getType())
+                .globayKey(member.user.global_key)
                 .me(mMySelf)
                 .projectId(mProjectObject.getId())
                 .startForResult(RESULT_MODIFY_AUTHORITY);
     }
 
-    private void modifyMemberAlias(TaskObject.Members member) {
+    private void modifyMemberAlias(Member member) {
         UserObject user = member.user;
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_input_alias, null);
         EditText input = (EditText) v.findViewById(R.id.edit1);
@@ -352,7 +354,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                 .show();
     }
 
-    private void removeMember(TaskObject.Members member) {
+    private void removeMember(Member member) {
         UserObject user = member.user;
         new AlertDialog.Builder(getActivity())
                 .setMessage(String.format("确定移除 %s ?", user.name))
@@ -372,8 +374,8 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         } else {
             for (Object item : mData) {
                 UserObject user;
-                if (item instanceof TaskObject.Members) {
-                    user = ((TaskObject.Members) item).user;
+                if (item instanceof Member) {
+                    user = ((Member) item).user;
                 } else {
                     user = (UserObject) item;
                 }
@@ -400,9 +402,9 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     @OptionsItem
     void action_add() {
         ArrayList<String> picks = new ArrayList<>();
-        if (mSearchData != null && mSearchData.size() > 0 && mSearchData.get(0) instanceof TaskObject.Members) {
+        if (mSearchData != null && mSearchData.size() > 0 && mSearchData.get(0) instanceof Member) {
             for (Object item : mSearchData) {
-                picks.add(((TaskObject.Members) item).user.global_key);
+                picks.add(((Member) item).user.global_key);
             }
         }
         CodingCompat.instance().launchAddMemberActivity(this, mProjectObject, picks, RESULT_ADD_USER);
@@ -465,7 +467,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                         parseUser(members);
                     } else {
                         for (int i = 0; i < members.length(); ++i) {
-                            TaskObject.Members member = new TaskObject.Members(members.getJSONObject(i));
+                            Member member = new Member(members.getJSONObject(i));
                             if (member.isOwner()) {
                                 mData.add(0, member);
                             } else {

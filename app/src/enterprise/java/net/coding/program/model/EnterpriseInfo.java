@@ -41,6 +41,12 @@ public class EnterpriseInfo {
         return identity == UserIdentity.owner || identity == UserIdentity.manager;
     }
 
+    // 是否企业所有者
+    public boolean isOwner() {
+        UserIdentity identity = detail.getIdentity();
+        return identity == UserIdentity.owner;
+    }
+
     public String getAvatar() {
         return detail.getAvatar();
     }

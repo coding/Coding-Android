@@ -23,8 +23,8 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskCountModel;
 import net.coding.program.model.TaskLabelModel;
-import net.coding.program.model.TaskObject;
 import net.coding.program.model.TaskProjectCountModel;
+import net.coding.program.network.model.user.Member;
 import net.coding.program.project.detail.TaskFilterFragment;
 import net.coding.program.project.detail.TaskListFragment;
 import net.coding.program.project.detail.TaskListFragment_;
@@ -403,7 +403,7 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
         public Fragment getItem(int position) {
             TaskListFragment_ fragment = new TaskListFragment_();
             Bundle bundle = new Bundle();
-            bundle.putSerializable("mMembers", new TaskObject.Members(AccountInfo.loadAccount(getActivity())));
+            bundle.putSerializable("mMembers", new Member(AccountInfo.loadAccount(getActivity())));
             bundle.putSerializable("mProjectObject", mData.get(position));
             bundle.putBoolean("mShowAdd", false);
 

@@ -2,7 +2,6 @@ package net.coding.program.model;
 
 import android.text.Html;
 
-import net.coding.program.R;
 import net.coding.program.task.add.TaskAddActivity;
 
 import org.json.JSONArray;
@@ -20,113 +19,6 @@ public class TaskObject {
 
     public static int STATUS_PRECESS = 1;
     public static int STATUS_FINISH = 2;
-
-    public static class Members implements Serializable {
-
-        public long created_at;
-        public int id;
-        public long last_visit_at;
-        public int project_id;
-        public int user_id;
-        public String alias = "";
-        public UserObject user = new UserObject();
-        private int type;
-        public Members(JSONObject json) {
-            created_at = json.optLong("created_at");
-            id = json.optInt("id");
-            last_visit_at = json.optLong("last_visit_at");
-            project_id = json.optInt("project_id");
-            type = json.optInt("type");
-            user_id = json.optInt("user_id");
-            alias = json.optString("alias");
-
-            if (json.has("user")) {
-                user = new UserObject(json.optJSONObject("user"));
-            }
-        }
-
-        public Members(UserObject data) {
-            created_at = data.created_at;
-            id = data.id;
-            last_visit_at = data.last_activity_at;
-            project_id = 0;
-            type = 0;
-            user_id = data.id;
-            user = data;
-        }
-
-        public Members() {
-        }
-
-        public Type getType() {
-            for (Type item : Type.values()) {
-                if (item.type == type) {
-                    return item;
-                }
-            }
-
-            return Type.member;
-        }
-
-        public boolean isOwner() {
-            return getType() == Type.ower;
-        }
-
-        public boolean isMe() {
-            return user.isMe();
-        }
-
-        public enum Type {
-            ower(100),
-            member(80),
-            manager(90),
-            limited(75),
-            noJoin(-1);
-
-            public int type;
-
-            Type(int type) {
-                this.type = type;
-            }
-
-            public static boolean canReadCode(int type) {
-                return type >= member.type;
-            }
-
-            public static boolean canManagerMember(int type) {
-                return type >= manager.type;
-            }
-
-            public static Type idToEnum(int id) {
-                if (ower.type == id) {
-                    return ower;
-                } else if (member.type == id) {
-                    return member;
-                } else if (manager.type == id) {
-                    return manager;
-                } else {
-                    return limited;
-                }
-            }
-
-            public int getIcon() {
-                switch (this) {
-                    case ower:
-                        return R.drawable.ic_project_member_create;
-                    case manager:
-                        return R.drawable.ic_project_member_manager;
-                    case limited:
-                        return R.drawable.ic_project_member_limited;
-                    default: // member
-                        return 0;
-                }
-            }
-
-            public int getType() {
-                return type;
-            }
-        }
-    }
 
     public static class TaskDescription implements Serializable {
         public String description = "";
@@ -274,7 +166,7 @@ public class TaskObject {
         }
 
         public String getHttpRemoveLabal(int labelId) {
-            return String.format("%s/task/%d/label/%d", project.getHttpProjectApi(), id, labelId);
+            return String.format("%s/task/%s/label/%s", project.getHttpProjectApi(), id, labelId);
         }
 
         public int getNumberValue() {

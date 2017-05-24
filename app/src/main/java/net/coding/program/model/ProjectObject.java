@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import net.coding.program.MyApp;
 import net.coding.program.common.Global;
+import net.coding.program.network.constant.MemberAuthority;
 import net.coding.program.param.ProjectJumpParam;
 
 import org.json.JSONException;
@@ -209,11 +210,11 @@ public class ProjectObject implements Serializable {
     }
 
     public boolean canReadCode() {
-        return TaskObject.Members.Type.canReadCode(current_user_role_id);
+        return MemberAuthority.canReadCode(current_user_role_id);
     }
 
     public boolean canManagerMember() {
-        return TaskObject.Members.Type.canManagerMember(current_user_role_id);
+        return MemberAuthority.canManagerMember(current_user_role_id);
     }
 
     public boolean isJoined() {
@@ -416,7 +417,7 @@ public class ProjectObject implements Serializable {
     }
 
     public boolean isManagerLevel() {
-        return current_user_role_id >= TaskObject.Members.Type.manager.type;
+        return current_user_role_id >= MemberAuthority.manager.type;
     }
 
 }

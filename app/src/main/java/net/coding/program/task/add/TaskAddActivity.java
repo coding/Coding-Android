@@ -51,6 +51,7 @@ import net.coding.program.model.RefResourceObject;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.UserObject;
+import net.coding.program.network.model.user.Member;
 import net.coding.program.param.MessageParse;
 import net.coding.program.project.detail.MembersActivity_;
 import net.coding.program.project.detail.TaskListFragment;
@@ -1013,7 +1014,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             mSingleTask.project = project;
             mSingleTask.project_id = project.getId();
 
-            TaskObject.Members member = new TaskObject.Members(MyApp.sUserObject);
+            Member member = new Member(MyApp.sUserObject);
             setPickUser(member);
 
             uiBindDataProject();
@@ -1086,7 +1087,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     }
 
     @OnActivityResult(RESULT_REQUEST_SELECT_USER)
-    void resultSelectUser(int resultCode, @OnActivityResult.Extra TaskObject.Members members) {
+    void resultSelectUser(int resultCode, @OnActivityResult.Extra Member members) {
         if (resultCode == Activity.RESULT_OK) {
             setPickUser(members);
         }
@@ -1165,7 +1166,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         descriptionButtonUpdate(false);
     }
 
-    private void setPickUser(TaskObject.Members member) {
+    private void setPickUser(Member member) {
         mNewParam.ownerId = member.user.id;
         mNewParam.owner = member.user;
         selectMember();

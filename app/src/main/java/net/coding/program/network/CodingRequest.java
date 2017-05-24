@@ -7,6 +7,7 @@ import net.coding.program.network.model.HttpResult;
 import net.coding.program.network.model.file.CodingFile;
 import net.coding.program.network.model.file.UploadToken;
 import net.coding.program.network.model.user.ManagerUser;
+import net.coding.program.network.model.user.MemberRole;
 import net.coding.program.network.model.wiki.Wiki;
 import net.coding.program.network.model.wiki.WikiHistory;
 
@@ -69,7 +70,7 @@ public interface CodingRequest {
 
     @DELETE("project/{projectId}/file/delete")
     Observable<HttpResult<Integer>> deleteFiles(@Path("projectId") int projectId,
-                                           @Query("fileIds") ArrayList<Integer> files);
+                                                @Query("fileIds") ArrayList<Integer> files);
 
     @FormUrlEncoded
     @POST("user/{user}/project/{project}/folder/{folder}/move-files")
@@ -81,9 +82,9 @@ public interface CodingRequest {
     @FormUrlEncoded
     @PUT("user/{user}/project/{project}/folder/{folder}")
     Observable<HttpResult<Boolean>> renameFile(@Path("user") String user,
-                                          @Path("project") String project,
-                                          @Path("folder") int folder,
-                                          @Field("name") String name);
+                                               @Path("project") String project,
+                                               @Path("folder") int folder,
+                                               @Field("name") String name);
 
     @GET("user/2fa/method")
     Observable<HttpResult<String>> need2FA();
@@ -93,14 +94,26 @@ public interface CodingRequest {
     Observable<BaseHttpResult> deleteProject(@Path("projectPath") String projectPath,
                                              @Field("two_factor_code") String twoFA);
 
-
     // 我参与的项目
     @GET("projects")
     Observable<HttpPageResult<ProjectObject>> getProjects();
 
-//     企业所有者获取全部项目
-    @GET("team/{user}/projects")
-    Observable<HttpResult<List<ProjectObject>>> getManagerProjects(@Path("user") String user);
+    // 获取企业全部项目
+    @GET("team/{enterprise}/projects")
+    Observable<HttpResult<List<ProjectObject>>> getManagerProjects(@Path("enterprise") String enterprise);
+
+    // 获取某个成员在全部项目中的权限
+    @GET("team/{enterprise}/member/{user}/projects/role")
+    Observable<HttpResult<List<MemberRole>>> getUserJoinedProjects(@Path("enterprise") String enterprise,
+                                                                   @Path("user") String user);
+
+    //  修改成员在项目中的权限
+    @FormUrlEncoded
+    @POST("team/{enterprise}/member/{user}/projects/role")
+    Observable<HttpResult<BaseHttpResult>> setUserJoinedProjects(@Path("enterprise") String enterprise,
+                                                                 @Path("user") String user,
+                                                                 @Field("projects") String projects,
+                                                                 @Field("roles") String roles);
 
     //     企业所有者获取参与中的项目中自己的个人信息
     @GET("team/{user}/members")

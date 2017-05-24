@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 /**
  * Created by chenchao on 16/9/12.
+ *
  */
 public class TeamListObject implements Serializable {
 

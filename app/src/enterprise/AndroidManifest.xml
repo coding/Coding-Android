@@ -862,6 +862,11 @@
             android:label="@string/title_manage_order_activity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".setting.CommonPickProjectActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_common_pick_project"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".guide.EnterpriseGuideActivity_"
             android:icon="@drawable/ic_lancher"
             android:theme="@style/AppThemeNoActionbar"

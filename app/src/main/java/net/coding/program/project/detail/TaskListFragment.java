@@ -31,6 +31,7 @@ import net.coding.program.event.EventFilterDetail;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
+import net.coding.program.network.model.user.Member;
 import net.coding.program.task.TaskListUpdate;
 import net.coding.program.task.add.TaskAddActivity_;
 
@@ -95,7 +96,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     @FragmentArg
     String mKeyword;
     @FragmentArg
-    TaskObject.Members mMembers;
+    Member mMembers;
     @FragmentArg
     ProjectObject mProjectObject;
     @ViewById

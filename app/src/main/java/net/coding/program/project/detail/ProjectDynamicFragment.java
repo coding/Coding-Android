@@ -18,7 +18,7 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.model.TaskObject;
+import net.coding.program.network.model.user.Member;
 import net.coding.program.project.DateSectionDynamicAdapter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -48,7 +48,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
     @FragmentArg
     protected int mUser_id;
     @FragmentArg
-    protected TaskObject.Members mMember;
+    protected Member mMember;
     @ViewById
     protected View blankLayout;
     @ViewById
