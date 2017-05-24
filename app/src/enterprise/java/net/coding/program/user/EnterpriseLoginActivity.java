@@ -44,8 +44,8 @@ import net.coding.program.login.phone.EnterpriseEmailSetPasswordActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.EnterpriseDetail;
 import net.coding.program.model.EnterpriseInfo;
-import net.coding.program.model.UserIdentity;
 import net.coding.program.model.UserObject;
+import net.coding.program.network.constant.MemberAuthority;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -426,7 +426,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
                  boolean isAdmin = respanse.optBoolean("data", false);
                 if (isAdmin) {
                     if (!EnterpriseInfo.instance().canManagerEnterprise()) {
-                        enterpriseDetail.setIdentity(UserIdentity.manager);
+                        enterpriseDetail.setIdentity(MemberAuthority.manager);
                     }
                 }
                 jumpMainActivity();

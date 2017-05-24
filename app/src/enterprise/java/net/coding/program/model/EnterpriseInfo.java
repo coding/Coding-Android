@@ -2,6 +2,8 @@ package net.coding.program.model;
 
 import android.content.Context;
 
+import net.coding.program.network.constant.MemberAuthority;
+
 /**
  * Created by chenchao on 2017/1/5.
  */
@@ -32,19 +34,18 @@ public class EnterpriseInfo {
         EnterpriseAccountInfo.saveEnterpriseDetail(context, detail);
     }
 
-    public UserIdentity getIdentity() {
+    public MemberAuthority getIdentity() {
         return detail.getIdentity();
     }
 
     public boolean canManagerEnterprise() {
-        UserIdentity identity = detail.getIdentity();
-        return identity == UserIdentity.owner || identity == UserIdentity.manager;
+        MemberAuthority identity = detail.getIdentity();
+        return identity == MemberAuthority.ower || identity == MemberAuthority.manager;
     }
 
     // 是否企业所有者
     public boolean isOwner() {
-        UserIdentity identity = detail.getIdentity();
-        return identity == UserIdentity.owner;
+        return detail.getIdentity() == MemberAuthority.ower;
     }
 
     public String getAvatar() {

@@ -1,5 +1,7 @@
 package net.coding.program.model;
 
+import net.coding.program.network.constant.MemberAuthority;
+
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -28,7 +30,8 @@ public class EnterpriseDetail implements Serializable {
     public int id;
     public UserObject owner;
 
-    private UserIdentity identity = UserIdentity.normal; // 是否管理员，这个字段来自另一个 api，感觉专门写个类没必要
+    // 企业所有者，管理员，普通成员, 这个字段来自另一个 api，感觉专门写个类没必要
+    private MemberAuthority identity = MemberAuthority.member;
 
     public EnterpriseDetail(JSONObject json) {
         id = json.optInt("id");
@@ -50,16 +53,16 @@ public class EnterpriseDetail implements Serializable {
             owner = new UserObject(json.optJSONObject("owner"));
 
             if (owner.isMe()) {
-                identity = UserIdentity.owner;
+                identity = MemberAuthority.ower;
             }
         }
     }
 
-    public void setIdentity(UserIdentity identity) {
+    public void setIdentity(MemberAuthority identity) {
         this.identity = identity;
     }
 
-    public UserIdentity getIdentity() {
+    public MemberAuthority getIdentity() {
         return identity;
     }
 
