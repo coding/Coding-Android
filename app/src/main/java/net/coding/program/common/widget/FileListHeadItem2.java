@@ -132,7 +132,12 @@ public class FileListHeadItem2 extends FrameLayout {
         String fileName = file.getName();
         MultipartBody.Part part = MultipartBody.Part.createFormData("file", fileName, body);
 
-        RequestBody key = RequestBody.create(MultipartBody.FORM, UUID.randomUUID().toString());
+        String suffix = "";
+        int pos;
+        if ((pos = fileName.lastIndexOf('.')) != -1) {
+            suffix = fileName.substring(pos, fileName.length());
+        }
+        RequestBody key = RequestBody.create(MultipartBody.FORM, UUID.randomUUID().toString() + suffix);
         RequestBody dir = RequestBody.create(MultipartBody.FORM, String.valueOf(postParam.folderId));
         RequestBody projectId = RequestBody.create(MultipartBody.FORM, String.valueOf(postParam.projectId));
         RequestBody token = RequestBody.create(MultipartBody.FORM, data.uptoken);
