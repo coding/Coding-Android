@@ -48,7 +48,6 @@ import net.coding.program.project.detail.AttachmentsFolderSelectorActivity_;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity_;
 import net.coding.program.project.detail.AttachmentsPhotoDetailActivity_;
 import net.coding.program.project.detail.AttachmentsTextDetailActivity_;
-import net.coding.program.project.detail.ProjectAttachmentFragment;
 import net.coding.program.project.detail.file.FileSaveHelp;
 
 import org.androidannotations.annotations.AfterViews;
@@ -74,17 +73,16 @@ import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
 
 /**
  * Created by chenchao on 2017/5/15.
- *
+ * 新的项目文件列表
  */
 @EActivity(R.layout.project_file_listview)
 @OptionsMenu(R.menu.project_file_listview)
 public class ProjectFileMainActivity extends BackActivity implements UploadCallback, FileDownloadCallback {
 
-    public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
-    public static final int FILE_SELECT_CODE = 10;
-    public static final int FILE_DELETE_CODE = 11;
-    public static final int FILE_MOVE_CODE = 12;
-    public static final int RESULT_MOVE_FOLDER = 13;
+    public static final int RESULT_REQUEST_PICK_PHOTO = 8;
+    public static final int RESULT_MOVE_FOLDER = 9;
+    public static final int FILE_SELECT_FILE = 10;
+    public static final int RESULT_FILE_DETAIL = 11;
 
     @Extra
     ProjectObject project;
@@ -206,7 +204,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
             ProjectFileMainActivity_.intent(context)
                     .project(project)
                     .parentFolder(fileObject)
-                    .startForResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES);
+                    .startForResult(RESULT_FILE_DETAIL);
         } else {
             AttachmentFolderObject folder = new AttachmentFolderObject(parentFolder);
             AttachmentFileObject attachmentFile = new AttachmentFileObject(fileObject);
@@ -220,14 +218,14 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                         .mAttachmentFolderObject(folder)
                         .mAttachmentFileObject(attachmentFile)
                         .mProject(project)
-                        .startForResult(FILE_DELETE_CODE);
+                        .startForResult(RESULT_FILE_DETAIL);
             } else {
                 AttachmentsDownloadDetailActivity_.intent(context)
                         .mProjectObjectId(project.getId())
                         .mAttachmentFolderObject(folder)
                         .mAttachmentFileObject(attachmentFile)
                         .mProject(project)
-                        .startForResult(FILE_DELETE_CODE);
+                        .startForResult(RESULT_FILE_DETAIL);
             }
         }
     }
@@ -242,7 +240,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                     .mAttachmentFolderObject(mAttachmentFolderObject)
                     .mAttachmentFileObject(data)
                     .mProject(project)
-                    .startForResult(FILE_DELETE_CODE);
+                    .startForResult(RESULT_FILE_DETAIL);
 
         } else if (AttachmentFileObject.isMd(data.fileType)) {
             AttachmentsHtmlDetailActivity_
@@ -251,7 +249,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                     .mAttachmentFolderObject(mAttachmentFolderObject)
                     .mAttachmentFileObject(data)
                     .mProject(project)
-                    .startForResult(FILE_DELETE_CODE);
+                    .startForResult(RESULT_FILE_DETAIL);
 
         } else if (data.isImage()) {
             AttachmentsPhotoDetailActivity_
@@ -260,14 +258,14 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                     .mAttachmentFolderObject(mAttachmentFolderObject)
                     .mAttachmentFileObject(data)
                     .mProject(project)
-                    .startForResult(FILE_DELETE_CODE);
+                    .startForResult(RESULT_FILE_DETAIL);
         } else {
             AttachmentsDownloadDetailActivity_.intent(context)
                     .mProjectObjectId(project.getId())
                     .mAttachmentFolderObject(mAttachmentFolderObject)
                     .mAttachmentFileObject(data)
                     .mProject(project)
-                    .startForResult(FILE_DELETE_CODE);
+                    .startForResult(RESULT_FILE_DETAIL);
         }
     }
 
@@ -392,7 +390,11 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
                                         umengEvent(UmengEvent.FILE, "新建文件夹");
                                         parentFolder.count++;
-                                        listData.add(0, data);
+                                        int insertPos = 0;
+                                        if (!listData.isEmpty() && listData.get(0).isShareFolder()) {
+                                            insertPos = 1;
+                                        }
+                                        listData.add(insertPos, data);
                                         listAdapter.notifyDataSetChanged();
                                         setResult(Activity.RESULT_OK);
                                     }
@@ -418,7 +420,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                             intent.addCategory(Intent.CATEGORY_OPENABLE);
                             try {
                                 startActivityForResult(Intent.createChooser(intent, "请选择一个要上传的文件"),
-                                        FILE_SELECT_CODE);
+                                        FILE_SELECT_FILE);
                             } catch (android.content.ActivityNotFoundException ex) {
                                 showButtomToast("请安装文件管理器");
                             }
@@ -557,6 +559,13 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                         showButtomToast("移动成功");
                     }
                 });
+    }
+
+    @OnActivityResult(RESULT_FILE_DETAIL)
+    void onResultDetail(int resultCode) {
+        if (resultCode == RESULT_OK) {
+            onRefresh();
+        }
     }
 
     private boolean checkIsEmpty() {
@@ -701,6 +710,8 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
                         listAdapter.notifyDataSetChanged();
                         showButtomToast("删除成功");
+
+                        setResultChanged();
                     }
 
                     @Override
@@ -708,6 +719,10 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                         super.onFail(errorCode, error);
                     }
                 });
+    }
+
+    private void setResultChanged() {
+        setResult(RESULT_OK);
     }
 
     @NonNull
@@ -729,7 +744,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
     }
 
-    @OnActivityResult(FILE_SELECT_CODE)
+    @OnActivityResult(FILE_SELECT_FILE)
     void onResult(int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
@@ -894,6 +909,8 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
     public void completed(BaseDownloadTask task) {
         Logger.d(String.format("completed %s\n", task.getUrl()));
         updateItem(task.getUrl(), CodingFile.MAX_PROGRESS);
+
+        setResult(RESULT_OK);
     }
 
     @Override
