@@ -1,22 +1,36 @@
 package net.coding.program.setting;
 
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 
 import net.coding.program.EnterpriseApp;
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
+import net.coding.program.login.auth.AuthInfo;
+import net.coding.program.login.auth.TotpClock;
+import net.coding.program.model.AccountInfo;
 import net.coding.program.model.EnterpriseInfo;
 import net.coding.program.model.team.TeamMember;
+import net.coding.program.network.BaseHttpObserver;
+import net.coding.program.network.Network;
 import net.coding.program.network.constant.MemberAuthority;
 
 import org.androidannotations.annotations.AfterViews;
@@ -30,8 +44,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 @EActivity(R.layout.activity_manage_member)
-public class ManageMemberActivity extends BackActivity {
+public class ManageMemberActivity extends BackActivity implements Handler.Callback {
 
     private static final String TAG_PROJECT = "TAG_PROJECT";
 
@@ -57,6 +74,8 @@ public class ManageMemberActivity extends BackActivity {
         listView.enableDefaultSwipeRefresh(true);
 
         onRefresh();
+
+        hander2fa = new WeakRefHander(this, 100);
     }
 
     private void onRefresh() {
@@ -182,8 +201,71 @@ public class ManageMemberActivity extends BackActivity {
         }
     }
 
-    private void actionRemove(TeamMember user) {
+    Handler hander2fa;
+    private EditText edit2fa;
 
+    private void actionRemove(TeamMember user) {
+        hander2fa.sendEmptyMessage(0);
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View textEntryView = factory.inflate(R.layout.dialog_delete_project_2fa, null);
+        edit2fa = (EditText) textEntryView.findViewById(R.id.edit1);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog dialog = builder
+                .setView(textEntryView)
+                .setPositiveButton("确定", (dialog1, whichButton) -> {
+                    String editStr1 = edit2fa.getText().toString().trim();
+                    if (TextUtils.isEmpty(editStr1)) {
+                        Toast.makeText(ManageMemberActivity.this, "密码不能为空", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    actionDelete2FA(user, editStr1);
+                })
+                .setNegativeButton("取消", null)
+                .show();
+
+        dialog.setOnDismissListener(dialog1 -> {
+            hander2fa.removeMessages(0);
+            edit2fa = null;
+        });
+    }
+
+    private void actionDelete2FA(TeamMember user, String code) {
+        Network.getRetrofit(this)
+                .removeEnterpriseMember(MyApp.getEnterpriseGK(), user.user.global_key, code)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseHttpObserver(this) {
+                    @Override
+                    public void onSuccess() {
+                        super.onSuccess();
+                        showProgressBar(false);
+
+                        listData.remove(user);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, @NonNull String error) {
+                        super.onFail(errorCode, error);
+                        showProgressBar(false);
+                    }
+                });
+
+        showProgressBar(true);
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        if (edit2fa != null) {
+            String secret = AccountInfo.loadAuth(this, MyApp.sUserObject.global_key);
+            if (secret.isEmpty()) {
+                return true;
+            }
+
+            String code2FA = new AuthInfo(secret, new TotpClock(this)).getCode();
+            edit2fa.setText(code2FA);
+        }
+        return true;
     }
 
     private void actionModifyProjectRole(TeamMember user) {

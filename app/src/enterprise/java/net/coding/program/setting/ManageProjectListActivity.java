@@ -273,7 +273,6 @@ public class ManageProjectListActivity extends BackActivity {
         edit2fa = (EditText) textEntryView.findViewById(R.id.edit1);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         AlertDialog dialog = builder
-                .setTitle("需要验证码")
                 .setView(textEntryView)
                 .setPositiveButton("确定", (dialog1, whichButton) -> {
                     String editStr1 = edit2fa.getText().toString().trim();

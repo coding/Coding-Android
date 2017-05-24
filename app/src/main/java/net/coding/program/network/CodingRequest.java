@@ -132,4 +132,9 @@ public interface CodingRequest {
                                                  @Path("user") String user,
                                                  @Path("role") int role);
 
+    @DELETE("team/{enterprise}/member/{user}")
+    Observable<BaseHttpResult> removeEnterpriseMember(@Path("enterprise") String enterprise,
+                                                      @Path("user") String user,
+                                                      @Query("two_factor_code") String code);
+
 }
