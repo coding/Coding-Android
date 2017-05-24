@@ -37,6 +37,7 @@ import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -58,7 +59,6 @@ public class ManageProjectListActivity extends BackActivity {
 
     Handler hander2fa;
     private EditText edit2fa;
-
 
     @AfterViews
     void initManageProjectListActivity() {
@@ -131,6 +131,17 @@ public class ManageProjectListActivity extends BackActivity {
                 });
     }
 
+    public static class DynamicSectionHolder extends UltimateRecyclerviewViewHolder {
+
+        public static final int LAYOUT = R.layout.fragment_project_dynamic_list_head;
+
+        public TextView head;
+
+        public DynamicSectionHolder(View v) {
+            super(v);
+            head = (TextView) v.findViewById(R.id.head);
+        }
+    }
     protected class ProjectAdapter extends CommonAdapter<ProjectObject, ProjectHolder> {
 
         public ProjectAdapter(List<ProjectObject> list) {
@@ -163,7 +174,11 @@ public class ManageProjectListActivity extends BackActivity {
 
         @Override
         public long generateHeaderId(int i) {
-            return super.generateHeaderId(i);
+            if (getItem(i).isJoined()) {
+                return 0;
+            } else {
+                return 1;
+            }
         }
 
         @Override
@@ -173,12 +188,18 @@ public class ManageProjectListActivity extends BackActivity {
 
         @Override
         public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int pos) {
-            super.onBindHeaderViewHolder(viewHolder, pos);
+            DynamicSectionHolder holder = (DynamicSectionHolder) viewHolder;
+            if (generateHeaderId(pos) == 0) {
+                holder.head.setText("我参与的");
+            } else {
+                holder.head.setText("我未参与的");
+            }
         }
 
         @Override
         public UltimateRecyclerviewViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
-            return super.onCreateHeaderViewHolder(parent);
+            View v = LayoutInflater.from(parent.getContext()).inflate(DynamicSectionHolder.LAYOUT, parent, false);
+            return new DynamicSectionHolder(v);
         }
 
         @Override
@@ -326,6 +347,11 @@ public class ManageProjectListActivity extends BackActivity {
                         adapter.notifyDataSetChanged();
                     }
                 });
+    }
+
+    @OnActivityResult(InitProUtils.REQUEST_PRO_UPDATE)
+    void onResultUpdate(int resultCode) {
+        onRefresh();
     }
 
 }
