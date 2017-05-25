@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -40,6 +41,7 @@ public class FileListHeadItem2 extends FrameLayout {
 
     UploadCallback callback;
     Param postParam;
+    private Subscription subscription;
 
     public FileListHeadItem2(Context context) {
         super(context);
@@ -146,7 +148,7 @@ public class FileListHeadItem2 extends FrameLayout {
         RequestBody authToken = RequestBody.create(MultipartBody.FORM, data.authToken);
         RequestBody userId = RequestBody.create(MultipartBody.FORM, String.valueOf(data.userId));
 
-        Network.getRetrofitLoad(getContext())
+        subscription = Network.getRetrofitLoad(getContext())
                 .uploadFile(part, key, dir, projectId, token, time, authToken, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -154,7 +156,7 @@ public class FileListHeadItem2 extends FrameLayout {
                     @Override
                     public void onSuccess(CodingFile data) {
                         super.onSuccess(data);
-
+                        subscription = null;
                         ((ViewGroup) getParent()).removeView(FileListHeadItem2.this);
                         callback.onSuccess(data);
                     }
@@ -169,7 +171,11 @@ public class FileListHeadItem2 extends FrameLayout {
 
 
     private void stopUpload() {
-        // TODO: 2017/5/17 停止上传 未实现
+        if (subscription != null && !subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+            subscription = null;
+            ((ViewGroup) getParent()).removeView(this);
+        }
     }
 
     public static class Param {

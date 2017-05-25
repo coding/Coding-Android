@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.orhanobut.logger.Logger;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

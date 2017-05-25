@@ -31,7 +31,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Network {
 
     private static final int MAX_STALE = 60 * 60 * 24 * 28; // 无网络时，设置超时为4周
-    public static String BASE_URL = Global.HOST_API + "/";
 
     public static CodingRequest getRetrofit(Context context) {
         return getRetrofit(context, CacheType.noCache, null);
@@ -130,7 +129,7 @@ public class Network {
         };
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(Global.HOST_API + "/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(generateClient(context, interceptorCookie, cacheType, true))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
