@@ -15,7 +15,6 @@ import net.coding.program.common.Global;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.UserObject;
-import net.coding.program.model.project.ProjectServiceInfo;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -29,7 +28,6 @@ import java.util.ArrayList;
 @EActivity(R.layout.activity_enterprise_add_member)
 public class EnterpriseAddMemberActivity extends BaseEnterpriseUserListActivity {
 
-    private static final String TAG_SERVICE_INFO = "TAG_SERVICE_INFO";
     private static final String TAG_HOST_ADD_USER = "TAG_HOST_ADD_USER";
     private static final String TAG_HOST_DELETE_USER = "TAG_HOST_DELETE_USER";
 
@@ -47,12 +45,9 @@ public class EnterpriseAddMemberActivity extends BaseEnterpriseUserListActivity 
     @ViewById
     protected ListView listView;
 
-    ProjectServiceInfo serviceInfo;
-
     @AfterViews
     void initEnterpriseAddMemberActivity() {
         listView.setAdapter(adapter);
-        loadServiceInfo();
     }
 
     @Override
@@ -86,8 +81,6 @@ public class EnterpriseAddMemberActivity extends BaseEnterpriseUserListActivity 
                 pickedData.add((UserObject) data);
 
                 showMiddleToast(String.format("添加项目成员 %s 成功", ((UserObject) data).name));
-                serviceInfo.member++;
-                AddFollowActivity.bindData(maxUserCount, serviceInfo);
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -98,34 +91,20 @@ public class EnterpriseAddMemberActivity extends BaseEnterpriseUserListActivity 
                 pickedData.remove((UserObject) data);
 
                 showMiddleToast(String.format("移除项目成员 %s 成功", ((UserObject) data).name));
-                serviceInfo.member--;
-                AddFollowActivity.bindData(maxUserCount, serviceInfo);
             } else {
                 showErrorMsg(code, respanse);
             }
             adapter.notifyDataSetChanged();
 
-        } else if (tag.equals(TAG_SERVICE_INFO)) {
-            if (code == 0) {
-                serviceInfo = new ProjectServiceInfo(respanse.optJSONObject("data"));
-                AddFollowActivity.bindData(maxUserCount, serviceInfo);
-            } else {
-                showErrorMsg(code, respanse);
-            }
         } else {
             super.parseJson(code, respanse, tag, pos, data);
         }
     }
 
-    private void loadServiceInfo() {
-        final String url = projectObject.getHttpProjectApi() + "/service_info";
-        getNetwork(url, TAG_SERVICE_INFO);
-    }
-
     private View.OnClickListener clickMutual = v -> {
         UserObject user = (UserObject) v.getTag(R.id.followed);
         if (((CheckBox) v).isChecked()) {
-            final String urlAddUser = Global.HOST_API + projectObject.getProjectPath() + "/members/gk/add";
+            final String urlAddUser = Global.HOST_API + "/project/" + projectObject.id + "/members/gk/add";
             RequestParams param = new RequestParams();
             param.put("users", user.global_key);
             postNetwork(urlAddUser, param, TAG_HOST_ADD_USER, -1, user);

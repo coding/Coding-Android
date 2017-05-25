@@ -286,8 +286,7 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
     }
 
     protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle);
-        AlertDialog dialog = builder.setTitle(title)
+        new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle).setTitle(title)
                 .setMessage(msg)
                 .setPositiveButton("确定", clickOk)
                 .setNegativeButton("取消", null)

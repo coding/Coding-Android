@@ -74,16 +74,11 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     Member mMySelf = new Member();
     BaseAdapter adapter = new BaseAdapter() {
         private View.OnClickListener quitProject = v -> {
-            new AlertDialog.Builder(getActivity())
-                    .setTitle("退出项目")
-                    .setMessage(String.format("您确定要退出 %s 项目吗？", mProjectObject.name))
-                    .setPositiveButton("确定", (dialog1, which) -> {
-                        RequestParams params = new RequestParams();
-                        postNetwork(urlQuit, params, urlQuit);
-                    })
-                    .setNegativeButton("取消", null)
-                    .show();
-
+            String message = String.format("您确定要退出 %s 项目吗？", mProjectObject.name);
+            showDialog("退出项目", message, (dialog1, which) -> {
+                RequestParams params = new RequestParams();
+                postNetwork(urlQuit, params, urlQuit);
+            });
         };
 
         @Override
@@ -160,7 +155,8 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
             if (type == Type.Pick) {
                 holder.btn.setVisibility(View.GONE);
-            } else if (user.name.equals(MyApp.sUserObject.name)) {
+            } else if (user.name.equals(MyApp.sUserObject.name) && MyApp.getEnterpriseGK().isEmpty()) {
+                // 企业版中去除 退出 按钮
                 holder.btn.setImageResource(R.drawable.ic_member_list_quit);
                 holder.btn.setOnClickListener(quitProject);
                 if (object instanceof Member) {
