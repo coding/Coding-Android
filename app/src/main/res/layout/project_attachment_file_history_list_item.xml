@@ -51,14 +51,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="middle"
-                android:singleLine="true"
-                android:text="Medium Text"
-                android:textColor="@color/font_1"
-                android:textSize="17sp" />
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="middle"
+                    android:lines="1"
+                    android:text="Medium Text"
+                    android:textColor="@color/font_1"
+                    android:textSize="17sp"/>
 
             <LinearLayout
                 android:id="@+id/desc_layout"
@@ -68,23 +68,23 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="5dp"
-                    android:singleLine="true"
-                    android:text="UserName"
-                    android:textColor="@color/font_green"
-                    android:textSize="12sp" />
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="5dp"
+                        android:lines="1"
+                        android:text="UserName"
+                        android:textColor="@color/font_green"
+                        android:textSize="12sp"/>
 
                 <TextView
-                    android:id="@+id/desc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="Medium Text"
-                    android:textColor="@color/font_3"
-                    android:textSize="12sp" />
+                        android:id="@+id/desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:text="Medium Text"
+                        android:textColor="@color/font_3"
+                        android:textSize="12sp"/>
 
             </LinearLayout>
 

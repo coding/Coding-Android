@@ -36,27 +36,27 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:text="位置"
-            android:textColor="@color/font_2"
-            android:textSize="15sp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:maxLines="1"
+                android:lines="1"
+                android:text="位置"
+                android:textColor="@color/font_2"
+                android:textSize="15sp"/>
 
         <TextView
-            android:id="@+id/addressText"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:text=""
-            android:textColor="@color/font_1"
-            android:textSize="15sp" />
+                android:id="@+id/addressText"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:lines="1"
+                android:text=""
+                android:textColor="@color/font_1"
+                android:textSize="15sp"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -72,18 +72,18 @@
         android:background="@drawable/line_gray" />
 
     <TextView
-        android:id="@+id/customText"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:gravity="center"
-        android:includeFontPadding="false"
-        android:maxLines="1"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="2dp"
-        android:singleLine="true"
-        android:text="此地点为用户创建"
-        android:textColor="#888888"
-        android:textSize="15sp"
-        android:visibility="gone" />
+            android:id="@+id/customText"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="2dp"
+            android:lines="1"
+            android:text="此地点为用户创建"
+            android:textColor="#888888"
+            android:textSize="15sp"
+            android:visibility="gone"/>
 </LinearLayout>

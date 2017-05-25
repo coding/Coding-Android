@@ -27,15 +27,15 @@
         android:layout_toRightOf="@id/badge">
 
         <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/font_1"
-            android:textSize="18sp"
-            tools:text="A栋" />
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/font_1"
+                android:textSize="18sp"
+                tools:text="A栋"/>
     </FrameLayout>
 
     <TextView

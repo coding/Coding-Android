@@ -19,18 +19,18 @@
             android:src="@drawable/ic_project_git_folder2" />
 
         <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_toLeftOf="@+id/more"
-            android:layout_toRightOf="@id/icon"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="Medium Text"
-            android:textColor="@color/font_1"
-            android:textSize="17sp" />
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toLeftOf="@+id/more"
+                android:layout_toRightOf="@id/icon"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="Medium Text"
+                android:textColor="@color/font_1"
+                android:textSize="17sp"/>
 
         <RelativeLayout
             android:id="@+id/more"
@@ -67,7 +67,7 @@
             android:layout_alignBottom="@id/icon"
             android:textColor="@color/font_gray"
             android:text="Medium Text"
-            android:singleLine="true"
+            android:lines="1"
             android:layout_toRightOf="@id/icon"
             android:layout_alignLeft="@+id/name"
             android:textSize="15sp"

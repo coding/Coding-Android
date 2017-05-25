@@ -1,35 +1,36 @@
 package net.coding.program.project.detail.file.v2;
 
 import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.style.BackgroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.ViewHolder;
+import net.coding.program.common.adapter.SearchFileAdapter;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.StringUtil;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.network.model.file.CodingFile;
+import net.coding.program.search.HoloUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 @EActivity(R.layout.activity_search_project_git)
@@ -79,23 +80,36 @@ public class SearchProjectFileActivity extends BackActivity implements TextWatch
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.search_project_git_item, parent, false);
+                convertView = mInflater.inflate(R.layout.search_file_list, parent, false);
             }
 
-            final TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
-            CodingFile file = searchNames.get(position);
-            String name = file.getName();
-            SpannableString s = new SpannableString(name);
-            int color = getResources().getColor(R.color.color_FDF2CB);
+            TextView txtTitle = ViewHolder.get(convertView, R.id.txtTitle);
+            ImageView icon = ViewHolder.get(convertView, R.id.fileImg);
+            TextView txtFileSize = ViewHolder.get(convertView, R.id.txtFileSize);
+            TextView txtContent = ViewHolder.get(convertView, R.id.txtContent);
 
-            Pattern p = Pattern.compile(inputName, Pattern.CASE_INSENSITIVE);
-            Matcher m = p.matcher(s);
-            while (m.find()) {
-                int start = m.start();
-                int end = m.end();
-                s.setSpan(new BackgroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            CodingFile data = searchNames.get(position);
+
+            HoloUtils.setHoloText(txtTitle, "", data.getName());
+            txtTitle.setText(data.name);
+            txtFileSize.setText(SearchFileAdapter.getDataSize(data.getSize()));
+            final SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
+            txtContent.setText(data.owner.name + " 创建于 " + format.format(data.createdAt));
+
+            if (data.isFolder()) {
+                if (data.isShareFolder()) {
+                    icon.setImageResource(R.drawable.icon_file_folder_share);
+                } else {
+                    icon.setImageResource(R.drawable.ic_project_git_folder2);
+                }
+                icon.setBackgroundResource(android.R.color.transparent);
+            } else if (data.isImage()) {
+                ImageLoadTool.loadFileImage(icon, data.preview, ImageLoadTool.optionsRounded2);
+                icon.setBackgroundResource(R.drawable.shape_image_icon_bg);
+            } else {
+                ImageLoadTool.loadFileImage(icon, "drawable://" + data.getIconResourceId(), ImageLoadTool.optionsRounded2);
+                icon.setBackgroundResource(android.R.color.transparent);
             }
-            tvName.setText(s);
 
             return convertView;
         }

@@ -30,7 +30,6 @@
             android:layout_marginRight="@dimen/padding_15"
             android:ellipsize="end"
             android:lines="1"
-            android:singleLine="true"
             android:text="Medium Text"
             android:textColor="@color/font_1"
             android:textSize="16sp" />
@@ -58,7 +57,6 @@
             android:layout_marginRight="6dp"
             android:ellipsize="end"
             android:lines="1"
-            android:singleLine="true"
             android:text="Medium Text"
             android:textColor="@color/font_1"
             android:textSize="12sp"
@@ -77,7 +75,7 @@
     <!--android:layout_width="wrap_content"-->
     <!--android:layout_height="wrap_content"-->
     <!--android:layout_alignLeft="@+id/title"-->
-    <!--android:singleLine="true"-->
+    <!--android:lines="1"-->
     <!--android:layout_marginTop="10dp"-->
     <!--android:layout_alignStart="@+id/title"-->
     <!--android:layout_below="@+id/title"-->
@@ -98,7 +96,7 @@
     <!--android:layout_marginRight="0dp"-->
     <!--android:layout_marginTop="10dp"-->
     <!--android:layout_below="@id/title"-->
-    <!--android:singleLine="true"-->
+    <!--android:lines="1"-->
     <!--android:textSize="12sp"-->
     <!--android:drawablePadding="4dp"-->
     <!--android:drawableLeft="@drawable/ic_task_comment"-->

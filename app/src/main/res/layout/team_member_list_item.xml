@@ -44,7 +44,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:text="(创建者)"
-                    android:singleLine="true"
+                    android:lines="1"
                     android:id="@+id/desc"
                     android:layout_alignParentRight="true"
                     android:layout_alignBaseline="@+id/name"
@@ -52,15 +52,15 @@
                     android:visibility="gone"/>-->
 
                 <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:text="Medium Text"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/font_1" />
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text="Medium Text"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/font_1"/>
 
 
                 <ImageView
@@ -79,17 +79,17 @@
 
 
             <TextView
-                android:id="@+id/alias"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text="Medium Text"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_2"
-                android:textSize="14sp"
-                android:visibility="gone" />
+                    android:id="@+id/alias"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="Medium Text"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/font_2"
+                    android:textSize="14sp"
+                    android:visibility="gone"/>
 
         </LinearLayout>
 

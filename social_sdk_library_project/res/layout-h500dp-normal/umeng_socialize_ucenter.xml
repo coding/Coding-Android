@@ -63,18 +63,18 @@
             android:layout_below="@id/umeng_socialize_ic" >
 
             <TextView
-                android:id="@+id/umeng_socialize_loginNm"
-                android:layout_width="wrap_content"
-                android:layout_height="26dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="10dp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:layout_centerHorizontal="true"
-                android:singleLine="true"
-                android:text="匿名用户"
-                android:textColor="@color/umeng_socialize_list_item_textcolor"
-                android:textSize="16sp"
+                    android:id="@+id/umeng_socialize_loginNm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="10dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:layout_centerHorizontal="true"
+                    android:lines="1"
+                    android:text="匿名用户"
+                    android:textColor="@color/umeng_socialize_list_item_textcolor"
+                    android:textSize="16sp"
                 />
 
             <ViewFlipper

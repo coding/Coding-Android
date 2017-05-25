@@ -193,30 +193,30 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:ellipsize="end"
-            android:gravity="bottom"
-            android:singleLine="true"
-            android:textColor="@color/font_green"
-            android:textSize="12sp"
-            tools:text="北京" />
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:ellipsize="end"
+                android:gravity="bottom"
+                android:lines="1"
+                android:textColor="@color/font_green"
+                android:textSize="12sp"
+                tools:text="北京"/>
 
         <TextView
-            android:id="@+id/photoType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:drawableLeft="@drawable/icon_maopao_send_phone"
-            android:drawablePadding="5dp"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:text="来自 iPhone 6"
-            android:textColor="@color/font_3"
-            android:textSize="12sp" />
+                android:id="@+id/photoType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:drawableLeft="@drawable/icon_maopao_send_phone"
+                android:drawablePadding="5dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="来自 iPhone 6"
+                android:textColor="@color/font_3"
+                android:textSize="12sp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

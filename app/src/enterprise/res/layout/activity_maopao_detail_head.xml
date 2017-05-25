@@ -98,18 +98,18 @@
 
 
         <TextView
-            android:id="@+id/photoType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="13dp"
-            android:layout_marginTop="9dp"
-            android:drawableLeft="@drawable/icon_maopao_send_phone"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:text="来自 iPhone 6"
-            android:textColor="@color/font_3"
-            android:textSize="13sp" />
+                android:id="@+id/photoType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginTop="9dp"
+                android:drawableLeft="@drawable/icon_maopao_send_phone"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="来自 iPhone 6"
+                android:textColor="@color/font_3"
+                android:textSize="13sp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -21,18 +21,18 @@
             android:src="@color/font_black" />
 
         <TextView
-            android:id="@+id/projectName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/projectIcon"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="3dp"
-            android:layout_toRightOf="@+id/projectIcon"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="Medium Text"
-            android:textColor="@color/font_1"
-            android:textSize="18sp" />
+                android:id="@+id/projectName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/projectIcon"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@+id/projectIcon"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="Medium Text"
+                android:textColor="@color/font_1"
+                android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/recommendIcon"

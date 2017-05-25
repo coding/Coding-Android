@@ -27,16 +27,16 @@
                 android:textColor="@color/font_1" />
 
             <TextView
-                android:id="@+id/nameTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/icon"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text="cc"
-                android:textColor="@color/font_1"
-                android:textSize="18sp" />
+                    android:id="@+id/nameTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/icon"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="cc"
+                    android:textColor="@color/font_1"
+                    android:textSize="18sp"/>
 
         </RelativeLayout>
 

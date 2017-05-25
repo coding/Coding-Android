@@ -16,15 +16,15 @@
         android:paddingTop="@dimen/padding_14">
 
         <TextView
-            android:id="@+id/usage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/font_1"
-            android:textSize="16sp"
-            tools:text="推送代码" />
+                android:id="@+id/usage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/font_1"
+                android:textSize="16sp"
+                tools:text="推送代码"/>
 
         <TextView
             android:id="@+id/create"

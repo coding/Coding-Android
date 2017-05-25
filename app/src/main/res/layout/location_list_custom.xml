@@ -15,28 +15,28 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/primary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:includeFontPadding="false"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:text="没有找到你的位置?"
-            android:textColor="@color/font_3"
-            android:textSize="14sp" />
+                android:id="@+id/primary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:lines="1"
+                android:text="没有找到你的位置?"
+                android:textColor="@color/font_3"
+                android:textSize="14sp"/>
 
         <TextView
-            android:id="@+id/secondary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:ellipsize="end"
-            android:includeFontPadding="false"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:text="创建新的位置: "
-            android:textColor="@color/font_3"
-            android:textSize="14sp" />
+                android:id="@+id/secondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:lines="1"
+                android:text="创建新的位置: "
+                android:textColor="@color/font_3"
+                android:textSize="14sp"/>
     </LinearLayout>
 </LinearLayout>

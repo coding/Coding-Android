@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/color_F6F6F6"
-    android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/stand_bg"
+                android:foreground="?attr/selectableItemBackground"
+                android:orientation="vertical">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iconTask"
-        android:layout_width="43.5dp"
-        android:layout_height="43.5dp"
-        android:layout_marginLeft="13.5dp"
-        android:layout_marginTop="17.5dp" />
+            android:id="@+id/iconTask"
+            android:layout_width="43.5dp"
+            android:layout_height="43.5dp"
+            android:layout_marginLeft="13.5dp"
+            android:layout_marginTop="17.5dp"/>
 
     <TextView
-        android:id="@+id/nameTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp"
-        android:layout_toRightOf="@id/iconTask"
-        android:lineSpacingExtra="2dp"
-        android:singleLine="true"
-        android:text="中秋首页改版"
-        android:textColor="@color/font_1"
-        android:textSize="16sp" />
+            android:id="@+id/nameTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/iconTask"
+            android:lineSpacingExtra="2dp"
+            android:lines="1"
+            android:text="中秋首页改版"
+            android:textColor="@color/font_1"
+            android:textSize="16sp"/>
 
     <include
-        android:id="@+id/bottom_layout"
-        layout="@layout/inlcude_search_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/nameTask"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="19dp" />
+            android:id="@+id/bottom_layout"
+            layout="@layout/inlcude_search_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameTask"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="19dp"/>
 </RelativeLayout>

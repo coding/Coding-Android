@@ -29,14 +29,14 @@
                 android:src="@drawable/ic_file_unknown" />
 
             <TextView
-                android:id="@+id/file_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:singleLine="true"
-                android:text="Medium Text"
-                android:textColor="@color/font_1"
-                android:textSize="17sp" />
+                    android:id="@+id/file_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:lines="1"
+                    android:text="Medium Text"
+                    android:textColor="@color/font_1"
+                    android:textSize="17sp"/>
 
             <ImageView
                 android:id="@+id/retryUpload"

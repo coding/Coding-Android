@@ -21,20 +21,20 @@
 
     <!--android:paddingBottom="5dp"-->
     <net.coding.program.common.widget.MarqueeView
-        android:id="@+id/mall_list_item_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:ellipsize="end"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:gravity="center_horizontal"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:scrollHorizontally="true"
-        android:singleLine="true"
-        android:text="title" />
+            android:id="@+id/mall_list_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_horizontal"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:scrollHorizontally="true"
+            android:lines="1"
+            android:text="title"/>
 
     <LinearLayout
         android:layout_width="match_parent"

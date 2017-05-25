@@ -101,21 +101,21 @@
                             app:darkness="true" />
 
                         <net.coding.program.common.LoginEditText
-                            android:id="@+id/editPassword"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:background="@drawable/login_edit"
-                            android:hint="密码"
-                            android:imeOptions="actionUnspecified"
-                            android:inputType="textPassword"
-                            android:maxLines="1"
-                            android:singleLine="true"
-                            android:textColor="@color/font_white"
-                            android:textColorHint="@color/font_white_hint"
-                            android:textCursorDrawable="@null"
-                            android:textSize="18sp"
-                            app:dark="true" />
+                                android:id="@+id/editPassword"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:background="@drawable/login_edit"
+                                android:hint="密码"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="textPassword"
+                                android:maxLines="1"
+                                android:lines="1"
+                                android:textColor="@color/font_white"
+                                android:textColorHint="@color/font_white_hint"
+                                android:textCursorDrawable="@null"
+                                android:textSize="18sp"
+                                app:dark="true"/>
 
                         <RelativeLayout
                             android:id="@+id/captchaLayout"
@@ -125,16 +125,16 @@
                             android:visibility="gone">
 
                             <EditText
-                                android:id="@+id/editValify"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/login_edit"
-                                android:hint="验证码"
-                                android:singleLine="true"
-                                android:textColor="@color/font_white"
-                                android:textColorHint="@color/font_white_hint"
-                                android:textCursorDrawable="@null"
-                                android:textSize="18sp" />
+                                    android:id="@+id/editValify"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/login_edit"
+                                    android:hint="验证码"
+                                    android:lines="1"
+                                    android:textColor="@color/font_white"
+                                    android:textColorHint="@color/font_white_hint"
+                                    android:textCursorDrawable="@null"
+                                    android:textSize="18sp"/>
 
                             <ImageView
                                 android:id="@+id/imageValify"
@@ -165,21 +165,21 @@
 
 
                         <net.coding.program.common.LoginEditText
-                            android:id="@+id/edit2FA"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:background="@drawable/login_edit"
-                            android:hint="输入动态验证码"
-                            android:imeOptions="actionUnspecified"
-                            android:inputType="number"
-                            android:maxLines="1"
-                            android:singleLine="true"
-                            android:textColor="@color/font_white"
-                            android:textColorHint="@color/font_white_hint"
-                            android:textCursorDrawable="@null"
-                            android:textSize="18sp"
-                            app:dark="true" />
+                                android:id="@+id/edit2FA"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:background="@drawable/login_edit"
+                                android:hint="输入动态验证码"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="number"
+                                android:maxLines="1"
+                                android:lines="1"
+                                android:textColor="@color/font_white"
+                                android:textColorHint="@color/font_white_hint"
+                                android:textCursorDrawable="@null"
+                                android:textSize="18sp"
+                                app:dark="true"/>
                     </LinearLayout>
 
 

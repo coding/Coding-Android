@@ -58,17 +58,17 @@
         <include layout="@layout/divide_line_1" />
 
         <TextView
-            android:id="@+id/linkContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="60dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="linkContent"
-            android:textColor="@color/font_1"
-            android:textSize="16sp"
-            tools:text="https://coding.net/32l3k23l/akldsfj;asdk,ajdsf;alksdfaadsfasdfads" />
+                android:id="@+id/linkContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="60dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="linkContent"
+                android:textColor="@color/font_1"
+                android:textSize="16sp"
+                tools:text="https://coding.net/32l3k23l/akldsfj;asdk,ajdsf;alksdfaadsfasdfads"/>
 
         <TextView
             android:id="@+id/clickShareLink"

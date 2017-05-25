@@ -10,18 +10,18 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/branchSrc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_merge_detail_rectangle"
-        android:ellipsize="end"
-        android:paddingBottom="4dp"
-        android:paddingLeft="7dp"
-        android:paddingRight="7dp"
-        android:paddingTop="4dp"
-        android:singleLine="true"
-        android:text="merge_request"
-        android:textColor="@color/font_3" />
+            android:id="@+id/branchSrc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_merge_detail_rectangle"
+            android:ellipsize="end"
+            android:paddingBottom="4dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:paddingTop="4dp"
+            android:lines="1"
+            android:text="merge_request"
+            android:textColor="@color/font_3"/>
 
     <View
         android:layout_width="13dp"
@@ -30,18 +30,18 @@
         android:background="@drawable/merge_detail_arrow" />
 
     <TextView
-        android:id="@+id/branchDesc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_merge_detail_rectangle"
-        android:ellipsize="end"
-        android:paddingBottom="4dp"
-        android:paddingLeft="7dp"
-        android:paddingRight="7dp"
-        android:paddingTop="4dp"
-        android:singleLine="true"
-        android:text="master"
-        android:textColor="@color/font_3" />
+            android:id="@+id/branchDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_merge_detail_rectangle"
+            android:ellipsize="end"
+            android:paddingBottom="4dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:paddingTop="4dp"
+            android:lines="1"
+            android:text="master"
+            android:textColor="@color/font_3"/>
 </org.apmem.tools.layouts.FlowLayout>
 
     

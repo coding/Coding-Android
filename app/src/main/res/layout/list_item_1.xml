@@ -23,15 +23,15 @@
         android:paddingRight="15sp">
 
         <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="TA的项目"
-            android:textColor="@color/font_1"
-            android:textSize="15sp" />
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="TA的项目"
+                android:textColor="@color/font_1"
+                android:textSize="15sp"/>
 
         <com.readystatesoftware.viewbadger.BadgeView
             android:id="@+id/badge"

@@ -26,15 +26,15 @@
 
 
         <EditText
-            android:id="@+id/projectName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="14dp"
-            android:background="@null"
-            android:hint="项目名称"
-            android:singleLine="true"
-            android:textColor="@color/font_1"
-            android:textSize="20sp" />
+                android:id="@+id/projectName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:background="@null"
+                android:hint="项目名称"
+                android:lines="1"
+                android:textColor="@color/font_1"
+                android:textSize="20sp"/>
 
     </LinearLayout>
 

@@ -62,19 +62,19 @@
         tools:text="Coding" />
 
     <TextView
-        android:id="@+id/name2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/icon"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="2dp"
-        android:layout_toRightOf="@id/icon"
-        android:singleLine="true"
-        android:text="Medium Text"
-        android:textColor="@color/font_1"
-        android:textSize="16sp"
-        android:visibility="gone" />
+            android:id="@+id/name2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/icon"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="2dp"
+            android:layout_toRightOf="@id/icon"
+            android:lines="1"
+            android:text="Medium Text"
+            android:textColor="@color/font_1"
+            android:textSize="16sp"
+            android:visibility="gone"/>
 
     <TextView
         android:id="@+id/txtDesc"

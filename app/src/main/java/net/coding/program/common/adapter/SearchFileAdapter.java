@@ -35,9 +35,6 @@ public class SearchFileAdapter extends BaseAdapter {
 
     /**
      * 返回byte的数据大小对应的文本
-     *
-     * @param size
-     * @return
      */
     public static String getDataSize(long size) {
         DecimalFormat formater = new DecimalFormat("####.00");

@@ -7,16 +7,16 @@
 
 
     <TextView
-        android:id="@+id/subject_recommend_list_item_header_name"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@color/divide"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/padding_12"
-        android:singleLine="true"
-        android:text="一台一台"
-        android:textColor="@color/font_3"
-        android:textSize="14sp" />
+            android:id="@+id/subject_recommend_list_item_header_name"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/divide"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/padding_12"
+            android:lines="1"
+            android:text="一台一台"
+            android:textColor="@color/font_3"
+            android:textSize="14sp"/>
 
 </LinearLayout>
