@@ -118,6 +118,7 @@ public class ManageProjectListActivity extends BackActivity {
                             for (ProjectObject join : listJoinData) {
                                 if (join.id == item.id) {
                                     find = true;
+                                    join.memberNum = item.memberNum;
                                     listData.add(joinedPos++, join);
                                     break;
                                 }

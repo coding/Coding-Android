@@ -97,11 +97,11 @@ public interface CodingRequest {
     Observable<BaseHttpResult> deleteProject(@Path("projectPath") String projectPath,
                                              @Field("two_factor_code") String twoFA);
 
-    // 我参与的项目
+    // 我参与的项目，取不到项目的成员人数
     @GET("projects?pageSize=1000")
     Observable<HttpPageResult<ProjectObject>> getProjects();
 
-    // 获取企业全部项目
+    // 获取企业全部项目, 但获取的项目数据是不全的，需要与 getProjects 才能取到项目数据，
     @GET("team/{enterprise}/projects")
     Observable<HttpResult<List<ProjectObject>>> getManagerProjects(@Path("enterprise") String enterprise);
 

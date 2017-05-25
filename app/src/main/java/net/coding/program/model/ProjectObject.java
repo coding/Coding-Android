@@ -108,7 +108,7 @@ public class ProjectObject implements Serializable {
     public boolean isPublic;
     @SerializedName("member_num")
     @Expose
-    public int memberNum;
+    public int memberNum; // 这个属性很坑的，getManagerProjects 才能取到，
     @SerializedName("id")
     @Expose
     public int id;
