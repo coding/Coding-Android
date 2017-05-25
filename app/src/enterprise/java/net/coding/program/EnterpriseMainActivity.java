@@ -29,6 +29,7 @@ public class EnterpriseMainActivity extends MainActivity {
         if (tag.equals(TAG_ENTERPRSE)) {
             if (code == 0) { // 服务过期了
                 EnterpriseDetail enterpriseDetail = new EnterpriseDetail(respanse.optJSONObject("data"));
+                EnterpriseInfo.instance().update(this, enterpriseDetail);
 
                 if (enterpriseDetail.isLocked()) {
                     String title = "服务已暂停";

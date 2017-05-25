@@ -137,7 +137,15 @@ public class ManageMemberActivity extends BackActivity implements Handler.Callba
 
     private void actionMore(View v) {
         TeamMember user = (TeamMember) v.getTag();
-        if (EnterpriseInfo.instance().isOwner() && (user.getType() != MemberAuthority.ower)) {
+        if ((user.getType() == MemberAuthority.ower)) {
+            new AlertDialog.Builder(this)
+                    .setItems(R.array.manager_member_to_owner, ((dialog, which) -> {
+                        if (which == 0) {
+                            actionModifyProjectRole(user);
+                        }
+                    }))
+                    .show();
+        } else if (EnterpriseInfo.instance().isOwner()) {
             new AlertDialog.Builder(this)
                     .setItems(R.array.manager_member_by_owner, ((dialog, which) -> {
                         if (which == 0) {
