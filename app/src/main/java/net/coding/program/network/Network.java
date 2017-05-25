@@ -81,7 +81,7 @@ public class Network {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://up.qbox.me/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(generateClient(context, null, null))
+                .client(generateClient(context, null, null, false)) // 显示 log 会导致 RequestBody 调用 2 次 writeTo
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
@@ -132,7 +132,7 @@ public class Network {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(generateClient(context, interceptorCookie, cacheType))
+                .client(generateClient(context, interceptorCookie, cacheType, true))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
@@ -143,50 +143,48 @@ public class Network {
         return retrofit.create(CodingRequest.class);
     }
 
-    static OkHttpClient generateClient(Context context, Interceptor interceptorCookie, CacheType cacheType) {
+    static OkHttpClient generateClient(Context context, Interceptor interceptorCookie, CacheType cacheType, boolean showLog) {
         File httpCacheDirectory = new File(context.getCacheDir(), "HttpCache");
         Cache cache = new Cache(httpCacheDirectory, 100 * 1024 * 1024);
 
-        OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient.Builder builder = okHttpClient
-                .addInterceptor(interceptor)
-                .addNetworkInterceptor(chain -> {
-                    Request request = chain.request();
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        if (showLog) builder.addInterceptor(interceptor);
 
-                    if (request.method().equals("GET")) {
-                        if (cacheType == CacheType.onlyCache) {
-                            request = request.newBuilder()
-                                    .removeHeader("Cache-Control")
-                                    .header("Cache-Control", "public, only-if-cached, max-stale=" + MAX_STALE)
-                                    .build();
-                        } else if (cacheType == CacheType.useCache) {
-                            request = request.newBuilder()
-                                    .removeHeader("Cache-Control")
-                                    .header("Cache-Control", "public, max-age=0")
-                                    .build();
-                        }
-                    }
+        builder.addNetworkInterceptor(chain -> {
+            Request request = chain.request();
 
-                    Response proceed = chain.proceed(request);
-                    if (request.method().equals("GET")) {
-                        if (cacheType == CacheType.useCache) {
-                            return proceed.newBuilder()
-                                    .removeHeader("Pragma")
-                                    .removeHeader("Cache-Control")
-                                    .header("Cache-Control", "public, max-age=" + 0)
-                                    .build();
-                        }
-                    }
+            if (request.method().equals("GET")) {
+                if (cacheType == CacheType.onlyCache) {
+                    request = request.newBuilder()
+                            .removeHeader("Cache-Control")
+                            .header("Cache-Control", "public, only-if-cached, max-stale=" + MAX_STALE)
+                            .build();
+                } else if (cacheType == CacheType.useCache) {
+                    request = request.newBuilder()
+                            .removeHeader("Cache-Control")
+                            .header("Cache-Control", "public, max-age=0")
+                            .build();
+                }
+            }
 
-                    return proceed;
-                });
+            Response proceed = chain.proceed(request);
+            if (request.method().equals("GET")) {
+                if (cacheType == CacheType.useCache) {
+                    return proceed.newBuilder()
+                            .removeHeader("Pragma")
+                            .removeHeader("Cache-Control")
+                            .header("Cache-Control", "public, max-age=" + 0)
+                            .build();
+                }
+            }
 
-        if (interceptorCookie != null) {
-            builder.addInterceptor(interceptorCookie);
-        }
+            return proceed;
+        });
+
+        if (interceptorCookie != null) builder.addInterceptor(interceptorCookie);
 
         return builder
                 .addInterceptor(chain -> {

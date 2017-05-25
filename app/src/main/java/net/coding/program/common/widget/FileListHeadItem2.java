@@ -115,6 +115,7 @@ public class FileListHeadItem2 extends FrameLayout {
         ProgressRequestBody body = new ProgressRequestBody(getContext(), file, new ProgressRequestBody.UploadCallbacks() {
             @Override
             public void onProgressUpdate(int percentage) {
+//                Logger.d("progress " + percentage);
                 setProgress(percentage);
             }
 
