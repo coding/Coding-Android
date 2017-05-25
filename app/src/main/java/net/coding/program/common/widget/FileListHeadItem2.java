@@ -164,6 +164,9 @@ public class FileListHeadItem2 extends FrameLayout {
                     @Override
                     public void onFail(int errorCode, @NonNull String error) {
                         super.onFail(errorCode, error);
+
+                        subscription = null;
+                        ((ViewGroup) getParent()).removeView(FileListHeadItem2.this);
                     }
 
                 });
