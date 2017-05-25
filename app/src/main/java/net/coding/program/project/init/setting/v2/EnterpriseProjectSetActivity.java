@@ -36,6 +36,9 @@ import org.androidannotations.annotations.ViewById;
 
 import java.io.File;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -198,11 +201,35 @@ public class EnterpriseProjectSetActivity extends PickPhotoActivity {
     @Override
     protected void pickImageCallback(Uri uri, String path) {
         try {
-            projectIcon.setImageURI(uri);
-            String uploadUrl = host + "/" + project.getId() + "/project_icon";
-            RequestParams params = new RequestParams();
-            params.put("file", new File(path));
-            postNetwork(uploadUrl, params, uploadUrl);
+            File file = new File(path);
+            RequestBody body = RequestBody.create(MediaType.parse("*/*"), file);
+            MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), body);
+
+            Network.getRetrofit(this)
+                    .setProjectIcon(project.id, part)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new HttpObserver<ProjectObject>(this) {
+                        @Override
+                        public void onSuccess(ProjectObject data) {
+                            super.onSuccess(data);
+                            showProgressBar(false);
+
+                            iconfromNetwork(projectIcon, data.icon);
+
+                            InitProUtils.hideSoftInput(EnterpriseProjectSetActivity.this);
+                            Intent intent = new Intent();
+                            intent.putExtra("projectObject", data);
+                            setResult(Activity.RESULT_OK, intent);
+                        }
+
+                        @Override
+                        public void onFail(int errorCode, @NonNull String error) {
+                            super.onFail(errorCode, error);
+                            showProgressBar(false);
+                        }
+                    });
+
             showProgressBar(true, "正在上传图片...");
         } catch (Exception e) {
             Global.errorLog(e);

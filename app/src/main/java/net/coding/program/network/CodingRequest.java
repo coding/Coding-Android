@@ -15,13 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -136,5 +139,11 @@ public interface CodingRequest {
     Observable<BaseHttpResult> removeEnterpriseMember(@Path("enterprise") String enterprise,
                                                       @Path("user") String user,
                                                       @Query("two_factor_code") String code);
+
+    // 修改项目图片
+    @Multipart
+    @POST("project/{id}/project_icon")
+    Observable<HttpResult<ProjectObject>> setProjectIcon(@Path("id") int projectId,
+            @Part MultipartBody.Part body);
 
 }
