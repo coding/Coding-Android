@@ -29,10 +29,13 @@ import net.coding.program.common.RedPointTip;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.databinding.ActivityWikiDetailHeaderBinding;
 import net.coding.program.event.EventRefresh;
+import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.wiki.Wiki;
+import net.coding.program.param.ProjectJumpParam;
+import net.coding.program.param.WikiDraft;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -233,8 +236,30 @@ public class WikiMainActivity extends BackActivity {
 
     @Click(R.id.clickEdit)
     void onClickEdit() {
+        ProjectJumpParam projectParam = project.generateJumpParam();
+        ArrayList<WikiDraft> drafts = AccountInfo.loadWikiDraft(this, projectParam.toPath(), selectWiki.id);
+        boolean useDraft = false;
+        if (!drafts.isEmpty()) {
+            WikiDraft draft = drafts.get(0);
+            if (draft.updateAt < selectWiki.updatedAt) {
+                showDialog("", "有最新版本更新，您是否继续编辑上一次的草稿？",
+                        (dialog, which) -> jumpToEdit(true),
+                        (dialog, which) -> jumpToEdit(false),
+                        "编辑草稿", "编辑新版本");
+                return;
+            } else {
+                useDraft = true;
+            }
+        }
+
+        jumpToEdit(useDraft);
+    }
+
+    private void jumpToEdit(boolean useDraft) {
+        ProjectJumpParam projectParam = project.generateJumpParam();
         WikiEditActivity_.intent(this)
-                .projectParam(project.generateJumpParam())
+                .projectParam(projectParam)
+                .useDraft(useDraft)
                 .wiki(selectWiki)
                 .start();
     }

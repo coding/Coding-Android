@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import com.loopj.android.http.PersistentCookieStore;
 
@@ -15,6 +16,7 @@ import net.coding.program.login.MarketingHelp;
 import net.coding.program.maopao.MaopaoAddActivity;
 import net.coding.program.message.MessageListActivity;
 import net.coding.program.param.TopicData;
+import net.coding.program.param.WikiDraft;
 import net.coding.program.user.UsersListActivity;
 
 import org.json.JSONArray;
@@ -426,20 +428,42 @@ public class AccountInfo {
         }
     }
 
+    private enum DraftType {
+        topic, wiki
+    }
+
+    @NonNull
+    private static String createSaveName(DraftType type, String projectPath, int topicId) {
+        return SimpleSHA1.sha1(type.name() + projectPath + topicId);
+    }
+
     public static void saveTopicDraft(Context ctx, TopicData draft, String projectPath, int topicId) {
         ArrayList<TopicData> data = new ArrayList<>();
         data.add(draft);
-        new DataCache<TopicData>().save(ctx, data, SimpleSHA1.sha1(projectPath + topicId));
+        new DataCache<TopicData>().save(ctx, data, createSaveName(DraftType.topic, projectPath, topicId));
     }
 
     public static ArrayList<TopicData> loadTopicDraft(Context ctx, String projectPath, int topicId) {
-        return new DataCache<TopicData>().load(ctx, SimpleSHA1.sha1(projectPath + topicId));
+        return new DataCache<TopicData>().load(ctx, createSaveName(DraftType.topic, projectPath, topicId));
     }
 
     public static void deleteTopicDraft(Context ctx, String projectPath, int topicId) {
-        new DataCache<TopicData>().delete(ctx, SimpleSHA1.sha1(projectPath + topicId));
+        new DataCache<TopicData>().delete(ctx, createSaveName(DraftType.topic, projectPath, topicId));
     }
 
+    public static void saveWikiDraft(Context ctx, WikiDraft draft, String projectPath, int wikiId) {
+        ArrayList<WikiDraft> data = new ArrayList<>();
+        data.add(draft);
+        new DataCache<WikiDraft>().save(ctx, data, createSaveName(DraftType.wiki, projectPath, wikiId));
+    }
+
+    public static ArrayList<WikiDraft> loadWikiDraft(Context ctx, String projectPath, int wikiId) {
+        return new DataCache<WikiDraft>().load(ctx, createSaveName(DraftType.wiki, projectPath, wikiId));
+    }
+
+    public static void deleteWikiDraft(Context ctx, String projectPath, int wikiId) {
+        new DataCache<WikiDraft>().delete(ctx, createSaveName(DraftType.wiki, projectPath, wikiId));
+    }
 
     public static MaopaoAddActivity.MaopaoDraft loadMaopaoDraft(Context ctx) {
         ArrayList<MaopaoAddActivity.MaopaoDraft> data = new DataCache<MaopaoAddActivity.MaopaoDraft>().load(ctx, MAOPAO_DRAFT);

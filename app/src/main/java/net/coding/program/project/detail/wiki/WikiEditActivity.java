@@ -2,16 +2,20 @@ package net.coding.program.project.detail.wiki;
 
 import android.support.annotation.NonNull;
 
+import info.hoang8f.android.segmented.SegmentedGroup;
+
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.event.EventRefresh;
+import net.coding.program.model.AccountInfo;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.wiki.Wiki;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.param.TopicData;
+import net.coding.program.param.WikiDraft;
 import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.project.detail.TopicEditFragment;
 import net.coding.program.project.detail.TopicPreviewFragment;
@@ -23,9 +27,9 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
-import info.hoang8f.android.segmented.SegmentedGroup;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -36,7 +40,13 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
     ProjectJumpParam projectParam;
 
     @Extra
+    boolean useDraft = false;
+
+    @Extra
     Wiki wiki;
+
+    private boolean saveDraft = true;
+
     TopicEditFragment editFragment;
     TopicPreviewFragment previewFragment;
     private TopicData modifyData = new TopicData();
@@ -48,8 +58,16 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
         SegmentedGroup segmented = (SegmentedGroup) findViewById(R.id.segmented);
         segmented.setTintColor(CodingColor.font2);
 
-        modifyData.title = wiki.title;
-        modifyData.content = wiki.content;
+        ArrayList<WikiDraft> drafts = AccountInfo.loadWikiDraft(this, projectParam.toPath(), wiki.id);
+        if (useDraft && !drafts.isEmpty()) {
+            WikiDraft draft = drafts.get(0);
+            modifyData.title = draft.title;
+            modifyData.content = draft.content;
+            wiki.updatedAt = draft.updateAt;
+        } else {
+            modifyData.title = wiki.title;
+            modifyData.content = wiki.content;
+        }
 
         editFragment = WikiEditFragment_.builder().build();
         previewFragment = WikiPreviewFragment_.builder().build();
@@ -80,11 +98,36 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
     @Override
     public void onBackPressed() {
         if (editFragment.isContentModify()) {
-            showDialog("", "确定放弃此次编辑？", (dialog, which) -> finish());
+            TopicData topicData = editFragment.generalDraft();
+            WikiDraft draft = new WikiDraft(topicData);
+            draft.updateAt = wiki.updatedAt;
+
+            showDialog("", " 是否需要保存草稿？",
+                    (dialog, which) -> {
+                        saveDraft = true;
+                        finish();
+                    },
+                    (dialog, which) -> {
+                        saveDraft = false;
+                        finish();
+                    },
+                    "保存", "不保存");
             return;
         }
 
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (saveDraft && editFragment.isContentModify()) {
+            TopicData topicData = editFragment.generalDraft();
+            WikiDraft draft = new WikiDraft(topicData);
+            draft.updateAt = wiki.updatedAt;
+            AccountInfo.saveWikiDraft(this, draft, projectParam.toPath(), wiki.id);
+        }
     }
 
     @Override

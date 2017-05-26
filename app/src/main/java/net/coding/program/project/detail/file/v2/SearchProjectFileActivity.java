@@ -92,7 +92,12 @@ public class SearchProjectFileActivity extends BackActivity implements TextWatch
 
             HoloUtils.setHoloText(txtTitle, "", data.getName());
             txtTitle.setText(data.name);
-            txtFileSize.setText(SearchFileAdapter.getDataSize(data.getSize()));
+            if (data.isFolder()) {
+                txtFileSize.setVisibility(View.GONE);
+            } else {
+                txtFileSize.setVisibility(View.VISIBLE);
+                txtFileSize.setText(SearchFileAdapter.getDataSize(data.getSize()));
+            }
             final SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
             txtContent.setText(data.owner.name + " 创建于 " + format.format(data.createdAt));
 

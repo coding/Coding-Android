@@ -25,7 +25,8 @@ public class ProjectJumpParam implements Serializable {
                 "^/u/(.*?)/p/(.*?)(?:/git)?$",
                 "^/user/(.*)/project/(.*)$",
                 "^/t/(.*?)/p/(.*?)(?:/git)?$",
-                "^/team/(.*)/p/(.*)$"
+                "^/team/(.*)/p/(.*)$",
+                "^/team/(.*)/project/(.*)$"
         };
         for (String item : regexs) {
             if (isMatch(path, item)) {
