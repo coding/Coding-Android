@@ -8,6 +8,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -47,7 +48,6 @@ import net.coding.program.user.UsersListActivity;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -79,6 +79,9 @@ public class EnterpriseProjectFragment extends BaseFragment {
     @ViewById
     View blankLayout;
 
+    @ViewById
+    Toolbar enterpriseProjectToolbar;
+
     ArrayList<ProjectObject> listData = new ArrayList<>();
     ArrayList<ProjectObject> allListData = new ArrayList<>();
 
@@ -96,7 +99,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
     @AfterViews
     void initEnterpriseProjectFramgent() {
-        setToolbar("项目首页", R.id.enterpriseProjectToolbar);
+        initActionBar();
 
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
         listView.setLayoutManager(manager);
@@ -135,6 +138,63 @@ public class EnterpriseProjectFragment extends BaseFragment {
         onRefresh();
 
         setHasOptionsMenu(true);
+    }
+
+    private void initActionBar() {
+        enterpriseProjectToolbar.inflateMenu(R.menu.enterprise_main_project);
+        enterpriseProjectToolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.actionCreateProject:
+                    actionCreateProject();
+                    break;
+                case R.id.actionCreateTask:
+                    actionCreateTask();
+                    break;
+                case R.id.actionSendMessage:
+                    actionSendMessage();
+                    break;
+                case R.id.action2fa:
+                    action2fa();
+                    break;
+            }
+            return true;
+        });
+
+        Menu menu = enterpriseProjectToolbar.getMenu();
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                searchItem(s);
+                return true;
+            }
+        });
+    }
+
+    void actionCreateProject() {
+        ProjectCreateActivity_.intent(this).start();
+    }
+
+    void actionCreateTask() {
+        TaskAddActivity_.intent(this).mUserOwner(MyApp.sUserObject).start();
+    }
+
+    void actionSendMessage() {
+        TextWatcherAt.startActivityAt(getActivity(), this, RESULT_SELECT_USER);
+    }
+
+    void action2fa() {
+        if (!PermissionUtil.checkCamera(getActivity())) {
+            return;
+        }
+
+        Global.start2FAActivity(getActivity());
     }
 
     @Override
@@ -216,22 +276,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.enterprise_main_project, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                searchItem(s);
-                return true;
-            }
-        });
 
 //        searchItem.setVisible(false);
 
@@ -292,21 +337,6 @@ public class EnterpriseProjectFragment extends BaseFragment {
     public void loadMore() {
     }
 
-    @OptionsItem
-    void actionCreateProject() {
-        ProjectCreateActivity_.intent(this).start();
-    }
-
-    @OptionsItem
-    void actionCreateTask() {
-        TaskAddActivity_.intent(this).mUserOwner(MyApp.sUserObject).start();
-    }
-
-    @OptionsItem
-    void actionSendMessage() {
-        TextWatcherAt.startActivityAt(getActivity(), this, RESULT_SELECT_USER);
-    }
-
     @OnActivityResult(RESULT_SELECT_USER)
     void onSelectUser(int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
@@ -315,15 +345,6 @@ public class EnterpriseProjectFragment extends BaseFragment {
                 MessageListActivity_.intent(this).mUserObject(user).start();
             }
         }
-    }
-
-    @OptionsItem
-    void action2fa() {
-        if (!PermissionUtil.checkCamera(getActivity())) {
-            return;
-        }
-
-        Global.start2FAActivity(getActivity());
     }
 
     protected class ProjectAdapter extends easyRegularAdapter<ProjectObject, ProjectHolder> {
