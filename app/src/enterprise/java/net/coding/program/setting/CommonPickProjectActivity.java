@@ -100,6 +100,7 @@ public class CommonPickProjectActivity extends BackActivity {
         protected void withBindHolder(ProjectHolder holder, MemberRole data, int position) {
             MemberRole item = getItem(position);
             holder.name.setText(item.project.name);
+            holder.authority.setText(data.getAuthority().projectName);
             holder.rootLayout.setTag(item);
             iconfromNetwork(holder.image, item.project.icon, ImageLoadTool.optionsRounded2);
         }
@@ -144,6 +145,7 @@ public class CommonPickProjectActivity extends BackActivity {
 
         public TextView name;
         public ImageView image;
+        public TextView authority;
         public View rootLayout;
 
         public ProjectHolder(View view, boolean isHeader) {
@@ -154,6 +156,7 @@ public class CommonPickProjectActivity extends BackActivity {
             super(view);
             rootLayout = view;
             name = (TextView) view.findViewById(R.id.name);
+            authority = (TextView) view.findViewById(R.id.authority);
             image = (ImageView) view.findViewById(R.id.icon);
         }
     }

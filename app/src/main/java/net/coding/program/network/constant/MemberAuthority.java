@@ -10,16 +10,18 @@ import java.io.Serializable;
  */
 public enum MemberAuthority implements Serializable {
 
-    ower(100),
-    member(80),
-    manager(90),
-    limited(75),
-    noJoin(-1);
+    ower(100, "所有者"),
+    member(80, "项目成员"),
+    manager(90, "管理员"),
+    limited(75, "受限成员"),
+    noJoin(-1, "");
 
     public int type;
+    public String projectName; // 项目中的名称
 
-    MemberAuthority(int type) {
+    MemberAuthority(int type, String projectName) {
         this.type = type;
+        this.projectName = projectName;
     }
 
     public static boolean canReadCode(int type) {
