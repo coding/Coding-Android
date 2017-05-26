@@ -23,10 +23,8 @@ public class ProjectJumpParam implements Serializable {
         path = MyApp.transformEnterpriseUri(path);
         String[] regexs = new String[]{
                 "^/u/(.*?)/p/(.*?)(?:/git)?$",
-                "^/user/(.*)/project/(.*)$",
                 "^/t/(.*?)/p/(.*?)(?:/git)?$",
-                "^/team/(.*)/p/(.*)$",
-                "^/team/(.*)/project/(.*)$"
+                "^/(?:u|user|team)/(.*)/(?:project|p)/(.*)$"
         };
         for (String item : regexs) {
             if (isMatch(path, item)) {
