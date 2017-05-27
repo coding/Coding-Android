@@ -59,6 +59,7 @@ public class MergeAcceptActivity extends BackActivity {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_ACCEPT_MEREGE)) {
             umengEvent(UmengEvent.CODE, "合并mrpr");
+            umengEvent(UmengEvent.E_GIT, "MR合并");
             showProgressBar(false);
             if (code == 0) {
                 setResult(RESULT_OK);

@@ -12,6 +12,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.url.UrlCreate;
 import net.coding.program.model.GitFileBlobObject;
 import net.coding.program.model.GitFileInfoObject;
@@ -41,7 +42,6 @@ public class EditCodeActivity extends BackActivity {
 
     @Extra
     String mVersion = ProjectGitFragment.MASTER;
-    ;
 
     private PreviewCodeFragment previewFragment;
     private EditCodeFragment editFragment;
@@ -106,6 +106,7 @@ public class EditCodeActivity extends BackActivity {
             @Override
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
+                umengEvent(UmengEvent.E_GIT, "编辑代码_提交");
                 closeAndSave();
             }
 

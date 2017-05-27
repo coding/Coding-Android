@@ -5,10 +5,12 @@ import android.support.v4.app.Fragment;
 
 import net.coding.program.R;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.RequestData;
 import net.coding.program.param.TopicData;
 import net.coding.program.project.detail.EditPreviewMarkdown;
+import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.task.TaskDespPreviewFragment_;
 import net.coding.program.third.EmojiFilter;
 
@@ -103,6 +105,7 @@ public class CommentActivity extends BackActivity implements EditPreviewMarkdown
         if (tag.equals(HOST_SEND_COMMENT)) {
             showProgressBar(false);
             if (code == 0) {
+                addUmengLog();
                 JSONObject jsonData = respanse.getJSONObject("data");
                 if (!jsonData.optString("noteable_id").isEmpty()) {
                     Intent intent = new Intent();
@@ -120,6 +123,17 @@ public class CommentActivity extends BackActivity implements EditPreviewMarkdown
                 showErrorMsg(code, respanse);
             }
         }
+    }
+
+    private void addUmengLog() {
+        if (mParam instanceof FileDynamicActivity.FileDynamicParam) {
+            // 文件评论
+        } else if (mParam instanceof MergeFileDetailActivity.LineNoteParam) {
+            umengEvent(UmengEvent.E_GIT, "添加Linenote评论");
+        } else if (mParam instanceof MergeDetailActivity.MergeCommentParam) {
+            umengEvent(UmengEvent.E_GIT, "添加MR/PR评论");
+        }
+        // commit 评论未加
     }
 
     public static abstract class CommentParam implements Serializable {

@@ -178,7 +178,7 @@ public class SettingFragment extends BaseFragment {
     @Click
     void loginOut() {
         showDialog(MyApp.sUserObject.global_key, "退出当前账号?", (dialog, which) -> {
-            umengEvent(UmengEvent.USER_CENTER, "退登_确定退登");
+            umengEvent(UmengEvent.E_USER_CENTER, "退登_确定退登");
             FragmentActivity activity = getActivity();
             XGPushManager.registerPush(activity, "*");
             AccountInfo.loginOut(activity);

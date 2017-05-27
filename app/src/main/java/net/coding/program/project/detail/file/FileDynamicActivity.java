@@ -114,7 +114,7 @@ public class FileDynamicActivity extends BackActivity {
         }
     }
 
-    static class FileDynamicParam extends CommentActivity.CommentParam implements Serializable {
+    public static class FileDynamicParam extends CommentActivity.CommentParam implements Serializable {
 
         int fileId;
         String atSomeOne;

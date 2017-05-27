@@ -107,7 +107,7 @@ public class ModifyEmailActivity extends BackActivity {
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
 
-                umengEvent(UmengEvent.USER_CENTER, "绑定邮箱_点击发送验证码");
+                umengEvent(UmengEvent.E_USER_CENTER, "绑定邮箱_点击发送验证码");
                 showProgressBar(false);
                 showMiddleToast("发送验证邮件成功");
                 finish();

@@ -92,7 +92,7 @@ public class SetPasswordActivity extends BackActivity {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (code == 0) {
             umengEvent(UmengEvent.USER, "修改密码");
-            umengEvent(UmengEvent.USER_CENTER, "修改密码_修改成功");
+            umengEvent(UmengEvent.E_USER_CENTER, "修改密码_修改成功");
 
             showButtomToast("密码修改成功");
             popDialog();

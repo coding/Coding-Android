@@ -345,7 +345,7 @@ public class ManageProjectListActivity extends BackActivity {
                     public void onSuccess() {
                         super.onSuccess();
 
-                        umengEvent(UmengEvent.USER_CENTER, "删除企业项目");
+                        umengEvent(UmengEvent.E_USER_CENTER, "删除企业项目");
 
                         showButtomToast("删除成功");
                         listData.remove(project);

@@ -171,7 +171,7 @@ public class ValidePhoneActivity extends BackActivity {
         if (tag.equals(TAG_SET_USER_INFO)) {
             showProgressBar(false, "");
             if (code == 0) {
-                umengEvent(UmengEvent.USER_CENTER, "绑定手机_绑定成功");
+                umengEvent(UmengEvent.E_USER_CENTER, "绑定手机_绑定成功");
 
                 showMiddleToast("修改成功");
                 setResult(Activity.RESULT_OK);

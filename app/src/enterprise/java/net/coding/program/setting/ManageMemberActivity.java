@@ -247,7 +247,7 @@ public class ManageMemberActivity extends BackActivity implements Handler.Callba
                     @Override
                     public void onSuccess() {
                         super.onSuccess();
-                        umengEvent(UmengEvent.USER_CENTER, "删除企业成员");
+                        umengEvent(UmengEvent.E_USER_CENTER, "删除企业成员");
                         showProgressBar(false);
 
                         listData.remove(user);

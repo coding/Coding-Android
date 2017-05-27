@@ -70,7 +70,7 @@ public class SetEnterpriseAuthorityActivity extends BackActivity {
                     @Override
                     public void onSuccess() {
                         super.onSuccess();
-                        umengEvent(UmengEvent.USER_CENTER, "企业角色设置");
+                        umengEvent(UmengEvent.E_USER_CENTER, "企业角色设置");
                         showProgressBar(false);
 
                         Intent intent = new Intent();

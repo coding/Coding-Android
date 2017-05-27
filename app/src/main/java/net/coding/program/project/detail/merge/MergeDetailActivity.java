@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -68,8 +70,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 @EActivity(R.layout.activity_merge_detail)
 //@OptionsMenu(R.menu.menu_merge_detail)
@@ -545,6 +545,7 @@ public class MergeDetailActivity extends BackActivity {
             }
         } else if (tag.equals(HOST_MERGE_REFUSE)) {
             umengEvent(UmengEvent.CODE, "拒绝mrpr");
+            umengEvent(UmengEvent.E_GIT, "MR拒绝");
             if (code == 0) {
                 finishAndUpdateList();
             } else {
@@ -882,7 +883,7 @@ public class MergeDetailActivity extends BackActivity {
         }
     }
 
-    private static class MergeCommentParam extends CommentActivity.CommentParam implements Serializable {
+    public static class MergeCommentParam extends CommentActivity.CommentParam implements Serializable {
         private Merge mMerge;
         private String atSomeOne;
 

@@ -157,7 +157,7 @@ public class MemberAuthorityActivity extends BackActivity {
                     @Override
                     public void onSuccess() {
                         super.onSuccess();
-                        umengEvent(UmengEvent.USER_CENTER, "企业项目权限设置");
+                        umengEvent(UmengEvent.E_USER_CENTER, "企业项目权限设置");
 
                         Intent intent = new Intent();
                         intent.putExtra("intentData", id);

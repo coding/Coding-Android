@@ -25,6 +25,7 @@ import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.url.UrlCreate;
 import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.common.util.PermissionUtil;
@@ -225,6 +226,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
 
     @OptionsItem
     protected final void action_history() {
+        umengEvent(UmengEvent.E_GIT, "点击提交记录");
         String peek = pathStack.peek();
         if (peek.isEmpty() && mVersion.isEmpty()) {
             showButtomToast("没有Commit记录");
@@ -348,6 +350,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             }
         } else if (tag.equals(HOST_GIT_NEW_FILE_PREPARE)) {
             if (code == 0) {
+                umengEvent(UmengEvent.E_GIT, "新建文件_文本");
                 JSONObject jsonData = respanse.optJSONObject("data");
                 GitLastCommitObject lastCommitObject = new GitLastCommitObject(jsonData);
                 newFile(lastCommitObject);
@@ -362,6 +365,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             }
         } else if (tag.equals(HOST_GIT_UPLOAD_FILE_PREPARE)) {
             if (code == 0) {
+                umengEvent(UmengEvent.E_GIT, "新建文件_图片");
                 JSONObject jsonData = respanse.optJSONObject("data");
                 uploadPrepareObject = new GitUploadPrepareObject(jsonData);
                 uploadFile();
