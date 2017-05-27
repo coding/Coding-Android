@@ -27,6 +27,7 @@ import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.databinding.ActivityWikiDetailHeaderBinding;
 import net.coding.program.event.EventRefresh;
 import net.coding.program.model.AccountInfo;
@@ -199,6 +200,7 @@ public class WikiMainActivity extends BackActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(NodeHolder node) {
         selectNode(node);
+        umengEvent(UmengEvent.E_WIKI, "点击目录");
     }
 
     private void buildTree() {

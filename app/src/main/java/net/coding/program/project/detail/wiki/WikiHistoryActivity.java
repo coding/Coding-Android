@@ -15,6 +15,7 @@ import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.event.EventRefresh;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
@@ -109,6 +110,8 @@ public class WikiHistoryActivity extends BackActivity {
     protected class MyAdapter extends easyRegularAdapter<WikiHistory, ViewHolder> {
 
         private View.OnClickListener clickItem = v -> {
+            umengEvent(UmengEvent.E_WIKI, "点击历史版本");
+
             WikiHistory history = (WikiHistory) v.getTag();
             WikiHistoryDetailActivity_.intent(WikiHistoryActivity.this)
                     .wiki(wiki)

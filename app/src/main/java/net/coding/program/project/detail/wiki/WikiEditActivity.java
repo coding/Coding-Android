@@ -8,6 +8,7 @@ import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.event.EventRefresh;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.network.HttpObserver;
@@ -170,6 +171,7 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
                     @Override
                     public void onSuccess(Wiki data) {
                         super.onSuccess(data);
+                        umengEvent(UmengEvent.E_WIKI, "编辑_提交");
 
                         EventBus.getDefault().post(new EventRefresh(true));
                         showProgressBar(false);

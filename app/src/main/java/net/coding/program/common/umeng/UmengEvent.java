@@ -17,8 +17,10 @@ public class UmengEvent {
     public static String LOCAL = "local";
 
     // enterprise 的
-    public static String E_WIKI = "wiki";
-    public static String E_USER_CENTER = "user_center";
-    public static String E_GIT = "git";
+    public static String E_WIKI = "e_wiki";
+    public static String E_USER_CENTER = "e_user_center";
+    public static String E_GIT = "e_git";
+    public static String E_FILE = "e_file";
+
 
 }
