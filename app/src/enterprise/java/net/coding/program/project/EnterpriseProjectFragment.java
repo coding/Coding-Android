@@ -31,6 +31,7 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.event.EventRefresh;
 import net.coding.program.message.MessageListActivity_;
@@ -312,6 +313,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(URL_PIN_SET)) {
             if (code == 0) {
+                umengEvent(UmengEvent.PROJECT, "设为常用");
                 updatePin((ProjectObject) data, true);
             } else {
                 showErrorMsg(code, respanse);
@@ -319,6 +321,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
         } else if (tag.equals(URL_PIN_DELETE)) {
             if (code == 0) {
+                umengEvent(UmengEvent.PROJECT, "取消常用");
                 updatePin((ProjectObject) data, false);
             } else {
                 showErrorMsg(code, respanse);

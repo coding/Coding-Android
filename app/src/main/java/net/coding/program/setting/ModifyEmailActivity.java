@@ -14,6 +14,7 @@ import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
 import net.coding.program.login.auth.AuthInfo;
@@ -105,6 +106,8 @@ public class ModifyEmailActivity extends BackActivity {
             @Override
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
+
+                umengEvent(UmengEvent.USER_CENTER, "绑定邮箱_点击发送验证码");
                 showProgressBar(false);
                 showMiddleToast("发送验证邮件成功");
                 finish();

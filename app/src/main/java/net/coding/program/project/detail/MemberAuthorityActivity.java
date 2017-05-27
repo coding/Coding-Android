@@ -15,6 +15,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.constant.MemberAuthority;
@@ -156,6 +157,7 @@ public class MemberAuthorityActivity extends BackActivity {
                     @Override
                     public void onSuccess() {
                         super.onSuccess();
+                        umengEvent(UmengEvent.USER_CENTER, "企业项目权限设置");
 
                         Intent intent = new Intent();
                         intent.putExtra("intentData", id);

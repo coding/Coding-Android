@@ -16,6 +16,7 @@ import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
 import net.coding.program.common.widget.ValidePhoneView;
@@ -170,6 +171,8 @@ public class ValidePhoneActivity extends BackActivity {
         if (tag.equals(TAG_SET_USER_INFO)) {
             showProgressBar(false, "");
             if (code == 0) {
+                umengEvent(UmengEvent.USER_CENTER, "绑定手机_绑定成功");
+
                 showMiddleToast("修改成功");
                 setResult(Activity.RESULT_OK);
                 user.setPhone(editPhone.getTextString(), pickCountry.getCountryCode());

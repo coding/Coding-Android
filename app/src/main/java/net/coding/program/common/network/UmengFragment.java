@@ -6,6 +6,7 @@ import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by chenchao on 15/7/15.
+ *  封装 umeng 统计
  */
 public class UmengFragment extends Fragment {
     @Override

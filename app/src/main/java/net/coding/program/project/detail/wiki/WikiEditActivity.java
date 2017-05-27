@@ -176,6 +176,9 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
 
                         showButtomToast("修改 Wiki 成功");
 
+                        saveDraft = false;
+                        AccountInfo.deleteWikiDraft(WikiEditActivity.this, projectParam.toPath(), wiki.id);
+
                         finish();
                     }
 

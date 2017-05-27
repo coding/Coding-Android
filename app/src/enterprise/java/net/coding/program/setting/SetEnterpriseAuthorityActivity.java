@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.constant.MemberAuthority;
@@ -69,6 +70,7 @@ public class SetEnterpriseAuthorityActivity extends BackActivity {
                     @Override
                     public void onSuccess() {
                         super.onSuccess();
+                        umengEvent(UmengEvent.USER_CENTER, "企业角色设置");
                         showProgressBar(false);
 
                         Intent intent = new Intent();

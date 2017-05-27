@@ -24,6 +24,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.model.AccountInfo;
@@ -246,6 +247,7 @@ public class ManageMemberActivity extends BackActivity implements Handler.Callba
                     @Override
                     public void onSuccess() {
                         super.onSuccess();
+                        umengEvent(UmengEvent.USER_CENTER, "删除企业成员");
                         showProgressBar(false);
 
                         listData.remove(user);

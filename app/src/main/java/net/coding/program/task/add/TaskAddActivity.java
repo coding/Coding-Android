@@ -658,7 +658,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         layoutPhase.setOnClickListener(v -> popListSelectDialog(mStatusAdapter,
                 (dialog, which) -> {
                     if (which == 0) {
-                        mNewParam.status = TaskObject.STATUS_PRECESS; // "未完成"
+                        mNewParam.status = TaskObject.STATUS_PROGRESS; // "未完成"
                     } else {
                         mNewParam.status = TaskObject.STATUS_FINISH;
                     }
@@ -911,7 +911,13 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         } else if (tag.equals(TAG_TASK_UPDATE)) {
             showProgressBar(false);
             if (code == 0) {
-                umengEvent(UmengEvent.TASK, "修改任务");
+                if (mOldParam != null && mNewParam != null
+                        && mOldParam.status == TaskObject.STATUS_PROGRESS
+                        && mNewParam.status == TaskObject.STATUS_FINISH) {
+                    umengEvent(UmengEvent.TASK, "标记完成");
+                } else {
+                    umengEvent(UmengEvent.TASK, "修改任务");
+                }
                 closeActivity("修改任务成功");
             } else {
                 showErrorMsg(code, respanse);

@@ -219,12 +219,18 @@ public class WikiMainActivity extends BackActivity {
             treeViewBuilder.expandAll();
             bottomBarLayout.setVisibility(View.VISIBLE);
             disableToolbarScroll(false);
-            actionMore.setVisible(true);
+
+            if (actionMore != null) {
+                actionMore.setVisible(true);
+            }
         } else {
             BlankViewDisplay.setBlank(0, WikiMainActivity.this, true, blankLayout, v -> onRefrush());
             bottomBarLayout.setVisibility(View.GONE);
             disableToolbarScroll(true);
-            actionMore.setVisible(false);
+
+            if (actionMore != null) {
+                actionMore.setVisible(false);
+            }
         }
     }
 

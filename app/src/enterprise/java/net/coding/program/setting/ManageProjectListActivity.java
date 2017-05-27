@@ -23,6 +23,7 @@ import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.CommonAdapter;
 import net.coding.program.common.widget.CommonListView;
 import net.coding.program.login.auth.AuthInfo;
@@ -343,9 +344,14 @@ public class ManageProjectListActivity extends BackActivity {
                     @Override
                     public void onSuccess() {
                         super.onSuccess();
+
+                        umengEvent(UmengEvent.USER_CENTER, "删除企业项目");
+
                         showButtomToast("删除成功");
                         listData.remove(project);
                         adapter.notifyDataSetChanged();
+
+//                        umengEvent(Proj);
                     }
                 });
     }

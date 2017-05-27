@@ -23,6 +23,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.event.EventRefresh;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
@@ -39,10 +40,10 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
+import java.util.ArrayList;
 
 @EFragment(R.layout.project_list_fragment)
 public class ProjectListFragment extends RefreshBaseFragment implements View.OnClickListener, ProjectActionUtil.OnSettingListener {
@@ -202,6 +203,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
             if (code == 0) {
                 int id = (int) data;
                 ((UpdateData) getParentFragment()).updatePin(id, true);
+                umengEvent(UmengEvent.PROJECT, "设为常用");
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -210,6 +212,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
             if (code == 0) {
                 int id = (int) data;
                 ((UpdateData) getParentFragment()).updatePin(id, false);
+                umengEvent(UmengEvent.PROJECT, "取消常用");
             } else {
                 showErrorMsg(code, respanse);
             }

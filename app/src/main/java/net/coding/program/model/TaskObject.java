@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class TaskObject {
 
-    public static int STATUS_PRECESS = 1;
+    public static int STATUS_PROGRESS = 1;
     public static int STATUS_FINISH = 2;
 
     public static class TaskDescription implements Serializable {

@@ -9,6 +9,7 @@ import net.coding.program.MyApp;
 
 /**
  * Created by chaochen on 14-10-9.
+ *  封装 umeng 统计
  */
 public class UmengActivity extends AppCompatActivity {
 

@@ -49,13 +49,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.WeakHashMap;
-
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 @EFragment(R.layout.fragment_task_list)
 public class TaskListFragment extends RefreshBaseFragment implements TaskListUpdate {
@@ -477,7 +477,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         public void notifyDataSetChanged() {
             mSectionId = 0;
             for (TaskObject.SingleTask item : mData) {
-                if (item.status == TaskObject.STATUS_PRECESS) {
+                if (item.status == TaskObject.STATUS_PROGRESS) {
                     ++mSectionId;
                 } else {
                     break;

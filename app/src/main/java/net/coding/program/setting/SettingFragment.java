@@ -17,6 +17,7 @@ import net.coding.program.MainActivity;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.event.EventMessage;
@@ -177,6 +178,7 @@ public class SettingFragment extends BaseFragment {
     @Click
     void loginOut() {
         showDialog(MyApp.sUserObject.global_key, "退出当前账号?", (dialog, which) -> {
+            umengEvent(UmengEvent.USER_CENTER, "退登_确定退登");
             FragmentActivity activity = getActivity();
             XGPushManager.registerPush(activity, "*");
             AccountInfo.loginOut(activity);

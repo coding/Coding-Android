@@ -9,6 +9,20 @@
         android:largeHeap="true"
         android:theme="@style/ActionbarNoIcon">
 
+        <meta-data
+                android:name="com.baidu.lbsapi.API_KEY"
+                android:value="kZ4gu0Xx9vlcDVPK4Gtd1V2W"/>
+        <meta-data
+                android:name="XG_V2_ACCESS_ID"
+                android:value="2100249649"/>
+        <meta-data
+                android:name="XG_V2_ACCESS_KEY"
+                android:value="AE6DQ4C5G35G"/>
+        <!-- 友盟标示 -->
+        <meta-data
+                android:name="UMENG_APPKEY"
+                android:value="5881da0875ca35702c00103e"/>
+
         <!-- 友盟社会化分享需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
         <!-- ###################注册SDK使用的Activity###################### -->
         <!-- 分享编辑页 -->

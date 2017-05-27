@@ -15,4 +15,10 @@ public class UmengEvent {
     public static String NOTIFY = "notify";
     public static String USER = "user";
     public static String LOCAL = "local";
+
+    // enterprise 的
+    public static String WIKI = "wiki";
+    public static String USER_CENTER = "user_center";
+    public static String GIT = "git";
+
 }
