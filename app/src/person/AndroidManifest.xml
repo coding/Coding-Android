@@ -17,8 +17,8 @@
         <!-- 信鸽需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver
-            android:name="com.tencent.android.tpush.XGPushReceiver">
-            <!--android:process=":xg_service_v2">-->
+                android:name="com.tencent.android.tpush.XGPushReceiver"
+                android:process=":xg_service_v2">
             <intent-filter android:priority="0x7fffffff">
 
                 <!-- 【必须】 信鸽SDK的内部广播 -->
@@ -57,10 +57,10 @@
 
         <!-- 【必须】 信鸽service -->
         <service
-            android:name="com.tencent.android.tpush.service.XGPushService"
-            android:exported="true"
-            android:persistent="true" />
-            <!--android:process=":xg_service_v2" />-->
+                android:name="com.tencent.android.tpush.service.XGPushService"
+                android:exported="true"
+                android:persistent="true"
+                android:process=":xg_service_v2"/>
 
         <receiver android:name=".CodingPushReciver">
             <intent-filter>

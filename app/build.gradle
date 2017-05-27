@@ -65,8 +65,8 @@ android {
         enterprise {
             dimension "enterprise"
             applicationId "net.coding.program.enterprise"
-            versionCode 18
-            versionName "2.0"
+            versionCode 22
+            versionName "2.2"
         }
 
         dev {

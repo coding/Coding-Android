@@ -74,6 +74,7 @@ public class CommonPickProjectActivity extends BackActivity {
                         super.onSuccess(data);
                         listData.clear();
                         listData.addAll(data);
+                        adapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -180,6 +181,7 @@ public class CommonPickProjectActivity extends BackActivity {
             for (MemberRole item : listData) {
                 if (item.projectId == intentData1) {
                     item.type = intentData;
+                    adapter.notifyDataSetChanged();
                     break;
                 }
             }

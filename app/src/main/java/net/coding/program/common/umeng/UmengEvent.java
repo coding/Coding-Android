@@ -24,5 +24,4 @@ public class UmengEvent {
     public static String E_GIT = "e_git";
     public static String E_FILE = "e_file";
 
-
 }

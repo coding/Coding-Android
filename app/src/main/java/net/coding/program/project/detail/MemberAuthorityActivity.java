@@ -58,7 +58,7 @@ public class MemberAuthorityActivity extends BackActivity {
 
     @AfterViews
     void initMemberAuthorityActivity() {
-        projectManager.setText("项目管理员");
+        projectManager.setText("管理员");
         projectMember.setText("项目成员");
         projectMemberLimited.setText("受限成员");
 

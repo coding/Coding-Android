@@ -9,15 +9,6 @@
         android:largeHeap="true"
         android:theme="@style/ActionbarNoIcon">
 
-        <meta-data
-                android:name="com.baidu.lbsapi.API_KEY"
-                android:value="kZ4gu0Xx9vlcDVPK4Gtd1V2W"/>
-        <meta-data
-                android:name="XG_V2_ACCESS_ID"
-                android:value="2100249649"/>
-        <meta-data
-                android:name="XG_V2_ACCESS_KEY"
-                android:value="AE6DQ4C5G35G"/>
         <!-- 友盟标示 -->
         <meta-data
                 android:name="UMENG_APPKEY"
@@ -58,8 +49,8 @@
         <!-- 信鸽需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver
-            android:name="com.tencent.android.tpush.XGPushReceiver">
-            <!--android:process=":xg_service_v2">-->
+                android:name="com.tencent.android.tpush.XGPushReceiver"
+                android:process=":xg_service_v2">
             <intent-filter android:priority="0x7fffffff">
 
                 <!-- 【必须】 信鸽SDK的内部广播 -->
@@ -98,10 +89,10 @@
 
         <!-- 【必须】 信鸽service -->
         <service
-            android:name="com.tencent.android.tpush.service.XGPushService"
-            android:exported="true"
-            android:persistent="true" />
-            <!--android:process=":xg_service_v2" />-->
+                android:name="com.tencent.android.tpush.service.XGPushService"
+                android:exported="true"
+                android:persistent="true"
+                android:process=":xg_service_v2"/>
 
         <receiver android:name=".common.EnterprisePushReceiver">
             <intent-filter>
