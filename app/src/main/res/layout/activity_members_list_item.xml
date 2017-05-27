@@ -1,35 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:background="@color/stand_bg"
+             android:foreground="?attr/selectableItemBackground"
+             android:layout_height="wrap_content">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center_vertical"
+                  android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/icon"
-            android:layout_width="47dp"
-            android:layout_height="47dp"
-            android:layout_margin="10dp" />
+                android:id="@+id/icon"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:layout_margin="10dp"/>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
             <!--4.1下必须这样布局才正常-->
             <RelativeLayout
-                android:id="@+id/con"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left|center_vertical">
+                    android:id="@+id/con"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical">
 
                 <!--<TextView
                     android:layout_width="wrap_content"
@@ -59,15 +61,15 @@
 
 
                 <ImageView
-                    android:id="@+id/ic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_toRightOf="@id/name"
-                    android:src="@drawable/ic_project_creator"
-                    android:visibility="gone" />
+                        android:id="@+id/ic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_toRightOf="@id/name"
+                        android:src="@drawable/ic_project_creator"
+                        android:visibility="gone"/>
 
             </RelativeLayout>
 
@@ -87,21 +89,21 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/watchCheck"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@id/name"
-            android:scaleType="center"
-            android:src="@drawable/ic_watchuser_check"
-            android:visibility="invisible"
-            tools:visibility="visible" />
+                android:id="@+id/watchCheck"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@id/name"
+                android:scaleType="center"
+                android:src="@drawable/ic_watchuser_check"
+                android:visibility="invisible"
+                tools:visibility="visible"/>
 
     </LinearLayout>
 
     <View
-        style="@style/DivideLine"
-        android:layout_gravity="bottom" />
+            style="@style/DivideLine"
+            android:layout_gravity="bottom"/>
 </FrameLayout>

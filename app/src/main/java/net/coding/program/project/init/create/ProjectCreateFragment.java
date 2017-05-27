@@ -296,6 +296,7 @@ public class ProjectCreateFragment extends BaseFragment {
         if (tag.equals(TAG_CREATE_PROJECT)) {
             if (code == 0) {
                 umengEvent(UmengEvent.PROJECT, "新建项目");
+                umengEvent(UmengEvent.E_PROJECT, "新建项目");
 
                 EventBus.getDefault().post(new EventRefresh(true));
                 String path = respanse.optString("data");

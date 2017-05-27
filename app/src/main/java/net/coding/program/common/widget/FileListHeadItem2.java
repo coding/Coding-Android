@@ -156,6 +156,7 @@ public class FileListHeadItem2 extends FrameLayout {
                     @Override
                     public void onSuccess(CodingFile data) {
                         super.onSuccess(data);
+
                         subscription = null;
                         ((ViewGroup) getParent()).removeView(FileListHeadItem2.this);
                         callback.onSuccess(data);

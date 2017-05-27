@@ -273,6 +273,7 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
 
     @Click
     protected void clickFileDynamic() {
+        umengEvent(UmengEvent.E_FILE, "点击文件动态");
         FileDynamicActivity.ProjectFileParam param =
                 new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProject);
         FileDynamicActivity_.intent(this)
@@ -282,6 +283,7 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
 
     @Click
     protected void clickFileHistory() {
+        umengEvent(UmengEvent.E_FILE, "点击历史版本");
         FileDynamicActivity.ProjectFileParam param =
                 new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProject);
         FileHistoryActivity_.intent(this)
@@ -311,6 +313,7 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, File response) {
                 Log.v(TAG, "onSuccess:" + statusCode + " " + headers.toString());
+                umengEvent(UmengEvent.E_FILE, "下载成功");
                 showButtomToast("下载完成");
                 isDownloading = false;
                 onDownloadFinish(true);

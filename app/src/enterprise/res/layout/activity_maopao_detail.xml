@@ -16,11 +16,12 @@
             android:layout_height="match_parent">
 
             <ListView
-                android:id="@+id/listView"
-                android:divider="@drawable/maopao_comment_divide_line"
-                android:dividerHeight="@dimen/divide_height"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                    android:id="@+id/listView"
+                    android:divider="@drawable/maopao_comment_divide_line"
+                    android:dividerHeight="@dimen/divide_height"
+                    android:layout_width="match_parent"
+                    android:background="@color/stand_bg"
+                    android:layout_height="match_parent" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>

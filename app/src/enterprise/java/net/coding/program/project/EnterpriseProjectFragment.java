@@ -313,7 +313,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(URL_PIN_SET)) {
             if (code == 0) {
-                umengEvent(UmengEvent.PROJECT, "设为常用");
+                umengEvent(UmengEvent.E_PROJECT, "设为常用");
                 updatePin((ProjectObject) data, true);
             } else {
                 showErrorMsg(code, respanse);
@@ -321,7 +321,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
         } else if (tag.equals(URL_PIN_DELETE)) {
             if (code == 0) {
-                umengEvent(UmengEvent.PROJECT, "取消常用");
+                umengEvent(UmengEvent.E_PROJECT, "取消常用");
                 updatePin((ProjectObject) data, false);
             } else {
                 showErrorMsg(code, respanse);

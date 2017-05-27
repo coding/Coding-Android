@@ -6,6 +6,7 @@ import android.widget.EditText;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.RequestData;
 import net.coding.program.project.detail.AttachmentsActivity;
@@ -82,6 +83,8 @@ public class TxtEditActivity extends BackActivity {
         if (tag.equals(TAG_SAVE_CONTENT)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.E_FILE, "点击编辑");
+
                 showProgressBar(true, "正在保存");
                 setResult(RESULT_OK);
                 String url = mParam.getHtttpFileView();

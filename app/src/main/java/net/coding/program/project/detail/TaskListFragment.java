@@ -408,6 +408,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         } else if (tag.equals(URL_TASK_SATUS)) {
             if (code == 0) {
                 umengEvent(UmengEvent.TASK, "修改任务");
+                umengEvent(UmengEvent.E_TASK, "标记完成");
 
                 TaskParam param = (TaskParam) data;
                 TaskObject.SingleTask task = param.mTask;

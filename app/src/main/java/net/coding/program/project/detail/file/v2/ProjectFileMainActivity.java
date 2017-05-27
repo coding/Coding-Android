@@ -821,7 +821,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
             return;
         }
 
-        umengEvent(UmengEvent.FILE, "上传文件");
+        umengEvent(UmengEvent.E_FILE, "上传成功");
 
         int firstFilePos = 0; // 第一个文件的位置（文件排在文件前面）
         int sameNamePos = -1; // 同名文件的位置
@@ -874,6 +874,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
     @Override
     public void completed(BaseDownloadTask task) {
+        umengEvent(UmengEvent.E_FILE, "下载成功");
         Logger.d(String.format("completed %s\n", task.getUrl()));
         updateItem(task.getUrl(), CodingFile.MAX_PROGRESS);
 

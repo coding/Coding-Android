@@ -850,6 +850,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             showProgressBar(false);
             if (code == 0) {
                 umengEvent(UmengEvent.TASK, "新建任务");
+                umengEvent(UmengEvent.E_TASK, "创建");
                 closeActivity(MSG_ADD_TASK_SUCCESS);
             } else {
                 showErrorMsg(code, respanse);
@@ -874,6 +875,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
             showProgressBar(false);
             if (code == 0) {
                 umengEvent(UmengEvent.TASK, "新建任务评论");
+                umengEvent(UmengEvent.E_TASK, "评论");
 
                 EnterLayout mEnterLayout = mEnterComment.getEnterLayout();
                 mEnterLayout.restoreDelete(data);
@@ -914,9 +916,9 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
                 if (mOldParam != null && mNewParam != null
                         && mOldParam.status == TaskObject.STATUS_PROGRESS
                         && mNewParam.status == TaskObject.STATUS_FINISH) {
-                    umengEvent(UmengEvent.TASK, "标记完成");
+                    umengEvent(UmengEvent.E_TASK, "标记完成");
                 } else {
-                    umengEvent(UmengEvent.TASK, "修改任务");
+                    umengEvent(UmengEvent.E_TASK, "修改任务");
                 }
                 closeActivity("修改任务成功");
             } else {
