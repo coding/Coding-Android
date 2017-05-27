@@ -39,7 +39,7 @@ public class ProjectObject implements Serializable {
     public int recommended;
     @SerializedName("backend_project_path")
     @Expose
-    public String backend_project_path = ""; // "/user/cc/project/hell"
+    private String backend_project_path = ""; // "/user/cc/project/hell"
     @SerializedName("name")
     @Expose
     public String name = "";
@@ -158,6 +158,10 @@ public class ProjectObject implements Serializable {
         memberNum = json.optInt("member_num");
     }
 
+    public String getBackendProjectPath() {
+        return backend_project_path.replace("/team/", "/user/");
+    }
+
     public ProjectObject() {
     }
 
@@ -254,20 +258,20 @@ public class ProjectObject implements Serializable {
     }
 
     public String getHttpGitTree(String version) {
-        return Global.HOST_API + backend_project_path + "/git/tree/" + version;
+        return Global.HOST_API + getBackendProjectPath() + "/git/tree/" + version;
     }
 
     public String getHttpReadme(String version, String readmeName) {
-        return Global.HOST_API + backend_project_path + "/git/edit/" + version + "%252F" + readmeName;
+        return Global.HOST_API + getBackendProjectPath() + "/git/edit/" + version + "%252F" + readmeName;
     }
 
     public String getHttpReadmePreview(String version, String readmeName) {
 //        "https://coding.net/api/user/gggg/project/aa66/git/blob-preview/master%252FREADME.md"
-        return Global.HOST_API + backend_project_path + "/git/blob-preview/" + version + "%252F" + readmeName;
+        return Global.HOST_API + getBackendProjectPath() + "/git/blob-preview/" + version + "%252F" + readmeName;
     }
 
     public String getProjectGit() {
-        return Global.HOST_API + backend_project_path + "/git";
+        return Global.HOST_API + getBackendProjectPath() + "/git";
     }
 
     public String getHttpStar(boolean star) {
@@ -275,7 +279,7 @@ public class ProjectObject implements Serializable {
     }
 
     private String getHttpUrl(String param) {
-        return Global.HOST_API + backend_project_path + param;
+        return Global.HOST_API + getBackendProjectPath() + param;
     }
 
     public int getStar_count() {
@@ -323,7 +327,7 @@ public class ProjectObject implements Serializable {
     }
 
     public String getHttpProjectApi() {
-        return Global.HOST_API + backend_project_path;
+        return Global.HOST_API + getBackendProjectPath();
     }
 
     public String getHttpWatch(boolean watch) {
@@ -331,11 +335,11 @@ public class ProjectObject implements Serializable {
     }
 
     public String getHttpProjectObject() {
-        return Global.HOST_API + backend_project_path;
+        return Global.HOST_API + getBackendProjectPath();
     }
 
     public String getProjectPath() { //     /user/cc/project/test
-        return translatePath(backend_project_path);
+        return translatePath(getBackendProjectPath());
     }
 
     public boolean isMy() {
@@ -356,33 +360,33 @@ public class ProjectObject implements Serializable {
     public String getHttpMerge(boolean open) {
         String type = open ? "open" : "closed";
         String pull = isPublic() ? "/git/pulls/" : "/git/merges/";
-        return Global.HOST_API + backend_project_path + pull + type + "?";
+        return Global.HOST_API + getBackendProjectPath() + pull + type + "?";
     }
 
     public ProjectJumpParam generateJumpParam() {
-        return new ProjectJumpParam(backend_project_path);
+        return new ProjectJumpParam(getBackendProjectPath());
     }
 
     public String getHttpMergeExamine(boolean open, MergeExamine mineType) {
         String type = open ? "open" : "closed";
-        return Global.HOST_API + backend_project_path + "/git/merges/list/" + mineType + "?&status=" + type;
+        return Global.HOST_API + getBackendProjectPath() + "/git/merges/list/" + mineType + "?&status=" + type;
     }
 
     public String getHttpDeleteProject2fa(String code) {
         String params = String.format("?name=%s&two_factor_code=%s", name, code);
-        return Global.HOST_API + backend_project_path + params;
+        return Global.HOST_API + getBackendProjectPath() + params;
     }
 
     public String getHttpTransferProject(String globalKey) {
-        return Global.HOST_API + backend_project_path + "/transfer_to/" + globalKey;
+        return Global.HOST_API + getBackendProjectPath() + "/transfer_to/" + globalKey;
     }
 
     public String getHttptStargazers() {
-        return Global.HOST_API + backend_project_path + "/stargazers/paging?pageSize=20";
+        return Global.HOST_API + getBackendProjectPath() + "/stargazers/paging?pageSize=20";
     }
 
     public String getHttptwatchers() {
-        return Global.HOST_API + backend_project_path + "/watchers/paging?pageSize=20";
+        return Global.HOST_API + getBackendProjectPath() + "/watchers/paging?pageSize=20";
     }
 
     public String getForkPath() {
@@ -391,18 +395,18 @@ public class ProjectObject implements Serializable {
 
     public String getMergesFilterAll() {
         String pull = isPublic() ? "/git/pulls/" : "/git/merges/";
-        return Global.HOST_API + backend_project_path + pull + "all?";
+        return Global.HOST_API + getBackendProjectPath() + pull + "all?";
     }
 
     public String getMergesFilter() {
         String pull = "/git/merges/";
-        return Global.HOST_API + backend_project_path + pull + "filter?";
+        return Global.HOST_API + getBackendProjectPath() + pull + "filter?";
     }
 
     public String getMergesFilterStatus(String status) {
         String pull = isPublic() ? "/git/pulls/" : "/git/merges/";
         String params = String.format("status=%s", status);
-        return Global.HOST_API + backend_project_path + pull + "filter?" + params;
+        return Global.HOST_API + getBackendProjectPath() + pull + "filter?" + params;
     }
 
     public DynamicObject.Owner getOwner() {

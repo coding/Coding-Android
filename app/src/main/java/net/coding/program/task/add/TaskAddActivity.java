@@ -755,7 +755,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
         Global.popSoftkeyboard(this, title, false);
 
         if (mSingleTask.isEmpty()) {
-            String url = String.format(HOST_TASK_ADD, mSingleTask.project.backend_project_path);
+            String url = String.format(HOST_TASK_ADD, mSingleTask.project.getBackendProjectPath());
             RequestParams params = new RequestParams();
             params.put("content", content);
             params.put("status", mNewParam.status);

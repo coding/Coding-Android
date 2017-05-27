@@ -38,9 +38,11 @@ import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.network.BaseHttpObserver;
+import net.coding.program.network.CodingRequest;
 import net.coding.program.network.FileDownloadCallback;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
+import net.coding.program.network.model.HttpPageResult;
 import net.coding.program.network.model.Pager;
 import net.coding.program.network.model.file.CodingFile;
 import net.coding.program.project.detail.AttachmentsDownloadDetailActivity_;
@@ -66,6 +68,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -149,17 +152,19 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
     }
 
     protected void onRefresh() {
-        String folderPath = "0/all";
+        CodingRequest retrofit = Network.getRetrofit(this, listView);
+        Observable<HttpPageResult<CodingFile>> fileList;
         if (parentFolder != null) {
             if (parentFolder.isShareFolder()) {
-                folderPath = "shared_files";
+                fileList = retrofit.getShareFileList(project.owner_user_name, project.name);
             } else {
-                folderPath = String.format("%s/all", parentFolder.fileId);
+                fileList = retrofit.getFileList(project.owner_user_name, project.name, parentFolder.fileId);
             }
+        } else {
+            fileList = retrofit.getFileList(project.owner_user_name, project.name, 0);
         }
-        Network.getRetrofit(this, listView)
-                .getFileList(project.owner_user_name, project.name, folderPath)
-                .subscribeOn(Schedulers.io())
+
+        fileList.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpObserver<Pager<CodingFile>>(ProjectFileMainActivity.this, listView) {
                     @Override

@@ -131,7 +131,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             fragment = (Fragment) fragmentClass.newInstance();
 
             bundle.putSerializable("mProjectObject", mProjectObject);
-            bundle.putSerializable("mProjectPath", ProjectObject.translatePath(mProjectObject.backend_project_path));
+            bundle.putSerializable("mProjectPath", ProjectObject.translatePath(mProjectObject.getBackendProjectPath()));
             fragment.setArguments(bundle);
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

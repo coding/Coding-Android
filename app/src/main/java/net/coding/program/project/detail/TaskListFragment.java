@@ -244,7 +244,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             }
         }
 
-        return String.format(BASE_HOST, mProjectObject.backend_project_path, userType);
+        return String.format(BASE_HOST, mProjectObject.getBackendProjectPath(), userType);
     }
 
     @AfterViews

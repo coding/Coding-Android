@@ -280,7 +280,7 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         if (mProjectObject.isMy()) {
             showButtomToast("不能fork自己的项目");
         } else {
-            forkUrl = Global.HOST_API + mProjectObject.backend_project_path + "/git/fork";
+            forkUrl = Global.HOST_API + mProjectObject.getBackendProjectPath() + "/git/fork";
             showDialog("fork", "fork将会将此项目复制到您的个人空间，确定要fork吗?", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
