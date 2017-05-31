@@ -2,6 +2,7 @@ package net.coding.program.model;
 
 import net.coding.program.MyApp;
 import net.coding.program.common.Global;
+import net.coding.program.network.constant.VIP;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -16,6 +17,7 @@ import java.io.Serializable;
  * Created by cc191954 on 14-8-7.
  */
 public class UserObject implements Serializable, Comparable {
+
     public String avatar = "";
     public String slogan = "";
     public String tags = "";
@@ -49,6 +51,7 @@ public class UserObject implements Serializable, Comparable {
     public int phone_validation = 0;
     public String phone_country_code = "+86";
     private String pingYin = "";
+    public VIP vip;
 
     public UserObject(JSONObject json) {
         if (json == null) {
@@ -91,6 +94,8 @@ public class UserObject implements Serializable, Comparable {
         email_validation = json.optInt("email_validation", 0);
         phone_validation = json.optInt("phone_validation", 0);
         phone_country_code = json.optString("phone_country_code", "+86");
+        vip = VIP.id2Enum(json.optInt("vip", 1));
+
     }
 
     public UserObject() {

@@ -1,5 +1,6 @@
 package net.coding.program;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.roughike.bottombar.BottomBar;
+import com.tbruyelle.rxpermissions.RxPermissions;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
@@ -26,7 +28,6 @@ import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BaseActivity;
-import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.event.EventMessage;
 import net.coding.program.event.EventNotifyBottomBar;
 import net.coding.program.event.EventShowBottom;
@@ -40,11 +41,11 @@ import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.setting.MainSettingFragment_;
 import net.coding.program.task.MainTaskFragment_;
-import net.coding.program.user.MyDetailActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.DimensionPixelSizeRes;
 import org.androidannotations.api.builder.FragmentBuilder;
@@ -119,16 +120,6 @@ public class MainActivity extends BaseActivity {
 
         ZhongQiuGuideActivity.showHolidayGuide(this);
 
-        if (PermissionUtil.writeExtralStorage(this)) {
-            LoginBackground loginBackground = new LoginBackground(this);
-            loginBackground.update();
-        }
-
-        if (PermissionUtil.checkPhoneState(this)) {
-            startPushService();
-        }
-
-        startExtraService();
 
         mFirstEnter = (savedInstanceState == null);
 
@@ -143,7 +134,44 @@ public class MainActivity extends BaseActivity {
         warnMailNoValidLogin();
         warnMailNoValidRegister();
 
+
+        startExtraService();
         EventBus.getDefault().register(this);
+
+        requestPermission();
+    }
+
+    @UiThread(delay = 2000)
+    void requestPermission() {
+        requestPermissionReal();
+    }
+
+    private void requestPermissionReal() {
+        RxPermissions permissions = new RxPermissions(this);
+        permissions.requestEach(Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(permission -> {
+                    if (permission.granted) {
+                        startPushService();
+                        LoginBackground loginBackground = new LoginBackground(this);
+                        loginBackground.update();
+                    } else if (permission.shouldShowRequestPermissionRationale) {
+                        showDialog("", "开启 \"电话\" 权限后才能收到推送\n开启\"存储空间\"权限是为了能下载文件到外部存储",
+                                (dialog, which) -> requestPermissionReal(), null);
+                    } else {
+                    }
+                });
+//                .subscribe(granted -> {
+//                    if (granted) {
+//                        startPushService();
+//                        LoginBackground loginBackground = new LoginBackground(this);
+//                        loginBackground.update();
+//                    } else {
+//                        showDialog("", "开启 \"电话\" 权限后才能收到推送\n开启\"存储空间\"权限是为了能下载文件到外部存储",
+//                                (dialog, which) -> requestPermissionReal(), null);
+//                    }
+//                });
     }
 
     protected void startExtraService() {

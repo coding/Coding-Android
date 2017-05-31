@@ -161,6 +161,7 @@ public class UserDetailCommonActivity extends BackActivity {
         iconfromNetwork(icon, mUserObject.avatar, new UserDetailActivity.AnimateFirstDisplayListener());
         icon.setTag(new MaopaoListFragment.ClickImageParam(mUserObject.avatar));
         icon.setOnClickListener(new ClickSmallImage(this));
+        icon.setTag(R.id.icon, mUserObject);
 
         name.setCompoundDrawablesWithIntrinsicBounds(0, 0, sexs[mUserObject.sex], 0);
         name.setText(mUserObject.name);

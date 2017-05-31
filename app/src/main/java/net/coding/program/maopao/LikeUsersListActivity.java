@@ -17,6 +17,7 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.DynamicObject;
 import net.coding.program.model.Maopao;
+import net.coding.program.network.constant.VIP;
 import net.coding.program.user.UserDetailActivity;
 
 import org.androidannotations.annotations.AfterViews;
@@ -63,6 +64,7 @@ public class LikeUsersListActivity extends BackActivity {
                 holder = new ViewHolder();
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.vip = (ImageView) convertView.findViewById(R.id.vip);
                 holder.mutual = (CheckBox) convertView.findViewById(R.id.followMutual);
                 convertView.setTag(holder);
             } else {
@@ -73,6 +75,16 @@ public class LikeUsersListActivity extends BackActivity {
             holder.name.setText(data.name);
             holder.icon.setTag(LikeUserImage.TAG, data);
             iconfromNetwork(holder.icon, data.avatar);
+
+            if (data.vip == VIP.diamond) {
+                holder.vip.setVisibility(View.VISIBLE);
+                holder.vip.setImageResource(R.drawable.member_diamond);
+            } else if (data.vip == VIP.gold) {
+                holder.vip.setVisibility(View.VISIBLE);
+                holder.vip.setImageResource(R.drawable.member_gold);
+            } else {
+                holder.vip.setVisibility(View.INVISIBLE);
+            }
 
             if (MyApp.sUserObject.global_key.equals(data.global_key)) {
                 holder.mutual.setVisibility(View.INVISIBLE);
@@ -157,5 +169,6 @@ public class LikeUsersListActivity extends BackActivity {
         ImageView icon;
         TextView name;
         CheckBox mutual;
+        ImageView vip;
     }
 }

@@ -317,7 +317,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         time.setText(Global.dayToNow(mMaopaoObject.created_at));
 
         iconfromNetwork(icon, mMaopaoObject.owner.avatar);
-        icon.setTag(mMaopaoObject.owner.global_key);
+        icon.setTag(mMaopaoObject.owner);
 
         name.setText(mMaopaoObject.owner.name);
         name.setTag(mMaopaoObject.owner.global_key);

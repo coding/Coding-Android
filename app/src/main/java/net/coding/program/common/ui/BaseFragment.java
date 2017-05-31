@@ -38,6 +38,7 @@ import net.coding.program.common.network.UmengFragment;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.util.SingleToast;
 import net.coding.program.compatible.CodingCompat;
+import net.coding.program.model.UserObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,8 +58,14 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
     protected FootUpdate mFootUpdate = new FootUpdate();
 
     protected View.OnClickListener mOnClickUser = v -> {
-        String globalKey = (String) v.getTag();
-        CodingCompat.instance().launchUserDetailActivity(getActivity(), globalKey);
+        Object tag = v.getTag();
+        if (tag instanceof String) {
+            String globalKey = (String) tag;
+            CodingCompat.instance().launchUserDetailActivity(getActivity(), globalKey);
+        } else if (tag instanceof UserObject) {
+            String globalKey = ((UserObject) tag).global_key;
+            CodingCompat.instance().launchUserDetailActivity(getActivity(), globalKey);
+        }
     };
     SingleToast mSingleToast;
     private ImageLoadTool imageLoadTool = new ImageLoadTool();

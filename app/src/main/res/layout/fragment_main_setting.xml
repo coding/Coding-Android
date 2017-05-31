@@ -42,7 +42,7 @@
             android:background="@color/stand_bg"
             android:foreground="?attr/selectableItemBackground">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <net.coding.program.common.widget.MemberIcon
                 android:id="@+id/userIcon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

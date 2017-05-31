@@ -83,15 +83,8 @@
         <!-- 信鸽需要的组件 end ———————————————————————————————————————————————————————————————————————————— -->
 
 
-
-
         <activity android:name=".TestActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.main" />
-                <category android:name="android.intent.category.launcher" />
-            </intent-filter>
         </activity>
-
 
         <activity
             android:name=".EntranceActivity_"

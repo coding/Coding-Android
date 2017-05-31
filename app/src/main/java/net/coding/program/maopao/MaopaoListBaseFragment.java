@@ -31,6 +31,8 @@ import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import com.umeng.socialize.sso.UMSsoHandler;
 
+import jp.wasabeef.recyclerview.internal.ViewHelper;
+
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -73,7 +75,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
-import jp.wasabeef.recyclerview.internal.ViewHelper;
 
 /**
  * Created by chenchao on 15/9/22.
@@ -970,7 +971,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
             }
 
             iconfromNetwork(holder.icon, data.owner.avatar);
-            holder.icon.setTag(data.owner.global_key);
+            holder.icon.setTag(data.owner);
 
             holder.name.setText(data.owner.name);
             holder.name.setTag(data.owner.global_key);

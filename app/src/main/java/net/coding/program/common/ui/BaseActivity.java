@@ -31,6 +31,7 @@ import net.coding.program.common.umeng.UmengActivity;
 import net.coding.program.common.util.SingleToast;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.RequestData;
+import net.coding.program.model.UserObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,8 +45,14 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
     protected LayoutInflater mInflater;
     protected FootUpdate mFootUpdate = new FootUpdate();
     protected View.OnClickListener mOnClickUser = v -> {
-        String globalKey = (String) v.getTag();
-        CodingCompat.instance().launchUserDetailActivity(BaseActivity.this, globalKey);
+        Object tag = v.getTag();
+        if (tag instanceof String) {
+            String globalKey = (String) tag;
+            CodingCompat.instance().launchUserDetailActivity(BaseActivity.this, globalKey);
+        } else if (tag instanceof UserObject) {
+            String globalKey = ((UserObject) tag).global_key;
+            CodingCompat.instance().launchUserDetailActivity(BaseActivity.this, globalKey);
+        }
     };
     SingleToast mSingleToast;
 

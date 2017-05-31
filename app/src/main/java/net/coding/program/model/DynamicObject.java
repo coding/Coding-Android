@@ -13,6 +13,7 @@ import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.MyImageGetter;
+import net.coding.program.network.constant.VIP;
 import net.coding.program.param.MessageParse;
 
 import org.json.JSONArray;
@@ -1362,6 +1363,7 @@ public class DynamicObject {
         public String path = "";
         public boolean follow;
         public boolean followed;
+        public VIP vip;
 
         public User(JSONObject json) throws JSONException {
             if (json.has("avatar")) {
@@ -1373,6 +1375,7 @@ public class DynamicObject {
             path = ProjectObject.teamPath2User(json.optString("path"));
             follow = json.optInt("follow") != 0;
             followed = json.optInt("followed") != 0;
+            vip = VIP.id2Enum(json.optInt("vip", 1));
         }
 
         public User() {

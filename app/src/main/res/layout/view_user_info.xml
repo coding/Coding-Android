@@ -14,7 +14,7 @@
         android:background="@color/stand_bg"
         android:paddingBottom="17dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <net.coding.program.common.widget.MemberIcon
             android:id="@+id/icon"
             android:layout_width="77dp"
             android:layout_height="77dp"
