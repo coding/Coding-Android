@@ -9,11 +9,6 @@
         android:largeHeap="true"
         android:theme="@style/ActionbarNoIcon">
 
-        <!-- 友盟标示 -->
-        <meta-data
-                android:name="UMENG_APPKEY"
-                android:value="5881da0875ca35702c00103e"/>
-
         <!-- 友盟社会化分享需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
         <!-- ###################注册SDK使用的Activity###################### -->
         <!-- 分享编辑页 -->
