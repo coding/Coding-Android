@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity {
     ViewGroup container;
     @DimensionPixelSizeRes(R.dimen.main_container_merge_bottom)
     int bottomMerge;
-    boolean mFirstEnter = true;
+
     BroadcastReceiver mUpdatePushReceiver;
     private long exitTime = 0;
     private boolean mKeyboardUp;
@@ -119,9 +119,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         ZhongQiuGuideActivity.showHolidayGuide(this);
-
-
-        mFirstEnter = (savedInstanceState == null);
 
         if (mPushUrl != null) {
             URLSpanNoUnderline.openActivityByUri(this, mPushUrl, true);
@@ -295,11 +292,6 @@ public class MainActivity extends BaseActivity {
         Global.display(this);
 
         setListenerToRootView();
-
-        if (mFirstEnter) {
-            // todo 打开第一个页面
-//            onNavigationDrawerItemSelected(0);
-        }
 
         bottomBar.setOnTabSelectListener(tabId -> switchTab(tabId));
     }

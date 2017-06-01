@@ -109,16 +109,29 @@ gradle.projectsEvaluated {
 }
 
 dependencies {
-    def supportVersion = '25.3.1'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    // dagger 2 依赖
+    def daggerVersion = '2.10'
+    compile "com.google.dagger:dagger:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    compile "com.google.dagger:dagger-android:$daggerVersion"
+    compile "com.google.dagger:dagger-android-support:$daggerVersion"
+    // if you use the support libraries
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
 
-    compile "com.android.support:cardview-v7:$supportVersion"
-    compile "com.android.support:appcompat-v7:$supportVersion"
+    // google 兼容库
+    def supportVersion = '25.3.1'
     compile "com.android.support:support-v4:$supportVersion"
     compile "com.android.support:design:$supportVersion"
     compile "com.android.support:percent:$supportVersion"
+    compile "com.android.support:cardview-v7:$supportVersion"
+    compile "com.android.support:appcompat-v7:$supportVersion"
+    compile "com.android.support:support-annotations:$supportVersion"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    compile fileTree(include: ['*.jar'], dir: 'libs')
 
     compile 'com.android.support:multidex:1.0.1'
+
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
@@ -183,14 +196,6 @@ dependencies {
 
     // 文件下载
     compile 'com.liulishuo.filedownloader:library:1.4.3'
-
-    // dagger 2 依赖
-    def daggerVersion = '2.10'
-    compile "com.google.dagger:dagger:$daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-    compile "com.google.dagger:dagger-android:$daggerVersion"
-    compile "com.google.dagger:dagger-android-support:$daggerVersion" // if you use the support libraries
-    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
 }
 
 // 新功能提示，使用弹出框的样式 start ----------------------------------------------------------------
@@ -223,22 +228,3 @@ dependencies {
     compile 'com.fivehundredpx:blurringview:1.0.0'
 }
 // 高斯模糊 end   --------------------------------------------------------------------------
-
-dependencies {
-    compile 'com.android.support.constraint:constraint-layout:+'
-}
-dependencies {
-    compile 'com.android.support.constraint:constraint-layout:+'
-}
-dependencies {
-    compile 'com.android.support.constraint:constraint-layout:+'
-}
-dependencies {
-    compile 'com.android.support.constraint:constraint-layout:+'
-}
-dependencies {
-    compile 'com.android.support.constraint:constraint-layout:+'
-}
-dependencies {
-    compile 'com.android.support.constraint:constraint-layout:+'
-}
