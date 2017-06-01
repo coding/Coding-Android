@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * coding
  */
 
-public class DefaultCompatImp implements ClassCompatInterface {
+public class CodingCompatImp implements ClassCompatInterface {
 
     @Override
     public Class<?> getMainActivity() {

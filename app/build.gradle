@@ -41,8 +41,6 @@ android {
 
         multiDexEnabled true
         minSdkVersion 15
-        // todo 注意检查 coding 和企业版用的是不一样的版本号
-        targetSdkVersion 23
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -61,12 +59,14 @@ android {
             applicationId "net.coding.program"
             versionCode 140
             versionName "4.4.5"
+            targetSdkVersion 23
         }
         enterprise {
             dimension "enterprise"
             applicationId "net.coding.program.enterprise"
             versionCode 22
             versionName "2.2"
+            targetSdkVersion 21
         }
 
         dev {
