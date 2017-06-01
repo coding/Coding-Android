@@ -28,6 +28,7 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.common.widget.FlowLabelLayout;
 import net.coding.program.event.EventFilterDetail;
+import net.coding.program.event.EventRefrushTask;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
@@ -118,15 +119,11 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     String mToday = "";
     String mTomorrow = "";
     WeakHashMap<View, Integer> mOriginalViewHeightPool = new WeakHashMap<>();
-    private net.coding.program.task.TaskListParentUpdate mParent;
+
     private View listFooter;
 
     public static String getHostTaskDelete() {
         return Global.HOST_API + "/user/%s/project/%s/task/%s";
-    }
-
-    public void setParent(net.coding.program.task.TaskListParentUpdate parent) {
-        mParent = parent;
     }
 
     @Override
@@ -397,11 +394,8 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 umengEvent(UmengEvent.TASK, "删除任务");
                 mData.remove(pos);
                 mAdapter.notifyDataSetChanged();
-                if (mParent != null) {
-                    mNeedUpdate = false;
-                    mParent.taskListParentUpdate();
-                }
-
+                mNeedUpdate = false;
+                EventBus.getDefault().post(new EventRefrushTask());
             } else {
                 showErrorMsg(code, respanse);
             }

@@ -17,7 +17,6 @@ import net.coding.program.model.TaskLabelModel;
 import net.coding.program.model.TaskProjectCountModel;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +24,9 @@ import java.util.List;
 
 /**
  * Created by anfs on 16/12/2016.
+ *
  */
 public class TaskFilterFragment extends LoadingFragment {
-
-    //final String urlTaskLabels = Global.HOST_API + "/v2/tasks/search_filters";
 
     //项目外
     protected final String urlTaskCountAll = Global.HOST_API + "/tasks/count";
@@ -144,10 +142,6 @@ public class TaskFilterFragment extends LoadingFragment {
         }
     }
 
-    protected void postLabelJson(String tag, int code, JSONObject respanse) {
-
-    }
-
     protected void sureFilter() {
         EventBus.getDefault().post(new EventFilterDetail(mMeActions[statusIndex], mFilterModel));
     }
@@ -215,6 +209,19 @@ public class TaskFilterFragment extends LoadingFragment {
     @Override
     public void onRefresh() {
 
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
     }
 
     protected boolean isProjectInner() {

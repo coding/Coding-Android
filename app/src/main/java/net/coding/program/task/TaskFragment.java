@@ -8,7 +8,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -26,7 +25,6 @@ import net.coding.program.model.TaskLabelModel;
 import net.coding.program.model.TaskProjectCountModel;
 import net.coding.program.network.model.user.Member;
 import net.coding.program.project.detail.TaskFilterFragment;
-import net.coding.program.project.detail.TaskListFragment;
 import net.coding.program.project.detail.TaskListFragment_;
 import net.coding.program.task.add.TaskAddActivity_;
 import net.coding.program.third.MyPagerSlidingTabStrip;
@@ -52,20 +50,20 @@ import java.util.List;
 
 @EFragment(R.layout.fragment_task)
 @OptionsMenu(R.menu.fragment_task)
-public class TaskFragment extends TaskFilterFragment implements TaskListParentUpdate {
+public class TaskFragment extends TaskFilterFragment {
 
     final String host = Global.HOST_API + "/projects?pageSize=100&type=all";
     final String urlTaskCount = Global.HOST_API + "/tasks/projects/count";
 
     @ViewById
     protected MyPagerSlidingTabStrip tabs;
+
     @ViewById(R.id.pagerTaskFragment)
     protected ViewPager pager;
-//    @ViewById
-//    protected View actionDivideLine;
 
     ArrayList<ProjectObject> mData = new ArrayList<>();
     ArrayList<ProjectObject> mAllData = new ArrayList<>();
+
     int pageMargin;
     private PageTaskFragment adapter;
 
@@ -76,31 +74,17 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
 
         tabs.setLayoutInflater(mInflater);
 
-
         getNetwork(host, host);
 
         adapter = new PageTaskFragment(getChildFragmentManager());
         pager.setPageMargin(pageMargin);
         pager.setAdapter(adapter);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 load(position);
             }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
         });
-
-//        tabs.setVisibility(View.INVISIBLE);
-//        actionDivideLine.setVisibility(View.INVISIBLE);
 
         initFilterViews();
         showLoading(true);
@@ -147,29 +131,8 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
     public void onRefresh() {
     }
 
-    private void initListData() {
-        mAllData.clear();
-        mData.clear();
-        mData.add(new ProjectObject());
-
-        try {
-            JSONObject json = AccountInfo.getGetRequestCacheData(getActivity(), host);
-            jsonToAllData(json.optJSONArray("list"));
-
-            JSONArray jsonArray = AccountInfo.getGetRequestCacheListData(getActivity(), urlTaskCount);
-            jsonToData(jsonArray);
-
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
-    }
-
-    public void hideActionBarShadow() {
-    }
-
     @Override
     public void parseJson(int code, JSONObject response, String tag, int pos, Object data) throws JSONException {
-        postLabelJson(tag, code, response);
         if (tag.equals(host)) {
             if (code == 0) {
                 JSONArray jsonArray = response.getJSONObject("data").getJSONArray("list");
@@ -190,7 +153,6 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
 //                actionDivideLine.setVisibility(View.VISIBLE);
                 tabs.setViewPager(pager);
                 adapter.notifyDataSetChanged();
-                hideActionBarShadow();
             } else {
                 showErrorMsg(code, response);
             }
@@ -287,12 +249,12 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
     @OnActivityResult(ListModify.RESULT_EDIT_LIST)
     void onResultEditList(int resultCode) {
         if (resultCode == Activity.RESULT_OK) {
-            taskListParentUpdate();
+            taskListParentUpdate(null);
         }
     }
 
-    @Override
-    public void taskListParentUpdate() {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void taskListParentUpdate(EventRefreshTask refreshTask) {
         List<WeakReference<Fragment>> array = adapter.getFragments();
         for (WeakReference<Fragment> item : array) {
             Fragment fragment = item.get();
@@ -379,14 +341,6 @@ public class TaskFragment extends TaskFilterFragment implements TaskListParentUp
         @Override
         public int getCount() {
             return mData.size();
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            TaskListFragment fragment = (TaskListFragment) super.instantiateItem(container, position);
-            fragment.setParent(TaskFragment.this);
-
-            return fragment;
         }
 
         @Override

@@ -20,6 +20,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PinyinComparator;
 import net.coding.program.common.SaveFragmentPagerAdapter;
+import net.coding.program.event.EventRefrushTask;
 import net.coding.program.message.JSONUtils;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
@@ -30,7 +31,6 @@ import net.coding.program.model.TaskObject;
 import net.coding.program.model.TaskProjectCountModel;
 import net.coding.program.model.UserObject;
 import net.coding.program.network.model.user.Member;
-import net.coding.program.task.TaskListParentUpdate;
 import net.coding.program.task.TaskListUpdate;
 import net.coding.program.task.add.TaskAddActivity;
 import net.coding.program.task.add.TaskAddActivity_;
@@ -43,6 +43,8 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,7 +56,7 @@ import java.util.List;
 
 @EFragment(R.layout.fragment_project_task_filter)
 @OptionsMenu(R.menu.fragment_project_task)
-public class ProjectTaskFragment extends TaskFilterFragment implements TaskListParentUpdate {
+public class ProjectTaskFragment extends TaskFilterFragment {
 
     final String HOST_MEMBERS = Global.HOST_API + "/project/%d/members?pageSize=1000";
 
@@ -115,6 +117,17 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
         // 必须添加，否则回收恢复的时候，TaskListFragment 的 actionmenu 会显示几个出来
         setHasOptionsMenu(true);
         initFilterViews();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void taskListParentUpdate(EventRefrushTask refrushTask) {
+        List<WeakReference<Fragment>> fragmentArray = adapter.getFragments();
+        for (WeakReference<Fragment> ref : fragmentArray) {
+            Fragment item = ref.get();
+            if (item instanceof TaskListUpdate) {
+                ((TaskListUpdate) item).taskListUpdate(true);
+            }
+        }
     }
 
     @Override
@@ -316,7 +329,8 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
     @OnActivityResult(ListModify.RESULT_EDIT_LIST)
     void onResultEditList(int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            taskListParentUpdate();
+            taskListParentUpdate(null);
+
             String globarKey = data.getStringExtra(TaskAddActivity.RESULT_GLOBARKEY);
 
             Member modifyMember = null;
@@ -335,17 +349,6 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
                     tabs.setVisibility(View.VISIBLE);
 //                    actionDivideLine.setVisibility(View.VISIBLE);
                 }
-            }
-        }
-    }
-
-    @Override
-    public void taskListParentUpdate() {
-        List<WeakReference<Fragment>> fragmentArray = adapter.getFragments();
-        for (WeakReference<Fragment> ref : fragmentArray) {
-            Fragment item = ref.get();
-            if (item instanceof TaskListUpdate) {
-                ((TaskListUpdate) item).taskListUpdate(true);
             }
         }
     }
@@ -453,7 +456,6 @@ public class ProjectTaskFragment extends TaskFilterFragment implements TaskListP
                 bundle.putString("mLabel", "");
                 bundle.putString("mKeyword", "");
             }
-            fragment.setParent(ProjectTaskFragment.this);
 
             fragment.setArguments(bundle);
 
