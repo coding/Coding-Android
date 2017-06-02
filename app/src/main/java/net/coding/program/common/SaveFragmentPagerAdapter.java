@@ -45,5 +45,4 @@ public abstract class SaveFragmentPagerAdapter extends FragmentStatePagerAdapter
         mList.add(new WeakReference(fragment));
     }
 
-
 }
