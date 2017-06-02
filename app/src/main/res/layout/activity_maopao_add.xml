@@ -1,81 +1,83 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="net.coding.program.maopao.MaopaoAddActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/stand_bg"
+                android:id="@+id/rootLayout"
+                tools:context="net.coding.program.maopao.MaopaoAddActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/emojiLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="150dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/comment"
+                android:id="@+id/emojiLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:gravity="top|left"
-                android:hint="来，发个冒泡吧~"
-                android:layerType="software"
-                android:maxHeight="200dp"
-                android:minLines="5"
-                android:paddingLeft="@dimen/padding_15"
-                android:paddingRight="@dimen/padding_15"
-                android:paddingTop="14dp"
-                android:textColor="@color/font_1"
-                android:textSize="14sp" />
+                android:minHeight="150dp"
+                android:orientation="horizontal">
+
+            <net.coding.program.common.widget.input.EmojiEditText
+                    android:id="@+id/editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="top|left"
+                    android:hint="来，发个冒泡吧~"
+                    android:layerType="software"
+                    android:maxHeight="200dp"
+                    android:minLines="5"
+                    android:paddingLeft="@dimen/padding_15"
+                    android:paddingRight="@dimen/padding_15"
+                    android:paddingTop="14dp"
+                    android:textColor="@color/font_1"
+                    android:textSize="14sp"/>
 
             <RelativeLayout
-                android:layout_width="54dp"
-                android:layout_height="42dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="2dp"
-                android:visibility="gone">
+                    android:layout_width="54dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="2dp"
+                    android:visibility="gone">
 
                 <ImageButton
-                    android:id="@+id/send"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/message_button_add"
-                    android:padding="5dp" />
+                        android:id="@+id/send"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/message_button_add"
+                        android:padding="5dp"/>
 
                 <TextView
-                    android:id="@+id/sendText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/edit_send_green"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="发送"
-                    android:textColor="@color/white"
-                    android:visibility="gone" />
+                        android:id="@+id/sendText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/edit_send_green"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="发送"
+                        android:textColor="@color/white"
+                        android:visibility="gone"/>
             </RelativeLayout>
         </LinearLayout>
 
         <net.coding.program.common.AutoHeightGridView
-            android:id="@+id/gridView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/emojiLayout"
-            android:layout_marginLeft="@dimen/padding_15"
-            android:layout_marginRight="@dimen/padding_15"
-            android:layout_marginTop="10dp"
-            android:columnWidth="@dimen/image_add_maopao_width"
-            android:gravity="center"
-            android:horizontalSpacing="8dp"
-            android:numColumns="4"
-            android:stretchMode="none"
-            android:verticalSpacing="8dp" />
+                android:id="@+id/gridView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/emojiLayout"
+                android:layout_marginLeft="@dimen/padding_15"
+                android:layout_marginRight="@dimen/padding_15"
+                android:layout_marginTop="10dp"
+                android:columnWidth="@dimen/image_add_maopao_width"
+                android:gravity="center"
+                android:horizontalSpacing="8dp"
+                android:numColumns="4"
+                android:stretchMode="none"
+                android:verticalSpacing="8dp"/>
 
     </LinearLayout>
 
@@ -85,10 +87,10 @@
     <!--android:layout_weight="1" />-->
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
 
         <TextView
                 android:id="@+id/locationText"
@@ -114,94 +116,90 @@
                 android:textSize="15sp"/>
 
         <LinearLayout
-            android:id="@+id/bottom_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
+                android:id="@+id/bottom_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="0.5dp"
-                android:background="#cfcfcf" />
+            <View style="@style/DivideLine"/>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="43dp"
-                android:background="@color/color_bottom_bar"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="12dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:background="@color/color_bottom_bar"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="12dp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                     <CheckBox
-                        android:id="@+id/popEmoji"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="@null"
-                        android:button="@drawable/checkbox_pop_emoji_big" />
+                            android:id="@+id/popEmoji"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@null"
+                            android:button="@drawable/checkbox_pop_emoji_big"/>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
 
                     <ImageView
-                        android:id="@+id/popPhoto"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="@drawable/pop_photo" />
+                            android:id="@+id/popPhoto"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/pop_photo"/>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
 
                     <ImageView
-                        android:id="@+id/popTopic"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="@drawable/pop_topic" />
+                            android:id="@+id/popTopic"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/pop_topic"/>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
 
-                    <ImageView
-                        android:id="@+id/popAt"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="@drawable/pop_at" />
+                    <ImageView android:id="@+id/popAt"
+                               android:layout_width="32dp"
+                               android:layout_height="32dp"
+                               android:background="@drawable/pop_at"/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
+                <LinearLayout android:layout_width="0dp"
+                              android:layout_height="match_parent"
+                              android:layout_weight="1">
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="0.5dp"
-                android:background="#cfcfcf" />
+            <View android:layout_width="wrap_content"
+                  android:layout_height="0.5dp"
+                  android:background="#cfcfcf"/>
 
-            <include
-                layout="@layout/emoji_keyboard_content"
-                android:visibility="gone" />
+            <net.coding.program.common.widget.input.EmojiKeyboard_
+                    android:id="@+id/emojiKeyboard"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

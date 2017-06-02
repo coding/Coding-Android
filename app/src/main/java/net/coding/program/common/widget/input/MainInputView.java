@@ -20,12 +20,13 @@ import org.androidannotations.annotations.ViewById;
  * Created by chenchao on 16/1/21.
  * 私信的输入框
  */
-
 @EViewGroup(R.layout.input_view_main)
 public class MainInputView extends FrameLayout implements KeyboardControl, InputOperate {
 
     private final boolean showEmojiOnly;
+
     AppCompatActivity activity;
+
     @ViewById
     TopBar_ topBar;
     @ViewById

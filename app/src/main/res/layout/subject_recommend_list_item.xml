@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="vertical">
-
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:background="@color/stand_bg"
+              android:foreground="?attr/selectableItemBackground"
+              android:orientation="vertical">
 
     <TextView
-        android:id="@+id/subject_recommend_list_item_name"
-        android:layout_width="match_parent"
-        android:layout_height="53.3dp"
-        android:layout_marginLeft="@dimen/padding_12"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:lines="1"
-        android:text="一台一台"
-        android:textColor="@color/font_1"
-        android:textSize="16sp" />
+            android:id="@+id/subject_recommend_list_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="53.3dp"
+            android:layout_marginLeft="@dimen/padding_12"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:text="一台一台"
+            android:textColor="@color/font_1"
+            android:textSize="16sp"/>
 
-    <View style="@style/DivideLine_15" />
+    <View style="@style/DivideLine_15"/>
 
 </LinearLayout>

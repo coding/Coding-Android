@@ -2,12 +2,12 @@ package net.coding.program.common.widget.input;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.Spannable;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.EditText;
 
 import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
@@ -17,7 +17,7 @@ import net.coding.program.common.enter.SimpleTextWatcher;
  * Created by chenchao on 16/1/25.
  */
 
-public class EmojiEditText extends EditText {
+public class EmojiEditText extends AppCompatEditText {
 
     View rootView;
     int rootViewHigh;

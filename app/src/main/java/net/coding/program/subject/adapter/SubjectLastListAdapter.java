@@ -10,9 +10,9 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.subject.service.ISubjectRecommendObject;
 
-import java.util.List;
-
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
+import java.util.List;
 
 /**
  * Created by david on 15-7-20.
@@ -54,7 +54,6 @@ public class SubjectLastListAdapter extends BaseAdapter implements StickyListHea
             viewHolder = new ViewHolder();
             viewHolder.name = (TextView) convertView.findViewById(R.id.subject_recommend_list_item_name);
             convertView.setTag(viewHolder);
-
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
@@ -71,11 +70,10 @@ public class SubjectLastListAdapter extends BaseAdapter implements StickyListHea
     public View getHeaderView(int position, View convertView, ViewGroup viewGroup) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.subject_recommend_list_item_header, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.subject_recommend_list_item_header, viewGroup, false);
             viewHolder = new ViewHolder();
             viewHolder.name = (TextView) convertView.findViewById(R.id.subject_recommend_list_item_header_name);
             convertView.setTag(viewHolder);
-
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }

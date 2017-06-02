@@ -15,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -38,8 +37,6 @@ import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.WeakRefHander;
-import net.coding.program.common.enter.EnterEmojiLayout;
-import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
@@ -47,9 +44,9 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
+import net.coding.program.common.widget.input.MaopaoInputHelp;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.maopao.item.LocationCoord;
-import net.coding.program.message.EmojiFragment;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.LocationObject;
 import net.coding.program.model.Maopao;
@@ -72,7 +69,7 @@ import java.util.ArrayList;
 
 // // TODO: 2017/1/6 选图片的地方都需要先判断是否获取了存储权限
 @EActivity(R.layout.activity_maopao_add)
-public class MaopaoAddActivity extends BackActivity implements StartActivity, EmojiFragment.EnterEmojiLayout {
+public class MaopaoAddActivity extends BackActivity implements StartActivity {
 
     public static final int PHOTO_MAX_COUNT = 6;
     public static final int RESULT_REQUEST_FOLLOW = 1002;
@@ -84,15 +81,22 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
     final String sendUrl = Global.HOST_API + "/tweet";
     final String HOST_IMAGE = Global.HOST_API + "/tweet/insert_image";
     String mIntentExtraString = null;
+
     @ViewById
     GridView gridView;
     @ViewById
     TextView locationText;
+
     @InstanceState
     LocationObject currentLocation = LocationObject.undefined();
+
     ImageSize mSize;
     PhotoOperate photoOperate = new PhotoOperate(this);
-    EnterEmojiLayout mEnterLayout;
+
+//    EnterEmojiLayout mEnterLayout;
+
+    MaopaoInputHelp input;
+
     EditText message;
     ArrayList<PhotoData> mData = new ArrayList<>();
     android.os.Handler mHandler = new android.os.Handler() {
@@ -193,8 +197,9 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        mEnterLayout = new EnterEmojiLayout(this, null);
-        message = mEnterLayout.content;
+        input = new MaopaoInputHelp(findViewById(R.id.rootLayout));
+        message = input.editText;
+
         if (mIntentExtraString != null) {
             message.setText(mIntentExtraString);
         }
@@ -202,28 +207,25 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         gridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == mData.size()) {
-                    startPhotoPickActivity();
+        gridView.setOnItemClickListener((parent, view, position, id) -> {
+            if (position == mData.size()) {
+                startPhotoPickActivity();
 
-                } else {
-                    Intent intent = new Intent(MaopaoAddActivity.this, ImagePagerActivity_.class);
-                    ArrayList<String> arrayUri = new ArrayList<>();
-                    for (PhotoData item : mData) {
-                        arrayUri.add(item.uri.toString());
-                    }
-                    intent.putExtra("mArrayUri", arrayUri);
-                    intent.putExtra("mPagerPosition", position);
-                    intent.putExtra("needEdit", true);
-                    startActivityForResult(intent, RESULT_REQUEST_IMAGE);
+            } else {
+                Intent intent = new Intent(MaopaoAddActivity.this, ImagePagerActivity_.class);
+                ArrayList<String> arrayUri = new ArrayList<>();
+                for (PhotoData item : mData) {
+                    arrayUri.add(item.uri.toString());
                 }
+                intent.putExtra("mArrayUri", arrayUri);
+                intent.putExtra("mPagerPosition", position);
+                intent.putExtra("needEdit", true);
+                startActivityForResult(intent, RESULT_REQUEST_IMAGE);
             }
         });
 
         gridView.setOnTouchListener((v, event) -> {
-            Global.popSoftkeyboard(MaopaoAddActivity.this, mEnterLayout.content, false);
+            Global.popSoftkeyboard(MaopaoAddActivity.this, message, false);
             return false;
         });
 
@@ -236,7 +238,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
 
         MaopaoDraft draft = AccountInfo.loadMaopaoDraft(this);
         if (!draft.isEmpty()) {
-            mEnterLayout.setText(draft.getInput());
+            message.setText(draft.getInput());
             mData = draft.getPhotos();
             adapter.notifyDataSetChanged();
             currentLocation = draft.getLocation();
@@ -247,12 +249,12 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
 
         setPopTopicIconShow();
 
-        mEnterLayout.content.setOnClickListener(v -> mEnterLayout.popKeyboard());
+        message.setOnClickListener(v -> input.popKeyboard());
 
-        mEnterLayout.content.setOnFocusChangeListener((v, hasFocus) -> {
+        message.setOnFocusChangeListener((v, hasFocus) -> {
             if (mFirstFocus && hasFocus) {
                 mFirstFocus = false;
-                mEnterLayout.popKeyboard();
+                input.popKeyboard();
             }
         });
 
@@ -261,15 +263,10 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
                 return false;
             }
 
-            mEnterLayout.popKeyboard();
+            input.popKeyboard();
             return false;
         });
         hander.start(0, 500);
-    }
-
-    @Override
-    public EnterLayout getEnterLayout() {
-        return mEnterLayout;
     }
 
     private void setPopTopicIconShow() {
@@ -306,10 +303,10 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
 
     @Override
     protected void onStop() {
-        MaopaoDraft draft = new MaopaoDraft(mEnterLayout.getContent(), mData, currentLocation);
+        MaopaoDraft draft = new MaopaoDraft(message.getText().toString(), mData, currentLocation);
         AccountInfo.saveMaopaoDraft(this, draft);
 
-        mEnterLayout.closeEnterPanel();
+        input.closeEnterPanel();
 
         super.onStop();
     }
@@ -386,7 +383,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         } else if (requestCode == RESULT_REQUEST_FOLLOW) {
             if (resultCode == RESULT_OK) {
                 String name = data.getStringExtra("name");
-                mEnterLayout.insertText("@" + name);
+                input.insertText("@" + name);
             }
         } else if (requestCode == RESULT_REQUEST_TOPIC) {
             if (resultCode == RESULT_OK) {
@@ -420,8 +417,8 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
     }
 
     private void finishAndHideKeyboard() {
-        mEnterLayout.content.postDelayed(() -> {
-            Global.popSoftkeyboard(MaopaoAddActivity.this, mEnterLayout.content, false);
+        message.postDelayed(() -> {
+            Global.popSoftkeyboard(MaopaoAddActivity.this, message, false);
             finish();
         }, 50);
     }
@@ -484,7 +481,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
 
     private void finishWithoutSave() {
         // 清空输入的数据，因为在onDestroy时如果检测到有数据会保存
-        mEnterLayout.clearContent();
+        input.clearContent();
         mData.clear();
         finishAndHideKeyboard();
     }
