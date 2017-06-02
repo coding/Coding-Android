@@ -62,6 +62,4 @@ public class CommonListView extends UltimateRecyclerView {
             BlankViewHelp.setBlank(count, context, true, v, null);
         }
     }
-
-
 }

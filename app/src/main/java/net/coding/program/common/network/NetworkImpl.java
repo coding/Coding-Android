@@ -32,9 +32,8 @@ public class NetworkImpl {
 
     public static final int ERROR_PERMISSION_DENIED = 1400;
     public static final int NETWORK_ERROR = -1;
-    // todo 修改变量值
     public static final int NETWORK_ERROR_SERVICE = -2;
-    public static final int NETWORK_CONNECT_FAIL = -2; // 联网失败
+    public static final int NETWORK_CONNECT_FAIL = -3; // 联网失败
     public static final int NETWORK_ERROR_NEED_CAPTCHA = 907;
     public static final String ERROR_MSG_CONNECT_FAIL = "连接服务器失败，请检查网络或稍后重试";
     public static final String ERROR_MSG_SERVICE_ERROR = "服务器内部错误，请稍后重试";
@@ -53,7 +52,6 @@ public class NetworkImpl {
         PageInfo info = mPages.get(tag);
         return info == null || info.isNewRequest;
     }
-
 
     protected void umengEvent(String s, String param) {
         MobclickAgent.onEvent(appContext, s, param);

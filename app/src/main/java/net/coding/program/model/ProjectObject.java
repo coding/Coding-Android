@@ -55,7 +55,7 @@ public class ProjectObject implements Serializable {
     @SerializedName("owner_user_picture")
     @Expose
     public String owner_user_picture = "";
-    // todo 企业版里面去掉了 /u 感觉很多地方都要修改了
+    // 企业版里面去掉了 /u 感觉很多地方都要修改了
     @SerializedName("project_path")
     @Expose
     public String project_path = ""; // "/u/cc/p/hell"

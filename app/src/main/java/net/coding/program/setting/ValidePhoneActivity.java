@@ -66,7 +66,7 @@ public class ValidePhoneActivity extends BackActivity {
 
     @AfterViews
     final void initValidePhoneActivity() {
-        // TODO: 2016/12/22 这个版本不上这个功能
+//        第一次设置做特殊处理，刚开始说下个版本上，现在看来永远不会上了
 //        isFirstSet = MyApp.sUserObject.phone.isEmpty();
 
         ViewStyleUtil.editTextBindButton(loginButton, editPhone, editCode);
