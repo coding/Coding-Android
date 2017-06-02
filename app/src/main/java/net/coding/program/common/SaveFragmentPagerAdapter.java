@@ -11,6 +11,8 @@ import java.util.List;
 /**
  * Created by chaochen on 14/12/31.
  */
+// TODO: 2017/6/1 delete
+@Deprecated
 public abstract class SaveFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<WeakReference<Fragment>> mList = new ArrayList<>();

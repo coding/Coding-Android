@@ -3,9 +3,7 @@ package net.coding.program.project.detail;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -28,12 +26,11 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.common.widget.FlowLabelLayout;
 import net.coding.program.event.EventFilterDetail;
-import net.coding.program.event.EventRefrushTask;
+import net.coding.program.event.EventRefreshTask;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
 import net.coding.program.network.model.user.Member;
-import net.coding.program.task.TaskListUpdate;
 import net.coding.program.task.add.TaskAddActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -56,10 +53,9 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.WeakHashMap;
 
 @EFragment(R.layout.fragment_task_list)
-public class TaskListFragment extends RefreshBaseFragment implements TaskListUpdate {
+public class TaskListFragment extends RefreshBaseFragment {
 
     public final String hostTaskDelete = getHostTaskDelete();
     final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -108,7 +104,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     StickyListHeadersListView listView;
     @StringArrayRes
     String[] task_titles;
-    boolean mNeedUpdate = true;
+
     ArrayList<TaskObject.SingleTask> mData = new ArrayList<>();
     int mSectionId;
     int mTaskCount[] = new int[2];
@@ -118,31 +114,13 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     TestBaseAdapter mAdapter;
     String mToday = "";
     String mTomorrow = "";
-    WeakHashMap<View, Integer> mOriginalViewHeightPool = new WeakHashMap<>();
 
     private View listFooter;
 
+    private final EventRefreshTask sendEvent = new EventRefreshTask();
+
     public static String getHostTaskDelete() {
         return Global.HOST_API + "/user/%s/project/%s/task/%s";
-    }
-
-    @Override
-    public void onCreate(Bundle saveInstanceState) {
-        super.onCreate(saveInstanceState);
-        //setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void taskListUpdate(boolean must) {
-        if (must) {
-            mNeedUpdate = true;
-        }
-
-        if (mNeedUpdate) {
-            mNeedUpdate = false;
-            initSetting();
-            loadData();
-        }
     }
 
     @Override
@@ -153,7 +131,6 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
     @OptionsItem
     public void action_add() {
-        mNeedUpdate = true;
         Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
         TaskObject.SingleTask task = new TaskObject.SingleTask();
         task.project = mProjectObject;
@@ -165,12 +142,6 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         intent.putExtra("mUserOwner", mMembers.user);
 
         getParentFragment().startActivityForResult(intent, ListModify.RESULT_EDIT_LIST);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mNeedUpdate = true;
-        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     //检查是否有筛选条件
@@ -252,7 +223,6 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         mToday = mDateFormat.format(calendar.getTimeInMillis());
         mTomorrow = mDateFormat.format(calendar.getTimeInMillis() + 1000 * 60 * 60 * 24);
 
-        mNeedUpdate = true;
         mAdapter = new TestBaseAdapter();
 
         fab.attachToListView(listView.getWrappedList());
@@ -266,7 +236,6 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
             TaskObject.SingleTask singleTask = (TaskObject.SingleTask) mAdapter.getItem(position);
-            mNeedUpdate = true;
 
             TaskAddActivity_.intent(getParentFragment())
                     .mSingleTask(singleTask)
@@ -286,7 +255,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
     private void initUrlAndLoadData() {
         urlAll = createHost(mMembers.user.global_key, "/all");
 
-        taskListUpdate(true);
+        taskListUpdate(null);
         taskFragmentLoading(true);
     }
 
@@ -315,6 +284,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
             }
         }
     }
+
 
     @Override
     protected void initSetting() {
@@ -394,8 +364,7 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
                 umengEvent(UmengEvent.TASK, "删除任务");
                 mData.remove(pos);
                 mAdapter.notifyDataSetChanged();
-                mNeedUpdate = false;
-                EventBus.getDefault().post(new EventRefrushTask());
+                EventBus.getDefault().post(sendEvent);
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -450,6 +419,14 @@ public class TaskListFragment extends RefreshBaseFragment implements TaskListUpd
         //重新加载所有
         mUpdateAll = true;
         initUrlAndLoadData();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void taskListUpdate(EventRefreshTask refrushTask) {
+        if (sendEvent == refrushTask) return;
+
+        initSetting();
+        loadData();
     }
 
     static class TaskParam {

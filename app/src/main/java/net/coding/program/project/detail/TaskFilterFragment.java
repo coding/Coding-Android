@@ -211,19 +211,6 @@ public class TaskFilterFragment extends LoadingFragment {
 
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        EventBus.getDefault().unregister(this);
-    }
-
     protected boolean isProjectInner() {
         return false;
     }

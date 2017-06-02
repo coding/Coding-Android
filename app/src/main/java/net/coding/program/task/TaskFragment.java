@@ -42,10 +42,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 
 @EFragment(R.layout.fragment_task)
@@ -146,13 +144,38 @@ public class TaskFragment extends TaskFilterFragment {
         } else if (tag.equals(urlTaskCount)) {
             showLoading(false);
             if (code == 0) {
+                ArrayList<ProjectObject> oldProjects = new ArrayList<>();
+                oldProjects.addAll(mData);
+
                 JSONArray jsonArray = response.getJSONArray("data");
                 jsonToData(jsonArray);
 
                 tabs.setVisibility(View.VISIBLE);
 //                actionDivideLine.setVisibility(View.VISIBLE);
                 tabs.setViewPager(pager);
-                adapter.notifyDataSetChanged();
+
+                boolean needUpdate;
+                if (oldProjects.size() != mData.size()) {
+                    needUpdate = true;
+                } else {
+                    needUpdate = false;
+                    for (ProjectObject i : oldProjects) {
+                        boolean find = false;
+                        for (ProjectObject j : mData) {
+                            if (j.id == i.id) {
+                                find = true;
+                                break;
+                            }
+                        }
+                        if (!find) {
+                            needUpdate = true;
+                            break;
+                        }
+                    }
+                }
+                if (needUpdate) {
+                    adapter.notifyDataSetChanged();
+                }
             } else {
                 showErrorMsg(code, response);
             }
@@ -249,18 +272,7 @@ public class TaskFragment extends TaskFilterFragment {
     @OnActivityResult(ListModify.RESULT_EDIT_LIST)
     void onResultEditList(int resultCode) {
         if (resultCode == Activity.RESULT_OK) {
-            taskListParentUpdate(null);
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void taskListParentUpdate(EventRefreshTask refreshTask) {
-        List<WeakReference<Fragment>> array = adapter.getFragments();
-        for (WeakReference<Fragment> item : array) {
-            Fragment fragment = item.get();
-            if (fragment instanceof TaskListUpdate) {
-                ((TaskListUpdate) fragment).taskListUpdate(true);
-            }
+//            EventBus.getDefault().post(new EventRefreshTask());
         }
     }
 

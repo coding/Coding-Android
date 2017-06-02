@@ -20,7 +20,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PinyinComparator;
 import net.coding.program.common.SaveFragmentPagerAdapter;
-import net.coding.program.event.EventRefrushTask;
+import net.coding.program.event.EventRefreshTask;
 import net.coding.program.message.JSONUtils;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
@@ -31,7 +31,6 @@ import net.coding.program.model.TaskObject;
 import net.coding.program.model.TaskProjectCountModel;
 import net.coding.program.model.UserObject;
 import net.coding.program.network.model.user.Member;
-import net.coding.program.task.TaskListUpdate;
 import net.coding.program.task.add.TaskAddActivity;
 import net.coding.program.task.add.TaskAddActivity_;
 import net.coding.program.third.MyPagerSlidingTabStrip;
@@ -43,16 +42,13 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 @EFragment(R.layout.fragment_project_task_filter)
 @OptionsMenu(R.menu.fragment_project_task)
@@ -97,37 +93,16 @@ public class ProjectTaskFragment extends TaskFilterFragment {
 
         adapter = new MyPagerAdapter(getChildFragmentManager());
         pager.setAdapter(adapter);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 loadData(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
 
         // 必须添加，否则回收恢复的时候，TaskListFragment 的 actionmenu 会显示几个出来
         setHasOptionsMenu(true);
         initFilterViews();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void taskListParentUpdate(EventRefrushTask refrushTask) {
-        List<WeakReference<Fragment>> fragmentArray = adapter.getFragments();
-        for (WeakReference<Fragment> ref : fragmentArray) {
-            Fragment item = ref.get();
-            if (item instanceof TaskListUpdate) {
-                ((TaskListUpdate) item).taskListUpdate(true);
-            }
-        }
     }
 
     @Override
@@ -329,7 +304,7 @@ public class ProjectTaskFragment extends TaskFilterFragment {
     @OnActivityResult(ListModify.RESULT_EDIT_LIST)
     void onResultEditList(int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            taskListParentUpdate(null);
+            EventBus.getDefault().post(new EventRefreshTask());
 
             String globarKey = data.getStringExtra(TaskAddActivity.RESULT_GLOBARKEY);
 

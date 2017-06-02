@@ -5,4 +5,10 @@ package net.coding.program.event;
  */
 
 public class EventRefreshTask {
+
+    public long time;
+
+    public EventRefreshTask() {
+//        time = System.currentTimeMillis();
+    }
 }
