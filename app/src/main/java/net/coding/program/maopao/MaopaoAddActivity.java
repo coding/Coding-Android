@@ -93,8 +93,6 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
     ImageSize mSize;
     PhotoOperate photoOperate = new PhotoOperate(this);
 
-//    EnterEmojiLayout mEnterLayout;
-
     MaopaoInputHelp input;
 
     EditText message;

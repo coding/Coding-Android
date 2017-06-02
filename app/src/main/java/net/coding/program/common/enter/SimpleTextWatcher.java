@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 /**
  * Created by chaochen on 15/1/15.
  * 简化匿名类
+ * todo 移动到 net.coding.program.common.widget.input
  */
 public class SimpleTextWatcher implements TextWatcher {
     @Override
