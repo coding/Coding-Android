@@ -495,6 +495,7 @@ public class TaskListFragment extends RefreshBaseFragment {
                 holder.mLayoutDeadline = convertView.findViewById(R.id.layoutDeadline);
                 holder.mRefId = (TextView) convertView.findViewById(R.id.referenceId);
                 holder.flowLabelLayout = (FlowLabelLayout) convertView.findViewById(R.id.flowLayout);
+                holder.bottomLine = convertView.findViewById(R.id.bottomLine);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -580,7 +581,10 @@ public class TaskListFragment extends RefreshBaseFragment {
                     statusTask(pos, data.getId(), isChecked));
 
             if (position == mData.size() - 1) {
+                holder.bottomLine.setVisibility(View.INVISIBLE);
                 loadData();
+            } else {
+                holder.bottomLine.setVisibility(View.VISIBLE);
             }
 
             return convertView;
@@ -600,7 +604,7 @@ public class TaskListFragment extends RefreshBaseFragment {
             return 0;
         }
 
-        class ViewHolder {
+        private class ViewHolder {
             CheckBox mCheckBox;
             ImageView mIcon;
             TextView mTitle;
@@ -614,6 +618,7 @@ public class TaskListFragment extends RefreshBaseFragment {
             View mLayoutDeadline;
             FlowLabelLayout flowLabelLayout;
             TextView mRefId;
+            View bottomLine;
 
             public void setDeadlineColor(int color) {
                 mDeadline.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);

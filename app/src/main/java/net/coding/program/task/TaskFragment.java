@@ -272,7 +272,7 @@ public class TaskFragment extends TaskFilterFragment {
     @OnActivityResult(ListModify.RESULT_EDIT_LIST)
     void onResultEditList(int resultCode) {
         if (resultCode == Activity.RESULT_OK) {
-//            EventBus.getDefault().post(new EventRefreshTask());
+            EventBus.getDefault().post(new EventRefreshTask());
         }
     }
 
