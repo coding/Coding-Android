@@ -154,7 +154,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         usersListToolbar.inflateMenu(R.menu.message_users_list);
         usersListToolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_message_add) {
-                action_message_add();
+                TextWatcherAt.startActivityAt(getActivity(), this, RESULT_SELECT_USER);
             }
             return true;
         });
@@ -224,12 +224,6 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         super.onStop();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-
-    }
-
     void deleteItem(Message.MessageObject msg) {
         for (int i = 0; i < mData.size(); ++i) {
             if (msg.getId() == (mData.get(i).getId())) {
@@ -268,10 +262,6 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
         NotifyListActivity_.intent(UsersListFragment.this)
                 .type(type)
                 .startForResult(type);
-    }
-
-    void action_message_add() {
-        TextWatcherAt.startActivityAt(getActivity(), this, RESULT_SELECT_USER);
     }
 
     @OnActivityResult(RESULT_SELECT_USER)

@@ -51,8 +51,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-
 /*
  * 粉丝，关注的人列表
  */
@@ -437,9 +435,10 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         TextView name;
         CheckBox mutual;
         TextView divideTitle;
+        View bottomLine;
     }
 
-    class UserAdapter extends BaseAdapter implements SectionIndexer, StickyListHeadersAdapter {
+    class UserAdapter extends BaseAdapter implements SectionIndexer {
 
         private String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private ArrayList<String> mSectionTitle = new ArrayList<>();
@@ -487,6 +486,7 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.mutual = (CheckBox) convertView.findViewById(R.id.followMutual);
+                holder.bottomLine = convertView.findViewById(R.id.divide_line);
                 if (hideFollowButton) {
                     holder.mutual.setVisibility(View.INVISIBLE);
                 }
@@ -504,6 +504,13 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
                 holder.divideTitle.setVisibility(View.GONE);
             }
 
+            int nextPosition = position + 1;
+            if (nextPosition >= getCount() || isSection(nextPosition)) {
+                holder.bottomLine.setVisibility(View.INVISIBLE);
+            } else {
+                holder.bottomLine.setVisibility(View.VISIBLE);
+            }
+
             holder.name.setText(data.name);
             iconfromNetwork(holder.icon, data.avatar);
 
@@ -511,16 +518,13 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
                 int drawableId = data.follow ? R.drawable.checkbox_fans : R.drawable.checkbox_follow;
                 holder.mutual.setButtonDrawable(drawableId);
                 holder.mutual.setChecked(data.followed);
-                holder.mutual.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        RequestParams params = new RequestParams();
-                        params.put("users", data.global_key);
-                        if (((CheckBox) v).isChecked()) {
-                            postNetwork(HOST_FOLLOW, params, HOST_FOLLOW, position, null);
-                        } else {
-                            postNetwork(HOST_UNFOLLOW, params, HOST_UNFOLLOW, position, null);
-                        }
+                holder.mutual.setOnClickListener(v -> {
+                    RequestParams params = new RequestParams();
+                    params.put("users", data.global_key);
+                    if (((CheckBox) v).isChecked()) {
+                        postNetwork(HOST_FOLLOW, params, HOST_FOLLOW, position, null);
+                    } else {
+                        postNetwork(HOST_UNFOLLOW, params, HOST_UNFOLLOW, position, null);
                     }
                 });
             }
@@ -581,29 +585,5 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
             return sections;
         }
 
-        @Override
-        public View getHeaderView(int position, View convertView, ViewGroup parent) {
-            HeaderViewHolder holder;
-            if (convertView == null) {
-                holder = new HeaderViewHolder();
-                convertView = getLayoutInflater().inflate(R.layout.fragment_project_dynamic_list_head, parent, false);
-                holder.mHead = (TextView) convertView.findViewById(R.id.head);
-                convertView.setTag(holder);
-            } else {
-                holder = (HeaderViewHolder) convertView.getTag();
-            }
-
-            holder.mHead.setText(mSectionTitle.get(getSectionForPosition(position)));
-            return convertView;
-        }
-
-        @Override
-        public long getHeaderId(int i) {
-            return getSectionForPosition(i);
-        }
-
-        class HeaderViewHolder {
-            TextView mHead;
-        }
     }
 }
