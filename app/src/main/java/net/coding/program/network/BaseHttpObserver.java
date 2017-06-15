@@ -60,44 +60,53 @@ public class BaseHttpObserver implements Observer<BaseHttpResult> {
 
     @Override
     public void onError(Throwable e) {
-        String errorMsg = NetworkImpl.ERROR_MSG_CONNECT_FAIL;
-        if (e != null) {
-            StackTraceElement[] stackTrace = e.getStackTrace();
-            StringBuilder sb = new StringBuilder();
-            sb.append(e.getMessage());
-            sb.append("\n");
-            for (StackTraceElement item : stackTrace) {
-                sb.append(item.toString());
+        try {
+            String errorMsg = NetworkImpl.ERROR_MSG_CONNECT_FAIL;
+            if (e != null) {
+                StackTraceElement[] stackTrace = e.getStackTrace();
+                StringBuilder sb = new StringBuilder();
+                sb.append(e.getMessage());
                 sb.append("\n");
-            }
-            Logger.e("", sb.toString());
+                for (StackTraceElement item : stackTrace) {
+                    sb.append(item.toString());
+                    sb.append("\n");
+                }
+                Logger.e("", sb.toString());
 
-            String error = e.getMessage();
-            if (error != null && !error.isEmpty()) {
-                errorMsg = error;
+                String error = e.getMessage();
+                if (error != null && !error.isEmpty()) {
+                    errorMsg = error;
+                }
             }
+            onFail(NetworkImpl.NETWORK_CONNECT_FAIL, errorMsg);
+
+        } catch (Exception exception) {
+            Global.errorLog(exception);
         }
-        onFail(NetworkImpl.NETWORK_CONNECT_FAIL, errorMsg);
     }
 
     @Override
     public void onNext(BaseHttpResult t1HttpResult) {
-        if (t1HttpResult == null) {
-            onFail(NetworkImpl.NETWORK_ERROR_SERVICE, NetworkImpl.ERROR_MSG_SERVICE_ERROR);
-            return;
-        }
-
-        if (t1HttpResult.code != 0) {
-            String showErrorMessage = "未知错误";
-            Map errorMessage = t1HttpResult.msg;
-            if (errorMessage != null) {
-                showErrorMessage = (String) errorMessage.values().iterator().next();
+        try {
+            if (t1HttpResult == null) {
+                onFail(NetworkImpl.NETWORK_ERROR_SERVICE, NetworkImpl.ERROR_MSG_SERVICE_ERROR);
+                return;
             }
-            onFail(t1HttpResult.code, showErrorMessage);
-            return;
-        }
 
-        onSuccess();
+            if (t1HttpResult.code != 0) {
+                String showErrorMessage = "未知错误";
+                Map errorMessage = t1HttpResult.msg;
+                if (errorMessage != null) {
+                    showErrorMessage = (String) errorMessage.values().iterator().next();
+                }
+                onFail(t1HttpResult.code, showErrorMessage);
+                return;
+            }
+
+            onSuccess();
+        } catch (Exception exception) {
+            Global.errorLog(exception);
+        }
     }
 
     public void onSuccess() {
