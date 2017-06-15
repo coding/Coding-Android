@@ -40,9 +40,8 @@
 
     </LinearLayout>
 
-    <View
-            style="@style/DivideLine"
-            android:background="@drawable/divide_line_user_list"/>
+    <View style="@style/DivideLine"
+          android:background="@drawable/divide_line_user_list"/>
 
     <LinearLayout
             android:id="@+id/commentLayout"
@@ -79,9 +78,8 @@
 
     </LinearLayout>
 
-    <View
-            style="@style/DivideLine"
-            android:background="@drawable/divide_line_user_list"/>
+    <View style="@style/DivideLine"
+          android:background="@drawable/divide_line_user_list"/>
 
     <LinearLayout
             android:id="@+id/systemLayout"
