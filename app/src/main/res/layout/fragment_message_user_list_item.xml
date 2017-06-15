@@ -42,13 +42,14 @@
         tools:text="3分钟前" />
 
     <com.readystatesoftware.viewbadger.BadgeView
-        android:id="@+id/badge"
-        style="@style/RedPointTxt"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/time"
-        android:layout_gravity="center_vertical|right"
-        android:layout_marginRight="15dp"
-        android:visibility="invisible" />
+            android:id="@+id/badge"
+            style="@style/RedPointTxt"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/time"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="15dp"
+            android:visibility="invisible" />
 
     <!--...只能针对文字，表情图片是没有的，singleLine=false-->
     <TextView
@@ -72,4 +73,5 @@
         style="@style/DivideLine"
         android:layout_alignParentBottom="true"
         android:background="@drawable/divide_line_user_list" />
+
 </RelativeLayout>

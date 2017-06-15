@@ -60,6 +60,7 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     Toolbar usersListToolbar;
     @ViewById
     View blankLayout;
+
     ArrayList<Message.MessageObject> mData = new ArrayList<>();
     BadgeView badgeAt;
     BadgeView badgeComment;
@@ -221,19 +222,6 @@ public class UsersListFragment extends RefreshBaseFragment implements FootUpdate
     public void onStop() {
         mInstance = new WeakReference<>(null);
         super.onStop();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-//        String userGlobal = ReadedUserId.getReadedUser();
-//        if (!userGlobal.isEmpty()) {
-//            markUserReaded(userGlobal, ReadedUserId.getUserLastMessage());
-//
-//            postMarkReaded(userGlobal);
-//            ReadedUserId.remove();
-//        }
     }
 
     @Override

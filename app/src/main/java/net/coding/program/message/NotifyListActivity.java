@@ -280,20 +280,6 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
         loadMore();
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int itemId_ = item.getItemId();
-//        if (itemId_ == android.R.id.home) {
-//            annotaionClose();
-//            return true;
-//        }
-//        if (itemId_ == net.coding.program.R.id.markRead) {
-//            markRead();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
