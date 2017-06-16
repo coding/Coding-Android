@@ -232,6 +232,7 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
         hideCustomInput();
     }
 
+
     @Override
     public void hideCustomInput() {
         disableCheckedChange = true;
@@ -242,11 +243,6 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
         popEmoji.setChecked(false);
 
         disableCheckedChange = false;
-    }
-
-    @Click
-    void popEmojiButton() {
-        keyboardControl.showEmojiInput();
     }
 
     @Override

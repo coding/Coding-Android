@@ -4,10 +4,8 @@
 
     <com.skyfishjy.library.RippleBackground
         android:id="@+id/voiceLayout"
-
         android:layout_width="match_parent"
         android:layout_height="195dp"
-
         android:clickable="true"
         android:focusable="true"
         android:gravity="center_horizontal"
@@ -82,12 +80,12 @@
         </FrameLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/voiceRecordButton"
-            android:layout_centerHorizontal="true"
-            android:text="@string/sliding_upwards_and_cancel_sending"
-            android:textColor="@color/font_3"
-            android:textSize="12sp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/voiceRecordButton"
+                android:layout_centerHorizontal="true"
+                android:text="@string/sliding_upwards_and_cancel_sending"
+                android:textColor="@color/font_3"
+                android:textSize="14sp"/>
     </com.skyfishjy.library.RippleBackground>
 </merge>
