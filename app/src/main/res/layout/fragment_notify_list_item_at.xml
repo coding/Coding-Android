@@ -71,8 +71,8 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@color/font_green"
-                android:padding="13dp"
-                android:src="@drawable/ic_notify_at"/>
+                android:scaleType="center"
+                android:src="@drawable/ic_notify_project_payment"/>
 
         <TextView
                 android:id="@+id/detail"
