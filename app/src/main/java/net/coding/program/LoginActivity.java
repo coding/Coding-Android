@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -40,6 +41,7 @@ import net.coding.program.compatible.CodingCompat;
 import net.coding.program.login.PhoneRegisterActivity_;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
+import net.coding.program.login.phone.Close2FAActivity_;
 import net.coding.program.login.phone.InputAccountActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
@@ -70,7 +72,10 @@ public class LoginActivity extends BaseActivity {
     final String HOST_USER_RELOGIN = "HOST_USER_RELOGIN";
     final String HOST_USER_NEED_2FA = Global.HOST_API + "/check_two_factor_auth_code";
     private final String TAG_LOGIN = "TAG_LOGIN";
-    final private int RESULT_CLOSE = 100;
+    private final int RESULT_CLOSE = 100;
+    private final int RESULT_CLOSE_2FA = 101;
+
+    private final String CLOSE_2FA = "关闭两步验证";
     public String HOST_USER = Global.HOST_API + "/user/key/%s";
     @Extra
     Uri background;
@@ -82,6 +87,9 @@ public class LoginActivity extends BaseActivity {
     EditText editPassword, editValify, edit2FA;
     @ViewById
     View captchaLayout, loginButton, layout2fa, loginLayout, layoutRoot;
+    @ViewById
+    TextView loginFail;
+
     DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.icon_user_monkey)
             .showImageOnFail(R.drawable.icon_user_monkey)
@@ -279,6 +287,11 @@ public class LoginActivity extends BaseActivity {
                 .startForResult(RESULT_CLOSE);
     }
 
+    @OnActivityResult(RESULT_CLOSE_2FA)
+    void onResultClose2FA() {
+        show2FA(false);
+    }
+
     @OnActivityResult(RESULT_CLOSE)
     void resultRegiter(int result) {
         if (result == Activity.RESULT_OK) {
@@ -375,11 +388,15 @@ public class LoginActivity extends BaseActivity {
 
     @Click
     protected final void loginFail() {
-        String account = editName.getText().toString();
-        if (!InputCheck.isPhone(account) && !InputCheck.isEmail(account)) {
-            account = "";
+        if (loginFail.getText().toString().equals(CLOSE_2FA)) {
+            Close2FAActivity_.intent(this).startForResult(RESULT_CLOSE_2FA);
+        } else {
+            String account = editName.getText().toString();
+            if (!InputCheck.isPhone(account) && !InputCheck.isEmail(account)) {
+                account = "";
+            }
+            InputAccountActivity_.intent(LoginActivity.this).account(account).start();
         }
-        InputAccountActivity_.intent(LoginActivity.this).account(account).start();
     }
 
     @Click
@@ -397,10 +414,13 @@ public class LoginActivity extends BaseActivity {
                 edit2FA.getText().insert(0, code2FA);
                 loginButton();
             }
+            loginFail.setText(CLOSE_2FA);
 
         } else {
             layout2fa.setVisibility(View.GONE);
             loginLayout.setVisibility(View.VISIBLE);
+
+            loginFail.setText("找回密码");
         }
     }
 

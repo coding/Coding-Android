@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
@@ -18,7 +19,7 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-@EActivity(R.layout.activity_close2_fa)
+@EActivity(R.layout.activity_close_2fa)
 public class Close2FAActivity extends BackActivity {
 
     private static final String TAG_CLOSE_2FA = "TAG_CLOSE_2FA";
@@ -37,9 +38,11 @@ public class Close2FAActivity extends BackActivity {
 
     @AfterViews
     void initClose2FAActivity() {
-        hideActionbarShade();
+        if (!MyApp.getEnterpriseGK().isEmpty()) { // 企业版和 coding 设计风格不一样
+            hideActionbarShade();
+            getSupportActionBar().setElevation(0);
+        }
 
-        getSupportActionBar().setElevation(0);
         sendPhoneMessage.setType(ValidePhoneView.Type.close2FA);
         sendPhoneMessage.setEditPhone(editPhone);
         ViewStyleUtil.editTextBindButton(loginButton, editPhone, editCode);
