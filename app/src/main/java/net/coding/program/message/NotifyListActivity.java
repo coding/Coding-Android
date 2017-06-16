@@ -50,27 +50,43 @@ public class NotifyListActivity extends BackActivity implements FootUpdate.LoadM
 //        sHashMap.put("ProjectFile", new Pair<>(R.drawable.ic_notify_project_file, 0xff112233));
 //        sHashMap.put("ProjectWatcher", new Pair<>(R.drawable.ic_notify_project_watcher, 0xff112233));
         sHashMap.put("ProjectMember", new Pair<>(R.drawable.ic_notify_project_member, 0xFF1AB6D9));
-        sHashMap.put("BranchMember", new Pair<>(R.drawable.ic_notify_branch_member, 0xFF1AB6D9));
-        sHashMap.put("Depot", new Pair<>(R.drawable.ic_notify_depot, DEFAULT_BG));
+        sHashMap.put("BranchMember", new Pair<>(R.drawable.ic_notify_project_member, 0xFF1AB6D9));
+
         sHashMap.put("Task", new Pair<>(R.drawable.ic_notify_task, 0xFF379FD3));
-        sHashMap.put("PullRequestComment", new Pair<>(R.drawable.ic_notify_pull_request_comment, 0xFF49C9A7));
+
         sHashMap.put("QcTask", new Pair<>(R.drawable.ic_notify_qc_task, 0xFF3C8CEA));
+
         sHashMap.put("ProjectTopic", new Pair<>(R.drawable.ic_notify_project_topic, CodingColor.fontBlue));
+
         sHashMap.put("Project", new Pair<>(R.drawable.ic_notify_project, 0xFFF8BE46));
-        sHashMap.put("PullRequestBean", new Pair<>(R.drawable.ic_notify_pull_request_bean, 0xFF49C9A7));
-        sHashMap.put("Tweet", new Pair<>(R.drawable.ic_notify_tweet, 0xFFFB8638));
-        sHashMap.put("TweetComment", new Pair<>(R.drawable.ic_notify_tweet_comment, 0xFFFB8638));
-        sHashMap.put("TweetLike", new Pair<>(R.drawable.ic_notify_tweet_like, 0xFFFF5847));
-        sHashMap.put("MergeRequestBean", new Pair<>(R.drawable.ic_notify_merge_request_bean, 0xFF4E74B7));
-        sHashMap.put("UserFollow", new Pair<>(R.drawable.ic_notify_user_follow, CodingColor.fontGreen));
-        sHashMap.put("User", new Pair<>(R.drawable.ic_notify_user, 0xFF496AB3));
-        sHashMap.put("TaskComment", new Pair<>(R.drawable.ic_notify_task_comment, 0xFF379FD3));
-        sHashMap.put("CommitLineNote", new Pair<>(R.drawable.ic_notify_commit_line_note, DEFAULT_BG));
+
+        sHashMap.put("PullRequestComment", new Pair<>(R.drawable.ic_notify_pull_request_comment, 0xFF49C9A7));
+        sHashMap.put("PullRequestBean", new Pair<>(R.drawable.ic_notify_pull_request_comment, 0xFF49C9A7));
+
         sHashMap.put("MergeRequestComment", new Pair<>(R.drawable.ic_notify_merge_request_comment, 0xFF4E74B7));
+        sHashMap.put("MergeRequestBean", new Pair<>(R.drawable.ic_notify_merge_request_comment, 0xFF4E74B7));
+
+        sHashMap.put("TweetLike", new Pair<>(R.drawable.ic_notify_tweet_like, 0xFFFF5847));
+
+        sHashMap.put("UserFollow", new Pair<>(R.drawable.ic_notify_user_follow, CodingColor.fontGreen));
+
+        sHashMap.put("User", new Pair<>(R.drawable.ic_notify_user, 0xFF496AB3));
+
+        sHashMap.put("TaskComment", new Pair<>(R.drawable.ic_notify_task_comment, 0xFF379FD3));
+
+        sHashMap.put("CommitLineNote", new Pair<>(R.drawable.ic_notify_commit_line_note, DEFAULT_BG));
+
         sHashMap.put("ProjectFileComment", new Pair<>(R.drawable.ic_notify_project_file_comment, DEFAULT_BG));
+
         sHashMap.put("ProjectPayment", new Pair<>(R.drawable.ic_notify_project_payment, DEFAULT_BG));
-        sHashMap.put("ProjectTweet", new Pair<>(R.drawable.ic_notify_project_tweet, 0xFFFB8638));
-        sHashMap.put("ProjectTweetComment", new Pair<>(R.drawable.ic_notify_project_tweet_comment, 0xFFFB8638));
+
+        sHashMap.put("Tweet", new Pair<>(R.drawable.ic_notify_tweet, 0xFFFB8638));
+        sHashMap.put("TweetComment", new Pair<>(R.drawable.ic_notify_tweet, 0xFFFB8638));
+        sHashMap.put("ProjectTweet", new Pair<>(R.drawable.ic_notify_tweet, 0xFFFB8638));
+        sHashMap.put("ProjectTweetComment", new Pair<>(R.drawable.ic_notify_tweet, 0xFFFB8638));
+
+        sHashMap.put("Depot", new Pair<>(R.drawable.ic_notify_depot, DEFAULT_BG));
+
     }
 
     final String HOST_MARK_AT = Global.HOST_API + "/notification/mark-read?all=1&type=0";
