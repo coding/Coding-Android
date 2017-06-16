@@ -96,12 +96,12 @@
             android:layout_marginRight="2dp">
 
             <ImageButton
-                android:id="@+id/send"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/message_button_add"
-                android:padding="5dp" />
+                    android:id="@+id/send"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/message_button_add"
+                    android:padding="5dp" />
 
             <TextView
                 android:id="@+id/sendText"
