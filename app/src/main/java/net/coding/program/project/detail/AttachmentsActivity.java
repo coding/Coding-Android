@@ -5,7 +5,6 @@ import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -27,7 +26,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
@@ -493,15 +491,15 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         inflater.inflate(R.menu.project_attachment_file, menu);
 
         if (!mAttachmentFolderObject.parent_id.equals("0") || mAttachmentFolderObject.file_id.equals("0")) {
-//            menu.findItem(R.id.action_new_folder).setVisible(false);
-            Drawable drawable = getResources().getDrawable(R.drawable.project_file_action_create_folder_disable);
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            ((TextView) findViewById(R.id.textCreateFolder)).setCompoundDrawables(
-                    drawable,
-                    null,
-                    null,
-                    null
-            );
+            // 新建文件 enable
+//            Drawable drawable = getResources().getDrawable(R.drawable.project_file_action_create_folder_disable);
+//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+//            ((TextView) findViewById(R.id.textCreateFolder)).setCompoundDrawables(
+//                    drawable,
+//                    null,
+//                    null,
+//                    null
+//            );
         }
 
         return true;

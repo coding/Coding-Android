@@ -104,8 +104,6 @@
     <dimen name="label_list_item_merge_bottom">6dp</dimen>
     <dimen name="label_list_item_padding_left">3dp</dimen>
 
-    <dimen name="project_action_icon_text">5dp</dimen>
-
     <dimen name="emoji_switch_button_width">60dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="list_item_space_height">15dp</dimen>
@@ -121,7 +119,8 @@
     <dimen name="flexible_space_image_height">240dp</dimen>
     <dimen name="tab_height">48dp</dimen>
     <dimen name="divide_height">0.5dp</dimen>
-    <dimen name="bottom_layout_high">60dp</dimen>
+    <dimen name="bottom_layout_high">56dp</dimen>
+    <dimen name="bottom_button_drawablepadding">8dp</dimen>
 
     <dimen name="guide_0_title">30dp</dimen>
     <dimen name="guide_0_content">15dp</dimen>

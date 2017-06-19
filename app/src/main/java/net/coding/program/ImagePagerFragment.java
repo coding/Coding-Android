@@ -27,7 +27,6 @@ import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.project.detail.AttachmentsPicDetailActivity;
 import net.coding.program.project.detail.file.FileSaveHelp;
 
 import org.androidannotations.annotations.AfterViews;
@@ -38,14 +37,16 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import pl.droidsonroids.gif.GifImageView;
+
 import java.io.File;
 import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
-import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by chaochen on 2014-9-7.
+ *
  */
 @EFragment(R.layout.activity_image_pager_item)
 public class ImagePagerFragment extends BaseFragment {
@@ -77,8 +78,8 @@ public class ImagePagerFragment extends BaseFragment {
 
     View image;
     HashMap<String, AttachmentFileObject> picCache;
+
     File mFile;
-    AttachmentsPicDetailActivity parentActivity;
     @FragmentArg
     String uri;
     @FragmentArg
@@ -109,20 +110,7 @@ public class ImagePagerFragment extends BaseFragment {
 
         circleLoading.setVisibility(View.INVISIBLE);
         if (uri == null) {
-            parentActivity = (AttachmentsPicDetailActivity) getActivity();
-            if (parentActivity != null) {
-                //在AttachmentsPicDetailActivity中存放了缓存下来的结果
-                picCache = parentActivity.getPicCache();
-                if (picCache.containsKey(fileId)) {
-                    AttachmentFileObject mFileObject = picCache.get(fileId);
-                    uri = mFileObject.preview;
-                    showPhoto();
-                } else {
-                    //如果之前没有缓存过，那么获取并在得到结果后存入
-                    URL_FILES = String.format(URL_FILES_BASE, mProjectObjectId, fileId);
-                    getPhotoFromNetwork();
-                }
-            }
+            // TODO: 2017/6/19  未实现
         } else {
             showPhoto();
         }
@@ -291,7 +279,6 @@ public class ImagePagerFragment extends BaseFragment {
                 AttachmentFileObject mFileObject = new AttachmentFileObject(file);
                 if (picCache != null) {
                     picCache.put(mFileObject.file_id, mFileObject);
-                    parentActivity.setAttachmentFileObject(mFileObject);
                 }
                 uri = mFileObject.preview;
                 showPhoto();

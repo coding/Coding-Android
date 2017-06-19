@@ -56,11 +56,13 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
                 @Override
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                     File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
-                    imageView.setImage(ImageSource.uri(file.getAbsolutePath()));
+                    if (file != null) {
+                        imageView.setImage(ImageSource.uri(file.getAbsolutePath()));
+                        layout_image_prototype.setVisibility(View.VISIBLE);
+                        layout_dynamic_history.setVisibility(View.VISIBLE);
+                    }
                 }
             });
-            layout_image_prototype.setVisibility(View.VISIBLE);
-            layout_dynamic_history.setVisibility(View.VISIBLE);
         }
     }
 

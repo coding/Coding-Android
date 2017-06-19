@@ -177,7 +177,7 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
                     .mProject(mProjectFileParam.getProject())
                     .startForResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES);
         } else if (data.isImage()) {
-            AttachmentsPicDetailActivity_.intent(this)
+            AttachmentsPhotoDetailActivity_.intent(this)
                     .mProjectObjectId(mProjectFileParam.getProjectId())
                     .mAttachmentFileObject(data)
                     .startForResult(FILE_DELETE_CODE);

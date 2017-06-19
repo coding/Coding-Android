@@ -28,7 +28,7 @@ import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.detail.AttachmentsActivity_;
 import net.coding.program.project.detail.AttachmentsDownloadDetailActivity_;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity_;
-import net.coding.program.project.detail.AttachmentsPicDetailActivity_;
+import net.coding.program.project.detail.AttachmentsPhotoDetailActivity_;
 import net.coding.program.project.detail.AttachmentsTextDetailActivity_;
 import net.coding.program.project.detail.GitViewActivity_;
 import net.coding.program.project.detail.ProjectActivity_;
@@ -329,7 +329,7 @@ public class URLSpanNoUnderline extends URLSpan {
             final String htmlMdType = ".*\\.(html|htm|markd|markdown|md|mdown)$";
             final String txtType = ".*\\.(sh|txt)$";
             if (extension.matches(imageType)) {
-                AttachmentsPicDetailActivity_.intent(context)
+                AttachmentsPhotoDetailActivity_.intent(context)
                         .mProjectObjectId(projectId)
                         .mAttachmentFolderObject(folder)
                         .mAttachmentFileObject(folderFile)

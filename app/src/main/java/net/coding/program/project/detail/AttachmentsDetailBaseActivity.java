@@ -318,14 +318,6 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
                 isDownloading = false;
                 onDownloadFinish(true);
 
-                /*MediaScannerConnection.scanFile(AttachmentsPicDetailActivity.this,
-                        new String[]{response.toString()}, null,
-                        new MediaScannerConnection.OnScanCompletedListener() {
-                            public void onScanCompleted(String path, Uri uri) {
-                                Log.i("ExternalStorage", "Scanned " + path + ":");
-                                Log.i("ExternalStorage", "-> uri=" + uri);
-                            }
-                        });*/
                 sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(response)));
             }
 

@@ -8,7 +8,7 @@ import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.AttachmentsActivity_;
 import net.coding.program.project.detail.AttachmentsDownloadDetailActivity_;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity_;
-import net.coding.program.project.detail.AttachmentsPicDetailActivity_;
+import net.coding.program.project.detail.AttachmentsPhotoDetailActivity_;
 import net.coding.program.project.detail.AttachmentsTextDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -104,7 +104,7 @@ public class FileUrlActivity extends BaseActivity {
                 AttachmentFileObject folderFile = fileObject;
 
                 if (fileObject.isImage() || fileObject.isGif()) {
-                    AttachmentsPicDetailActivity_.intent(this)
+                    AttachmentsPhotoDetailActivity_.intent(this)
                             .mProjectObjectId(projectId)
                             .mAttachmentFolderObject(folder)
                             .mAttachmentFileObject(folderFile)

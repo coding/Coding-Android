@@ -168,7 +168,6 @@ dependencies {
     compile 'com.alibaba:fastjson:1.1.44.android'
 
     // 方便显示 view 显示一些样式，不用写 selector
-    // https://github.com/H07000223/FlycoRoundView
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
 
     compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'

@@ -537,6 +537,12 @@
         <item name="android:background">@drawable/ic_notify_txt</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="BottomBotton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+    </style>
 
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->

@@ -14,19 +14,19 @@
         android:footerDividersEnabled="false" />
 
     <LinearLayout
-        android:id="@+id/rl_btn_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/divide"
-        android:orientation="vertical">
+            android:id="@+id/rl_btn_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_layout_high"
+            android:layout_alignParentBottom="true"
+            android:background="@color/divide"
+            android:orientation="vertical">
 
-        <include layout="@layout/divideline_2" />
+        <include layout="@layout/divide_line_1"/>
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnLeft"
