@@ -511,17 +511,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         }
     }
 
-    @OptionsItem
-    protected final void action_copy() {
-        String link = getLink();
-        if (link.isEmpty()) {
-            showButtomToast("复制链接失败");
-        } else {
-            Global.copy(this, link);
-            showButtomToast("已复制链接 " + link);
-        }
-    }
-
     @OptionsItem(android.R.id.home)
     void close() {
         onBackPressed();
@@ -530,18 +519,9 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.project_attachment_file, menu);
 
-        if (!mAttachmentFolderObject.parent_id.equals("0") || mAttachmentFolderObject.file_id.equals("0")) {
-            // 新建文件 enable
-//            Drawable drawable = getResources().getDrawable(R.drawable.project_file_action_create_folder_disable);
-//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-//            ((TextView) findViewById(R.id.textCreateFolder)).setCompoundDrawables(
-//                    drawable,
-//                    null,
-//                    null,
-//                    null
-//            );
+        if (!mAttachmentFolderObject.isRoot()) {
+            inflater.inflate(R.menu.attachment_list, menu);
         }
 
         return true;
@@ -589,10 +569,24 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
         showFolderAction();
 
-        bottomLayoutBatch.setOnClickListener(clickBottom);
-        bottomLayout.setOnClickListener(clickBottom);
+        bottomLayoutBatch.setClick(clickBottom);
+        bottomLayout.setClick(clickBottom);
 
         onRefresh();
+
+        initBottomToolBar();
+    }
+
+    private void initBottomToolBar() {
+        if (mAttachmentFolderObject.isRoot()) {
+            bottomLayout.disable(R.id.actionUpload);
+        } else if (mAttachmentFolderObject.isSharded()) {
+            bottomLayout.setVisibility(View.GONE);
+        } else if (mAttachmentFolderObject.isDefault()) {
+            bottomLayout.disable(R.id.actionAddFolder);
+        } else if (!mAttachmentFolderObject.parent_id.equals("0")) {
+            bottomLayout.disable(R.id.actionAddFolder);
+        }
     }
 
     View.OnClickListener clickBottom = v -> {
@@ -1193,7 +1187,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     }
 
     @OptionsItem
-    void action_edit() {
+    void actionEdit() {
         doEdit();
     }
 
