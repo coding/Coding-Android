@@ -28,6 +28,7 @@ import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by chenchao on 15/12/17.
+ *
  */
 public class LoginEditText extends FrameLayout implements OnTextChange {
     private static final String TAG = "LoginEditText";

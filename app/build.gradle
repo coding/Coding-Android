@@ -195,6 +195,9 @@ dependencies {
 
     // 文件下载
     compile 'com.liulishuo.filedownloader:library:1.4.3'
+
+    // xml 解析
+    compile 'org.jsoup:jsoup:1.10.3'
 }
 
 // 新功能提示，使用弹出框的样式 start ----------------------------------------------------------------

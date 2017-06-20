@@ -19,6 +19,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.detail.file.v2.ProjectFileMainActivity_;
@@ -104,8 +105,16 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             finish();
             overridePendingTransition(0, 0);
             return;
-        } else if (mJumpType == ProjectFunction.document && !MyApp.getEnterpriseGK().isEmpty()) {
-            ProjectFileMainActivity_.intent(this).project(mProjectObject).start();
+        } else if (mJumpType == ProjectFunction.document) {
+            if (!MyApp.getEnterpriseGK().isEmpty()) {
+                ProjectFileMainActivity_.intent(this).project(mProjectObject).start();
+            } else {
+                AttachmentsActivity_.intent(this)
+                        .mAttachmentFolderObject(AttachmentFolderObject.create(AttachmentFolderObject.ROOT_FOLDER_ID))
+                        .mProjectObjectId(mProjectObject.id)
+                        .mProject(mProjectObject)
+                        .start();
+            }
             finish();
             overridePendingTransition(0, 0);
             return;

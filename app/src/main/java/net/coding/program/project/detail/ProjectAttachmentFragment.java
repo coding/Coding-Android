@@ -3,7 +3,6 @@ package net.coding.program.project.detail;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +28,6 @@ import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ItemClick;
@@ -47,6 +45,7 @@ import java.util.regex.Pattern;
 /**
  * Created by yangzhen on 2014/10/25.
  * 文件列表的一级目录
+ * // TODO: 2017/6/20 delete
  */
 @EFragment(R.layout.folder_main_refresh_listview)
 public class ProjectAttachmentFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
@@ -62,8 +61,11 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
     ArrayList<AttachmentFolderObject> selectFolder;
     AttachmentFolderObject pickedFolderObject;
     private ArrayList<AttachmentFolderObject> mData = new ArrayList<>();
-    private String HOST_FOLDER = Global.HOST_API + "/project/%d/all_folders?pageSize=9999";
-    private String HOST_FILECOUNT = Global.HOST_API + "/project/%d/folders/all-file-count-with-share";
+
+
+    private String HOST_FOLDER = Global.HOST_API + "/project/%s/all_folders?pageSize=9999";
+    private String HOST_FILECOUNT = Global.HOST_API + "/project/%s/folders/all-file-count-with-share";
+
     private String HOST_FOLDER_NAME = Global.HOST_API + "/project/%d/dir/%s/name/%s";
     private String HOST_FOLDER_NEW = Global.HOST_API + "/project/%d/mkdir";
     private String HOST_FOLDER_DELETE_FORMAT = Global.HOST_API + "/project/%d/rmdir/%s";
@@ -156,20 +158,20 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
     protected void initProjectAttachmentFragment() {
         // 根目录下不能上传文件
         View rootLayout = getView();
-        if (rootLayout != null) {
-            rootLayout.findViewById(R.id.common_folder_bottom_upload).setEnabled(false);
-            Drawable drawable = getResources().getDrawable(R.drawable.project_file_action_upload_disable);
-
-            if (drawable != null) {
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                ((TextView) rootLayout.findViewById(R.id.textUploadFile)).setCompoundDrawables(
-                        drawable,
-                        null,
-                        null,
-                        null
-                );
-            }
-        }
+//        if (rootLayout != null) {
+//            rootLayout.findViewById(R.id.common_folder_bottom_upload).setEnabled(false);
+//            Drawable drawable = getResources().getDrawable(R.drawable.project_file_action_upload_disable);
+//
+//            if (drawable != null) {
+//                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+//                ((TextView) rootLayout.findViewById(R.id.textUploadFile)).setCompoundDrawables(
+//                        drawable,
+//                        null,
+//                        null,
+//                        null
+//                );
+//            }
+//        }
 
         listViewAddHeaderSection(listView);
         listView.setVisibility(View.INVISIBLE);
@@ -218,7 +220,7 @@ public class ProjectAttachmentFragment extends RefreshBaseFragment implements Fo
         getNetwork(HOST_FILECOUNT, HOST_FILECOUNT);
     }
 
-    @Click
+
     void common_folder_bottom_add() {
         doNowFolder();
     }

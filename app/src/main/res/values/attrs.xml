@@ -101,4 +101,8 @@
     <declare-styleable name="MainInputView">
         <attr name="showEmojiOnly" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="BottomToolBar">
+        <attr name="btb_xml" format="reference"/>
+    </declare-styleable>
 </resources>

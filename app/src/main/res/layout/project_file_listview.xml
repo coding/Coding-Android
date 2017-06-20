@@ -14,10 +14,15 @@
         app:recyclerviewDefaultSwipeColor="@array/pull_to_refrush"
         android:layout_weight="1" />
 
-    <include layout="@layout/common_folder_upload_add" />
+    <net.coding.program.common.widget.BottomToolBar
+            app:btb_xml="@xml/bottomtoolbar_file_upload"
+            android:id="@+id/bottomLayout"
+            style="@style/BottomToolBar"/>
 
-    <include
-        layout="@layout/common_folder_move_download_delete"
-        android:visibility="gone" />
+    <net.coding.program.common.widget.BottomToolBar
+            app:btb_xml="@xml/bottomtoolbar_files_action"
+            android:id="@+id/bottomLayoutBatch"
+            android:visibility="gone"
+            style="@style/BottomToolBar"/>
 
 </LinearLayout>

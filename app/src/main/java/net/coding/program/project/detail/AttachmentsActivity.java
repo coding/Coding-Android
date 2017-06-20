@@ -42,6 +42,7 @@ import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
+import net.coding.program.common.widget.BottomToolBar;
 import net.coding.program.common.widget.FileListHeadItem;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
@@ -50,7 +51,6 @@ import net.coding.program.project.detail.file.FileDownloadBaseActivity;
 import net.coding.program.project.detail.file.ViewHolderFile;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ItemClick;
@@ -84,6 +84,9 @@ import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
 @Deprecated
 @EActivity(R.layout.activity_attachments)
 public class AttachmentsActivity extends FileDownloadBaseActivity implements FootUpdate.LoadMore, UploadStyle {
+
+    private static final String TAG = AttachmentsActivity.class.getSimpleName();
+
     public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
     final public static int FILE_SELECT_CODE = 10;
     final public static int FILE_DELETE_CODE = 11;
@@ -91,17 +94,17 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     final public static int RESULT_MOVE_FOLDER = 13;
     private static final String TAG_HTTP_FILE_EXIST = "TAG_HTTP_FILE_EXIST";
     private static final String HOST_HTTP_FILE_RENAME = "HOST_HTTP_FILE_RENAME";
-    private static String TAG = AttachmentsActivity.class.getSimpleName();
-    public final String HOST_PROJECT_ID = Global.HOST_API + "/project/%d";
+
+    public final String HOST_PROJECT_ID = Global.HOST_API + "/project/%s";
     private final String TAG_MOVE_FOLDER = "TAG_MOVE_FOLDER";
-    @ViewById
-    protected SwipeRefreshLayout swipeRefreshLayout;
+
     @Extra
     int mProjectObjectId;
     @Extra
     ProjectObject mProject;
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
+
     //    ProjectObject mProjectObject;
     String urlFiles = "";
     String urlUpload = Global.HOST_API + "/project/%s/file/upload";
@@ -113,7 +116,12 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             data.isSelected = isChecked;
         }
     };
+
     boolean mNoMore = false;
+
+    @ViewById
+    protected SwipeRefreshLayout swipeRefreshLayout;
+
     @ViewById
     ListView listView;
     //    @ViewById
@@ -122,16 +130,22 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     // /\.(pdf)$/
     @ViewById
     View blankLayout;
+
     @ViewById
-    View folder_actions_layout;
-    @ViewById
-    View files_actions_layout;
+    BottomToolBar bottomLayout, bottomLayoutBatch;
+
     ActionMode mActionMode;
     ArrayList<AttachmentFileObject> selectFile;
     ArrayList<AttachmentFolderObject> selectFolder;
     //    private AttachmentFolderObject sourceFolder;
     View.OnClickListener mClickReload = v -> loadMore();
     ViewGroup listHead;
+
+    // 获取所有文件夹
+    private String HOST_FOLDER = Global.HOST_API + "/project/%s/all_folders?pageSize=9999";
+    // 获取分享中文件数量
+    private String HOST_SHARE_FOLDER_COUNT = Global.HOST_API + "/project/%s/folders/all-file-count-with-share";
+
     private String HOST_FILE_DELETE = Global.HOST_API + "/project/%s/file/delete?%s";
     private String HOST_FILE_MOVETO = Global.HOST_API + "/project/%s/files/moveto/%s?%s";
     private String HOST_FILECOUNT = Global.HOST_API + "/project/%s/folders/all_file_count";
@@ -141,6 +155,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     private String HOST_FOLDER_DELETE;
     private HashMap<String, Integer> fileCountMap = new HashMap<>();
     private boolean isEditMode = false;
+
     BaseAdapter adapter = new BaseAdapter() {
 
         @Override
@@ -172,7 +187,13 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             holder.name.setText(data.getName());
 
             if (data.isFolder) {
-                holder.icon.setImageResource(R.drawable.ic_project_git_folder2);
+                int folderDrawable = R.drawable.ic_project_git_folder2;
+                if (data.file_id.equals(AttachmentFolderObject.SHARE_FOLDER_ID)) {
+                    folderDrawable = R.drawable.icon_file_folder_share;
+                } else if (data.file_id.equals(AttachmentFolderObject.DEFAULT_FOLDER_ID)) {
+                    folderDrawable = R.drawable.ic_project_git_folder;
+                }
+                holder.icon.setImageResource(folderDrawable);
                 holder.icon.setVisibility(View.VISIBLE);
                 holder.icon.setBackgroundResource(android.R.color.transparent);
                 holder.icon_txt.setVisibility(View.GONE);
@@ -295,16 +316,13 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             return convertView;
         }
     };
-    protected View.OnClickListener cancelClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            AttachmentFileObject data = mFilesArray.get((Integer) v.getTag());
+    protected View.OnClickListener cancelClickListener = v -> {
+        AttachmentFileObject data = mFilesArray.get((Integer) v.getTag());
 
-            long downloadId = data.downloadId;
-            removeDownloadFile(downloadId);
-            data.downloadId = 0L;
-            adapter.notifyDataSetChanged();
-        }
+        long downloadId = data.downloadId;
+        removeDownloadFile(downloadId);
+        data.downloadId = 0L;
+        adapter.notifyDataSetChanged();
     };
     /**
      * 弹出框
@@ -393,6 +411,30 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             mRightTopPopupWindow.dismiss();
         }
     };
+
+    protected void onRefresh() {
+        initSetting();
+
+        if (mAttachmentFolderObject.isRoot()) {
+            getNetwork(HOST_SHARE_FOLDER_COUNT, HOST_SHARE_FOLDER_COUNT);
+        } else if (mAttachmentFolderObject.isDefault() || mAttachmentFolderObject.isSharded()) {
+            loadFileList();
+        } else if (mAttachmentFolderObject.created_at == 0) {
+            loadFolderList();
+        } else {
+            loadFileList();
+        }
+    }
+
+    protected void loadFolderList() {
+        getNetwork(HOST_FOLDER, HOST_FOLDER);
+    }
+
+    protected void loadFileList() {
+        initSetting();
+        loadMore();
+    }
+
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
         @Override
@@ -400,8 +442,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.project_attachment_file_edit, menu);
 
-            files_actions_layout.setVisibility(View.VISIBLE);
-            folder_actions_layout.setVisibility(View.GONE);
+            bottomLayoutBatch.setVisibility(View.VISIBLE);
+            bottomLayout.setVisibility(View.GONE);
 
             return true;
         }
@@ -432,7 +474,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         public void onDestroyActionMode(ActionMode mode) {
             mActionMode = null;
 
-            files_actions_layout.setVisibility(View.GONE);
+            bottomLayoutBatch.setVisibility(View.GONE);
             showFolderAction();
 
             setListEditMode(false);
@@ -463,9 +505,9 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
     private void showFolderAction() {
         if (mAttachmentFolderObject.file_id.equals(AttachmentFolderObject.SHARE_FOLDER_ID)) {
-            folder_actions_layout.setVisibility(View.GONE);
+            bottomLayout.setVisibility(View.GONE);
         } else {
-            folder_actions_layout.setVisibility(View.VISIBLE);
+            bottomLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -508,10 +550,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     @AfterViews
     final void initAttachmentsActivity() {
 //        uploadLayout.setVisibility(View.GONE);
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            initSetting();
-            loadMore();
-        });
+        swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
 
         swipeRefreshLayout.setColorSchemeResources(R.color.font_green);
 
@@ -524,6 +563,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             String template = Global.HOST_API + "/project/%s/files/%s?height=90&width=90&pageSize=9999";
             urlFiles = String.format(template, mProjectObjectId, mAttachmentFolderObject.file_id);
         }
+        HOST_FOLDER = String.format(HOST_FOLDER, mProjectObjectId);
+        HOST_SHARE_FOLDER_COUNT = String.format(HOST_SHARE_FOLDER_COUNT, mProjectObjectId);
 
         urlUpload = String.format(urlUpload, mProjectObjectId);
 //        barParams = (LinearLayout.LayoutParams) uploadStatusProgress.getLayoutParams();
@@ -543,25 +584,45 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
         initBottomPop();
 
-        loadMore();
-
         String projectUrl = String.format(HOST_PROJECT_ID, mProjectObjectId);
         getNetwork(projectUrl, HOST_PROJECT_ID);
 
         showFolderAction();
+
+        bottomLayoutBatch.setOnClickListener(clickBottom);
+        bottomLayout.setOnClickListener(clickBottom);
+
+        onRefresh();
     }
 
-    @Click
+    View.OnClickListener clickBottom = v -> {
+        switch (v.getId()) {
+            case R.id.actionAddFolder:
+                common_folder_bottom_add();
+                break;
+            case R.id.actionUpload:
+                common_folder_bottom_upload();
+                break;
+            case R.id.filesMove:
+                common_files_move();
+                break;
+            case R.id.filesDownload:
+                common_files_download();
+                break;
+            case R.id.filesDelete:
+                common_files_delete();
+                break;
+        }
+    };
+
     void common_files_move() {
         action_move();
     }
 
-    @Click
     void common_files_download() {
         action_download(mFilesArray);
     }
 
-    @Click
     void common_files_delete() {
         if (!isChooseOthers()) {
             action_delete();
@@ -652,29 +713,70 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         }
     }
 
-    /**
-     * 获取当前文件列表中的所有图片文件，提供给AttachmentsPicDetailActivity
-     *
-     * @return 当前文件列表中的所有图片文件
-     */
-    private ArrayList<AttachmentFileObject> getPicFiles() {
-        ArrayList<AttachmentFileObject> picFiles = new ArrayList<>();
-        for (AttachmentFileObject file : mFilesArray) {
-            if (file.isImage()) {
-                picFiles.add(file);
-            }
-        }
-        return picFiles;
-    }
-
     @Override
     public void loadMore() {
+        if (mAttachmentFolderObject.isRoot()) {
+            return;
+        }
+
         getNextPageNetwork(urlFiles, urlFiles);
     }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, final Object data) throws JSONException {
-        if (tag.equals(urlFiles)) {
+        if (tag.equals(HOST_FOLDER)) {
+            swipeRefreshLayout.setRefreshing(false);
+            if (code == 0) {
+                JSONArray folders = respanse.getJSONObject("data").getJSONArray("list");
+
+                mFilesArray.clear();
+
+                if (mAttachmentFolderObject.isRoot()) { // 根目录只有文件夹
+
+                    AttachmentFolderObject shareFolder = new AttachmentFolderObject();
+                    shareFolder.file_id = AttachmentFolderObject.SHARE_FOLDER_ID;
+                    shareFolder.setCount(fileCountMap.get(shareFolder.file_id));
+                    shareFolder.name = "分享中";
+                    mFilesArray.add(AttachmentFileObject.parseFileObject(shareFolder));
+
+                    AttachmentFolderObject defaultFolder = new AttachmentFolderObject();
+                    defaultFolder.setCount(fileCountMap.get(defaultFolder.file_id));
+                    mFilesArray.add(AttachmentFileObject.parseFileObject(defaultFolder));
+                }
+
+                for (int i = 0; i < folders.length(); ++i) {
+                    AttachmentFolderObject folder = new AttachmentFolderObject(folders.getJSONObject(i));
+                    folder.setCount(fileCountMap.get(folder.file_id));
+                    ArrayList<AttachmentFolderObject> subFolders = folder.sub_folders;
+                    for (AttachmentFolderObject subFolder : subFolders) {
+                        subFolder.setCount(fileCountMap.get(subFolder.file_id));
+                    }
+                    mFilesArray.add(AttachmentFileObject.parseFileObject(folder));
+                }
+
+                if (mAttachmentFolderObject.isRoot()) {
+                    adapter.notifyDataSetChanged();
+                } else {
+                    loadMore();
+                }
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(HOST_SHARE_FOLDER_COUNT)) {
+            if (code == 0) {
+                JSONObject dataRoot = respanse.optJSONObject("data");
+
+                fileCountMap.put(AttachmentFolderObject.SHARE_FOLDER_ID, dataRoot.optInt("shareCount"));
+                JSONArray counts = dataRoot.optJSONArray("folders");
+                for (int i = 0; i < counts.length(); ++i) {
+                    JSONObject countItem = counts.optJSONObject(i);
+                    fileCountMap.put(countItem.optString("folder"), countItem.optInt("count"));
+                }
+                loadFolderList();
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(urlFiles)) {
             swipeRefreshLayout.setRefreshing(false);
 
             if (code == 0) {
@@ -685,11 +787,11 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 }
 
                 if (mFilesArray.size() == 0) {
+
                     ArrayList<AttachmentFolderObject> subFolders = mAttachmentFolderObject.sub_folders;
                     for (AttachmentFolderObject subFolder : subFolders) {
                         mFilesArray.add(AttachmentFileObject.parseFileObject(subFolder));
                     }
-
                 }
 
                 for (int i = 0; i < files.length(); ++i) {
@@ -872,7 +974,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         }
     }
 
-    @Click
     protected final void common_folder_bottom_upload() {
         showListDialog();
     }
@@ -1453,7 +1554,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         }
     }
 
-    @Click
     protected final void common_folder_bottom_add() {
         if (!mAttachmentFolderObject.parent_id.equals("0") || mAttachmentFolderObject.file_id.equals("0")) {
             return;

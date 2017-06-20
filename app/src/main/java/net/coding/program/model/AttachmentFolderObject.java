@@ -14,6 +14,9 @@ import java.util.ArrayList;
  */
 public class AttachmentFolderObject implements Serializable {
     public static final String SHARE_FOLDER_ID = "-1";
+    public static final String DEFAULT_FOLDER_ID = "0";
+    public static final String ROOT_FOLDER_ID = "-2";
+
     public long created_at;//创建时间
     public String file_id = "";//文件ID
     public String name = "";//文件名称
@@ -29,6 +32,28 @@ public class AttachmentFolderObject implements Serializable {
     public AttachmentFolderObject() {
         this.name = "默认文件夹";
         this.file_id = "0";
+    }
+
+    public static AttachmentFolderObject create(String type) {
+        AttachmentFolderObject folder = new AttachmentFolderObject();
+        if (ROOT_FOLDER_ID.equals(type)) {
+            folder.file_id = type;
+            folder.name = "文件";
+        }
+
+        return folder;
+    }
+
+    public boolean isRoot() {
+        return ROOT_FOLDER_ID.equals(file_id);
+    }
+
+    public boolean isSharded() {
+        return SHARE_FOLDER_ID.equals(file_id);
+    }
+
+    public boolean isDefault() {
+        return DEFAULT_FOLDER_ID.equals(file_id);
     }
 
     public AttachmentFolderObject(JSONObject json) throws JSONException {

@@ -543,6 +543,11 @@
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="BottomToolBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/stand_bg</item>
+        <item name="android:layout_height">@dimen/bottom_layout_real_high</item>
+    </style>
 
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->

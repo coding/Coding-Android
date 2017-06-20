@@ -32,6 +32,7 @@ import net.coding.program.common.ui.shadow.RecyclerViewSpace;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
+import net.coding.program.common.widget.BottomToolBar;
 import net.coding.program.common.widget.CommonListView;
 import net.coding.program.common.widget.FileListHeadItem2;
 import net.coding.program.model.AttachmentFileObject;
@@ -53,7 +54,6 @@ import net.coding.program.project.detail.AttachmentsTextDetailActivity_;
 import net.coding.program.project.detail.file.FileSaveHelp;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
@@ -96,11 +96,8 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
     @ViewById
     CommonListView listView;
 
-    @ViewById(R.id.folder_actions_layout)
-    View foldeBottomBar;
-
-    @ViewById(R.id.files_actions_layout)
-    View fileBottomBar;
+    @ViewById
+    BottomToolBar bottomLayout, bottomLayoutBatch;
 
     private ViewGroup listHead;
 
@@ -149,6 +146,9 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
         listView.setDefaultOnRefreshListener(() -> onRefresh());
         onRefresh();
+
+        bottomLayout.setOnClickListener(clickBottom);
+        bottomLayoutBatch.setOnClickListener(clickBottom);
     }
 
     protected void onRefresh() {
@@ -331,8 +331,8 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.project_attachment_file_edit, menu);
 
-            fileBottomBar.setVisibility(View.VISIBLE);
-            foldeBottomBar.setVisibility(View.GONE);
+            bottomLayoutBatch.setVisibility(View.VISIBLE);
+            bottomLayout.setVisibility(View.GONE);
 
             return true;
         }
@@ -358,14 +358,13 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            fileBottomBar.setVisibility(View.GONE);
-            foldeBottomBar.setVisibility(View.VISIBLE);
+            bottomLayoutBatch.setVisibility(View.GONE);
+            bottomLayout.setVisibility(View.VISIBLE);
             setEditMode(false);
         }
     };
 
-    @Click(R.id.common_folder_bottom_add)
-    void folderAdd() {
+    void actionFolderAdd() {
         LayoutInflater li = LayoutInflater.from(this);
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
@@ -411,8 +410,27 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         input.requestFocus();
     }
 
-    @Click(R.id.common_folder_bottom_upload)
-    void fileUpload() {
+    View.OnClickListener clickBottom = v -> {
+        switch (v.getId()) {
+            case R.id.actionAddFolder:
+                actionFolderAdd();
+                break;
+            case R.id.actionUpload:
+                actionFileUpload();
+                break;
+            case R.id.filesMove:
+                actionFilesMove();
+                break;
+            case R.id.filesDownload:
+                actionFilesDownload();
+                break;
+            case R.id.filesDelete:
+                actionFilesDelete();
+                break;
+        }
+    };
+
+    void actionFileUpload() {
         new AlertDialog.Builder(this)
                 .setItems(R.array.file_type, (dialog, which) -> {
                     switch (which) {
@@ -436,19 +454,16 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                 }).show();
     }
 
-    @Click(R.id.common_files_move)
     void actionFilesMove() {
         fillActionData();
         actionMove();
     }
 
-    @Click(R.id.common_files_download)
     void actionFilesDownload() {
         fillActionData();
         actionDownload();
     }
 
-    @Click(R.id.common_files_delete)
     void actionFilesDelete() {
         fillActionData();
         actionDelete();

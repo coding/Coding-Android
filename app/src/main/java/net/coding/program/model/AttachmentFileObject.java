@@ -90,6 +90,20 @@ public class AttachmentFileObject implements Serializable {
     private String share_url = ""; // 早期的版本是使用 share_url，现在的版本改成了 share
     private AttachmentFileObject.Share share;
 
+    public static AttachmentFileObject create(String type) {
+        AttachmentFileObject item = new AttachmentFileObject();
+        if (AttachmentFolderObject.SHARE_FOLDER_ID.equals(type)) {
+            item.isFolder = true;
+            item.file_id = AttachmentFolderObject.SHARE_FOLDER_ID;
+            item.name = "分享中";
+        } else if (AttachmentFolderObject.DEFAULT_FOLDER_ID.equals(type)) {
+            item.isFolder = true;
+            item.file_id = AttachmentFolderObject.DEFAULT_FOLDER_ID;
+            item.name = "默认文件夹";
+        }
+        return item;
+    }
+
     public AttachmentFileObject() {
     }
 

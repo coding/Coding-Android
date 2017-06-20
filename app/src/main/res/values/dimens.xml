@@ -121,6 +121,8 @@
     <dimen name="divide_height">0.5dp</dimen>
     <dimen name="bottom_layout_high">56dp</dimen>
     <dimen name="bottom_button_drawablepadding">8dp</dimen>
+    <!--为了添加阴影效果-->
+    <dimen name="bottom_layout_real_high">60dp</dimen>
 
     <dimen name="guide_0_title">30dp</dimen>
     <dimen name="guide_0_content">15dp</dimen>
