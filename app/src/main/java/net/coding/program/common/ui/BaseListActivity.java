@@ -54,7 +54,7 @@ public abstract class BaseListActivity extends BackActivity implements FootUpdat
         showDialogLoading();
 
         ListView listView = (ListView) findViewById(R.id.listView);
-        mAdapter = new CustomArrayAdapter<>(this, new ArrayList<Object>());
+        mAdapter = new CustomArrayAdapter<>(this, new ArrayList<>());
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(mActivityParam.mItemClick);
 

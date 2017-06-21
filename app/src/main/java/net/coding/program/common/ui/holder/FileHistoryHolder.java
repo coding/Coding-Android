@@ -1,4 +1,4 @@
-package net.coding.program.project.detail.file;
+package net.coding.program.common.ui.holder;
 
 import android.view.View;
 import android.widget.CheckBox;
@@ -14,12 +14,13 @@ import net.coding.program.R;
  * Created by chenchao on 15/8/21.
  * 项目文件 list item
  */
-public class ViewHolderFile {
+public class FileHistoryHolder {
     public ImageView icon;
     public TextView name;
     public TextView content;
     public TextView desc;
     public View shareMark;
+    public TextView iconText;
 
     public LinearLayout file_info_layout;
     public TextView folder_name;
@@ -35,16 +36,18 @@ public class ViewHolderFile {
 
     public LinearLayout desc_layout, progress_layout;
     public ProgressBar progressBar;
+    public TextView cancel;
     public TextView downloadFlag;
     public View item_layout_root;
 
-    public ViewHolderFile(View convertView) {
+    public FileHistoryHolder(View convertView) {
         item_layout_root = convertView.findViewById(R.id.item_layout_root);
         name = (TextView) convertView.findViewById(R.id.name);
         icon = (ImageView) convertView.findViewById(R.id.icon);
         content = (TextView) convertView.findViewById(R.id.comment);
         desc = (TextView) convertView.findViewById(R.id.desc);
         checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
+        iconText = (TextView) convertView.findViewById(R.id.icon_txt);
 
         file_info_layout = (LinearLayout) convertView.findViewById(R.id.file_info_layout);
         folder_name = (TextView) convertView.findViewById(R.id.folder_name);
@@ -60,6 +63,7 @@ public class ViewHolderFile {
         desc_layout = (LinearLayout) convertView.findViewById(R.id.desc_layout);
         progress_layout = (LinearLayout) convertView.findViewById(R.id.progress_layout);
         progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
+        cancel = (TextView) convertView.findViewById(R.id.cancel);
         shareMark = convertView.findViewById(R.id.shareMark);
     }
 

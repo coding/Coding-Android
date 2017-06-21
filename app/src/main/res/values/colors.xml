@@ -13,7 +13,7 @@
     <color name="windowBackground">@color/divide</color>
 
     <color name="bottomColorPrimary">#FDFDFD</color>
-    <color name="color_bottom_bar">#F2FFFFFF</color>
+    <color name="color_bottom_bar">@color/white</color>
 
     <color name="divide">#F2F4F6</color>
     <color name="divide_line">#D8DDE4</color>

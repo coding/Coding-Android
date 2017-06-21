@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
+import net.coding.program.common.ui.holder.FileHistoryHolder;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AttachmentFileHistoryObject;
 import net.coding.program.model.AttachmentFileObject;
@@ -29,7 +30,6 @@ import net.coding.program.model.RequestData;
 import net.coding.program.model.util.FileRequestHelp;
 import net.coding.program.project.detail.file.FileDownloadBaseActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity;
-import net.coding.program.project.detail.file.ViewHolderFile;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -302,18 +302,18 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolderFile holder;
+            FileHistoryHolder holder;
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.project_attachment_file_history_list_item, parent, false);
-                holder = new ViewHolderFile(convertView);
+                holder = new FileHistoryHolder(convertView);
                 convertView.setTag(holder);
             } else {
-                holder = (ViewHolderFile) convertView.getTag();
+                holder = (FileHistoryHolder) convertView.getTag();
             }
 
             AttachmentFileHistoryObject data = mData.get(position);
 
-            holder.icon_txt.setText(data.getVersionString());
+            holder.iconText.setText(data.getVersionString());
             holder.name.setText(data.getRemark());
 
             holder.username.setText(data.owner.name);
@@ -365,11 +365,11 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
             }
 
             if (position == 0) {
-                holder.icon_txt.setTextColor(CodingColor.fontWhite);
-                holder.icon_txt.setBackgroundResource(R.drawable.round_rect_file_history_orange);
+                holder.iconText.setTextColor(CodingColor.fontWhite);
+                holder.iconText.setBackgroundResource(R.drawable.round_rect_file_history_orange);
             } else {
-                holder.icon_txt.setTextColor(CodingColor.font3);
-                holder.icon_txt.setBackgroundResource(R.drawable.round_rect_file_history_gray);
+                holder.iconText.setTextColor(CodingColor.font3);
+                holder.iconText.setBackgroundResource(R.drawable.round_rect_file_history_gray);
             }
 
             holder.cancel.setOnClickListener(cancelClickListener);

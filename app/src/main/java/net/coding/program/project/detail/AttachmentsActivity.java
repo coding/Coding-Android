@@ -25,7 +25,6 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import com.loopj.android.http.RequestParams;
 
@@ -74,11 +73,7 @@ import cz.msebera.android.httpclient.Header;
 
 import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
 
-
 /**
- * 展示某一项目文件目录下面文件的Activity
- * 原本没有二级目录，这个Activity是只用来处理AttachmentFileObject的
- * 之后加了二级目录，那么有些实现方式就不太合适了
  * Created by yangzhen
  */
 @Deprecated
@@ -187,6 +182,16 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             AttachmentFileObject data = mFilesArray.get(position);
             holder.name.setText(data.getName());
 
+            int itemHigh;
+            if (data.isFolder) {
+                itemHigh = Global.dpToPx(65);
+            } else {
+                itemHigh = Global.dpToPx(85);
+            }
+            ViewGroup.LayoutParams lp = holder.item_layout_root.getLayoutParams();
+            lp.height = itemHigh;
+            holder.item_layout_root.setLayoutParams(lp);
+
             if (data.isFolder) {
                 int folderDrawable = R.drawable.ic_project_git_folder2;
                 if (data.file_id.equals(AttachmentFolderObject.SHARE_FOLDER_ID)) {
@@ -197,7 +202,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 holder.icon.setImageResource(folderDrawable);
                 holder.icon.setVisibility(View.VISIBLE);
                 holder.icon.setBackgroundResource(android.R.color.transparent);
-                holder.icon_txt.setVisibility(View.GONE);
                 holder.file_info_layout.setVisibility(View.GONE);
                 holder.folder_name.setText(data.getName());
                 holder.folder_name.setVisibility(View.VISIBLE);
@@ -206,14 +210,12 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 imagefromNetwork(holder.icon, data.preview, ImageLoadTool.optionsRounded2);
                 holder.icon.setVisibility(View.VISIBLE);
                 holder.icon.setBackgroundResource(R.drawable.shape_image_icon_bg);
-                holder.icon_txt.setVisibility(View.GONE);
                 holder.file_info_layout.setVisibility(View.VISIBLE);
                 holder.folder_name.setVisibility(View.GONE);
             } else {
                 imagefromNetwork(holder.icon, "drawable://" + data.getIconResourceId(), ImageLoadTool.optionsRounded2);
                 holder.icon.setVisibility(View.VISIBLE);
                 holder.icon.setBackgroundResource(android.R.color.transparent);
-                holder.icon_txt.setVisibility(View.GONE);
                 holder.file_info_layout.setVisibility(View.VISIBLE);
                 holder.folder_name.setVisibility(View.GONE);
             }
@@ -233,6 +235,10 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 if (!mNoMore) {
                     loadMore();
                 }
+
+                holder.bottomLine.setVisibility(View.INVISIBLE);
+            } else {
+                holder.bottomLine.setVisibility(View.VISIBLE);
             }
 
             holder.checkBox.setTag(position);
@@ -247,12 +253,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 } else {
                     holder.checkBox.setChecked(false);
                 }
-                //((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).addRule(RelativeLayout.LEFT_OF, R.id.icon);
-                ((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).leftMargin = Global.dpToPx(62);
             } else {
                 holder.checkBox.setVisibility(View.GONE);
-                //((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).removeRule(RelativeLayout.LEFT_OF);
-                ((RelativeLayout.LayoutParams) holder.bottomLine.getLayoutParams()).leftMargin = Global.dpToPx(15);
             }
             holder.checkBox.setOnCheckedChangeListener(onCheckedChangeListener);
 
@@ -262,7 +264,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             }
 
             if (data.downloadId != 0L) {
-                holder.cancel.setTag(position);
                 int status = data.bytesAndStatus[2];
                 if (AttachmentsDownloadDetailActivity.isDownloading(status)) {
                     if (data.bytesAndStatus[1] < 0) {
@@ -272,9 +273,9 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                     }
                     data.isDownload = false;
                     holder.desc_layout.setVisibility(View.GONE);
-                    holder.content.setVisibility(View.GONE);
                     holder.more.setVisibility(View.GONE);
                     holder.progress_layout.setVisibility(View.VISIBLE);
+                    holder.downloadFlag.setText("取消");
                 } else {
                     if (status == DownloadManager.STATUS_FAILED) {
                         data.isDownload = false;
@@ -288,22 +289,19 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                     data.downloadId = 0L;
 
                     holder.desc_layout.setVisibility(View.VISIBLE);
-                    holder.content.setVisibility(View.VISIBLE);
                     holder.more.setVisibility(View.VISIBLE);
                     holder.progress_layout.setVisibility(View.GONE);
+                    holder.downloadFlag.setText(data.isDownload ? "查看" : "下载");
                 }
             } else {
                 holder.desc_layout.setVisibility(View.VISIBLE);
-                holder.content.setVisibility(View.VISIBLE);
                 holder.more.setVisibility(View.VISIBLE);
                 holder.progress_layout.setVisibility(View.GONE);
+                holder.downloadFlag.setText(data.isDownload ? "查看" : "下载");
             }
-
-            holder.cancel.setOnClickListener(cancelClickListener);
 
             holder.more.setTag(position);
             holder.more.setOnClickListener(onMoreClickListener);
-            holder.downloadFlag.setText(data.isDownload ? "查看" : "下载");
             holder.item_layout_root.setBackgroundResource(data.isDownload
                     ? R.drawable.list_item_selector_project_file
                     : R.drawable.list_item_selector);
@@ -317,14 +315,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             return convertView;
         }
     };
-    protected View.OnClickListener cancelClickListener = v -> {
-        AttachmentFileObject data = mFilesArray.get((Integer) v.getTag());
 
-        long downloadId = data.downloadId;
-        removeDownloadFile(downloadId);
-        data.downloadId = 0L;
-        adapter.notifyDataSetChanged();
-    };
     /**
      * 弹出框
      */
@@ -341,9 +332,15 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             if (file.isDownload) {
                 listViewItemClicked(file);
             } else {
-                action_download_single(mFilesArray.get(selectedPosition));
+                if (file.bytesAndStatus != null && file.bytesAndStatus[1] < 0) {
+                    long downloadId = file.downloadId;
+                    removeDownloadFile(downloadId);
+                    file.downloadId = 0L;
+                    adapter.notifyDataSetChanged();
+                } else {
+                    action_download_single(mFilesArray.get(selectedPosition));
+                }
             }
-
         }
     };
     private AdapterView.OnItemClickListener onPopupItemClickListener = new AdapterView.OnItemClickListener() {
@@ -553,10 +550,10 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
         HOST_FILECOUNT = String.format(HOST_FILECOUNT, mProjectObjectId);
 
-        mFootUpdate.init(listView, mInflater, this);
         listViewAddHeaderSection(listView);
         listHead = (ViewGroup) getLayoutInflater().inflate(R.layout.upload_file_layout, listView, false);
         listView.addHeaderView(listHead, null, false);
+        listViewAddFootSection(listView);
         listView.setAdapter(adapter);
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
             showPop(null, (int) id);
@@ -1550,10 +1547,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     }
 
     protected final void common_folder_bottom_add() {
-        if (!mAttachmentFolderObject.parent_id.equals("0") || mAttachmentFolderObject.file_id.equals("0")) {
-            return;
-        }
-
         LayoutInflater li = LayoutInflater.from(AttachmentsActivity.this);
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
