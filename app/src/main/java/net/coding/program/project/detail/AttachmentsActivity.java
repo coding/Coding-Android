@@ -85,6 +85,7 @@ import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
 @EActivity(R.layout.activity_attachments)
 public class AttachmentsActivity extends FileDownloadBaseActivity implements FootUpdate.LoadMore, UploadStyle {
 
+    public static final int RESULT_REQUEST_FILES = 1;
     private static final String TAG = AttachmentsActivity.class.getSimpleName();
 
     public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
@@ -640,7 +641,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                         .mAttachmentFolderObject(data.folderObject).
                         mProjectObjectId(mProjectObjectId)
                         .mProject(mProject)
-                        .startForResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES);
+                        .startForResult(RESULT_REQUEST_FILES);
 //            } else if (data.isImage()) {
 //                AttachmentsPicDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).fileList(getPicFiles()).startForResult(FILE_DELETE_CODE);
 //                    } else if (data.isHtml() || data.isMd()) {
@@ -1179,7 +1180,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         }
     }
 
-    @OnActivityResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES)
+    @OnActivityResult(AttachmentsActivity.RESULT_REQUEST_FILES)
     void onFolderResult(int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             getNetwork(HOST_FILECOUNT, HOST_FILECOUNT);

@@ -175,7 +175,7 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
                     .mAttachmentFolderObject(data.folderObject)
                     .mProjectObjectId(mProjectFileParam.getProjectId())
                     .mProject(mProjectFileParam.getProject())
-                    .startForResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES);
+                    .startForResult(AttachmentsActivity.RESULT_REQUEST_FILES);
         } else if (data.isImage()) {
             AttachmentsPhotoDetailActivity_.intent(this)
                     .mProjectObjectId(mProjectFileParam.getProjectId())

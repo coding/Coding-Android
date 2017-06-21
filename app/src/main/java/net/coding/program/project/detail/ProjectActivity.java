@@ -1,6 +1,5 @@
 package net.coding.program.project.detail;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -28,7 +27,6 @@ import net.coding.program.project.detail.wiki.WikiMainActivity_;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -155,15 +153,4 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             Global.errorLog(e);
         }
     }
-
-    @OnActivityResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES)
-    void onFileResult(int resultCode, Intent data) {
-        for (WeakReference<Fragment> item : mFragments) {
-            Fragment f = item.get();
-            if (f instanceof ProjectAttachmentFragment_) {
-                ((ProjectAttachmentFragment_) f).onFileResult(resultCode, data);
-            }
-        }
-    }
-
 }
