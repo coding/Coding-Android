@@ -104,5 +104,6 @@
 
     <declare-styleable name="BottomToolBar">
         <attr name="btb_xml" format="reference"/>
+        <attr name="btb_shadow" format="boolean" />
     </declare-styleable>
 </resources>

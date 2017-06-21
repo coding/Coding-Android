@@ -38,6 +38,8 @@
         <net.coding.program.common.widget.BottomToolBar
             android:id="@+id/bottomToolBar"
             style="@style/BottomToolBar"
+            android:layout_height="@dimen/bottom_layout_high"
+            app:btb_shadow="false"
             app:btb_xml="@xml/bottomtoolbar_file_detail" />
 
     </LinearLayout>

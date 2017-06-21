@@ -21,6 +21,7 @@ public class BottomToolBar extends FrameLayout implements View.OnClickListener {
 
     private int xmlResource;
     private OnClickListener clickListener;
+    private boolean showShadow = true;
 
     public BottomToolBar(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -34,6 +35,7 @@ public class BottomToolBar extends FrameLayout implements View.OnClickListener {
 
         try {
             xmlResource = ta.getResourceId(R.styleable.BottomToolBar_btb_xml, 0);
+            showShadow = ta.getBoolean(R.styleable.BottomToolBar_btb_shadow, true);
         } finally {
             ta.recycle();
         }
@@ -41,6 +43,10 @@ public class BottomToolBar extends FrameLayout implements View.OnClickListener {
         inflate(context, R.layout.widget_bottom, this);
         ViewGroup layout = (ViewGroup) findViewById(R.id.bottomContainer);
         LayoutInflater inflater = LayoutInflater.from(context);
+
+        if (!showShadow) {
+            findViewById(R.id.topShadow).setVisibility(GONE);
+        }
 
         XmlResourceParser parse = getResources().getXml(xmlResource);
         try {
