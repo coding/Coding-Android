@@ -10,10 +10,10 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.holder.FolderHolder;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.AttachmentsFolderSelectorActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -155,10 +155,8 @@ public class LocalProjectFileActivity extends BackActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            AttachmentsFolderSelectorActivity.ViewHolder holder =
-                    AttachmentsFolderSelectorActivity.ViewHolder.instance(convertView, parent);
+            FolderHolder holder = FolderHolder.instance(convertView, parent);
 
-            holder.checkBox.setVisibility(View.INVISIBLE);
             String name = (String) getItem(position);
             int count = data.get(name).size();
             holder.name.setText(String.format("%s (%d)", name, count));

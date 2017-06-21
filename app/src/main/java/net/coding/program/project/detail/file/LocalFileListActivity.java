@@ -14,10 +14,10 @@ import android.widget.ListView;
 
 import net.coding.program.R;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.holder.FolderHolder;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.project.detail.AttachmentsDownloadDetailActivity;
-import net.coding.program.project.detail.AttachmentsFolderSelectorActivity;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity_;
 import net.coding.program.project.detail.AttachmentsPhotoDetailActivity_;
 import net.coding.program.project.detail.AttachmentsTextDetailActivity_;
@@ -303,8 +303,7 @@ public class LocalFileListActivity extends BackActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            AttachmentsFolderSelectorActivity.ViewHolder holder =
-                    AttachmentsFolderSelectorActivity.ViewHolder.instance(convertView, parent, checkChange);
+            FolderHolder holder = FolderHolder.instance(convertView, parent, checkChange);
 
             if (editMode) {
                 holder.checkBox.setVisibility(View.VISIBLE);
