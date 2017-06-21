@@ -159,7 +159,6 @@ public class LocalProjectFileActivity extends BackActivity {
                     AttachmentsFolderSelectorActivity.ViewHolder.instance(convertView, parent);
 
             holder.checkBox.setVisibility(View.INVISIBLE);
-            holder.more.setVisibility(View.INVISIBLE);
             String name = (String) getItem(position);
             int count = data.get(name).size();
             holder.name.setText(String.format("%s (%d)", name, count));

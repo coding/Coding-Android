@@ -315,7 +315,6 @@ public class LocalFileListActivity extends BackActivity {
             holder.checkBox.setTag(position);
             holder.checkBox.setChecked(pickItems.contains(position));
 
-            holder.more.setVisibility(View.INVISIBLE);
             File data = (File) getItem(position);
             AttachmentFileObject fileHelp = createFileHelp(data);
             holder.name.setText(fileHelp.getName());

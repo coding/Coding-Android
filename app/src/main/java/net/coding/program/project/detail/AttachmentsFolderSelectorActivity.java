@@ -13,7 +13,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
@@ -106,24 +105,12 @@ public class AttachmentsFolderSelectorActivity extends BackActivity implements F
             if (data.file_id.equals("0")) {
                 if (isChildFolder()) {
                     holder.icon.setImageResource(R.drawable.icon_file_folder_out);
-                    holder.more.setVisibility(View.GONE);
                 } else {
                     holder.icon.setImageResource(R.drawable.ic_project_git_folder);
-                    holder.more.setVisibility(View.GONE);
                 }
             } else {
                 holder.icon.setImageResource(R.drawable.ic_project_git_folder2);
-                holder.more.setVisibility(View.VISIBLE);
             }
-            //iconfromNetwork(holder.icon, data.user.avatar);
-
-            holder.checkBox.setVisibility(View.GONE);
-
-            holder.more.setVisibility(View.GONE);
-
-            /*if (position == mData.size() - 1) {
-                loadMore();
-            }*/
 
             return holder.getRootView();
         }
@@ -334,7 +321,6 @@ public class AttachmentsFolderSelectorActivity extends BackActivity implements F
         public ImageView icon;
         public TextView name;
         public CheckBox checkBox;
-        public RelativeLayout more;
         View rootView;
 
         public static ViewHolder instance(View convertView, ViewGroup parent) {
@@ -344,13 +330,12 @@ public class AttachmentsFolderSelectorActivity extends BackActivity implements F
         public static ViewHolder instance(View convertView, ViewGroup parent, CompoundButton.OnCheckedChangeListener onCheckedChange) {
             ViewHolder holder;
             if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.project_attachment_list_item, parent, false);
+                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.project_file_list_item_folder, parent, false);
                 holder = new ViewHolder();
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
                 holder.checkBox.setOnCheckedChangeListener(onCheckedChange);
-                holder.more = (RelativeLayout) convertView.findViewById(R.id.more);
                 holder.rootView = convertView;
                 convertView.setTag(holder);
             } else {
@@ -358,7 +343,6 @@ public class AttachmentsFolderSelectorActivity extends BackActivity implements F
             }
 
             return holder;
-
         }
 
         public View getRootView() {
