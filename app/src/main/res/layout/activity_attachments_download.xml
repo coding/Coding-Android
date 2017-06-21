@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -31,29 +32,29 @@
             android:visibility="gone" />
 
         <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:lines="1"
-                android:text="Medium Text"
-                android:textColor="@color/font_1"
-                android:textSize="17sp"/>
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:lines="1"
+            android:text="Medium Text"
+            android:textColor="@color/font_1"
+            android:textSize="17sp" />
 
         <TextView
-                android:id="@+id/content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:lines="1"
-                android:text="Medium Text"
-                android:textColor="@color/font_3"
-                android:textSize="12sp"/>
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:lines="1"
+            android:text="Medium Text"
+            android:textColor="@color/font_3"
+            android:textSize="12sp" />
 
         <RelativeLayout
             android:id="@+id/rlDownload"
@@ -63,15 +64,15 @@
             android:layout_marginRight="40dp">
 
             <TextView
-                    android:id="@+id/tvDownload"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="0dp"
-                    android:gravity="center"
-                    android:lines="1"
-                    android:text="下载中...(0.0KB/135KB)"
-                    android:textColor="@color/font_3"
-                    android:textSize="12sp"/>
+                android:id="@+id/tvDownload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:gravity="center"
+                android:lines="1"
+                android:text="下载中...(0.0KB/135KB)"
+                android:textColor="@color/font_3"
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -161,17 +162,16 @@
             android:textColor="@color/attachment_btn_color" />
     </LinearLayout>
 
-
     <include
         android:id="@+id/blankLayout"
         layout="@layout/view_exception"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <include
-        layout="@layout/common_file_detail_action"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_layout_high"
-        android:layout_alignParentBottom="true" />
+    <net.coding.program.common.widget.BottomToolBar
+        android:id="@+id/bottomToolBar"
+        style="@style/BottomToolBar"
+        android:layout_alignParentBottom="true"
+        app:btb_xml="@xml/bottomtoolbar_file_detail" />
 
 </RelativeLayout>

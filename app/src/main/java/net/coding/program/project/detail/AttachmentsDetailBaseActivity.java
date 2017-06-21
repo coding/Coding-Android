@@ -27,7 +27,6 @@ import net.coding.program.project.detail.file.FileSaveHelp;
 import net.coding.program.project.detail.file.ShareFileLinkActivity_;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
@@ -89,7 +88,7 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
             mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mAttachmentFileObject.getSaveName(mProjectObjectId));
         }
 
-        View dynamicLayout = findViewById(R.id.layout_dynamic_history);
+        View dynamicLayout = findViewById(R.id.bottomToolBar);
         dynamicLayout.setVisibility(mHideHistory ? View.GONE : View.VISIBLE);
 
         if (mProject == null) {
@@ -271,7 +270,15 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
     public void onSaveInstanceState(Bundle outState) {
     }
 
-    @Click
+    protected View.OnClickListener clickBottomBar = v -> {
+        int id = v.getId();
+        if (id == R.id.clickFileDynamic) {
+            clickFileDynamic();
+        } else if (id == R.id.clickFileHistory) {
+            clickFileHistory();
+        }
+    };
+
     protected void clickFileDynamic() {
         umengEvent(UmengEvent.E_FILE, "点击文件动态");
         FileDynamicActivity.ProjectFileParam param =
@@ -281,7 +288,6 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
                 .start();
     }
 
-    @Click
     protected void clickFileHistory() {
         umengEvent(UmengEvent.E_FILE, "点击历史版本");
         FileDynamicActivity.ProjectFileParam param =
@@ -329,23 +335,4 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
 
     protected void onDownloadProgress(int progress) {
     }
-
-
-//    @Click
-//    protected void clickFileDynamic() {
-//        FileDynamicActivity.ProjectFileParam param =
-//                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
-//        FileDynamicActivity_.intent(this)
-//                .mProjectFileParam(param)
-//                .start();
-//    }
-//
-//    @Click
-//    protected void clickFileHistory() {
-//        FileDynamicActivity.ProjectFileParam param =
-//                new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProjectObjectId);
-//        FileHistoryActivity_.intent(this)
-//                .mProjectFileParam(param)
-//                .start();
-//    }
 }

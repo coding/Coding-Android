@@ -38,6 +38,7 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
+import net.coding.program.common.widget.BottomToolBar;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.AttachmentFolderObject;
 import net.coding.program.model.ProjectObject;
@@ -109,8 +110,9 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     TextView tvDownload;
     @ViewById
     View blankLayout;
+
     @ViewById
-    View layout_dynamic_history;
+    BottomToolBar bottomToolBar;
 
     String downloadFormat = "下载中...(%s/%s)";
     @ViewById
@@ -298,11 +300,11 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         }
 
         if (mHideHistoryLayout) {
-            layout_dynamic_history.setVisibility(View.INVISIBLE);
+            bottomToolBar.setVisibility(View.INVISIBLE);
         }
 
         if (mProject == null) {
-            layout_dynamic_history.setEnabled(false);
+            bottomToolBar.setEnabled(false);
             String url = Global.HOST_API + "/project/" + mProjectObjectId;
             MyAsyncHttpClient.get(this, url, new MyJsonResponse(this) {
                 @Override
@@ -310,13 +312,22 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
                     super.onMySuccess(response);
                     try {
                         mProject = new ProjectObject(response.optJSONObject("data"));
-                        layout_dynamic_history.setEnabled(true);
+                        bottomToolBar.setEnabled(true);
                     } catch (Exception e) {
                         Global.errorLog(e);
                     }
                 }
             });
         }
+
+        bottomToolBar.setClick(v -> {
+            int id = v.getId();
+            if (id == R.id.clickFileDynamic) {
+                clickFileDynamic();
+            } else if (id == R.id.clickFileHistory) {
+                clickFileHistory();
+            }
+        });
     }
 
     private void jumpTextHtmlActivity() {
@@ -460,12 +471,12 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
                 btnDownload.setVisibility(View.GONE);
                 rlDownload.setVisibility(View.GONE);
                 btnOpen.setVisibility(View.VISIBLE);
-                layout_dynamic_history.setVisibility(View.VISIBLE);
+                bottomToolBar.setVisibility(View.VISIBLE);
                 break;
         }
 
         if (mHideHistoryLayout) {
-            layout_dynamic_history.setVisibility(View.INVISIBLE);
+            bottomToolBar.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -565,7 +576,6 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         }
     }
 
-    @Click
     protected void clickFileDynamic() {
         FileDynamicActivity.ProjectFileParam param =
                 new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProject);
@@ -574,7 +584,6 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
                 .start();
     }
 
-    @Click
     protected void clickFileHistory() {
         FileDynamicActivity.ProjectFileParam param =
                 new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject, mProject);

@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
+import net.coding.program.common.widget.BottomToolBar;
 import net.coding.program.model.AttachmentFileObject;
 
 import org.androidannotations.annotations.AfterViews;
@@ -27,7 +28,10 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
     SubsamplingScaleImageView imageView;
 
     @ViewById
-    View layout_dynamic_history, layout_image_prototype, clickImagePrototype;
+    View layout_image_prototype, clickImagePrototype;
+
+    @ViewById
+    BottomToolBar bottomToolBar;
 
     @ViewById
     ProgressBar progressBar;
@@ -35,6 +39,7 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
     @AfterViews
     protected final void initAttachmentsPhotoDetailActivity() {
         updateDisplay();
+        bottomToolBar.setClick(clickBottomBar);
     }
 
     private void updateDisplay() {
@@ -43,14 +48,14 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
 
             imageView.setImage(ImageSource.uri(filePath));
             layout_image_prototype.setVisibility(View.GONE);
-            layout_dynamic_history.setVisibility(View.VISIBLE);
+            bottomToolBar.setVisibility(View.VISIBLE);
             findViewById(R.id.bottomPanel).setVisibility(View.GONE);
 
         } else if (mFile.exists()) {
             String filePath = "file://" + mFile.getPath();
             imageView.setImage(ImageSource.uri(filePath));
             layout_image_prototype.setVisibility(View.GONE);
-            layout_dynamic_history.setVisibility(View.VISIBLE);
+            bottomToolBar.setVisibility(View.VISIBLE);
         } else {
             getImageLoad().imageLoader.loadImage(mAttachmentFileObject.owner_preview, ImagePagerFragment.optionsImage, new SimpleImageLoadingListener() {
                 @Override
@@ -59,11 +64,12 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
                     if (file != null) {
                         imageView.setImage(ImageSource.uri(file.getAbsolutePath()));
                         layout_image_prototype.setVisibility(View.VISIBLE);
-                        layout_dynamic_history.setVisibility(View.VISIBLE);
+                        bottomToolBar.setVisibility(View.VISIBLE);
                     }
                 }
             });
         }
+
     }
 
     @Override

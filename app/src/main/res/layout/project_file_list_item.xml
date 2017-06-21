@@ -164,11 +164,12 @@
 
             <TextView
                 android:id="@+id/downloadFlag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/project_file_list_download_bg"
-                android:textColor="@color/white"
+                android:gravity="center"
+                android:textColor="@color/font_3"
                 android:textSize="14sp"
                 tools:text="下载" />
         </RelativeLayout>

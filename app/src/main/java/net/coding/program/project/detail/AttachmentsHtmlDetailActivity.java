@@ -16,6 +16,7 @@ import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.widget.BottomToolBar;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.MarkdownEditActivity_;
@@ -45,13 +46,16 @@ import java.io.InputStream;
 public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity {
 
     private static final int RESULT_MODIFY_TXT = 1;
+
     @ViewById
     WebView webview;
     @ViewById
     TextView textView;
-
     @ViewById
     View blankLayout;
+    @ViewById
+    BottomToolBar bottomToolBar;
+
     String urlFiles = Global.HOST_API + "/project/%d/files/%s/view";
     String urlMdPreview = Global.HOST_API + "/markdown/preview";
     AttachmentFileObject mFiles = new AttachmentFileObject();
@@ -90,7 +94,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
         if (mExtraFile != null) {
             try {
                 requestMd2Html(Global.readTextFile(mExtraFile));
-                findViewById(R.id.layout_dynamic_history).setVisibility(View.GONE);
+                bottomToolBar.setVisibility(View.GONE);
             } catch (Exception e) {
                 showButtomToast("读取文件错误");
                 finish();
@@ -100,6 +104,8 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
             showDialogLoading();
             updateLoadFile();
         }
+
+        bottomToolBar.setClick(clickBottomBar);
     }
 
     @Override

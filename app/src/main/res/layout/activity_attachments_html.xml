@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -41,6 +42,10 @@
 
     </FrameLayout>
 
-    <include layout="@layout/common_file_detail_action" />
+    <net.coding.program.common.widget.BottomToolBar
+        android:id="@+id/bottomToolBar"
+        style="@style/BottomToolBar"
+        android:layout_alignParentBottom="true"
+        app:btb_xml="@xml/bottomtoolbar_file_detail" />
 
 </LinearLayout>

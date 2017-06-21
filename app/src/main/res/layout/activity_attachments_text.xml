@@ -1,34 +1,35 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="net.coding.program.project.detail.AttachmentsHtmlDetailActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="net.coding.program.project.detail.AttachmentsHtmlDetailActivity">
 
     <ScrollView
-            android:paddingBottom="@dimen/bottom_layout_high"
-            android:background="@color/stand_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/stand_bg"
+        android:paddingBottom="@dimen/bottom_layout_high">
 
         <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/padding_15"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/padding_15"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </ScrollView>
 
     <include
-            android:id="@+id/blankLayout"
-            layout="@layout/view_exception"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:id="@+id/blankLayout"
+        layout="@layout/view_exception"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <include
-            layout="@layout/common_file_detail_action"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/bottom_layout_high"
-            android:layout_gravity="bottom"
-            android:visibility="invisible"/>
+    <net.coding.program.common.widget.BottomToolBar
+        android:id="@+id/bottomToolBar"
+        style="@style/BottomToolBar"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        app:btb_xml="@xml/bottomtoolbar_file_detail" />
 
 </FrameLayout>

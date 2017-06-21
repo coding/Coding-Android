@@ -10,6 +10,7 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.widget.BottomToolBar;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.TxtEditActivity_;
@@ -34,7 +35,9 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
     TextView textView;
     @ViewById
     View blankLayout;
-    boolean downloadFileSuccess = false;
+    @ViewById
+    BottomToolBar bottomToolBar;
+
     String urlFiles = Global.HOST_API + "/project/%s/files/%s/view";
     AttachmentFileObject mFiles = new AttachmentFileObject();
 
@@ -42,7 +45,7 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
     protected final void initAttachmentsTextDetailActivity() {
         if (mExtraFile != null) {
             textView.setText(Global.readTextFile(mExtraFile));
-            findViewById(R.id.layout_dynamic_history).setVisibility(View.GONE);
+            bottomToolBar.setVisibility(View.GONE);
         } else {
             urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
             if (mFile.exists()) {
@@ -52,6 +55,8 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
                 getFileUrlFromNetwork();
             }
         }
+
+        bottomToolBar.setClick(clickBottomBar);
     }
 
     private void updateLoadFile() {
