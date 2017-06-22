@@ -68,7 +68,7 @@
                 android:layout_alignBottom="@id/userIcon"
                 android:layout_marginBottom="3dp"
                 android:layout_toRightOf="@id/userIcon"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_3"
                 android:textSize="13sp"
                 tools:text="个性后缀" />
 
