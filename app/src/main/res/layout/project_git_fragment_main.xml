@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="50dp"
         android:background="@color/white">
 
         <TextView
@@ -81,7 +81,7 @@
                 <FrameLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp">
+                    android:layout_height="50dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"

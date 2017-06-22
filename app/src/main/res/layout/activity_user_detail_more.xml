@@ -124,7 +124,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:minHeight="48dp"
+                android:minHeight="50dp"
                 android:paddingLeft="@dimen/padding_15"
                 android:paddingRight="@dimen/padding_15">
 

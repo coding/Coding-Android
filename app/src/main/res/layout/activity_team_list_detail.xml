@@ -56,7 +56,7 @@
     <FrameLayout
         android:id="@+id/teamProject"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="50dp"
         android:background="@color/stand_bg"
         android:foreground="?attr/selectableItemBackground">
 
@@ -73,7 +73,7 @@
     <FrameLayout
         android:id="@+id/teamMember"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="50dp"
         android:background="@color/stand_bg"
         android:foreground="?attr/selectableItemBackground">
 

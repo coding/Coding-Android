@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Commentlayout"
     android:layout_width="match_parent"
-    android:minHeight="48dp"
+    android:minHeight="50dp"
     tools:minHeight="80dp"
     android:layout_height="wrap_content"
     android:background="@color/stand_bg"

@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_selector"
-        android:minHeight="48dp"
+        android:minHeight="50dp"
         android:paddingLeft="@dimen/padding_12"
         android:paddingRight="@dimen/padding_12">
 
@@ -51,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_selector"
-        android:minHeight="48dp"
+        android:minHeight="50dp"
         android:paddingLeft="@dimen/padding_12"
         android:paddingRight="@dimen/padding_12">
 

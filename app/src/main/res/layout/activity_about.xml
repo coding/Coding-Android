@@ -52,7 +52,7 @@
             android:background="@color/stand_bg"
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:minHeight="48dp">
+            android:minHeight="50dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
             android:background="@color/stand_bg"
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:minHeight="48dp">
+            android:minHeight="50dp">
 
             <TextView
                 android:layout_width="wrap_content"

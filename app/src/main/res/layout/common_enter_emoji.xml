@@ -11,7 +11,7 @@
         android:id="@+id/mPanelLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="48dp">
+        android:paddingTop="50dp">
 
 
         <include layout="@layout/emoji_keyboard_content" />
