@@ -551,6 +551,16 @@
         <item name="android:layout_height">@dimen/bottom_layout_real_high</item>
     </style>
 
+    <style name="ButtonExit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/stand_bg</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:textColor">@drawable/font_exit_button</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->
     <!--<item name="android:$1">$2</item>-->

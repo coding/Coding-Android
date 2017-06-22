@@ -36,6 +36,7 @@
     <color name="font_pink">#F75288</color>
     <color name="font_orange">#F68435</color>
     <color name="font_red">#F56061</color>
+    <color name="font_red_disable">#99F56061</color>
     <color name="font_blue">#5BA2FF</color>
 
     <color name="font_yellow">#F3C033</color>

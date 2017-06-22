@@ -116,21 +116,14 @@
 
         </RelativeLayout>
 
-        <include layout="@layout/divide_bottom_15" />
+        <include layout="@layout/divide_middle_15" />
 
-        <Button
-
+        <TextView
             android:id="@+id/loginOut"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/padding_15"
-            android:layout_marginRight="@dimen/padding_15"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/setting_button_esc"
-            android:text="退出"
-            android:textColor="#ffffff"
-            android:textSize="18sp" />
+            android:text="退出当前帐号"
+            style="@style/ButtonExit" />
+
+        <include layout="@layout/divide_bottom_15" />
 
     </LinearLayout>
 </ScrollView>
