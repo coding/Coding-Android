@@ -117,7 +117,7 @@ public class MallOrderSubmitActivity extends BackActivity {
             optionNames[i] = options.get(i).getName();
         }
 
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setItems(optionNames, (dialog, which) -> {
                     option = options.get(which);
                     uiBindData();
@@ -134,7 +134,7 @@ public class MallOrderSubmitActivity extends BackActivity {
         final View entryView = inflater.inflate(R.layout.dialog_mall_order_submit, null);
         final EditText editText = (EditText) entryView.findViewById(R.id.edit_text);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         builder.setView(entryView)
                 .setTitle("确认订单")
                 .setPositiveButton("确认", (dialog, which) -> {

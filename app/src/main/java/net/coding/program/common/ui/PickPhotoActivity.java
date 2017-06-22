@@ -42,7 +42,7 @@ public abstract class PickPhotoActivity extends BackActivity {
     }
 
     protected void pickPhoto() {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setCancelable(true)
                 .setItems(R.array.camera_gallery, (dialog, which) -> {
                     if (which == 0) {

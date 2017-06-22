@@ -971,7 +971,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
     }
 
     private void showListDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         builder.setItems(R.array.file_type, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -1217,7 +1217,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             return;
         }
         String messageFormat = "确定要删除%s个文件么？";
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("删除文件")
                 .setMessage(String.format(messageFormat, selectFile.size()))
                 .setPositiveButton("确定", (dialog, which) -> deleteFiles())
@@ -1239,7 +1239,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         selectFile.add(selectedFile);
 
         final String messageFormat = "确定要删除文件 \"%s\" 么？";
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("删除文件")
                 .setMessage(String.format(messageFormat, selectedFile.getName()))
                 .setPositiveButton("确定", (dialog, which) -> deleteFiles())
@@ -1405,7 +1405,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 return;
             }
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
             builder.setItems(itemNames, (dialog, which) -> {
                 if (which == 0) {
                     doRename(selectedPosition, mFilesArray.get(selectedPosition).folderObject);
@@ -1434,7 +1434,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 itemTitles = new String[]{"重命名", "移动到"};
             }
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
             builder.setItems(itemTitles, (dialog, which) -> {
                 if (which == 0) {
                     fileRename(selectedPosition, mFilesArray.get(selectedPosition));
@@ -1473,7 +1473,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
         input.setText(folderObject.name);
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("重命名")
                 .setView(v1)
                 .setPositiveButton("确定", (dialog, which) -> {
@@ -1504,7 +1504,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
         input.setText(folderObject.getName());
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("重命名")
                 .setView(v1)
                 .setPositiveButton("确定", (dialog, which) -> {
@@ -1551,7 +1551,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
         input.setHint("请输入文件夹名称");
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("新建文件夹")
                 .setView(v1)
                 .setPositiveButton("确定", (dialog, which) -> {

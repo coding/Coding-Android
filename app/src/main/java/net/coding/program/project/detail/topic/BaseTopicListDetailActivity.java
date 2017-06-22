@@ -82,7 +82,7 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
 
             if (comment.isMy()) {
                 String item1 = "回复" + comment.owner.name;
-                new AlertDialog.Builder(v.getContext())
+                new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle)
                         .setItems(new String[]{item1, "删除"}, (dialog, which) -> {
                             if (which == 1) {
                                 showOptionDialog(comment, tag, v);
@@ -97,7 +97,7 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
         }
 
         void showOptionDialog(final BaseComment comment, final Object tag, final View v) {
-            new AlertDialog.Builder(v.getContext())
+            new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle)
                     .setTitle("删除评论")
                     .setPositiveButton("确定", (dialog, which) -> {
                         String url = String.format(Global.HOST_API + "/project/%s/topic/%s/comment/%s", topicObject.project.getId(), topicObject.id, comment.id);

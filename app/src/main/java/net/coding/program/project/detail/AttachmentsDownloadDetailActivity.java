@@ -199,7 +199,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         if (!share.contains(FileUtil.DOWNLOAD_SETTING_HINT)) {
             String msgFormat = "您的文件将下载到以下路径：\n%s\n您也可以去设置界面设置您的下载路径";
 
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                     .setTitle("提示")
                     .setMessage(String.format(msgFormat, defaultPath))
                     .setPositiveButton("确定", (dialog, which) -> download(urlDownload))
@@ -235,7 +235,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
 
     @OptionsItem
     void action_info() {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("文件信息")
                 .setMessage(String.format(fileInfoFormat,
                         mAttachmentFileObject.fileType,
@@ -250,7 +250,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     @OptionsItem
     protected final void action_delete() {
         String messageFormat = "确定要删除文件 \"%s\" 么？";
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("删除文件")
                 .setMessage(String.format(messageFormat, mAttachmentFileObject.getName()))
                 .setPositiveButton("确定", (dialog, which) -> {

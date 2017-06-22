@@ -222,7 +222,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
                 AccountInfo.saveReloginInfo(this, user);
                 next();
             } else {
-                new AlertDialog.Builder(this).setTitle("更新")
+                new AlertDialog.Builder(this, R.style.MyAlertDialogStyle).setTitle("更新")
                         .setMessage("刷新账户信息失败")
                         .setPositiveButton("重试", (dialog, which) -> getNetwork(HOST_CURRENT, HOST_CURRENT))
                         .setNegativeButton("关闭程序", (dialog, which) -> finish())

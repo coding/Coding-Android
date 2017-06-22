@@ -12,8 +12,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.loopj.android.http.RequestParams;
-
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.enter.SimpleTextWatcher;
@@ -158,7 +156,7 @@ public class EnterpriseProjectSetActivity extends PickPhotoActivity {
 
     @Click
     void exitProject() {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("退出项目")
                 .setMessage(String.format("您确定要退出 %s 项目吗？", project.name))
                 .setPositiveButton("确定", (dialog1, which) -> {

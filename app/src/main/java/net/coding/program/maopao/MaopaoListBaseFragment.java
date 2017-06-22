@@ -31,8 +31,6 @@ import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import com.umeng.socialize.sso.UMSsoHandler;
 
-import jp.wasabeef.recyclerview.internal.ViewHelper;
-
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -75,6 +73,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.recyclerview.internal.ViewHelper;
 
 /**
  * Created by chenchao on 15/9/22.
@@ -200,7 +199,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
 
             // show loading
             View root = LayoutInflater.from(activity).inflate(R.layout.maopao_reward_dialog, null);
-            final AlertDialog dialog = new AlertDialog.Builder(activity)
+            final AlertDialog dialog = new AlertDialog.Builder(activity, R.style.MyAlertDialogStyle)
                     .setView(root)
                     .show();
 

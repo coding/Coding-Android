@@ -139,7 +139,7 @@ public class ManageMemberActivity extends BackActivity implements Handler.Callba
     private void actionMore(View v) {
         TeamMember user = (TeamMember) v.getTag();
         if ((user.getType() == MemberAuthority.ower)) {
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                     .setItems(R.array.manager_member_to_owner, ((dialog, which) -> {
                         if (which == 0) {
                             actionModifyProjectRole(user);
@@ -147,7 +147,7 @@ public class ManageMemberActivity extends BackActivity implements Handler.Callba
                     }))
                     .show();
         } else if (EnterpriseInfo.instance().isOwner()) {
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                     .setItems(R.array.manager_member_by_owner, ((dialog, which) -> {
                         if (which == 0) {
                             actionModifyEnterpriseRole(user);
@@ -159,7 +159,7 @@ public class ManageMemberActivity extends BackActivity implements Handler.Callba
                     }))
                     .show();
         } else {
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                     .setItems(R.array.manager_member_by_manager, ((dialog, which) -> {
                         if (which == 0) {
                             actionModifyProjectRole(user);
@@ -218,7 +218,7 @@ public class ManageMemberActivity extends BackActivity implements Handler.Callba
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.dialog_delete_project_2fa, null);
         edit2fa = (EditText) textEntryView.findViewById(R.id.edit1);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         AlertDialog dialog = builder
                 .setView(textEntryView)
                 .setPositiveButton("确定", (dialog1, whichButton) -> {

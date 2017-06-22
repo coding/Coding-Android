@@ -193,7 +193,7 @@ public class ValidePhoneActivity extends BackActivity {
 
     private void popRewardDialog() {
         View root = getLayoutInflater().inflate(R.layout.bind_phone_reward_dialog, null);
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setView(root)
                 .setCancelable(false)
                 .show();

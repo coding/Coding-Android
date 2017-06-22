@@ -23,7 +23,7 @@ public class AlertDialogMessage {
     }
 
     public void initDialog(String title, String editHint, OnBottomClickListener listener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyAlertDialogStyle);
         LayoutInflater li = LayoutInflater.from(context);
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);

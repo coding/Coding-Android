@@ -110,7 +110,7 @@ public class RefResourceActivity extends BackActivity {
 
     @ItemLongClick(R.id.listView)
     void itemLongClick(RefResourceObject item) {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setItems(new String[]{"取消关联"},
                         (dialog, which) -> {
                             if (which == 0) {

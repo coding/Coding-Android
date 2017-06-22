@@ -99,7 +99,7 @@ public class AccountSetting extends BackActivity {
         String emailString = MyApp.sUserObject.email;
         boolean emailValid = MyApp.sUserObject.isEmailValidation();
         if (!emailString.isEmpty() && !emailValid) {
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                     .setTitle("激活邮件")
                     .setMessage(R.string.alert_activity_email2)
                     .setPositiveButton("重发激活邮件", (dialog, which) -> {

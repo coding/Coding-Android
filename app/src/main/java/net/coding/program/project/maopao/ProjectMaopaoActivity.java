@@ -68,7 +68,7 @@ public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.Lo
     View.OnClickListener clickDelete = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            new AlertDialog.Builder(v.getContext())
+            new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle)
                     .setMessage(R.string.delete_maopao)
                     .setPositiveButton("确定", (dialog, which) -> deleteMaopao(v))
                     .setNegativeButton("取消", null)

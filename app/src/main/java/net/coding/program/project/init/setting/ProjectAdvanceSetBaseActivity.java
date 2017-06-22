@@ -85,7 +85,7 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.dialog_delete_project, null);
         final EditText edit1 = (EditText) textEntryView.findViewById(R.id.edit1);
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("需要验证密码")
                 .setView(textEntryView)
                 .setPositiveButton("确定", (dialog1, whichButton) -> {
@@ -106,7 +106,7 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.dialog_delete_project_2fa, null);
         edit2fa = (EditText) textEntryView.findViewById(R.id.edit1);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         AlertDialog dialog = builder
                 .setView(textEntryView)
                 .setPositiveButton("确定", (dialog1, whichButton) -> {

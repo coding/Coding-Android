@@ -37,12 +37,11 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pl.droidsonroids.gif.GifImageView;
-
 import java.io.File;
 import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by chaochen on 2014-9-7.
@@ -205,7 +204,7 @@ public class ImagePagerFragment extends BaseFragment {
                         }
 
                         image.setOnLongClickListener(v -> {
-                            new AlertDialog.Builder(getActivity())
+                            new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
                                     .setItems(new String[]{"保存到手机"}, (dialog, which) -> {
                                         if (which == 0) {
                                             if (client == null) {

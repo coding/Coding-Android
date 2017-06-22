@@ -227,7 +227,7 @@ public class AttachmentsFolderSelectorActivity extends BackActivity implements F
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
         input.setHint("请输入文件夹名称");
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("新建文件夹")
                 .setView(v1)
                 .setPositiveButton("确定", (dialog, which) -> {

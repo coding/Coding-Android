@@ -133,7 +133,7 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
                 URLSpanNoUnderline.openActivityByUri(this, s, false, true, true);
                 finish();
             } else {
-                new AlertDialog.Builder(QRScanActivity.this)
+                new AlertDialog.Builder(QRScanActivity.this, R.style.MyAlertDialogStyle)
                         .setTitle("打开外部链接")
                         .setMessage(s)
                         .setPositiveButton("确定", (dialog, which) -> {
@@ -246,7 +246,7 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
             }
 
             if (result == null) {
-                new AlertDialog.Builder(QRScanActivity.this)
+                new AlertDialog.Builder(QRScanActivity.this, R.style.MyAlertDialogStyle)
                         .setTitle("提示")
                         .setMessage("未发现二维码")
                         .setPositiveButton("确定", null)

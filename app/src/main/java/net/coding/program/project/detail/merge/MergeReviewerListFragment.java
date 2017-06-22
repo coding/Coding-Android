@@ -78,7 +78,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
 
 
         private View.OnClickListener quitProject = v -> {
-//            new AlertDialog.Builder(getActivity())
+//            new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
 //                    .setTitle("退出项目")
 //                    .setMessage(String.format("您确定要退出 %s 项目吗？", mProjectObject.name))
 //                    .setPositiveButton("确定", (dialog1, which) -> {
@@ -306,7 +306,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
                             }
                         };
 
-                        new AlertDialog.Builder(getActivity())
+                        new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
                                 .setItems(items, clicks)
                                 .show();
                         return true;
@@ -341,7 +341,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Foo
         postNetwork(mMerge.getHttpAddReviewer(), params, TAG_URL_ADD_REVIEWER, 0, member);
 
 
-//        new AlertDialog.Builder(getActivity())
+//        new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
 //                .setMessage(String.format("添加评审者 %s ?", user.name))
 //                .setPositiveButton("确定", (dialog2, which1) -> {
 //

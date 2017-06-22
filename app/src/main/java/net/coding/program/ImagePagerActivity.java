@@ -190,7 +190,7 @@ public class ImagePagerActivity extends BackActivity {
     @OptionsItem
     protected final void action_del_maopao() {
         final int selectPos = pager.getCurrentItem();
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("图片")
                 .setMessage("确定删除？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {

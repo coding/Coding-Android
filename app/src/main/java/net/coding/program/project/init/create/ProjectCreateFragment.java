@@ -128,7 +128,7 @@ public class ProjectCreateFragment extends BaseFragment {
 
     @Click
     void projectIcon() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle);
         builder.setTitle("选择图片")
                 .setCancelable(true)
                 .setItems(R.array.camera_gallery, (dialog, which) -> {
@@ -317,7 +317,7 @@ public class ProjectCreateFragment extends BaseFragment {
     private void showWarningDialog() {
         LayoutInflater factory = LayoutInflater.from(getActivity());
         final View textEntryView = factory.inflate(R.layout.init_dialog_text_entry2, null);
-        new AlertDialog.Builder(getActivity()).setTitle("提示")
+        new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle).setTitle("提示")
                 .setView(textEntryView)
                 .setPositiveButton("关闭", (dialog1, which) -> dialog1.dismiss())
                 .show();

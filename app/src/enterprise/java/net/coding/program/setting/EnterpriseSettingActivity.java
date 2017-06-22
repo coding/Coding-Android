@@ -87,7 +87,7 @@ public class EnterpriseSettingActivity extends BackActivity {
     }
 
     void setIcon() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         builder.setTitle("更换头像")
                 .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
                     @Override

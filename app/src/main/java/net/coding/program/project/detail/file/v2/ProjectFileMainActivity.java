@@ -369,7 +369,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
         input.setHint("请输入文件夹名称");
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("新建文件夹")
                 .setView(v1)
                 .setPositiveButton("确定", (dialog, which) -> {
@@ -431,7 +431,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
     };
 
     void actionFileUpload() {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setItems(R.array.file_type, (dialog, which) -> {
                     switch (which) {
                         case 0:
@@ -607,7 +607,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
             return;
         }
 
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("删除文件")
                 .setMessage("确定要删除所选文件么？")
                 .setPositiveButton("确定", (dialog, which) -> deleteFiles())
@@ -632,7 +632,8 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                 return;
             }
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder =
+                    new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
             builder.setItems(itemNames, (dialog, which) -> {
                 if (which == 0) {
                     doRename(codingFile);
@@ -656,7 +657,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                 itemTitles = new String[]{"重命名", "移动到"};
             }
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
             builder.setItems(itemTitles, (dialog, which) -> {
                 if (which == 0) {
                     doRename(codingFile);
@@ -675,7 +676,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
         input.setText(folderObject.name);
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("重命名")
                 .setView(v1)
                 .setPositiveButton("确定", (dialog, which) -> {

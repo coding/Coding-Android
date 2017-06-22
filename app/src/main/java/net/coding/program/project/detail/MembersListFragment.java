@@ -288,7 +288,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                         return true;
                 }
 
-                new AlertDialog.Builder(getActivity())
+                new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
                         .setItems(items, clicks)
                         .show();
                 return true;
@@ -321,7 +321,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_input_alias, null);
         EditText input = (EditText) v.findViewById(R.id.edit1);
         input.setText(member.alias);
-        new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
                 .setMessage("修改备注")
                 .setView(v)
                 .setPositiveButton("确定", (dialog2, which1) -> {
@@ -352,7 +352,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
     private void removeMember(Member member) {
         UserObject user = member.user;
-        new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
                 .setMessage(String.format("确定移除 %s ?", user.name))
                 .setPositiveButton("确定", (dialog2, which1) -> {
                     String url = String.format(urlDeleteUser, mProjectObject.getId(), user.id);

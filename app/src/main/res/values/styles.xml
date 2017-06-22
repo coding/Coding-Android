@@ -25,7 +25,6 @@
 
         <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
 
-        <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
         <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
         <item name="android:actionModeBackground">@color/color_primary</item>
@@ -33,6 +32,8 @@
         <item name="android:windowActionModeOverlay">true</item>
 
         <item name="android:divider">@color/divide_line</item>
+        <item name="android:alertDialogTheme">@style/MyAlertDialogStyle</item>
+        <item name="alertDialogTheme">@style/MyAlertDialogStyle</item>
 
         <item name="android:textColorPrimary">@color/font_green</item>
 

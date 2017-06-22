@@ -34,7 +34,7 @@ public class PhoneSetPasswordActivity extends BackActivity {
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 2) {
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                     .setTitle("不激活就无法使用 Coding，确定放弃?")
                     .setPositiveButton("确定", (dialog, which) -> finish())
                     .setNegativeButton("取消", null)

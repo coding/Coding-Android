@@ -388,7 +388,7 @@ public class TopicLabelActivity extends BackActivity {
     }
 
     public void showPop(View view) {
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setItems(R.array.topic_label_action, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -414,7 +414,7 @@ public class TopicLabelActivity extends BackActivity {
     }
 
     private void doDelete() {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("删除标签").setMessage(String.format("确定要删除标签“%s”么？", currentLabelName))
                 .setPositiveButton("确定", (dialog1, which) -> {
                     if (lockViews()) {
@@ -430,7 +430,7 @@ public class TopicLabelActivity extends BackActivity {
         View view = inflater.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) view.findViewById(R.id.value);
         input.setText(currentLabelName);
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("重命名")
                 .setView(view)
                 .setPositiveButton("确定", (dialog1, which) -> {

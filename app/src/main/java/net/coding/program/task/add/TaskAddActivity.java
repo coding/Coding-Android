@@ -1191,7 +1191,7 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     }
 
     private void popListSelectDialog(BaseAdapter selectsAdapter, DialogInterface.OnClickListener clickList) {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setAdapter(selectsAdapter, clickList)
                 .show();
     }

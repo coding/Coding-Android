@@ -19,7 +19,7 @@ public class DialogCopy {
     public static View.OnLongClickListener getInstance() {
         if (onLongClickListener == null) {
             onLongClickListener = v -> {
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle);
                 builder.setItems(R.array.message_action_text_copy, (dialog, which) -> {
                     if (which == 0) {
                         TextView textView = (TextView) v;

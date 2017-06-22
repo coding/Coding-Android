@@ -217,7 +217,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     };
 
     void setIcon() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         builder.setTitle("更换头像")
                 .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
                     @Override
@@ -409,7 +409,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     }
 
     void setSexs() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         builder.setTitle("性别")
                 .setItems(R.array.sexs, new DialogInterface.OnClickListener() {
                     @Override
@@ -440,7 +440,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     }
 
     private void showJobDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         builder.setTitle("职位")
                 .setItems(user_jobs, new DialogInterface.OnClickListener() {
                     @Override

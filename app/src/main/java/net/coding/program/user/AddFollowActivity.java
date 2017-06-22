@@ -117,7 +117,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
             baseAdapter = new FollowAdapter(this, false, mData);
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 final UserObject data = mData.get((int) id);
-                new AlertDialog.Builder(this)
+                new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                         .setMessage(String.format("添加项目成员 %s ?", data.name))
                         .setPositiveButton("确定", (dialog, which) -> {
                             RequestParams params = new RequestParams();

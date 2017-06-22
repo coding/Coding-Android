@@ -5,18 +5,20 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingBottom="15dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="15dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="16sp"
+    android:paddingLeft="?attr/dialogPreferredPadding"
+    android:paddingRight="?attr/dialogPreferredPadding"
+    android:paddingTop="16sp">
 
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
         android:id="@+id/value"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edit"
         android:ems="10"
+        app:backgroundTint="@color/font_green"
         android:hint=""
         android:inputType="text"
         android:textColor="@color/font_1" />
+
 </LinearLayout>

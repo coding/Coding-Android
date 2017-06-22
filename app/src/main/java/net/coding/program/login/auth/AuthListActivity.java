@@ -78,7 +78,7 @@ public class AuthListActivity extends BaseActivity implements Handler.Callback {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 final AuthInfo info = mAuthAdapter.getItem((int) id);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(AuthListActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(AuthListActivity.this, R.style.MyAlertDialogStyle);
                 builder.setItems(R.array.auth_item_actions, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

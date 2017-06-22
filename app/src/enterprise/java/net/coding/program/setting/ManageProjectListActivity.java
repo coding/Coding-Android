@@ -265,7 +265,7 @@ public class ManageProjectListActivity extends BackActivity {
 
     private void actionMore(View v) {
         ProjectObject project = (ProjectObject) v.getTag();
-        new AlertDialog.Builder(v.getContext())
+        new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle)
                 .setItems(R.array.manager_project_item, (dialog, which) -> {
                     if (which == 0) {
                         Network.getRetrofit(ManageProjectListActivity.this)
@@ -294,7 +294,7 @@ public class ManageProjectListActivity extends BackActivity {
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.dialog_delete_project_2fa, null);
         edit2fa = (EditText) textEntryView.findViewById(R.id.edit1);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         AlertDialog dialog = builder
                 .setView(textEntryView)
                 .setPositiveButton("确定", (dialog1, whichButton) -> {
@@ -318,7 +318,7 @@ public class ManageProjectListActivity extends BackActivity {
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.dialog_delete_project, null);
         final EditText edit1 = (EditText) textEntryView.findViewById(R.id.edit1);
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("需要验证密码")
                 .setView(textEntryView)
                 .setPositiveButton("确定", (dialog1, whichButton) -> {

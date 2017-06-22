@@ -178,7 +178,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
         if (clickIconCount >= 5) {
             clickIconCount = 0;
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
             View content = getLayoutInflater().inflate(R.layout.host_setting, null);
             final EditText editText = (EditText) content.findViewById(R.id.edit);
             final EditText editCode = (EditText) content.findViewById(R.id.editCode);

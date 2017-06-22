@@ -48,7 +48,7 @@ public class PopCaptchaDialog {
             });
         });
 
-        AlertDialog dialog = new AlertDialog.Builder(context)
+        AlertDialog dialog = new AlertDialog.Builder(context, R.style.MyAlertDialogStyle)
                 .setView(layout)
                 .setPositiveButton("确定", null)
                 .setNegativeButton("取消", null)

@@ -61,7 +61,7 @@ public class ProjectSetFragmentBase extends BaseFragment {
 
     @Click
     protected void projectIcon() {
-        new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
                 .setTitle("选择图片")
                 .setCancelable(true)
                 .setItems(R.array.camera_gallery, (dialog, which) -> {

@@ -102,7 +102,7 @@ public class SetPasswordActivity extends BackActivity {
     }
 
     private void popDialog() {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setMessage("修改密码后需要重新登录")
                 .setNegativeButton("确定", (dialog1, which) -> {
                     finish();

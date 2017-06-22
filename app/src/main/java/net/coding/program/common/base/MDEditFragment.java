@@ -130,7 +130,7 @@ public class MDEditFragment extends BaseFragment {
     }
 
     private void popPickDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle);
         builder.setTitle("上传图片")
                 .setItems(R.array.camera_gallery, (dialog, which) -> {
                     if (which == 0) {

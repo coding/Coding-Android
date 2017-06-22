@@ -309,7 +309,7 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Foot
     }
 
     protected void showDialog(String[] titles, DialogInterface.OnClickListener clickOk) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle);
         builder.setItems(titles, clickOk).show();
     }
 

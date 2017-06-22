@@ -137,7 +137,7 @@ public class SettingFragment extends BaseFragment {
         final EditText input = (EditText) v1.findViewById(R.id.value);
         final String oldPath = path;
         input.setText(oldPath);
-        new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
                 .setTitle("下载路径设置")
                 .setView(v1)
                 .setPositiveButton("确定", (dialog, which) -> {
@@ -160,7 +160,7 @@ public class SettingFragment extends BaseFragment {
 
     @Click
     void clearCache() {
-        new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
                 .setMessage(R.string.clear_cache_message)
                 .setPositiveButton("确定", ((dialog, which) -> {
                     File[] cacheDir = getAllCacheDir();

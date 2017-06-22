@@ -131,7 +131,7 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
     @ItemLongClick
     protected void listViewItemLongClicked(final int pos) {
         if (pos == 0) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
             builder
                     .setItems(new String[]{"修改备注"}, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -141,7 +141,7 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
             builder.show();
         } else {
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
             String[] itemTitles = {"修改备注"};
             if (mData.get(pos).owner.isMe()) {
                 itemTitles = new String[]{"修改备注", "删除"};
@@ -224,7 +224,7 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
         final View textEntryView = factory.inflate(R.layout.dialog_remark_file_history, null);
         final EditText edit2fa = (EditText) textEntryView.findViewById(R.id.edit);
         edit2fa.setText(item.getRemark());
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         AlertDialog dialog = builder
                 .setTitle("修改备注")
                 .setView(textEntryView)

@@ -378,7 +378,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             final Message.MessageObject msg = mData.get((int) id);
             final MessageParse msgParse = HtmlContent.parseMessage(msg.content);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(MessageListActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(MessageListActivity.this, R.style.MyAlertDialogStyle);
             if (msgParse.text.isEmpty()) {
                 builder.setItems(R.array.message_action_image, (dialog, which) -> {
                     if (which == 0) {

@@ -163,7 +163,7 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 String urlAddUser = Global.HOST_API + projectObject.getProjectPath() + "/members/gk/add";
                 final UserObject data = (UserObject) parent.getItemAtPosition(position);
-                new AlertDialog.Builder(UsersListActivity.this)
+                new AlertDialog.Builder(UsersListActivity.this, R.style.MyAlertDialogStyle)
                         .setMessage(String.format("添加项目成员 %s ?", data.name))
                         .setPositiveButton("确定", (dialog, which) -> {
                             RequestParams params = new RequestParams();

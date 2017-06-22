@@ -32,7 +32,7 @@ public class UpdateTipActivity extends Activity {
     private void showNoticeDialog() {
         setFinishOnTouchOutside(false);
         setTitle("软件版本更新");
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         TextView message = (TextView) findViewById(R.id.message);
         message.setText(mUpdateInfo.newMessage);
 
