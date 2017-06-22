@@ -129,7 +129,8 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
             } else
                 return String.format(maopaoUrlFormat, subjectDescObject.id, id);
         }
-        return "";
+
+        return String.format(maopaoUrlFirstFormat, topicId);
     }
 
     @Override

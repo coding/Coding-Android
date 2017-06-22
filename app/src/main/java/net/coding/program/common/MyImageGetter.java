@@ -49,7 +49,7 @@ public class MyImageGetter implements Html.ImageGetter {
             Global.errorLog(e);
         }
 
-        return R.drawable.app_icon;
+        return R.drawable.app_icon_emoji;
     }
 
     @Override
@@ -89,6 +89,10 @@ public class MyImageGetter implements Html.ImageGetter {
     }
 
     private boolean isMonkey(String name) {
+        if (name.equalsIgnoreCase("coding")) {
+            return false;
+        }
+
         return name.indexOf("coding") == 0 ||
                 name.indexOf("festival") == 0;
     }

@@ -146,7 +146,6 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
             getNetwork(BannerObject.getHttpBanners(), TAG_BANNER);
         }
 
-
         getNetwork(createUrl(), getMaopaoUrlFormat());
     }
 

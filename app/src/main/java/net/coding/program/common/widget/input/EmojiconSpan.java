@@ -46,6 +46,6 @@ class EmojiconSpan extends DynamicDrawableSpan {
     }
 
     public boolean isDefault() {
-        return mResourceId == R.drawable.app_icon;
+        return mResourceId == R.drawable.app_icon_emoji;
     }
 }
