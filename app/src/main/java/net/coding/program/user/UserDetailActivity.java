@@ -3,14 +3,12 @@ package net.coding.program.user;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -75,11 +73,11 @@ public class UserDetailActivity extends UserDetailCommonActivity {
 
     public static SpannableString createSpan(Context context, String s) {
         SpannableString itemContent = new SpannableString(s);
-        final ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.font_1));
+        final ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.font_count));
 
         itemContent.setSpan(colorSpan, 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         itemContent.setSpan(new AbsoluteSizeSpan(15, true), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        itemContent.setSpan(new StyleSpan(Typeface.BOLD), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        itemContent.setSpan(new StyleSpan(Typeface.BOLD), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return itemContent;
     }
 
@@ -203,18 +201,15 @@ public class UserDetailActivity extends UserDetailCommonActivity {
         // 自己的页面不显示 关注
         if (!isMe) {
             if (mUserObject.follow && mUserObject.followed) {
-                tv_follow_state.setText("相关关注");
+                tv_follow_state.setText("互相关注");
                 tv_follow_state.setTextColor(getResources().getColor(R.color.font_1));
-                rl_follow_state.getDelegate().setBackgroundColor(getResources().getColor(R.color.divide));
                 tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_follow_state3, 0, 0, 0);
             } else if (!mUserObject.follow && mUserObject.followed) {
                 tv_follow_state.setText("已关注");
                 tv_follow_state.setTextColor(getResources().getColor(R.color.font_1));
-                rl_follow_state.getDelegate().setBackgroundColor(getResources().getColor(R.color.divide));
                 tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_follow_state2, 0, 0, 0);
             } else {
                 tv_follow_state.setText("关注");
-                rl_follow_state.getDelegate().setBackgroundColor(getResources().getColor(R.color.white));
                 tv_follow_state.setTextColor(getResources().getColor(R.color.color_2EBE76));
                 tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_follow_state1, 0, 0, 0);
             }
@@ -233,7 +228,6 @@ public class UserDetailActivity extends UserDetailCommonActivity {
 
     private void followState(String value, int txtColor, int bgColor, int logo) {
         tv_follow_state.setText(value);
-        rl_follow_state.getDelegate().setBackgroundColor(getResources().getColor(bgColor));
         tv_follow_state.setTextColor(getResources().getColor(txtColor));
         tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(logo, 0, 0, 0);
     }

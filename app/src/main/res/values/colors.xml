@@ -27,6 +27,8 @@
     <color name="font_3">#76808E</color>
     <color name="font_4">#A9B3BE</color>
 
+    <color name="font_count">#FF4F565F</color>
+
     <color name="font_white">@color/white</color>
     <color name="font_white_hint">#7fffffff</color>
 

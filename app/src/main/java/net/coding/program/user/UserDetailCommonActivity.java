@@ -182,7 +182,7 @@ public class UserDetailCommonActivity extends BackActivity {
                 if (TextUtils.isEmpty(tag)) {
                     continue;
                 }
-                RoundTextView roundTextView = (RoundTextView) getLayoutInflater().inflate(R.layout.view_tag, null);
+                RoundTextView roundTextView = (RoundTextView) getLayoutInflater().inflate(R.layout.view_tag, llTags, false);
                 roundTextView.setText(tag);
                 llTags.addView(roundTextView);
 
@@ -194,10 +194,10 @@ public class UserDetailCommonActivity extends BackActivity {
         scrollView0.setScrollView(scrollView1);
         scrollView1.setScrollView(scrollView0);
 
-        fans.setText(UserDetailActivity.createSpan(this, String.format("粉丝   %d", mUserObject.fans_count)));
+        fans.setText(UserDetailActivity.createSpan(this, String.format("粉丝  %s", mUserObject.fans_count)));
         fans.setOnClickListener(onClickFans);
 
-        follows.setText(UserDetailActivity.createSpan(this, String.format("关注   %d", mUserObject.follows_count)));
+        follows.setText(UserDetailActivity.createSpan(this, String.format("关注  %s", mUserObject.follows_count)));
         follows.setOnClickListener(onClickFollow);
 
     }
