@@ -1,6 +1,7 @@
 package net.coding.program.login.phone;
 
 import android.view.View;
+import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
@@ -41,14 +42,20 @@ public class Close2FAActivity extends BackActivity {
         if (!MyApp.getEnterpriseGK().isEmpty()) { // 企业版和 coding 设计风格不一样
             hideActionbarShade();
             getSupportActionBar().setElevation(0);
+        } else {
+            ((TextView) findViewById(R.id.listviewHeader)).setText("关闭两步验证，请先验证您的注册手机");
         }
 
         sendPhoneMessage.setType(ValidePhoneView.Type.close2FA);
         sendPhoneMessage.setEditPhone(editPhone);
         ViewStyleUtil.editTextBindButton(loginButton, editPhone, editCode);
 
-        editPhone.setOnEditFocusChange(createEditLineFocus(phoneLine));
-        editCode.setOnEditFocusChange(createEditLineFocus(codeLine));
+        if (phoneLine != null) {
+            editPhone.setOnEditFocusChange(createEditLineFocus(phoneLine));
+        }
+        if (codeLine != null) { // 企业版中不为 null
+            editCode.setOnEditFocusChange(createEditLineFocus(codeLine));
+        }
     }
 
     @Click

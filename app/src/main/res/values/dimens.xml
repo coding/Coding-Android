@@ -132,6 +132,7 @@
     <dimen name="list_footer_space">10dp</dimen>
     <dimen name="list_footer_shadow_space">15dp</dimen>
     <dimen name="list_divide_line_height">0.5dp</dimen>
+    <dimen name="list_item_height">50dp</dimen>
 
     <dimen name="actionbar_shade">4dp</dimen>
     <dimen name="image_tab_height">71dp</dimen>

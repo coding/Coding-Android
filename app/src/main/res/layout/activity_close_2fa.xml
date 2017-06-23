@@ -14,7 +14,7 @@
 
         <include
             android:id="@+id/title"
-            layout="@layout/login_title_empty" />
+            layout="@layout/common_listview_head_tip" />
 
         <RelativeLayout
             android:id="@+id/layoutRoot"
@@ -26,9 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="7.5dp">
+                android:paddingLeft="15dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -37,7 +35,7 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/list_item_height"
                         android:orientation="horizontal">
 
                         <TextView
@@ -48,7 +46,7 @@
                             android:gravity="center_vertical"
                             android:text="+86"
                             android:textColor="@color/font_green"
-                            android:textSize="16sp" />
+                            android:textSize="15sp" />
 
                         <View
                             style="@style/DivideLineVer"
@@ -58,7 +56,7 @@
                             android:id="@+id/editPhone"
                             style="@style/SingleLineEditText"
                             android:layout_width="match_parent"
-                            android:layout_height="53dp"
+                            android:layout_height="match_parent"
                             android:layout_marginBottom="0dp"
                             android:layout_marginLeft="@dimen/padding_15"
                             android:layout_marginTop="0dp"
@@ -68,17 +66,26 @@
 
                     </LinearLayout>
 
+                    <!--为了兼容企业版的-->
                     <View
+                        android:visibility="gone"
                         android:id="@+id/phoneLine"
-                        style="@style/DivideLine"
-                        android:visibility="gone" />
+                        android:layout_width="0dp"
+                        android:layout_height="0dp" />
+
+                    <View
+                        android:visibility="gone"
+                        android:id="@+id/codeLine"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp" />
 
                     <View style="@style/DivideLine" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="53dp"
+                        android:layout_height="@dimen/list_item_height"
                         android:background="@color/stand_bg"
+                        android:layout_marginRight="@dimen/padding_15"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -86,7 +93,7 @@
                             android:id="@+id/editCode"
                             style="@style/SingleLineEditText"
                             android:layout_width="0dp"
-                            android:layout_height="53dp"
+                            android:layout_height="@dimen/list_item_height"
                             android:layout_marginBottom="0dp"
                             android:layout_marginRight="@dimen/padding_15"
                             android:layout_marginTop="0dp"
@@ -106,11 +113,6 @@
                             android:layout_marginRight="0dp" />
 
                     </LinearLayout>
-
-                    <View
-                        android:id="@+id/codeLine"
-                        style="@style/LoginBottomLine"
-                        android:visibility="gone" />
 
                 </LinearLayout>
 
