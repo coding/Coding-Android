@@ -144,7 +144,7 @@
             android:padding="10dp"
             android:text="详细信息"
             android:textColor="@color/font_3"
-            android:textSize="13sp"
+            android:textSize="12dp"
             android:visibility="gone" />
     </RelativeLayout>
 

@@ -87,10 +87,6 @@
                             app:loginInput="number"
                             app:topLine="false" />
 
-                        <View
-                            style="@style/DivideLineVer"
-                            android:layout_height="20dp" />
-
                         <net.coding.program.common.widget.ValidePhoneView
                             android:id="@+id/sendPhoneMessage"
                             style="@style/ValidePhoneView" />
@@ -115,12 +111,6 @@
                 </LinearLayout>
 
                 <include layout="@layout/divide_bottom_15" />
-
-                <Button
-                    android:id="@+id/loginButton"
-                    style="@style/SendButton"
-                    android:enabled="false"
-                    android:text="提交" />
 
             </LinearLayout>
 

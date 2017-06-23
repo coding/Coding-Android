@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
+        android:paddingRight="@dimen/padding_15"
         android:orientation="horizontal">
 
         <net.coding.program.common.widget.LoginAutoCompleteEdit

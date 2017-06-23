@@ -1,8 +1,8 @@
 package net.coding.program.setting;
 
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
@@ -13,7 +13,6 @@ import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
@@ -22,16 +21,12 @@ import net.coding.program.login.auth.TotpClock;
 import net.coding.program.model.AccountInfo;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_modify_email)
-public class ModifyEmailActivity extends BackActivity {
-
-    @ViewById
-    TextView okButton;
+public class ModifyEmailActivity extends MenuButtonActivity {
 
     @ViewById
     LoginEditText emailEdit, captchaEdit, passwordEdit, twoFAEdit;
@@ -59,23 +54,6 @@ public class ModifyEmailActivity extends BackActivity {
             return true;
         }, 100);
 
-        final String url = Global.HOST_API + "/user/2fa/method";
-        MyAsyncHttpClient.get(this, url, new MyJsonResponse(this) {
-            @Override
-            public void onMySuccess(JSONObject response) {
-                String type = response.optString("data");
-                if (type.equals("password")) {
-                    passwordEdit.setVisibility(View.VISIBLE);
-                    twoFAEdit.setVisibility(View.GONE);
-                    ViewStyleUtil.editTextBindButton(okButton, emailEdit, captchaEdit, passwordEdit);
-                } else {
-                    passwordEdit.setVisibility(View.GONE);
-                    twoFAEdit.setVisibility(View.VISIBLE);
-                    ViewStyleUtil.editTextBindButton(okButton, emailEdit, captchaEdit, twoFAEdit);
-                    handler2FA.sendEmptyMessage(0);
-                }
-            }
-        });
     }
 
     @Override
@@ -86,8 +64,29 @@ public class ModifyEmailActivity extends BackActivity {
         super.onDestroy();
     }
 
-    @Click
-    void okButton() {
+    @Override
+    protected void afterMenuInit(MenuItem actionSend) {
+        final String url = Global.HOST_API + "/user/2fa/method";
+        MyAsyncHttpClient.get(this, url, new MyJsonResponse(this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                String type = response.optString("data");
+                if (type.equals("password")) {
+                    passwordEdit.setVisibility(View.VISIBLE);
+                    twoFAEdit.setVisibility(View.GONE);
+                    ViewStyleUtil.editTextBindButton(actionSend, emailEdit, captchaEdit, passwordEdit);
+                } else {
+                    passwordEdit.setVisibility(View.GONE);
+                    twoFAEdit.setVisibility(View.VISIBLE);
+                    ViewStyleUtil.editTextBindButton(actionSend, emailEdit, captchaEdit, twoFAEdit);
+                    handler2FA.sendEmptyMessage(0);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void actionSend() {
         final String url = Global.HOST_API + "/account/email/change/send";
         RequestParams param = new RequestParams();
         String email = emailEdit.getTextString();
