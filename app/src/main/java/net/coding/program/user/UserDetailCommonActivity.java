@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -294,6 +295,8 @@ public class UserDetailCommonActivity extends BackActivity {
                     LinearLayout.LayoutParams(titleWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
             llTitle.addView(inflate, lp2);
         }
+
+        scrollView0.postDelayed(() -> scrollView0.fullScroll(HorizontalScrollView.FOCUS_RIGHT), 100);
     }
 
 }
