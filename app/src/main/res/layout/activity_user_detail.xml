@@ -25,6 +25,7 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 app:itemIcon="@drawable/user_home_project"
+                app:itemShowArrow="false"
                 app:itemTitle="TA的项目" />
 
             <include layout="@layout/divideline_15" />
@@ -35,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 app:itemIcon="@drawable/user_home_maopao"
+                app:itemShowArrow="false"
                 app:itemTitle="TA的冒泡" />
 
             <include layout="@layout/divideline_15" />
@@ -45,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 app:itemIcon="@drawable/user_home_topic"
+                app:itemShowArrow="false"
                 app:itemTitle="TA的话题" />
 
             <include

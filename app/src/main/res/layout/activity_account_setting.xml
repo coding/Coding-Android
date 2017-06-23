@@ -23,15 +23,15 @@
             android:layout_marginRight="12dp"
             android:text="个性后缀"
             android:textColor="@color/font_1"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/suffix"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textColor="@color/font_2"
-            android:textSize="18sp"
+            android:textColor="@color/font_3"
+            android:textSize="15sp"
             tools:text="邮箱" />
 
     </RelativeLayout>
@@ -55,7 +55,7 @@
             android:layout_marginRight="12dp"
             android:text="邮箱"
             android:textColor="@color/font_1"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
 
         <TextView
@@ -64,10 +64,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:drawablePadding="5dp"
-            android:drawableRight="@drawable/ic_list_right_arr"
             android:text="未绑定"
-            android:textColor="@color/font_2"
-            android:textSize="18sp" />
+            android:textColor="@color/font_3"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 
@@ -88,10 +87,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
-
             android:text="手机号码"
             android:textColor="@color/font_1"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/phone"
@@ -99,10 +97,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:drawablePadding="5dp"
-            android:drawableRight="@drawable/ic_list_right_arr"
             android:text="未绑定"
-            android:textColor="@color/font_2"
-            android:textSize="18sp" />
+            android:textColor="@color/font_3"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 
@@ -124,13 +121,7 @@
             android:drawablePadding="5dp"
             android:text="修改密码"
             android:textColor="@color/font_1"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_list_right_arr" />
+            android:textSize="15sp" />
 
     </RelativeLayout>
 
