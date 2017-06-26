@@ -161,6 +161,11 @@
 
     <style name="ActionbarNoIcon" parent="AppTheme"></style>
 
+    <style name="UseToolbar" parent="ActionbarNoIcon">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="ActionbarTranslate" parent="ActionbarNoIcon">
         <!--<item name="actionBarStyle">@style/ActionbarTranslate</item>-->
         <item name="elevation">0dp</item>
@@ -558,6 +563,20 @@
         <item name="android:foreground">?attr/selectableItemBackground</item>
         <item name="android:textColor">@drawable/font_exit_button</item>
         <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="CodingToolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+    </style>
+
+    <style name="CodingToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:lines">1</item>
+        <item name="android:textColor">@color/font_green</item>
     </style>
 
     <!--正则替换工具-->

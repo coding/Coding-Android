@@ -40,7 +40,7 @@ import net.coding.program.common.enter.ImageCommentLayout;
 import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.photopick.ImageInfo;
-import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.event.EventRefreshTask;
 import net.coding.program.model.AccountInfo;
@@ -53,6 +53,7 @@ import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.network.model.user.Member;
 import net.coding.program.param.MessageParse;
+import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.detail.MembersActivity_;
 import net.coding.program.project.detail.TaskListFragment;
 import net.coding.program.project.detail.TopicAddActivity;
@@ -84,7 +85,7 @@ import java.util.List;
 import static net.coding.program.common.util.LogUtils.makeLogTag;
 
 @EActivity(R.layout.activity_task_add)
-public class TaskAddActivity extends BackActivity implements StartActivity, DatePickerFragment.DateSet, NewTaskParam {
+public class TaskAddActivity extends CodingToolbarBackActivity implements StartActivity, DatePickerFragment.DateSet, NewTaskParam {
 
     public static final String RESULT_GLOBARKEY = "RESULT_GLOBARKEY";
     public static final int RESULT_REQUEST_FOLLOW = 1002;
@@ -308,6 +309,15 @@ public class TaskAddActivity extends BackActivity implements StartActivity, Date
     @Override
     public TaskParams getNewParam() {
         return mNewParam;
+    }
+
+    @Override
+    protected void onClickTollbarTitle() {
+        if (mSingleTask == null || mSingleTask.isEmpty()) {
+            return;
+        }
+
+        ProjectHomeActivity_.intent(this).mProjectObject(mSingleTask.project).start();
     }
 
     @AfterViews
