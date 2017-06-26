@@ -25,6 +25,7 @@ import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.url.UrlCreate;
 import net.coding.program.common.util.BlankViewHelp;
@@ -180,7 +181,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             pathStack.push("");
         } else {
             pathStack.push(mGitFileInfoObject.path);
-            getActionBarActivity().getSupportActionBar().setTitle(mGitFileInfoObject.name);
+            ((BaseActivity) getActivity()).setActionBarTitle(mGitFileInfoObject.name);
         }
 
         if (!mVersion.isEmpty()) {

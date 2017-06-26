@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,8 +20,6 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -35,7 +34,7 @@ import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
-import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.DensityUtil;
 import net.coding.program.common.widget.DataAdapter;
@@ -71,9 +70,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 @EActivity(R.layout.activity_merge_detail)
-//@OptionsMenu(R.menu.menu_merge_detail)
-public class MergeDetailActivity extends BackActivity {
+public class MergeDetailActivity extends CodingToolbarBackActivity {
 
     public static final int RESULT_COMMENT = 1;
     public static final int RESULT_MERGE = 2;
@@ -87,8 +87,6 @@ public class MergeDetailActivity extends BackActivity {
 
     private static final String TAG_REVIEW_GOOD = "TAG_REVIEW_GOOD";
     private final ClickSmallImage onClickImage = new ClickSmallImage(this);
-    @Extra
-    ProjectObject mProject;
     @Extra
     Merge mMerge;
     @Extra
@@ -231,9 +229,19 @@ public class MergeDetailActivity extends BackActivity {
         }
     }
 
-    private void initByMereData() {
-        getSupportActionBar().setTitle(mMerge.getTitleIId());
+    @Nullable
+    @Override
+    protected ProjectObject getProject() {
+        return null;
+    }
 
+    @Override
+    protected String getProjectPath() {
+        return mMerge.getProjectPath();
+    }
+
+    private void initByMereData() {
+        setActionBarTitle(mMerge.getTitleIId());
 
         View mListHead = mInflater.inflate(R.layout.activity_merge_detail_head, null);
         initHead(mListHead);

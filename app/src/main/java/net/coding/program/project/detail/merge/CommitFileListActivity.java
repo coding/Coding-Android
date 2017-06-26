@@ -2,6 +2,7 @@ package net.coding.program.project.detail.merge;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -16,10 +17,11 @@ import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.common.network.NetworkImpl;
-import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Commit;
 import net.coding.program.model.DiffFile;
+import net.coding.program.model.ProjectObject;
 import net.coding.program.model.RequestData;
 
 import org.androidannotations.annotations.AfterViews;
@@ -36,7 +38,7 @@ import java.util.ArrayList;
 
 @EActivity(R.layout.activity_commit_file_list)
 //@OptionsMenu(R.menu.menu_commit_file_list)
-public class CommitFileListActivity extends BackActivity {
+public class CommitFileListActivity extends CodingToolbarBackActivity {
 
     public static final int RESULT_COMMENT = 1;
     private static final String HOST_COMMIT_FILES = "HOST_COMMIT_FILES";
@@ -105,6 +107,19 @@ public class CommitFileListActivity extends BackActivity {
             getNetwork(s, HOST_COMMIT_DETAIL);
             showDialogLoading();
         }
+
+        setActionBarTitle("commit 详情");
+    }
+
+    @Nullable
+    @Override
+    protected ProjectObject getProject() {
+        return null;
+    }
+
+    @Override
+    protected String getProjectPath() {
+        return mProjectPath;
     }
 
     private void initByCommit() {

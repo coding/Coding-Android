@@ -56,7 +56,8 @@ public class RedPointTip {
             setLastVersion(context, versionCode);
             for (Type item : Type.values()) {
                 if (item != Type.WikiHistory200 &&
-                        item != Type.WikiTree200) {
+                        item != Type.WikiTree200 &&
+                        item != Type.TitleJump_C445) {
                     markUsed(context, item);
                 }
             }
@@ -65,6 +66,7 @@ public class RedPointTip {
         }
     }
 
+    // P person, E enterprise, C 公共
     public enum Type {
 //        Task,
 //        Code,
@@ -84,7 +86,10 @@ public class RedPointTip {
         MergeFile320,
 
         WikiTree200,
-        WikiHistory200
+        WikiHistory200,
+
+        TitleJump_C445
+
     }
 
 }

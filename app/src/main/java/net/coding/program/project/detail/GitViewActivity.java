@@ -1,6 +1,7 @@
 package net.coding.program.project.detail;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -18,7 +19,7 @@ import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.url.UrlCreate;
 import net.coding.program.model.GitFileBlobObject;
 import net.coding.program.model.GitFileInfoObject;
@@ -44,7 +45,7 @@ import cz.msebera.android.httpclient.Header;
 
 @EActivity(R.layout.activity_gitview)
 @OptionsMenu(R.menu.git_view)
-public class GitViewActivity extends BackActivity {
+public class GitViewActivity extends CodingToolbarBackActivity {
     private static final int RESULT_EDIT = 1;
     private static String TAG = GitViewActivity.class.getSimpleName();
     @Extra
@@ -90,6 +91,17 @@ public class GitViewActivity extends BackActivity {
 
         showDialogLoading();
         getNetwork(urlBlob, urlBlob);
+    }
+
+    @Nullable
+    @Override
+    protected ProjectObject getProject() {
+        return null;
+    }
+
+    @Override
+    protected String getProjectPath() {
+        return mProjectPath;
     }
 
     @OptionsItem

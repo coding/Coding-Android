@@ -1,14 +1,16 @@
 package net.coding.program.project.detail;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
 import net.coding.program.R;
-import net.coding.program.common.umeng.UmengActivity;
+import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.event.EventExitCode;
 import net.coding.program.model.GitFileInfoObject;
+import net.coding.program.model.ProjectObject;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -17,7 +19,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 @EActivity(R.layout.activity_project_git_tree)
-public class GitTreeActivity extends UmengActivity {
+public class GitTreeActivity extends CodingToolbarBackActivity {
 
     @Extra
     String mProjectPath;
@@ -34,8 +36,6 @@ public class GitTreeActivity extends UmengActivity {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         if (savedInstanceState != null) {
             mVersion = savedInstanceState.getString("mVersion", ProjectGitFragment.MASTER);
         } else {
@@ -48,6 +48,17 @@ public class GitTreeActivity extends UmengActivity {
             ft.replace(R.id.container, fragment, mGitFileInfoObject.name);
             ft.commit();
         }
+    }
+
+    @Nullable
+    @Override
+    protected ProjectObject getProject() {
+        return null;
+    }
+
+    @Override
+    protected String getProjectPath() {
+        return mProjectPath;
     }
 
     @Override
