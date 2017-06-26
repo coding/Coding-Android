@@ -264,7 +264,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
     @AfterViews
     protected final void initAttachmentsDownloadDetailActivity() {
         share = AttachmentsDownloadDetailActivity.this.getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
-        defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
+        defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.getDownloadFolder();
         mFileObject = mAttachmentFileObject;
 
         if (mAttachmentFileObject != null) {

@@ -10,6 +10,8 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
+import net.coding.program.MyApp;
+
 import java.io.File;
 
 /**
@@ -22,7 +24,8 @@ public class FileUtil {
 
     public final static String DOWNLOAD_PATH = "download_path";
     public final static String DOWNLOAD_SETTING_HINT = "download_setting_hint";
-    public final static String DOWNLOAD_FOLDER = "CodingEnterprise";
+    private static String DOWNLOAD_FOLDER_CODING = "Coding";
+    private static String DOWNLOAD_FOLDER_CODING_ENTERPRISE = "CodingEnterprise";
 
     public static File getDestinationInExternalPublicDir(String dirType, String fileName) {
         File file = Environment.getExternalStoragePublicDirectory(dirType);
@@ -222,4 +225,11 @@ public class FileUtil {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
+    public static String getDownloadFolder() {
+        if (!MyApp.getEnterpriseGK().isEmpty()) {
+            return DOWNLOAD_FOLDER_CODING_ENTERPRISE;
+        }
+
+        return DOWNLOAD_FOLDER_CODING;
+    }
 }

@@ -65,7 +65,7 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
 
         /** register download success broadcast **/
         share = getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
-        defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
+        defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.getDownloadFolder();
 
         mUpdateDownloadHandler = new WeakRefHander(this, 500);
     }

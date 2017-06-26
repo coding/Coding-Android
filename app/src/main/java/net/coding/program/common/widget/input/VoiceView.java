@@ -265,7 +265,7 @@ public class VoiceView extends FrameLayout {
     private void startRecord() {
         if (Global.sVoiceDir == null) {
             try {
-                Global.sVoiceDir = FileUtil.getDestinationInExternalFilesDir(activity, Environment.DIRECTORY_MUSIC, FileUtil.DOWNLOAD_FOLDER).getAbsolutePath();
+                Global.sVoiceDir = FileUtil.getDestinationInExternalFilesDir(activity, Environment.DIRECTORY_MUSIC, FileUtil.getDownloadFolder()).getAbsolutePath();
             } catch (Exception e) {
                 Global.errorLog(e);
             }

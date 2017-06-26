@@ -19,12 +19,12 @@ public class FileSaveHelp {
 
     public FileSaveHelp(Context context) {
         share = context.getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
-        defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
+        defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.getDownloadFolder();
     }
 
     public static String getFileDownloadPath(Context context) {
         if (context == null) {
-            return Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER;
+            return Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.getDownloadFolder();
         }
 
         return new FileSaveHelp(context).getFileDownloadPath();
@@ -38,7 +38,7 @@ public class FileSaveHelp {
     public String getFileDownloadPath() {
         String path;
         if (share.contains(FileUtil.DOWNLOAD_PATH)) {
-            path = share.getString(FileUtil.DOWNLOAD_PATH, Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.DOWNLOAD_FOLDER);
+            path = share.getString(FileUtil.DOWNLOAD_PATH, Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.getDownloadFolder());
         } else {
             path = defaultPath;
         }
