@@ -36,7 +36,6 @@ public class FileHistoryHolder {
 
     public LinearLayout desc_layout, progress_layout;
     public ProgressBar progressBar;
-    public TextView cancel;
     public TextView downloadFlag;
     public View item_layout_root;
 
@@ -63,7 +62,6 @@ public class FileHistoryHolder {
         desc_layout = (LinearLayout) convertView.findViewById(R.id.desc_layout);
         progress_layout = (LinearLayout) convertView.findViewById(R.id.progress_layout);
         progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
-        cancel = (TextView) convertView.findViewById(R.id.cancel);
         shareMark = convertView.findViewById(R.id.shareMark);
     }
 

@@ -51,14 +51,14 @@
             android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="middle"
-                    android:lines="1"
-                    android:text="Medium Text"
-                    android:textColor="@color/font_1"
-                    android:textSize="17sp"/>
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="middle"
+                android:lines="1"
+                android:text="Medium Text"
+                android:textColor="@color/font_1"
+                android:textSize="17sp" />
 
             <LinearLayout
                 android:id="@+id/desc_layout"
@@ -68,23 +68,23 @@
                 android:orientation="horizontal">
 
                 <TextView
-                        android:id="@+id/username"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingRight="5dp"
-                        android:lines="1"
-                        android:text="UserName"
-                        android:textColor="@color/font_green"
-                        android:textSize="12sp"/>
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:paddingRight="5dp"
+                    android:text="UserName"
+                    android:textColor="@color/font_green"
+                    android:textSize="12sp" />
 
                 <TextView
-                        android:id="@+id/desc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:lines="1"
-                        android:text="Medium Text"
-                        android:textColor="@color/font_3"
-                        android:textSize="12sp"/>
+                    android:id="@+id/desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:text="Medium Text"
+                    android:textColor="@color/font_3"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -108,16 +108,7 @@
                     android:progress="30"
                     android:progressDrawable="@drawable/progressbg" />
 
-                <TextView
-                    android:id="@+id/cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_cancel"
-                    android:textColor="#FC503F"
-                    android:textSize="12sp" />
-
             </LinearLayout>
-
 
         </LinearLayout>
 
@@ -146,6 +137,7 @@
             android:paddingLeft="@dimen/padding_12"
             android:paddingRight="@dimen/padding_15"
             android:paddingTop="@dimen/padding_12">
+
             <TextView
                 android:id="@+id/downloadFlag"
                 android:layout_width="50dp"
@@ -161,11 +153,10 @@
 
         <View
             android:id="@+id/bottomLine"
-            android:layout_width="fill_parent"
-            android:layout_height="0.3dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/font_black_content_disabled" />
-    </RelativeLayout>
+            style="@style/DivideLine"
+            android:layout_alignLeft="@id/file_info_layout"
+            android:layout_alignParentBottom="true" />
 
+    </RelativeLayout>
 
 </FrameLayout>

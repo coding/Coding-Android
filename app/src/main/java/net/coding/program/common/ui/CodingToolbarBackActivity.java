@@ -32,6 +32,8 @@ public abstract class CodingToolbarBackActivity extends BaseActivity {
 
     private BubblePopupWindow bubbleTitle = null;
 
+    private boolean isResume = false;
+
     protected abstract
     @Nullable
     ProjectObject getProject();
@@ -91,17 +93,29 @@ public abstract class CodingToolbarBackActivity extends BaseActivity {
         popGuide();
     }
 
-    @UiThread(delay = 3000)
+    @Override
+    public void onResume() {
+        super.onResume();
+        isResume = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isResume = false;
+    }
+
+    @UiThread(delay = 2000)
     protected void popGuide() {
 
-        if (RedPointTip.show(this, RedPointTip.Type.TitleJump_C445)) {
+        if (RedPointTip.show(this, RedPointTip.Type.TitleJump_C445) && isResume) {
             BubbleTextView bbView = (BubbleTextView) getLayoutInflater().inflate(R.layout.guide_bubble_view_up, null);
             bbView.setText("点击标题可跳转到项目首页哦");
+            bbView.setOnClickListener(v -> hideGuide());
 
             bubbleTitle = new BubblePopupWindow(bbView, bbView);
             bubbleTitle.setCancelOnTouchOutside(false);
             bubbleTitle.showArrowTo(toolbarTitle, BubbleStyle.ArrowDirection.Up);
-            bbView.setOnClickListener(v -> hideGuide());
         }
     }
 

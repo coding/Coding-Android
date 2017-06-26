@@ -167,8 +167,8 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
         if (!share.contains(FileUtil.DOWNLOAD_SETTING_HINT)) {
             String msgFormat = "您的文件将下载到以下路径：\n%s\n您也可以去设置界面设置您的下载路径";
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
-            builder.setTitle("提示")
+            new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
+                    .setTitle("提示")
                     .setMessage(String.format(msgFormat, defaultPath))
                     .setPositiveButton("确定", (dialog, which) -> download(selectedFile))
                     .show();
