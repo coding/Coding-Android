@@ -1,10 +1,13 @@
 package net.coding.program.common.ui;
 
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.model.ProjectObject;
+import net.coding.program.project.ProjectHomeActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -14,13 +17,22 @@ import org.androidannotations.annotations.EActivity;
  */
 
 @EActivity(R.layout.activity_base_annotation)
-public class CodingToolbarBackActivity extends BaseActivity {
+public abstract class CodingToolbarBackActivity extends BaseActivity {
 
     private Toolbar toolbar;
     private TextView toolbarTitle;
 
-    protected void onClickTollbarTitle() {
+    protected abstract
+    @Nullable
+    ProjectObject getProject();
 
+    private void onClickTollbarTitle() {
+        ProjectObject projectObject = getProject();
+        if (projectObject == null) {
+            return;
+        }
+
+        ProjectHomeActivity_.intent(this).mProjectObject(projectObject).start();
     }
 
     @AfterViews

@@ -154,7 +154,7 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/empty"
             android:screenOrientation="portrait"
-            android:theme="@style/UseToolbar"
+            android:theme="@style/Theme_CodingActionBar"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".project.detail.MembersActivity_"
@@ -179,17 +179,20 @@
         <activity
             android:name=".project.detail.AttachmentsHtmlDetailActivity_"
             android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_attachment"
+            android:label="@string/empty"
+            android:theme="@style/Theme_CodingActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.detail.AttachmentsTextDetailActivity_"
             android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_attachment"
+            android:label="@string/empty"
+            android:theme="@style/Theme_CodingActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.detail.AttachmentsDownloadDetailActivity_"
             android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_attachment"
+            android:theme="@style/Theme_CodingActionBar"
+            android:label="@string/empty"
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.detail.AttachmentsFolderSelectorActivity_"
@@ -231,9 +234,9 @@
         <activity
             android:name=".project.detail.topic.TopicListDetailActivity_"
             android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_topic_comment"
+            android:label="@string/empty"
             android:screenOrientation="portrait"
-            android:theme="@style/UseToolbar"
+            android:theme="@style/Theme_CodingActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".project.detail.TopicAddActivity_"
@@ -616,7 +619,8 @@
             android:windowSoftInputMode="adjustResize|stateUnspecified" />
         <activity
             android:name=".project.detail.AttachmentsPhotoDetailActivity_"
-            android:label="@string/title_activity_attachments_photo_detail"
+            android:label="@string/empty"
+            android:theme="@style/Theme_CodingActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.detail.file.ShareFileLinkActivity_"
@@ -761,8 +765,9 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".project.detail.topic.TopicCommentDetail_"
-            android:label="@string/title_activity_topic_comment_detail"
+            android:label="@string/empty"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".user.team.TeamListActivity_"

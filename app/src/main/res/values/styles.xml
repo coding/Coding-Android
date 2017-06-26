@@ -161,7 +161,7 @@
 
     <style name="ActionbarNoIcon" parent="AppTheme"></style>
 
-    <style name="UseToolbar" parent="ActionbarNoIcon">
+    <style name="Theme_CodingActionBar" parent="ActionbarNoIcon">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -565,7 +565,7 @@
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="CodingToolbar">
+    <style name="Widget_CodingActionBar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">?attr/actionBarSize</item>

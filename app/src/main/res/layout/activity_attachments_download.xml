@@ -5,11 +5,13 @@
     android:layout_height="match_parent"
     tools:context="net.coding.program.project.detail.AttachmentsHtmlDetailActivity">
 
+    <include layout="@layout/common_actionbar" />
+
     <LinearLayout
         android:id="@+id/mainLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="140dp"
         android:gravity="center"
         android:orientation="vertical">
 

@@ -53,7 +53,6 @@ import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.network.model.user.Member;
 import net.coding.program.param.MessageParse;
-import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.detail.MembersActivity_;
 import net.coding.program.project.detail.TaskListFragment;
 import net.coding.program.project.detail.TopicAddActivity;
@@ -312,12 +311,12 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
     }
 
     @Override
-    protected void onClickTollbarTitle() {
+    protected ProjectObject getProject() {
         if (mSingleTask == null || mSingleTask.isEmpty()) {
-            return;
+            return null;
         }
 
-        ProjectHomeActivity_.intent(this).mProjectObject(mSingleTask.project).start();
+        return mSingleTask.project;
     }
 
     @AfterViews

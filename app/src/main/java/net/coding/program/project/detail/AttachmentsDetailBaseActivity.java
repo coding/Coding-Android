@@ -15,7 +15,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AttachmentFileObject;
@@ -43,7 +43,7 @@ import cz.msebera.android.httpclient.Header;
  * Created by yangzhen
  */
 @EActivity
-public class AttachmentsDetailBaseActivity extends BackActivity {
+public class AttachmentsDetailBaseActivity extends CodingToolbarBackActivity {
 
     private static final int RESULT_SHARE_LINK = 1;
     private static final String TAG_SHARE_LINK_ON = "TAG_SHARE_LINK_ON";
@@ -123,6 +123,11 @@ public class AttachmentsDetailBaseActivity extends BackActivity {
 
     protected int getMenuResourceId() {
         return R.menu.project_attachment_image;
+    }
+
+    @Override
+    protected ProjectObject getProject() {
+        return mProject;
     }
 
     @Override

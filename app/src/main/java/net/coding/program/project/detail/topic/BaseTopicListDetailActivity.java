@@ -26,11 +26,12 @@ import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
 import net.coding.program.common.photopick.ImageInfo;
-import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.DynamicObject;
+import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TopicObject;
 import net.coding.program.model.topic.TopicComment;
 import net.coding.program.model.topic.TopicCommentChild;
@@ -55,7 +56,7 @@ import java.util.HashMap;
  */
 
 @EActivity(R.layout.activity_topic_list_detail)
-public abstract class BaseTopicListDetailActivity extends BackActivity {
+public abstract class BaseTopicListDetailActivity extends CodingToolbarBackActivity {
 
     static final int RESULT_AT = 1;
     static final int RESULT_COMMENT = 5;
@@ -154,6 +155,16 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
     void initBaseTopicListDetailActivity() {
         mEnterComment = new ImageCommentLayout(this, mOnClickSend, getImageLoad());
         prepareComment();
+    }
+
+    @Nullable
+    @Override
+    protected ProjectObject getProject() {
+        if (topicObject == null || topicObject.project == null) {
+            return null;
+        }
+
+        return topicObject.project;
     }
 
     protected void prepareComment() {

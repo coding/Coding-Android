@@ -6,6 +6,8 @@
     android:orientation="vertical"
     tools:context="net.coding.program.project.detail.topic.TopicListDetailActivity">
 
+    <include layout="@layout/common_actionbar" />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"

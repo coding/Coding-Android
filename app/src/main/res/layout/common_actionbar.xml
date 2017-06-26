@@ -6,7 +6,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/codingToolbar"
-        style="@style/CodingToolbar">
+        style="@style/Widget_CodingActionBar">
 
         <TextView
             android:id="@+id/toolbarTitle"

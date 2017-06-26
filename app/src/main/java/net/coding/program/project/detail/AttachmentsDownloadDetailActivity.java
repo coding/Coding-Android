@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
@@ -34,7 +35,7 @@ import net.coding.program.common.RedPointTip;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
@@ -60,7 +61,7 @@ import org.json.JSONObject;
 import java.io.File;
 
 @EActivity(R.layout.activity_attachments_download)
-public class AttachmentsDownloadDetailActivity extends BackActivity {
+public class AttachmentsDownloadDetailActivity extends CodingToolbarBackActivity {
 
     private static final int STATE_NEEDDOWNLOAD = 0;
     private static final int STATE_STARTDOWNLOAD = 1;
@@ -219,6 +220,12 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
         finish();
     }
 
+    @Nullable
+    @Override
+    protected ProjectObject getProject() {
+        return mProject;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 //        if (fileUrlSuccess) {
@@ -275,7 +282,7 @@ public class AttachmentsDownloadDetailActivity extends BackActivity {
             }
         }
 
-        getSupportActionBar().setTitle(mAttachmentFileObject.getName());
+        setActionBarTitle(mAttachmentFileObject.getName());
         handler = new MyHandler();
         downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         downloadManagerPro = new DownloadManagerPro(downloadManager);
