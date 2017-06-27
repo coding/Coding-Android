@@ -18,7 +18,6 @@ public class ViewStyleUtil {
         editTextBindButton(button, sNoEmptyRequest, edits);
     }
 
-
     public static void editTextBindButton(View button, InputRequest request, OnTextChange... edits) {
         for (OnTextChange edit : edits) {
             edit.addTextChangedListener(new SimpleTextWatcher() {

@@ -281,18 +281,31 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
 
     protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
                               DialogInterface.OnClickListener clickCancel,
-                              String okButton,
-                              String cancelButton) {
+                              CharSequence okButton,
+                              CharSequence cancelButton) {
         showDialog(title, msg, clickOk, clickCancel, null, okButton, cancelButton, "");
     }
+
+
+    protected void showWarnDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
+                                  DialogInterface.OnClickListener clickCancel,
+                                  CharSequence okButton,
+                                  CharSequence cancelButton) {
+        showDialog(title, msg, clickOk, clickCancel, null, okButton, cancelButton, "", R.style.CodingWarnDialog);
+    }
+
 
     protected void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk,
                               DialogInterface.OnClickListener clickCancel,
                               DialogInterface.OnClickListener clickNeutral,
-                              String okButton,
-                              String cancelButton,
-                              String neutralButton) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+                              CharSequence okButton,
+                              CharSequence cancelButton,
+                              CharSequence neutralButton) {
+        showDialog(title, msg, clickOk, clickCancel, clickNeutral, okButton, cancelButton, neutralButton, R.style.MyAlertDialogStyle);
+    }
+
+    private void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk, DialogInterface.OnClickListener clickCancel, DialogInterface.OnClickListener clickNeutral, CharSequence okButton, CharSequence cancelButton, CharSequence neutralButton, int style) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, style);
         builder.setTitle(title)
                 .setMessage(msg);
 
@@ -308,7 +321,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
             builder.setNegativeButton(cancelButton, clickCancel);
         }
 
-        if (clickNeutral != null && !neutralButton.isEmpty()) {
+        if (clickNeutral != null && !TextUtils.isEmpty(neutralButton)) {
             builder.setNeutralButton(neutralButton, clickNeutral);
         }
 

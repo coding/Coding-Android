@@ -589,6 +589,10 @@
             android:label="@string/auth_list_activity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".login.auth.ManuallyAddQCodeActivity_"
+            android:label="@string/title_activity_manually_qcode"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".login.auth.QRScanActivity"
             android:label="@string/qr_scan_activity"
             android:screenOrientation="portrait" />

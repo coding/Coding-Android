@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    tools:context="net.coding.program.setting.ModifyEmailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/divide"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/layoutRoot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/divide_top_15" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <net.coding.program.common.widget.LoginEditText
+                        android:id="@+id/name"
+                        style="@style/EmailEdit"
+                        app:hint="账户"
+                        app:topLine="false" />
+
+                    <net.coding.program.common.widget.LoginEditText
+                        android:id="@+id/code"
+                        style="@style/EmailEdit"
+                        app:hint="密钥" />
+
+
+                </LinearLayout>
+
+                <include layout="@layout/divide_middle_15" />
+
+                <TextView
+                    android:id="@+id/sendButton"
+                    android:text="确认"
+                    style="@style/Button_ListBottom" />
+
+                <include layout="@layout/divide_bottom_15" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

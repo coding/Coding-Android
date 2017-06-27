@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
@@ -31,7 +30,7 @@ import java.util.ArrayList;
  * Created by chenchao on 15/8/24.
  * 封装下载相关的模块
  */
-public abstract class FileDownloadBaseActivity extends BackActivity implements WeakRefHander.Callback {
+public abstract class FileDownloadBaseActivity extends BackActivity {
 
     private static String TAG = AttachmentsActivity.class.getSimpleName();
 
@@ -41,8 +40,6 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
     private DownloadManagerPro downloadManagerPro;
     private DownloadChangeObserver downloadObserver;
     private MyHandler handler;
-    private WeakRefHander mUpdateDownloadHandler;
-    private ArrayList<AttachmentFileObject> downloadFiles;
     private SharedPreferences.Editor downloadListEditor;
     private SharedPreferences downloadList;
 
@@ -67,7 +64,6 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
         share = getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
         defaultPath = Environment.DIRECTORY_DOWNLOADS + File.separator + FileUtil.getDownloadFolder();
 
-        mUpdateDownloadHandler = new WeakRefHander(this, 500);
     }
 
     @Override
@@ -84,15 +80,6 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
         getContentResolver().registerContentObserver(DownloadManagerPro.CONTENT_URI, true, downloadObserver);
         //updateView();
 
-        checkFileDownloadStatus1();
-        mUpdateDownloadHandler.start();
-    }
-
-    @Override
-    public boolean handleMessage(Message msg) {
-
-        checkFileDownloadStatus1();
-        return true;
     }
 
     protected void updateFileDownloadStatus(AttachmentFileObject mFileObject) {
@@ -105,16 +92,12 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
     }
 
     private void checkFileDownloadStatus1() {
-        if (downloadFiles == null || downloadFiles.isEmpty()) {
-            mUpdateDownloadHandler.stop();
-        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
         getContentResolver().unregisterContentObserver(downloadObserver);
-        mUpdateDownloadHandler.stop();
     }
 
     protected void action_download(ArrayList<AttachmentFileObject> mFilesArray) {
@@ -201,10 +184,8 @@ public abstract class FileDownloadBaseActivity extends BackActivity implements W
 
                 long downloadId = downloadManager.enqueue(request);
                 downloadListEditor.putLong(mFileObject.file_id + mFileObject.getHistory_id(), downloadId);
-//                backgroundUpdate(downloadId);
             }
             downloadListEditor.commit();
-            mUpdateDownloadHandler.start();
             checkFileDownloadStatus();
         } catch (Exception e) {
             Toast.makeText(this, R.string.no_system_download_service, Toast.LENGTH_LONG).show();

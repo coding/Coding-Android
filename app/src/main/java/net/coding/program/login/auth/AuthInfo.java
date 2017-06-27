@@ -1,6 +1,7 @@
 package net.coding.program.login.auth;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.Serializable;
@@ -36,7 +37,11 @@ public class AuthInfo implements Serializable {
         scheme = uri.getScheme();
         path = uri.getPath();
         authority = uri.getAuthority();
-        issuer = uri.getQueryParameter(PARAM_ISSUER);
+        String paramIssuer = uri.getQueryParameter(PARAM_ISSUER);
+        if (paramIssuer == null) {
+            paramIssuer = "";
+        }
+        issuer = paramIssuer;
         this.secret = uri.getQueryParameter(PARAM_SECRET);
         this.clock = clock;
     }
@@ -142,11 +147,12 @@ public class AuthInfo implements Serializable {
         return code;
     }
 
-    public String getCompany() {
+    @NonNull
+    String getCompany() {
         return issuer;
     }
 
-    public String getAccountName() {
+    String getAccountName() {
         String name = path;
         if (path.startsWith("/")) {
             name = path.substring(1);
