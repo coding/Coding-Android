@@ -190,7 +190,7 @@
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="4dp"
+            android:layout_height="3dp"
             android:layout_alignParentBottom="true"
             android:max="100"
             android:progressDrawable="@drawable/progressbg"

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.skyfishjy.library.RippleBackground
@@ -46,6 +47,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                tools:visibility="visible"
                 android:visibility="invisible">
 
                 <net.coding.program.common.widget.SoundWaveView
@@ -64,8 +66,8 @@
                     android:layout_gravity="center_horizontal|bottom"
                     android:layout_marginBottom="2sp"
                     android:gravity="center"
-                    android:text="ABCDEFG"
-                    android:textColor="#FF50aeea"
+                    tools:text="ABCDEFG"
+                    android:textColor="#FF5AA5FF"
                     android:textSize="16sp" />
 
                 <net.coding.program.common.widget.SoundWaveView

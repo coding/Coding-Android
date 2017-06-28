@@ -73,8 +73,8 @@
                 tools:text="个性后缀" />
 
             <View
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="10dp"
+                android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/padding_15"
