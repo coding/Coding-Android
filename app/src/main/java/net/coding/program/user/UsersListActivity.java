@@ -6,7 +6,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +16,13 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
-import com.melnykov.fab.FloatingActionButton;
 
 import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
-import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.ToolbarBackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.message.MessageListActivity;
@@ -37,11 +35,9 @@ import net.coding.program.third.sidebar.IndexableListView;
 import net.coding.program.third.sidebar.StringMatcher;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,7 +51,7 @@ import java.util.Collections;
  * 粉丝，关注的人列表
  */
 @EActivity(R.layout.activity_users_list)
-public class UsersListActivity extends BackActivity implements FootUpdate.LoadMore {
+public class UsersListActivity extends ToolbarBackActivity implements FootUpdate.LoadMore {
 
     public static final String TAG_USER_FOLLOWS = "TAG_USER_FOLLOWS";
     public static final String TAG_USER_FANS = "TAG_USER_FANS";
@@ -87,14 +83,15 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
     ProjectServiceInfo projectServiceInfo;
     @Extra
     UserParams mUserParam;
+
     ArrayList<UserObject> mData = new ArrayList<>();
     ArrayList<UserObject> mSearchData = new ArrayList<>();
+
     @ViewById
     IndexableListView listView;
     @ViewById
     TextView maxUserCount;
-    @ViewById
-    FloatingActionButton floatButton;
+
     UserAdapter adapter = new UserAdapter();
 
     public static String getHostFollow() {
@@ -135,20 +132,25 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
             maxUserCount.setVisibility(View.GONE);
         }
 
-        setTitle();
+        initActionBar();
 
-//        mFootUpdate.init(listView, mInflater, this);
+        if (type == Friend.Follow && isMyFriendList()) {
+            View addFollowView = getLayoutInflater().inflate(R.layout.activity_users_list_item, listView, false);
+            addFollowView.findViewById(R.id.divideTitle).setVisibility(View.GONE);
+            addFollowView.findViewById(R.id.divide_line).setVisibility(View.GONE);
+            addFollowView.findViewById(R.id.followMutual).setVisibility(View.GONE);
+            ((ImageView) addFollowView.findViewById(R.id.icon)).setImageResource(R.drawable.ic_message_add_user);
+            ((TextView) addFollowView.findViewById(R.id.name)).setText("添加好友");
+            addFollowView.findViewById(R.id.listItemContentLayout).setOnClickListener(v -> actionAdd());
+
+            listView.addHeaderView(addFollowView, null, false);
+        }
+
         adapter.initSection();
         listView.setAdapter(adapter);
         listView.setFastScrollEnabled(true);
         listView.setFastScrollAlwaysVisible(true);
         loadMore();
-
-        if (type == Friend.Follow && isMyFriendList()) {
-            floatButton.attachToListView(listView);
-        } else {
-            floatButton.setVisibility(View.GONE);
-        }
 
         if (selectType) {
             listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -228,9 +230,9 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         }
     }
 
-    void setTitle() {
+    void initActionBar() {
         if (!titleName.isEmpty()) {
-            getSupportActionBar().setTitle(titleName);
+            setActionBarTitle(titleName);
             return;
         }
 
@@ -247,22 +249,13 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
             title = String.format(format, mUserParam.mUser.name, type);
         }
 
-        getSupportActionBar().setTitle(title);
-    }
+        setActionBarTitle(title);
 
-    private Friend getType() {
-        Friend friendType = type;
-        if (friendType == null) {
-            friendType = mUserParam.mType;
-        }
-        return friendType;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(type == Friend.Follow ? R.menu.users_follow : R.menu.users_fans,
-                menu);
+        getMenuInflater().inflate(R.menu.users_fans, menu);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -279,7 +272,15 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
             }
         });
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private Friend getType() {
+        Friend friendType = type;
+        if (friendType == null) {
+            friendType = mUserParam.mType;
+        }
+        return friendType;
     }
 
     private void searchItem(String s) {
@@ -312,13 +313,7 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         }
     }
 
-    @Click
-    public final void floatButton() {
-        action_add();
-    }
-
-    @OptionsItem
-    void action_add() {
+    void actionAdd() {
         startActivityForResult(new Intent(this, AddFollowActivity_.class), RESULT_REQUEST_ADD);
     }
 
@@ -440,7 +435,7 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
 
     class UserAdapter extends BaseAdapter implements SectionIndexer {
 
-        private String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private String mSections = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#";
         private ArrayList<String> mSectionTitle = new ArrayList<>();
         private ArrayList<Integer> mSectionId = new ArrayList<>();
 

@@ -67,7 +67,7 @@ public class PickUserActivity extends BaseEnterpriseUserListActivity {
 
     class UserAdapter extends BaseAdapter implements SectionIndexer, StickyListHeadersAdapter {
 
-        private String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private String mSections = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#";
         private ArrayList<String> mSectionTitle = new ArrayList<>();
         private ArrayList<Integer> mSectionId = new ArrayList<>();
 

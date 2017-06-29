@@ -22,6 +22,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SectionIndexer;
 
 import net.coding.program.common.Global;
 
@@ -29,6 +30,7 @@ public class IndexableListView extends ListView {
 
     private boolean mIsFastScrollEnabled = true;
     private IndexScroller mScroller = null;
+    private SectionIndexer sectionIndexer;
 
     public IndexableListView(Context context) {
         super(context);
@@ -52,7 +54,7 @@ public class IndexableListView extends ListView {
         mIsFastScrollEnabled = enabled;
         if (mIsFastScrollEnabled) {
             if (mScroller == null) {
-                mScroller = new IndexScroller(getContext(), this);
+                mScroller = new IndexScroller(getContext(), this, sectionIndexer);
                 mScroller.show();
             }
 
@@ -84,9 +86,17 @@ public class IndexableListView extends ListView {
 
     @Override
     public void setAdapter(ListAdapter adapter) {
+        if (!(adapter instanceof SectionIndexer)) {
+            throw new RuntimeException("adapter must implement SectionIndexer");
+        }
+
+        sectionIndexer = (SectionIndexer) adapter;
+
         super.setAdapter(adapter);
-        if (mScroller != null)
-            mScroller.setAdapter(adapter);
+
+        if (mScroller != null) {
+            mScroller.setAdapter(sectionIndexer);
+        }
     }
 
     @Override

@@ -1,27 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.coding.program.user.UsersListActivity">
+    android:background="@color/divide"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/maxUserCount"
+    <include layout="@layout/common_actionbar" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:textColor="@color/font_2"
-        android:textSize="14sp"
-        android:visibility="gone"
-        tools:text="你还可以添加 4 个项目成员" />
+        android:layout_height="match_parent"
+        tools:context="net.coding.program.user.UsersListActivity">
 
-    <View
-        android:id="@+id/userCountLine"
-        style="@style/DivideLine"
-        android:layout_below="@id/maxUserCount" />
+        <TextView
+            android:id="@+id/maxUserCount"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:textColor="@color/font_2"
+            android:textSize="14sp"
+            android:visibility="gone"
+            tools:text="你还可以添加 4 个项目成员" />
 
-    <net.coding.program.third.sidebar.IndexableListView
+        <View
+            android:id="@+id/userCountLine"
+            style="@style/DivideLine"
+            android:layout_below="@id/maxUserCount" />
+
+        <net.coding.program.third.sidebar.IndexableListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -31,15 +38,6 @@
             android:fastScrollAlwaysVisible="true"
             android:fastScrollEnabled="true" />
 
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/floatButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_float_button_add"
-        fab:fab_colorNormal="@color/font_green"
-        fab:fab_colorPressed="@color/font_green" />
+    </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

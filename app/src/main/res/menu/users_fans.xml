@@ -3,16 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="net.coding.program.user.UsersListActivity">
 
-
-    <!--<item android:id="@+id/action_search"-->
-    <!--android:title="搜索"-->
-    <!--android:icon="@drawable/ic_menu_search"-->
-    <!--app:showAsAction="always"-->
-    <!--android:actionViewClass="android.widget.SearchView" />-->
-
     <item
         android:id="@+id/action_search"
-        android:icon="@drawable/ic_menu_search"
         android:title="搜索"
         android:theme="@style/MySearchViewStyle"
         app:theme="@style/MySearchViewStyle"

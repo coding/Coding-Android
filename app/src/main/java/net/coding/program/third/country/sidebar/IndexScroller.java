@@ -101,7 +101,7 @@ public class IndexScroller {
             }
 
             Paint indexPaint = new Paint();
-            indexPaint.setColor(0xFF4289DB);
+            indexPaint.setColor(0xff565656);
 //			indexPaint.setAlpha((int) (255 * mAlphaRate));
             indexPaint.setAntiAlias(true);
             indexPaint.setTextSize(15 * mScaledDensity);

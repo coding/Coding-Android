@@ -1,5 +1,7 @@
 package net.coding.program.model;
 
+import android.text.TextUtils;
+
 import net.coding.program.MyApp;
 import net.coding.program.common.Global;
 import net.coding.program.network.constant.VIP;
@@ -146,7 +148,31 @@ public class UserObject implements Serializable, Comparable {
 
     @Override
     public int compareTo(Object another) {
-        return pingYin.compareTo(((UserObject) another).pingYin);
+        String otherPY = ((UserObject) another).pingYin;
+        boolean selfStart = isLetter(pingYin);
+        boolean otherStart = isLetter(otherPY);
+
+        if (selfStart) {
+            if (otherStart) {
+                return pingYin.compareTo(otherPY);
+            } else {
+                return -1;
+            }
+        } else {
+            if (otherStart) {
+                return 1;
+            } else {
+                return pingYin.compareTo(otherPY);
+            }
+        }
+    }
+
+    private boolean isLetter(String s) {
+        if (TextUtils.isEmpty(s)) {
+            return false;
+        }
+        char c = s.charAt(0);
+        return ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z');
     }
 
     public boolean isEmailValidation() {

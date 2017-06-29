@@ -84,6 +84,7 @@
 
     <style name="MySearchViewStyle" parent="Widget.AppCompat.Light.SearchView">
         <item name="searchIcon">@drawable/ic_menu_search</item>
+        <item name="android:searchIcon">@drawable/ic_menu_search</item>
     </style>
 
     <style name="AppThemeNoActionbar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -590,6 +591,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+        <item name="searchViewStyle">@style/MySearchViewStyle</item>
+        <item name="android:searchViewStyle">@style/MySearchViewStyle</item>
     </style>
 
     <style name="CodingToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">

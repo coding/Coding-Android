@@ -22,7 +22,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.MotionEvent;
-import android.widget.Adapter;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
 
@@ -49,11 +48,11 @@ public class IndexScroller {
     private int mBackgroundColor = Color.TRANSPARENT;
 //	private static final int STATE_HIDING = 3;
 
-    public IndexScroller(Context context, ListView lv) {
+    public IndexScroller(Context context, ListView lv, SectionIndexer sectionIndexer) {
         mDensity = context.getResources().getDisplayMetrics().density;
         mScaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
         mListView = lv;
-        setAdapter(mListView.getAdapter());
+        setAdapter(sectionIndexer);
 
         mIndexbarWidth = 20 * mDensity;
 //		mIndexbarMargin = 10 * mDensity;
@@ -125,7 +124,7 @@ public class IndexScroller {
                     mIsIndexing = true;
                     // Determine which section the point is in, and move the list to that section
                     mCurrentSection = getSectionByPoint(ev.getY());
-                    mListView.setSelection(mIndexer.getPositionForSection(mCurrentSection));
+                    mListView.setSelection(mIndexer.getPositionForSection(mCurrentSection) + mListView.getHeaderViewsCount());
 
                     mBackgroundColor = 0x4c000000;
                     mListView.invalidate();
@@ -138,7 +137,7 @@ public class IndexScroller {
                     if (contains(ev.getX(), ev.getY())) {
                         // Determine which section the point is in, and move the list to that section
                         mCurrentSection = getSectionByPoint(ev.getY());
-                        mListView.setSelection(mIndexer.getPositionForSection(mCurrentSection));
+                        mListView.setSelection(mIndexer.getPositionForSection(mCurrentSection) + mListView.getHeaderViewsCount());
                     }
                     return true;
                 }
@@ -184,9 +183,9 @@ public class IndexScroller {
         mListView.invalidate();
     }
 
-    public void setAdapter(Adapter adapter) {
-        if (adapter instanceof SectionIndexer) {
-            mIndexer = (SectionIndexer) adapter;
+    public void setAdapter(SectionIndexer adapter) {
+        if (adapter != null) {
+            mIndexer = adapter;
             mSections = (String[]) mIndexer.getSections();
         }
     }
