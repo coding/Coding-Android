@@ -311,7 +311,6 @@
         <activity
             android:name=".user.UsersListActivity_"
             android:icon="@drawable/ic_lancher"
-            android:theme="@style/ActionbarSpannerTheme1"
             android:label="@string/empty"
             android:screenOrientation="portrait" />
         <activity

@@ -1398,7 +1398,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             } else {
                 itemNames = new String[]{"重命名", "移动到", "删除"};
             }
-            if (itemNames.length == 0)
+            if (itemNames.length == 0) {
                 return;
             }
 

@@ -1,12 +1,13 @@
 package net.coding.program.user;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
-import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -22,7 +23,7 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
-import net.coding.program.common.ui.ToolbarBackActivity;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.message.MessageListActivity;
@@ -51,7 +52,7 @@ import java.util.Collections;
  * 粉丝，关注的人列表
  */
 @EActivity(R.layout.activity_users_list)
-public class UsersListActivity extends ToolbarBackActivity implements FootUpdate.LoadMore {
+public class UsersListActivity extends BackActivity implements FootUpdate.LoadMore {
 
     public static final String TAG_USER_FOLLOWS = "TAG_USER_FOLLOWS";
     public static final String TAG_USER_FANS = "TAG_USER_FANS";
@@ -250,15 +251,21 @@ public class UsersListActivity extends ToolbarBackActivity implements FootUpdate
         }
 
         setActionBarTitle(title);
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.users_fans, menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_search, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -272,7 +279,7 @@ public class UsersListActivity extends ToolbarBackActivity implements FootUpdate
             }
         });
 
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     private Friend getType() {
