@@ -32,7 +32,7 @@
 
     <CheckBox
             android:id="@+id/followMutual"
-            android:layout_width="73.5dp"
+        android:layout_width="50dp"
             android:layout_centerVertical="true"
             android:layout_height="30dp"
             android:background="@null"

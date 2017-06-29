@@ -18,6 +18,7 @@ import net.coding.program.project.ProjectHomeActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.UiThread;
 
 /*
@@ -37,6 +38,9 @@ public abstract class CodingToolbarBackActivity extends BaseActivity {
     protected abstract
     @Nullable
     ProjectObject getProject();
+
+    @Extra
+    protected boolean showClickTitleTip = false;
 
     protected String getProjectPath() {
         return "";
@@ -63,7 +67,7 @@ public abstract class CodingToolbarBackActivity extends BaseActivity {
             bubbleTitle.dismiss();
         }
 
-        RedPointTip.markNoUsed(this, RedPointTip.Type.TitleJump_C445);
+        RedPointTip.markUsed(this, RedPointTip.Type.TitleJump_C445);
         bubbleTitle = null;
     }
 
@@ -108,7 +112,7 @@ public abstract class CodingToolbarBackActivity extends BaseActivity {
     @UiThread(delay = 2000)
     protected void popGuide() {
 
-        if (RedPointTip.show(this, RedPointTip.Type.TitleJump_C445) && isResume) {
+        if (RedPointTip.show(this, RedPointTip.Type.TitleJump_C445) && isResume && showClickTitleTip) {
             BubbleTextView bbView = (BubbleTextView) getLayoutInflater().inflate(R.layout.guide_bubble_view_up, null);
             bbView.setText("点击标题可跳转到项目首页哦");
             bbView.setOnClickListener(v -> hideGuide());

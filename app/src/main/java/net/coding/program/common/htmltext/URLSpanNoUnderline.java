@@ -110,6 +110,7 @@ public class URLSpanNoUnderline extends URLSpan {
                 intent.setClass(context, GitViewActivity_.class);
                 intent.putExtra("mProjectPath", projectPath);
                 intent.putExtra("mVersion", version);
+                intent.putExtra("showClickTitleTip", true);
                 intent.putExtra("mGitFileInfoObject", new GitFileInfoObject(path));
                 context.startActivity(intent);
                 return true;
@@ -153,6 +154,7 @@ public class URLSpanNoUnderline extends URLSpan {
                     new TopicListDetailActivity.TopicDetailParam(matcher.group(1),
                             matcher.group(2), matcher.group(3));
             intent.putExtra("mJumpParam", param);
+            intent.putExtra("showClickTitleTip", true);
             context.startActivity(intent);
             return true;
         }
@@ -246,6 +248,7 @@ public class URLSpanNoUnderline extends URLSpan {
             intent.setClass(context, TaskAddActivity_.class);
             intent.putExtra("mJumpParams", new TaskJumpParams(matcher.group(1),
                     matcher.group(2), matcher.group(3)));
+            intent.putExtra("showClickTitleTip", true);
             context.startActivity(intent);
             return true;
         }
@@ -333,6 +336,7 @@ public class URLSpanNoUnderline extends URLSpan {
                         .mProjectObjectId(projectId)
                         .mAttachmentFolderObject(folder)
                         .mAttachmentFileObject(folderFile)
+                        .showClickTitleTip(true)
                         .start();
 
             } else if (extension.matches(htmlMdType)) {
@@ -340,12 +344,14 @@ public class URLSpanNoUnderline extends URLSpan {
                         .mProjectObjectId(projectId)
                         .mAttachmentFolderObject(folder)
                         .mAttachmentFileObject(folderFile)
+                        .showClickTitleTip(true)
                         .start();
 
             } else if (extension.matches(txtType)) {
                 AttachmentsTextDetailActivity_.intent(context)
                         .mProjectObjectId(projectId)
                         .mAttachmentFolderObject(folder)
+                        .showClickTitleTip(true)
                         .mAttachmentFileObject(folderFile)
                         .start();
             } else {
@@ -353,6 +359,7 @@ public class URLSpanNoUnderline extends URLSpan {
                         .mProjectObjectId(projectId)
                         .mAttachmentFolderObject(folder)
                         .mAttachmentFileObject(folderFile)
+                        .showClickTitleTip(true)
                         .start();
             }
 
@@ -389,6 +396,7 @@ public class URLSpanNoUnderline extends URLSpan {
         if (matcher.find()) {
             intent.setClass(context, MergeDetailActivity_.class);
             intent.putExtra("mMergeUrl", uriString);
+            intent.putExtra("showClickTitleTip", true);
             context.startActivity(intent);
             return true;
         }
@@ -400,6 +408,7 @@ public class URLSpanNoUnderline extends URLSpan {
         if (matcher.find()) {
             intent.setClass(context, CommitFileListActivity_.class);
             intent.putExtra("mCommitUrl", uriString);
+            intent.putExtra("showClickTitleTip", true);
             context.startActivity(intent);
             return true;
         }
@@ -417,6 +426,7 @@ public class URLSpanNoUnderline extends URLSpan {
 
             intent.putExtra("mProjectPath", projectPath);
             intent.putExtra("mVersion", version);
+            intent.putExtra("showClickTitleTip", true);
             context.startActivity(intent);
             return true;
         }

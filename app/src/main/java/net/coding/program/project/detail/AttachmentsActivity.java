@@ -460,9 +460,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
                 case R.id.action_inverse:
                     action_inverse();
                     return true;
-                case R.id.action_more:
-                    showRightTopPop();
-                    return true;
                 default:
                     return false;
             }
@@ -1401,7 +1398,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             } else {
                 itemNames = new String[]{"重命名", "移动到", "删除"};
             }
-            if (itemNames.length == 0) {
+            if (itemNames.length == 0)
                 return;
             }
 
