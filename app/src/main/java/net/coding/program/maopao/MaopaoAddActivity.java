@@ -611,7 +611,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
     @Click(R.id.locationText)
     void chooseLocation() {
         if (PhoneType.isX86or64()) {
-            showMiddleToast("定位功能不支持x86或64位的手机");
+            showMiddleToast("定位功能不支持x86手机");
             return;
         }
 

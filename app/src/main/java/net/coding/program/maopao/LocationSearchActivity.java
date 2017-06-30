@@ -1,6 +1,7 @@
 package net.coding.program.maopao;
 
 import android.content.Intent;
+import android.os.Looper;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
@@ -117,26 +118,35 @@ public class LocationSearchActivity extends BackActivity implements FootUpdate.L
             public void onLocationResult(boolean success, String city, String area, double latitude, double longitude) {
                 isLoadingLocation = false;
                 if (LocationSearchActivity.this.isFinishing()) return;
-                if (success) {
-                    currentCity = city;
-                    currentArea = area;
-                    LocationSearchActivity.this.latitude = latitude;
-                    LocationSearchActivity.this.longitude = longitude;
-                    if (!(selectedLocation != null && selectedLocation.type == LocationObject.Type.City && selectedLocation.name.equals(currentCity))) {
-                        chooseAdapter.list.add(1, LocationObject.city(currentCity, latitude, longitude));
-                        chooseAdapter.notifyDataSetChanged();
-                    }
-                    LatLng latLng = new LatLng(latitude, longitude);
-                    chooseAdapter.searcher.configure(LocationSearchActivity.this, latLng, chooseAdapter);
-                    searchAdapter.searcher.configure(LocationSearchActivity.this, latLng, searchAdapter);
-                    LocationSearchActivity.this.supportInvalidateOptionsMenu();
-                    loadMore();
+
+                if (Looper.myLooper() == Looper.getMainLooper()) {
+                    updateListUI(success, city, area, latitude, longitude);
                 } else {
-                    currentCity = null;
-                    mFootUpdate.showFail();
+                    runOnUiThread(() -> updateListUI(success, city, area, latitude, longitude));
                 }
             }
         });
+    }
+
+    public void updateListUI(boolean success, String city, String area, double latitude, double longitude) {
+        if (success) {
+            currentCity = city;
+            currentArea = area;
+            LocationSearchActivity.this.latitude = latitude;
+            LocationSearchActivity.this.longitude = longitude;
+            if (!(selectedLocation != null && selectedLocation.type == LocationObject.Type.City && selectedLocation.name.equals(currentCity))) {
+                chooseAdapter.list.add(1, LocationObject.city(currentCity, latitude, longitude));
+                chooseAdapter.notifyDataSetChanged();
+            }
+            LatLng latLng = new LatLng(latitude, longitude);
+            chooseAdapter.searcher.configure(LocationSearchActivity.this, latLng, chooseAdapter);
+            searchAdapter.searcher.configure(LocationSearchActivity.this, latLng, searchAdapter);
+            LocationSearchActivity.this.supportInvalidateOptionsMenu();
+            loadMore();
+        } else {
+            currentCity = null;
+            mFootUpdate.showFail();
+        }
     }
 
     @ItemClick(R.id.listView)
@@ -270,7 +280,17 @@ public class LocationSearchActivity extends BackActivity implements FootUpdate.L
         @Override
         public void onSearchResult(List<LocationObject> locations) {
             if (LocationSearchActivity.this.isFinishing()) return;
+
             addToList(locations);
+
+            if (Looper.myLooper() == Looper.getMainLooper()) {
+                updateUI();
+            } else {
+                LocationSearchActivity.this.runOnUiThread(() -> updateUI());
+            }
+        }
+
+        public void updateUI() {
             notifyDataSetChanged();
             if (searcher.isComplete()) {
                 mFootUpdate.dismiss();
@@ -278,6 +298,7 @@ public class LocationSearchActivity extends BackActivity implements FootUpdate.L
                 mFootUpdate.showLoading();
             }
         }
+
 
         private void addToList(List<LocationObject> locations) {
             if (locations == null) return;
@@ -401,7 +422,12 @@ public class LocationSearchActivity extends BackActivity implements FootUpdate.L
             if (searcher.isComplete()) {
                 complete();
             }
-            searchAdapter.notifyDataSetChanged();
+
+            if (Looper.myLooper() == Looper.getMainLooper()) {
+                searchAdapter.notifyDataSetChanged();
+            } else {
+                runOnUiThread(() -> searchAdapter.notifyDataSetChanged());
+            }
         }
     }
 }

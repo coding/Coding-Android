@@ -16,6 +16,7 @@ import net.coding.program.model.UserObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -26,6 +27,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class BaiduLbsLoader {
 
@@ -60,10 +66,40 @@ public class BaiduLbsLoader {
             Log.e("BaiduLbsLoader", "get url error", e);
             return;
         }
-        AsyncHttpClient client = new AsyncHttpClient();
 
         final int searchPos = LocationSearchActivity.getSearchPos();
-        client.get(context, url, new SearchResponseHandler(listener) {
+
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        client.get(context, url, new SearchResponseHandler(listener) {
+//            @Override
+//            protected LocationObject parseItem(JSONObject json) {
+//                if (json == null) return null;
+//                String id = json.optString("uid");
+//                String name = json.optString("title");
+//                String address = json.optString("address");
+//                LocationObject object = new LocationObject(id, name, address);
+//                JSONArray location = json.optJSONArray("location");
+//                if (location != null && location.length() == 2) {
+//                    object.longitude = location.optDouble(0, 0);
+//                    object.latitude = location.optDouble(1, 0);
+//                }
+//                object.distance = json.optInt("distance");
+//                return object;
+//            }
+//
+//            @Override
+//            protected void parseResult(JSONObject json, LbsResultListener listener) {
+//                int lastPage = (json.optInt("total", 0) + PAGE_SIZE - 1) / PAGE_SIZE - 1;
+//                JSONArray array = json.optJSONArray("contents");
+//                if (searchPos == LocationSearchActivity.getSearchPos()) {
+//                    listener.onSearchResult(true, parseList(array), page < lastPage && array.length() >= PAGE_SIZE);
+//                }
+//            }
+//        });
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder().url(url).build();
+        okHttpClient.newCall(request).enqueue(new SearchResponseCallback(listener) {
             @Override
             protected LocationObject parseItem(JSONObject json) {
                 if (json == null) return null;
@@ -110,8 +146,38 @@ public class BaiduLbsLoader {
         }
 
         final int searchPos = LocationSearchActivity.getSearchPos();
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(context, url, new SearchResponseHandler(listener) {
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        client.get(context, url, new SearchResponseHandler(listener) {
+//            @Override
+//            protected LocationObject parseItem(JSONObject json) {
+//                if (json == null) return null;
+//                String id = json.optString("uid");
+//                String name = json.optString("name");
+//                String address = json.optString("address");
+//                LocationObject object = new LocationObject(id, name, address);
+//                JSONObject location = json.optJSONObject("location");
+//                if (location != null) {
+//                    object.latitude = location.optDouble("lat", 0);
+//                    object.longitude = location.optDouble("lng", 0);
+//                }
+//                object.distance = json.optInt("distance");
+//                return object;
+//            }
+//
+//            @Override
+//            protected void parseResult(JSONObject json, LbsResultListener listener) {
+//                int lastPage = (json.optInt("total", 0) + PAGE_SIZE - 1) / PAGE_SIZE - 1;
+//                JSONArray array = json.optJSONArray("results");
+//                if (searchPos == LocationSearchActivity.getSearchPos()) {
+//                    listener.onSearchResult(true, parseList(array), page < lastPage && array.length() >= PAGE_SIZE);
+//                }
+//            }
+//        });
+
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder().url(url).build();
+        okHttpClient.newCall(request).enqueue(new SearchResponseCallback(listener) {
             @Override
             protected LocationObject parseItem(JSONObject json) {
                 if (json == null) return null;
@@ -221,6 +287,59 @@ public class BaiduLbsLoader {
 
     public interface StorePoiListener {
         void onStoreResult(boolean success, String id);
+    }
+
+    private static abstract class SearchResponseCallback implements Callback {
+        private LbsResultListener listener;
+
+        SearchResponseCallback(LbsResultListener listener) {
+            this.listener = listener;
+        }
+
+        protected abstract LocationObject parseItem(JSONObject json);
+
+        protected abstract void parseResult(JSONObject json, LbsResultListener listener);
+
+        protected List<LocationObject> parseList(JSONArray array) {
+            ArrayList<LocationObject> list = new ArrayList<>();
+            if (array != null) {
+                for (int i = 0, c = array.length(); i < c; ++i) {
+                    LocationObject item = parseItem(array.optJSONObject(i));
+                    if (item != null) list.add(item);
+                }
+            }
+            return list;
+        }
+
+        @Override
+        public void onFailure(Call call, IOException e) {
+            onError();
+        }
+
+        private void onError() {
+            if (listener != null) listener.onSearchResult(false, null, false);
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                onError();
+                return;
+            }
+
+            try {
+                JSONObject json = new JSONObject(response.body().string());
+
+                if (json.optInt("status") != 0) {
+                    onError();
+                } else if (listener != null) {
+                    parseResult(json, listener);
+                }
+            } catch (Exception e) {
+                onError();
+                return;
+            }
+        }
     }
 
     private static abstract class SearchResponseHandler extends JsonHttpResponseHandler {

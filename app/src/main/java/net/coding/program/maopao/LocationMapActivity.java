@@ -28,6 +28,7 @@ import org.androidannotations.annotations.ViewById;
  */
 @EActivity(R.layout.location_map)
 public class LocationMapActivity extends BackActivity {
+
     @ViewById
     MapView mapView;
 
