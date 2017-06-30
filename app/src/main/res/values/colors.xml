@@ -26,6 +26,8 @@
     <color name="font_2">#425063</color>
     <color name="font_3">#76808E</color>
     <color name="font_4">#A9B3BE</color>
+    <color name="font_dynamic_content">#003200</color>
+    <color name="font_dynamic_content_comment">#002000</color>
 
     <color name="font_count">#FF4F565F</color>
 

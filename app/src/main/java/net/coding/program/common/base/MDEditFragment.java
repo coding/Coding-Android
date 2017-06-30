@@ -126,6 +126,10 @@ public class MDEditFragment extends BaseFragment {
             return;
         }
 
+        if (!PermissionUtil.checkCamera(getActivity())) {
+            return;
+        }
+
         popPickDialog();
     }
 

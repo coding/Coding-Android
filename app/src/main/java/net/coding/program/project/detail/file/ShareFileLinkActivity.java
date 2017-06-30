@@ -1,8 +1,8 @@
 package net.coding.program.project.detail.file;
 
 import android.content.Intent;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
@@ -38,7 +38,7 @@ public class ShareFileLinkActivity extends BackActivity {
     View layoutShareLink;
 
     @ViewById
-    CheckBox clickSettingShare;
+    SwitchCompat clickSettingShare;
 
     @ViewById
     TextView linkContent;

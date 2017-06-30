@@ -13,7 +13,7 @@
         android:layout_height="@dimen/task_list_item_icon"
         android:layout_marginLeft="@dimen/padding_12"
         android:layout_marginRight="3dp"
-        android:layout_marginTop="13.5dp"
+        android:layout_marginTop="12dp"
         android:src="@drawable/ic_default_user" />
 
     <View
@@ -22,7 +22,7 @@
         android:layout_height="13.5dp"
         android:layout_alignLeft="@id/icon"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="14dp"
+        android:layout_marginLeft="15.5dp"
         android:background="@color/divide" />
 
     <View
@@ -34,7 +34,7 @@
         android:layout_alignLeft="@id/icon"
         android:layout_alignRight="@+id/timeLineUp"
         android:layout_below="@id/icon"
-        android:layout_marginLeft="14dp"
+        android:layout_marginLeft="15.5dp"
         android:background="@color/divide" />
 
     <LinearLayout
@@ -115,7 +115,7 @@
     <View
         android:id="@+id/include"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.1dp"
         android:layout_below="@id/layout_1"
         android:layout_marginTop="0dp" />
 

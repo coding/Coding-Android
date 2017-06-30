@@ -12,6 +12,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.ui.BackActivity;
@@ -42,7 +43,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.activity_file_dynamic)
-//@OptionsMenu(R.menu.menu_file_dynamic)
 public class FileDynamicActivity extends BackActivity {
 
     public static final int RESULT_COMMENT = 1;
@@ -57,9 +57,15 @@ public class FileDynamicActivity extends BackActivity {
     @Extra
     ProjectFileParam mProjectFileParam;
 
+    private View listFooter;
+
     @AfterViews
     protected void initFileDynamicActivity() {
         adapter = new DynamicFileAdapter(this, 0, mData);
+
+        listFooter = mInflater.inflate(R.layout.task_add_footer, listView, false);
+        listView.addFooterView(listFooter);
+        listFooter.setVisibility(View.GONE);
         listView.setAdapter(adapter);
 
         getNetwork(mProjectFileParam.getHttpDynamic(), TAG_HTTP_FILE_DYNAMIC);
@@ -85,6 +91,8 @@ public class FileDynamicActivity extends BackActivity {
                         mData.add(dynamic);
                     }
                 }
+                listFooter.setVisibility(View.VISIBLE);
+
                 adapter.notifyDataSetChanged();
 
             } else {
@@ -360,8 +368,8 @@ public class FileDynamicActivity extends BackActivity {
                         break;
                 }
 
-                content = data.user.name + " " + content;
-                holder.mContent.setText(content);
+                String contentString = String.format("  %s - %s", content, Global.dayToNow(data.created_at, true));
+                holder.mContent.setText(Global.createColorHtml("", data.user.name, contentString, CodingColor.font1));
                 holder.mIcon.setImageResource(resId);
 
                 holder.updateLine(position, count);

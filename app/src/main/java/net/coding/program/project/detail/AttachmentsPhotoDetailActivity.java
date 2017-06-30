@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
@@ -36,10 +37,18 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
     @ViewById
     ProgressBar progressBar;
 
+    @ViewById
+    View ivDownloadCancel;
+
+    @ViewById
+    TextView progressBarText;
+
     @AfterViews
     protected final void initAttachmentsPhotoDetailActivity() {
         updateDisplay();
         bottomToolBar.setClick(clickBottomBar);
+
+        bindUIDownload(false);
     }
 
     private void updateDisplay() {
@@ -82,8 +91,26 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
         action_download();
         showMiddleToast("开始下载");
 
-        progressBar.setVisibility(View.VISIBLE);
-        clickImagePrototype.setVisibility(View.INVISIBLE);
+        bindUIDownload(true);
+    }
+
+    private void bindUIDownload(boolean downloading) {
+        if (downloading) {
+            progressBar.setVisibility(View.VISIBLE);
+            progressBarText.setVisibility(View.VISIBLE);
+            ivDownloadCancel.setVisibility(View.VISIBLE);
+            clickImagePrototype.setVisibility(View.INVISIBLE);
+        } else {
+            progressBar.setVisibility(View.INVISIBLE);
+            progressBarText.setVisibility(View.INVISIBLE);
+            ivDownloadCancel.setVisibility(View.INVISIBLE);
+            clickImagePrototype.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Click
+    void ivDownloadCancel() {
+        bindUIDownload(false);
     }
 
     @Override
@@ -103,8 +130,7 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
             setResult(RESULT_OK, intent);
             updateDisplay();
         } else {
-            progressBar.setVisibility(View.INVISIBLE);
-            clickImagePrototype.setVisibility(View.VISIBLE);
+            bindUIDownload(false);
         }
     }
 }

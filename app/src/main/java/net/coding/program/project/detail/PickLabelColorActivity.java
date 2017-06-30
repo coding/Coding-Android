@@ -78,7 +78,7 @@ public class PickLabelColorActivity extends BackActivity {
     }
 
     private void updateInput() {
-        String colorString = Global.colorToString(generateColor);
+        String colorString = Global.colorToStringNoWellNumber(generateColor);
         inputColor.setText(colorString);
         inputColor.setSelection(colorString.length());
     }

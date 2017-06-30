@@ -602,6 +602,10 @@
         <item name="android:textColor">@color/font_green</item>
     </style>
 
+    <style name="Widget_Switch">
+        <item name="colorControlActivated">@color/font_green</item>
+    </style>
+
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->
     <!--<item name="android:$1">$2</item>-->

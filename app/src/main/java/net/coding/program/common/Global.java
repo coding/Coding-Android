@@ -160,6 +160,10 @@ public class Global {
         return String.format("#%06X", 0xFFFFFF & color);
     }
 
+    public static String colorToStringNoWellNumber(int color) { // 生成的颜色，没有 # 号
+        return String.format("%06X", 0xFFFFFF & color);
+    }
+
 //    public static String getAppPackage(Context context) {
 //        try {
 //            return context.getPackageName();

@@ -90,7 +90,7 @@
 
     <dimen name="scanview_width">250dp</dimen>
 
-    <dimen name="task_list_item_icon">30dp</dimen>
+    <dimen name="task_list_item_icon">33dp</dimen>
     <dimen name="task_add_user_icon_width">28dp</dimen>
 
     <dimen name="labal_padding_height">3dp</dimen>
