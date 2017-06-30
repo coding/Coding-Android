@@ -884,6 +884,7 @@ public class DynamicObject {
                     action_icon = outDate ? R.drawable.merge_request_outdate : R.drawable.merge_request_commont_commit;
                 } else {
                     action_msg = "";
+                    action_icon = R.drawable.merge_request_edit;
                 }
             }
         }

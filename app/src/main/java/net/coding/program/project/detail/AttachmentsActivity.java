@@ -39,6 +39,7 @@ import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.BottomToolBar;
@@ -570,6 +571,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
         onRefresh();
 
         initBottomToolBar();
+
+        BlankViewHelp.setBlankLoading(blankLayout, true);
     }
 
     private void initBottomToolBar() {
@@ -745,6 +748,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
 
                 if (mAttachmentFolderObject.isRoot()) {
                     adapter.notifyDataSetChanged();
+                    BlankViewHelp.setBlankLoading(blankLayout, false);
                 } else {
                     loadMore();
                 }

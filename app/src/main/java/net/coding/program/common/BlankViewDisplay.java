@@ -75,6 +75,11 @@ public class BlankViewDisplay {
         }
         v.setVisibility(View.VISIBLE);
 
+        View loading = v.findViewById(R.id.loadingLayout);
+        if (loading != null) {
+            loading.setVisibility(View.GONE);
+        }
+
         String text = "";
 
         if (tipString.isEmpty()) {
