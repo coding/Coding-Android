@@ -1,5 +1,6 @@
 package net.coding.program.setting;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
@@ -39,13 +40,17 @@ public class AboutActivity extends BackActivity {
 
     @Click
     void markCoding() {
+        updateByMarket(this);
+    }
+
+    public static void updateByMarket(Context context) {
         try {
-            Uri uri = Uri.parse("market://details?id=" + getPackageName());
+            Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            context.startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(this, "软件市场里暂时没有找到Coding", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "软件市场里暂时没有找到Coding", Toast.LENGTH_SHORT).show();
         }
     }
 

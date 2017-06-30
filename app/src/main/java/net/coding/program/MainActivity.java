@@ -132,7 +132,7 @@ public class MainActivity extends BaseActivity {
         warnMailNoValidRegister();
 
 
-        startExtraService();
+        startExtraServiceDelay();
         EventBus.getDefault().register(this);
 
         requestPermission();
@@ -141,6 +141,11 @@ public class MainActivity extends BaseActivity {
     @UiThread(delay = 2000)
     void requestPermission() {
         requestPermissionReal();
+    }
+
+    @UiThread(delay = 3000)
+    void startExtraServiceDelay() {
+        startExtraService();
     }
 
     private void requestPermissionReal() {

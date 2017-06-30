@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.UpdateService;
-import net.coding.program.common.util.PermissionUtil;
 
 public class UpdateTipActivity extends Activity {
 
@@ -37,28 +36,33 @@ public class UpdateTipActivity extends Activity {
         message.setText(mUpdateInfo.newMessage);
 
         TextView textView = (TextView) findViewById(R.id.download);
-        if (isDownload()) {
-            textView.setText("安装");
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    startUpdateService(UpdateService.PARAM_INSTALL_APK);
-                    finish();
-                }
-            });
-        } else {
-            builder.setPositiveButton("", (dialog, which) -> {
-            });
-            textView.setText("下载");
-            textView.setOnClickListener(v -> {
-                if (!PermissionUtil.writeExtralStorage(UpdateTipActivity.this)) {
-                    return;
-                }
-                startUpdateService(UpdateService.PARAM_START_DOWNLOAD);
-                finish();
-            });
-        }
+        textView.setText("去更新");
+        textView.setOnClickListener(v -> {
+            AboutActivity.updateByMarket(UpdateTipActivity.this);
+            finish();
+        });
+//        if (isDownload()) {
+//            textView.setText("安装");
+//            textView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                    startUpdateService(UpdateService.PARAM_INSTALL_APK);
+//                    finish();
+//                }
+//            });
+//        } else {
+//            builder.setPositiveButton("", (dialog, which) -> {
+//            });
+//            textView.setText("下载");
+//            textView.setOnClickListener(v -> {
+//                if (!PermissionUtil.writeExtralStorage(UpdateTipActivity.this)) {
+//                    return;
+//                }
+//                startUpdateService(UpdateService.PARAM_START_DOWNLOAD);
+//                finish();
+//            });
+//        }
 
         if (mUpdateInfo.required == 1 || mUpdateInfo.required == 0) {
             Button buttonCancel = (Button) findViewById(R.id.cancel);
@@ -92,4 +96,8 @@ public class UpdateTipActivity extends Activity {
         return mUpdateInfo.apkFile().exists();
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+    }
 }
