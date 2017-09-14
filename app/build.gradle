@@ -165,6 +165,7 @@ dependencies {
     compile files('libs/jg_filter_sdk_1.1.jar')
     compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
     compile project(':bottom-bar')
+    compile project(':luban')
     compile 'com.alibaba:fastjson:1.1.44.android'
 
     // 方便显示 view 显示一些样式，不用写 selector

@@ -34,7 +34,6 @@ import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.photopick.ImageInfo;
 import net.coding.program.common.photopick.PhotoPickActivity;
@@ -71,6 +70,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
 
@@ -1024,13 +1025,41 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Foo
             try {
                 @SuppressWarnings("unchecked")
                 ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
-                List<File> files = new ArrayList<>();
-                for (ImageInfo pickPhot : pickPhots) {
-                    File outputFile = new File(PhotoOperate.translatePath(pickPhot.path));
-                    files.add(outputFile);
-//                    uploadFilePrepare(outputFile);
+                List<String> photos = new ArrayList<>();
+                for (ImageInfo item : pickPhots) {
+                    photos.add(item.getPath());
                 }
-                uploadFilePrepareList(files);
+
+                List<File> zipPhotos = new ArrayList<>();
+                Luban.with(this)
+                        .load(photos)                                   // 传人要压缩的图片列表
+                        .ignoreBy(100)                                  // 忽略不压缩图片的大小
+                        .setTargetDir(getCacheDir().getPath())                        // 设置压缩后文件存储位置
+                        .setCompressListener(new OnCompressListener() { //设置回调
+
+                            int zipCount = 0;
+
+                            @Override
+                            public void onStart() {
+                            }
+
+                            @Override
+                            public void onSuccess(File file) {
+                                zipPhotos.add(file);
+
+                                zipCount++;
+                                if (zipCount >= photos.size()) {
+                                    uploadFilePrepareList(zipPhotos);
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                zipCount++;
+                            }
+
+                        }).launch();    //启动压缩
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

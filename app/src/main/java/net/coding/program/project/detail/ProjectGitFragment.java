@@ -20,7 +20,6 @@ import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
-import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.photopick.ImageInfo;
@@ -52,8 +51,12 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 import java.util.regex.Pattern;
+
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
 
@@ -437,13 +440,40 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
             try {
                 @SuppressWarnings("unchecked")
                 ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
-                File[] files = new File[pickPhots.size()];
-                for (int i = 0; i < pickPhots.size(); i++) {
-                    ImageInfo item = pickPhots.get(i);
-                    File outputFile = new File(PhotoOperate.translatePath(item.path));
-                    files[i] = outputFile;
+                List<String> photos = new ArrayList<>();
+                for (ImageInfo item : pickPhots) {
+                    photos.add(item.getPath());
                 }
-                postUploadFile(files);
+
+                List<File> zipPhotos = new ArrayList<>();
+                Luban.with(getActivity())
+                        .load(photos)                                   // 传人要压缩的图片列表
+                        .ignoreBy(100)                                  // 忽略不压缩图片的大小
+                        .setTargetDir(getActivity().getCacheDir().getPath())                        // 设置压缩后文件存储位置
+                        .setCompressListener(new OnCompressListener() { //设置回调
+
+                            int zipCount = 0;
+
+                            @Override
+                            public void onStart() {
+                            }
+
+                            @Override
+                            public void onSuccess(File file) {
+                                zipCount++;
+
+                                zipPhotos.add(file);
+                                if (zipCount >= photos.size()) {
+                                    postUploadFile(zipPhotos);
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                zipCount++;
+                            }
+                        }).launch();    //启动压缩
+
             } catch (Exception e) {
                 showProgressBar(false);
                 e.printStackTrace();
@@ -451,12 +481,16 @@ public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate
         }
     }
 
-    private void postUploadFile(File[] files) {
+    private void postUploadFile(List<File> files) {
         try {
             showProgressBar(true, getString(R.string.upload_ing));
             host_git_upload_file = UrlCreate.gitUploadFile(mProjectPath, mVersion, pathStack.peek());
             RequestParams params = new RequestParams();
-            params.put("files", files);
+            File[] fileParam = new File[files.size()];
+            for (int i = 0; i < files.size(); ++i) {
+                fileParam[i] = files.get(i);
+            }
+            params.put("files", fileParam);
             params.put("message", "");
             params.put("lastCommitSha", uploadPrepareObject.lastCommit);
             postNetwork(host_git_upload_file, params, HOST_GIT_UPLOAD_FILE);

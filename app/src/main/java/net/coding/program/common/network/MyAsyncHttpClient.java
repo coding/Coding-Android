@@ -118,6 +118,15 @@ public class MyAsyncHttpClient {
             client.addHeader(item, mapHeaders.get(item));
         }
 
+        // 防止 CSRF
+        for (int i = 0; i < cookies.size(); i++) {
+            Cookie eachCookie = cookies.get(i);
+            if (eachCookie.getName().compareToIgnoreCase("XSRF-TOKEN") == 0) {
+                client.addHeader("X-XSRF-TOKEN", eachCookie.getValue());
+                break;
+            }
+        }
+
         client.setTimeout(60 * 1000);
         return client;
     }

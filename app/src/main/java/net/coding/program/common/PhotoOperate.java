@@ -1,12 +1,10 @@
 package net.coding.program.common;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
+import net.coding.program.MyApp;
 import net.coding.program.common.util.FileUtil;
 
 import java.io.File;
@@ -16,6 +14,8 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import top.zibin.luban.Luban;
 
 /**
  * Created by chaochen on 14-9-22.
@@ -54,57 +54,28 @@ public class PhotoOperate {
         return file;
     }
 
-    public File scal(Uri fileUri) throws Exception {
-        String path = FileUtil.getPath(context, fileUri);
-        return scal(path);
-    }
-
     public File getFile(Uri fileUri) throws Exception {
         String path = FileUtil.getPath(context, fileUri);
         return new File(translatePath(path));
     }
 
-    public File scal(String path) throws IOException {
-        path = translatePath(path);
+    public File scal(Uri fileUri) throws Exception {
+        String path = FileUtil.getPath(context, fileUri);
+        String prefix = "file://";
+        if (path.toLowerCase().startsWith(prefix)) {
+            path = path.substring(prefix.length(), path.length());
+        }
 
-        File outputFile = new File(path);
+        File oldFile = new File(path);
         if (Global.isGif(path)) {
-            return outputFile;
+            return oldFile;
         }
 
-        long fileSize = outputFile.length();
-        final long fileMaxSize = 200 * 1024;
-        if (fileSize >= fileMaxSize) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(path, options);
-            int height = options.outHeight;
-            int width = options.outWidth;
-
-            double scale = Math.sqrt((float) fileSize / fileMaxSize);
-            options.outHeight = (int) (height / scale);
-            options.outWidth = (int) (width / scale);
-            options.inSampleSize = (int) (scale + 0.5);
-            options.inJustDecodeBounds = false;
-
-            Bitmap bitmap = BitmapFactory.decodeFile(path, options);
-
-            outputFile = getTempFile(context);
-            FileOutputStream fos = new FileOutputStream(outputFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fos);
-            fos.close();
-            Log.d("", "sss ok " + outputFile.length());
-            if (!bitmap.isRecycled()) {
-                bitmap.recycle();
-            }
-
-        } else {
-            File tempFile = outputFile;
-            outputFile = getTempFile(context);
-            copyFileUsingFileChannels(tempFile, outputFile);
+        try {
+            return Luban.with(MyApp.getInstance()).load(oldFile).get().get(0);
+        } catch (Exception e) {
+            return oldFile;
         }
-
-        return outputFile;
     }
 
     @NonNull

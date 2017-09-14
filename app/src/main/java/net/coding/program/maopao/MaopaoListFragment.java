@@ -45,7 +45,7 @@ import pl.droidsonroids.gif.GifImageView;
 @EFragment(R.layout.fragment_maopao_list)
 public class MaopaoListFragment extends MaopaoListBaseFragment {
 
-    final String friendUrl = Global.HOST_API + "/activities/user_tweet?last_id=%s";
+    final String friendUrl = Global.HOST_API + "/tweet/public_tweets?last_id=%s&sort=friends&filter=true";
     final String myUrl = Global.HOST_API + "/tweet/user_public?user_id=%s&last_id=%s";
     final String TAG_BANNER = "TAG_BANNER";
     @FragmentArg

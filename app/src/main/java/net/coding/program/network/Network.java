@@ -100,6 +100,17 @@ public class Network {
                 Request.Builder builder = request.newBuilder()
                         .addHeader("Cookie", sid);
 
+                // 防止 CSRF
+                PersistentCookieStore cookieStore = new PersistentCookieStore(context);
+                List<Cookie> cookies = cookieStore.getCookies();
+                for (int i = 0; i < cookies.size(); i++) {
+                    Cookie eachCookie = cookies.get(i);
+                    if (eachCookie.getName().compareToIgnoreCase("XSRF-TOKEN") == 0) {
+                        builder.addHeader("X-XSRF-TOKEN", eachCookie.getValue());
+                        break;
+                    }
+                }
+
                 HashMap<String, String> headers = MyAsyncHttpClient.getMapHeaders();
                 for (String key : headers.keySet()) {
                     if (!key.equals("Referer")) {

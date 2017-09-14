@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Environment;
+import android.os.Process;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import android.util.Log;
@@ -49,6 +50,12 @@ public class MyApp extends MultiDexApplication {
 
     private static int sMainCreate = 0;
     private static String enterpriseGK = "";
+
+    private static MyApp app;
+
+    public static MyApp getInstance() {
+        return app;
+    }
 
     public static boolean getMainActivityState() {
         return sMainCreate > 0;
@@ -125,6 +132,10 @@ public class MyApp extends MultiDexApplication {
 
         }
 
+        if (isInMainProcess(this)) {
+            app = this;
+        }
+
         CodingColor.init(this);
 
         AccountInfo.CustomHost customHost = AccountInfo.getCustomHost(this);
@@ -164,6 +175,19 @@ public class MyApp extends MultiDexApplication {
         GlobalUnit.init(this);
 
         FileDownloader.init(getApplicationContext());
+    }
+
+    public static boolean isInMainProcess(Context context) {
+        ActivityManager am = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE));
+        List<ActivityManager.RunningAppProcessInfo> processes = am.getRunningAppProcesses();
+        String mainProcessName = context.getPackageName();
+        int myPid = Process.myPid();
+        for (ActivityManager.RunningAppProcessInfo info : processes) {
+            if (info.pid == myPid && mainProcessName.equals(info.processName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void loadBaiduMap() {

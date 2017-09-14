@@ -1,5 +1,7 @@
 package net.coding.program.common.photopick;
 
+import android.net.Uri;
+
 import java.io.File;
 import java.io.Serializable;
 
@@ -32,6 +34,11 @@ public class ImageInfo implements Serializable {
         return path.startsWith(prefix);
     }
 
+    // path 是 uri 格式，file:///storage/emulated/0/DCIM/Camera/IMG_20170911_173528.jpg
+    // getPath 是绝对路径，/storage/emulated/0/DCIM/Camera/IMG_20170911_173528.jpg
+    public String getPath() {
+        return Uri.parse(path).getPath();
+    }
 
     public static File getLocalFile(String pathSrc) {
         String pathDesc = pathSrc;

@@ -66,6 +66,10 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 // // TODO: 2017/1/6 选图片的地方都需要先判断是否获取了存储权限
 @EActivity(R.layout.activity_maopao_add)
@@ -343,15 +347,55 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
 
                     @SuppressWarnings("unchecked")
                     ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
+
+                    List<String> photos = new ArrayList<>();
                     for (ImageInfo item : pickPhots) {
-                        File outputFile = photoOperate.scal(item.path);
-                        mData.add(new MaopaoAddActivity.PhotoData(outputFile, item));
+                        photos.add(item.getPath());
                     }
+
+                    List<File> zipPhotos = new ArrayList<>();
+                    List<ImageInfo> oldPhotos = new ArrayList<>();
+                    Luban.with(MaopaoAddActivity.this)
+                            .load(photos)                                   // 传人要压缩的图片列表
+                            .ignoreBy(100)                                  // 忽略不压缩图片的大小
+                            .setTargetDir(getCacheDir().getPath())                        // 设置压缩后文件存储位置
+                            .setCompressListener(new OnCompressListener() { //设置回调
+
+                                int zipCount = 0;
+
+                                @Override
+                                public void onStart() {
+                                }
+
+                                @Override
+                                public void onSuccess(File file) {
+                                    zipPhotos.add(file);
+                                    oldPhotos.add(pickPhots.get(zipCount));
+
+                                    zipCount++;
+
+                                    if (zipCount >= photos.size()) {
+                                        for (int i = 0; i < zipPhotos.size(); ++i) {
+                                            File item = zipPhotos.get(i);
+                                            ImageInfo oldInfo = oldPhotos.get(i);
+                                            mData.add(new MaopaoAddActivity.PhotoData(item, oldInfo));
+                                        }
+                                    }
+                                    adapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    zipCount++;
+                                }
+
+                            }).launch();    //启动压缩
+
                 } catch (Exception e) {
                     showMiddleToast("缩放图片失败");
                     Global.errorLog(e);
                 }
-                adapter.notifyDataSetChanged();
+
             }
         } else if (requestCode == RESULT_REQUEST_PHOTO) {
             if (resultCode == RESULT_OK) {
