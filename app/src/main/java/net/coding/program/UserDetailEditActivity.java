@@ -34,6 +34,7 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.user.ProvincesPickerDialog;
 import net.coding.program.user.SetUserInfoActivity_;
+import net.coding.program.user.SetUserInfoListActivity_;
 import net.coding.program.user.SetUserTagActivity_;
 import net.coding.program.user.UserProvincesDialogFragment;
 
@@ -58,9 +59,12 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     public final static int USERINFO_BIRTHDAY = 2;
     public final static int USERINFO_LOCATION = 3;
     public final static int USERINFO_SLOGAN = 4;
-    public final static int USERINFO_COMPANY = 5;
-    public final static int USERINFO_JOB = 6;
-    public final static int USERINFO_TAGS = 7;
+    public final static int USERINFO_DEGREE = 5;
+    public final static int USERINFO_SCHOOL = 6;
+    public final static int USERINFO_COMPANY = 7;
+    public final static int USERINFO_JOB = 8;
+    public final static int USERINFO_SKILL = 9;
+    public final static int USERINFO_TAGS = 10;
     final String HOST_USER = Global.HOST_API + "/user/key/%s";
     final String HOST_USERINFO = Global.HOST_API + "/user/updateInfo";
     private final int RESULT_REQUEST_PHOTO = 1005;
@@ -72,6 +76,8 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     UserObject user;
     @StringArrayRes
     String[] user_info_list_first;
+    @StringArrayRes(R.array.user_degree)
+    String[] userDegree;
     String[] user_info_list_second;
     @ViewById
     ListView listView;
@@ -116,20 +122,22 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                 seondString = "未填写";
             }
 
-            if (position < getCount() - 1) { // 最后一项 个性标签 要换行显示
-                holder.third.setVisibility(View.GONE);
-            } else {
+            int lastPos = getCount() - 1;
+            int lastPosPre = lastPos - 1;
+            if (position == lastPos || position == lastPosPre) { // 最后一项 个性标签 要换行显示
                 holder.third.setVisibility(View.VISIBLE);
                 holder.third.setText(seondString);
                 seondString = "";
+            } else {
+                holder.third.setVisibility(View.GONE);
             }
+
             holder.second.setText(seondString);
 
-            if (position == 7) {
+            if (position == 10) {
                 holder.divide.setVisibility(View.GONE);
                 holder.divideLine.setVisibility(View.GONE);
-
-            } else if (position == 4 || position == 6) {
+            } else if (position == 4 || position == 8 || position == 9) {
                 holder.divide.setVisibility(View.VISIBLE);
                 holder.divideLine.setVisibility(View.GONE);
             } else {
@@ -198,6 +206,14 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                     SetUserInfoActivity_.intent(UserDetailEditActivity.this).title("座右铭").row(USERINFO_SLOGAN).startForResult(ListModify.RESULT_EDIT_LIST);
                     break;
 
+                case USERINFO_DEGREE:
+                    chooseDegree();
+                    break;
+
+                case USERINFO_SCHOOL:
+                    SetUserInfoListActivity_.intent(UserDetailEditActivity.this).title("学校").row(USERINFO_SCHOOL).startForResult(ListModify.RESULT_EDIT_LIST);
+                    break;
+
                 case USERINFO_COMPANY:
                     //公司
                     SetUserInfoActivity_.intent(UserDetailEditActivity.this).title("公司").row(USERINFO_COMPANY).startForResult(ListModify.RESULT_EDIT_LIST);
@@ -206,6 +222,9 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                 case USERINFO_JOB:
                     //职位
                     chooseJob();
+                    break;
+
+                case USERINFO_SKILL:
                     break;
 
                 case USERINFO_TAGS:
@@ -274,14 +293,23 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     }
 
     void getUserInfoRows() {
+        String degree = "";
+        int pickDegree = user.degree - 1;
+        if (0 <= pickDegree && pickDegree < userDegree.length) {
+            degree = userDegree[pickDegree];
+        }
+
         user_info_list_second = new String[]{
                 user.name,
                 sexs[user.sex],
                 user.birthday,
                 user.location,
                 user.slogan,
+                degree,
+                user.school,
                 user.company,
                 user.job_str,
+                user.getUserSkills(),
                 user.tags_str
         };
     }
@@ -300,6 +328,9 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         params.put("introduction", user.introduction);
         params.put("job", user.job);
         params.put("tags", user.tags);
+
+        params.put("degree", user.degree);
+        params.put("school", user.school);
 
         postNetwork(HOST_USERINFO, params, HOST_USERINFO);
 
@@ -431,6 +462,31 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         }
     }
 
+    public void chooseDegree() {
+        showDegreeDialog();
+    }
+
+    private void showDegreeDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+        builder.setTitle("学历")
+                .setItems(userDegree, (dialog, which) -> {
+                    user.degree = which + 1;
+                    action_done();
+                });
+
+        //builder.create().show();
+        WindowManager m = getWindowManager();
+        Display d = m.getDefaultDisplay();
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        WindowManager.LayoutParams p = dialog.getWindow().getAttributes();
+        Point outSize = new Point();
+        d.getSize(outSize);
+//        p.height = (int) (outSize.y * 0.6); // 高度设置为屏幕的0.6
+        //p.width = (int) (d.getWidth() * 0.8);
+        dialog.getWindow().setAttributes(p);
+    }
+
     public void chooseJob() {
         if (user_jobs == null) {
             getNetwork(HOST_JOB, HOST_JOB);
@@ -442,12 +498,9 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     private void showJobDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         builder.setTitle("职位")
-                .setItems(user_jobs, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        user.job = which;
-                        action_done();
-                    }
+                .setItems(user_jobs, (dialog, which) -> {
+                    user.job = which;
+                    action_done();
                 });
 
         //builder.create().show();

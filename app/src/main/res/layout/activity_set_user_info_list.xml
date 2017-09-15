@@ -23,7 +23,7 @@
             android:layout_marginRight="15dp"
             android:background="@null"
             android:ems="10"
-            android:hint="输入企业名称"
+            android:hint="输入学校名称"
             android:inputType="text"
             android:textColor="@color/font_2"
             android:textColorHint="#38000000"
@@ -31,5 +31,10 @@
     </FrameLayout>
 
     <include layout="@layout/divide_bottom_15" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

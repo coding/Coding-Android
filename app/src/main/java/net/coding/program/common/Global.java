@@ -525,6 +525,15 @@ public class Global {
         return outputStream.toString();
     }
 
+    static public String readAssets(Context context, String assetFile) {
+        try {
+            return readTextFile(context, assetFile);
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+        return "";
+    }
+
     static public String readTextFile(File file) {
         try {
             FileInputStream is = new FileInputStream(file);

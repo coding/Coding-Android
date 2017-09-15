@@ -211,6 +211,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
         <activity
+            android:name=".user.SetUserInfoListActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_user_info"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
+        <activity
             android:name=".user.SetUserTagActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_user_info"

@@ -1,6 +1,7 @@
 package net.coding.program.network;
 
 import net.coding.program.model.ProjectObject;
+import net.coding.program.model.user.IntKeyMapHttpResult;
 import net.coding.program.network.model.BaseHttpResult;
 import net.coding.program.network.model.HttpPageResult;
 import net.coding.program.network.model.HttpResult;
@@ -148,5 +149,11 @@ public interface CodingRequest {
     @POST("project/{id}/project_icon")
     Observable<HttpResult<ProjectObject>> setProjectIcon(@Path("id") int projectId,
             @Part MultipartBody.Part body);
+
+    @GET("options/skills")
+    Observable<IntKeyMapHttpResult> getSkills();
+
+    @GET("options/degrees")
+    Observable<IntKeyMapHttpResult> getDegrees();
 
 }

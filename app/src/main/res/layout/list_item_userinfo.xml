@@ -39,14 +39,6 @@
 
     </RelativeLayout>
 
-    <include
-        android:id="@+id/divide"
-        layout="@layout/divide_middle_15" />
-
-    <View
-        android:id="@+id/divideLine"
-        style="@style/DivideLine_15" />
-
     <TextView
         android:id="@+id/third"
         android:layout_width="match_parent"
@@ -59,4 +51,11 @@
         android:textSize="16sp"
         tools:text="男" />
 
+    <include
+        android:id="@+id/divide"
+        layout="@layout/divide_middle_15" />
+
+    <View
+        android:id="@+id/divideLine"
+        style="@style/DivideLine_15" />
 </LinearLayout>

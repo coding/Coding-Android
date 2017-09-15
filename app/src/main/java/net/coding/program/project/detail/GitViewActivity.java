@@ -6,13 +6,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.ImagePagerFragment_;
@@ -40,8 +38,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import cz.msebera.android.httpclient.Header;
 
 @EActivity(R.layout.activity_gitview)
 @OptionsMenu(R.menu.git_view)
@@ -178,27 +174,32 @@ public class GitViewActivity extends CodingToolbarBackActivity {
 
     private void download(String url) {
         //url = "https://coding.net/api/project/5166/files/58705/download";
-        //File mFile = FileUtil.getDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mFileObject.name);
-        Log.d(TAG, "FileUrl:" + url);
+//        //File mFile = FileUtil.getDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mFileObject.name);
+//        Log.d(TAG, "FileUrl:" + url);
+//
+//        client.get(GitViewActivity.this, url, new FileAsyncHttpResponseHandler(mTempPicFile) {
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+//                for (Header header : headers) {
+//                    Log.v(TAG, "onFailure:" + statusCode + " " + header.getName() + ":" + header.getValue());
+//                }
+//                showButtomToast("下载失败");
+//            }
+//
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, File response) {
+//                mArrayUri.add("file:///" + response.getAbsolutePath());
+//                adapter.notifyDataSetChanged();
+//                pager.setVisibility(View.VISIBLE);
+//
+//            }
+//
+//        });
 
-        client.get(GitViewActivity.this, url, new FileAsyncHttpResponseHandler(mTempPicFile) {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                for (Header header : headers) {
-                    Log.v(TAG, "onFailure:" + statusCode + " " + header.getName() + ":" + header.getValue());
-                }
-                showButtomToast("下载失败");
-            }
+        mArrayUri.add(url);
+        adapter.notifyDataSetChanged();
+        pager.setVisibility(View.VISIBLE);
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, File response) {
-                mArrayUri.add("file:///" + response.getAbsolutePath());
-                adapter.notifyDataSetChanged();
-                pager.setVisibility(View.VISIBLE);
-
-            }
-
-        });
     }
 
 //    @Override

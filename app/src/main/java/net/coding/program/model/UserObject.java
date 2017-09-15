@@ -11,15 +11,20 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by cc191954 on 14-8-7.
  */
 public class UserObject implements Serializable, Comparable {
 
+    public int degree;
+    public String school = "";
+    public ArrayList<Skill> skills = new ArrayList<>();
     public String avatar = "";
     public String slogan = "";
     public String tags = "";
@@ -98,9 +103,31 @@ public class UserObject implements Serializable, Comparable {
         phone_country_code = json.optString("phone_country_code", "+86");
         vip = VIP.id2Enum(json.optInt("vip", 1));
 
+        degree = json.optInt("degree");
+        school = json.optString("school", "");
+        JSONArray jsonSkills = json.optJSONArray("skills");
+        if (jsonSkills != null) {
+            for (int i = 0; i < jsonSkills.length(); ++i) {
+                skills.add(new Skill(jsonSkills.optJSONObject(i)));
+            }
+        }
     }
 
     public UserObject() {
+    }
+
+    public String getUserSkills() {
+        StringBuilder sb = new StringBuilder();
+        boolean isFirst = true;
+        for (Skill item : skills) {
+            if (isFirst) {
+                isFirst = false;
+            } else {
+                sb.append(", ");
+            }
+            sb.append(item.toString());
+        }
+        return sb.toString();
     }
 
     public static String getFirstLetters(String chinese) {
