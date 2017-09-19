@@ -37,8 +37,11 @@ public class UserDetailMoreActivity extends BackActivity {
             birthdayLayout,
             locateLayout,
             loginsLayout,
+            degreeLayout,
+            schoolLayout,
             companyLayout,
             jobLayout,
+            skillLayout,
             tagsLayout;
 
     TextView createAtTextView,
@@ -50,10 +53,16 @@ public class UserDetailMoreActivity extends BackActivity {
             loginsTextView,
             companyTextView,
             jobTextView,
+            degreeTextView,
+            schoolTextView,
+            skillTextView,
             tagsTextView;
 
     @ViewById
     ImageView icon;
+
+    @StringArrayRes(R.array.user_degree)
+    String[] userDegree;
 
     @ViewById
     TextView nameTextView;
@@ -71,8 +80,11 @@ public class UserDetailMoreActivity extends BackActivity {
                 birthdayLayout,
                 locateLayout,
                 loginsLayout,
+                degreeLayout,
+                schoolLayout,
                 companyLayout,
                 jobLayout,
+                skillLayout,
                 tagsLayout
         };
 
@@ -91,6 +103,9 @@ public class UserDetailMoreActivity extends BackActivity {
         companyTextView = (TextView) companyLayout.findViewById(R.id.second);
         jobTextView = (TextView) jobLayout.findViewById(R.id.second);
         tagsTextView = (TextView) tagsLayout.findViewById(R.id.second);
+        degreeTextView = (TextView) degreeLayout.findViewById(R.id.second);
+        schoolTextView = (TextView) schoolLayout.findViewById(R.id.second);
+        skillTextView = (TextView) skillLayout.findViewById(R.id.second);
 
         createAtTextView.setText(notEmpty(Global.dayToNow(mUserObject.created_at)));
         lastLoginTextView.setText(notEmpty(Global.dayToNow(mUserObject.last_activity_at)));
@@ -102,6 +117,9 @@ public class UserDetailMoreActivity extends BackActivity {
         companyTextView.setText(notEmpty(mUserObject.company));
         jobTextView.setText(notEmpty(mUserObject.job_str));
         tagsTextView.setText(notEmpty(mUserObject.tags_str));
+        degreeTextView.setText(notEmpty(mUserObject.getUserDegree()));
+        schoolTextView.setText(notEmpty(mUserObject.school));
+        skillTextView.setText(notEmpty(mUserObject.getUserSkills()));
     }
 
     private String notEmpty(String s) {

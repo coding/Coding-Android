@@ -13,9 +13,12 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.widget.DataAdapter;
 import net.coding.program.mall.MallIndexActivity_;
 import net.coding.program.model.PointObject;
+import net.coding.program.user.point.AboutPointActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +29,7 @@ import java.util.ArrayList;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 @EActivity(R.layout.activity_user_point)
-//@OptionsMenu(R.menu.menu_user_point)
+@OptionsMenu(R.menu.menu_user_point)
 public class UserPointActivity extends BackActivity {
 
     private static final String TAG_HTTP_USER_POINT = "TAG_HTTP_USER_POINT";
@@ -53,6 +56,11 @@ public class UserPointActivity extends BackActivity {
         getNetwork(PointObject.getHttpPointsAll(), TAG_HTTP_ALL_POINTS);
         listView.setAdapter(adapter);
         getNextPageNetwork(PointObject.getHttpRecord(), TAG_HTTP_USER_POINT);
+    }
+
+    @OptionsItem(R.id.actionTip)
+    void actionTip() {
+        AboutPointActivity_.intent(this).start();
     }
 
     @Override

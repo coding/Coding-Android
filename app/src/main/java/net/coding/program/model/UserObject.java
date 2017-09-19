@@ -116,6 +116,22 @@ public class UserObject implements Serializable, Comparable {
     public UserObject() {
     }
 
+    public String getUserDegree() {
+        String[] userDegree = new String[]{
+                "高中及以下",
+                "大专",
+                "本科",
+                "硕士及以上" };
+
+        String degreeString = "";
+        int pickDegree = degree - 1;
+        if (0 <= pickDegree && pickDegree < userDegree.length) {
+            degreeString = userDegree[pickDegree];
+        }
+
+        return degreeString;
+    }
+
     public String getUserSkills() {
         StringBuilder sb = new StringBuilder();
         boolean isFirst = true;

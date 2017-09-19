@@ -293,19 +293,13 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     }
 
     void getUserInfoRows() {
-        String degree = "";
-        int pickDegree = user.degree - 1;
-        if (0 <= pickDegree && pickDegree < userDegree.length) {
-            degree = userDegree[pickDegree];
-        }
-
         user_info_list_second = new String[]{
                 user.name,
                 sexs[user.sex],
                 user.birthday,
                 user.location,
                 user.slogan,
-                degree,
+                user.getUserDegree(),
                 user.school,
                 user.company,
                 user.job_str,

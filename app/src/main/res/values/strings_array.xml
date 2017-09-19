@@ -158,8 +158,11 @@
         <item>生日</item>
         <item>所在地</item>
         <item>座右铭</item>
+        <item>学历</item>
+        <item>学校</item>
         <item>公司</item>
         <item>职位</item>
+        <item>开发技能</item>
         <item>个性标签</item>
     </string-array>
 
