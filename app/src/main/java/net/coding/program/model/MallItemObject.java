@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -23,8 +24,11 @@ public class MallItemObject implements Serializable {
     private String name = "";
     private String image = "";
     private String description = "";
-    private double points_cost;
-    private long updated_at;
+    public long updated_at;
+    public int count;
+    public BigDecimal points_cost = BigDecimal.ZERO;
+    public BigDecimal price = BigDecimal.ZERO;
+    public BigDecimal available_points = BigDecimal.ZERO;
     private ArrayList<Option> options = new ArrayList<>();
 
 //    protected MallItemObject(Parcel in) {
@@ -36,6 +40,10 @@ public class MallItemObject implements Serializable {
 //        updated_at = in.readLong();
 //        options = in.reArrLi
 //    }
+
+    public String getShowPoints() {
+        return String.format("%.2f 码币", points_cost);
+    }
 
 //    public static final Creator<MallItemObject> CREATOR = new Creator<MallItemObject>() {
 //        @Override
@@ -64,8 +72,12 @@ public class MallItemObject implements Serializable {
         name = json.optString("name");
         image = json.optString("image");
         description = json.optString("description");
-        points_cost = json.optDouble("points_cost");
+        points_cost = new BigDecimal(json.optString("points_cost", "0"));
         updated_at = json.optLong("updated_at");
+        count = json.optInt("count");
+        price = new BigDecimal(json.optString("price", "0"));
+        available_points = new BigDecimal(json.optString("available_points", "0"));
+
 
         JSONArray jsonOptions = json.optJSONArray("options");
         if (jsonOptions != null) {
@@ -73,20 +85,11 @@ public class MallItemObject implements Serializable {
                 options.add(new Option(jsonOptions.optJSONObject(i)));
             }
         }
+
     }
 
     public MallItemObject() {
 
-    }
-
-    public MallItemObject(int id, String name, String image, String description, double points_cost,
-                          long updated_at) {
-        this.id = id;
-        this.name = name;
-        this.image = image;
-        this.description = description;
-        this.points_cost = points_cost;
-        this.updated_at = updated_at;
     }
 
     public int getId() {
@@ -123,14 +126,6 @@ public class MallItemObject implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public double getPoints_cost() {
-        return points_cost;
-    }
-
-    public void setPoints_cost(double points_cost) {
-        this.points_cost = points_cost;
     }
 
     public long getUpdated_at() {

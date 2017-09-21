@@ -38,6 +38,4 @@
         android:layout_marginRight="20dip"
         android:background="@color/font_green" />
 
-    />
-
 </LinearLayout>

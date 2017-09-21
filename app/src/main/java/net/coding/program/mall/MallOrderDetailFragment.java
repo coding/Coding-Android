@@ -181,16 +181,20 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     JSONObject json = jsonArray.getJSONObject(i);
                     MallOrderObject orderObject = new MallOrderObject(json);
-                    if (mType == Type.all_order) {
-                        mData.add(orderObject);
+                    if (mType == Type.un_send) {
+                        if (orderObject.getStatus() == 0) {
+                            mData.add(orderObject);
+                        }
                     } else if (mType == Type.already_send) {
                         if (orderObject.getStatus() == 1) {
                             mData.add(orderObject);
                         }
-                    } else {
-                        if (orderObject.getStatus() == 0) {
+                    } else if (mType == Type.no_pay) {
+                        if (orderObject.getStatus() == 3) {
                             mData.add(orderObject);
                         }
+                    } else {
+                        mData.add(orderObject);
                     }
                 }
 
@@ -232,7 +236,8 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
     public enum Type {
         all_order,
         un_send,
-        already_send
+        already_send,
+        no_pay
     }
 
     class ViewHolder {

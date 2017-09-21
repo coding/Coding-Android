@@ -373,7 +373,6 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                 umengEvent(UmengEvent.USER, "修改个人信息");
 
                 ArrayList<String> jobs = new ArrayList<>();
-                jobs.add("");
                 JSONObject jobJSONObject = respanse.getJSONObject("data");
                 Iterator it = jobJSONObject.keys();
                 while (it.hasNext()) {
@@ -382,13 +381,10 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                     jobs.add(value);
                 }
                 user_jobs = new String[jobs.size()];
-                //jobs.toArray(user_jobs);
-                user_jobs[0] = "不选择";
-                for (int i = 1; i < jobs.size(); i++) {
-                    user_jobs[i] = jobJSONObject.optString(i + "");
+                for (int i = 0; i < jobs.size(); i++) {
+                    user_jobs[i] = jobs.get(i);
                 }
                 showJobDialog();
-
             }
         }
     }
@@ -491,9 +487,9 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
 
     private void showJobDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
-        builder.setTitle("职位")
+        builder.setTitle("工作")
                 .setItems(user_jobs, (dialog, which) -> {
-                    user.job = which;
+                    user.job = which + 1;
                     action_done();
                 });
 

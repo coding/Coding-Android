@@ -173,11 +173,19 @@
         android:layout_height="wrap_content"
         app:itemIcon="@mipmap/ic_setting_mabi"
         app:itemShowArrow="false"
-        app:itemShowBottomLine="false"
+        app:itemShowBottomLine="true"
         app:itemTitle="我的码币" />
 
-    <include layout="@layout/divide_middle_15" />
+    <net.coding.program.common.widget.ListItem1
+        android:id="@+id/itemShop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:itemIcon="@mipmap/ic_setting_shop"
+        app:itemShowArrow="false"
+        app:itemShowBottomLine="false"
+        app:itemTitle="商城" />
 
+    <include layout="@layout/divide_middle_15" />
 
     <net.coding.program.common.widget.ListItem1
         android:id="@+id/itemLocalFile"
@@ -192,8 +200,8 @@
         android:id="@+id/itemHelp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:itemShowArrow="false"
         app:itemIcon="@mipmap/ic_setting_help"
+        app:itemShowArrow="false"
         app:itemShowBottomLine="true"
         app:itemTitle="帮助与反馈" />
 
@@ -202,8 +210,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:itemIcon="@mipmap/ic_setting_setting"
-        app:itemShowBottomLine="true"
         app:itemShowArrow="false"
+        app:itemShowBottomLine="true"
         app:itemTitle="设置" />
 
     <net.coding.program.common.widget.ListItem1

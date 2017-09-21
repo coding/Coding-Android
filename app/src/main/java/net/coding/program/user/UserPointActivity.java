@@ -11,7 +11,6 @@ import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.widget.DataAdapter;
-import net.coding.program.mall.MallIndexActivity_;
 import net.coding.program.model.PointObject;
 import net.coding.program.user.point.AboutPointActivity_;
 
@@ -46,8 +45,6 @@ public class UserPointActivity extends BackActivity {
     protected final void initUserPointActivity() {
         View head = mInflater.inflate(R.layout.user_point_list_head, listView, false);
         pointsAll = (TextView) head.findViewById(R.id.pointAll);
-        head.findViewById(R.id.itemShop).setOnClickListener(v ->
-                MallIndexActivity_.intent(UserPointActivity.this).start());
         listView.addHeaderView(head, null, false);
 
         View footShade = mInflater.inflate(R.layout.divide_shade_up, listView, false);
@@ -130,9 +127,7 @@ public class UserPointActivity extends BackActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHold hold;
             if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.user_point_list_item,
-                                null);
+                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_point_list_item, parent, false);
                 hold = new ViewHold(convertView);
                 convertView.setTag(hold);
             } else {

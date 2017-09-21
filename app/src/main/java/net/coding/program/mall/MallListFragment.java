@@ -1,8 +1,7 @@
 package net.coding.program.mall;
 
 import android.graphics.Rect;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -20,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -53,10 +53,7 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
         } else {
             mDataUrl = Global.HOST_API + "/gifts?pageSize=20";
         }
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2,
-                GridLayoutManager.VERTICAL, false);
-        mallListHeaderGridView.setLayoutManager(layoutManager);
-        mallListHeaderGridView.setItemAnimator(new DefaultItemAnimator());
+        mallListHeaderGridView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         //item间距
         int space = getContext().getResources()
@@ -70,7 +67,7 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
         mallListHeaderGridView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                GridLayoutManager manager = (GridLayoutManager) recyclerView.getLayoutManager();
+                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     int lastVisableItem = manager.findLastCompletelyVisibleItemPosition();
                     int totalItemCount = manager.getItemCount();
@@ -119,13 +116,14 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
                 }
 
                 JSONArray jsonArray = respanse.optJSONObject("data").optJSONArray("list");
+                BigDecimal userPointBigDecimal = new BigDecimal(userPoint);
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     JSONObject json = jsonArray.getJSONObject(i);
                     MallItemObject orderObject = new MallItemObject(json);
                     if (mType == Type.all_goods) {
                         mData.add(orderObject);
                     } else if (mType == Type.can_change) {
-                        if (orderObject.getPoints_cost() <= userPoint) {
+                        if (orderObject.points_cost.compareTo(userPointBigDecimal) <= 0) {
                             mData.add(orderObject);
                         }
                     }

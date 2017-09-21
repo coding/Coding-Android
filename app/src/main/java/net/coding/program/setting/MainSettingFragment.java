@@ -8,9 +8,12 @@ import android.widget.TextView;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.RedPointTip;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.PermissionUtil;
+import net.coding.program.common.widget.ListItem1;
 import net.coding.program.compatible.CodingCompat;
+import net.coding.program.mall.MallIndexActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.model.user.ServiceInfo;
@@ -40,6 +43,9 @@ public class MainSettingFragment extends BaseFragment {
 
     ServiceInfo serviceInfo;
 
+    @ViewById(R.id.itemShop)
+    ListItem1 itemShop;
+
     @ViewById
     ImageView userIcon;
 
@@ -52,6 +58,8 @@ public class MainSettingFragment extends BaseFragment {
             }
             return true;
         });
+
+        itemShop.showBadge(RedPointTip.show(getActivity(), RedPointTip.Type.SettingShop_P460));
 
         bindDataUserinfo();
     }
@@ -116,6 +124,12 @@ public class MainSettingFragment extends BaseFragment {
     @Click
     void itemAccount() {
         UserPointActivity_.intent(this).start();
+    }
+
+    @Click
+    void itemShop() {
+        RedPointTip.markUsed(getActivity(), RedPointTip.Type.SettingShop_P460);
+        MallIndexActivity_.intent(this).start();
     }
 
     @Click

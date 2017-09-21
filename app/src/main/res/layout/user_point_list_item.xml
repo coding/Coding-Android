@@ -16,23 +16,24 @@
         android:paddingTop="@dimen/padding_14">
 
         <TextView
-                android:id="@+id/usage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:lines="1"
-                android:textColor="@color/font_1"
-                android:textSize="16sp"
-                tools:text="推送代码"/>
+            android:id="@+id/usage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/font_1"
+            android:textSize="15sp"
+            tools:text="推送代码" />
+
 
         <TextView
-            android:id="@+id/create"
+            android:id="@+id/pointsChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/font_3"
-            android:textSize="12sp"
-            tools:text="2015-07" />
+            android:textColor="@color/font_green"
+            android:textSize="16sp"
+            tools:text="0.03" />
 
     </LinearLayout>
 
@@ -54,14 +55,14 @@
             tools:text="余额" />
 
         <TextView
-            android:id="@+id/pointsChange"
+            android:id="@+id/create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/font_green"
-            android:textSize="16sp"
-            tools:text="0.03" />
+            android:textColor="@color/font_3"
+            android:textSize="12sp"
+            tools:text="2015-07" />
     </LinearLayout>
 
-    <include layout="@layout/divide_line_1" />
+    <View style="@style/DivideLine_15" />
 
 </LinearLayout>

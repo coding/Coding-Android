@@ -4,16 +4,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.UserObject;
 import net.coding.program.third.WechatTab;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.StringArrayRes;
 
 /**
  * Created by libo on 2015/11/22.
@@ -27,13 +26,11 @@ public class MallOrderDetailActivity extends BackActivity {
     @ViewById
     ViewPager viewpager;
 
+    @StringArrayRes(R.array.mall_order_detail_tab)
     String[] tabTitle;
 
     @AfterViews
     void initView() {
-        tabTitle = getResources().getStringArray(R.array.mall_order_detail_tab);
-        UserObject userObject = MyApp.sUserObject;
-
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
         viewpager.setAdapter(adapter);
         mall_order_detail_tab.setViewPager(viewpager);
@@ -59,6 +56,7 @@ public class MallOrderDetailActivity extends BackActivity {
         public Fragment getItem(int position) {
             final MallOrderDetailFragment.Type types[] = new MallOrderDetailFragment.Type[]{
                     MallOrderDetailFragment.Type.all_order,
+                    MallOrderDetailFragment.Type.no_pay,
                     MallOrderDetailFragment.Type.un_send,
                     MallOrderDetailFragment.Type.already_send
             };

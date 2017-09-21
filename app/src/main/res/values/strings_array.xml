@@ -227,6 +227,7 @@
 
     <string-array name="mall_order_detail_tab">
         <item>全部订单</item>
+        <item>未付款</item>
         <item>未发货</item>
         <item>已发货</item>
     </string-array>

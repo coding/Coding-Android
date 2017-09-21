@@ -2,7 +2,7 @@ package net.coding.program.mall;
 
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,10 +13,10 @@ import android.widget.TextView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
@@ -33,6 +33,7 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 
@@ -68,6 +69,65 @@ public class MallOrderSubmitActivity extends BackActivity {
     View mall_order_title_options, mall_order_divide_options;
     @ViewById
     TextView mall_order_edit_options;
+
+    @ViewById(R.id.discountLayout)
+    View discountLayout;
+    @ViewById(R.id.discountDivide)
+    View discountDivide;
+    @ViewById(R.id.discountTextView)
+    TextView discountTextView;
+    @ViewById(R.id.paymentAmount)
+    TextView paymentAmountTextView;
+    @ViewById(R.id.switchPointDiscount)
+    SwitchCompat switchDiscount;
+
+    BigDecimal paymentAmout = BigDecimal.ZERO;
+    BigDecimal pointDiscount = BigDecimal.ZERO;
+    String payMethod = "Alipay";
+
+    @Click(R.id.switchPointDiscount)
+    void clickPointDiscount(SwitchCompat button) {
+        bindUIPay(button.isChecked());
+    }
+
+    private void bindUIPay(boolean discount) {
+        BigDecimal mabiPrice = mallItemObject.points_cost;
+        BigDecimal userMabi = BigDecimal.valueOf(MyApp.sUserObject.points_left);
+
+        if (userMabi.compareTo(BigDecimal.ZERO) == 0) {
+            discountLayout.setVisibility(View.GONE);
+            discountDivide.setVisibility(View.GONE);
+        }
+
+        if (discount) {
+            if (userMabi.compareTo(mabiPrice) >= 0) {
+                paymentAmout = BigDecimal.ZERO;
+                pointDiscount = mabiPrice;
+            } else {
+                paymentAmout = mabiPrice.subtract(userMabi).multiply(new BigDecimal(50));
+                pointDiscount = userMabi;
+            }
+
+            discountTextView.setText(String.format("可用 %.2f 码币抵扣 %.2f 元", pointDiscount,
+                    pointDiscount.multiply(new BigDecimal(50))));
+            paymentAmountTextView.setText(String.format("￥%.2f", paymentAmout));
+
+        } else {
+            paymentAmout = mabiPrice.multiply(new BigDecimal(50));
+            pointDiscount = BigDecimal.ZERO;
+
+            BigDecimal pointCanDiscount;
+            if (userMabi.compareTo(mabiPrice) >= 0) {
+                pointCanDiscount = mabiPrice;
+            } else {
+                pointCanDiscount = userMabi;
+            }
+            discountTextView.setText(String.format("可用 %.2f 码币抵扣 %.2f 元", pointCanDiscount,
+                    pointCanDiscount.multiply(new BigDecimal(50))));
+            paymentAmountTextView.setText(String.format("￥%.2f", paymentAmout));
+        }
+    }
+
     MallItemObject.Option option;
     String submitPassword = "";
     Local local = new Local("", 0, "", 0, "", 0);
@@ -90,7 +150,7 @@ public class MallOrderSubmitActivity extends BackActivity {
         mall_order_edit_username.setHint(userName);
 
         mall_order_title.setText(mallItemObject.getName());
-        mall_order_point.setText(mallItemObject.getPoints_cost() + " 码币");
+        mall_order_point.setText(mallItemObject.getShowPoints());
         mall_order_desc.setText(mallItemObject.getDescription().replaceAll(" ?<br> ?", ""));
         getImageLoad().loadImage(mall_order_img, mallItemObject.getImage(), ImageLoadTool.mallOptions);
 
@@ -107,6 +167,8 @@ public class MallOrderSubmitActivity extends BackActivity {
             option = mallItemObject.getOptions().get(0);
             uiBindData();
         }
+
+        switchDiscount.performClick();
     }
 
     @Click
@@ -138,7 +200,6 @@ public class MallOrderSubmitActivity extends BackActivity {
         builder.setView(entryView)
                 .setTitle("确认订单")
                 .setPositiveButton("确认", (dialog, which) -> {
-                    parsePassword(editText.getText().toString().trim());
                 })
                 .setNegativeButton("取消", null)
                 .show();
@@ -172,30 +233,22 @@ public class MallOrderSubmitActivity extends BackActivity {
             showMiddleToast("电话号码格式不正确");
             return;
         }
-        showDialog();
-    }
-
-    private void parsePassword(String submitPassword) {
-        if (submitPassword.length() < 6 || submitPassword.length() > 64 || TextUtils
-                .isEmpty(submitPassword)) {
-            showMiddleToast("密码格式有误，请重新输入");
-            return;
-        }
-        this.submitPassword = submitPassword;
 
         postSubmit();
-
     }
 
     private void postSubmit() {
-        String password = SimpleSHA1.sha1(submitPassword);
         String userName = mall_order_edit_username.getText().toString().trim();
         String address = mall_order_edit_address.getText().toString().trim();
         String phone = mall_order_edit_phone.getText().toString().trim();
         String note = mall_order_edit_note.getText().toString().trim();
 
         RequestParams params = new RequestParams();
-        params.put("password", password);
+//        params.put("password", password);
+        params.put("pay_method", payMethod);
+        params.put("payment_amount", paymentAmout);
+        params.put("point_discount", pointDiscount);
+
         params.put("receiverName", userName);
         params.put("receiverPhone", phone);
         params.put("remark", note);
@@ -222,7 +275,7 @@ public class MallOrderSubmitActivity extends BackActivity {
 
         showProgressBar(true, "正在提交订单...");
 
-        String url = Global.HOST_API + "/gifts/exchange";
+        String url = Global.HOST_API + "/gifts/purchase";
         MyAsyncHttpClient.post(this, url, params, new MyJsonResponse(MallOrderSubmitActivity.this) {
             @Override
             public void onMySuccess(JSONObject response) {

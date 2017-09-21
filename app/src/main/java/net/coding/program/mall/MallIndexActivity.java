@@ -68,7 +68,6 @@ public class MallIndexActivity extends RefreshBaseActivity {
 
     @Override
     public void onRefresh() {
-//        getNetwork(BANNER_URL, TAG_BANNER);
     }
 
     static class MyPagerAdapter extends SaveFragmentPagerAdapter {

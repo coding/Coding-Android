@@ -5,12 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
@@ -69,63 +65,39 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         final MallItemObject object = mDataList.get(position);
         holder.name.setText(object.getName());
-        holder.points_cost.setText(object.getPoints_cost() + " 码币");
+        holder.points_cost.setText(object.getShowPoints());
+        holder.sales.setText("销量：" + String.valueOf(object.count));
+        holder.rmbPrice.setText("￥" + String.valueOf(object.price));
 
         String imgUrl = object.getImage();
         imageLoader.loadImageDefaultCoding(holder.image, imgUrl);
 
-        double cost = object.getPoints_cost();
-        if (userPoint < cost) {
-            holder.exchange
-                    .setImageDrawable(context.getResources().getDrawable(R.drawable.ic_unexchange));
-        } else {
-            holder.exchange
-                    .setImageDrawable(context.getResources().getDrawable(R.drawable.ic_exchange));
-        }
+//        double cost = object.getPoints_cost();
+//        if (userPoint < cost) {
+//            holder.exchange
+//                    .setImageDrawable(context.getResources().getDrawable(R.drawable.ic_unexchange));
+//        } else {
+//            holder.exchange
+//                    .setImageDrawable(context.getResources().getDrawable(R.drawable.ic_exchange));
+//        }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (object.getPoints_cost() > userPoint) {
-                    Toast.makeText(context, "您的码币不足！", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (!MyApp.sUserObject.phone.isEmpty()) {
-                        MallOrderSubmitActivity_.intent(context)
-                                .mallItemObject(object)
-                                .start();
-                    } else {
-                        SingleToast.showMiddleToast(context, "验证手机号才能下单");
-                        ValidePhoneActivity_.intent(context).start();
-                    }
-                }
+
+        holder.itemView.setOnClickListener(v -> {
+            if (!MyApp.sUserObject.phone.isEmpty()) {
+                MallOrderSubmitActivity_.intent(context)
+                        .mallItemObject(object)
+                        .start();
+            } else {
+                SingleToast.showMiddleToast(context, "验证手机号才能下单");
+                ValidePhoneActivity_.intent(context).start();
             }
         });
-
-        setAnimation(holder.container, position);
-    }
-
-    @Override
-    public void onViewDetachedFromWindow(ViewHolder holder) {
-        super.onViewDetachedFromWindow(holder);
-
-        holder.container.clearAnimation();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.mall_list_item, parent, false);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
-    }
-
-    private void setAnimation(View viewToAnimate, int position) {
-        // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition) {
-            Animation animation = AnimationUtils
-                    .loadAnimation(context, R.anim.item_bottom_in);
-            viewToAnimate.startAnimation(animation);
-            lastPosition = position;
-        }
+        return new ViewHolder(view);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -134,19 +106,22 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
         TextView points_cost;
 
+        TextView rmbPrice;
+        TextView sales;
+
         ImageView image;
 
-        ImageView exchange;
-
-        LinearLayout container;
+        ViewGroup container;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.mall_list_item_title);
             points_cost = (TextView) itemView.findViewById(R.id.mall_list_item_cost);
             image = (ImageView) itemView.findViewById(R.id.mall_list_item_img);
-            exchange = (ImageView) itemView.findViewById(R.id.mall_list_item_exchange);
-            container = (LinearLayout) itemView.findViewById(R.id.mall_list_item_container);
+            container = (ViewGroup) itemView.findViewById(R.id.mall_list_item_container);
+
+            rmbPrice = (TextView) itemView.findViewById(R.id.rmbPrice);
+            sales = (TextView) itemView.findViewById(R.id.sales);
         }
     }
 }

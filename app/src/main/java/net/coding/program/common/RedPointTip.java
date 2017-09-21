@@ -88,7 +88,9 @@ public class RedPointTip {
         WikiTree200,
         WikiHistory200,
 
-        TitleJump_C445
+        TitleJump_C445,
+
+        SettingShop_P460,
 
     }
 
