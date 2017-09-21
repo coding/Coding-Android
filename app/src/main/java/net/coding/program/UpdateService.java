@@ -172,7 +172,6 @@ public class UpdateService extends Service {
                     int versionCode = getVersion();
 
                     if (mUpdateInfo.newVersion > versionCode) {
-
                         SharedPreferences share = getSharedPreferences("version", Context.MODE_PRIVATE);
                         int jumpVersion = share.getInt("jump", 0);
 
