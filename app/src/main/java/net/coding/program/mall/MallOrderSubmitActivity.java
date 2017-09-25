@@ -256,7 +256,7 @@ public class MallOrderSubmitActivity extends BackActivity {
         RequestParams params = new RequestParams();
 //        params.put("password", password);
         params.put("pay_method", payMethod);
-        params.put("payment_amount", paymentAmout);
+//        params.put("payment_amount", paymentAmout);
         params.put("point_discount", pointDiscount);
 
         params.put("receiverName", userName);
