@@ -1,5 +1,7 @@
 package net.coding.program.mall;
 
+import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,16 +11,34 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alipay.sdk.app.PayTask;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.RequestParams;
+import com.orhanobut.logger.Logger;
+
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.event.EventUpdateOrderList;
 import net.coding.program.model.MallOrderObject;
+import net.coding.program.network.BaseHttpObserver;
+import net.coding.program.network.Network;
+import net.coding.program.network.model.HttpResult;
+import net.coding.program.network.model.point.OrderObject;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +46,11 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by libo on 2015/11/22.
@@ -82,6 +106,12 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
                 holder.time = (TextView) view.findViewById(R.id.order_time);
                 holder.receiverAddress = (TextView) view.findViewById(R.id.order_addr);
 
+                holder.discount = (TextView) view.findViewById(R.id.mabiDiscount);
+                holder.realPay = (TextView) view.findViewById(R.id.realPay);
+                holder.itemActionLayout = view.findViewById(R.id.itemActionLayout);
+                holder.itemActionCancel = view.findViewById(R.id.itemActionCancel);
+                holder.itemActionPay = view.findViewById(R.id.itemActionPay);
+
                 view.setTag(holder);
             } else {
                 holder = (ViewHolder) view.getTag();
@@ -105,7 +135,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
             }
             holder.goodTitle.setText(Html.fromHtml(titleString));
             getImageLoad().loadImage(holder.goodImg, item.getGiftImage());
-            holder.pointCost.setText(item.getPointsCost() + " 码币");
+            holder.pointCost.setText(item.pointsCost + " 码币");
 
             if (item.getRemark().equals("")) {
                 holder.note.setText("暂无");
@@ -127,6 +157,9 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
                 case 2:
                     holder.status.setText("已完成");
                     break;
+                case 3:
+                    holder.status.setText("未付款");
+                    break;
             }
 
             String express = item.getExpressNo();
@@ -141,10 +174,110 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
                 loadMore();
             }
 
+            if (item.getStatus() == MallOrderObject.STATUS_NO_PAY) {
+                holder.itemActionLayout.setVisibility(View.VISIBLE);
+                holder.itemActionCancel.setOnClickListener(v -> cancelPayOrder(item));
+                holder.itemActionPay.setOnClickListener(v -> createPayOrder(item));
+            } else {
+                holder.itemActionLayout.setVisibility(View.GONE);
+            }
+
+            holder.discount.setText(item.pointDiscount + " 码币");
+            holder.realPay.setText("￥" + item.paymentAmount);
+
             return view;
         }
     };
     private AtomicBoolean footerAdded = new AtomicBoolean(false);
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventUpdate(EventUpdateOrderList event) {
+        onRefresh();
+    }
+
+    private void cancelPayOrder(MallOrderObject data) {
+        showDialog("确定取消订单?", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Network.getRetrofit(getActivity())
+                        .cancelOrder(data.getOrderNo())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseHttpObserver(getActivity()) {
+
+                            @Override
+                            public void onSuccess() {
+                                super.onSuccess();
+                                EventBus.getDefault().post(new EventUpdateOrderList());
+                            }
+
+                            @Override
+                            public void onFail(int errorCode, @NonNull String error) {
+                                super.onFail(errorCode, error);
+                            }
+                        });
+            }
+        });
+
+    }
+
+    private void createPayOrder(MallOrderObject data) {
+        String url = Global.HOST_API + "/gifts/pay/" + data.getOrderNo();
+        RequestParams params = new RequestParams();
+        params.put("pay_method", MallOrderSubmitActivity.payMethod);
+        MyAsyncHttpClient.post(getActivity(), url, params, new MyJsonResponse(getActivity()) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                super.onMySuccess(response);
+
+                HttpResult<OrderObject> order = new Gson().fromJson(response.toString(), new TypeToken<HttpResult<OrderObject>>() {
+                }.getType());
+                payOrder(order.data.url);
+
+                showProgressBar(false);
+            }
+
+            @Override
+            public void onMyFailure(JSONObject response) {
+                super.onMyFailure(response);
+                showProgressBar(false);
+            }
+        });
+    }
+
+    private void payOrder(String url) {
+        payByClient(url);
+    }
+
+    @Background
+    void payByClient(String payInfo) {
+        // 构造PayTask 对象
+        PayTask alipay = new PayTask(getActivity());
+        // 调用支付接口，获取支付结果
+        Map<String, String> result = alipay.payV2(payInfo, false);
+        Gson gson = new Gson();
+        Logger.d(gson.toJson(result));
+
+        checkPayResult();
+    }
+
+    @UiThread
+    void checkPayResult() {
+        EventBus.getDefault().post(new EventUpdateOrderList());
+    }
 
     @AfterViews
     protected final void init() {
@@ -182,15 +315,15 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
                     JSONObject json = jsonArray.getJSONObject(i);
                     MallOrderObject orderObject = new MallOrderObject(json);
                     if (mType == Type.un_send) {
-                        if (orderObject.getStatus() == 0) {
+                        if (orderObject.getStatus() == MallOrderObject.STATUS_NO_SEND) {
                             mData.add(orderObject);
                         }
                     } else if (mType == Type.already_send) {
-                        if (orderObject.getStatus() == 1) {
+                        if (orderObject.getStatus() == MallOrderObject.STATUS_AREALY_SEDN) {
                             mData.add(orderObject);
                         }
                     } else if (mType == Type.no_pay) {
-                        if (orderObject.getStatus() == 3) {
+                        if (orderObject.getStatus() == MallOrderObject.STATUS_NO_PAY) {
                             mData.add(orderObject);
                         }
                     } else {
@@ -253,5 +386,11 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
         TextView express;
         TextView time;
         TextView receiverAddress;
+
+        TextView discount;
+        TextView realPay;
+        View itemActionLayout;
+        View itemActionCancel;
+        View itemActionPay;
     }
 }

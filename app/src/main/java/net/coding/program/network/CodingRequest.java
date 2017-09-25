@@ -156,4 +156,7 @@ public interface CodingRequest {
     @GET("options/degrees")
     Observable<IntKeyMapHttpResult> getDegrees();
 
+    @DELETE("gifts/orders/{orderId}")
+    Observable<BaseHttpResult> cancelOrder(@Path("orderId") String orderId);
+
 }

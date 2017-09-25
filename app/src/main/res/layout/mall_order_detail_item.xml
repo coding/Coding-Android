@@ -105,9 +105,10 @@
             android:layout_weight="1" />
 
         <TextView
-            android:layout_width="40dp"
-            android:layout_height="21dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textColor="#FF323A45"
+            android:id="@+id/mabiDiscount"
             android:textSize="14sp"
             tools:text="1 码币" />
     </LinearLayout>
@@ -132,9 +133,10 @@
             android:layout_weight="1" />
 
         <TextView
-            android:layout_width="40dp"
-            android:layout_height="21dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textColor="#FF323A45"
+            android:id="@+id/realPay"
             android:textSize="14sp"
             tools:text="1 码币" />
     </LinearLayout>
@@ -313,6 +315,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:id="@+id/itemActionLayout"
             android:background="@color/stand_bg">
 
             <View style="@style/DivideLine_15" />
@@ -326,6 +329,7 @@
                 android:text="取消订单"
                 android:textColor="@color/font_2"
                 android:textSize="14sp"
+                android:id="@+id/itemActionCancel"
                 app:rv_cornerRadius="4dp"
                 app:rv_strokeColor="@color/font_2"
                 app:rv_strokeWidth="0.5dp" />
@@ -333,6 +337,7 @@
             <com.flyco.roundview.RoundTextView
                 android:layout_width="78dp"
                 android:layout_height="30dp"
+                android:id="@+id/itemActionPay"
                 android:layout_gravity="center_vertical|right"
                 android:layout_marginRight="15dp"
                 android:gravity="center"

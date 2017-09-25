@@ -9,6 +9,11 @@ import java.io.Serializable;
  */
 public class MallOrderObject implements Serializable {
 
+    public static final int STATUS_NO_PAY = 3;
+    public static final int STATUS_NO_SEND = 0;
+    public static final int STATUS_AREALY_SEDN = 1;
+    public static final int STATUS_FINISH = 2;
+
     /**
      * id: 3340,
      * userId: 57423,
@@ -37,7 +42,7 @@ public class MallOrderObject implements Serializable {
 
     private String name = "";
 
-    private double pointsCost;
+    public String pointsCost;
 
     private String receiverName = "";
 
@@ -55,15 +60,18 @@ public class MallOrderObject implements Serializable {
 
     private String optionName = "";
 
+    public String paymentAmount = "";
+    public String pointDiscount = "";
+
     public MallOrderObject() {
     }
 
     public MallOrderObject(JSONObject object) {
-        orderNo = object.optString("orderNo", "");
         id = object.optInt("id");
+        orderNo = object.optString("orderNo", "");
         giftId = object.optInt("giftId");
         name = object.optString("giftName", "");
-        pointsCost = object.optDouble("pointsCost");
+        pointsCost = object.optString("pointsCost", "0.00");
         receiverName = object.optString("receiverName", "");
         receiverPhone = object.optString("receiverPhone", "");
         status = object.optInt("status");
@@ -74,6 +82,8 @@ public class MallOrderObject implements Serializable {
         remark = object.optString("remark", "");
         expressNo = object.optString("expressNo", "");
         optionName = object.optString("optionName", "");
+        paymentAmount = object.optString("paymentAmount", "0.00");
+        pointDiscount = object.optString("pointDiscount", "0.00");
     }
 
     public String getOptionName() {
@@ -142,14 +152,6 @@ public class MallOrderObject implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public double getPointsCost() {
-        return pointsCost;
-    }
-
-    public void setPointsCost(double pointsCost) {
-        this.pointsCost = pointsCost;
     }
 
     public String getReceiverName() {

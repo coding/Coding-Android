@@ -96,7 +96,6 @@ public class NetworkImpl {
                         }
                     }
 
-
                     try {
                         updatePage(response, tag);
                     } catch (Exception e) {

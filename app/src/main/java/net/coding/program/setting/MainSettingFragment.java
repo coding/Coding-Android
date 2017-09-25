@@ -129,6 +129,8 @@ public class MainSettingFragment extends BaseFragment {
     @Click
     void itemShop() {
         RedPointTip.markUsed(getActivity(), RedPointTip.Type.SettingShop_P460);
+        itemShop.showBadge(false);
+
         MallIndexActivity_.intent(this).start();
     }
 

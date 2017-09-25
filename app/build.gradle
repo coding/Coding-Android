@@ -164,6 +164,7 @@ dependencies {
     compile files('libs/pinyin4j-2.5.0.jar')
     compile files('libs/jg_filter_sdk_1.1.jar')
     compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
+    compile files('libs/alipaySdk-20151215.jar')
     compile project(':bottom-bar')
     compile project(':luban')
     compile 'com.alibaba:fastjson:1.1.44.android'
