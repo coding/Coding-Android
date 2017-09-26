@@ -78,6 +78,7 @@ public class WechatTab extends HorizontalScrollView {
     private int dividerWidth = 1;
     private int mMyUnderlinePadding = 12;
     private int tabTextSize = 12;
+    private int halfIndecatorWidth = 6;
     private int tabTextColor = CodingColor.font2;
     private int selectedTabTextColor = CodingColor.font2;
     private Typeface tabTypeface = null;
@@ -114,6 +115,7 @@ public class WechatTab extends HorizontalScrollView {
         tabPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, tabPadding, dm);
         dividerWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dividerWidth, dm);
         tabTextSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, tabTextSize, dm);
+        halfIndecatorWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, halfIndecatorWidth, dm);
 
         // get system attrs (android:textSize and android:textColor)
 
@@ -369,7 +371,9 @@ public class WechatTab extends HorizontalScrollView {
             padding = mMyUnderlinePadding;
         }
 
-        canvas.drawRect(lineLeft + padding, height - indicatorHeight, lineRight - padding, height, rectPaint);
+        float lineMiddle = (lineLeft + lineRight) / 2;
+//        canvas.drawRect(lineLeft + padding, height - indicatorHeight, lineRight - padding, height, rectPaint);
+        canvas.drawRect(lineMiddle - halfIndecatorWidth, height - indicatorHeight, lineMiddle + halfIndecatorWidth, height, rectPaint);
 
         // draw divider
 
