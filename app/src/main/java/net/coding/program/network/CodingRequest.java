@@ -159,4 +159,7 @@ public interface CodingRequest {
     @DELETE("gifts/orders/{orderId}")
     Observable<BaseHttpResult> cancelOrder(@Path("orderId") String orderId);
 
+    // 获取公开项目
+    @GET("public/all")
+    Observable<HttpPageResult<ProjectObject>> getAllPublic(@Query("page") int page);
 }
