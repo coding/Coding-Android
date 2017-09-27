@@ -290,7 +290,7 @@ public class MallOrderSubmitActivity extends BackActivity {
             @Override
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
-                MallOrderObject item = new MallOrderObject(response.optJSONObject("data"));
+                MallOrderObject item = new MallOrderObject(response.optJSONObject("data")); // todo 只生成订单
                 if (item.getStatus() == MallOrderObject.STATUS_NO_PAY) {
                     createPayOrder(item);
                 } else {

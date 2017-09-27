@@ -3,6 +3,7 @@ package net.coding.program.common;
 import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.res.AssetManager;
@@ -77,7 +78,7 @@ import pl.droidsonroids.gif.GifDrawable;
 public class Global {
 
     public static final String DEFAULT_HOST = "https://coding.net";
-//    public static final String DEFAULT_HOST = "http://coding.yo";
+//    public static final String DEFAULT_HOST = "http://coding.com";
     public static final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd EEE");
     public static final SimpleDateFormat mDateYMDHH = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
@@ -176,6 +177,17 @@ public class Global {
 
     public static Spanned createColorHtml(String begin, String middle, String end, String color) {
         return Html.fromHtml(String.format("%s<font color=\"%s\">%s</font>%s", begin, color, middle, end));
+    }
+
+    public static Activity getActivityFromView(View view) {
+        Context context = view.getContext();
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity) context;
+            }
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+        return null;
     }
 
     public static Spanned createGreenHtml(String begin, String middle, String end) {

@@ -1,6 +1,5 @@
 package net.coding.program.common.widget.input;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -111,7 +110,7 @@ public class VoiceView extends FrameLayout {
         super(context, attrs);
 
 
-        activity = (AppCompatActivity) getContext();
+        activity = (AppCompatActivity) Global.getActivityFromView(this);
     }
 
     @AfterViews
@@ -182,7 +181,7 @@ public class VoiceView extends FrameLayout {
 
     @LongClick
     boolean voiceRecordButton() {
-        if (!PermissionUtil.checkMicrophone((Activity) getContext())) {
+        if (!PermissionUtil.checkMicrophone(Global.getActivityFromView(this))) {
             return true;
         }
 

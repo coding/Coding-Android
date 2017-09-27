@@ -69,7 +69,7 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
 
     public TopBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mActivity = (FragmentActivity) getContext();
+        mActivity = (FragmentActivity) Global.getActivityFromView(this);
     }
 
     public static void insertText(EditText edit, String s) {

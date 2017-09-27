@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.message.EmojiFragment;
 
@@ -247,7 +248,7 @@ public class EmojiKeyboard extends FrameLayout {
     public EmojiKeyboard(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        mActivity = (FragmentActivity) getContext();
+        mActivity = (FragmentActivity) Global.getActivityFromView(this);
         myImageGetter = new MyImageGetter(mActivity);
         FragmentManager fragmentManager = mActivity.getSupportFragmentManager();
         mEmojiPagerAdapter = new EmojiPagerAdapter(fragmentManager);

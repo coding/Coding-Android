@@ -42,7 +42,7 @@ public class MainInputView extends FrameLayout implements KeyboardControl, Input
         showEmojiOnly = array.getBoolean(R.styleable.MainInputView_showEmojiOnly, false);
         array.recycle();
 
-        this.activity = (AppCompatActivity) getContext();
+        this.activity = (AppCompatActivity) Global.getActivityFromView(this);
     }
 
     @Override

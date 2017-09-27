@@ -28,7 +28,7 @@ public class EmojiEditText extends AppCompatEditText {
     public EmojiEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        mActivity = (AppCompatActivity) getContext();
+        mActivity = (AppCompatActivity) Global.getActivityFromView(this);
         rootView = mActivity.findViewById(android.R.id.content);
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             int lastHigh = rootViewHigh;
