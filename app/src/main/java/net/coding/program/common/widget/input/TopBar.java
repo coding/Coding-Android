@@ -15,7 +15,6 @@ import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.CommentBackup;
 import net.coding.program.common.Global;
-import net.coding.program.common.enter.SimpleTextWatcher;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.CheckedChange;

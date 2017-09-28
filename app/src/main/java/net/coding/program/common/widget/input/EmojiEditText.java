@@ -11,7 +11,6 @@ import android.view.View;
 
 import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
-import net.coding.program.common.enter.SimpleTextWatcher;
 
 /**
  * Created by chenchao on 16/1/25.

@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 import android.widget.EditText;
 
 import net.coding.program.R;
-import net.coding.program.common.enter.SimpleTextWatcher;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
 
 /**
  * Created by chaochen on 15/1/6.

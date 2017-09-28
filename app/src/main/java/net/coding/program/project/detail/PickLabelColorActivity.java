@@ -10,9 +10,9 @@ import android.widget.EditText;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.widget.PickLabelColorItem;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

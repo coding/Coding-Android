@@ -22,9 +22,9 @@ import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.SearchProjectCache;
 import net.coding.program.common.adapter.SearchHistoryListAdapter;
-import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.DensityUtil;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.third.WechatTab;
 
 import org.androidannotations.annotations.AfterViews;

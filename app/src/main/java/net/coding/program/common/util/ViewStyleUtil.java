@@ -4,7 +4,7 @@ import android.text.Editable;
 import android.view.MenuItem;
 import android.view.View;
 
-import net.coding.program.common.enter.SimpleTextWatcher;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
 
 /**
  * Created by chenchao on 15/12/22.

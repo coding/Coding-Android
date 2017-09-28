@@ -23,6 +23,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.widget.EnterLayoutAnimSupportContainer;
 import net.coding.program.common.widget.input.CameraAndPhoto;
 import net.coding.program.common.widget.input.InputAction;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
 
 import java.lang.reflect.Method;
 

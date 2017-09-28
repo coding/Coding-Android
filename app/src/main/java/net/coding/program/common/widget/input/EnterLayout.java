@@ -20,7 +20,6 @@ import net.coding.program.common.CodingColor;
 import net.coding.program.common.CommentBackup;
 import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
-import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.widget.EnterLayoutAnimSupportContainer;
 
 import java.lang.reflect.Method;

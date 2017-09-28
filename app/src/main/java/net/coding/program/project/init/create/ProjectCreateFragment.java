@@ -25,11 +25,11 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.enter.SimpleTextWatcher;
 import net.coding.program.common.photopick.CameraPhotoUtil;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.compatible.UriCompat;
 import net.coding.program.event.EventRefresh;
 import net.coding.program.param.ProjectJumpParam;
