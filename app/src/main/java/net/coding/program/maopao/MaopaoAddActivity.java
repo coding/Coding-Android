@@ -71,7 +71,6 @@ import java.util.List;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
-// // TODO: 2017/1/6 选图片的地方都需要先判断是否获取了存储权限
 @EActivity(R.layout.activity_maopao_add)
 public class MaopaoAddActivity extends BackActivity implements StartActivity {
 
@@ -178,7 +177,8 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
         }
 
     };
-    private Uri fileUri;
+
+    private Uri fileUri = null;
     private MenuItem mMenuAdd;
     private boolean mFirstFocus = true;
 

@@ -3,6 +3,7 @@ package net.coding.program.common.base;
 import android.content.Context;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.orhanobut.logger.Logger;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.network.NetworkImpl;
@@ -57,6 +58,7 @@ public abstract class MyJsonResponse extends JsonHttpResponseHandler {
         if (response == null) {
             SingleToast.showMiddleToast(mActivity, NetworkImpl.ERROR_MSG_CONNECT_FAIL);
         } else {
+            Logger.e(response.toString());
             int code = response.optInt("code", NetworkImpl.NETWORK_ERROR);
             SingleToast.showErrorMsg(mActivity, code, response);
         }
@@ -66,6 +68,7 @@ public abstract class MyJsonResponse extends JsonHttpResponseHandler {
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
         super.onSuccess(statusCode, headers, response);
         int code = response.optInt("code", -1);
+        Logger.d(response);
         if (code == 0) {
             onMySuccess(response);
         } else {

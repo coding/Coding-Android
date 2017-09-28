@@ -45,7 +45,6 @@ import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by chaochen on 2014-9-7.
- *
  */
 @EFragment(R.layout.activity_image_pager_item)
 public class ImagePagerFragment extends BaseFragment {
@@ -63,8 +62,7 @@ public class ImagePagerFragment extends BaseFragment {
             .imageScaleType(ImageScaleType.NONE_SAFE)
             .build();
     private final View.OnClickListener onClickImageClose = v -> getActivity().onBackPressed();
-    //    private final PhotoViewAttacher.OnPhotoTapListener onPhotoTapClose = (view, v, v2) -> getActivity().onBackPressed();
-//    private final PhotoViewAttacher.OnViewTapListener onViewTapListener = (view, v, v1) -> getActivity().onBackPressed();
+
     @ViewById
     DonutProgress circleLoading;
     @ViewById
@@ -86,10 +84,10 @@ public class ImagePagerFragment extends BaseFragment {
     @FragmentArg
     int mProjectObjectId;
 
-    @FragmentArg // 是否允许使用自己的菜单
-            boolean customMenu = true;
+    // 是否允许使用自己的菜单
+    @FragmentArg
+    boolean customMenu = true;
 
-    private String URL_FILES_BASE = Global.HOST_API + "/project/%d/files/%s/view";
     private String URL_FILES = "";
     private AsyncHttpClient client;
 
@@ -105,12 +103,9 @@ public class ImagePagerFragment extends BaseFragment {
     @AfterViews
     void init() {
         setHasOptionsMenu(customMenu);
-//        getActivity().invalidateOptionsMenu();
 
         circleLoading.setVisibility(View.INVISIBLE);
-        if (uri == null) {
-            // TODO: 2017/6/19  未实现
-        } else {
+        if (uri != null) {
             showPhoto();
         }
     }
@@ -133,16 +128,8 @@ public class ImagePagerFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
-        if (image != null) {
-            if (image instanceof GifImageView) {
-                ((GifImageView) image).setImageURI(null);
-//            } else if (image instanceof PhotoView) {
-//                try {
-//                    ((SubsamplingScaleImageView) image).setImageDrawable(null);
-//                } catch (Exception e) {
-//                    Global.errorLog(e);
-//                }
-            }
+        if (image instanceof GifImageView) {
+            ((GifImageView) image).setImageURI(null);
         }
 
         super.onDestroyView();
@@ -194,13 +181,7 @@ public class ImagePagerFragment extends BaseFragment {
                             photoView.setOrientation(SubsamplingScaleImageView.ORIENTATION_USE_EXIF);
                             image = photoView;
                             rootLayout.addView(image);
-//                            photoView.setOnPhotoTapListener(onPhotoTapClose);
-//                            photoView.setOnViewTapListener(onViewTapListener);
                             photoView.setOnClickListener(v -> getActivity().onBackPressed());
-//                            photoView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP);
-//                            photoView.setMa
-//                            photoView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM);
-//                            photoView.setMinScale(10.f);
                         }
 
                         image.setOnLongClickListener(v -> {
@@ -246,8 +227,6 @@ public class ImagePagerFragment extends BaseFragment {
                             } else if (image instanceof SubsamplingScaleImageView) {
                                 SubsamplingScaleImageView scaleImageView = (SubsamplingScaleImageView) ImagePagerFragment.this.image;
                                 scaleImageView.setImage(ImageSource.uri(file.getAbsolutePath()));
-//                                scaleImageView.setPanLimit(SubsamplingScaleImageView.PAN_LIMIT_OUTSIDE);
-
                             }
                         } catch (Exception e) {
                             Global.errorLog(e);
@@ -288,12 +267,7 @@ public class ImagePagerFragment extends BaseFragment {
                 if (code == HTTP_CODE_FILE_NOT_EXIST) {
                     BlankViewDisplay.setBlank(0, this, true, blankLayout, null);
                 } else {
-                    BlankViewDisplay.setBlank(0, this, false, blankLayout, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            getPhotoFromNetwork();
-                        }
-                    });
+                    BlankViewDisplay.setBlank(0, this, false, blankLayout, v -> getPhotoFromNetwork());
                 }
             }
         }
