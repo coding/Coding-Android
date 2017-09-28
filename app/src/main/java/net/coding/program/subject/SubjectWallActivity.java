@@ -2,6 +2,7 @@ package net.coding.program.subject;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -22,7 +23,6 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.maopao.MaopaoSearchActivity_;
 import net.coding.program.model.Subject;
@@ -264,7 +264,7 @@ public class SubjectWallActivity extends BaseActivity {
         }
     }
 
-    class MyPagerAdapter extends SaveFragmentPagerAdapter {
+    class MyPagerAdapter extends FragmentStatePagerAdapter {
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -289,13 +289,10 @@ public class SubjectWallActivity extends BaseActivity {
                     SubjectListFragment.Type.join
             };
 
-            Fragment fragment = SubjectListFragment_.builder()
+            return SubjectListFragment_.builder()
                     .userKey(MyApp.sUserObject.global_key)
                     .mType(types[position])
                     .build();
-
-            saveFragment(fragment);
-            return fragment;
         }
     }
 }

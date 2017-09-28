@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.TypedValue;
@@ -19,7 +20,6 @@ import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PinyinComparator;
-import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.event.EventRefreshTask;
 import net.coding.program.message.JSONUtils;
 import net.coding.program.model.AccountInfo;
@@ -395,7 +395,7 @@ public class ProjectTaskFragment extends TaskFilterFragment {
         }
     }
 
-    public class MyPagerAdapter extends SaveFragmentPagerAdapter implements MyPagerSlidingTabStrip.IconTabProvider {
+    public class MyPagerAdapter extends FragmentStatePagerAdapter implements MyPagerSlidingTabStrip.IconTabProvider {
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -433,8 +433,6 @@ public class ProjectTaskFragment extends TaskFilterFragment {
             }
 
             fragment.setArguments(bundle);
-
-            saveFragment(fragment);
 
             return fragment;
         }

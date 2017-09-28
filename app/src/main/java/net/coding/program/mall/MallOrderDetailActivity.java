@@ -2,10 +2,10 @@ package net.coding.program.mall;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import net.coding.program.R;
-import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.third.WechatTab;
 
@@ -36,7 +36,7 @@ public class MallOrderDetailActivity extends BackActivity {
         mall_order_detail_tab.setViewPager(viewpager);
     }
 
-    class MyPagerAdapter extends SaveFragmentPagerAdapter {
+    class MyPagerAdapter extends FragmentStatePagerAdapter {
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -60,11 +60,9 @@ public class MallOrderDetailActivity extends BackActivity {
                     MallOrderDetailFragment.Type.un_send,
                     MallOrderDetailFragment.Type.already_send
             };
-            Fragment fragment = MallOrderDetailFragment_.builder()
+            return MallOrderDetailFragment_.builder()
                     .mType(types[position])
                     .build();
-            saveFragment(fragment);
-            return fragment;
         }
     }
 }

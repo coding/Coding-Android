@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
@@ -14,7 +15,6 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PinyinComparator;
-import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.event.EventFilter;
 import net.coding.program.event.EventRefreshTask;
 import net.coding.program.message.JSONUtils;
@@ -339,7 +339,7 @@ public class TaskFragment extends TaskFilterFragment {
         }
     }
 
-    private class PageTaskFragment extends SaveFragmentPagerAdapter implements MyPagerSlidingTabStrip.IconTabProvider {
+    private class PageTaskFragment extends FragmentStatePagerAdapter implements MyPagerSlidingTabStrip.IconTabProvider {
 
         public PageTaskFragment(android.support.v4.app.FragmentManager fm) {
             super(fm);
@@ -384,8 +384,6 @@ public class TaskFragment extends TaskFilterFragment {
                 bundle.putString("mKeyword", "");
             }
             fragment.setArguments(bundle);
-
-            saveFragment(fragment);
 
             return fragment;
         }

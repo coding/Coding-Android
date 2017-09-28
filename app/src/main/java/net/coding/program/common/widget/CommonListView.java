@@ -57,7 +57,7 @@ public class CommonListView extends UltimateRecyclerView {
         if (style == Style.loading) {
             BlankViewHelp.setBlankLoading(v, count <= 0);
         } else if (style == Style.fail) {
-            BlankViewHelp.setBlank(count, context, false, v, null); // todo network 应该是 listview 的一部分？
+            BlankViewHelp.setBlank(count, context, false, v, null); // network 应该是 listview 的一部分？
         } else {
             BlankViewHelp.setBlank(count, context, true, v, null);
         }

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 /**
  * Created by chenchao on 15/8/1.
- *
  */
 class MyProjectPagerAdapter extends SaveFragmentPagerAdapter {
 
