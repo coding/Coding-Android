@@ -71,7 +71,7 @@ public class MyAsyncHttpClient {
 
     public static void init(Context context) {
         mapHeaders.clear();
-        mapHeaders.put("Referer", "https://coding.net");
+        mapHeaders.put("Referer", Global.HOST);
 
         String versionName = "";
         try {
