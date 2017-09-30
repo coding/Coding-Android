@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mall_list_item_container"
     android:layout_width="match_parent"
@@ -79,6 +80,26 @@
                 android:text="销量：1952"
                 android:textColor="@color/font_3"
                 android:textSize="12sp" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.flyco.roundview.RoundTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minHeight="18dp"
+                android:id="@+id/exchangeable"
+                android:minWidth="38dp"
+                android:text="可兑换"
+                app:rv_cornerRadius="2dp"
+                android:textColor="@color/font_orange"
+                android:textSize="10sp"
+                app:rv_backgroundColor="#FAECC1"
+                app:rv_strokeColor="@color/font_orange"
+                app:rv_strokeWidth="0.5dp" />
         </LinearLayout>
 
     </LinearLayout>

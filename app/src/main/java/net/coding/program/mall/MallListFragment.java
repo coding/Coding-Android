@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
@@ -88,6 +89,11 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
             }
         });
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         getNetwork(USER_POINT_URL, USER_POINT_URL);
     }
 
@@ -99,7 +105,9 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
         if (tag.equals(USER_POINT_URL)) {
             if (code == 0) {
                 JSONObject jsonObject = respanse.getJSONObject("data");
-                userPoint = jsonObject.optDouble("points_left");
+                String leftString = jsonObject.optString("points_left", "0");
+                userPoint = Double.valueOf(leftString);
+                MyApp.sUserObject.points_left = new BigDecimal(leftString);
 
                 onRefresh();
             } else {

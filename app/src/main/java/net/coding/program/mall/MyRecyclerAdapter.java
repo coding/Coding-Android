@@ -15,6 +15,7 @@ import net.coding.program.common.util.SingleToast;
 import net.coding.program.model.MallItemObject;
 import net.coding.program.setting.ValidePhoneActivity_;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -72,15 +73,11 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         String imgUrl = object.getImage();
         imageLoader.loadImageDefaultCoding(holder.image, imgUrl);
 
-//        double cost = object.getPoints_cost();
-//        if (userPoint < cost) {
-//            holder.exchange
-//                    .setImageDrawable(context.getResources().getDrawable(R.drawable.ic_unexchange));
-//        } else {
-//            holder.exchange
-//                    .setImageDrawable(context.getResources().getDrawable(R.drawable.ic_exchange));
-//        }
-
+        if (object.points_cost.compareTo(new BigDecimal(userPoint)) > 0) {
+            holder.exchangeable.setVisibility(View.INVISIBLE);
+        } else {
+            holder.exchangeable.setVisibility(View.VISIBLE);
+        }
 
         holder.itemView.setOnClickListener(v -> {
             if (!MyApp.sUserObject.phone.isEmpty()) {
@@ -112,6 +109,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         ImageView image;
 
         ViewGroup container;
+        View exchangeable;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -122,6 +120,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
 
             rmbPrice = (TextView) itemView.findViewById(R.id.rmbPrice);
             sales = (TextView) itemView.findViewById(R.id.sales);
+            exchangeable = itemView.findViewById(R.id.exchangeable);
         }
     }
 }

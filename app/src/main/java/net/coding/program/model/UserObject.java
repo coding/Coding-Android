@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -53,7 +54,7 @@ public class UserObject implements Serializable, Comparable {
     public long updated_at;
     public int tweets_count;
     public String email = "";
-    public double points_left = 0;
+    public BigDecimal points_left = BigDecimal.ZERO;
     public int email_validation = 0;
     public int phone_validation = 0;
     public String phone_country_code = "+86";
@@ -96,7 +97,7 @@ public class UserObject implements Serializable, Comparable {
         status = json.optInt("status");
         tweets_count = json.optInt("tweets_count");
         email = json.optString("email", "");
-        points_left = json.optDouble("points_left", 0);
+        points_left = new BigDecimal(json.optString("points_left", "0"));
         pingYin = getFirstLetters(name).toUpperCase();
         email_validation = json.optInt("email_validation", 0);
         phone_validation = json.optInt("phone_validation", 0);
@@ -121,7 +122,7 @@ public class UserObject implements Serializable, Comparable {
                 "高中及以下",
                 "大专",
                 "本科",
-                "硕士及以上" };
+                "硕士及以上"};
 
         String degreeString = "";
         int pickDegree = degree - 1;
@@ -174,10 +175,7 @@ public class UserObject implements Serializable, Comparable {
     }
 
     public void reward() {
-        double result = points_left - 0.01;
-        if (result > 0) {
-            points_left = result;
-        }
+        points_left = points_left.subtract(new BigDecimal("0.01"));
     }
 
     public String getFirstLetter() {

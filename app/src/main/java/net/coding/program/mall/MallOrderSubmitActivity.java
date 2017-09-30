@@ -102,7 +102,7 @@ public class MallOrderSubmitActivity extends BackActivity {
 
     private void bindUIPay(boolean discount) {
         BigDecimal mabiPrice = mallItemObject.points_cost;
-        BigDecimal userMabi = BigDecimal.valueOf(MyApp.sUserObject.points_left);
+        BigDecimal userMabi = MyApp.sUserObject.points_left;
 
         if (userMabi.compareTo(BigDecimal.ZERO) == 0) {
             discountLayout.setVisibility(View.GONE);
