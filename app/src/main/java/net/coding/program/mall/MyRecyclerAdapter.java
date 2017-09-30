@@ -65,10 +65,26 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final MallItemObject object = mDataList.get(position);
-        holder.name.setText(object.getName());
+        String nameString = object.getName();
+        int pos = nameString.indexOf("¥");
+        if (pos > 0) {
+            nameString = nameString.substring(0, pos);
+        }
+        pos = nameString.indexOf("￥");
+        if (pos > 0) {
+            nameString = nameString.substring(0, pos);
+        }
+
+        holder.name.setText(nameString);
         holder.points_cost.setText(object.getShowPoints());
         holder.sales.setText("销量：" + String.valueOf(object.count));
-        holder.rmbPrice.setText("￥" + String.valueOf(object.price));
+        String rmbString = String.valueOf(object.points_cost.multiply(new BigDecimal(50)));
+        if (rmbString.endsWith(".00")) {
+            rmbString = rmbString.substring(0, rmbString.length() - 3);
+        } else if (rmbString.endsWith(".0")) {
+            rmbString = rmbString.substring(0, rmbString.length() - 2);
+        }
+        holder.rmbPrice.setText("￥" + rmbString);
 
         String imgUrl = object.getImage();
         imageLoader.loadImageDefaultCoding(holder.image, imgUrl);
