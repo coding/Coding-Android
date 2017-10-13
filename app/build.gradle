@@ -167,7 +167,7 @@ dependencies {
     compile files('libs/alipaySdk-20151215.jar')
     compile project(':bottom-bar')
     compile project(':luban')
-    compile 'com.alibaba:fastjson:1.1.44.android'
+//    compile 'com.alibaba:fastjson:1.1.44.android'
 
     // 方便显示 view 显示一些样式，不用写 selector
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'

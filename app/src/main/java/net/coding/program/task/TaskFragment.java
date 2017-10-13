@@ -21,7 +21,6 @@ import net.coding.program.message.JSONUtils;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskCountModel;
-import net.coding.program.model.TaskLabelModel;
 import net.coding.program.model.TaskProjectCountModel;
 import net.coding.program.network.model.user.Member;
 import net.coding.program.project.detail.TaskFilterFragment;
@@ -202,7 +201,7 @@ public class TaskFragment extends TaskFilterFragment {
         } else if (tag.equals(urlTaskLabel) || tag.equals(urlProjectTaskLabels)) {
             showLoading(false);
             if (code == 0) {
-                taskLabelModels = JSONUtils.getList(response.getString("data"), TaskLabelModel.class);
+                taskLabelModels = JSONUtils.getTaskLabelModelList(response.getString("data"));
                 Collections.sort(taskLabelModels, new PinyinComparator());
             } else {
                 showErrorMsg(code, response);

@@ -26,7 +26,6 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.ProjectTaskCountModel;
 import net.coding.program.model.ProjectTaskUserCountModel;
-import net.coding.program.model.TaskLabelModel;
 import net.coding.program.model.TaskObject;
 import net.coding.program.model.TaskProjectCountModel;
 import net.coding.program.model.UserObject;
@@ -256,7 +255,7 @@ public class ProjectTaskFragment extends TaskFilterFragment {
         } else if (tag.equals(urlProjectTaskLabels)) {
             showLoading(false);
             if (code == 0) {
-                taskLabelModels = JSONUtils.getList(respanse.getString("data"), TaskLabelModel.class);
+                taskLabelModels = JSONUtils.getTaskLabelModelList(respanse.getString("data"));
                 Collections.sort(taskLabelModels, new PinyinComparator());
             } else {
                 showErrorMsg(code, respanse);
@@ -264,7 +263,7 @@ public class ProjectTaskFragment extends TaskFilterFragment {
         } else if (tag.equals(urlALL_Label)) {
             showLoading(false);
             if (code == 0) {
-                taskLabelModels = JSONUtils.getList(respanse.getString("data"), TaskLabelModel.class);
+                taskLabelModels = JSONUtils.getTaskLabelModelList(respanse.getString("data"));
                 Collections.sort(taskLabelModels, new PinyinComparator());
             } else {
                 showErrorMsg(code, respanse);
@@ -291,7 +290,7 @@ public class ProjectTaskFragment extends TaskFilterFragment {
         } else if (tag.equals(urlSome_Label)) {
             showLoading(false);
             if (code == 0) {
-                taskLabelModels = JSONUtils.getList(respanse.getString("data"), TaskLabelModel.class);
+                taskLabelModels = JSONUtils.getTaskLabelModelList(respanse.getString("data"));
                 Collections.sort(taskLabelModels, new PinyinComparator());
             } else {
                 showErrorMsg(code, respanse);
