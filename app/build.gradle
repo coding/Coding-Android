@@ -17,7 +17,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 
 dependencies {
-    def AAVersion = '4.3.0'
+    def AAVersion = '4.3.1'
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     // 非常奇怪，格式化会两行合并为一行
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
