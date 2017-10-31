@@ -58,7 +58,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
     @AnimationRes
     Animation entrance;
     Uri background = null;
-    boolean mNeedUpdateUser = false;
+
     WeakRefHander mWeakRefHandler;
 
     public static String getHostCurrent() {
@@ -119,9 +119,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                if (!mNeedUpdateUser) {
-                    mWeakRefHandler.start(HANDLER_MESSAGE_NEXT_ACTIVITY, 500);
-                }
+                mWeakRefHandler.start(HANDLER_MESSAGE_NEXT_ACTIVITY, 500);
             }
 
             @Override
@@ -131,7 +129,6 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
 
         if (AccountInfo.isLogin(this)) {
             getNetwork(HOST_CURRENT, HOST_CURRENT);
-            mNeedUpdateUser = true;
         }
 
         mWeakRefHandler.start(HANDLER_MESSAGE_ANIMATION, 900);
@@ -213,7 +210,6 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_CURRENT)) {
-            mNeedUpdateUser = false;
             if (code == 0) {
                 UserObject user = new UserObject(respanse.getJSONObject("data"));
                 AccountInfo.saveAccount(this, user);
