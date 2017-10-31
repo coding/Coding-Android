@@ -20,6 +20,15 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/entrance1" />
 
+            <com.fivehundredpx.android.blur.BlurringView
+                android:id="@+id/blurringView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:blurRadius="8"
+                app:downsampleFactor="16"
+                app:overlayColor="#99FFFFFF"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="300dp"

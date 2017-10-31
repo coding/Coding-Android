@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -17,10 +16,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fivehundredpx.android.blur.BlurringView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.tencent.android.tpush.XGPushManager;
@@ -33,7 +34,6 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
@@ -45,7 +45,6 @@ import net.coding.program.login.phone.Close2FAActivity_;
 import net.coding.program.login.phone.InputAccountActivity_;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
-import net.coding.program.third.FastBlur;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -88,6 +87,8 @@ public class LoginActivity extends BaseActivity {
     View captchaLayout, loginButton, layout2fa, loginLayout, layoutRoot;
     @ViewById
     TextView loginFail;
+    @ViewById(R.id.blurringView)
+    BlurringView blurringView;
 
     DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.icon_user_monkey)
@@ -128,6 +129,7 @@ public class LoginActivity extends BaseActivity {
 
     @AfterViews
     void init() {
+        blurringView.setBlurredView(backgroundImage);
         settingBackground();
 
         needCaptcha();
@@ -207,7 +209,6 @@ public class LoginActivity extends BaseActivity {
 
     private void settingBackground() {
         try {
-            BitmapDrawable bitmapDrawable;
 //            if (ZhongQiuGuideActivity.isZhongqiu()) {
 //                bitmapDrawable = createBlur(R.drawable.zhongqiu_init_photo);
 //            } else {
@@ -220,57 +221,13 @@ public class LoginActivity extends BaseActivity {
             }
 
             if (background == null) {
-                bitmapDrawable = createBlur(R.drawable.entrance1);
+                backgroundImage.setImageResource(R.drawable.entrance1);
             } else {
-                bitmapDrawable = createBlur(background);
+                ImageLoader.getInstance().displayImage(background.toString(), backgroundImage);
             }
-//            }
-            backgroundImage.setImageDrawable(bitmapDrawable);
         } catch (Exception e) {
             Global.errorLog(e);
         }
-    }
-
-    private BitmapDrawable createBlur(int bgId) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(getResources(), bgId, options);
-        int height = options.outHeight;
-        int width = options.outWidth;
-
-        options.outHeight = (int) (height / scaleFactor);
-        options.outWidth = (int) (width / scaleFactor);
-        options.inSampleSize = (int) (scaleFactor + 0.5);
-        options.inJustDecodeBounds = false;
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        options.inMutable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.entrance1, options);
-        Bitmap blurBitmap = FastBlur.doBlur(bitmap, (int) radius, true);
-
-        return new BitmapDrawable(getResources(), blurBitmap);
-    }
-
-    private BitmapDrawable createBlur(Uri uri) {
-        String path = FileUtil.getPath(this, uri);
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
-        int height = options.outHeight;
-        int width = options.outWidth;
-
-        options.outHeight = (int) (height / scaleFactor);
-        options.outWidth = (int) (width / scaleFactor);
-        options.inSampleSize = (int) (scaleFactor + 0.5);
-        options.inJustDecodeBounds = false;
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        options.inMutable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(path, options);
-
-        Bitmap blurBitmap = FastBlur.doBlur(bitmap, (int) radius, true);
-
-        return new BitmapDrawable(getResources(), blurBitmap);
     }
 
     @Click
