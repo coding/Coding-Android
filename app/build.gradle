@@ -4,7 +4,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0'
-//        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
     }
 }
 
@@ -14,7 +13,6 @@ repositories {
 }
 
 apply plugin: 'com.android.application'
-//apply plugin: 'me.tatarka.retrolambda'
 
 dependencies {
     def AAVersion = '4.3.1'
@@ -188,7 +186,7 @@ dependencies {
     compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
     compile 'com.orhanobut:logger:1.15'
     compile files('libs/Xg_sdk_v2.47_20161026_0936.jar')
-    compile 'com.github.bmelnychuk:atv:1.2.+'
+    compile 'com.github.bmelnychuk:atv:1.2.9'
 
     // 网络请求
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
