@@ -3,8 +3,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'me.tatarka:gradle-retrolambda:3.2.4'
+        classpath 'com.android.tools.build:gradle:3.0.0'
+//        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
     }
 }
 
@@ -14,18 +14,18 @@ repositories {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'me.tatarka.retrolambda'
 
 dependencies {
     def AAVersion = '4.3.1'
-    compile "org.androidannotations:androidannotations-api:$AAVersion"
-    // 非常奇怪，格式化会两行合并为一行
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
+    // 非常奇怪，格式化会两行合并为一行
+    compile "org.androidannotations:androidannotations-api:$AAVersion"
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     dexOptions {
         javaMaxHeapSize "2g"
     }
@@ -42,6 +42,9 @@ android {
         multiDexEnabled true
         minSdkVersion 15
 
+        //
+//        flavorDimensions "default"
+
         javaCompileOptions {
             annotationProcessorOptions {
                 // coding 和 coding 企业版 必须使用相同的包名，否则 androidannotations 生成代码会失败
@@ -51,18 +54,21 @@ android {
             }
         }
     }
+
+    flavorDimensions "mode", "version"
+
     productFlavors {
 
         // 版本号不能放在
         person {
-            dimension "person"
+            dimension "mode"
             applicationId "net.coding.program"
             versionCode 154
             versionName "4.6"
             targetSdkVersion 23
         }
         enterprise {
-            dimension "enterprise"
+            dimension "mode"
             applicationId "net.coding.program.enterprise"
             versionCode 22
             versionName "2.2"
@@ -70,6 +76,7 @@ android {
         }
 
         dev {
+            dimension "version"
             // dev utilizes minSDKVersion = 21 to allow the Android gradle plugin
             // to pre-dex each module and produce an APK that can be tested on
             // Android Lollipop without time consuming dex merging processes.
@@ -77,6 +84,7 @@ android {
         }
 
         prod {
+            dimension "version"
             // The actual minSdkVersion for the application.
             minSdkVersion 15
         }
@@ -164,7 +172,6 @@ dependencies {
     compile files('libs/pinyin4j-2.5.0.jar')
     compile files('libs/jg_filter_sdk_1.1.jar')
     compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
-    compile files('libs/alipaySdk-20151215.jar')
     compile project(':bottom-bar')
     compile project(':luban')
 //    compile 'com.alibaba:fastjson:1.1.44.android'
@@ -234,6 +241,10 @@ dependencies {
 // 高斯模糊 start --------------------------------------------------------------------------
 repositories {
     maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
+    maven {
+        url 'https://maven.google.com/'
+        name 'Google'
+    }
 }
 
 dependencies {

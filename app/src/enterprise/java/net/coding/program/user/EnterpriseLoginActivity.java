@@ -27,7 +27,7 @@ import net.coding.program.EnterpriseMainActivity_;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
-import net.coding.program.common.enter.SimpleTextWatcher;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.common.guide.GuideActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;

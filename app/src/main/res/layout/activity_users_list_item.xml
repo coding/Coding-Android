@@ -22,7 +22,7 @@
         android:layout_height="70dp"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center_vertical"
-        android:id="@+id/listItemContentLayout"
+        android:id="@+id/rootLayout"
         android:paddingLeft="15dp"
         android:paddingRight="30dp">
 

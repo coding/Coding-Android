@@ -1,87 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="net.coding.program">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="net.coding.program">
 
     <application
-            android:name=".EnterpriseApp"
-            android:allowBackup="true"
-            android:icon="@drawable/app_icon"
-            android:largeHeap="true"
-            android:theme="@style/ActionbarNoIcon">
+        android:name=".EnterpriseApp"
+        android:label="@string/app_name"
+        tools:replace="android:name">
 
         <!-- 信鸽需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver
-                android:name="com.tencent.android.tpush.XGPushReceiver"
-                android:process=":xg_service_v2">
+            android:name="com.tencent.android.tpush.XGPushReceiver"
+            android:process=":xg_service_v2">
             <intent-filter android:priority="0x7fffffff">
 
                 <!-- 【必须】 信鸽SDK的内部广播 -->
-                <action android:name="com.tencent.android.tpush.action.SDK"/>
-                <action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE"/>
+                <action android:name="com.tencent.android.tpush.action.SDK" />
+                <action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE" />
                 <!-- 【必须】 系统广播：网络切换 -->
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 
                 <!-- 【可选】 系统广播：开屏 -->
-                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.intent.action.USER_PRESENT" />
 
                 <!-- 【可选】 一些常用的系统广播，增强信鸽service的复活机会，请根据需要选择。当然，你也可以添加APP自定义的一些广播让启动service -->
-                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED"/>
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
             <!-- 【可选】 usb相关的系统广播，增强信鸽service的复活机会，请根据需要添加 -->
             <intent-filter android:priority="0x7fffffff">
-                <action android:name="android.intent.action.MEDIA_UNMOUNTED"/>
-                <action android:name="android.intent.action.MEDIA_REMOVED"/>
-                <action android:name="android.intent.action.MEDIA_CHECKING"/>
-                <action android:name="android.intent.action.MEDIA_EJECT"/>
+                <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
+                <action android:name="android.intent.action.MEDIA_REMOVED" />
+                <action android:name="android.intent.action.MEDIA_CHECKING" />
+                <action android:name="android.intent.action.MEDIA_EJECT" />
 
-                <data android:scheme="file"/>
+                <data android:scheme="file" />
             </intent-filter>
         </receiver>
         <!-- 【必须】 (2.30及以上版新增)展示通知的activity -->
         <!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理 -->
         <activity
-                android:name="com.tencent.android.tpush.XGPushActivity"
-                android:exported="true">
+            android:name="com.tencent.android.tpush.XGPushActivity"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action"/>
+                <action android:name="android.intent.action" />
             </intent-filter>
         </activity>
 
         <!-- 【必须】 信鸽service -->
         <service
-                android:name="com.tencent.android.tpush.service.XGPushService"
-                android:exported="true"
-                android:persistent="true"
-                android:process=":xg_service_v2"/>
+            android:name="com.tencent.android.tpush.service.XGPushService"
+            android:exported="true"
+            android:persistent="true"
+            android:process=":xg_service_v2" />
 
         <receiver android:name=".common.EnterprisePushReceiver">
             <intent-filter>
 
                 <!-- 接收消息透传 -->
-                <action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE"/>
+                <action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE" />
                 <!-- 监听注册、反注册、设置/删除标签、通知被点击等处理结果 -->
-                <action android:name="com.tencent.android.tpush.action.FEEDBACK"/>
+                <action android:name="com.tencent.android.tpush.action.FEEDBACK" />
             </intent-filter>
         </receiver>
 
         <!-- 【必须】 通知service，此选项有助于提高抵达率 -->
         <service
-                android:name="com.tencent.android.tpush.rpc.XGRemoteService"
-                android:exported="true">
+            android:name="com.tencent.android.tpush.rpc.XGRemoteService"
+            android:exported="true">
             <intent-filter>
-                <action android:name="net.coding.program.enterprise.PUSH_ACTION"/>
+                <action android:name="net.coding.program.enterprise.PUSH_ACTION" />
             </intent-filter>
         </service>
         <!-- 信鸽需要的组件 end ———————————————————————————————————————————————————————————————————————————— -->
 
         <activity
-                android:name=".setting.EnterpriseNameActivity_"
-                android:screenOrientation="portrait"
-                android:theme="@style/ActionbarTranslate"
-                android:windowSoftInputMode="stateVisible|adjustResize">
+            android:name=".setting.EnterpriseNameActivity_"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionbarTranslate"
+            android:windowSoftInputMode="stateVisible|adjustResize">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -90,129 +89,132 @@
         </activity>
 
         <activity
-                android:name=".user.EnterpriseLoginActivity_"
-                android:icon="@drawable/ic_lancher"
-                android:label="@string/title_activity_login"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppThemeNoActionbar"
-                android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+            android:name=".user.EnterpriseLoginActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
-                android:name=".EntranceActivity_"
-                android:icon="@drawable/app_icon"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppThemeNoActionbar"/>
+            android:name=".EntranceActivity_"
+            android:icon="@drawable/app_icon"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar" />
         <activity
-                android:name=".EnterpriseEntranceActivity_"
-                android:icon="@drawable/app_icon"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppThemeNoActionbar">
+            android:name=".EnterpriseEntranceActivity_"
+            android:icon="@drawable/app_icon"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-                android:name=".user.EnterpriseAddMemberActivity_"
-                android:icon="@drawable/ic_lancher"
-                android:label="@string/title_activity_enterprise_add_member"
-                android:screenOrientation="portrait"/>
+            android:name=".user.EnterpriseAddMemberActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_enterprise_add_member"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".user.EnterpriseUserDetailActivity_"
-                android:icon="@drawable/ic_lancher"
-                android:label="@string/title_activity_user_detail"
-                android:screenOrientation="portrait"/>
+            android:name=".user.EnterpriseUserDetailActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_user_detail"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".project.detail.GitTreeActivity_"
-                android:icon="@drawable/ic_lancher"
-                android:label="@string/title_activity_git_tree"
-                android:screenOrientation="portrait"/>
+            android:name=".project.detail.GitTreeActivity_"
+            android:icon="@drawable/ic_lancher"
+            tools:replace="android:label"
+            android:label="@string/title_activity_git_tree"
+            android:screenOrientation="portrait" />
+
         <receiver
-                android:name=".EnterpriseMyPushReceiver"
-                android:enabled="true"
-                android:exported="true">
+            android:name=".EnterpriseMyPushReceiver"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
-                <action android:name="net.coding.program.EnterpriseMyPushReceiver.PushClickBroadcast"/>
+                <action android:name="net.coding.program.EnterpriseMyPushReceiver.PushClickBroadcast" />
             </intent-filter>
         </receiver>
+
         <activity
-                android:name=".login.phone.EnterpriseEmailSetPasswordActivity_"
-                android:label="@string/empty"
-                android:screenOrientation="portrait"
-                android:theme="@style/ActionbarTranslate"/>
+            android:name=".login.phone.EnterpriseEmailSetPasswordActivity_"
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionbarTranslate" />
         <activity
-                android:name=".project.maopao.EnterpriseProjectMaopaoActivity_"
-                android:label="@string/title_activity_project_maopao"
-                android:screenOrientation="portrait"/>
+            android:name=".project.maopao.EnterpriseProjectMaopaoActivity_"
+            android:label="@string/title_activity_project_maopao"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".user.EnterpriseMyDetailActivity_"
-                android:label="@string/title_activity_my_detail"
-                android:screenOrientation="portrait"/>
+            android:name=".user.EnterpriseMyDetailActivity_"
+            android:label="@string/title_activity_my_detail"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".EnterpriseMainActivity_"
-                android:configChanges="orientation|keyboardHidden"
-                android:label="@string/app_name"
-                android:launchMode="singleTask"
-                android:screenOrientation="portrait"
-                android:theme="@style/ActionbarSpannerTheme1"
-                android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+            android:name=".EnterpriseMainActivity_"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionbarSpannerTheme1"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
-                android:name=".user.PickUserActivity_"
-                android:icon="@drawable/ic_lancher"
-                android:label="@string/title_pick_user_activity"
-                android:screenOrientation="portrait"/>
+            android:name=".user.PickUserActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_pick_user_activity"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".user.PickUserRelayMessageActivity_"
-                android:icon="@drawable/ic_lancher"
-                android:label="@string/title_pick_user_activity"
-                android:screenOrientation="portrait"/>
+            android:name=".user.PickUserRelayMessageActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_pick_user_activity"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".setting.EnterpriseAccountActivity_"
-                android:icon="@drawable/ic_lancher"
-                android:label="@string/title_enterprise_account_activity"
-                android:screenOrientation="portrait"
-                android:theme="@style/AccountTheme"/>
+            android:name=".setting.EnterpriseAccountActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_enterprise_account_activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AccountTheme" />
         <activity
-                android:name=".setting.ManageProjectListActivity_"
-                android:icon="@drawable/ic_lancher"
-                android:label="@string/title_manage_project_activity"
-                android:screenOrientation="portrait"/>
+            android:name=".setting.ManageProjectListActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_manage_project_activity"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".setting.ManageMemberActivity_"
-                android:icon="@drawable/ic_lancher"
-                android:label="@string/title_manage_member_activity"
-                android:screenOrientation="portrait"/>
+            android:name=".setting.ManageMemberActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_manage_member_activity"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".setting.EnterpriseSettingActivity_"
-                android:icon="@drawable/ic_lancher"
-                android:label="@string/empty"
-                android:screenOrientation="portrait"/>
+            android:name=".setting.EnterpriseSettingActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/empty"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".setting.order.OrderMainActivity_"
-                android:icon="@drawable/ic_lancher"
-                android:label="@string/title_manage_order_activity"
-                android:screenOrientation="portrait"/>
+            android:name=".setting.order.OrderMainActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_manage_order_activity"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".setting.CommonPickProjectActivity_"
-                android:icon="@drawable/ic_lancher"
-                android:label="@string/title_common_pick_project"
-                android:screenOrientation="portrait"/>
+            android:name=".setting.CommonPickProjectActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_common_pick_project"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".setting.SetEnterpriseAuthorityActivity_"
-                android:icon="@drawable/ic_lancher"
-                android:label="@string/title_set_enterprise_authority"
-                android:screenOrientation="portrait"/>
+            android:name=".setting.SetEnterpriseAuthorityActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_set_enterprise_authority"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".guide.EnterpriseGuideActivity_"
-                android:icon="@drawable/ic_lancher"
-                android:theme="@style/AppThemeNoActionbar"
-                android:label="@string/empty"
-                android:screenOrientation="portrait"/>
+            android:name=".guide.EnterpriseGuideActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar" />
         <activity
-                android:name=".login.phone.Close2FAActivity_"
-                android:label="@string/empty"
-                android:screenOrientation="portrait"
-                android:theme="@style/ActionbarTranslate"/>
+            android:name=".login.phone.Close2FAActivity_"
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionbarTranslate" />
     </application>
 
 </manifest>

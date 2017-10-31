@@ -142,7 +142,7 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
             addFollowView.findViewById(R.id.followMutual).setVisibility(View.GONE);
             ((ImageView) addFollowView.findViewById(R.id.icon)).setImageResource(R.drawable.ic_message_add_user);
             ((TextView) addFollowView.findViewById(R.id.name)).setText("添加好友");
-            addFollowView.findViewById(R.id.listItemContentLayout).setOnClickListener(v -> actionAdd());
+            addFollowView.findViewById(R.id.rootLayout).setOnClickListener(v -> actionAdd());
 
             listView.addHeaderView(addFollowView, null, false);
         }
