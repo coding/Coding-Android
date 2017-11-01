@@ -1,31 +1,16 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
-    }
-}
-
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-
 apply plugin: 'com.android.application'
-
-dependencies {
-    def AAVersion = '4.3.1'
-    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
-    // 非常奇怪，格式化会两行合并为一行
-    compile "org.androidannotations:androidannotations-api:$AAVersion"
-}
+apply plugin: "kotlin-android"
 
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
     dexOptions {
         javaMaxHeapSize "2g"
+    }
+
+    sourceSets {
+        main.java.srcDirs += "src/main/java"
+        main.java.srcDirs += "src/person/java"
     }
 
     dataBinding {
@@ -39,9 +24,6 @@ android {
 
         multiDexEnabled true
         minSdkVersion 15
-
-        //
-//        flavorDimensions "default"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -114,7 +96,22 @@ gradle.projectsEvaluated {
     }
 }
 
+kapt {
+    correctErrorTypes = true
+
+    javacOptions {
+        option("-Xmaxerrs", 500)
+    }
+}
+
+def AAVersion = '4.3.1'
 dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
+    compile "org.androidannotations:androidannotations-api:$AAVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
     // dagger 2 依赖
     def daggerVersion = '2.10'
     compile "com.google.dagger:dagger:$daggerVersion"
@@ -133,8 +130,6 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportVersion"
     compile "com.android.support:support-annotations:$supportVersion"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
-    compile fileTree(include: ['*.jar'], dir: 'libs')
 
     compile 'com.android.support:multidex:1.0.1'
 
@@ -214,6 +209,7 @@ dependencies {
     compile 'com.blankj:utilcode:1.9.0'
 
 }
+
 
 // 新功能提示，使用弹出框的样式 start ----------------------------------------------------------------
 repositories {
