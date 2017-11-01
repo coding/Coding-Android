@@ -107,7 +107,6 @@ kapt {
 def AAVersion = '4.3.1'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -118,11 +117,12 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     compile "com.google.dagger:dagger-android:$daggerVersion"
     compile "com.google.dagger:dagger-android-support:$daggerVersion"
+
     // if you use the support libraries
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     // google 兼容库
-    def supportVersion = '25.3.1'
+    def supportVersion = '26.1.0'
     compile "com.android.support:support-v4:$supportVersion"
     compile "com.android.support:design:$supportVersion"
     compile "com.android.support:percent:$supportVersion"
@@ -130,9 +130,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportVersion"
     compile "com.android.support:support-annotations:$supportVersion"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
     compile 'com.android.support:multidex:1.0.1'
-
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
@@ -151,14 +149,17 @@ dependencies {
     compile files('libs/BaiduLBS_Android.jar')
     compile 'com.prolificinteractive:parallaxpager:2.2.1'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.5.0'
+
     // 高版本fix使用support库crash
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
     compile 'org.apmem.tools:layouts:1.9@aar'
+
     //flow_layout
     compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
         exclude module: 'support-v4'
     }
+
     //    compile 'com.twotoasters.jazzylistview:library:1.2.1'
     compile project(':social_sdk_library_project')
     compile 'com.bigkoo:convenientbanner:1.0.8'
@@ -167,16 +168,17 @@ dependencies {
     compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
     compile project(':bottom-bar')
     compile project(':luban')
-//    compile 'com.alibaba:fastjson:1.1.44.android'
+
+    //    compile 'com.alibaba:fastjson:1.1.44.android'
 
     // 方便显示 view 显示一些样式，不用写 selector
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
 
     // 列表控件，
     compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'
+
     // 比 ultimaterecyclerview 轻量，用起来比较舒服，实现代码也好些
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.28'
-
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.3@aar'
     compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
     compile 'com.orhanobut:logger:1.15'
@@ -207,7 +209,7 @@ dependencies {
 
     // 常用工具类
     compile 'com.blankj:utilcode:1.9.0'
-
+    implementation project(':push:push_xiaomi')
 }
 
 

@@ -1,1 +1,1 @@
-include ':app', ':social_sdk_library_project', ':bottom-bar', ':luban'
+include ':app', ':social_sdk_library_project', ':bottom-bar', ':luban', 'push:push_xiaomi'

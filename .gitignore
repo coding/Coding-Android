@@ -41,3 +41,10 @@ gradlew.bat
 gradle.properties
 app/manifest-merger-release-report.txt
 /captures/
+/push/push.iml
+app/src/main/java/net/coding/program/network/model/baidumap/
+push/push_xiaomi/.gitignore
+push/push_xiaomi/build.gradle
+push/push_xiaomi/libs/
+push/push_xiaomi/proguard-rules.pro
+push/push_xiaomi/src/
