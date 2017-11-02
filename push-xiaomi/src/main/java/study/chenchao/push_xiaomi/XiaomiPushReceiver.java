@@ -2,19 +2,14 @@ package study.chenchao.push_xiaomi;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Message;
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.xiaomi.mipush.sdk.ErrorCode;
-import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
 import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 1、PushMessageReceiver 是个抽象类，该类继承了 BroadcastReceiver。<br/>
