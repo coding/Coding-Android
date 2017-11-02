@@ -39,6 +39,7 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.project.MainProjectFragment_;
 import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.init.InitProUtils;
+import net.coding.program.push.CodingPush;
 import net.coding.program.setting.MainSettingFragment_;
 import net.coding.program.task.MainTaskFragment_;
 
@@ -307,12 +308,12 @@ public class MainActivity extends BaseActivity {
         updateNotifyFromService();
         switch (tabId) {
             case R.id.tabProject:
-//                MyApp.getInstance().getPush().setAlias(this, "1984");
+                CodingPush.instance().bindGK("19861");
                 switchProject();
                 break;
 
             case R.id.tabTask:
-//                MyApp.getInstance().getPush().setAlias(this, "1984");
+                CodingPush.instance().bindGK("19862");
                 switchFragment(MainTaskFragment_.FragmentBuilder_.class);
                 break;
 

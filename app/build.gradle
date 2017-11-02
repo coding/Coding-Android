@@ -111,6 +111,8 @@ dependencies {
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
+    implementation project(':push-dir:coding-push')
+
     // dagger 2 依赖
     def daggerVersion = '2.10'
     compile "com.google.dagger:dagger:$daggerVersion"
@@ -209,6 +211,7 @@ dependencies {
 
     // 常用工具类
     compile 'com.blankj:utilcode:1.9.0'
+//    implementation project(':push-dir:coding-push')
 }
 
 

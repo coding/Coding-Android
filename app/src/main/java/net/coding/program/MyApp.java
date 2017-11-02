@@ -26,6 +26,7 @@ import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
+import net.coding.program.push.CodingPush;
 import net.coding.program.third.MyImageDownloader;
 
 import java.util.List;
@@ -134,6 +135,8 @@ public class MyApp extends MultiDexApplication {
 
 //        push = new XiaomiPush();
 //        push.init(this);
+
+        CodingPush.instance().init(this);
 
         try {
             ApplicationInfo info = getApplicationInfo();

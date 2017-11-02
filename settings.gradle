@@ -1,1 +1,11 @@
-include ':app', ':social_sdk_library_project', ':bottom-bar', ':luban', ':push-xiaomi', ':coding-push'
+include ':app'
+include ':social_sdk_library_project'
+include ':bottom-bar'
+include ':luban'
+
+// need repeat declarative, i think it's bug
+include ':coding-push'
+include ':push-dir:coding-push'
+include ":push-xiaomi"
+include ":push-dir:push-xiaomi"
+
