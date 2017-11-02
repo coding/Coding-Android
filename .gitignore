@@ -44,3 +44,4 @@ app/manifest-merger-release-report.txt
 app/src/main/java/net/coding/program/network/model/baidumap/
 
 !/push/
+/.gradle/
