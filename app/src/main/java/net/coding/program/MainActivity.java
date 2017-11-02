@@ -307,12 +307,12 @@ public class MainActivity extends BaseActivity {
         updateNotifyFromService();
         switch (tabId) {
             case R.id.tabProject:
-                MyApp.getInstance().getPush().setAlias(this, "1984");
+//                MyApp.getInstance().getPush().setAlias(this, "1984");
                 switchProject();
                 break;
 
             case R.id.tabTask:
-                MyApp.getInstance().getPush().setAlias(this, "1984");
+//                MyApp.getInstance().getPush().setAlias(this, "1984");
                 switchFragment(MainTaskFragment_.FragmentBuilder_.class);
                 break;
 

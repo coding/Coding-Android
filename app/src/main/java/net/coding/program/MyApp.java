@@ -30,8 +30,6 @@ import net.coding.program.third.MyImageDownloader;
 
 import java.util.List;
 
-import study.chenchao.push_xiaomi.XiaomiPush;
-
 /**
  * Created by cc191954 on 14-8-9.
  * 用来做一些初始化工作，比如设置 host，
@@ -54,10 +52,6 @@ public class MyApp extends MultiDexApplication {
     private static String enterpriseGK = "";
 
     private static MyApp app;
-
-    public XiaomiPush getPush() {
-        return push;
-    }
 
     public static MyApp getInstance() {
         return app;
@@ -128,14 +122,18 @@ public class MyApp extends MultiDexApplication {
         return !TextUtils.isEmpty(enterpriseGK);
     }
 
-    public static XiaomiPush push;
+//    public XiaomiPush getPush() {
+//        return push;
+//    }
+
+//    public static XiaomiPush push;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        push = new XiaomiPush();
-        push.init(this);
+//        push = new XiaomiPush();
+//        push.init(this);
 
         try {
             ApplicationInfo info = getApplicationInfo();
