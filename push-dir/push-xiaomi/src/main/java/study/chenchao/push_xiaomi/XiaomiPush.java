@@ -12,7 +12,7 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.util.List;
 
-public class XiaomiPush {
+public class XiaomiPush implements PushAction {
 
     // user your appid the key.
     private static final String APP_ID = "2882303761517260238";
@@ -22,35 +22,49 @@ public class XiaomiPush {
     // com.xiaomi.mipushdemo
     public static final String TAG = "net.coding.program";
 
-    public void init(Context context) {
+    public boolean init(Context context) {
         // 注册push服务，注册成功后会向DemoMessageReceiver发送广播
         // 可以从DemoMessageReceiver的onCommandResult方法中MiPushCommandMessage对象参数中获取注册信息
         if (shouldInit(context)) {
             MiPushClient.registerPush(context, APP_ID, APP_KEY);
+
+            LoggerInterface newLogger = new LoggerInterface() {
+
+                @Override
+                public void setTag(String tag) {
+                    // ignore
+                }
+
+                @Override
+                public void log(String content, Throwable t) {
+                    Log.d(TAG, content, t);
+                }
+
+                @Override
+                public void log(String content) {
+                    Log.d(TAG, content);
+                }
+            };
+            Logger.setLogger(context, newLogger);
+            Log.d(PushAction.TAG, "use xiaomi push true");
+
+            return true;
         }
+        Log.d(PushAction.TAG, "use xiaomi push false");
 
-        LoggerInterface newLogger = new LoggerInterface() {
-
-            @Override
-            public void setTag(String tag) {
-                // ignore
-            }
-
-            @Override
-            public void log(String content, Throwable t) {
-                Log.d(TAG, content, t);
-            }
-
-            @Override
-            public void log(String content) {
-                Log.d(TAG, content);
-            }
-        };
-        Logger.setLogger(context, newLogger);
+        return false;
     }
 
-    public void setAlias(Context context, String alias) {
-        MiPushClient.setUserAccount(context, alias, null);
+    @Override
+    public void bindGK(Context context, String gk) {
+        Log.d(PushAction.TAG, "use xiaomi push bind " + gk);
+        MiPushClient.setUserAccount(context, gk, null);
+    }
+
+    @Override
+    public void unbindGK(Context context, String gk) {
+        Log.d(PushAction.TAG, "use xiaomi push unbind " + gk);
+        MiPushClient.unsetUserAccount(context, gk, null);
     }
 
     private boolean shouldInit(Context context) {
