@@ -40,6 +40,7 @@ import net.coding.program.project.MainProjectFragment_;
 import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.push.CodingPush;
+import net.coding.program.push.huawei.HuaweiPush;
 import net.coding.program.setting.MainSettingFragment_;
 import net.coding.program.task.MainTaskFragment_;
 
@@ -138,6 +139,8 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().register(this);
 
         requestPermission();
+
+        HuaweiPush.instance().onCreate(this, AccountInfo.loadAccount(this).global_key);
     }
 
     @UiThread(delay = 2000)
@@ -230,6 +233,12 @@ public class MainActivity extends BaseActivity {
         updateNotifyFromService();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        HuaweiPush.instance().onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     private void warnMailNoValidLogin() {
         if (sNeedWarnEmailNoValidLogin) {
             sNeedWarnEmailNoValidLogin = false;
@@ -262,10 +271,11 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        HuaweiPush.instance().onDestroy();
 
         if (mUpdatePushReceiver != null) {
             unregisterReceiver(mUpdatePushReceiver);

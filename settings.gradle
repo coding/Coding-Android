@@ -8,4 +8,6 @@ include ':coding-push'
 include ':push-dir:coding-push'
 include ":push-xiaomi"
 include ":push-dir:push-xiaomi"
+include ":push-huawei"
+include ":push-dir:push-huawei"
 
