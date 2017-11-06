@@ -1,7 +1,9 @@
-package study.chenchao.push_xiaomi;
+package net.coding.program.push.xiaomi;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
@@ -10,6 +12,7 @@ import com.xiaomi.mipush.sdk.PushMessageReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 1、PushMessageReceiver 是个抽象类，该类继承了 BroadcastReceiver。<br/>
@@ -72,26 +75,19 @@ public class XiaomiPushReceiver extends PushMessageReceiver {
     public void onNotificationMessageClicked(Context context, MiPushMessage message) {
         Log.v(XiaomiPush.TAG,
                 "onNotificationMessageClicked is called. " + message.toString());
-//        String log = context.getString(R.string.click_notification_message, message.getContent());
-//        MainActivity.logList.add(0, getSimpleDate() + " " + log);
-//
-//        if (!TextUtils.isEmpty(message.getTopic())) {
-//            mTopic = message.getTopic();
-//        } else if (!TextUtils.isEmpty(message.getAlias())) {
-//            mAlias = message.getAlias();
-//        }
-//
-//        Message msg = Message.obtain();
-//        if (message.isNotified()) {
-//            msg.obj = log;
-//        }
-//        DemoApplication.getHandler().sendMessage(msg);
+
+        Map<String, String> extra = message.getExtra();
+        if (extra != null) {
+            XiaomiPush.clickPushAction.click(context, extra);
+        }
+
     }
 
     @Override
     public void onNotificationMessageArrived(Context context, MiPushMessage message) {
         Log.v(XiaomiPush.TAG,
                 "onNotificationMessageArrived is called. " + message.toString());
+
 //        String log = context.getString(R.string.arrive_notification_message, message.getContent());
 //        MainActivity.logList.add(0, getSimpleDate() + " " + log);
 //

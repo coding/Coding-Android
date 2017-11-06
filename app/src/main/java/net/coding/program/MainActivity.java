@@ -132,6 +132,7 @@ public class MainActivity extends BaseActivity {
         warnMailNoValidLogin();
         warnMailNoValidRegister();
 
+        CodingPush.instance().bindGK(AccountInfo.loadAccount(this).global_key);
 
         startExtraServiceDelay();
         EventBus.getDefault().register(this);
@@ -308,12 +309,10 @@ public class MainActivity extends BaseActivity {
         updateNotifyFromService();
         switch (tabId) {
             case R.id.tabProject:
-                CodingPush.instance().bindGK("19861");
                 switchProject();
                 break;
 
             case R.id.tabTask:
-                CodingPush.instance().bindGK("19862");
                 switchFragment(MainTaskFragment_.FragmentBuilder_.class);
                 break;
 

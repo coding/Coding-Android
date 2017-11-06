@@ -1,4 +1,4 @@
-package study.chenchao.push_xiaomi;
+package net.coding.program.push.xiaomi;
 
 import org.junit.Test;
 

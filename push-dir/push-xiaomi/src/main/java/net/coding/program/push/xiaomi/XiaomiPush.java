@@ -1,4 +1,4 @@
-package study.chenchao.push_xiaomi;
+package net.coding.program.push.xiaomi;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
@@ -11,6 +11,7 @@ import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.util.List;
+import java.util.Map;
 
 public class XiaomiPush implements PushAction {
 
@@ -19,10 +20,17 @@ public class XiaomiPush implements PushAction {
     // user your appid the key.
     private static final String APP_KEY = "5861726013238";
 
-    // com.xiaomi.mipushdemo
-    public static final String TAG = "net.coding.program";
+    public static final String TAG = "CodingPush xiaomi";
 
-    public boolean init(Context context) {
+    static CommonPushClick clickPushAction = new CommonPushClick() {
+        @Override
+        public void click(Context context, Map<String, String> params) {
+
+        }
+    };
+
+    @Override
+    public boolean init(Context context, CommonPushClick clickPushActionName) {
         // 注册push服务，注册成功后会向DemoMessageReceiver发送广播
         // 可以从DemoMessageReceiver的onCommandResult方法中MiPushCommandMessage对象参数中获取注册信息
         if (shouldInit(context)) {
@@ -47,6 +55,8 @@ public class XiaomiPush implements PushAction {
             };
             Logger.setLogger(context, newLogger);
             Log.d(PushAction.TAG, "use xiaomi push true");
+
+            clickPushAction = clickPushActionName;
 
             return true;
         }

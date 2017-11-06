@@ -3,8 +3,9 @@ package net.coding.program.push;
 import android.content.Context;
 import android.util.Log;
 
-import study.chenchao.push_xiaomi.PushAction;
-import study.chenchao.push_xiaomi.XiaomiPush;
+import net.coding.program.push.xiaomi.CommonPushClick;
+import net.coding.program.push.xiaomi.PushAction;
+import net.coding.program.push.xiaomi.XiaomiPush;
 
 /**
  * Created by chenchao on 2017/11/2.
@@ -25,18 +26,16 @@ public final class CodingPush {
     private Context context;
     PushAction pushAction;
 
-    public void init(Context context) {
-        if (Rom.isMiui()) {
+    public void init(Context context, CommonPushClick clickPushAction) {
+        if (Rom.isEmui()) {
+            Log.d(PushAction.TAG, "use huawei push");
+        } else  {  // default device use xiaomi push
             if (pushAction == null) {
                 pushAction = new XiaomiPush();
             }
-            if (pushAction.init(context)) {
+            if (pushAction.init(context, clickPushAction)) {
                 this.context = context;
             }
-        } else if (Rom.isEmui()) {
-            Log.d(PushAction.TAG, "use huawei push");
-        } else {
-            Log.d(PushAction.TAG, "use other push");
         }
     }
 

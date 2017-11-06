@@ -2,6 +2,7 @@ package net.coding.program;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.os.Environment;
 import android.os.Process;
@@ -11,6 +12,8 @@ import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.liulishuo.filedownloader.FileDownloader;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -21,15 +24,19 @@ import net.coding.program.common.Global;
 import net.coding.program.common.PhoneType;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.Unread;
+import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.UserObject;
 import net.coding.program.push.CodingPush;
+import net.coding.program.push.xiaomi.CommonPushClick;
 import net.coding.program.third.MyImageDownloader;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cc191954 on 14-8-9.
@@ -123,20 +130,42 @@ public class MyApp extends MultiDexApplication {
         return !TextUtils.isEmpty(enterpriseGK);
     }
 
-//    public XiaomiPush getPush() {
-//        return push;
-//    }
-
-//    public static XiaomiPush push;
-
     @Override
     public void onCreate() {
         super.onCreate();
 
-//        push = new XiaomiPush();
-//        push.init(this);
+        CodingPush.instance().init(this, new CommonPushClick() {
+            @Override
+            public void click(Context context, Map<String, String> params) {
+                if (params == null) {
+                    return;
+                }
+                String url = params.get("param_url");
+                String id = params.get("notification_id");
+                if (TextUtils.isEmpty(url)) {
+                    return;
+                }
 
-        CodingPush.instance().init(this);
+                if (url != null) {
+                    if (MyApp.getMainActivityState()) {
+                        URLSpanNoUnderline.openActivityByUri(context, url, true);
+                    } else {
+                        Intent mainIntent = new Intent(context, CodingCompat.instance().getMainActivity());
+                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(mainIntent);
+                        URLSpanNoUnderline.openActivityByUri(context, url, true);
+                    }
+                }
+
+                if (id != null && !id.isEmpty()) {
+                    AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
+                    final String host = Global.HOST_API + "/notification/mark-read?id=%s";
+                    client.post(String.format(host, id), new JsonHttpResponseHandler() {
+                    });
+                }
+
+            }
+        });
 
         try {
             ApplicationInfo info = getApplicationInfo();

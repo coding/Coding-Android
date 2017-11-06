@@ -112,6 +112,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     implementation project(':push-dir:coding-push')
+    implementation project(':push-dir:push-xiaomi')
 
     // dagger 2 依赖
     def daggerVersion = '2.10'
