@@ -5,6 +5,7 @@
 
     <application
         android:name=".PersonApp"
+        android:debuggable="true"
         android:label="@string/app_name"
         tools:replace="android:name">
 

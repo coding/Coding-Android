@@ -42,15 +42,28 @@ public class HuaweiPushReceiver extends PushReceiver {
         if (Event.NOTIFICATION_OPENED.equals(event) || Event.NOTIFICATION_CLICK_BTN.equals(event)) {
             int notifyId = extras.getInt(BOUND_KEY.pushNotifyId, 0);
         	Log.i(HuaweiPush.TAG, "收到通知栏消息点击事件,notifyId:" + notifyId);
-            if (0 != notifyId) {
-                NotificationManager manager = (NotificationManager) context
-                        .getSystemService(Context.NOTIFICATION_SERVICE);
-                manager.cancel(notifyId);
-            }
+//            if (0 != notifyId) {
+//                NotificationManager manager = (NotificationManager) context
+//                        .getSystemService(Context.NOTIFICATION_SERVICE);
+//                manager.cancel(notifyId);
+//            }
         }
 
         String message = extras.getString(BOUND_KEY.pushMsgKey);
         super.onEvent(context, event, extras);
+
+        StringBuilder sb = new StringBuilder();
+        for (String s : extras.keySet()) {
+            try {
+                sb.append(s);
+                sb.append("\t");
+                sb.append(extras.getString(s));
+                sb.append("\n");
+            } catch (Exception e) {
+                Log.d(HuaweiPush.TAG, "error " + e.toString());
+            }
+        }
+        Log.d(HuaweiPush.TAG, sb.toString());
     }
 
     @Override

@@ -3,6 +3,7 @@ package net.coding.program.push.huawei;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.huawei.hms.api.ConnectionResult;
@@ -12,6 +13,8 @@ import com.huawei.hms.support.api.client.PendingResult;
 import com.huawei.hms.support.api.push.TokenResult;
 
 import java.lang.ref.WeakReference;
+
+import static android.content.Context.TELEPHONY_SERVICE;
 
 /**
  * Created by chenchao on 2017/11/6.
@@ -58,6 +61,15 @@ public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionC
         //建议在oncreate的时候连接华为移动服务
         //业务可以根据自己业务的形态来确定client的连接和断开的时机，但是确保connect和disconnect必须成对出现
         client.connect();
+
+        try {
+            TelephonyManager tm = (TelephonyManager) activity.getSystemService(TELEPHONY_SERVICE);
+            String imei = tm.getDeviceId();//String
+            Log.i(TAG, "imei " + imei);
+        } catch (Exception e) {
+            Log.i(TAG, "imei 获取失败");
+        }
+
     }
 
     @Override
@@ -90,6 +102,8 @@ public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionC
                     //当返回值为0的时候表明获取token结果调用成功
                     Log.i(TAG, "获取push token 成功，等待广播");
                 }
+
+                setReceiveNotifyMsg(true);
             };
         }.start();
     }
@@ -99,7 +113,6 @@ public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionC
         //华为移动服务client连接成功，在这边处理业务自己的事件
         Log.i(TAG, "HuaweiApiClient 连接成功");
         getTokenSync();
-
     }
 
     @Override
@@ -110,6 +123,20 @@ public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionC
         if (isActivityExit()) {
             client.connect();
         }
+    }
+
+    private void setReceiveNotifyMsg(boolean flag) {
+        if(!client.isConnected()) {
+            Log.i(TAG, "设置是否接收push通知消息失败，原因：HuaweiApiClient未连接");
+            client.connect();
+            return;
+        }
+        if(flag) {
+            Log.i(TAG, "允许应用接收push通知栏消息");
+        } else {
+            Log.i(TAG, "禁止应用接收push通知栏消息");
+        }
+        com.huawei.hms.support.api.push.HuaweiPush.HuaweiPushApi.enableReceiveNotifyMsg(client, flag);
     }
 
     public boolean isActivityExit() {

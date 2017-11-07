@@ -2,21 +2,26 @@ apply plugin: 'com.android.application'
 apply plugin: "kotlin-android"
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'codingnet'
+            keyPassword 'coding1206'
+            storeFile file('/Users/chenchao/Documents/codingimportant/coding.jks')
+            storePassword 'coding1206'
+        }
+    }
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
     dexOptions {
         javaMaxHeapSize "2g"
     }
-
     sourceSets {
         main.java.srcDirs += "src/main/java"
         main.java.srcDirs += "src/person/java"
     }
-
     dataBinding {
         enabled = true
     }
-
     defaultConfig {
 //        useLibrary 'org.apache.http.legacy'
         renderscriptTargetApi 18
@@ -34,9 +39,13 @@ android {
             }
         }
     }
-
+    android {
+        lintOptions {
+            checkReleaseBuilds false
+            abortOnError false
+        }
+    }
     flavorDimensions "mode", "version"
-
     productFlavors {
 
         // 版本号不能放在
@@ -61,6 +70,10 @@ android {
             // to pre-dex each module and produce an APK that can be tested on
             // Android Lollipop without time consuming dex merging processes.
             minSdkVersion 21
+
+
+            signingConfig signingConfigs.config
+
         }
 
         prod {
@@ -75,11 +88,11 @@ android {
             debuggable false
             jniDebuggable false
         }
-//        debug {
+        debug {
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.config
+            signingConfig signingConfigs.config
 //            jniDebuggable true
-//        }
+        }
     }
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
@@ -110,7 +123,6 @@ dependencies {
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-
     implementation project(':push-dir:coding-push')
     implementation project(':push-dir:push-xiaomi')
     implementation project(':push-dir:push-huawei')
@@ -213,7 +225,8 @@ dependencies {
 
     // 常用工具类
     compile 'com.blankj:utilcode:1.9.0'
-//    implementation project(':push-dir:coding-push')
+
+    //    implementation project(':push-dir:coding-push')
 }
 
 
