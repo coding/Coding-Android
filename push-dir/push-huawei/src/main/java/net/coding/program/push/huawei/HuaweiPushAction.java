@@ -1,6 +1,7 @@
 package net.coding.program.push.huawei;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 
 /**
  * Created by chenchao on 2017/11/6.
@@ -8,6 +9,6 @@ import android.app.Activity;
 
 public interface HuaweiPushAction {
 
-    void onCreate(Activity activity, String gk);
+    void onCreate(@NonNull Activity activity, @NonNull String gk, @NonNull HuaweiPushClick click);
     void onDestroy();
 }

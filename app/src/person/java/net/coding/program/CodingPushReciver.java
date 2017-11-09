@@ -91,7 +91,6 @@ public class CodingPushReciver extends XGPushBaseReceiver {
             }
 
             if (url.isEmpty()) {
-                Log.e("", "收到空消息");
                 return;
             }
 

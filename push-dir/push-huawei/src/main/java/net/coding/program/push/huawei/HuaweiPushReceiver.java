@@ -13,6 +13,7 @@ import com.huawei.hms.support.api.push.PushReceiver;
 public class HuaweiPushReceiver extends PushReceiver {
 
 	public static final String ACTION_UPDATEUI = "action.updateUI";
+
     @Override
     public void onToken(Context context, String token, Bundle extras) {
     	String belongId = extras.getString("belongId");
@@ -26,6 +27,7 @@ public class HuaweiPushReceiver extends PushReceiver {
         context.sendBroadcast(intent);
     }
 
+    // 不使用透传消息
     @Override
     public boolean onPushMsg(Context context, byte[] msg, Bundle bundle) {
         try {

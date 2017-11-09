@@ -46,12 +46,25 @@
                 <action android:name="com.huawei.intent.action.PUSH_STATE" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.huawei.hms.support.api.push.PushEventReceiver" >
+        <receiver android:name="com.huawei.hms.support.api.push.PushEventReceiver">
             <intent-filter>
                 <!-- 接收通道发来的通知栏消息，兼容老版本PUSH -->
                 <action android:name="com.huawei.intent.action.PUSH" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".HuaweiPushReceiverActivity"
+            android:theme="@style/TranslateTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="coding.net"
+                    android:path="/push/huawei"
+                    android:scheme="coding" />
+            </intent-filter>
+
+        </activity>
 
     </application>
 

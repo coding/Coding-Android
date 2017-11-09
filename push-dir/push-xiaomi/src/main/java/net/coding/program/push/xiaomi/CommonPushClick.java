@@ -10,5 +10,5 @@ import java.util.Map;
 
 public interface CommonPushClick {
 
-    public void click(Context context, Map<String, String> params);
+    void click(Context context, Map<String, String> params);
 }

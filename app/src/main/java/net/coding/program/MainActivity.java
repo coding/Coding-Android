@@ -15,6 +15,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.roughike.bottombar.BottomBar;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.tencent.android.tpush.XGPushManager;
@@ -28,6 +30,7 @@ import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.event.EventMessage;
 import net.coding.program.event.EventNotifyBottomBar;
 import net.coding.program.event.EventShowBottom;
@@ -41,6 +44,7 @@ import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.push.CodingPush;
 import net.coding.program.push.huawei.HuaweiPush;
+import net.coding.program.push.huawei.HuaweiPushClick;
 import net.coding.program.setting.MainSettingFragment_;
 import net.coding.program.task.MainTaskFragment_;
 
@@ -56,6 +60,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
+import java.util.Map;
 
 import network.coding.net.checknetwork.CheckNetworkIntentService;
 
@@ -140,7 +145,39 @@ public class MainActivity extends BaseActivity {
 
         requestPermission();
 
-        HuaweiPush.instance().onCreate(this, AccountInfo.loadAccount(this).global_key);
+        HuaweiPush.instance().onCreate(this,
+                AccountInfo.loadAccount(this).global_key,
+                new HuaweiPushClick() {
+                    @Override
+                    public void click(Context context, Map<String, String> params) {
+                        if (params == null) {
+                            return;
+                        }
+                        String url = params.get("param_url");
+                        String id = params.get("notification_id");
+                        if (TextUtils.isEmpty(url)) {
+                            return;
+                        }
+
+                        if (url != null) {
+                            if (MyApp.getMainActivityState()) {
+                                URLSpanNoUnderline.openActivityByUri(context, url, true);
+                            } else {
+                                Intent mainIntent = new Intent(context, CodingCompat.instance().getMainActivity());
+                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(mainIntent);
+                                URLSpanNoUnderline.openActivityByUri(context, url, true);
+                            }
+                        }
+
+                        if (id != null && !id.isEmpty()) {
+                            AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
+                            final String host = Global.HOST_API + "/notification/mark-read?id=%s";
+                            client.post(String.format(host, id), new JsonHttpResponseHandler() {
+                            });
+                        }
+                    }
+                });
     }
 
     @UiThread(delay = 2000)

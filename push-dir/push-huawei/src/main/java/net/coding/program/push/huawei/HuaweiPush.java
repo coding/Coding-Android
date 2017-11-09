@@ -1,8 +1,10 @@
 package net.coding.program.push.huawei;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -13,6 +15,7 @@ import com.huawei.hms.support.api.client.PendingResult;
 import com.huawei.hms.support.api.push.TokenResult;
 
 import java.lang.ref.WeakReference;
+import java.util.Map;
 
 import static android.content.Context.TELEPHONY_SERVICE;
 
@@ -20,7 +23,8 @@ import static android.content.Context.TELEPHONY_SERVICE;
  * Created by chenchao on 2017/11/6.
  */
 
-public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionCallbacks, HuaweiApiClient.OnConnectionFailedListener {
+public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionCallbacks,
+        HuaweiApiClient.OnConnectionFailedListener, HuaweiPushClick {
 
     private static final int REQUEST_HMS_RESOLVE_ERROR = 1000;
 	//如果CP在onConnectionFailed调用了resolveError接口，那么错误结果会通过onActivityResult返回
@@ -37,6 +41,8 @@ public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionC
 
     private static HuaweiPush sPush;
 
+    private HuaweiPushClick pushClick;
+
     public static HuaweiPush instance() {
         if (sPush == null) sPush = new HuaweiPush();
         return sPush;
@@ -45,9 +51,15 @@ public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionC
     private HuaweiPush() {}
 
     @Override
-    public void onCreate(Activity activity, String gk) {
+    public void click(Context context, Map<String, String> params) {
+        pushClick.click(context, params);
+    }
+
+    @Override
+    public void onCreate(@NonNull Activity activity,@NonNull String gk, @NonNull HuaweiPushClick click) {
         this.activity = new WeakReference<>(activity);
         codingGK = gk;
+        pushClick = click;
 
         //创建华为移动服务client实例用以使用华为push服务
         //需要指定api为HuaweiId.PUSH_API
