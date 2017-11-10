@@ -122,9 +122,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // 调用下，防止收到上次登录账号的通知
-        XGPushManager.registerPush(this, "*");
     }
 
     @AfterViews

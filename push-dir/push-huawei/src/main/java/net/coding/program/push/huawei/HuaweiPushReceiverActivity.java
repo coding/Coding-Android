@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+
+import net.coding.program.push.xiaomi.PushAction;
 
 import java.net.URLDecoder;
 import java.util.HashMap;
@@ -21,9 +24,16 @@ public class HuaweiPushReceiverActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        jumpTargetActivity();
+        finish();
+    }
+
+    private void jumpTargetActivity() {
         Uri uri = getIntent().getData();
 
         Map<String, String> map = new HashMap<>();
+
+        Log.d(PushAction.TAG, "HuaweiPushReceiverActivity " + uri.toString());
         try {
             if (uri != null) {
                 final String paramUrl = "param_url";
@@ -38,12 +48,12 @@ public class HuaweiPushReceiverActivity extends AppCompatActivity {
                     map.put(notificationId, URLDecoder.decode(idString));
                 }
 
-                HuaweiPush.instance().click(getApplicationContext(), map);
+                HuaweiPush.instance().click(this, map);
             }
         } catch (Exception e) {
+            Log.d(PushAction.TAG, e.toString());
         }
-
-        finish();
     }
+
 
 }

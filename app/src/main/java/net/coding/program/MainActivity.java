@@ -43,8 +43,6 @@ import net.coding.program.project.MainProjectFragment_;
 import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.push.CodingPush;
-import net.coding.program.push.huawei.HuaweiPush;
-import net.coding.program.push.huawei.HuaweiPushClick;
 import net.coding.program.setting.MainSettingFragment_;
 import net.coding.program.task.MainTaskFragment_;
 
@@ -144,40 +142,6 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().register(this);
 
         requestPermission();
-
-        HuaweiPush.instance().onCreate(this,
-                AccountInfo.loadAccount(this).global_key,
-                new HuaweiPushClick() {
-                    @Override
-                    public void click(Context context, Map<String, String> params) {
-                        if (params == null) {
-                            return;
-                        }
-                        String url = params.get("param_url");
-                        String id = params.get("notification_id");
-                        if (TextUtils.isEmpty(url)) {
-                            return;
-                        }
-
-                        if (url != null) {
-                            if (MyApp.getMainActivityState()) {
-                                URLSpanNoUnderline.openActivityByUri(context, url, true);
-                            } else {
-                                Intent mainIntent = new Intent(context, CodingCompat.instance().getMainActivity());
-                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(mainIntent);
-                                URLSpanNoUnderline.openActivityByUri(context, url, true);
-                            }
-                        }
-
-                        if (id != null && !id.isEmpty()) {
-                            AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
-                            final String host = Global.HOST_API + "/notification/mark-read?id=%s";
-                            client.post(String.format(host, id), new JsonHttpResponseHandler() {
-                            });
-                        }
-                    }
-                });
     }
 
     @UiThread(delay = 2000)
@@ -231,7 +195,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void startPushService() {
-        // 信鸽 push 服务会发 broadcast
         mUpdatePushReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -241,14 +204,25 @@ public class MainActivity extends BaseActivity {
         IntentFilter intentFilter = new IntentFilter(BroadcastPushStyle);
         registerReceiver(mUpdatePushReceiver, intentFilter);
 
+        if (MyApp.isEnterprise()) {
+            runQQPushServer();
+        } else {
+            runOtherPushServer();
+        }
+    }
+
+    private void runQQPushServer() {
+        // 信鸽 push 服务会发 broadcast
 //        XGPushConfig.enableDebug(this, true);
-        // qq push
 
         if (!MyApp.isDebug()) {
             updateNotifyService();
             pushInXiaomi();
-
         }
+    }
+
+    private void runOtherPushServer() {
+        CodingPush.instance().onCreate(this, AccountInfo.loadAccount(this).global_key);
     }
 
     private void startNetworkCheckService() {
@@ -272,7 +246,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        HuaweiPush.instance().onActivityResult(requestCode, resultCode, data);
+        CodingPush.instance().onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -312,7 +286,7 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        HuaweiPush.instance().onDestroy();
+        CodingPush.instance().onDestroy();
 
         if (mUpdatePushReceiver != null) {
             unregisterReceiver(mUpdatePushReceiver);
@@ -332,11 +306,19 @@ public class MainActivity extends BaseActivity {
     private void updateNotifyService() {
         boolean needPush = AccountInfo.getNeedPush(this);
 
-        if (needPush) {
-            String globalKey = MyApp.sUserObject.global_key;
-            XGPushManager.registerPush(this, globalKey);
+        if (MyApp.isEnterprise()) {
+            if (needPush) {
+                String globalKey = MyApp.sUserObject.global_key;
+                XGPushManager.registerPush(this, globalKey);
+            } else {
+                XGPushManager.registerPush(this, "*");
+            }
         } else {
-            XGPushManager.registerPush(this, "*");
+            if (needPush) {
+                CodingPush.instance().bindGK(AccountInfo.loadAccount(this).global_key);
+            } else {
+                CodingPush.instance().unbindGK(AccountInfo.loadAccount(this).global_key);
+            }
         }
     }
 

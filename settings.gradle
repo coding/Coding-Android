@@ -1,4 +1,4 @@
-include ':app'
+include ':app', ':codingcommon'
 include ':social_sdk_library_project'
 include ':bottom-bar'
 include ':luban'

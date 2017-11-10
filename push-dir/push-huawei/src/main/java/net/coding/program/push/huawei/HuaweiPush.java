@@ -6,13 +6,17 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.huawei.hms.api.ConnectionResult;
 import com.huawei.hms.api.HuaweiApiAvailability;
 import com.huawei.hms.api.HuaweiApiClient;
 import com.huawei.hms.support.api.client.PendingResult;
+import com.huawei.hms.support.api.push.PushException;
 import com.huawei.hms.support.api.push.TokenResult;
+
+import net.coding.program.push.xiaomi.CommonPushClick;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
@@ -23,8 +27,8 @@ import static android.content.Context.TELEPHONY_SERVICE;
  * Created by chenchao on 2017/11/6.
  */
 
-public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionCallbacks,
-        HuaweiApiClient.OnConnectionFailedListener, HuaweiPushClick {
+public class HuaweiPush implements HuaweiApiClient.ConnectionCallbacks,
+        HuaweiApiClient.OnConnectionFailedListener, CommonPushClick {
 
     private static final int REQUEST_HMS_RESOLVE_ERROR = 1000;
 	//如果CP在onConnectionFailed调用了resolveError接口，那么错误结果会通过onActivityResult返回
@@ -41,7 +45,9 @@ public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionC
 
     private static HuaweiPush sPush;
 
-    private HuaweiPushClick pushClick;
+    private CommonPushClick pushClick;
+
+    private String token = "";
 
     public static HuaweiPush instance() {
         if (sPush == null) sPush = new HuaweiPush();
@@ -50,16 +56,22 @@ public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionC
 
     private HuaweiPush() {}
 
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     @Override
     public void click(Context context, Map<String, String> params) {
         pushClick.click(context, params);
     }
 
-    @Override
-    public void onCreate(@NonNull Activity activity,@NonNull String gk, @NonNull HuaweiPushClick click) {
+    public void initApplication(CommonPushClick pushClick) {
+        this.pushClick = pushClick;
+    }
+
+    public void onCreate(@NonNull Activity activity,@NonNull String gk) {
         this.activity = new WeakReference<>(activity);
         codingGK = gk;
-        pushClick = click;
 
         //创建华为移动服务client实例用以使用华为push服务
         //需要指定api为HuaweiId.PUSH_API
@@ -84,10 +96,8 @@ public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionC
 
     }
 
-    @Override
     public void onDestroy() {
         client.disconnect();
-        client = null;
     }
 
     /**
@@ -96,7 +106,9 @@ public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionC
      * CP可以自行处理获取到token
      * 同步获取token和异步获取token的方法CP只要根据自身需要选取一种方式即可
      */
-    private void getTokenSync() {
+    public void requestToken() {
+        if (client == null) return;
+
         if(!client.isConnected()) {
             Log.i(TAG, "获取token失败，原因：HuaweiApiClient未连接");
             client.connect();
@@ -124,7 +136,7 @@ public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionC
     public void onConnected() {
         //华为移动服务client连接成功，在这边处理业务自己的事件
         Log.i(TAG, "HuaweiApiClient 连接成功");
-        getTokenSync();
+        requestToken();
     }
 
     @Override
@@ -138,6 +150,8 @@ public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionC
     }
 
     private void setReceiveNotifyMsg(boolean flag) {
+        if (client == null) return;
+
         if(!client.isConnected()) {
             Log.i(TAG, "设置是否接收push通知消息失败，原因：HuaweiApiClient未连接");
             client.connect();
@@ -188,7 +202,7 @@ public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionC
 
                 if (result == ConnectionResult.SUCCESS) {
                     Log.i(TAG, "错误成功解决");
-                    if (!client.isConnecting() && !client.isConnected()) {
+                    if (client != null && !client.isConnecting() && !client.isConnected()) {
                         client.connect();
                     }
                 } else if (result == ConnectionResult.CANCELED) {
@@ -207,6 +221,34 @@ public class HuaweiPush implements HuaweiPushAction, HuaweiApiClient.ConnectionC
         }
 
         return false;
+    }
+
+    public void deleteToken() {
+        if (client == null) return;
+
+        if(!client.isConnected()) {
+            Log.i(TAG, "注销token失败，原因：HuaweiApiClient未连接");
+            client.connect();
+            return;
+        }
+
+        //需要在子线程中执行删除token操作
+        new Thread() {
+            @Override
+            public void run() {
+                //调用删除token需要传入通过getToken接口获取到token，并且需要对token进行非空判断
+                Log.i(TAG, "删除Token：" + token);
+                if (!TextUtils.isEmpty(token)){
+                    try {
+                        com.huawei.hms.support.api.push.HuaweiPush.HuaweiPushApi.deleteToken(client, token);
+                        token = "";
+                    } catch (PushException e) {
+                        Log.i(TAG, "删除Token失败:" + e.getMessage());
+                    }
+                }
+
+            }
+        }.start();
     }
 
 

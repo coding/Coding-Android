@@ -2,7 +2,6 @@ package net.coding.program;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -11,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.tencent.android.tpush.XGPushClickedResult;
-import com.tencent.android.tpush.XGPushManager;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
@@ -132,32 +129,6 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
         }
 
         mWeakRefHandler.start(HANDLER_MESSAGE_ANIMATION, 900);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        XGPushClickedResult result = XGPushManager.onActivityStarted(this);
-        if (result != null) {
-            String custom = result.getCustomContent();
-            if (custom != null && !custom.isEmpty()) {
-                try {
-                    JSONObject json = new JSONObject(custom);
-                    String url = json.getString("param_url");
-                    CodingCompat.instance().closePushReceiverActivity(EntranceActivity.this, url);
-
-                } catch (Exception e) {
-                    Global.errorLog(e);
-                }
-            }
-        }
     }
 
     private void settingBackground() {

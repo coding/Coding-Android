@@ -53,8 +53,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".HuaweiPushReceiverActivity"
-            android:theme="@style/TranslateTheme">
+        <activity android:name=".HuaweiPushReceiverActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

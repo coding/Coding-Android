@@ -1,8 +1,11 @@
 package net.coding.program.push;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
+import net.coding.program.push.huawei.HuaweiPush;
 import net.coding.program.push.xiaomi.CommonPushClick;
 import net.coding.program.push.xiaomi.PushAction;
 import net.coding.program.push.xiaomi.XiaomiPush;
@@ -25,12 +28,15 @@ public final class CodingPush {
 
     private Context context;
     PushAction pushAction;
+    boolean usePush; // 企业版不使用，用户在设置里面设置了不使用也不启用
+    CommonPushClick clickPush;
 
-    public void init(Context context, CommonPushClick clickPushAction) {
-        if (!Rom.isEmui()) {
+    public void initApplication(Context context, CommonPushClick clickPushAction) {
+        this.clickPush = clickPushAction;
+        if (Rom.isEmui()) {
             Log.d(PushAction.TAG, "use huawei push");
-
-        } else  {  // default device use xiaomi push
+            HuaweiPush.instance().initApplication(clickPushAction);
+        } else {  // default device use xiaomi push
             if (pushAction == null) {
                 pushAction = new XiaomiPush();
             }
@@ -40,15 +46,44 @@ public final class CodingPush {
         }
     }
 
+    public void onCreate(Activity context, String gk) {
+        if (Rom.isEmui()) {
+            this.context = context;
+            HuaweiPush.instance().onCreate(context, gk);
+        }
+    }
+
+    public void onDestroy() {
+        if (Rom.isEmui()) {
+            HuaweiPush.instance().onDestroy();
+        }
+    }
+
+    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (Rom.isEmui()) {
+            return HuaweiPush.instance().onActivityResult(requestCode, resultCode, data);
+        }
+
+        return false;
+    }
+
     public void bindGK(String gk) {
-        if (context != null && pushAction != null) {
-            pushAction.bindGK(context, gk);
+        if (Rom.isEmui()) {
+            HuaweiPush.instance().requestToken();
+        } else {
+            if (context != null && pushAction != null) {
+                pushAction.bindGK(context, gk);
+            }
         }
     }
 
     public void unbindGK(String gk) {
-        if (context != null && pushAction != null) {
-            pushAction.unbindGK(context, gk);
+        if (Rom.isEmui()) {
+            HuaweiPush.instance().deleteToken();
+        } else {
+            if (context != null && pushAction != null) {
+                pushAction.unbindGK(context, gk);
+            }
         }
     }
 }

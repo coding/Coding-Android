@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
-import net.coding.program.CodingMyPushReceiver;
 import net.coding.program.LoginActivity_;
 import net.coding.program.MainActivity_;
 import net.coding.program.common.StartActivity;
@@ -122,16 +121,18 @@ public class CodingCompatImp implements ClassCompatInterface {
 
     @Override
     public void closeNotify(Context context, String url) {
-        CodingMyPushReceiver.closeNotify(context, url);
+        // TODO: 2017/11/9  
+//        CodingMyPushReceiver.closeNotify(context, url);
     }
 
     @Override
     public void closePushReceiverActivity(Activity context, String url) {
-        Intent resultIntent = new Intent(CodingMyPushReceiver.PushClickBroadcast);
-        resultIntent.setPackage(context.getPackageName());
-        resultIntent.putExtra("data", url);
-        context.sendBroadcast(resultIntent);
-        context.finish();
+        // TODO: 2017/11/9  
+//        Intent resultIntent = new Intent(CodingMyPushReceiver.PushClickBroadcast);
+//        resultIntent.setPackage(context.getPackageName());
+//        resultIntent.putExtra("data", url);
+//        context.sendBroadcast(resultIntent);
+//        context.finish();
     }
 
     @Override

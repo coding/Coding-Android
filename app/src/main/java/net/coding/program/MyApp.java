@@ -134,39 +134,6 @@ public class MyApp extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
-        CodingPush.instance().init(this, new CommonPushClick() {
-            @Override
-            public void click(Context context, Map<String, String> params) {
-                if (params == null) {
-                    return;
-                }
-                String url = params.get("param_url");
-                String id = params.get("notification_id");
-                if (TextUtils.isEmpty(url)) {
-                    return;
-                }
-
-                if (url != null) {
-                    if (MyApp.getMainActivityState()) {
-                        URLSpanNoUnderline.openActivityByUri(context, url, true);
-                    } else {
-                        Intent mainIntent = new Intent(context, CodingCompat.instance().getMainActivity());
-                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(mainIntent);
-                        URLSpanNoUnderline.openActivityByUri(context, url, true);
-                    }
-                }
-
-                if (id != null && !id.isEmpty()) {
-                    AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
-                    final String host = Global.HOST_API + "/notification/mark-read?id=%s";
-                    client.post(String.format(host, id), new JsonHttpResponseHandler() {
-                    });
-                }
-
-            }
-        });
-
         try {
             ApplicationInfo info = getApplicationInfo();
             isDebug = (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;

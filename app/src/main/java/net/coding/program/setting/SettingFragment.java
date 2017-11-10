@@ -23,6 +23,7 @@ import net.coding.program.compatible.CodingCompat;
 import net.coding.program.event.EventMessage;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.project.detail.file.FileSaveHelp;
+import net.coding.program.push.CodingPush;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -180,7 +181,13 @@ public class SettingFragment extends BaseFragment {
         showDialog(MyApp.sUserObject.global_key, "退出当前账号?", (dialog, which) -> {
             umengEvent(UmengEvent.E_USER_CENTER, "退登_确定退登");
             FragmentActivity activity = getActivity();
-            XGPushManager.registerPush(activity, "*");
+
+            if (MyApp.isEnterprise()) {
+                XGPushManager.registerPush(activity, "*");
+            } else {
+                CodingPush.instance().unbindGK(AccountInfo.loadAccount(getActivity()).global_key);
+            }
+
             AccountInfo.loginOut(activity);
             startActivity(new Intent(activity, CodingCompat.instance().getGuideActivity()));
             EventBus.getDefault().post(new EventMessage(EventMessage.Type.loginOut));

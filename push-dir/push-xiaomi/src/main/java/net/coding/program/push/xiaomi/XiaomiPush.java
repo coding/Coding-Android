@@ -25,7 +25,6 @@ public class XiaomiPush implements PushAction {
     static CommonPushClick clickPushAction = new CommonPushClick() {
         @Override
         public void click(Context context, Map<String, String> params) {
-
         }
     };
 

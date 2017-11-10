@@ -19,6 +19,7 @@ public class HuaweiPushReceiver extends PushReceiver {
     	String belongId = extras.getString("belongId");
         Log.i(HuaweiPush.TAG, "belongId为:" + belongId);
         Log.i(HuaweiPush.TAG, "Token为:" + token);
+        HuaweiPush.instance().setToken(token);
 
         Intent intent = new Intent();
         intent.setAction(ACTION_UPDATEUI);
