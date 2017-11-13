@@ -77,8 +77,8 @@ import pl.droidsonroids.gif.GifDrawable;
  */
 public class Global {
 
-        public static final String DEFAULT_HOST = "https://coding.net";
-//        public static final String DEFAULT_HOST = "http://coding.com";
+//        public static final String DEFAULT_HOST = "https://coding.net";
+        public static final String DEFAULT_HOST = "http://coding.com";
 //    public static final String DEFAULT_HOST = "http://192.168.0.30:8080";
 //    public static final String DEFAULT_HOST = "http://192.168.0.132:8080";
     public static final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd EEE");

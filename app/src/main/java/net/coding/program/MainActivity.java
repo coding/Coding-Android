@@ -5,24 +5,26 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.roughike.bottombar.BottomBar;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalVar_;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.Unread;
 import net.coding.program.common.UnreadNotify;
@@ -30,7 +32,6 @@ import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BaseActivity;
-import net.coding.program.compatible.CodingCompat;
 import net.coding.program.event.EventMessage;
 import net.coding.program.event.EventNotifyBottomBar;
 import net.coding.program.event.EventShowBottom;
@@ -39,10 +40,14 @@ import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.maopao.MainMaopaoFragment_;
 import net.coding.program.message.UsersListFragment_;
 import net.coding.program.model.AccountInfo;
+import net.coding.program.network.BaseHttpObserver;
+import net.coding.program.network.Network;
 import net.coding.program.project.MainProjectFragment_;
 import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.push.CodingPush;
+import net.coding.program.push.xiaomi.EventPushToken;
+import net.coding.program.push.xiaomi.EventUnbindToken;
 import net.coding.program.setting.MainSettingFragment_;
 import net.coding.program.task.MainTaskFragment_;
 
@@ -52,15 +57,19 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.DimensionPixelSizeRes;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.androidannotations.api.builder.FragmentBuilder;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import network.coding.net.checknetwork.CheckNetworkIntentService;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 @EActivity(R.layout.activity_main_parent)
 public class MainActivity extends BaseActivity {
@@ -77,6 +86,8 @@ public class MainActivity extends BaseActivity {
     ViewGroup container;
     @DimensionPixelSizeRes(R.dimen.main_container_merge_bottom)
     int bottomMerge;
+    @Pref
+    GlobalVar_ globalVar;
 
     BroadcastReceiver mUpdatePushReceiver;
     private long exitTime = 0;
@@ -265,7 +276,6 @@ public class MainActivity extends BaseActivity {
                         })
                         .setNegativeButton("取消", null)
                         .show();
-
             }
         }
     }
@@ -455,6 +465,82 @@ public class MainActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventBottomBar(EventShowBottom showBottom) {
         showBottomBar(showBottom.showBottom);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onEventPushToken(EventPushToken param) {
+        String token = globalVar.pushToken().get();
+        if (!TextUtils.isEmpty(param.token)) token = param.token;
+
+        String pushType = globalVar.pushType().get();
+        if (!TextUtils.isEmpty(param.type)) pushType = param.type;
+
+        EventPushToken pushToken = new EventPushToken(pushType, token);
+        if (TextUtils.isEmpty(pushToken.type) || TextUtils.isEmpty(pushToken.token)) {
+            return;
+        }
+
+        Map<String, String> map = new HashMap<>();
+        map.put("push", pushToken.type);
+        try {
+            map.put("brand", Build.BRAND);
+            map.put("deviceType", Build.MODEL);
+            TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+            map.put("IMEI", tm.getDeviceId());
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+
+        Network.getRetrofit(this)
+                .registerPush(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseHttpObserver(this) {
+                    @Override
+                    public void onSuccess() {
+                        super.onSuccess();
+                        globalVar.edit()
+                                .pushType()
+                                .put(pushToken.type)
+                                .pushToken()
+                                .put(pushToken.token)
+                                .apply();
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, @NonNull String error) {
+//                        super.onFail(errorCode, error);
+                    }
+                });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onEventUnbindPushToken(EventUnbindToken unbind) {
+        String type = globalVar.pushType().get();
+        String token = globalVar.pushToken().get();
+        if (TextUtils.isEmpty(type) || TextUtils.isEmpty(token)) {
+            return;
+        }
+
+        Map<String, String> map = new HashMap<>();
+        map.put("push", type);
+        map.put("token", token);
+
+        Network.getRetrofit(this)
+                .unRegisterPush(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseHttpObserver(this) {
+                    @Override
+                    public void onSuccess() {
+                       super.onSuccess();
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, @NonNull String error) {
+//                        super.onFail(errorCode, error);
+                    }
+                });
     }
 
     private void showBottomBar(boolean show) {

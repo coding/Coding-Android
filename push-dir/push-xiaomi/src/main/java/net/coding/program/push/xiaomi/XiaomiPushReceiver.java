@@ -3,15 +3,21 @@ package net.coding.program.push.xiaomi;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
 import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -76,11 +82,31 @@ public class XiaomiPushReceiver extends PushMessageReceiver {
         Log.v(XiaomiPush.TAG,
                 "onNotificationMessageClicked is called. " + message.toString());
 
-        Map<String, String> extra = message.getExtra();
-        if (extra != null) {
-            XiaomiPush.clickPushAction.click(context, extra);
+        String s = message.getContent();
+        if (TextUtils.isEmpty(s)) {
+            return;
         }
 
+        Map<String, String> extra = new HashMap<>();
+        try {
+            Uri uri = Uri.parse("https://coding.net?" + s);
+            final String keyUrl = "param_url";
+            String paramUrl = uri.getQueryParameter(keyUrl);
+            if (!TextUtils.isEmpty(paramUrl)) {
+                extra.put(keyUrl, URLDecoder.decode(paramUrl));
+            }
+            final String idKey = "notification_id";
+            String paramId = uri.getQueryParameter(idKey);
+            if (!TextUtils.isEmpty(paramId)) {
+                extra.put(idKey, paramId);
+            }
+        } catch (Exception e) {
+            Log.e(XiaomiPush.TAG, e.toString());
+        }
+
+        if (!extra.isEmpty()) {
+            XiaomiPush.clickPushAction.click(context, extra);
+        }
     }
 
     @Override
@@ -182,6 +208,9 @@ public class XiaomiPushReceiver extends PushMessageReceiver {
     public void onReceiveRegisterResult(Context context, MiPushCommandMessage message) {
         Log.v(XiaomiPush.TAG,
                 "onReceiveRegisterResult is called. " + message.toString());
+
+        EventBus.getDefault().postSticky(new EventPushToken("xiaomi", MiPushClient.getRegId(context)));
+
 //        String command = message.getCommand();
 //        List<String> arguments = message.getCommandArguments();
 //        String cmdArg1 = ((arguments != null && arguments.size() > 0) ? arguments.get(0) : null);

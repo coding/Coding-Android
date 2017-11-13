@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import net.coding.program.push.huawei.*;
+import net.coding.program.push.xiaomi.EventPushToken;
 
 import com.huawei.hms.support.api.push.PushReceiver;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class HuaweiPushReceiver extends PushReceiver {
 
@@ -20,6 +23,7 @@ public class HuaweiPushReceiver extends PushReceiver {
         Log.i(HuaweiPush.TAG, "belongId为:" + belongId);
         Log.i(HuaweiPush.TAG, "Token为:" + token);
         HuaweiPush.instance().setToken(token);
+        EventBus.getDefault().postSticky(new EventPushToken("huawei", token));
 
         Intent intent = new Intent();
         intent.setAction(ACTION_UPDATEUI);
@@ -35,6 +39,7 @@ public class HuaweiPushReceiver extends PushReceiver {
         	//CP可以自己解析消息内容，然后做相应的处理
             String content = new String(msg, "UTF-8");
             Log.i(HuaweiPush.TAG, "收到PUSH透传消息,消息内容为:" + content);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

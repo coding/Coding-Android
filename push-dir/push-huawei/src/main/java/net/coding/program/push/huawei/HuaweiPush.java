@@ -86,13 +86,13 @@ public class HuaweiPush implements HuaweiApiClient.ConnectionCallbacks,
         //业务可以根据自己业务的形态来确定client的连接和断开的时机，但是确保connect和disconnect必须成对出现
         client.connect();
 
-        try {
-            TelephonyManager tm = (TelephonyManager) activity.getSystemService(TELEPHONY_SERVICE);
-            String imei = tm.getDeviceId();//String
-            Log.i(TAG, "imei " + imei);
-        } catch (Exception e) {
-            Log.i(TAG, "imei 获取失败");
-        }
+//        try {
+//            TelephonyManager tm = (TelephonyManager) activity.getSystemService(TELEPHONY_SERVICE);
+//            String imei = tm.getDeviceId();//String
+//            Log.i(TAG, "imei " + imei);
+//        } catch (Exception e) {
+//            Log.i(TAG, "imei 获取失败");
+//        }
 
     }
 

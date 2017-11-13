@@ -7,8 +7,12 @@ import android.util.Log;
 
 import net.coding.program.push.huawei.HuaweiPush;
 import net.coding.program.push.xiaomi.CommonPushClick;
+import net.coding.program.push.xiaomi.EventPushToken;
+import net.coding.program.push.xiaomi.EventUnbindToken;
 import net.coding.program.push.xiaomi.PushAction;
 import net.coding.program.push.xiaomi.XiaomiPush;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by chenchao on 2017/11/2.
@@ -75,6 +79,7 @@ public final class CodingPush {
                 pushAction.bindGK(context, gk);
             }
         }
+        EventBus.getDefault().postSticky(new EventPushToken("", ""));
     }
 
     public void unbindGK(String gk) {
@@ -85,5 +90,7 @@ public final class CodingPush {
                 pushAction.unbindGK(context, gk);
             }
         }
+
+        EventBus.getDefault().postSticky(new EventUnbindToken());
     }
 }

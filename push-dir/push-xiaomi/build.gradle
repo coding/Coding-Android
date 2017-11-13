@@ -32,4 +32,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation files('libs/MiPush_SDK_Client_3_5_1.jar')
+
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

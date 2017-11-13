@@ -28,6 +28,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
 public interface CodingRequest {
@@ -162,4 +163,11 @@ public interface CodingRequest {
     // 获取公开项目
     @GET("public/all")
     Observable<HttpPageResult<ProjectObject>> getAllPublic(@Query("page") int page);
+
+    @POST("mobile/push/register")
+    Observable<BaseHttpResult> registerPush(@QueryMap Map<String, String> map);
+
+    @POST("mobile/push/unregister")
+    Observable<BaseHttpResult> unRegisterPush(@QueryMap Map<String, String> map);
+
 }
