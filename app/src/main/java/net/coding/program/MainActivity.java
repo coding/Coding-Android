@@ -77,8 +77,6 @@ public class MainActivity extends BaseActivity {
     public static final String TAG = "MainActivity";
     private static boolean sNeedWarnEmailNoValidLogin = false;
     private static boolean sNeedWarnEmailNoValidRegister = false;
-    @Extra
-    String mPushUrl;
     @ViewById
     BottomBar bottomBar;
     @ViewById
@@ -133,12 +131,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         ZhongQiuGuideActivity.showHolidayGuide(this);
-
-        if (mPushUrl != null) {
-            URLSpanNoUnderline.openActivityByUri(this, mPushUrl, true);
-            mPushUrl = null;
-            getIntent().getExtras().remove("mPushUrl");
-        }
 
         MarketingHelp.showMarketing(this);
 
@@ -535,4 +527,6 @@ public class MainActivity extends BaseActivity {
         }
         bottomBar.getTabWithId(R.id.tabMessage).setBadgeCount(notifyCount);
     }
+
+
 }

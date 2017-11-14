@@ -52,6 +52,7 @@ public class EnterpriseEntranceActivity extends BaseActivity implements Handler.
     void init() {
         Uri uriData = getIntent().getData();
         if (uriData != null) {
+            String url = uriData.toString();
             String path = uriData.getPath();
             switch (path) {
                 case "/app/detect": {
@@ -80,10 +81,7 @@ public class EnterpriseEntranceActivity extends BaseActivity implements Handler.
                 }
 
                 default: {
-                    Intent mainIntent = new Intent(this, CodingCompat.instance().getMainActivity());
-                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mainIntent.putExtra("mPushUrl", uriData);
-                    startActivity(mainIntent);
+                    MyApp.openNewActivityFromMain(this, url);
                 }
             }
 

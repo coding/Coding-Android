@@ -130,6 +130,19 @@ public class MyApp extends MultiDexApplication {
         return !TextUtils.isEmpty(enterpriseGK);
     }
 
+    public static void openNewActivityFromMain(Context context, String url) {
+        if (TextUtils.isEmpty(url)) return;
+
+        if (MyApp.getMainActivityState()) {
+            URLSpanNoUnderline.openActivityByUri(context, url, true);
+        } else {
+            Intent mainIntent = new Intent(context, CodingCompat.instance().getMainActivity());
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(mainIntent);
+            URLSpanNoUnderline.openActivityByUri(context, url, true);
+        }
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();

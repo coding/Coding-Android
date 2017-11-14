@@ -37,16 +37,7 @@ public class EnterpriseMyPushReceiver extends BroadcastReceiver {
         String url = intent.getStringExtra("data");
 
         if (url != null) {
-            closeNotify(context, url);
-            if (MyApp.getMainActivityState()) {
-                URLSpanNoUnderline.openActivityByUri(context, url, true);
-            } else {
-                Intent mainIntent = new Intent(context, CodingCompat.instance().getMainActivity());
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                mainIntent.putExtra("mPushUrl", url);
-                context.startActivity(mainIntent);
-                URLSpanNoUnderline.openActivityByUri(context, url, true);
-            }
+            openNewActivityFromMain(context, url);
         }
 
         String id = intent.getStringExtra("id");

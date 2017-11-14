@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.WeakRefHander;
+import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.login.MarketingHelp;
@@ -40,6 +42,8 @@ import java.io.File;
  */
 @EActivity(R.layout.entrance_image)
 public class EntranceActivity extends BaseActivity implements Handler.Callback {
+
+    private static final String TAG = Global.makeLogTag(EntranceActivity.class);
 
     private static final int HANDLER_MESSAGE_ANIMATION = 0;
     private static final int HANDLER_MESSAGE_NEXT_ACTIVITY = 1;
@@ -66,6 +70,8 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
     void init() {
         Uri uriData = getIntent().getData();
         if (uriData != null) {
+            String url = uriData.toString();
+            Log.d(TAG, url);
             String path = uriData.getPath();
             switch (path) {
                 case "/app/detect": {
@@ -94,10 +100,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
                 }
 
                 default: {
-                    Intent mainIntent = new Intent(this, CodingCompat.instance().getMainActivity());
-                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mainIntent.putExtra("mPushUrl", uriData);
-                    startActivity(mainIntent);
+                   MyApp.openNewActivityFromMain(this, url);
                 }
             }
 
