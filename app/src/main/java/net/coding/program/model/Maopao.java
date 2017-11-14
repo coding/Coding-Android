@@ -98,7 +98,7 @@ public class Maopao {
         }
 
         public String getMobileLink() {
-            return Global.HOST_MOBILE + "/u/" + owner.global_key + "/pp/" + id;
+            return Global.DEFAULT_HOST + "/u/" + owner.global_key + "/pp/" + id;
         }
 
         @Override

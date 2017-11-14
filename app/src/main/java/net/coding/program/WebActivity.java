@@ -59,9 +59,6 @@ public class WebActivity extends BaseActivity {
     @AfterViews
     protected final void initWebActivity() {
         Log.d("", "WebActivity " + url);
-        if (url.equals("/user/tasks")) {
-            url = Global.HOST_MOBILE + url;
-        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

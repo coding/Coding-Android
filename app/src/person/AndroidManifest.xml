@@ -8,6 +8,21 @@
         android:label="@string/app_name"
         tools:replace="android:name">
 
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="kZ4gu0Xx9vlcDVPK4Gtd1V2W" />
+        <meta-data
+            android:name="XG_V2_ACCESS_ID"
+            android:value="2100066772" />
+        <meta-data
+            android:name="XG_V2_ACCESS_KEY"
+            android:value="A66Q8R54YZXR" />
+        <!-- 友盟标示 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5435f151fd98c5751102d2d5" />
+
+
         <activity android:name=".TestActivity"></activity>
 
         <activity
