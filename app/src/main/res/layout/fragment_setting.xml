@@ -35,36 +35,6 @@
         <include layout="@layout/divide_middle_15" />
 
         <RelativeLayout
-            android:id="@+id/pushSetting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/list_item_selector"
-            android:minHeight="50dp"
-            android:paddingLeft="@dimen/padding_15"
-            android:paddingRight="@dimen/padding_15">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="消息推送"
-                android:textColor="@color/font_1"
-                android:textSize="15sp" />
-
-            <CheckBox
-                android:id="@+id/allNotify"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/push_checkbox"
-                android:button="@null" />
-
-        </RelativeLayout>
-
-        <include layout="@layout/divideline_15" />
-
-        <RelativeLayout
             android:id="@+id/downloadPathSetting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -84,8 +84,6 @@ public class AccountInfo {
             }
         }
 
-        AccountInfo.setNeedPush(ctx, true);
-
         PersistentCookieStore cookieStore = new PersistentCookieStore(ctx);
         cookieStore.clear();
 
@@ -384,10 +382,6 @@ public class AccountInfo {
         }
     }
 
-    public static boolean getNeedPush(Context ctx) {
-        SharedPreferences sp = ctx.getSharedPreferences(ACCOUNT_SETTING, Context.MODE_PRIVATE);
-        return sp.getBoolean(KEY_NEED_PUSH, true);
-    }
 
     public static void setNeedPush(Context ctx, boolean push) {
         SharedPreferences sp = ctx.getSharedPreferences(ACCOUNT_SETTING, Context.MODE_PRIVATE);

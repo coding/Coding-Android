@@ -41,17 +41,11 @@ import java.util.regex.Pattern;
 public class SettingFragment extends BaseFragment {
 
     @ViewById
-    CheckBox allNotify;
-
-    @ViewById
     TextView cacheSize;
 
     @AfterViews
     void init() {
-        boolean mLastNotifySetting = AccountInfo.getNeedPush(getActivity());
-        allNotify.setChecked(mLastNotifySetting);
         setHasOptionsMenu(true);
-
         updateCacheSize();
     }
 
@@ -114,18 +108,6 @@ public class SettingFragment extends BaseFragment {
     @Click
     void accountSetting() {
         AccountSetting_.intent(this).start();
-    }
-
-    @Click
-    void pushSetting() {
-        allNotify.performClick();
-    }
-
-    @Click
-    void allNotify() {
-        AccountInfo.setNeedPush(getActivity(), allNotify.isChecked());
-        Intent intent = new Intent(MainActivity.BroadcastPushStyle);
-        getActivity().sendBroadcast(intent);
     }
 
     @Click

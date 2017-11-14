@@ -412,11 +412,6 @@
             android:label="@string/empty"
             android:screenOrientation="unspecified" />
         <activity
-            android:name=".setting.NotifySetting_"
-            android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_notify_setting"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".project.detail.MembersSelectActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_members_select"

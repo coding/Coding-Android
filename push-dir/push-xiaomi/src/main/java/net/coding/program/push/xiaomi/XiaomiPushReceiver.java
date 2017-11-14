@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
 import com.xiaomi.mipush.sdk.MiPushMessage;
@@ -18,6 +19,7 @@ import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -209,26 +211,15 @@ public class XiaomiPushReceiver extends PushMessageReceiver {
         Log.v(XiaomiPush.TAG,
                 "onReceiveRegisterResult is called. " + message.toString());
 
-        EventBus.getDefault().postSticky(new EventPushToken("xiaomi", MiPushClient.getRegId(context)));
-
-//        String command = message.getCommand();
-//        List<String> arguments = message.getCommandArguments();
-//        String cmdArg1 = ((arguments != null && arguments.size() > 0) ? arguments.get(0) : null);
-//        String log;
-//        if (MiPushClient.COMMAND_REGISTER.equals(command)) {
-//            if (message.getResultCode() == ErrorCode.SUCCESS) {
-//                mRegId = cmdArg1;
-//                log = context.getString(R.string.register_success);
-//            } else {
-//                log = context.getString(R.string.register_fail);
-//            }
-//        } else {
-//            log = message.getReason();
-//        }
-//
-//        Message msg = Message.obtain();
-//        msg.obj = log;
-//        DemoApplication.getHandler().sendMessage(msg);
+        String command = message.getCommand();
+        List<String> arguments = message.getCommandArguments();
+        String cmdArg1 = ((arguments != null && arguments.size() > 0) ? arguments.get(0) : null);
+        if (MiPushClient.COMMAND_REGISTER.equals(command)) {
+            if (message.getResultCode() == ErrorCode.SUCCESS) {
+                mRegId = cmdArg1;
+                EventBus.getDefault().postSticky(new EventPushToken("xiaomi", MiPushClient.getRegId(context)));
+            }
+        }
     }
 
     @SuppressLint("SimpleDateFormat")

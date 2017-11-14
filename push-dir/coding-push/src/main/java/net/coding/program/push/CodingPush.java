@@ -79,7 +79,6 @@ public final class CodingPush {
                 pushAction.bindGK(context, gk);
             }
         }
-        EventBus.getDefault().postSticky(new EventPushToken("", ""));
     }
 
     public void unbindGK(String gk) {

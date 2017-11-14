@@ -75,7 +75,6 @@ import rx.schedulers.Schedulers;
 public class MainActivity extends BaseActivity {
 
     public static final String TAG = "MainActivity";
-    public static final String BroadcastPushStyle = "BroadcastPushStyle";
     private static boolean sNeedWarnEmailNoValidLogin = false;
     private static boolean sNeedWarnEmailNoValidRegister = false;
     @Extra
@@ -89,7 +88,6 @@ public class MainActivity extends BaseActivity {
     @Pref
     GlobalVar_ globalVar;
 
-    BroadcastReceiver mUpdatePushReceiver;
     private long exitTime = 0;
     private boolean mKeyboardUp;
 
@@ -206,15 +204,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void startPushService() {
-        mUpdatePushReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                updateNotifyService();
-            }
-        };
-        IntentFilter intentFilter = new IntentFilter(BroadcastPushStyle);
-        registerReceiver(mUpdatePushReceiver, intentFilter);
-
         if (MyApp.isEnterprise()) {
             runQQPushServer();
         } else {
@@ -225,9 +214,9 @@ public class MainActivity extends BaseActivity {
     private void runQQPushServer() {
         // 信鸽 push 服务会发 broadcast
 //        XGPushConfig.enableDebug(this, true);
-
         if (!MyApp.isDebug()) {
-            updateNotifyService();
+            String globalKey = MyApp.sUserObject.global_key;
+            XGPushManager.registerPush(this, globalKey);
             pushInXiaomi();
         }
     }
@@ -298,11 +287,6 @@ public class MainActivity extends BaseActivity {
 
         CodingPush.instance().onDestroy();
 
-        if (mUpdatePushReceiver != null) {
-            unregisterReceiver(mUpdatePushReceiver);
-            mUpdatePushReceiver = null;
-        }
-
         EventBus.getDefault().unregister(this);
     }
 
@@ -311,25 +295,6 @@ public class MainActivity extends BaseActivity {
         Context context = getApplicationContext();
         Intent service = new Intent(context, XGPushService.class);
         context.startService(service);
-    }
-
-    private void updateNotifyService() {
-        boolean needPush = AccountInfo.getNeedPush(this);
-
-        if (MyApp.isEnterprise()) {
-            if (needPush) {
-                String globalKey = MyApp.sUserObject.global_key;
-                XGPushManager.registerPush(this, globalKey);
-            } else {
-                XGPushManager.registerPush(this, "*");
-            }
-        } else {
-            if (needPush) {
-                CodingPush.instance().bindGK(AccountInfo.loadAccount(this).global_key);
-            } else {
-                CodingPush.instance().unbindGK(AccountInfo.loadAccount(this).global_key);
-            }
-        }
     }
 
     @AfterViews
@@ -468,14 +433,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void onEventPushToken(EventPushToken param) {
-        String token = globalVar.pushToken().get();
-        if (!TextUtils.isEmpty(param.token)) token = param.token;
-
-        String pushType = globalVar.pushType().get();
-        if (!TextUtils.isEmpty(param.type)) pushType = param.type;
-
-        EventPushToken pushToken = new EventPushToken(pushType, token);
+    public void onEventPushToken(EventPushToken pushToken) {
         if (TextUtils.isEmpty(pushToken.type) || TextUtils.isEmpty(pushToken.token)) {
             return;
         }
@@ -534,6 +492,12 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onSuccess() {
                        super.onSuccess();
+                       globalVar.edit()
+                               .pushType()
+                               .remove()
+                               .pushToken()
+                               .remove()
+                               .apply();
                     }
 
                     @Override
