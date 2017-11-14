@@ -432,11 +432,12 @@ public class MainActivity extends BaseActivity {
 
         Map<String, String> map = new HashMap<>();
         map.put("push", pushToken.type);
+        map.put("token", pushToken.token);
         try {
-            map.put("brand", Build.BRAND);
+            map.put("deviceBrand", Build.BRAND);
             map.put("deviceType", Build.MODEL);
             TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-            map.put("IMEI", tm.getDeviceId());
+            map.put("imei", tm.getDeviceId());
         } catch (Exception e) {
             Global.errorLog(e);
         }

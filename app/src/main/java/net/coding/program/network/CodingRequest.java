@@ -164,10 +164,12 @@ public interface CodingRequest {
     @GET("public/all")
     Observable<HttpPageResult<ProjectObject>> getAllPublic(@Query("page") int page);
 
-    @POST("mobile/push/register")
-    Observable<BaseHttpResult> registerPush(@QueryMap Map<String, String> map);
+    @FormUrlEncoded
+    @POST("mobile/device/register")
+    Observable<BaseHttpResult> registerPush(@FieldMap Map<String, String> map);
 
-    @POST("mobile/push/unregister")
-    Observable<BaseHttpResult> unRegisterPush(@QueryMap Map<String, String> map);
+    @FormUrlEncoded
+    @POST("mobile/device/unregister")
+    Observable<BaseHttpResult> unRegisterPush(@FieldMap Map<String, String> map);
 
 }
