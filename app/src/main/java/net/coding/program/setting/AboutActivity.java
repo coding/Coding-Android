@@ -8,7 +8,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.R;
-import net.coding.program.UpdateService;
 import net.coding.program.WebActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
@@ -56,9 +55,10 @@ public class AboutActivity extends BackActivity {
 
     @Click
     void checkUpdate() {
-        Intent intent = new Intent(this, UpdateService.class);
-        intent.putExtra(UpdateService.EXTRA_BACKGROUND, false);
-        startService(intent);
+//        Intent intent = new Intent(this, UpdateService.class);
+//        intent.putExtra(UpdateService.EXTRA_BACKGROUND, false);
+//        startService(intent);
+        updateByMarket(this);
     }
 
     @Click

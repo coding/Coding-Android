@@ -185,11 +185,11 @@ public class MainActivity extends BaseActivity {
 
     protected void startExtraService() {
         // 检查客户端是否有更新
-        Intent intent = new Intent(this, UpdateService.class);
-        intent.putExtra(UpdateService.EXTRA_BACKGROUND, true);
-        intent.putExtra(UpdateService.EXTRA_WIFI, true);
-        intent.putExtra(UpdateService.EXTRA_DEL_OLD_APK, true);
-        startService(intent);
+//        Intent intent = new Intent(this, UpdateService.class);
+//        intent.putExtra(UpdateService.EXTRA_BACKGROUND, true);
+//        intent.putExtra(UpdateService.EXTRA_WIFI, true);
+//        intent.putExtra(UpdateService.EXTRA_DEL_OLD_APK, true);
+//        startService(intent);
 
         // 检查客户端的网络状况
         startNetworkCheckService();
