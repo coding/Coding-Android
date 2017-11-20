@@ -33,6 +33,7 @@ import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.loopj.android.http.PersistentCookieStore;
 import com.readystatesoftware.viewbadger.BadgeView;
@@ -874,5 +875,16 @@ public class Global {
         }
 
         activity.startActivity(intent);
+    }
+
+    public static void updateByMarket(Context context) {
+        try {
+            Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(context, "软件市场里暂时没有找到Coding", Toast.LENGTH_SHORT).show();
+        }
     }
 }

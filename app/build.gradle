@@ -52,8 +52,8 @@ android {
         person {
             dimension "mode"
             applicationId "net.coding.program"
-            versionCode 154
-            versionName "4.6"
+            versionCode 160
+            versionName "5.0"
             targetSdkVersion 23
         }
         enterprise {
@@ -125,7 +125,6 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation project(':push-dir:coding-push')
     implementation project(':push-dir:push-xiaomi')
-    implementation project(':codingcommon')
 
     // dagger 2 依赖
     def daggerVersion = '2.10'

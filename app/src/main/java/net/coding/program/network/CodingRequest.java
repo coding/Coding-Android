@@ -5,6 +5,7 @@ import net.coding.program.model.user.IntKeyMapHttpResult;
 import net.coding.program.network.model.BaseHttpResult;
 import net.coding.program.network.model.HttpPageResult;
 import net.coding.program.network.model.HttpResult;
+import net.coding.program.network.model.common.AppVersion;
 import net.coding.program.network.model.file.CodingFile;
 import net.coding.program.network.model.file.UploadToken;
 import net.coding.program.network.model.user.ManagerUser;
@@ -171,5 +172,8 @@ public interface CodingRequest {
     @FormUrlEncoded
     @POST("mobile/device/unregister")
     Observable<BaseHttpResult> unRegisterPush(@FieldMap Map<String, String> map);
+
+    @GET("update/app")
+    Observable<AppVersion> getAppVersion();
 
 }

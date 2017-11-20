@@ -454,9 +454,6 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_search_project"
             android:screenOrientation="portrait" />
-
-        <service android:name=".UpdateService" />
-
         <activity
             android:name=".UpdateDialogActivity"
             android:icon="@drawable/ic_lancher"
@@ -472,12 +469,6 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_terms"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".setting.UpdateTipActivity"
-            android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_update_tip"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.Light.Dialog" />
         <activity
             android:name=".FileUrlActivity_"
             android:icon="@drawable/ic_lancher"

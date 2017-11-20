@@ -499,12 +499,22 @@
 
     <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColorPrimary">@color/font_1</item>
-        <item name="colorAccent">#2EBE76</item>
+        <item name="colorAccent">#FF999999</item>
+        <item name="buttonBarPositiveButtonStyle">@style/GreenTextButton</item>
     </style>
 
     <style name="CodingWarnDialog" parent="MyAlertDialogStyle">
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
     </style>
+
+    <style name="GreenTextButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">#FF2EBE76</item>
+    </style>
+
+    <style name="GrayTextButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">#FF999999</item>
+    </style>
+
 
     <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">#FFFE3824</item>
