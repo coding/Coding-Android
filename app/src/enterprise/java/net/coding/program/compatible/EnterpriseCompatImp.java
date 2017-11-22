@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 
 import net.coding.program.EnterpriseMainActivity_;
 import net.coding.program.EnterpriseMyPushReceiver;
+import net.coding.program.common.StartActivity;
 import net.coding.program.guide.EnterpriseGuideActivity_;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;

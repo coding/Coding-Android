@@ -12,9 +12,7 @@ android {
     }
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
-    dexOptions {
-        javaMaxHeapSize "2g"
-    }
+
     sourceSets {
         main.java.srcDirs += "src/main/java"
         main.java.srcDirs += "src/person/java"

@@ -432,6 +432,7 @@ public class MainActivity extends BaseActivity {
         }
 
         fragmentTransaction.commit();
+
     }
 
     //当项目设置里删除项目后，重新跳转到主界面，并刷新ProjectFragment
