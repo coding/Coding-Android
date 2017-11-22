@@ -123,7 +123,7 @@ dependencies {
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation project(':coding-push')
+    implementation project(':push-coding')
     implementation project(':push-xiaomi')
 
     // dagger 2 依赖

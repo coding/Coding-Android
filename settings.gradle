@@ -3,7 +3,7 @@ include ':social_sdk_library_project'
 include ':bottom-bar'
 include ':luban'
 
-include ':coding-push'
+include ':push-coding'
 include ":push-xiaomi"
 include ":push-huawei"
 
