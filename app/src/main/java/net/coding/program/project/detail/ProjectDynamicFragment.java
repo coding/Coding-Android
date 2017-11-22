@@ -10,10 +10,10 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.model.DynamicObject;
@@ -36,7 +36,7 @@ import java.util.Calendar;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 
 @EFragment(R.layout.fragment_project_dynamic)
-public class ProjectDynamicFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
+public class ProjectDynamicFragment extends CustomMoreFragment implements LoadMore {
 
     final String HOST = Global.HOST_API + "/project/%d/activities?last_id=%s&user_id=%s&type=%s";
     final String HOST_USER = Global.HOST_API + "/project/%d/activities/user/%s?last_id=%s";
@@ -287,7 +287,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements FootUp
     }
 
     private class ProjectDynamicAdapter extends DateSectionDynamicAdapter {
-        public ProjectDynamicAdapter(Context context, MyImageGetter imageGetter, FootUpdate.LoadMore loader) {
+        public ProjectDynamicAdapter(Context context, MyImageGetter imageGetter, LoadMore loader) {
             super(context, imageGetter, loader);
         }
 

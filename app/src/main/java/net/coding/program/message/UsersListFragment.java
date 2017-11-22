@@ -16,10 +16,10 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.readystatesoftware.viewbadger.BadgeView;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
@@ -43,7 +43,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 @EFragment(R.layout.fragment_users_list)
-public class UsersListFragment extends RefreshBaseFragment implements FootUpdate.LoadMore, StartActivity {
+public class UsersListFragment extends RefreshBaseFragment implements LoadMore, StartActivity {
 
     static WeakReference<UsersListFragment> mInstance = new WeakReference<>(null);
     public final String HOST_MARK_MESSAGE = getHostMarkMessage();

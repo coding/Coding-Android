@@ -9,10 +9,10 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
@@ -38,7 +38,7 @@ public class DateSectionDynamicAdapter<T extends DynamicObject.DynamicBaseObject
     protected ImageLoadTool mImageLoader;
     private MyImageGetter myImageGetter;
     private int mLastId;
-    private FootUpdate.LoadMore mLoadMoreObj;
+    private LoadMore mLoadMoreObj;
     private SimpleDateFormat mDataDyanmicItem = new SimpleDateFormat("HH:mm");
     private String sToday = "";
     private String sYesterday = "";
@@ -55,7 +55,7 @@ public class DateSectionDynamicAdapter<T extends DynamicObject.DynamicBaseObject
     private ArrayList<Long> mSectionTitle = new ArrayList<>();
     private ArrayList<Integer> mSectionId = new ArrayList<>();
 
-    public DateSectionDynamicAdapter(Context context, MyImageGetter imageGetter, FootUpdate.LoadMore loader) {
+    public DateSectionDynamicAdapter(Context context, MyImageGetter imageGetter, LoadMore loader) {
         mInflater = LayoutInflater.from(context);
         mImageLoader = new ImageLoadTool();
         myImageGetter = imageGetter;

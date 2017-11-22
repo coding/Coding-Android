@@ -82,6 +82,7 @@ public class MainActivity extends BaseActivity {
     BottomBar bottomBar;
     @ViewById
     ViewGroup container;
+
     @DimensionPixelSizeRes(R.dimen.main_container_merge_bottom)
     int bottomMerge;
     @Pref
@@ -144,6 +145,7 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().register(this);
 
         requestPermission();
+
     }
 
     @UiThread(delay = 2000)

@@ -6,10 +6,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import net.coding.program.FileUrlActivity;
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
@@ -36,7 +36,7 @@ import java.util.List;
 
 @EActivity(R.layout.activity_project_maopao)
 @OptionsMenu(R.menu.project_maopao)
-public class ProjectMaopaoActivity extends BackActivity implements FootUpdate.LoadMore {
+public class ProjectMaopaoActivity extends BackActivity implements LoadMore {
 
     private static final int RESULT_ADD = 1;
     private static final int RESULT_EDIT = 2;

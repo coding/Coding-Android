@@ -9,9 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.LoadMore;
 import net.coding.program.model.ProjectObject;
 
 import org.androidannotations.annotations.AfterViews;
@@ -28,7 +28,7 @@ import java.util.List;
  * 基本的listActivity，没有分隔条，没有分页
  */
 @EActivity
-public abstract class BaseListActivity extends BackActivity implements FootUpdate.LoadMore {
+public abstract class BaseListActivity extends BackActivity implements LoadMore {
 
 //    public abstract String getActionbarTitle();
 //    public abstract String getGetUrl();

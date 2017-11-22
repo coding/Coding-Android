@@ -18,11 +18,11 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.compatible.CodingCompat;
@@ -52,7 +52,7 @@ import java.util.Collections;
  * 粉丝，关注的人列表
  */
 @EActivity(R.layout.activity_users_list)
-public class UsersListActivity extends BackActivity implements FootUpdate.LoadMore {
+public class UsersListActivity extends BackActivity implements LoadMore {
 
     public static final String TAG_USER_FOLLOWS = "TAG_USER_FOLLOWS";
     public static final String TAG_USER_FANS = "TAG_USER_FANS";

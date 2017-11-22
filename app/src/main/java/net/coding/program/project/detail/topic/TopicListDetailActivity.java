@@ -14,9 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.base.MyJsonResponse;
@@ -50,7 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.activity_topic_list_detail)
-public class TopicListDetailActivity extends BaseTopicListDetailActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore {
+public class TopicListDetailActivity extends BaseTopicListDetailActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener, LoadMore {
 
     static final int RESULT_EDIT = 2;
     static final int RESULT_LABEL = 3;

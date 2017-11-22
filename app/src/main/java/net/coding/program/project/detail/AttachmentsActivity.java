@@ -28,12 +28,12 @@ import android.widget.ListView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.pickphoto.ImageInfo;
 import net.coding.program.pickphoto.PhotoPickActivity;
@@ -80,7 +80,7 @@ import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
  */
 @Deprecated
 @EActivity(R.layout.activity_attachments)
-public class AttachmentsActivity extends FileDownloadBaseActivity implements FootUpdate.LoadMore, UploadStyle {
+public class AttachmentsActivity extends FileDownloadBaseActivity implements LoadMore, UploadStyle {
 
     public static final int RESULT_REQUEST_FILES = 1;
     private static final String TAG = AttachmentsActivity.class.getSimpleName();

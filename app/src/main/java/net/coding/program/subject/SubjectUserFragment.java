@@ -9,9 +9,9 @@ import android.widget.ListView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.UserObject;
@@ -35,7 +35,7 @@ import java.util.List;
  *
  */
 @EFragment(R.layout.fragment_subject_list)
-public class SubjectUserFragment extends RefreshBaseFragment implements FootUpdate.LoadMore {
+public class SubjectUserFragment extends RefreshBaseFragment implements LoadMore {
     static final int RESULT_USER_DETAIL = 5;
     public final String HOST_FOLLOW = Global.HOST_API + "/user/follow?";
     public final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";

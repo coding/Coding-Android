@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import com.baidu.mapapi.model.LatLng;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.maopao.item.LocationItem;
 import net.coding.program.model.LocationObject;
@@ -37,7 +37,7 @@ import java.util.List;
  */
 @EActivity(R.layout.activity_choose_location)
 @OptionsMenu(R.menu.location_search)
-public class LocationSearchActivity extends BackActivity implements FootUpdate.LoadMore {
+public class LocationSearchActivity extends BackActivity implements LoadMore {
 
     // 行政区划,房地产,公司企业,美食,休闲娱乐,宾馆,购物,旅游景点,生活服务,汽车服务,结婚,丽人,金融,运动健身,医疗,教育,培训机构,交通设施,自然地物,政府机构,门址,道路
     private static final String RECOMMEND_KEYS = "美食$休闲娱乐$公司企业$旅游景点$道路$宾馆$生活服务$医疗";
@@ -224,7 +224,7 @@ public class LocationSearchActivity extends BackActivity implements FootUpdate.L
         return super.onCreateOptionsMenu(menu);
     }
 
-    private abstract class LocationAdapter extends BaseAdapter implements FootUpdate.LoadMore {
+    private abstract class LocationAdapter extends BaseAdapter implements LoadMore {
         ArrayList<LocationObject> list = new ArrayList<>();
 
         @Override

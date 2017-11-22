@@ -11,10 +11,10 @@ import android.widget.ListView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.holder.FolderHolder;
 import net.coding.program.common.umeng.UmengEvent;
@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
  * Created by yangzhen
  */
 @EActivity(R.layout.activity_attachments_folder_selector)
-public class AttachmentsFolderSelectorActivity extends BackActivity implements FootUpdate.LoadMore {
+public class AttachmentsFolderSelectorActivity extends BackActivity implements LoadMore {
     private static String TAG = AttachmentsFolderSelectorActivity.class.getSimpleName();
     private final String STRING_OUT_FOLDER = "移出目录";
 

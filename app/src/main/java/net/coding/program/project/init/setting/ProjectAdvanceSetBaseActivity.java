@@ -133,6 +133,7 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
             if (code == 0) {
                 String passwordType = respanse.optString("data", "");
                 if (passwordType.equals("totp")) {
+
                     showDeleteDialog2fa();
                 } else { //  password
                     showDeleteDialog();

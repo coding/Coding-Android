@@ -16,10 +16,10 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.pickphoto.ImageInfo;
@@ -64,7 +64,7 @@ import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
  * Created by yangzhen on 2014/10/25.
  */
 @EFragment(R.layout.common_refresh_listview)
-public class ProjectGitFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
+public class ProjectGitFragment extends CustomMoreFragment implements LoadMore {
 
     public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
     public static final String MASTER = "master";

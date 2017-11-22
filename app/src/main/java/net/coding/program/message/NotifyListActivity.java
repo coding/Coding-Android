@@ -14,11 +14,11 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
@@ -39,7 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @EActivity(R.layout.activity_notify_list1)
-public class NotifyListActivity extends BackActivity implements FootUpdate.LoadMore {
+public class NotifyListActivity extends BackActivity implements LoadMore {
 
     private static HashMap<String, Pair<Integer, Integer>> sHashMap = new HashMap<>();
 

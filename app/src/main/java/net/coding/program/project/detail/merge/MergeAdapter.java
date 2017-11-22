@@ -6,10 +6,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.widget.DataAdapter;
 import net.coding.program.model.Merge;
 import net.coding.program.project.detail.TopicListFragment;
@@ -23,9 +23,9 @@ import java.util.ArrayList;
 public class MergeAdapter extends DataAdapter<Merge> {
 
     //    ImageLoadTool mImageLoadr;
-    FootUpdate.LoadMore mLoadMore;
+    LoadMore mLoadMore;
 
-    public MergeAdapter(ArrayList<Merge> data, FootUpdate.LoadMore loadMore, ImageLoadTool imageLoader) {
+    public MergeAdapter(ArrayList<Merge> data, LoadMore loadMore, ImageLoadTool imageLoader) {
         super(data);
         mLoadMore = loadMore;
 //        mImageLoadr = imageLoader;

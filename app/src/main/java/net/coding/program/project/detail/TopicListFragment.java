@@ -14,11 +14,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.widget.FlowLabelLayout;
 import net.coding.program.model.ProjectObject;
@@ -42,7 +42,7 @@ import java.util.List;
 
 @EFragment(R.layout.fragment_project_topic_list)
 @OptionsMenu(R.menu.project_task)
-public class TopicListFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
+public class TopicListFragment extends CustomMoreFragment implements LoadMore {
 
     static final int RESULT_ADD = 1;
     static final int RESULT_DETAIL = 2;

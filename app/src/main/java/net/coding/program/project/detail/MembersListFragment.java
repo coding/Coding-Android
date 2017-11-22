@@ -18,10 +18,10 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -51,7 +51,7 @@ import static net.coding.program.project.detail.MembersListFragment.DataType.Use
 
 
 @EFragment(R.layout.common_refresh_listview_divide)
-public class MembersListFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
+public class MembersListFragment extends CustomMoreFragment implements LoadMore {
 
     static final int RESULT_ADD_USER = 111;
     static final int RESULT_MODIFY_AUTHORITY = 112;

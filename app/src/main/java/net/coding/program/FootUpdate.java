@@ -6,11 +6,13 @@ import android.view.View;
 import android.widget.ListView;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.LoadMore;
 
 import java.lang.reflect.Method;
 
 /**
  * Created by chaochen on 14-10-22.
+ * todo delete
  * 上拉加载更多
  */
 public class FootUpdate {
@@ -127,7 +129,4 @@ public class FootUpdate {
         }
     }
 
-    public interface LoadMore {
-        void loadMore();
-    }
 }

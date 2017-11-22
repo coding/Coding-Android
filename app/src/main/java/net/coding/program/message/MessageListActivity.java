@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
@@ -31,6 +30,7 @@ import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalSetting;
 import net.coding.program.common.HtmlContent;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.MyMediaPlayer;
 import net.coding.program.common.PhotoOperate;
@@ -69,7 +69,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 @EActivity(R.layout.activity_message_list)
-public class MessageListActivity extends BackActivity implements SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore,
+public class MessageListActivity extends BackActivity implements SwipeRefreshLayout.OnRefreshListener, LoadMore,
         StartActivity, CameraAndPhoto, Handler.Callback, VoiceRecordCompleteCallback,
         ContentAreaImages.VoicePlayCallBack {
 

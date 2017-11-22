@@ -31,6 +31,7 @@ import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
@@ -51,7 +52,7 @@ import java.util.List;
  * 封装了图片下载
  * 封装了网络请求
  */
-public class BaseFragment extends UmengFragment implements NetworkCallback, FootUpdate.LoadMore, StartActivity {
+public class BaseFragment extends UmengFragment implements NetworkCallback, LoadMore, StartActivity {
 
     protected NetworkImpl networkImpl;
     protected LayoutInflater mInflater;
