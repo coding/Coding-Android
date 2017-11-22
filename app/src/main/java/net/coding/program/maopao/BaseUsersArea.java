@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
-import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.model.UserObject;
 
@@ -186,8 +186,8 @@ public class BaseUsersArea {
 
             width -= (layout.getPaddingLeft() + layout.getPaddingRight());
 
-            int imageWidth = Global.dpToPx(30);
-            int imageMargin = Global.dpToPx(5);
+            int imageWidth = GlobalCommon.dpToPx(30);
+            int imageMargin = GlobalCommon.dpToPx(5);
 
             int shenxia = width % (imageWidth + imageMargin);
             int count = width / (imageWidth + imageMargin);

@@ -119,7 +119,6 @@ kapt {
 
 def AAVersion = '4.3.1'
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -163,7 +162,6 @@ dependencies {
     compile 'com.ms-square:etsyblur:0.1.0'
     compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
     compile 'it.neokree:MaterialNavigationDrawer:1.3.2'
-    compile files('libs/BaiduLBS_Android.jar')
     compile 'com.prolificinteractive:parallaxpager:2.2.1'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.5.0'
 
@@ -180,9 +178,6 @@ dependencies {
     //    compile 'com.twotoasters.jazzylistview:library:1.2.1'
     compile project(':social_sdk_library_project')
     compile 'com.bigkoo:convenientbanner:1.0.8'
-    compile files('libs/pinyin4j-2.5.0.jar')
-    compile files('libs/jg_filter_sdk_1.1.jar')
-    compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
     compile project(':bottom-bar')
     compile project(':luban')
 
@@ -199,7 +194,6 @@ dependencies {
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.3@aar'
     compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
     compile 'com.orhanobut:logger:1.15'
-    compile files('libs/Xg_sdk_v2.47_20161026_0936.jar')
     compile 'com.github.bmelnychuk:atv:1.2.9'
 
     // 网络请求
@@ -227,7 +221,14 @@ dependencies {
     // 常用工具类
     compile 'com.blankj:utilcode:1.9.0'
 
-    //    implementation project(':push-dir:coding-push')
+    // jar 依赖
+    compile files('libs/alipaySingle-20170510.jar')
+    compile files('libs/BaiduLBS_Android.jar')
+    compile files('libs/jg_filter_sdk_1.1.jar')
+    compile files('libs/pinyin4j-2.5.0.jar')
+    compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
+    compile files('libs/Xg_sdk_v2.47_20161026_0936.jar')
+    provided files('../common-coding/libs/android-viewbadger.jar')   // 小红点
 }
 
 

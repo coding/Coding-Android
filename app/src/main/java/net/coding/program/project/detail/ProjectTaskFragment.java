@@ -18,6 +18,7 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PinyinComparator;
 import net.coding.program.event.EventRefreshTask;
@@ -116,7 +117,7 @@ public class ProjectTaskFragment extends TaskFilterFragment {
             Drawable drawable = getResources().getDrawable(R.drawable.arrow_drop_down_green);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             toolBarTitle.setCompoundDrawables(null, null, drawable, null);
-            toolBarTitle.setCompoundDrawablePadding(Global.dpToPx(10));
+            toolBarTitle.setCompoundDrawablePadding(GlobalCommon.dpToPx(10));
             toolBarTitle.setText("全部任务");
         }
 

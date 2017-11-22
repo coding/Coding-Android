@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.PermissionUtil;
@@ -140,7 +140,7 @@ public class MainProjectFragment extends BaseFragment {
             return;
         }
 
-        Global.start2FAActivity(getActivity());
+        GlobalCommon.start2FAActivity(getActivity());
     }
 
     @OptionsItem

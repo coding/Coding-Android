@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 
 import net.coding.program.R;
-import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 
 
 /**
@@ -51,11 +51,11 @@ public class BaseRecyclerViewSpace extends RecyclerView.ItemDecoration {
 
         shadowTop = resources.getDrawable(R.mipmap.shadow_top);
         shadowBottom = resources.getDrawable(R.mipmap.shadow_bottom);
-        shadowHigh = Global.dpToPx(5);
+        shadowHigh = GlobalCommon.dpToPx(5);
     }
 
     public void setBottomSpace(int dp) {
-        bottomSpace = Global.dpToPx(dp);
+        bottomSpace = GlobalCommon.dpToPx(dp);
 
     }
 }

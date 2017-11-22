@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
-import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.base.BaseLoadMoreFragment;
 import net.coding.program.model.Merge;
 import net.coding.program.model.ProjectObject;
@@ -71,7 +71,7 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
         Drawable drawable = getResources().getDrawable(R.drawable.arrow_drop_down_green);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         toolbarTitle.setCompoundDrawables(null, null, drawable, null);
-        toolbarTitle.setCompoundDrawablePadding(Global.dpToPx(10));
+        toolbarTitle.setCompoundDrawablePadding(GlobalCommon.dpToPx(10));
         toolbarTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

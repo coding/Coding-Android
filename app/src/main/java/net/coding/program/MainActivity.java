@@ -2,7 +2,6 @@ package net.coding.program;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -25,6 +24,7 @@ import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.GlobalVar_;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.Unread;
@@ -103,7 +103,7 @@ public class MainActivity extends BaseActivity {
         final View rootView = getWindow().getDecorView().findViewById(R.id.frameLayout);
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             // getActionBarHeight() + getStatusBarHeight() + bottomBar();
-            final int headerHeight = Global.dpToPx(150);
+            final int headerHeight = GlobalCommon.dpToPx(150);
             int rootViewHeight = rootView.getRootView().getHeight();
             int rootHeight = rootView.getHeight();
             int heightDiff = rootViewHeight - rootHeight;

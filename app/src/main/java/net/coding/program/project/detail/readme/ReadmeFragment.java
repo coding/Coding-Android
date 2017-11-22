@@ -10,9 +10,9 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.CustomWebViewClient;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.model.Depot;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.merge.ReadmeEditActivity;
@@ -92,7 +92,7 @@ public class ReadmeFragment extends BaseFragment {
                         }
 
                         webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", readmeHtml), "text/html", "UTF-8", null);
-                        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity(), readmeHtml));
+                        webView.setWebViewClient(new CustomWebViewClient(getActivity(), readmeHtml));
                     }
                 }
             } else if (code == 1209) {

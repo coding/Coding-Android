@@ -9,7 +9,7 @@ import android.graphics.PathEffect;
 import android.util.AttributeSet;
 import android.view.View;
 
-import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 
 /**
  * Created by chenchao on 15/3/14.
@@ -40,12 +40,12 @@ public class DashLine extends View {
         this.paint.setStyle(Paint.Style.STROKE);
         this.paint.setColor(lineColor);
         this.paint.setAntiAlias(true);
-        this.paint.setStrokeWidth(Global.dpToPx(2));
+        this.paint.setStrokeWidth(GlobalCommon.dpToPx(2));
         float[] arrayOfFloat = new float[4];
-        arrayOfFloat[0] = Global.dpToPx(3);
-        arrayOfFloat[1] = Global.dpToPx(2);
-        arrayOfFloat[2] = Global.dpToPx(3);
-        arrayOfFloat[3] = Global.dpToPx(2);
+        arrayOfFloat[0] = GlobalCommon.dpToPx(3);
+        arrayOfFloat[1] = GlobalCommon.dpToPx(2);
+        arrayOfFloat[2] = GlobalCommon.dpToPx(3);
+        arrayOfFloat[3] = GlobalCommon.dpToPx(2);
         this.pe = new DashPathEffect(arrayOfFloat, 0);
     }
 

@@ -12,7 +12,7 @@ import com.unnamed.b.atv.model.TreeNode;
 
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
-import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.network.model.wiki.Wiki;
 
 import org.greenrobot.eventbus.EventBus;
@@ -56,14 +56,14 @@ public class NodeHolder extends TreeNode.BaseNodeViewHolder<Wiki> {
         }
 
         int leftSpace = (indentationLevel - 1) * 30 + 20 + iconWidth;
-        int leftSpacePx = Global.dpToPx(leftSpace);
+        int leftSpacePx = GlobalCommon.dpToPx(leftSpace);
 
         ViewGroup.MarginLayoutParams iconLP = (ViewGroup.MarginLayoutParams) iconLayout.getLayoutParams();
         iconLP.width = leftSpacePx;
         iconLayout.setLayoutParams(iconLP);
 
         ViewGroup.MarginLayoutParams lineLP = (ViewGroup.MarginLayoutParams) bottomLine.getLayoutParams();
-        lineLP.leftMargin = leftSpacePx - Global.dpToPx(iconWidth);
+        lineLP.leftMargin = leftSpacePx - GlobalCommon.dpToPx(iconWidth);
         bottomLine.setLayoutParams(lineLP);
 
         setData(node, value);

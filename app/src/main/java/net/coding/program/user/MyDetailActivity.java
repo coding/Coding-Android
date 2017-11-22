@@ -11,6 +11,7 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
 import net.coding.program.model.UserObject;
@@ -78,7 +79,7 @@ public class MyDetailActivity extends UserDetailCommonActivity {
     }
 
     public int getActionBarSize() {
-        return Global.dpToPx(48);
+        return GlobalCommon.dpToPx(48);
     }
 
     private static class MyDetailPagerAdapter extends FragmentPagerAdapter {

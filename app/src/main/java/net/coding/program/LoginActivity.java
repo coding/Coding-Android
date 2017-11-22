@@ -24,9 +24,9 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.tencent.android.tpush.XGPushManager;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.guide.GuideActivity;
@@ -354,7 +354,7 @@ public class LoginActivity extends BaseActivity {
 
     @Click
     protected final void login_2fa() {
-        Global.start2FAActivity(this);
+        GlobalCommon.start2FAActivity(this);
     }
 
     private void show2FA(boolean show) {

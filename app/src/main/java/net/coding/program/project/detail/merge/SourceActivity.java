@@ -4,6 +4,7 @@ import android.webkit.WebView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.GitFileObject;
 
@@ -40,7 +41,7 @@ public class SourceActivity extends BackActivity {
             hideProgressDialog();
             if (code == 0) {
                 GitFileObject file = new GitFileObject(respanse.optJSONObject("data").optJSONObject("file"));
-                Global.setWebViewContent(webView, file);
+                GlobalCommon.setWebViewContent(webView, file);
             } else {
                 showErrorMsg(code, respanse);
             }

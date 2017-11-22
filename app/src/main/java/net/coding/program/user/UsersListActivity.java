@@ -31,7 +31,7 @@ import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.model.project.ProjectServiceInfo;
-import net.coding.program.param.MessageParse;
+import net.coding.program.common.param.MessageParse;
 import net.coding.program.third.sidebar.IndexableListView;
 import net.coding.program.third.sidebar.StringMatcher;
 

@@ -20,6 +20,7 @@ import net.coding.program.common.CodingColor;
 import net.coding.program.common.CommentBackup;
 import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.widget.EnterLayoutAnimSupportContainer;
 import net.coding.program.common.widget.input.CameraAndPhoto;
 import net.coding.program.common.widget.input.InputAction;
@@ -62,8 +63,8 @@ public abstract class EnterLayout implements InputAction {
 
         mActivity = activity;
 
-        panelHeight = Global.dpToPx(200);
-        inputBoxHeight = Global.dpToPx(48);
+        panelHeight = GlobalCommon.dpToPx(200);
+        inputBoxHeight = GlobalCommon.dpToPx(48);
         screenHeight = MyApp.sHeightPix;
 
         commonEnterRoot = (ViewGroup) mActivity.findViewById(R.id.commonEnterRoot);

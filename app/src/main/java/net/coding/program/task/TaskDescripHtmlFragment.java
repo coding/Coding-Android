@@ -12,9 +12,9 @@ import android.webkit.WebView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
+import net.coding.program.common.CustomWebViewClient;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.project.detail.EditPreviewMarkdown;
 
@@ -110,7 +110,7 @@ public class TaskDescripHtmlFragment extends BaseFragment {
     private void displayWebView() {
         String locateHtml = ((TaskDescrip) getActivity()).createLocateHtml(contentHtml);
 
-        descWeb.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity(), locateHtml));
+        descWeb.setWebViewClient(new CustomWebViewClient(getActivity(), locateHtml));
         descWeb.getSettings().setJavaScriptEnabled(true);
         descWeb.setBackgroundColor(0);
         descWeb.getBackground().setAlpha(0);

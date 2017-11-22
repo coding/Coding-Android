@@ -26,6 +26,7 @@ import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.RedPointTip;
@@ -835,7 +836,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                 }
 
                 CircleImageView circleImageView = new CircleImageView(this);
-                circleImageView.setOnClickListener(Global.clickUser);
+                circleImageView.setOnClickListener(GlobalCommon.clickUser);
                 circleImageView.setTag(reviewer.user.global_key);
 
                 if ("invitee".equals(reviewer.volunteer) && reviewer.value > 0) {

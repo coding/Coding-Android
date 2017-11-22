@@ -24,7 +24,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
 
-import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 
 public class IndexableListView extends ListView {
 
@@ -103,7 +103,7 @@ public class IndexableListView extends ListView {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        final int minHeight = Global.dpToPx(400); // listview 只有400dp 估计键盘弹出来了
+        final int minHeight = GlobalCommon.dpToPx(400); // listview 只有400dp 估计键盘弹出来了
 
         if (h < minHeight) {
             mScroller.hide();

@@ -11,10 +11,11 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.model.Maopao;
-import net.coding.program.param.MessageParse;
+import net.coding.program.common.param.MessageParse;
 
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class SubjectSearchListAdapter extends BaseAdapter {
             Maopao.MaopaoObject maopaoObject = maopaoObjectItems.get(position);
             if (maopaoObject != null) {
                 MessageParse parse = HtmlContent.parseMessage(maopaoObject.content);
-                viewHolder.content.setText(Global.changeHyperlinkColor(HtmlContent.parseReplacePhotoMonkey(parse.text), mImageGetter, Global.tagHandler));
+                viewHolder.content.setText(GlobalCommon.changeHyperlinkColor(HtmlContent.parseReplacePhotoMonkey(parse.text), mImageGetter, Global.tagHandler));
                 viewHolder.likeCountView.setText(String.valueOf(maopaoObject.likes));
                 if (maopaoObject.owner != null && !TextUtils.isEmpty(maopaoObject.owner.avatar))
                     mImageLoadTool.loadImage(viewHolder.userIconView, maopaoObject.owner.avatar);

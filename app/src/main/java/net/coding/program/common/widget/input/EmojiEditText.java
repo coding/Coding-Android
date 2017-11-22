@@ -11,6 +11,7 @@ import android.view.View;
 
 import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 
 /**
  * Created by chenchao on 16/1/25.
@@ -121,7 +122,7 @@ public class EmojiEditText extends AppCompatEditText {
 
     public boolean isPopSystemInput() {
         int rootViewHigh = rootView.getHeight();
-        final int bottomHigh = Global.dpToPx(100); // 底部虚拟按键高度，nexus5是73dp，以防万一，所以设大一点
+        final int bottomHigh = GlobalCommon.dpToPx(100); // 底部虚拟按键高度，nexus5是73dp，以防万一，所以设大一点
         int rootParentHigh = rootView.getRootView().getHeight();
         return rootParentHigh - rootViewHigh > bottomHigh;
     }

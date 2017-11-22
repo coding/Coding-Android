@@ -12,6 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ViewHolder;
@@ -64,7 +65,7 @@ public class SearchMaopaoAdapter extends BaseAdapter {
 
         Maopao.MaopaoObject bean = mData.get(position);
 
-        descMaopao.setText(Global.changeHyperlinkColor(HtmlContent.parseReplacePhotoMonkey(bean.content), mImageGetter, Global.tagHandler));
+        descMaopao.setText(GlobalCommon.changeHyperlinkColor(HtmlContent.parseReplacePhotoMonkey(bean.content), mImageGetter, Global.tagHandler));
         bottomName.setText(bean.owner.name);
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
         bottomTime.setText(format.format(bean.created_at));

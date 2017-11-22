@@ -11,6 +11,7 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
@@ -46,7 +47,7 @@ class ProjectMaopaoAdapter extends BaseAdapter {
         onClickImage = new ClickSmallImage(activity);
         myImageGetter = new MyImageGetter(activity);
         imageLoadTool = activity.getImageLoad();
-        mPxImageWidth = Global.dpToPx(MyApp.sWidthDp - 12 - 40 - 10 - 10 - 3 * 2) / 3;
+        mPxImageWidth = GlobalCommon.dpToPx(MyApp.sWidthDp - 12 - 40 - 10 - 10 - 3 * 2) / 3;
     }
 
     @Override
@@ -79,7 +80,7 @@ class ProjectMaopaoAdapter extends BaseAdapter {
         ImageLoadTool.loadUserImage(holder.icon, data.owner.avatar);
         holder.name.setText(data.owner.name);
         holder.time.setText(Global.getTimeDetail(data.created_at));
-        holder.content.setText(Global.changeHyperlinkColor(data.content.replace("<p>", "").replace("</p>", "").replace("</blockquote>", "").replace("<blockquote>", "")));
+        holder.content.setText(GlobalCommon.changeHyperlinkColor(data.content.replace("<p>", "").replace("</p>", "").replace("</blockquote>", "").replace("<blockquote>", "")));
         holder.comment.setText(String.format("%s条评论", data.comments));
         holder.delete.setTag(data);
         if (data.owner_id == MyApp.sUserObject.id) {

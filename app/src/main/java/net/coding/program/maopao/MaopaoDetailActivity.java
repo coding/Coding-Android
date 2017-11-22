@@ -1,7 +1,6 @@
 package net.coding.program.maopao;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -13,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -24,17 +22,15 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.umeng.socialize.sso.UMSsoHandler;
 
-import net.coding.program.ImagePagerActivity_;
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.CustomWebViewClient;
 import net.coding.program.common.Global;
-import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.comment.HtmlCommentHolder;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.MainInputView;
@@ -652,30 +648,4 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
 //    private UMSocialService mController = UMServiceFactory.getUMSocialService("net.coding.program");
 
-    public static class CustomWebViewClient extends WebViewClient {
-
-        private final Context mContext;
-        private final ArrayList<String> mUris;
-
-        public CustomWebViewClient(Context context, String content) {
-            mContext = context;
-            mUris = HtmlContent.parseMessage(content).uris;
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            for (int i = 0; i < mUris.size(); ++i) {
-                if (mUris.get(i).equals(url)) {
-                    ImagePagerActivity_.intent(mContext)
-                            .mArrayUri(mUris)
-                            .mPagerPosition(i)
-                            .start();
-                    return true;
-                }
-            }
-
-            URLSpanNoUnderline.openActivityByUri(mContext, url, false, true);
-            return true;
-        }
-    }
 }

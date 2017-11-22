@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.LongClickLinkMovementMethod;
@@ -184,7 +185,7 @@ public class DateSectionDynamicAdapter<T extends DynamicObject.DynamicBaseObject
         }
 
         if (holder.mIcon != null) {
-            holder.mIcon.setOnClickListener(Global.clickUser);
+            holder.mIcon.setOnClickListener(GlobalCommon.clickUser);
             mImageLoader.loadImage(holder.mIcon, data.user.avatar);
             holder.mIcon.setTag(data.user.global_key);
         }

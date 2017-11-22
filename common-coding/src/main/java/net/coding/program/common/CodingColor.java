@@ -3,8 +3,6 @@ package net.coding.program.common;
 import android.content.Context;
 import android.content.res.Resources;
 
-import net.coding.program.R;
-
 /**
  * Created by chenchao on 2017/3/27.
  * 有些类不方便从资源文件获取颜色

@@ -6,7 +6,7 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 
 /**
  * Created by chenchao on 16/3/4.
@@ -18,7 +18,7 @@ public class LoadMoreRecyclerViewSpace extends BaseRecyclerViewSpace {
 
     public LoadMoreRecyclerViewSpace(Context context) {
         super(context);
-        leftSapce = Global.dpToPx(15);
+        leftSapce = GlobalCommon.dpToPx(15);
     }
 
     @Override

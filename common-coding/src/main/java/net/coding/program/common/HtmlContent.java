@@ -1,6 +1,6 @@
 package net.coding.program.common;
 
-import net.coding.program.param.MessageParse;
+import net.coding.program.common.param.MessageParse;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

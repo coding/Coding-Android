@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import net.coding.program.R;
-import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 
 import java.util.ArrayList;
 
@@ -78,7 +78,7 @@ public class SoundWaveView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         //super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         //9个音波，每个宽度6px(2dp),最小高度9px,最大高度36px(12dp)
-        setMeasuredDimension(Global.dpToPx((waveCout * 2 - 1) * 2), Global.dpToPx(12));
+        setMeasuredDimension(GlobalCommon.dpToPx((waveCout * 2 - 1) * 2), GlobalCommon.dpToPx(12));
     }
 
     /**
@@ -123,7 +123,7 @@ public class SoundWaveView extends View {
      * @param waveHeight
      */
     private void drawWave(Canvas canvas, int position, int waveHeight) {
-        int minWaveHeight = Global.dpToPx(3);
+        int minWaveHeight = GlobalCommon.dpToPx(3);
         if (waveHeight <= minWaveHeight) {
             waveHeight = minWaveHeight;
         }
@@ -143,7 +143,7 @@ public class SoundWaveView extends View {
         right = left + waveWidth;
         top = (getMeasuredHeight() - waveHeight) / 2;
         bottom = top + waveHeight;
-        int angle = Global.dpToPx(1);
+        int angle = GlobalCommon.dpToPx(1);
         canvas.drawRoundRect(new RectF(left, top, right, bottom), angle, angle, mPaint);
     }
 }

@@ -1,4 +1,4 @@
-package net.coding.program.param;
+package net.coding.program.common.param;
 
 import java.util.ArrayList;
 

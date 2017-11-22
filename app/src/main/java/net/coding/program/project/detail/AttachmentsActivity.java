@@ -32,6 +32,7 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.network.NetworkImpl;
@@ -186,9 +187,9 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
 
             int itemHigh;
             if (data.isFolder) {
-                itemHigh = Global.dpToPx(65);
+                itemHigh = GlobalCommon.dpToPx(65);
             } else {
-                itemHigh = Global.dpToPx(85);
+                itemHigh = GlobalCommon.dpToPx(85);
             }
             ViewGroup.LayoutParams lp = holder.item_layout_root.getLayoutParams();
             lp.height = itemHigh;

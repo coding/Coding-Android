@@ -22,6 +22,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.widget.GifMarkImageView;
@@ -29,7 +30,7 @@ import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.BaseComment;
 import net.coding.program.model.Maopao;
-import net.coding.program.param.MessageParse;
+import net.coding.program.common.param.MessageParse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -159,7 +160,7 @@ public class ContentAreaImages extends ContentAreaBase {
         } else {
             content.setTag(MaopaoListBaseFragment.TAG_COMMENT_TEXT, maopaoData.text);
             content.setVisibility(View.VISIBLE);
-            content.setText(Global.changeHyperlinkColorMaopao(maopaoData.text, imageGetter, Global.tagHandler,
+            content.setText(GlobalCommon.changeHyperlinkColorMaopao(maopaoData.text, imageGetter, Global.tagHandler,
                     content.getContext().getAssets()), TextView.BufferType.EDITABLE);
             content.setTag(contentObject);
         }
@@ -273,7 +274,7 @@ public class ContentAreaImages extends ContentAreaBase {
         } else {
             content.setTag(MaopaoListBaseFragment.TAG_COMMENT_TEXT, maopaoData.text);
             content.setVisibility(View.VISIBLE);
-            content.setText(Global.changeHyperlinkColorMaopao(maopaoData.text, imageGetter,
+            content.setText(GlobalCommon.changeHyperlinkColorMaopao(maopaoData.text, imageGetter,
                     Global.tagHandler, content.getContext().getAssets()));
             ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) content.getLayoutParams();
             if (maopaoData.uris.size() > 0) {
@@ -306,8 +307,8 @@ public class ContentAreaImages extends ContentAreaBase {
             content.setFocusableInTouchMode(false);
 
             //让气泡的宽度随着录音长度变化 为什么还要在减去一个32dp?根据布局文件来算不需要的
-            int maxWidth = MyApp.sWidthPix - (isRight ? Global.dpToPx(57 + 53 + 36 + 32) : Global.dpToPx(57 + 53 + 24 + 32));
-            int minWidth = Global.dpToPx(60);
+            int maxWidth = MyApp.sWidthPix - (isRight ? GlobalCommon.dpToPx(57 + 53 + 36 + 32) : GlobalCommon.dpToPx(57 + 53 + 24 + 32));
+            int minWidth = GlobalCommon.dpToPx(60);
             int s = maopaoData.voiceDuration >= 60 ? 60 : maopaoData.voiceDuration;
             int width = minWidth + (maxWidth - minWidth) * s / 60;
             width = width < minWidth ? minWidth : width;

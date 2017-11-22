@@ -28,6 +28,7 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.GlobalSetting;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.LoadMore;
@@ -52,7 +53,7 @@ import net.coding.program.maopao.item.ContentAreaImages;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Message;
 import net.coding.program.model.UserObject;
-import net.coding.program.param.MessageParse;
+import net.coding.program.common.param.MessageParse;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -293,7 +294,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     };
     private int mPxImageDivide = 0;
     private MyMediaPlayer mMyMediaPlayer;
-    private int minBottom = Global.dpToPx(200);
+    private int minBottom = GlobalCommon.dpToPx(200);
 
     //    MainInputView inputView;
     public static String getSendMessage() {
@@ -333,8 +334,8 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         // 图片显示，单位为 dp
         // 72 photo 3 photo 3 photo 72
         final int divide = 3;
-        mPxImageWidth = Global.dpToPx(MyApp.sWidthDp - 72 * 2 - divide * 2) / 3;
-        mPxImageDivide = Global.dpToPx(divide);
+        mPxImageWidth = GlobalCommon.dpToPx(MyApp.sWidthDp - 72 * 2 - divide * 2) / 3;
+        mPxImageDivide = GlobalCommon.dpToPx(divide);
 
         if (mUserObject == null) {
             getNetwork(HOST_USER_INFO + mGlobalKey, HOST_USER_INFO);

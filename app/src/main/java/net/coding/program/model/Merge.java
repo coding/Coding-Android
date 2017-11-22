@@ -5,6 +5,7 @@ import android.text.Spannable;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -385,7 +386,7 @@ public class Merge implements Serializable {
     }
 
     public Spannable getTitleSpannable() {
-        return Global.changeHyperlinkColor(title);
+        return GlobalCommon.changeHyperlinkColor(title);
     }
 
     public String getTitleIId() {

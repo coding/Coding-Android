@@ -19,6 +19,7 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
@@ -110,7 +111,7 @@ public class UsersListFragment extends RefreshBaseFragment implements LoadMore, 
             if (isUnPlayedVoiceMessage) {
                 contentString = Global.createGreenHtml("", user.content, "");
             } else {
-                contentString = Global.recentMessage(user.content, myImageGetter, Global.tagHandler);
+                contentString = GlobalCommon.recentMessage(user.content, myImageGetter, Global.tagHandler);
             }
             holder.content.setText(contentString);
             holder.time.setText(Global.dayToNow(user.created_at, false));

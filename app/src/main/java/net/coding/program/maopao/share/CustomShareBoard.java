@@ -45,7 +45,7 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.IconTextView;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.Maopao;
-import net.coding.program.param.MessageParse;
+import net.coding.program.common.param.MessageParse;
 
 public class CustomShareBoard extends PopupWindow implements OnClickListener {
 

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.content.res.AssetManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -19,11 +18,7 @@ import android.provider.MediaStore;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.Editable;
 import android.text.Html;
-import android.text.Spannable;
 import android.text.Spanned;
-import android.text.style.ImageSpan;
-import android.text.style.QuoteSpan;
-import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,20 +32,6 @@ import android.widget.Toast;
 
 import com.loopj.android.http.PersistentCookieStore;
 import com.readystatesoftware.viewbadger.BadgeView;
-
-import net.coding.program.MyApp;
-import net.coding.program.WebActivity;
-import net.coding.program.common.activity.WebviewDetailActivity_;
-import net.coding.program.common.enter.DrawableTool;
-import net.coding.program.common.enter.GifImageSpan;
-import net.coding.program.common.htmltext.GrayQuoteSpan;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
-import net.coding.program.login.auth.AuthListActivity;
-import net.coding.program.login.auth.Login2FATipActivity;
-import net.coding.program.maopao.MaopaoDetailActivity;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.GitFileObject;
-import net.coding.program.user.UserDetailActivity_;
 
 import org.json.JSONObject;
 import org.xml.sax.XMLReader;
@@ -70,7 +51,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import cz.msebera.android.httpclient.cookie.Cookie;
-import pl.droidsonroids.gif.GifDrawable;
 
 /**
  * Created by cc191954 on 14-8-23.
@@ -78,8 +58,8 @@ import pl.droidsonroids.gif.GifDrawable;
  */
 public class Global {
 
-        public static final String DEFAULT_HOST = "https://coding.net";
-//        public static final String DEFAULT_HOST = "http://coding.com";
+    public static final String DEFAULT_HOST = "https://coding.net";
+    //        public static final String DEFAULT_HOST = "http://coding.com";
 //    public static final String DEFAULT_HOST = "http://192.168.0.30:8080";
 //    public static final String DEFAULT_HOST = "http://192.168.0.132:8080";
     public static final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd EEE");
@@ -115,20 +95,6 @@ public class Global {
         }
     };
     public static DecimalFormat df = new DecimalFormat("#.00");
-    public static View.OnClickListener clickJumpWebView = v -> {
-        Object object = v.getTag();
-        if (object instanceof String) {
-            WebviewDetailActivity_.intent(v.getContext())
-                    .comment((String) object)
-                    .start();
-        }
-    };
-    public static View.OnClickListener clickUser = v -> {
-        String globalKey = (String) v.getTag();
-        UserDetailActivity_.intent(v.getContext())
-                .globalKey(globalKey)
-                .start();
-    };
     private static SimpleDateFormat DayFormatTime = new SimpleDateFormat("yyyy-MM-dd");
 
     public static String dayFromTime(long time) {
@@ -397,55 +363,6 @@ public class Global {
         return width;
     }
 
-    public static int dpToPx(int dpValue) {
-        return (int) (dpValue * MyApp.sScale + 0.5f);
-    }
-
-    public static int dpToPx(double dpValue) {
-        return (int) (dpValue * MyApp.sScale + 0.5f);
-    }
-
-    public static int pxToDp(float pxValue) {
-        return (int) (pxValue / MyApp.sScale + 0.5f);
-    }
-
-    public static Spannable changeHyperlinkColor(String content) {
-        return Global.changeHyperlinkColor(content, null, null);
-    }
-
-    public static Spannable changeHyperlinkColor(String content, MyImageGetter imageGetter) {
-        return Global.changeHyperlinkColor(content, imageGetter, null);
-    }
-
-    public static Spannable changeHyperlinkColor(String content, int linkColor) {
-        return changeHyperlinkColor(content, null, tagHandler, linkColor);
-    }
-
-    public static Spannable changeHyperlinkColor(String content, int color, MyImageGetter imageGetter) {
-        return Global.changeHyperlinkColor(content, imageGetter, null, color);
-    }
-
-    public static Spannable changeHyperlinkColor(String content, Html.ImageGetter imageGetter, Html.TagHandler tagHandler) {
-        return changeHyperlinkColor(content, imageGetter, tagHandler, CodingColor.fontGreen);
-    }
-
-    public static Spannable changeHyperlinkColorMaopao(String content, Html.ImageGetter imageGetter, Html.TagHandler tagHandler, AssetManager assetManager) {
-        Spannable s = changeHyperlinkColor(content, imageGetter, tagHandler, CodingColor.fontGreen);
-        return spannToGif(s, assetManager);
-    }
-
-    public static Spannable changeHyperlinkColor(String content, Html.ImageGetter imageGetter, Html.TagHandler tagHandler, int color) {
-        Spannable s = (Spannable) Html.fromHtml(content, imageGetter, tagHandler);
-        return getCustomSpannable(color, s);
-    }
-
-    public static Spannable recentMessage(String content, Html.ImageGetter imageGetter, Html.TagHandler tagHandler) {
-        String parse = HtmlContent.parseToText(content);
-
-        Spannable s = (Spannable) Html.fromHtml(parse, imageGetter, null);
-        return getCustomSpannable(CodingColor.font3, s);
-    }
-
     static public void cropImageUri(StartActivity activity, Uri uri, Uri outputUri, int outputX, int outputY, int requestCode) {
         try {
             Intent intent = new Intent("com.android.camera.action.CROP");
@@ -464,66 +381,6 @@ public class Global {
         } catch (Exception e) {
             Global.errorLog(e);
         }
-    }
-
-    private static Spannable getCustomSpannable(int color, Spannable s) {
-        URLSpan[] urlSpan = s.getSpans(0, s.length(), URLSpan.class);
-        for (URLSpan span : urlSpan) {
-            int start = s.getSpanStart(span);
-            int end = s.getSpanEnd(span);
-            s.removeSpan(span);
-            span = new URLSpanNoUnderline(span.getURL(), color);
-            s.setSpan(span, start, end, 0);
-        }
-
-        QuoteSpan quoteSpans[] = s.getSpans(0, s.length(), QuoteSpan.class);
-        for (QuoteSpan span : quoteSpans) {
-            int start = s.getSpanStart(span);
-            int end = s.getSpanEnd(span);
-            s.removeSpan(span);
-            GrayQuoteSpan grayQuoteSpan = new GrayQuoteSpan();
-            s.setSpan(grayQuoteSpan, start, end, 0);
-        }
-
-        return s;
-    }
-
-    private static Spannable spannToGif(Spannable s, AssetManager assetManager) {
-        ImageSpan[] imageSpans = s.getSpans(0, s.length(), ImageSpan.class);
-
-        final String[] gifEmojiName = new String[]{
-                "festival-emoji-01.gif",
-                "festival-emoji-02.gif",
-                "festival-emoji-03.gif",
-                "festival-emoji-04.gif",
-                "festival-emoji-05.gif",
-                "festival-emoji-06.gif",
-                "festival-emoji-07.gif",
-                "festival-emoji-08.gif",
-        };
-
-        for (ImageSpan imageSpan : imageSpans) {
-            int start = s.getSpanStart(imageSpan);
-            int end = s.getSpanEnd(imageSpan);
-
-            String imageSource = imageSpan.getSource();
-            for (String endString : gifEmojiName) {
-                if (imageSource.endsWith(endString)) {
-                    try {
-                        GifDrawable gifDrawable = new GifDrawable(assetManager, endString);
-                        DrawableTool.zoomDrwable(gifDrawable, true);
-                        gifDrawable.setLoopCount(100);
-                        GifImageSpan gifImageSpan = new GifImageSpan(gifDrawable);
-                        s.removeSpan(imageSpan);
-                        s.setSpan(gifImageSpan, start, end, 0);
-                    } catch (Exception e) {
-                        Global.errorLog(e);
-                    }
-                }
-            }
-        }
-
-        return s;
     }
 
     static public String readTextFile(Context context, String assetFile) throws IOException {
@@ -592,7 +449,7 @@ public class Global {
     }
 
     static public void setWebViewContent(WebView webView, String content) {
-        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(webView.getContext(), content));
+        webView.setWebViewClient(new CustomWebViewClient(webView.getContext(), content));
         try {
             syncCookie(webView.getContext());
             webView.loadDataWithBaseURL(Global.HOST, content, "text/html", "UTF-8", null);
@@ -604,7 +461,7 @@ public class Global {
     static public void setWebViewContent(WebView webView, String tempate, String content) {
         Context context = webView.getContext();
         Global.initWebView(webView);
-        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(context, content));
+        webView.setWebViewClient(new CustomWebViewClient(context, content));
         try {
             syncCookie(webView.getContext());
             String bubble = readTextFile(context.getAssets().open(tempate));
@@ -614,34 +471,11 @@ public class Global {
         }
     }
 
-    static public void setWebViewContent(WebView webview, GitFileObject gitFile) {
-        Context context = webview.getContext();
-        if (gitFile.lang.equals("markdown")) {
-            try {
-                String template = readTextFile(context.getAssets().open("markdown.html"));
-                webview.loadDataWithBaseURL(Global.HOST, template.replace("${webview_content}", gitFile.preview), "text/html", "UTF-8", null);
-
-            } catch (Exception e) {
-                Global.errorLog(e);
-            }
-        } else {
-            try {
-                String template = readTextFile(context.getAssets().open("code.html"));
-                String replaceData = gitFile.data.replace("<", "&lt;").replace(">", "&gt;").replace("\u2028", "").replace("\u2029", "");
-                webview.loadDataWithBaseURL(Global.HOST, template.replace("${file_code}", replaceData).replace("${file_lang}", gitFile.lang), "text/html", "UTF-8", null);
-            } catch (Exception e) {
-                Global.errorLog(e);
-            }
-        }
-        webview.setWebViewClient(new WebActivity.CustomWebViewClient(webview.getContext()));
-
-    }
-
     static public void setWebViewContent(WebView webView, String tempate, String replaceString,
                                          String content, String replaceComment, String comment) {
         Context context = webView.getContext();
         Global.initWebView(webView);
-        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(context, content));
+        webView.setWebViewClient(new CustomWebViewClient(context, content));
         try {
             syncCookie(webView.getContext());
             String bubble = readTextFile(context.getAssets().open(tempate));
@@ -864,17 +698,6 @@ public class Global {
         } else {
             badge.setVisibility(View.INVISIBLE);
         }
-    }
-
-    public static void start2FAActivity(Activity activity) {
-        Intent intent;
-        if (AccountInfo.loadAuthDatas(activity).isEmpty()) {
-            intent = new Intent(activity, Login2FATipActivity.class);
-        } else {
-            intent = new Intent(activity, AuthListActivity.class);
-        }
-
-        activity.startActivity(intent);
     }
 
     public static void updateByMarket(Context context) {

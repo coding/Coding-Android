@@ -6,6 +6,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -270,7 +271,7 @@ public class MergeObject implements Serializable {
     }
 
     public Spannable getTitleSpannable() {
-        return Global.changeHyperlinkColor(title);
+        return GlobalCommon.changeHyperlinkColor(title);
     }
 
 

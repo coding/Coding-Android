@@ -24,6 +24,7 @@ import android.widget.Toast;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.SoundWaveView;
@@ -301,7 +302,7 @@ public class VoiceView extends FrameLayout {
         tv.setTextColor(Color.WHITE);
         tv.setBackgroundResource(R.drawable.tips_background);
         tv.setWidth((int) (MyApp.sWidthPix * 0.7));
-        tv.setHeight(Global.dpToPx(48));
+        tv.setHeight(GlobalCommon.dpToPx(48));
         tv.setGravity(Gravity.CENTER);
         Toast toast = new Toast(activity);
         toast.setDuration(Toast.LENGTH_SHORT);

@@ -7,12 +7,13 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.DialogCopy;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.model.BaseComment;
-import net.coding.program.param.MessageParse;
+import net.coding.program.common.param.MessageParse;
 
 /**
  * Created by chaochen on 14-10-27.
@@ -41,7 +42,7 @@ public class HtmlCommentHolder extends BaseCommentHolder {
 
         String contentString = comment.content;
         MessageParse parse = HtmlContent.parseMessage(contentString);
-        content.setText(Global.changeHyperlinkColor(parse.text, imageGetter, Global.tagHandler));
+        content.setText(GlobalCommon.changeHyperlinkColor(parse.text, imageGetter, Global.tagHandler));
         content.setTag(comment);
         content.setTag(MaopaoListBaseFragment.TAG_COMMENT_TEXT, parse.text);
     }

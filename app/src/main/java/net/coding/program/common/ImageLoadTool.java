@@ -22,7 +22,7 @@ public class ImageLoadTool {
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .considerExifParams(true)
-            .displayer(new RoundedBitmapDisplayer(Global.dpToPx((float) 2)))
+            .displayer(new RoundedBitmapDisplayer(GlobalCommon.dpToPx((float) 2)))
             .build();
 
     public static DisplayImageOptions enterOptions = new DisplayImageOptions

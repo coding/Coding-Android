@@ -11,10 +11,11 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.network.constant.VIP;
-import net.coding.program.param.MessageParse;
+import net.coding.program.common.param.MessageParse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,7 +78,7 @@ public class DynamicObject {
         public Spanned title() {
             final String format = "%s %s";
             String title = String.format(format, user.getHtml(), action_msg);
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         public Spanned content(MyImageGetter imageGetter) {
@@ -112,7 +113,7 @@ public class DynamicObject {
         public Spanned title() {
             final String format = "%s %s Wiki";
             String title = String.format(format, user.getHtml(), action_msg);
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         @Override
@@ -141,14 +142,14 @@ public class DynamicObject {
         public Spanned title() {
             final String format = "%s %s 项目%s的 Pull Request";
             String title = String.format(format, user.getHtml(), action_msg, depot.getHtml());
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
             final String format = "%s";
             String content = String.format(format, black(pull_request_title));
-            return Global.changeHyperlinkColor(content, BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(content, BLACK_COLOR, imageGetter);
         }
 
         @Override
@@ -170,7 +171,7 @@ public class DynamicObject {
         }
 
         public Spanned getContent() {
-            return Global.changeHyperlinkColor(content, BLACK_COLOR, null);
+            return GlobalCommon.changeHyperlinkColor(content, BLACK_COLOR, null);
         }
     }
 
@@ -198,13 +199,13 @@ public class DynamicObject {
                 actionString = "";
             }
             String title = String.format(farmat, user.getHtml(), actionString);
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
             String noImageContent = HtmlContent.parseDynamic(content);
-            return Global.changeHyperlinkColor(noImageContent, BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(noImageContent, BLACK_COLOR, imageGetter);
         }
 
         @Override
@@ -229,13 +230,13 @@ public class DynamicObject {
         public Spanned title() {
             final String farmat = "%s %s 任务的评论";
             String title = String.format(farmat, user.getHtml(), action_msg);
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
             String noImageContent = HtmlContent.parseDynamic(mTaskComment.content);
-            return Global.changeHyperlinkColor(noImageContent, BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(noImageContent, BLACK_COLOR, imageGetter);
         }
 
         @Override
@@ -271,14 +272,14 @@ public class DynamicObject {
             }
             final String farmat = "%s %s 项目 %s 的 %s %s";
             String title = String.format(farmat, user.getHtml(), action_msg, project.getHtml(), s, lineNote.getHtml());
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
             String textContent = HtmlContent.parseToText(lineNote.getContent());
             String link = createLink(textContent, lineNote.getLinkPath());
-            return Global.changeHyperlinkColor(link, BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(link, BLACK_COLOR, imageGetter);
         }
     }
 
@@ -336,13 +337,13 @@ public class DynamicObject {
         public Spanned title() {
             final String format = "%s %s 项目%s中的 Merge Request";
             String title = String.format(format, user.getHtml(), action_msg, mergeRequestBaseDelegate.depot.getHtml());
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
             String content = createLink(mergeRequestBaseDelegate.merge_request_title, mergeRequestBaseDelegate.merge_request_path);
-            return Global.changeHyperlinkColor(content, BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(content, BLACK_COLOR, imageGetter);
         }
 
         @Override
@@ -367,12 +368,12 @@ public class DynamicObject {
             final String format = "%s %s 项目%s中的 Merge Request %s";
             String mergeLink = createLink(mergeRequest.merge_request_title, mergeRequest.merge_request_path);
             String title = String.format(format, user.getHtml(), action_msg, mergeRequest.depot.getHtml(), mergeLink);
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
-            return Global.changeHyperlinkColor(comment_content, BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(comment_content, BLACK_COLOR, imageGetter);
         }
     }
 
@@ -399,14 +400,14 @@ public class DynamicObject {
         public Spanned title() {
             final String format = "%s %s 项目%s的 Pull Request";
             String title = String.format(format, user.getHtml(), action_msg, depot.getHtml());
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
             final String format = "%s : %s";
             String content = String.format(format, black(pull_request_title), comment_content);
-            return Global.changeHyperlinkColor(content, BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(content, BLACK_COLOR, imageGetter);
         }
     }
 
@@ -426,12 +427,12 @@ public class DynamicObject {
         public Spanned title() {
             final String format = "%s %s 项目";
             String title = String.format(format, user.getHtml(), action_msg);
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
-            return Global.changeHyperlinkColor(project.getHtml(), BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(project.getHtml(), BLACK_COLOR, imageGetter);
         }
     }
 
@@ -451,7 +452,7 @@ public class DynamicObject {
         public Spanned title() {
             if (action.equals("transfer")) {
                 String title = String.format("%s 将项目 %s 转让给了 %s", user.getHtml(), project.getHtml(), target_user.getHtml());
-                return Global.changeHyperlinkColor(title);
+                return GlobalCommon.changeHyperlinkColor(title);
             } else {
                 return super.title();
             }
@@ -478,12 +479,12 @@ public class DynamicObject {
         public Spanned title() {
             final String format = "%s %s 项目 %s";
             String title = String.format(format, user.getHtml(), action_msg, project.getHtml());
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
-            return Global.changeHyperlinkColor(project.getHtml(), BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(project.getHtml(), BLACK_COLOR, imageGetter);
         }
     }
 
@@ -520,18 +521,18 @@ public class DynamicObject {
             if (action.equals("comment")) {
                 final String format = "%s %s 讨论 %s";
                 String title = String.format(format, user.getHtml(), action_msg, project_topic.parent.getHtml());
-                return Global.changeHyperlinkColor(title);
+                return GlobalCommon.changeHyperlinkColor(title);
 
             } else {
                 final String format = "%s %s 讨论";
                 String title = String.format(format, user.getHtml(), action_msg);
-                return Global.changeHyperlinkColor(title);
+                return GlobalCommon.changeHyperlinkColor(title);
             }
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
-            return Global.changeHyperlinkColor(project_topic.getHtml(), BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(project_topic.getHtml(), BLACK_COLOR, imageGetter);
         }
 
         @Override
@@ -618,13 +619,13 @@ public class DynamicObject {
         @Override
         public Spanned title() {
             String title = String.format("%s %s 文件 %s 的评论", user.getHtml(), action_msg, projectFile.getHtml());
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
             String content = projectFileComment.getHtml();
-            return Global.changeHyperlinkColor(HtmlContent.parseDynamic(content), BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(HtmlContent.parseDynamic(content), BLACK_COLOR, imageGetter);
 
         }
 
@@ -673,12 +674,12 @@ public class DynamicObject {
             String actionType = action.endsWith("dir") ? "文件夹" : "文件"; // create_dir
             final String format = "%s %s %s";
             String title = String.format(format, user.getHtml(), action_msg, actionType);
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
-            return Global.changeHyperlinkColor(file.getHtml(), BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(file.getHtml(), BLACK_COLOR, imageGetter);
         }
 
         @Override
@@ -733,12 +734,12 @@ public class DynamicObject {
         public Spanned title() {
             final String format = "%s 创建了 %s 的质量分析任务";
             String title = String.format(format, user.getHtml(), project.getHtml());
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
-            return Global.changeHyperlinkColor(qc_task.getHtml(), BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(qc_task.getHtml(), BLACK_COLOR, imageGetter);
         }
     }
 
@@ -784,7 +785,7 @@ public class DynamicObject {
             final String format = "%s %s 项目%s " + BLACK_HTML;
             String html = createLink(ref, ref_path);
             String title = String.format(format, user.getHtml(), action_msg, branch, html);
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         public String getBranch() {
@@ -817,7 +818,7 @@ public class DynamicObject {
                 content += singleContent;
             }
 
-            return Global.changeHyperlinkColor(content, BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(content, BLACK_COLOR, imageGetter);
         }
     }
 
@@ -898,7 +899,7 @@ public class DynamicObject {
                 final String format = "%s %s - %s";
                 String userString = String.format(BLACK_HTML, user.getName());
                 String title = String.format(format, userString, action_msg, time);
-                return Global.changeHyperlinkColor(title);
+                return GlobalCommon.changeHyperlinkColor(title);
             }
         }
 
@@ -907,7 +908,7 @@ public class DynamicObject {
             String contentString = comment_content;
 
             MessageParse parse = HtmlContent.parseMessage(contentString);
-            return (Global.changeHyperlinkColor(parse.text, imageGetter, Global.tagHandler));
+            return (GlobalCommon.changeHyperlinkColor(parse.text, imageGetter, Global.tagHandler));
 
 
 //            return Global.changeHyperlinkColor(comment_content, imageGetter, null);
@@ -1008,17 +1009,17 @@ public class DynamicObject {
                     }
                     format = "%s %s";
                     title = String.format(format, user.getHtml(), action_msg);
-                    return Global.changeHyperlinkColor(title);
+                    return GlobalCommon.changeHyperlinkColor(title);
                 case "update_priority":
                 case "update_description":
                     format = "%s %s";
                     title = String.format(format, user.getHtml(), action_msg);
-                    return Global.changeHyperlinkColor(title);
+                    return GlobalCommon.changeHyperlinkColor(title);
 
                 default:
                     format = "%s %s %s 的任务";
                     title = String.format(format, user.getHtml(), action_msg, task.owner.getHtml());
-                    return Global.changeHyperlinkColor(title);
+                    return GlobalCommon.changeHyperlinkColor(title);
             }
         }
 
@@ -1036,29 +1037,29 @@ public class DynamicObject {
                     }
                     format = "%s %s - %s";
                     title = String.format(format, userString, action_msg, time);
-                    return Global.changeHyperlinkColor(title);
+                    return GlobalCommon.changeHyperlinkColor(title);
                 case "reassign":
                     format = "%s %s任务给 %s - %s";
                     title = String.format(format, userString, action_msg, task.owner.name, time);
-                    return Global.changeHyperlinkColor(title);
+                    return GlobalCommon.changeHyperlinkColor(title);
                 case "update_priority":
                 case "update_description":
                     format = "%s %s - %s";
                     title = String.format(format, userString, action_msg, time);
-                    return Global.changeHyperlinkColor(title);
+                    return GlobalCommon.changeHyperlinkColor(title);
                 case "commit_refer":
                     format = "%s 在分支%s%s任务 - %s<br/>%s:[%s]%s";
                     title = String.format(format, userString, ref, action_msg, time,
                             commit.committer.name,
                             commit.shortSha(),
                             commit.short_message);
-                    return Global.changeHyperlinkColor(title, BLACK_COLOR_9);
+                    return GlobalCommon.changeHyperlinkColor(title, BLACK_COLOR_9);
 
                 case "remove_watcher":
                 case "add_watcher":
                     format = "%s %s - %s";
                     title = String.format(format, userString, action_msg, time);
-                    return Global.changeHyperlinkColor(title);
+                    return GlobalCommon.changeHyperlinkColor(title);
 
                 default:
                     if (target_type.equals("MergeRequestBean")) {
@@ -1067,11 +1068,11 @@ public class DynamicObject {
                                 mergeRequest.merge_request_iid, mergeRequest.merge_request_title);
                         format = "%s %s合并请求%s - %s";
                         title = String.format(format, userString, action_msg, mergeInfo, time);
-                        return Global.changeHyperlinkColor(title);
+                        return GlobalCommon.changeHyperlinkColor(title);
                     }
                     format = "%s %s任务 - %s";
                     title = String.format(format, userString, action_msg, time);
-                    return Global.changeHyperlinkColor(title);
+                    return GlobalCommon.changeHyperlinkColor(title);
             }
         }
 
@@ -1112,7 +1113,7 @@ public class DynamicObject {
                     break;
             }
 
-            return Global.changeHyperlinkColor(s, BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(s, BLACK_COLOR, imageGetter);
 
 
         }
@@ -1164,15 +1165,15 @@ public class DynamicObject {
                 format = "%s %s 项目";
             }
             String title = String.format(format, user.getHtml(), action_msg);
-            return Global.changeHyperlinkColor(title);
+            return GlobalCommon.changeHyperlinkColor(title);
         }
 
         @Override
         public Spanned content(MyImageGetter imageGetter) {
             if (action.equals("quit")) {
-                return Global.changeHyperlinkColor(project.getHtml(), BLACK_COLOR, imageGetter);
+                return GlobalCommon.changeHyperlinkColor(project.getHtml(), BLACK_COLOR, imageGetter);
             }
-            return Global.changeHyperlinkColor(target_user.getHtml(), BLACK_COLOR, imageGetter);
+            return GlobalCommon.changeHyperlinkColor(target_user.getHtml(), BLACK_COLOR, imageGetter);
         }
 
         @Override

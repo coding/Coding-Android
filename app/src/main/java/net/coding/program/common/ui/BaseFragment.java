@@ -30,6 +30,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.StartActivity;
@@ -137,7 +138,7 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Load
     protected void setActionBarShadow(int dp) {
         ActionBar actionBar = getActionBarActivity().getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setElevation(Global.dpToPx(dp));
+            actionBar.setElevation(GlobalCommon.dpToPx(dp));
         }
     }
 

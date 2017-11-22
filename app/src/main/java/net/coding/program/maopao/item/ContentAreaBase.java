@@ -7,13 +7,14 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.DialogCopy;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.util.PhoneUtil;
 import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.model.Commit;
 import net.coding.program.model.TaskObject;
-import net.coding.program.param.MessageParse;
+import net.coding.program.common.param.MessageParse;
 
 /**
  * Created by chaochen on 14/12/22.
@@ -57,7 +58,7 @@ public class ContentAreaBase {
             content.setTag(MaopaoListBaseFragment.TAG_COMMENT_TEXT, maopaoData.text);
             content.setTag(data);
             content.setVisibility(View.VISIBLE);
-            content.setText(Global.changeHyperlinkColor(maopaoData.text, imageGetter, Global.tagHandler));
+            content.setText(GlobalCommon.changeHyperlinkColor(maopaoData.text, imageGetter, Global.tagHandler));
         }
     }
 }

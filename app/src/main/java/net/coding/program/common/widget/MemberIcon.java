@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import net.coding.program.R;
-import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.model.UserObject;
 import net.coding.program.network.constant.VIP;
 
@@ -91,7 +91,7 @@ public class MemberIcon extends CircleImageView {
         int heightPx = getHeight();
 
         if (widthPx > 0 && heightPx > 0) {
-            int widthDp = Global.pxToDp(widthPx);
+            int widthDp = GlobalCommon.pxToDp(widthPx);
 
             int iconWidthDp = 0;
             if (widthDp >= 73) {
@@ -108,9 +108,9 @@ public class MemberIcon extends CircleImageView {
                 iconWidthDp = 10;
             }
 
-            int iconWidthPx = Global.dpToPx(iconWidthDp);
-            bounds.right = widthPx + Global.dpToPx(0);
-            bounds.bottom = heightPx + Global.dpToPx(0);
+            int iconWidthPx = GlobalCommon.dpToPx(iconWidthDp);
+            bounds.right = widthPx + GlobalCommon.dpToPx(0);
+            bounds.bottom = heightPx + GlobalCommon.dpToPx(0);
             bounds.left = bounds.right - iconWidthPx;
             bounds.top = bounds.bottom - iconWidthPx;
         }

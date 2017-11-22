@@ -52,7 +52,7 @@ import net.coding.program.model.TaskObject;
 import net.coding.program.model.TopicLabelObject;
 import net.coding.program.model.UserObject;
 import net.coding.program.network.model.user.Member;
-import net.coding.program.param.MessageParse;
+import net.coding.program.common.param.MessageParse;
 import net.coding.program.project.detail.MembersActivity_;
 import net.coding.program.project.detail.TaskListFragment;
 import net.coding.program.project.detail.TopicAddActivity;

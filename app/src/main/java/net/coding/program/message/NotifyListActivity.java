@@ -18,6 +18,7 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.ui.BackActivity;
@@ -179,7 +180,7 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
             String firstLink = "";
             if (firstStart != -1 && firstEnd != -1) {
                 firstLink = title.substring(firstStart, firstEnd + hrefEnd.length());
-                holder.name.setText(Global.changeHyperlinkColor(firstLink));
+                holder.name.setText(GlobalCommon.changeHyperlinkColor(firstLink));
 
                 title = title.replace(firstLink, "");
                 int lastEnd = title.lastIndexOf(hrefEnd);
@@ -190,7 +191,7 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
                     String thirdLink = title.substring(lastStart, last);
 
                     holder.detailLayout.setVisibility(View.VISIBLE);
-                    holder.detail.setText(Global.changeHyperlinkColor(thirdLink, CodingColor.font1));
+                    holder.detail.setText(GlobalCommon.changeHyperlinkColor(thirdLink, CodingColor.font1));
 
                     StringBuilder b = new StringBuilder(title);
                     b.replace(lastStart, last, "");
@@ -212,7 +213,7 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
             }
 
             holder.title.setVisibility(View.VISIBLE);
-            holder.title.setText(Global.changeHyperlinkColor(title));
+            holder.title.setText(GlobalCommon.changeHyperlinkColor(title));
 
             holder.badge.setVisibility(data.isUnRead() ? View.VISIBLE : View.INVISIBLE);
 
@@ -230,7 +231,7 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
                     if (pair != null) {
                         holder.icon.setImageResource(pair.first);
                         holder.icon.setBackgroundColor(pair.second);
-                        holder.detail.setText(Global.changeHyperlinkColor(firstLink, CodingColor.font1));
+                        holder.detail.setText(GlobalCommon.changeHyperlinkColor(firstLink, CodingColor.font1));
                     }
                 }
             } else if (data.target_type.equals("Tweet")) {
@@ -243,7 +244,7 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
                     if (pair != null) {
                         holder.icon.setImageResource(pair.first);
                         holder.icon.setBackgroundColor(pair.second);
-                        holder.detail.setText(Global.changeHyperlinkColor(firstLink, CodingColor.font1));
+                        holder.detail.setText(GlobalCommon.changeHyperlinkColor(firstLink, CodingColor.font1));
                     }
                 }
             } else if (data.target_type.equals("User") && titleString.endsWith("重置了你的账号密码。")) {

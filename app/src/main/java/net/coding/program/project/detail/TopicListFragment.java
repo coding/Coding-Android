@@ -18,6 +18,7 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.widget.FlowLabelLayout;
@@ -108,7 +109,7 @@ public class TopicListFragment extends CustomMoreFragment implements LoadMore {
                 convertView = mInflater.inflate(R.layout.fragment_project_topic_list_item, parent, false);
                 holder = new ViewHolder();
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.icon.setOnClickListener(Global.clickUser);
+                holder.icon.setOnClickListener(GlobalCommon.clickUser);
 
                 holder.title = (TextView) convertView.findViewById(R.id.title);
                 holder.time = (TextView) convertView.findViewById(R.id.time);
@@ -130,15 +131,15 @@ public class TopicListFragment extends CustomMoreFragment implements LoadMore {
             iconfromNetwork(holder.icon, data.owner.avatar);
             holder.icon.setTag(data.owner.global_key);
 
-            holder.title.setText(Global.changeHyperlinkColor(data.title));
+            holder.title.setText(GlobalCommon.changeHyperlinkColor(data.title));
 
             holder.refId.setText(data.getRefId());
 
             holder.name.setText(data.owner.name);
-            holder.time.setText(Global.changeHyperlinkColor(Global.dayToNow(data.created_at)));
+            holder.time.setText(GlobalCommon.changeHyperlinkColor(Global.dayToNow(data.created_at)));
             holder.discuss.setText(String.format("%d", data.child_count));
 
-            int flowWidth = MyApp.sWidthPix - Global.dpToPx(66 + 12);
+            int flowWidth = MyApp.sWidthPix - GlobalCommon.dpToPx(66 + 12);
             holder.flowLayout.setLabels(data.labels, flowWidth);
 
             if (position == (getCount() - 1)) {

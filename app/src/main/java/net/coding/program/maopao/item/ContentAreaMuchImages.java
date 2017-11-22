@@ -10,10 +10,11 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.maopao.MaopaoListFragment;
-import net.coding.program.param.MessageParse;
+import net.coding.program.common.param.MessageParse;
 
 import org.apmem.tools.layouts.FlowLayout;
 
@@ -59,7 +60,7 @@ public class ContentAreaMuchImages extends ContentAreaBase {
             content.setVisibility(View.GONE);
         } else {
             content.setVisibility(View.VISIBLE);
-            content.setText(Global.changeHyperlinkColor(maopaoData.text, imageGetter, Global.tagHandler));
+            content.setText(GlobalCommon.changeHyperlinkColor(maopaoData.text, imageGetter, Global.tagHandler));
             content.setTag(contentObject);
         }
 

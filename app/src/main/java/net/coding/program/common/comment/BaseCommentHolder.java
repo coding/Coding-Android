@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.model.BaseComment;
@@ -43,7 +44,7 @@ public class BaseCommentHolder {
 
         mathLabButton = convertView.findViewById(R.id.commentWebviewDetail);
         if (mathLabButton != null) {
-            mathLabButton.setOnClickListener(Global.clickJumpWebView);
+            mathLabButton.setOnClickListener(GlobalCommon.clickJumpWebView);
         }
     }
 

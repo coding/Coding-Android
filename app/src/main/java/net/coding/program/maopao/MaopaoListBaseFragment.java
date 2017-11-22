@@ -36,6 +36,7 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.SimpleSHA1;
@@ -407,9 +408,9 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         // 图片显示，单位为 dp
         // 62 photo 3 photo 3 photo 34
         final int divide = 3;
-        mPxImageWidth = Global.dpToPx(MyApp.sWidthDp - 62 - 34 - divide * 2) / 3;
+        mPxImageWidth = GlobalCommon.dpToPx(MyApp.sWidthDp - 62 - 34 - divide * 2) / 3;
         int pxPadding = getResources().getDimensionPixelSize(R.dimen.padding_12);
-        mPxImageWidth = (MyApp.sWidthPix - pxPadding * 2 - Global.dpToPx(divide) * 2) / 3;
+        mPxImageWidth = (MyApp.sWidthPix - pxPadding * 2 - GlobalCommon.dpToPx(divide) * 2) / 3;
 
         myImageGetter = new MyImageGetter(getActivity());
     }
@@ -434,7 +435,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         // 图片显示，单位为 dp
         // 62 photo 3 photo 3 photo 34
         final int divide = 3;
-        mPxImageWidth = Global.dpToPx(MyApp.sWidthDp - 62 - 34 - divide * 2) / 3;
+        mPxImageWidth = GlobalCommon.dpToPx(MyApp.sWidthDp - 62 - 34 - divide * 2) / 3;
 
 //        mData = AccountInfo.loadMaopao(getActivity(), mType.toString(), userId);
 

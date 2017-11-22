@@ -20,6 +20,7 @@ import net.coding.program.R;
 import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
@@ -511,9 +512,9 @@ public class TaskListFragment extends RefreshBaseFragment {
             holder.mDiscuss.setText(String.valueOf(data.comments));
             iconfromNetwork(holder.mIcon, data.owner.avatar);
 
-            int flowWidth = MyApp.sWidthPix - Global.dpToPx(100 + 15); // item 左边空 100 dp，右边空15dp
+            int flowWidth = MyApp.sWidthPix - GlobalCommon.dpToPx(100 + 15); // item 左边空 100 dp，右边空15dp
             if (!data.deadline.isEmpty()) {
-                flowWidth -= Global.dpToPx(55);
+                flowWidth -= GlobalCommon.dpToPx(55);
             }
             holder.flowLabelLayout.setLabels(data.labels, flowWidth);
 
