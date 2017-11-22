@@ -36,4 +36,5 @@ dependencies {
     compile 'com.huawei.android.hms:push:2.5.2.300'
 
     implementation project(':push-xiaomi')
+
 }
