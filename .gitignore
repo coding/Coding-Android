@@ -43,7 +43,5 @@ app/manifest-merger-release-report.txt
 /captures/
 app/src/main/java/net/coding/program/network/model/baidumap/
 
-!/push/
 /.gradle/
-/coding-push/
-/push-xiaomi/
+

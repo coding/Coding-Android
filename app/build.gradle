@@ -123,8 +123,8 @@ dependencies {
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation project(':push-dir:coding-push')
-    implementation project(':push-dir:push-xiaomi')
+    implementation project(':coding-push')
+    implementation project(':push-xiaomi')
 
     // dagger 2 依赖
     def daggerVersion = '2.10'
