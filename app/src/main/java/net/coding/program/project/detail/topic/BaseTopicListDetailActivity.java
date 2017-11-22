@@ -25,7 +25,7 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
-import net.coding.program.common.photopick.ImageInfo;
+import net.coding.program.pickphoto.ImageInfo;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.model.AttachmentFileObject;

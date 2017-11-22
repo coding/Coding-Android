@@ -38,7 +38,7 @@ import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.photopick.ImageInfo;
+import net.coding.program.pickphoto.ImageInfo;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.SimpleTextWatcher;

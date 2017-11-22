@@ -25,7 +25,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.photopick.CameraPhotoUtil;
+import net.coding.program.pickphoto.CameraPhotoUtil;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;

@@ -125,6 +125,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation project(':push-coding')
     implementation project(':push-xiaomi')
+    implementation project(':widget-pick-photo')
 
     // dagger 2 依赖
     def daggerVersion = '2.10'

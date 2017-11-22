@@ -22,8 +22,7 @@ import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.network.NetworkImpl;
-import net.coding.program.common.photopick.ImageInfo;
-import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.pickphoto.ImageInfo;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.url.UrlCreate;
@@ -35,6 +34,7 @@ import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.GitLastCommitObject;
 import net.coding.program.model.GitUploadPrepareObject;
 import net.coding.program.model.ProjectObject;
+import net.coding.program.pickphoto.PhotoPickActivity;
 import net.coding.program.project.git.BranchCommitListActivity_;
 import net.coding.program.search.SearchProjectGitActivity_;
 

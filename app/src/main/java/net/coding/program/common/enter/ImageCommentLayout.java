@@ -9,12 +9,12 @@ import android.widget.ImageView;
 
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.photopick.ImageInfo;
-import net.coding.program.common.photopick.PhotoPickActivity;
-import net.coding.program.common.photopick.PhotoPickDetailActivity;
+import net.coding.program.pickphoto.ImageInfo;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.maopao.MaopaoAddActivity;
 import net.coding.program.maopao.item.ContentAreaMuchImages;
+import net.coding.program.pickphoto.PhotoPickActivity;
+import net.coding.program.pickphoto.PhotoPickDetailActivity;
 
 import java.util.ArrayList;
 
