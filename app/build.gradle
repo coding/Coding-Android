@@ -174,10 +174,11 @@ dependencies {
     }
 
     //    compile 'com.twotoasters.jazzylistview:library:1.2.1'
-    compile project(':social_sdk_library_project')
+    implementation project(':social_sdk_library_project')
+    implementation project(':bottom-bar')
+    implementation project(':luban')
+
     compile 'com.bigkoo:convenientbanner:1.0.8'
-    compile project(':bottom-bar')
-    compile project(':luban')
 
     //    compile 'com.alibaba:fastjson:1.1.44.android'
 
