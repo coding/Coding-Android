@@ -12,8 +12,8 @@ import com.loopj.android.http.ResponseHandlerInterface;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.util.LogUtils;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.RequestData;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.RequestData;
 
 import java.util.HashMap;
 import java.util.List;

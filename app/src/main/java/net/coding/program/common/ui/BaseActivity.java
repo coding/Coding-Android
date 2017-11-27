@@ -16,10 +16,10 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.common.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.DialogUtil;
+import net.coding.program.common.FootUpdate;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalSetting;
 import net.coding.program.common.ImageLoadTool;
@@ -29,9 +29,7 @@ import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.umeng.UmengActivity;
 import net.coding.program.common.util.SingleToast;
-import net.coding.program.compatible.CodingCompat;
-import net.coding.program.model.RequestData;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.RequestData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,16 +42,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
 
     protected LayoutInflater mInflater;
     protected FootUpdate mFootUpdate = new FootUpdate();
-    protected View.OnClickListener mOnClickUser = v -> {
-        Object tag = v.getTag();
-        if (tag instanceof String) {
-            String globalKey = (String) tag;
-            CodingCompat.instance().launchUserDetailActivity(BaseActivity.this, globalKey);
-        } else if (tag instanceof UserObject) {
-            String globalKey = ((UserObject) tag).global_key;
-            CodingCompat.instance().launchUserDetailActivity(BaseActivity.this, globalKey);
-        }
-    };
+
     SingleToast mSingleToast;
 
     private ImageLoadTool imageLoadTool = new ImageLoadTool();

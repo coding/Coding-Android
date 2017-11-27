@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.ProgressRequestBody;

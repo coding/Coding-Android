@@ -1,8 +1,8 @@
 package net.coding.program.common;
 
-import net.coding.program.model.Maopao;
-import net.coding.program.model.TaskObject;
-import net.coding.program.model.TopicObject;
+import net.coding.program.common.model.Maopao;
+import net.coding.program.common.model.TaskObject;
+import net.coding.program.common.model.TopicObject;
 
 import java.util.HashMap;
 

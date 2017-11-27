@@ -16,13 +16,13 @@ import net.coding.program.ImagePagerFragment;
 import net.coding.program.ImagePagerFragment_;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.url.UrlCreate;
-import net.coding.program.model.GitFileBlobObject;
-import net.coding.program.model.GitFileInfoObject;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.GitFileBlobObject;
+import net.coding.program.common.model.GitFileInfoObject;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.project.git.BranchCommitListActivity_;
 import net.coding.program.project.git.EditCodeActivity_;
 

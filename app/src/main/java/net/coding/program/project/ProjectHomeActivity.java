@@ -13,7 +13,7 @@ import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.compatible.CodingCompat;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.init.InitProUtils;
 

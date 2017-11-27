@@ -10,7 +10,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.event.EventRefresh;
-import net.coding.program.model.AccountInfo;
+import net.coding.program.common.model.AccountInfo;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.wiki.Wiki;

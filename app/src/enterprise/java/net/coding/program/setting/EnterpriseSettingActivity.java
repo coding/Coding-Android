@@ -17,8 +17,8 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.pickphoto.CameraPhotoUtil;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.FileUtil;
-import net.coding.program.model.EnterpriseDetail;
-import net.coding.program.model.EnterpriseInfo;
+import net.coding.program.common.model.EnterpriseDetail;
+import net.coding.program.common.model.EnterpriseInfo;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

@@ -11,8 +11,8 @@ import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.TopicLabelObject;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.TopicLabelObject;
 import net.coding.program.param.TopicData;
 
 import org.androidannotations.annotations.AfterViews;

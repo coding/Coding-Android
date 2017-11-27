@@ -14,7 +14,7 @@ import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.OnTextChange;
-import net.coding.program.model.PhoneCountry;
+import net.coding.program.common.model.PhoneCountry;
 
 import org.json.JSONObject;
 

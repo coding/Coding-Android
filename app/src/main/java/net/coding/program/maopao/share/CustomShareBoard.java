@@ -36,7 +36,7 @@ import com.umeng.socialize.utils.OauthHelper;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
 
 import net.coding.program.AllThirdKeys;
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.MainActivity_;
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -44,7 +44,7 @@ import net.coding.program.common.HtmlContent;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.IconTextView;
 import net.coding.program.compatible.CodingCompat;
-import net.coding.program.model.Maopao;
+import net.coding.program.common.model.Maopao;
 import net.coding.program.common.param.MessageParse;
 
 public class CustomShareBoard extends PopupWindow implements OnClickListener {

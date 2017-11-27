@@ -31,31 +31,33 @@ import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import com.umeng.socialize.sso.UMSsoHandler;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
-import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
-import net.coding.program.route.GlobalCommon;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.StartActivity;
-import net.coding.program.common.TextWatcherAt;
+import net.coding.program.util.TextWatcherAt;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.event.EventRefrushMaopao;
+import net.coding.program.common.event.EventShowBottom;
+import net.coding.program.common.maopao.MaopaoRequestTag;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.MainInputView;
-import net.coding.program.common.event.EventRefrushMaopao;
-import net.coding.program.common.event.EventShowBottom;
 import net.coding.program.maopao.item.CommentArea;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.DynamicObject;
-import net.coding.program.model.Maopao;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.DynamicObject;
+import net.coding.program.common.model.Maopao;
+import net.coding.program.route.BlankViewDisplay;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.setting.ValidePhoneActivity_;
 import net.coding.program.third.EmojiFilter;
 
@@ -86,10 +88,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
     //    public final static int TAG_USER_GLOBAL_KEY = R.id.name;
     public final static int TAG_MAOPAO_ID = R.id.maopaoMore;
     public final static int TAG_MAOPAO = R.id.clickMaopao;
-    public final static int TAG_COMMENT = R.id.comment;
     public final static int TAG_COMMENT_TEXT = R.id.commentArea;
-    public static final String TAG_DELETE_MAOPAO = "TAG_DELETE_MAOPAO";
-    public static final String TAG_DELETE_MAOPAO_COMMENT = "TAG_DELETE_MAOPAO_COMMENT";
     static final int RESULT_EDIT_MAOPAO = 100;
     static final int RESULT_AT = 101;
     public final String HOST_GOOD = getHostGood();
@@ -151,7 +150,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         final int maopaoId = (int) v.getTag(TAG_MAOPAO_ID);
         showDialog(R.string.delete_maopao, (dialog, which) -> {
             String HOST_MAOPAO_DELETE = Global.HOST_API + "/tweet/%s";
-            deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO,
+            deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), MaopaoRequestTag.TAG_DELETE_MAOPAO,
                     -1, maopaoId);
         });
     };
@@ -165,11 +164,11 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
     };
     ClickSmallImage onClickImage = new ClickSmallImage(MaopaoListBaseFragment.this);
     View.OnClickListener onClickComment = v -> {
-        final Maopao.Comment comment = (Maopao.Comment) v.getTag(TAG_COMMENT);
+        final Maopao.Comment comment = (Maopao.Comment) v.getTag(MaopaoRequestTag.TAG_COMMENT);
         if (GlobalData.sUserObject.id == (comment.owner_id)) {
             showDialog("冒泡", "删除评论？", (dialog, which) -> {
                 final String URI_COMMENT_DELETE = Global.HOST_API + "/tweet/%s/comment/%s";
-                deleteNetwork(String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id), TAG_DELETE_MAOPAO_COMMENT, -1, comment);
+                deleteNetwork(String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id), MaopaoRequestTag.TAG_DELETE_MAOPAO_COMMENT, -1, comment);
             });
         } else {
             popComment(v);
@@ -691,7 +690,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
 //                showErrorMsg(code, respanse);
 //            }
 
-        } else if (tag.equals(TAG_DELETE_MAOPAO)) {
+        } else if (tag.equals(MaopaoRequestTag.TAG_DELETE_MAOPAO)) {
             int maopaoId = (int) data;
             if (code == 0) {
                 for (int i = 0; i < mData.size(); ++i) {
@@ -705,7 +704,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
                 showButtomToast("删除失败");
             }
 
-        } else if (tag.equals(TAG_DELETE_MAOPAO_COMMENT)) {
+        } else if (tag.equals(MaopaoRequestTag.TAG_DELETE_MAOPAO_COMMENT)) {
             Maopao.Comment comment = (Maopao.Comment) data;
             if (code == 0) {
                 for (int i = 0; i < mData.size(); ++i) {
@@ -758,7 +757,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
             comment.setHint("评论冒泡");
             comment.setTag(commentObject);
         } else {
-            data = v.getTag(TAG_COMMENT);
+            data = v.getTag(MaopaoRequestTag.TAG_COMMENT);
             if (data instanceof Maopao.Comment) {
                 commentObject = (Maopao.Comment) data;
                 comment.setHint("回复 " + commentObject.owner.name);
@@ -852,16 +851,16 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
             holder.maopaoItem.setOnClickListener(mOnClickMaopaoItem);
 
             holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-            holder.icon.setOnClickListener(mOnClickUser);
+            holder.icon.setOnClickListener(GlobalCommon.mOnClickUser);
 
             holder.name = (TextView) convertView.findViewById(R.id.name);
-            holder.name.setOnClickListener(mOnClickUser);
+            holder.name.setOnClickListener(GlobalCommon.mOnClickUser);
             holder.time = (TextView) convertView.findViewById(R.id.time);
 
             holder.contentArea = new ContentArea(convertView, mOnClickMaopaoItem, onClickImage, myImageGetter, getImageLoad(), mPxImageWidth);
 
             holder.commentLikeArea = convertView.findViewById(R.id.commentLikeArea);
-            holder.likeUsersArea = new LikeUsersArea(convertView, MaopaoListBaseFragment.this, getImageLoad(), mOnClickUser);
+            holder.likeUsersArea = new LikeUsersArea(convertView, MaopaoListBaseFragment.this, getImageLoad(), GlobalCommon.mOnClickUser);
 
             holder.location = (TextView) convertView.findViewById(R.id.location);
             holder.photoType = (TextView) convertView.findViewById(R.id.photoType);
@@ -1010,6 +1009,13 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
                         @Override
                         public void onMySuccess(JSONObject response) {
                             super.onMySuccess(response);
+
+                            if (like) {
+                                umengEvent(UmengEvent.MAOPAO, "冒泡点赞");
+                            } else {
+                                umengEvent(UmengEvent.MAOPAO, "冒泡取消点赞");
+                            }
+
                             data.liked = !data.liked;
                             if (data.liked) {
                                 Maopao.Like_user like_user = new Maopao.Like_user(GlobalData.sUserObject);

@@ -7,14 +7,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.Global;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.subject.SubjectListFragment;
 import net.coding.program.subject.SubjectListFragment_;
 import net.coding.program.third.WechatTab;

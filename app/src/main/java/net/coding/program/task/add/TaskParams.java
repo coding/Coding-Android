@@ -1,7 +1,7 @@
 package net.coding.program.task.add;
 
-import net.coding.program.model.TaskObject;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.TaskObject;
+import net.coding.program.common.model.UserObject;
 
 /**
  * Created by chenchao on 15/7/7.

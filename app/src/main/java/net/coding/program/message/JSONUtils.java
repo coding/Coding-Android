@@ -3,7 +3,7 @@ package net.coding.program.message;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import net.coding.program.model.TaskLabelModel;
+import net.coding.program.common.model.TaskLabelModel;
 
 import org.json.JSONObject;
 

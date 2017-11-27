@@ -10,7 +10,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 
 import java.io.File;
 

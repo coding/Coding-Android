@@ -14,7 +14,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SearchCache;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.Subject;
+import net.coding.program.common.model.Subject;
 import net.coding.program.subject.SubjectDetailActivity_;
 import net.coding.program.subject.SubjectSearchFragment_;
 import net.coding.program.subject.adapter.SubjectSearchHistoryListAdapter;

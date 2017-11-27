@@ -6,13 +6,13 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.model.Subject;
+import net.coding.program.common.model.Subject;
 import net.coding.program.subject.adapter.SubjectListItemAdapter;
 
 import org.androidannotations.annotations.AfterViews;

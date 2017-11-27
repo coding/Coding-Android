@@ -1,6 +1,6 @@
 package net.coding.program.param;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 
 import java.io.Serializable;
 import java.util.regex.Matcher;

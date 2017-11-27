@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import net.coding.program.R;
 import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.base.BaseLoadMoreFragment;
-import net.coding.program.model.Merge;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.Merge;
+import net.coding.program.common.model.ProjectObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

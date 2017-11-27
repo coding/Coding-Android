@@ -14,16 +14,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.widget.FlowLabelLayout;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.TopicObject;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.TopicObject;
 import net.coding.program.project.detail.topic.TopicListDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -109,7 +109,7 @@ public class TopicListFragment extends CustomMoreFragment implements LoadMore {
                 convertView = mInflater.inflate(R.layout.fragment_project_topic_list_item, parent, false);
                 holder = new ViewHolder();
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.icon.setOnClickListener(GlobalCommon.clickUser);
+                holder.icon.setOnClickListener(GlobalCommon.mOnClickUser);
 
                 holder.title = (TextView) convertView.findViewById(R.id.title);
                 holder.time = (TextView) convertView.findViewById(R.id.time);

@@ -45,7 +45,7 @@
             android:textSize="13sp"
             tools:text="hahahah" />
 
-        <net.coding.program.common.guide.IndicatorView
+        <net.coding.program.guide.IndicatorView
             android:id="@+id/indicatorView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

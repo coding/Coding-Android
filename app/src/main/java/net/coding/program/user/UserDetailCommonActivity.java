@@ -17,13 +17,13 @@ import net.coding.program.common.ActivenessView;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.SyncHorizontalScrollView;
+import net.coding.program.common.maopao.ClickImageParam;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.DensityUtil;
 import net.coding.program.common.widget.LoadingView;
-import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.message.JSONUtils;
-import net.coding.program.model.UserObject;
-import net.coding.program.model.user.ActiveModel;
+import net.coding.program.common.model.UserObject;
+import net.coding.program.common.model.user.ActiveModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -160,7 +160,7 @@ public class UserDetailCommonActivity extends BackActivity {
 
         //用户信息赋值
         iconfromNetwork(icon, mUserObject.avatar, new UserDetailActivity.AnimateFirstDisplayListener());
-        icon.setTag(new MaopaoListFragment.ClickImageParam(mUserObject.avatar));
+        icon.setTag(new ClickImageParam(mUserObject.avatar));
         icon.setOnClickListener(new ClickSmallImage(this));
         icon.setTag(R.id.icon, mUserObject);
 

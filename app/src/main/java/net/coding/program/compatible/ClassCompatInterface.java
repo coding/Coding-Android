@@ -5,7 +5,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import net.coding.program.common.StartActivity;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
 
 import java.util.ArrayList;

@@ -21,7 +21,7 @@ import net.coding.program.R;
 import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.push.PushUrl;
 import net.coding.program.message.UsersListFragment;
-import net.coding.program.model.AccountInfo;
+import net.coding.program.common.model.AccountInfo;
 
 import org.json.JSONObject;
 

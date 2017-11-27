@@ -6,9 +6,9 @@ import android.view.View;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.comment.BaseCommentHolder;
 import net.coding.program.common.comment.BaseCommentParam;
-import net.coding.program.model.BaseComment;
-import net.coding.program.model.Commit;
-import net.coding.program.model.DynamicObject;
+import net.coding.program.common.model.BaseComment;
+import net.coding.program.common.model.Commit;
+import net.coding.program.common.model.DynamicObject;
 
 /**
  * Created by chenchao on 15/3/31.

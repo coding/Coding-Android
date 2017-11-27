@@ -1,7 +1,6 @@
 package net.coding.program.common.network;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -10,13 +9,12 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.umeng.analytics.MobclickAgent;
 
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.Global;
+import net.coding.program.common.maopao.MaopaoRequestTag;
 import net.coding.program.common.ui.PopCaptchaDialog;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.compatible.CodingCompat;
-import net.coding.program.maopao.MaopaoListBaseFragment;
-import net.coding.program.maopao.MaopaoListFragment;
-import net.coding.program.model.AccountInfo;
+import net.coding.program.common.model.AccountInfo;
 import net.coding.program.user.UserDetailActivity;
 
 import org.json.JSONException;
@@ -86,9 +84,9 @@ public class NetworkImpl {
                     int code = response.getInt("code");
 
                     if (code == HTTP_CODE_RELOGIN || code == HTTP_CODE_RELOGIN_2FA) {
-                        appContext.startActivity(new Intent(appContext, CodingCompat.instance().getLoginActivity()));
+                        GlobalData.lunchLoginActivity(appContext);
                     } else if (code == HTTP_CODE_NEED_ACTIVITY) {
-                        CodingCompat.instance().launchSetGKActivity(appContext);
+                        GlobalData.lunchSetGKActivity(appContext);
                     }
 
                     try {
@@ -111,18 +109,12 @@ public class NetworkImpl {
                         umengEvent(UmengEvent.USER, "关注好友");
                     } else if (tag.equals(UserDetailActivity.getHostUnfollow())) {
                         umengEvent(UmengEvent.USER, "取消关注好友");
-                    } else if (tag.equals(MaopaoListFragment.TAG_DELETE_MAOPAO)) {
+                    } else if (tag.equals(MaopaoRequestTag.TAG_DELETE_MAOPAO)) {
                         umengEvent(UmengEvent.MAOPAO, "删除冒泡");
-                    } else if (tag.equals(MaopaoListBaseFragment.TAG_COMMENT)) {
+                    } else if (tag.equals(MaopaoRequestTag.TAG_COMMENT)) {
                         umengEvent(UmengEvent.MAOPAO, "添加冒泡评论");
-                    } else if (tag.equals(MaopaoListFragment.TAG_DELETE_MAOPAO_COMMENT)) {
+                    } else if (tag.equals(MaopaoRequestTag.TAG_DELETE_MAOPAO_COMMENT)) {
                         umengEvent(UmengEvent.MAOPAO, "删除冒泡评论");
-                    } else if (tag.equals(MaopaoListFragment.getHostGood())) {
-                        if (finalUrl.endsWith("like")) {
-                            umengEvent(UmengEvent.MAOPAO, "冒泡点赞");
-                        } else {
-                            umengEvent(UmengEvent.MAOPAO, "冒泡取消点赞");
-                        }
                     }
 
                     callback.parseJson(code, response, tag, dataPos, data);

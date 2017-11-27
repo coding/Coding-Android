@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 
-import net.coding.program.model.AccountInfo;
+import net.coding.program.common.model.AccountInfo;
 
 /**
  * Created by chenchao on 15/6/23.

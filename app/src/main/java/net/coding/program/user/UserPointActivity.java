@@ -9,10 +9,10 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.widget.DataAdapter;
-import net.coding.program.model.PointObject;
+import net.coding.program.common.model.PointObject;
 import net.coding.program.user.point.AboutPointActivity_;
 
 import org.androidannotations.annotations.AfterViews;

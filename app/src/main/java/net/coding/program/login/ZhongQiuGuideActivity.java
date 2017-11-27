@@ -16,9 +16,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import net.coding.program.R;
-import net.coding.program.common.guide.IndicatorView;
+import net.coding.program.guide.IndicatorView;
 import net.coding.program.common.ui.BaseActivity;
-import net.coding.program.model.AccountInfo;
+import net.coding.program.common.model.AccountInfo;
 
 /*
  * 用来显示特别的版本或活动, 比如中秋节, 比如 4.0 大更新

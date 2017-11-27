@@ -1,12 +1,11 @@
 package net.coding.program.login;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.view.View;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
@@ -14,7 +13,7 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
-import net.coding.program.model.AccountInfo;
+import net.coding.program.common.model.AccountInfo;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

@@ -19,14 +19,20 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.PhoneType;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.Unread;
+import net.coding.program.common.activity.WebviewDetailActivity_;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.compatible.CodingCompat;
-import net.coding.program.model.AccountInfo;
+import net.coding.program.login.auth.AuthListActivity;
+import net.coding.program.login.auth.Login2FATipActivity;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.UserObject;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.route.URLSpanNoUnderline;
 import net.coding.program.third.MyImageDownloader;
 
@@ -118,10 +124,37 @@ public class MyApp extends MultiDexApplication {
 
         loadBaiduMap();
 
+        initGlobaData();
+
+        RedPointTip.init(this);
+        GlobalUnit.init(this);
+
+        FileDownloader.init(getApplicationContext());
+    }
+
+    public void initGlobaData() {
         GlobalData.sScale = getResources().getDisplayMetrics().density;
         GlobalData.sWidthPix = getResources().getDisplayMetrics().widthPixels;
         GlobalData.sHeightPix = getResources().getDisplayMetrics().heightPixels;
         GlobalData.sWidthDp = (int) (GlobalData.sWidthPix / GlobalData.sScale);
+        GlobalCommon.clickJumpWebView = v -> {
+            Object object = v.getTag();
+            if (object instanceof String) {
+                WebviewDetailActivity_.intent(v.getContext())
+                        .comment((String) object)
+                        .start();
+            }
+        };
+        GlobalCommon.mOnClickUser = v -> {
+            Object tag = v.getTag();
+            if (tag instanceof String) {
+                String globalKey = (String) tag;
+                CodingCompat.instance().launchUserDetailActivity(v.getContext(), globalKey);
+            } else if (tag instanceof UserObject) {
+                String globalKey = ((UserObject) tag).global_key;
+                CodingCompat.instance().launchUserDetailActivity(v.getContext(), globalKey);
+            }
+        };
 
         GlobalData.sEmojiNormal = getResources().getDimensionPixelSize(R.dimen.emoji_normal);
         GlobalData.sEmojiMonkey = getResources().getDimensionPixelSize(R.dimen.emoji_monkey);
@@ -129,10 +162,21 @@ public class MyApp extends MultiDexApplication {
         GlobalData.sUserObject = AccountInfo.loadAccount(this);
         GlobalData.sUnread = new Unread();
 
-        RedPointTip.init(this);
-        GlobalUnit.init(this);
+        // todo 路由要想办法，否则后面没法做
+        GlobalCommon.rounterMap.put(GlobalCommon.ROUNTER_2FA, Login2FATipActivity.class);
+        GlobalCommon.rounterMap.put(GlobalCommon.ROUNTER_AUTH_LIST, AuthListActivity.class);
 
-        FileDownloader.init(getApplicationContext());
+        GlobalData.compatCallback = new GlobalData.CompatCallback() {
+            @Override
+            public void lunchSetGKActivity(Context context) {
+                CodingCompat.instance().launchSetGKActivity(context);
+            }
+
+            @Override
+            public void lunchLoginActivity(Context context) {
+                context.startActivity(new Intent(context, CodingCompat.instance().getLoginActivity()));
+            }
+        };
     }
 
     public static boolean isInMainProcess(Context context) {

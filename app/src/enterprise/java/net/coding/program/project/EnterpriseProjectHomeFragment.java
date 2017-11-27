@@ -3,7 +3,7 @@ package net.coding.program.project;
 import android.view.View;
 
 import net.coding.program.R;
-import net.coding.program.model.EnterpriseInfo;
+import net.coding.program.common.model.EnterpriseInfo;
 import net.coding.program.project.detail.ProjectFunction;
 
 import org.androidannotations.annotations.EFragment;

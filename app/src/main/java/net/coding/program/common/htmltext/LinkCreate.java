@@ -1,7 +1,7 @@
 package net.coding.program.common.htmltext;
 
 import net.coding.program.common.Global;
-import net.coding.program.model.Maopao;
+import net.coding.program.common.model.Maopao;
 
 /**
  * Created by chenchao on 15/3/9.

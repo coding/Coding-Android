@@ -19,7 +19,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.project.detail.UploadStyle;
 
 import org.json.JSONObject;

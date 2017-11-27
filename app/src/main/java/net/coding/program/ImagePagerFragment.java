@@ -26,7 +26,7 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ImageInfo;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.FileUtil;
-import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.project.detail.file.FileSaveHelp;
 
 import org.androidannotations.annotations.AfterViews;

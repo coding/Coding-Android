@@ -16,8 +16,8 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.widget.RefreshBaseActivity;
 import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.maopao.MaopaoDetailActivity_;
-import net.coding.program.model.Maopao;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.Maopao;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
 
 import org.androidannotations.annotations.AfterViews;

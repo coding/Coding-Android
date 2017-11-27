@@ -7,11 +7,11 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ui.ActivityParamBuilder;
 import net.coding.program.common.ui.BaseListActivity;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.init.InitProUtils;
@@ -57,7 +57,7 @@ public class ForksListActivity extends BaseListActivity {
             title = (TextView) v.findViewById(R.id.name);
             content = (TextView) v.findViewById(R.id.comment);
             mImageTool = imageLoadTool;
-            icon.setOnClickListener(GlobalCommon.clickUser);
+            icon.setOnClickListener(GlobalCommon.mOnClickUser);
         }
 
         public void setData(Object item) {

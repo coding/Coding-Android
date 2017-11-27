@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.model.Maopao;
+import net.coding.program.common.model.Maopao;
 
 import java.util.ArrayList;
 

@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.maopao.ContentAreaMushImageOption;
 import net.coding.program.common.util.PermissionUtil;
-import net.coding.program.maopao.item.ContentAreaMuchImages;
 import net.coding.program.common.ImageInfo;
 import net.coding.program.pickphoto.PhotoPickActivity;
 import net.coding.program.pickphoto.PhotoPickDetailActivity;
@@ -142,7 +142,7 @@ public class ImageCommentLayout {
             ImageView image = (ImageView) mFlowLayout.getChildAt(i);
             image.setOnClickListener(mClickImage);
             image.setTag(R.id.image, i);
-            mImageLoader.loadImage(image, mArrayImages.get(i).path, ContentAreaMuchImages.imageOptions);
+            mImageLoader.loadImage(image, mArrayImages.get(i).path, ContentAreaMushImageOption.imageOptions);
         }
 
         mEnterLayout.updateSendButtonStyle();

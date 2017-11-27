@@ -12,7 +12,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.maopao.MaopaoDetailActivity_;
-import net.coding.program.model.Maopao;
+import net.coding.program.common.model.Maopao;
 import net.coding.program.subject.adapter.SubjectSearchListAdapter;
 
 import org.androidannotations.annotations.AfterViews;

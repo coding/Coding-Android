@@ -18,18 +18,19 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.StartActivity;
-import net.coding.program.common.TextWatcherAt;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.util.TextWatcherAt;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.maopao.BaseUsersArea;
 import net.coding.program.maopao.item.ImageCommentHolder;
-import net.coding.program.model.TopicLabelObject;
-import net.coding.program.model.TopicObject;
-import net.coding.program.model.UserObject;
-import net.coding.program.model.request.Project;
-import net.coding.program.model.topic.TopicComment;
-import net.coding.program.model.topic.TopicCommentChild;
+import net.coding.program.common.model.TopicLabelObject;
+import net.coding.program.common.model.TopicObject;
+import net.coding.program.common.model.UserObject;
+import net.coding.program.common.model.request.Project;
+import net.coding.program.common.model.topic.TopicComment;
+import net.coding.program.common.model.topic.TopicCommentChild;
 import net.coding.program.project.detail.TopicAddActivity_;
 import net.coding.program.project.detail.TopicLabelActivity;
 import net.coding.program.project.detail.TopicLabelActivity_;
@@ -92,7 +93,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
             ImageCommentHolder holder;
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.activity_task_comment_much_image_divide, parent, false);
-                holder = new ViewHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
+                holder = new ViewHolder(convertView, onClickComment, myImageGetter, getImageLoad(), GlobalCommon.mOnClickUser, onClickImage);
                 convertView.setTag(R.id.layout, holder);
             } else {
                 holder = (ImageCommentHolder) convertView.getTag(R.id.layout);
@@ -281,7 +282,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
         ImageView icon = (ImageView) mListHead.findViewById(R.id.icon);
         iconfromNetwork(icon, topicObject.owner.avatar);
         icon.setTag(topicObject.owner.global_key);
-        icon.setOnClickListener(mOnClickUser);
+        icon.setOnClickListener(GlobalCommon.mOnClickUser);
 
         TextView topicTitleTextView = ((TextView) mListHead.findViewById(R.id.title));
         topicTitleTextView.setText(topicObject.title);
@@ -587,7 +588,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
             watchListAdd.setOnClickListener(clickAddWatch);
             watchUsers = (LinearLayout) headView.findViewById(R.id.watchUsers);
 
-            userArea = new BaseUsersArea(watchUsers, null, TopicListDetailActivity.this, mOnClickUser, getImageLoad());
+            userArea = new BaseUsersArea(watchUsers, null, TopicListDetailActivity.this, GlobalCommon.mOnClickUser, getImageLoad());
         }
 
         public void setData(List<UserObject> watches) {

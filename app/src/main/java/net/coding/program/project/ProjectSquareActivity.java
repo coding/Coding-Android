@@ -16,7 +16,7 @@ import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.shadow.LoadMoreRecyclerViewSpace;
 import net.coding.program.common.widget.RefreshBaseActivity;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.Pager;

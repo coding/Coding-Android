@@ -14,7 +14,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.compatible.CodingCompat;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.subject.adapter.SubjectUserListAdapter;
 
 import org.androidannotations.annotations.AfterViews;

@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
-import net.coding.program.model.Subject;
+import net.coding.program.common.model.Subject;
 import net.coding.program.common.param.MessageParse;
 
 import java.util.List;

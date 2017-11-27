@@ -19,18 +19,18 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.maopao.ClickImageParam;
 import net.coding.program.common.maopao.VoicePlayCallBack;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.widget.GifMarkImageView;
 import net.coding.program.maopao.MaopaoListBaseFragment;
-import net.coding.program.maopao.MaopaoListFragment;
-import net.coding.program.model.BaseComment;
-import net.coding.program.model.Maopao;
+import net.coding.program.common.model.BaseComment;
+import net.coding.program.common.model.Maopao;
 import net.coding.program.common.param.MessageParse;
 
 import org.json.JSONException;
@@ -433,7 +433,7 @@ public class ContentAreaImages extends ContentAreaBase {
 
     private void displayImage(ImageView images, ArrayList<String> uris, int pos) {
         images.setVisibility(View.VISIBLE);
-        images.setTag(new MaopaoListFragment.ClickImageParam(uris, pos, false));
+        images.setTag(new ClickImageParam(uris, pos, false));
         if (images instanceof GifMarkImageView) {
             ((GifMarkImageView) images).showGifFlag(uris.get(pos));
         }

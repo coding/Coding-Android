@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import net.coding.program.GlobalData;
 import net.coding.program.common.util.FileUtil;
 
 import java.io.File;

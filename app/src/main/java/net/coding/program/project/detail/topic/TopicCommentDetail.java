@@ -15,9 +15,10 @@ import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.maopao.item.ImageCommentHolder;
-import net.coding.program.model.TopicObject;
-import net.coding.program.model.topic.TopicComment;
-import net.coding.program.model.topic.TopicCommentChild;
+import net.coding.program.common.model.TopicObject;
+import net.coding.program.common.model.topic.TopicComment;
+import net.coding.program.common.model.topic.TopicCommentChild;
+import net.coding.program.common.GlobalCommon;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -60,7 +61,7 @@ public class TopicCommentDetail extends BaseTopicListDetailActivity {
             ImageCommentHolder holder;
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.topic_comment_child, parent, false);
-                holder = new ViewHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
+                holder = new ViewHolder(convertView, onClickComment, myImageGetter, getImageLoad(), GlobalCommon.mOnClickUser, onClickImage);
                 convertView.setTag(R.id.layout, holder);
             } else {
                 holder = (ImageCommentHolder) convertView.getTag(R.id.layout);
@@ -118,7 +119,7 @@ public class TopicCommentDetail extends BaseTopicListDetailActivity {
         convertView.findViewById(R.id.bottomDivideLine).setVisibility(View.GONE);
         swipeRefreshLayout.setEnabled(false);
 
-        holder = new ViewHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage) {
+        holder = new ViewHolder(convertView, onClickComment, myImageGetter, getImageLoad(), GlobalCommon.mOnClickUser, onClickImage) {
 
             @Override
             public void setContent(Object data) {

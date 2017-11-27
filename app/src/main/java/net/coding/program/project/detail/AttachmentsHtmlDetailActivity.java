@@ -11,13 +11,13 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
-import net.coding.program.WebActivity;
+import net.coding.program.common.CustomWebViewClient;
 import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.widget.BottomToolBar;
-import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.MarkdownEditActivity_;
 import net.coding.program.project.detail.file.TxtEditActivity;
@@ -179,7 +179,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
         webview.setVisibility(View.VISIBLE);
         textView.setVisibility(View.GONE);
         webview.loadDataWithBaseURL(null, markdown.replace("${webview_content}", html), "text/html", "UTF-8", null);
-        webview.setWebViewClient(new WebActivity.CustomWebViewClient(this));
+        webview.setWebViewClient(new CustomWebViewClient(this));
     }
 
     private void requestMd2Html(String content) {

@@ -11,7 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.model.TaskObject;
+import net.coding.program.common.model.TaskObject;
 import net.coding.program.search.HoloUtils;
 
 import java.text.SimpleDateFormat;

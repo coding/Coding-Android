@@ -2,7 +2,7 @@ package net.coding.program.common.enter;
 
 import android.graphics.drawable.Drawable;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 
 /**
  * Created by chaochen on 14-11-12.

@@ -9,10 +9,10 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.model.BaseComment;
-import net.coding.program.model.Commit;
-import net.coding.program.model.DynamicObject;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.model.BaseComment;
+import net.coding.program.common.model.Commit;
+import net.coding.program.common.model.DynamicObject;
+import net.coding.program.common.GlobalCommon;
 
 /**
  * Created by chaochen on 14-10-27.

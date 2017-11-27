@@ -1,6 +1,6 @@
 package net.coding.program.common;
 
-import net.coding.program.model.TaskLabelModel;
+import net.coding.program.common.model.TaskLabelModel;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;

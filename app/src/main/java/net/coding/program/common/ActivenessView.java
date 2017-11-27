@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import net.coding.program.R;
-import net.coding.program.model.user.ActiveModel;
+import net.coding.program.common.model.user.ActiveModel;
 
 import static net.coding.program.common.util.DensityUtil.dip2px;
 

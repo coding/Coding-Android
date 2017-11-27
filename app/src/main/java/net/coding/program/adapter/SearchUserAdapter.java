@@ -14,7 +14,7 @@ import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ViewHolder;
 import net.coding.program.message.MessageListActivity_;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.search.HoloUtils;
 
 import java.text.SimpleDateFormat;

@@ -7,7 +7,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.readystatesoftware.viewbadger.BadgeView;
 
-import net.coding.program.GlobalData;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.event.EventNotifyBottomBar;
 

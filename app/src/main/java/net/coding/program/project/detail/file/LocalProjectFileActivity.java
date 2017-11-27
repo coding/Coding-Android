@@ -11,9 +11,9 @@ import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.holder.FolderHolder;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.ProjectObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

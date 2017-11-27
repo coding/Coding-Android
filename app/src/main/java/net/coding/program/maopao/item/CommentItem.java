@@ -6,11 +6,12 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.maopao.MaopaoRequestTag;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.maopao.MaopaoListBaseFragment;
-import net.coding.program.model.Maopao;
+import net.coding.program.common.model.Maopao;
 import net.coding.program.common.param.MessageParse;
 
 /**
@@ -35,8 +36,8 @@ class CommentItem {
     }
 
     public void setContent(Maopao.Comment commentData, Html.ImageGetter imageGetter, Html.TagHandler tagHandler) {
-        layout.setTag(MaopaoListBaseFragment.TAG_COMMENT, commentData);
-        comment.setTag(MaopaoListBaseFragment.TAG_COMMENT, commentData);
+        layout.setTag(MaopaoRequestTag.TAG_COMMENT, commentData);
+        comment.setTag(MaopaoRequestTag.TAG_COMMENT, commentData);
         comment.setTag(MaopaoListBaseFragment.TAG_COMMENT_TEXT, commentData.content);
 
         name.setText(commentData.owner.name);

@@ -11,8 +11,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.model.RequestData;
-import net.coding.program.model.TopicObject;
+import net.coding.program.common.model.RequestData;
+import net.coding.program.common.model.TopicObject;
 import net.coding.program.project.detail.merge.CommentActivity;
 import net.coding.program.search.HoloUtils;
 

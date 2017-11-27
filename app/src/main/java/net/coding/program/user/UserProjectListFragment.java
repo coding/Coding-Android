@@ -16,8 +16,8 @@ import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.project.ProjectHomeActivity_;
 
 import org.androidannotations.annotations.AfterViews;

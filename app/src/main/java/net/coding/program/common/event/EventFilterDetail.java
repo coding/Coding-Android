@@ -1,6 +1,6 @@
 package net.coding.program.common.event;
 
-import net.coding.program.model.FilterModel;
+import net.coding.program.common.model.FilterModel;
 
 /**
  * Created by anfs on 15/12/2016.

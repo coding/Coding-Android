@@ -9,8 +9,8 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.EnterpriseDetail;
-import net.coding.program.model.EnterpriseInfo;
+import net.coding.program.common.model.EnterpriseDetail;
+import net.coding.program.common.model.EnterpriseInfo;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

@@ -18,11 +18,12 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.comment.BaseCommentParam;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
-import net.coding.program.model.BaseComment;
-import net.coding.program.model.Commit;
-import net.coding.program.model.DiffFile;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.RequestData;
+import net.coding.program.common.model.BaseComment;
+import net.coding.program.common.model.Commit;
+import net.coding.program.common.model.DiffFile;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.RequestData;
+import net.coding.program.common.GlobalCommon;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -123,7 +124,7 @@ public class CommitFileListActivity extends CodingToolbarBackActivity {
     }
 
     private void initByCommit() {
-        BaseCommentParam param = new BaseCommentParam(new ClickSmallImage(this), mOnClickItem, new MyImageGetter(this), getImageLoad(), mOnClickUser);
+        BaseCommentParam param = new BaseCommentParam(new ClickSmallImage(this), mOnClickItem, new MyImageGetter(this), getImageLoad(), GlobalCommon.mOnClickUser);
         mAdapter = new CommitFileAdapter(param);
 
         initListhead();

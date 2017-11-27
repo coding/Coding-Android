@@ -14,7 +14,7 @@ import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import net.coding.program.R;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.event.EventRefresh;
-import net.coding.program.model.payed.Order;
+import net.coding.program.common.model.payed.Order;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

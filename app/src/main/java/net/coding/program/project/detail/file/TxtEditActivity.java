@@ -7,8 +7,8 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.RequestData;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.RequestData;
 import net.coding.program.project.detail.AttachmentsActivity;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity;
 

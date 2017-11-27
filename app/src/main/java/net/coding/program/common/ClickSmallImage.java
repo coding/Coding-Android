@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import net.coding.program.ImagePagerActivity_;
-import net.coding.program.maopao.MaopaoListFragment;
+import net.coding.program.common.maopao.ClickImageParam;
 
 /**
  * Created by chaochen on 14-9-22.
@@ -25,7 +25,7 @@ public class ClickSmallImage implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        MaopaoListFragment.ClickImageParam param = (MaopaoListFragment.ClickImageParam) v.getTag();
+        ClickImageParam param = (ClickImageParam) v.getTag();
 
         ImagePagerActivity_.IntentBuilder_ builder;
         if (mActivity != null) {

@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
@@ -33,7 +33,8 @@ import net.coding.program.common.HtmlContent;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
-import net.coding.program.common.TextWatcherAt;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.util.TextWatcherAt;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
@@ -43,14 +44,14 @@ import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.common.event.EventRefreshTask;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.DynamicObject;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.RefResourceObject;
-import net.coding.program.model.TaskObject;
-import net.coding.program.model.TopicLabelObject;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.DynamicObject;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.RefResourceObject;
+import net.coding.program.common.model.TaskObject;
+import net.coding.program.common.model.TopicLabelObject;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.network.model.user.Member;
 import net.coding.program.common.param.MessageParse;
 import net.coding.program.project.detail.MembersActivity_;
@@ -229,7 +230,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
                 CommentHolder holder;
                 if (convertView == null) {
                     convertView = mInflater.inflate(R.layout.activity_task_comment_much_image_task, parent, false);
-                    holder = new CommentHolder(convertView, mOnClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
+                    holder = new CommentHolder(convertView, mOnClickComment, myImageGetter, getImageLoad(), GlobalCommon.mOnClickUser, onClickImage);
                     convertView.setTag(R.id.layout, holder);
 
                 } else {

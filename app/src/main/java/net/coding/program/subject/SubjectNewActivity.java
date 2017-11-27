@@ -12,9 +12,9 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.Subject;
+import net.coding.program.common.model.Subject;
 import net.coding.program.subject.adapter.SubjectLastListAdapter;
-import net.coding.program.model.ISubjectRecommendObject;
+import net.coding.program.common.model.ISubjectRecommendObject;
 import net.coding.program.subject.util.TopicLastCache;
 
 import org.androidannotations.annotations.AfterViews;

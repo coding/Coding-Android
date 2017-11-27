@@ -26,10 +26,11 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import net.coding.program.common.Global;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalData;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
-import net.coding.program.common.guide.GuideActivity;
+import net.coding.program.guide.GuideActivity;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BaseActivity;
@@ -43,8 +44,8 @@ import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.login.phone.Close2FAActivity_;
 import net.coding.program.login.phone.InputAccountActivity_;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

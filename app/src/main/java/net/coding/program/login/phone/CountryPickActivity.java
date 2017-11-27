@@ -16,7 +16,7 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.PhoneCountry;
+import net.coding.program.common.model.PhoneCountry;
 import net.coding.program.third.country.sidebar.IndexableListView;
 
 import org.androidannotations.annotations.AfterViews;

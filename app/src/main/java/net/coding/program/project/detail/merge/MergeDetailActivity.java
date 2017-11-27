@@ -20,13 +20,13 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.RedPointTip;
@@ -40,14 +40,14 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.DensityUtil;
 import net.coding.program.common.widget.DataAdapter;
 import net.coding.program.common.widget.ListItem1;
-import net.coding.program.model.BaseComment;
-import net.coding.program.model.DiffFile;
-import net.coding.program.model.DynamicObject;
-import net.coding.program.model.Merge;
-import net.coding.program.model.MergeDetail;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.RefResourceObject;
-import net.coding.program.model.RequestData;
+import net.coding.program.common.model.BaseComment;
+import net.coding.program.common.model.DiffFile;
+import net.coding.program.common.model.DynamicObject;
+import net.coding.program.common.model.Merge;
+import net.coding.program.common.model.MergeDetail;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.RefResourceObject;
+import net.coding.program.common.model.RequestData;
 import net.coding.program.project.detail.MembersSelectActivity_;
 import net.coding.program.project.git.CommitListActivity_;
 import net.coding.program.task.add.CommentHolder;
@@ -170,7 +170,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                         R.layout.task_list_item_dynamic, parent, false);
                 holder = new DynamicHolder(convertView);
                 convertView.setTag(R.id.Commentlayout, holder);
-                CommentHolder commentHolder = new CommentHolder(convertView, mOnClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
+                CommentHolder commentHolder = new CommentHolder(convertView, mOnClickComment, myImageGetter, getImageLoad(), GlobalCommon.mOnClickUser, onClickImage);
                 convertView.setTag(R.id.flowLayout, commentHolder);
             } else {
                 holder = (DynamicHolder) convertView.getTag(R.id.Commentlayout);
@@ -253,7 +253,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         listView.addFooterView(footer, null, false);
         initFooter(footer);
 
-        BaseCommentParam param = new BaseCommentParam(new ClickSmallImage(this), mOnClickItem, myImageGetter, getImageLoad(), mOnClickUser);
+        BaseCommentParam param = new BaseCommentParam(new ClickSmallImage(this), mOnClickItem, myImageGetter, getImageLoad(), GlobalCommon.mOnClickUser);
         mAdapter = commentAdpter; //new MergeRequestDynamicAdapter(this, myImageGetter);
 //        mAdapter.setHasMore(false);
 
@@ -836,7 +836,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                 }
 
                 CircleImageView circleImageView = new CircleImageView(this);
-                circleImageView.setOnClickListener(GlobalCommon.clickUser);
+                circleImageView.setOnClickListener(GlobalCommon.mOnClickUser);
                 circleImageView.setTag(reviewer.user.global_key);
 
                 if ("invitee".equals(reviewer.volunteer) && reviewer.value > 0) {

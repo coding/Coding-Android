@@ -7,7 +7,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.adapter.SearchMaopaoAdapter;
-import net.coding.program.model.Maopao;
+import net.coding.program.common.model.Maopao;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

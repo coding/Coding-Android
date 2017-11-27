@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import net.coding.program.R;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.project.detail.ProjectGitFragmentMain;
 import net.coding.program.project.detail.ProjectGitFragmentMain_;
 

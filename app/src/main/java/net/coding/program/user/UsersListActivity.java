@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
@@ -27,10 +27,10 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.message.MessageListActivity;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.UserObject;
-import net.coding.program.model.project.ProjectServiceInfo;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.UserObject;
+import net.coding.program.common.model.project.ProjectServiceInfo;
 import net.coding.program.common.param.MessageParse;
 import net.coding.program.third.sidebar.IndexableListView;
 import net.coding.program.third.sidebar.StringMatcher;

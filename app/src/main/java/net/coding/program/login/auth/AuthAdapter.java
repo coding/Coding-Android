@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.model.AccountInfo;
+import net.coding.program.common.model.AccountInfo;
 
 import java.util.ArrayList;
 

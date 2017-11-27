@@ -7,10 +7,10 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.RequestData;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.RequestData;
+import net.coding.program.common.model.UserObject;
 
 import java.io.Serializable;
 import java.util.regex.Pattern;

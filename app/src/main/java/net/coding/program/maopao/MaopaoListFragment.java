@@ -16,18 +16,18 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.melnykov.fab.FloatingActionButton;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.RedPointTip;
-import net.coding.program.common.guide.IndicatorView;
+import net.coding.program.guide.IndicatorView;
 import net.coding.program.route.URLSpanNoUnderline;
 import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.common.util.LoadGifUtil;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.BannerObject;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.BannerObject;
+import net.coding.program.common.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -305,25 +305,6 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
     // user 某个用户，friend 好友圈，time 冒泡广场
     public enum Type {
         user, friends, hot, my, time
-    }
-
-    public static class ClickImageParam {
-        public ArrayList<String> urls;
-        public int pos;
-        public boolean needEdit;
-
-        public ClickImageParam(ArrayList<String> urlsParam, int posParam, boolean needEditParam) {
-            urls = urlsParam;
-            pos = posParam;
-            needEdit = needEditParam;
-        }
-
-        public ClickImageParam(String url) {
-            urls = new ArrayList<>();
-            urls.add(url);
-            pos = 0;
-            needEdit = false;
-        }
     }
 
     private class LocalImageHolder implements CBPageAdapter.Holder<BannerObject> {

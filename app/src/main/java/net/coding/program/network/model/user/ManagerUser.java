@@ -3,7 +3,7 @@ package net.coding.program.network.model.user;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.UserObject;
 
 import java.io.Serializable;
 

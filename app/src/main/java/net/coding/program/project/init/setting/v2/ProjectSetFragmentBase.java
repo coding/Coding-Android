@@ -14,7 +14,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.CameraPhotoUtil;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.FileUtil;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.ProjectObject;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;

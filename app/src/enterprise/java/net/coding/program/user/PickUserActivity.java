@@ -10,7 +10,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.third.sidebar.IndexableListView;
 import net.coding.program.third.sidebar.StringMatcher;
 

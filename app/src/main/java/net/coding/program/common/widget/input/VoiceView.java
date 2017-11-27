@@ -21,7 +21,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.maopao.VoicePlayCallBack;
@@ -29,7 +29,7 @@ import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.SoundWaveView;
 import net.coding.program.common.audio.AmrAudioRecorder;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalCommon;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EViewGroup;

@@ -18,7 +18,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.PermissionUtil;
-import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.CameraPhotoUtil;
 import net.coding.program.project.detail.EditPreviewMarkdown;
 

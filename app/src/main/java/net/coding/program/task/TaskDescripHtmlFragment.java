@@ -15,7 +15,7 @@ import net.coding.program.R;
 import net.coding.program.common.CustomWebViewClient;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.project.detail.EditPreviewMarkdown;
 
 import org.androidannotations.annotations.AfterViews;

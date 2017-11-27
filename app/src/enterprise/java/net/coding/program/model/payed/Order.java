@@ -1,4 +1,4 @@
-package net.coding.program.model.payed;
+package net.coding.program.common.model.payed;
 
 import net.coding.program.common.CodingColor;
 

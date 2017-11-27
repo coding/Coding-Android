@@ -19,13 +19,13 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.maopao.MaopaoSearchActivity_;
-import net.coding.program.model.Subject;
+import net.coding.program.common.model.Subject;
 import net.coding.program.subject.loop.AutoScrollLoopViewPager;
 import net.coding.program.third.WechatTab;
 

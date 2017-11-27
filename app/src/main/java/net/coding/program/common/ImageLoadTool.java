@@ -9,7 +9,6 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.R;
-import net.coding.program.route.GlobalCommon;
 
 /**
  * Created by chaochen on 14-9-22.

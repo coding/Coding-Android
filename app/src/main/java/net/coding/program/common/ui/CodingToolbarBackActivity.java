@@ -12,7 +12,7 @@ import com.cpiz.android.bubbleview.BubbleTextView;
 
 import net.coding.program.R;
 import net.coding.program.common.RedPointTip;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.ProjectHomeActivity_;
 

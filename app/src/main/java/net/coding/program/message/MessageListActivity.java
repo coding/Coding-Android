@@ -23,14 +23,14 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.maopao.VoicePlayCallBack;
-import net.coding.program.model.MyMessage;
+import net.coding.program.common.model.MyMessage;
 import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.GlobalSetting;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.LoadMore;
@@ -38,7 +38,7 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.MyMediaPlayer;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
-import net.coding.program.common.TextWatcherAt;
+import net.coding.program.util.TextWatcherAt;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.route.URLSpanNoUnderline;
 import net.coding.program.common.ImageInfo;
@@ -51,9 +51,9 @@ import net.coding.program.common.widget.input.MainInputView;
 import net.coding.program.common.widget.input.VoiceRecordCompleteCallback;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.maopao.ContentArea;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.Message;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.Message;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.param.MessageParse;
 import net.coding.program.third.EmojiFilter;
 
@@ -171,7 +171,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                 convertView = mInflater.inflate(res, parent, false);
                 holder = new ViewHolder();
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.icon.setOnClickListener(mOnClickUser);
+                holder.icon.setOnClickListener(GlobalCommon.mOnClickUser);
                 holder.time = (TextView) convertView.findViewById(R.id.time);
                 holder.contentArea = new ContentArea(convertView, null, clickImage, myImageGetter, getImageLoad(), mPxImageWidth);
                 holder.contentArea.clearConentLongClick();

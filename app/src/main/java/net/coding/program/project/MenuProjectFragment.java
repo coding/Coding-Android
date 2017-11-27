@@ -7,7 +7,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.event.EventPosition;
-import net.coding.program.model.MenuCount;
+import net.coding.program.common.model.MenuCount;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

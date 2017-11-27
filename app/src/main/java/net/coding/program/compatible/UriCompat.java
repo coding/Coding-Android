@@ -2,7 +2,7 @@ package net.coding.program.compatible;
 
 import android.text.TextUtils;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.Global;
 
 /**

@@ -20,7 +20,7 @@ import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
 import net.coding.program.common.widget.ValidePhoneView;
 import net.coding.program.login.phone.CountryPickActivity_;
-import net.coding.program.model.PhoneCountry;
+import net.coding.program.common.model.PhoneCountry;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

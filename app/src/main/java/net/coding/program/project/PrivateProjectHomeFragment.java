@@ -10,7 +10,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.compatible.CodingCompat;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.detail.ProjectFunction;
 

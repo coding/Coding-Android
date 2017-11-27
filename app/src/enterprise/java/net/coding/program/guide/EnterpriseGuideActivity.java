@@ -19,7 +19,7 @@ import com.fivehundredpx.android.blur.BlurringView;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.guide.IndicatorView;
+import net.coding.program.guide.IndicatorView;
 import net.coding.program.user.EnterpriseLoginActivity_;
 
 import org.androidannotations.annotations.AfterViews;

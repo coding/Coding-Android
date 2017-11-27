@@ -14,9 +14,9 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.url.UrlCreate;
-import net.coding.program.model.GitFileBlobObject;
-import net.coding.program.model.GitFileInfoObject;
-import net.coding.program.model.GitFileObject;
+import net.coding.program.common.model.GitFileBlobObject;
+import net.coding.program.common.model.GitFileInfoObject;
+import net.coding.program.common.model.GitFileObject;
 import net.coding.program.project.detail.ProjectGitFragment;
 
 import org.androidannotations.annotations.AfterViews;

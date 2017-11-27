@@ -22,22 +22,23 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.umeng.socialize.sso.UMSsoHandler;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.CustomWebViewClient;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
-import net.coding.program.common.TextWatcherAt;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.util.TextWatcherAt;
 import net.coding.program.maopao.item.HtmlCommentHolder;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.MainInputView;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
-import net.coding.program.model.Maopao;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.Maopao;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -156,7 +157,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
             HtmlCommentHolder holder;
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.activity_maopao_detail_item, parent, false);
-                holder = new HtmlCommentHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser);
+                holder = new HtmlCommentHolder(convertView, onClickComment, myImageGetter, getImageLoad(), GlobalCommon.mOnClickUser);
                 convertView.setTag(R.id.layout, holder);
 
             } else {
@@ -304,10 +305,10 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         }
 
         ImageView icon = (ImageView) mListHead.findViewById(R.id.icon);
-        icon.setOnClickListener(mOnClickUser);
+        icon.setOnClickListener(GlobalCommon.mOnClickUser);
 
         TextView name = (TextView) mListHead.findViewById(R.id.name);
-        name.setOnClickListener(mOnClickUser);
+        name.setOnClickListener(GlobalCommon.mOnClickUser);
 
         TextView time = (TextView) mListHead.findViewById(R.id.time);
         time.setText(Global.dayToNow(mMaopaoObject.created_at));
@@ -365,7 +366,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         });
 
 
-        likeUsersArea = new LikeUsersArea(mListHead, this, getImageLoad(), mOnClickUser);
+        likeUsersArea = new LikeUsersArea(mListHead, this, getImageLoad(), GlobalCommon.mOnClickUser);
 
         likeUsersArea.likeUsersLayout.setTag(MaopaoListBaseFragment.TAG_MAOPAO, mMaopaoObject);
         if (mMaopaoObject.like_users.isEmpty() && mMaopaoObject.likes > 0) {

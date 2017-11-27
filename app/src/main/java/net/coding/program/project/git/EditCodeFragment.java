@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.widget.EditText;
 
 import net.coding.program.R;
-import net.coding.program.model.GitFileObject;
+import net.coding.program.common.model.GitFileObject;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;

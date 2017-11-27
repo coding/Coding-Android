@@ -24,7 +24,7 @@ import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.event.EventUpdateOrderList;
-import net.coding.program.model.MallOrderObject;
+import net.coding.program.common.model.MallOrderObject;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.HttpResult;

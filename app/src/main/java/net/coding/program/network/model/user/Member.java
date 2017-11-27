@@ -1,6 +1,6 @@
 package net.coding.program.network.model.user;
 
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.network.constant.MemberAuthority;
 
 import org.json.JSONObject;

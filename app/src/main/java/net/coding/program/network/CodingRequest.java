@@ -1,7 +1,7 @@
 package net.coding.program.network;
 
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.user.IntKeyMapHttpResult;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.user.IntKeyMapHttpResult;
 import net.coding.program.network.model.BaseHttpResult;
 import net.coding.program.network.model.HttpPageResult;
 import net.coding.program.network.model.HttpResult;
@@ -29,7 +29,6 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
 import rx.Observable;
 
 public interface CodingRequest {

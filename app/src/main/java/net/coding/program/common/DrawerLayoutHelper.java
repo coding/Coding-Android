@@ -19,8 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.model.FilterModel;
-import net.coding.program.model.TaskLabelModel;
+import net.coding.program.common.model.FilterModel;
+import net.coding.program.common.model.TaskLabelModel;
 
 import java.util.ArrayList;
 import java.util.List;

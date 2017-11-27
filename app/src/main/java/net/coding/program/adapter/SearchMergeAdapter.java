@@ -12,7 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ViewHolder;
-import net.coding.program.model.MergeObject;
+import net.coding.program.common.model.MergeObject;
 import net.coding.program.search.HoloUtils;
 
 import java.text.SimpleDateFormat;

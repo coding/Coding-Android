@@ -1,7 +1,7 @@
 package net.coding.program.param;
 
-import net.coding.program.model.TopicLabelObject;
-import net.coding.program.model.TopicObject;
+import net.coding.program.common.model.TopicLabelObject;
+import net.coding.program.common.model.TopicObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;

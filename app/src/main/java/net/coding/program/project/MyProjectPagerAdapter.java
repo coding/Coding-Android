@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 
 import net.coding.program.common.SaveFragmentPagerAdapter;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.ProjectObject;
 
 import java.util.ArrayList;
 

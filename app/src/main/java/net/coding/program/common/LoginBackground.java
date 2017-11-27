@@ -7,9 +7,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import net.coding.program.GlobalData;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.model.AccountInfo;
+import net.coding.program.common.model.AccountInfo;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -16,8 +16,8 @@ import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ViewHolder;
 import net.coding.program.maopao.MaopaoDetailActivity_;
-import net.coding.program.model.Maopao;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.model.Maopao;
+import net.coding.program.common.GlobalCommon;
 
 import java.text.SimpleDateFormat;
 import java.util.List;

@@ -12,9 +12,10 @@ import net.coding.program.common.Global;
 import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.common.widget.MemberIcon;
 import net.coding.program.maopao.MaopaoListBaseFragment;
-import net.coding.program.model.Maopao;
-import net.coding.program.model.Subject;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.Maopao;
+import net.coding.program.common.model.Subject;
+import net.coding.program.common.model.UserObject;
+import net.coding.program.common.GlobalCommon;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -181,7 +182,7 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
                         userObject = new UserObject(json.optJSONObject(i));
                         circleImageView = new MemberIcon(getActivity());
                         circleImageView.setTag(userObject);
-                        circleImageView.setOnClickListener(mOnClickUser);
+                        circleImageView.setOnClickListener(GlobalCommon.mOnClickUser);
                         layoutParams = new FlowLayout.LayoutParams(getPxValue(40f), getPxValue(40f));
                         layoutParams.weight = 1;
                         layoutParams.newLine = false;

@@ -574,7 +574,7 @@
             android:theme="@style/Theme_CodingActionBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".common.guide.GuideActivity"
+            android:name=".guide.GuideActivity"
             android:label="@string/title_activity_guide"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

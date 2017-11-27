@@ -15,7 +15,7 @@ import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.route.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.RefResourceObject;
+import net.coding.program.common.model.RefResourceObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

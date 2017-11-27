@@ -12,8 +12,8 @@ import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.comment.BaseCommentHolder;
 import net.coding.program.common.param.MessageParse;
 import net.coding.program.maopao.MaopaoListBaseFragment;
-import net.coding.program.model.BaseComment;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.model.BaseComment;
+import net.coding.program.common.GlobalCommon;
 
 /**
  * Created by chaochen on 14-10-27.

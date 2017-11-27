@@ -3,8 +3,8 @@ package net.coding.program;
 import android.support.v7.app.AlertDialog;
 
 import net.coding.program.common.Global;
-import net.coding.program.model.EnterpriseDetail;
-import net.coding.program.model.EnterpriseInfo;
+import net.coding.program.common.model.EnterpriseDetail;
+import net.coding.program.common.model.EnterpriseInfo;
 import net.coding.program.project.EnterpriseProjectFragment_;
 import net.coding.program.setting.EnterpriseMainSettingFragment_;
 

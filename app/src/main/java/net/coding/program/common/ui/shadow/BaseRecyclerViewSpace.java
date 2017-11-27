@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 
 import net.coding.program.R;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalCommon;
 
 
 /**

@@ -24,14 +24,15 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.DatePickerFragment;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.CameraPhotoUtil;
+import net.coding.program.common.maopao.ClickImageParam;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
-import net.coding.program.maopao.MaopaoListFragment;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.user.ProvincesPickerDialog;
 import net.coding.program.user.SetUserInfoActivity_;
 import net.coding.program.user.SetUserInfoListActivity_;
@@ -275,7 +276,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         icon = (ImageView) head.findViewById(R.id.icon);
         icon.setOnClickListener(new ClickSmallImage(this));
         iconfromNetwork(icon, user.avatar);
-        icon.setTag(new MaopaoListFragment.ClickImageParam(user.avatar));
+        icon.setTag(new ClickImageParam(user.avatar));
         head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -351,7 +352,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
 
                 user.avatar = iconUri;
                 AccountInfo.saveAccount(this, user);
-                icon.setTag(new MaopaoListFragment.ClickImageParam(user.avatar));
+                icon.setTag(new ClickImageParam(user.avatar));
 
 
             } else {

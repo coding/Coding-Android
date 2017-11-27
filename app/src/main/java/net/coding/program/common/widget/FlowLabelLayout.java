@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.model.TopicLabelObject;
+import net.coding.program.common.model.TopicLabelObject;
 
 import org.apmem.tools.layouts.FlowLayout;
 

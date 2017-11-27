@@ -24,10 +24,10 @@ import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.ui.holder.FileHistoryHolder;
 import net.coding.program.common.util.FileUtil;
-import net.coding.program.model.AttachmentFileHistoryObject;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.RequestData;
-import net.coding.program.model.util.FileRequestHelp;
+import net.coding.program.common.model.AttachmentFileHistoryObject;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.RequestData;
+import net.coding.program.common.model.util.FileRequestHelp;
 import net.coding.program.project.detail.file.FileDownloadBaseActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 

@@ -12,7 +12,7 @@ import com.unnamed.b.atv.model.TreeNode;
 
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.network.model.wiki.Wiki;
 
 import org.greenrobot.eventbus.EventBus;

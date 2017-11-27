@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import net.coding.program.common.Global;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.compatible.EnterpriseCompatImp;
-import net.coding.program.model.EnterpriseInfo;
+import net.coding.program.common.model.EnterpriseInfo;
 
 /**
  * Created by cc191954 on 14-8-9.

@@ -6,7 +6,7 @@ import android.widget.AbsListView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.adapter.SearchMergeAdapter;
-import net.coding.program.model.MergeObject;
+import net.coding.program.common.model.MergeObject;
 import net.coding.program.project.detail.merge.MergeDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;

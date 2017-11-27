@@ -1,4 +1,4 @@
-package net.coding.program.model;
+package net.coding.program.common.model;
 
 import com.orhanobut.logger.Logger;
 

@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.CommentBackup;
@@ -24,7 +24,7 @@ import net.coding.program.common.widget.EnterLayoutAnimSupportContainer;
 import net.coding.program.common.widget.input.CameraAndPhoto;
 import net.coding.program.common.widget.input.InputAction;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalCommon;
 
 import java.lang.reflect.Method;
 

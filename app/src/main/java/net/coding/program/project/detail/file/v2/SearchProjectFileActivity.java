@@ -19,7 +19,7 @@ import net.coding.program.common.ViewHolder;
 import net.coding.program.adapter.SearchFileAdapter;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.StringUtil;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.network.model.file.CodingFile;
 import net.coding.program.search.HoloUtils;
 

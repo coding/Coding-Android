@@ -27,8 +27,8 @@ import android.widget.Toast;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
-import net.coding.program.common.FootUpdate;
 import net.coding.program.R;
+import net.coding.program.common.FootUpdate;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoadMore;
@@ -38,9 +38,7 @@ import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.network.UmengFragment;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.util.SingleToast;
-import net.coding.program.compatible.CodingCompat;
-import net.coding.program.model.UserObject;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalCommon;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,16 +57,6 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Load
     protected LayoutInflater mInflater;
     protected FootUpdate mFootUpdate = new FootUpdate();
 
-    protected View.OnClickListener mOnClickUser = v -> {
-        Object tag = v.getTag();
-        if (tag instanceof String) {
-            String globalKey = (String) tag;
-            CodingCompat.instance().launchUserDetailActivity(getActivity(), globalKey);
-        } else if (tag instanceof UserObject) {
-            String globalKey = ((UserObject) tag).global_key;
-            CodingCompat.instance().launchUserDetailActivity(getActivity(), globalKey);
-        }
-    };
     SingleToast mSingleToast;
     private ImageLoadTool imageLoadTool = new ImageLoadTool();
     private ProgressDialog mProgressDialog;

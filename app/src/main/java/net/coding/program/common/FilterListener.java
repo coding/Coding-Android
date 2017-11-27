@@ -1,6 +1,6 @@
 package net.coding.program.common;
 
-import net.coding.program.model.FilterModel;
+import net.coding.program.common.model.FilterModel;
 
 /**
  * Created by anfs on 20/12/2016.

@@ -16,8 +16,8 @@ import net.coding.program.common.Global;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.base.CustomMoreFragment;
-import net.coding.program.model.DynamicObject;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.DynamicObject;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.network.model.user.Member;
 import net.coding.program.project.DateSectionDynamicAdapter;
 

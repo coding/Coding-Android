@@ -1,6 +1,5 @@
 package net.coding.program;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -24,8 +23,8 @@ import android.widget.Toast;
 
 import com.umeng.socialize.sso.UMSsoHandler;
 
+import net.coding.program.common.CustomWebViewClient;
 import net.coding.program.common.Global;
-import net.coding.program.route.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.maopao.share.CustomShareBoard;
@@ -223,22 +222,4 @@ public class WebActivity extends BaseActivity {
         }
     }
 
-    public static class CustomWebViewClient extends WebViewClient {
-
-        Context mContext;
-
-        public CustomWebViewClient(Context context) {
-            mContext = context;
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            boolean openActivity = URLSpanNoUnderline.openActivityByUri(mContext, url, false, false);
-            if (!openActivity) {
-                view.loadUrl(url);
-            }
-
-            return !openActivity;
-        }
-    }
 }

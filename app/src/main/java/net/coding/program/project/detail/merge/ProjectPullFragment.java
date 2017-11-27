@@ -9,7 +9,7 @@ import android.widget.RadioGroup;
 
 import net.coding.program.R;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.ProjectObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

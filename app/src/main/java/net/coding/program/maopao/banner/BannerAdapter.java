@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.route.URLSpanNoUnderline;
-import net.coding.program.model.BannerObject;
+import net.coding.program.common.model.BannerObject;
 import net.coding.program.third.salvage.RecyclingPagerAdapter;
 
 import java.util.List;

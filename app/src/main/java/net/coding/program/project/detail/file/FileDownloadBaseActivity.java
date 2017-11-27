@@ -20,7 +20,7 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
-import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.project.detail.AttachmentsActivity;
 
 import java.io.File;

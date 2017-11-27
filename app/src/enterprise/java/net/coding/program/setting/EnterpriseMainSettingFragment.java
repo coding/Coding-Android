@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.model.EnterpriseInfo;
+import net.coding.program.common.model.EnterpriseInfo;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

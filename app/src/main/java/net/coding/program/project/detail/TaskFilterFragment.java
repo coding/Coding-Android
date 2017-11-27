@@ -12,9 +12,9 @@ import net.coding.program.common.FilterListener;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.common.event.EventFilterDetail;
-import net.coding.program.model.FilterModel;
-import net.coding.program.model.TaskLabelModel;
-import net.coding.program.model.TaskProjectCountModel;
+import net.coding.program.common.model.FilterModel;
+import net.coding.program.common.model.TaskLabelModel;
+import net.coding.program.common.model.TaskProjectCountModel;
 
 import org.greenrobot.eventbus.EventBus;
 

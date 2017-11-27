@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.CodingColor;
@@ -28,13 +28,13 @@ import net.coding.program.common.enter.ImageCommentLayout;
 import net.coding.program.common.ImageInfo;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.maopao.item.ImageCommentHolder;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.BaseComment;
-import net.coding.program.model.DynamicObject;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.TopicObject;
-import net.coding.program.model.topic.TopicComment;
-import net.coding.program.model.topic.TopicCommentChild;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.BaseComment;
+import net.coding.program.common.model.DynamicObject;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.TopicObject;
+import net.coding.program.common.model.topic.TopicComment;
+import net.coding.program.common.model.topic.TopicCommentChild;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;

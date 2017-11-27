@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
@@ -23,9 +23,9 @@ import net.coding.program.common.widget.ValidePhoneView;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.login.phone.CountryPickActivity_;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.PhoneCountry;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.PhoneCountry;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.user.UserPointActivity_;
 
 import org.androidannotations.annotations.AfterViews;

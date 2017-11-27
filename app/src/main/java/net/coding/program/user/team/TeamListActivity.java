@@ -10,7 +10,7 @@ import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.team.TeamListObject;
+import net.coding.program.common.model.team.TeamListObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

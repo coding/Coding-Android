@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.umeng.analytics.MobclickAgent;
 
-import net.coding.program.GlobalData;
+import net.coding.program.common.GlobalData;
 
 /**
  * Created by chaochen on 14-10-9.

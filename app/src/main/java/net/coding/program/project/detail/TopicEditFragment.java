@@ -6,7 +6,7 @@ import android.widget.EditText;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MDEditFragment;
-import net.coding.program.model.TopicLabelObject;
+import net.coding.program.common.model.TopicLabelObject;
 import net.coding.program.param.TopicData;
 
 import org.androidannotations.annotations.AfterViews;

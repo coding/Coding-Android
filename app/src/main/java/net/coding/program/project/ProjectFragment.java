@@ -20,8 +20,8 @@ import net.coding.program.common.widget.NoHorizontalScrollViewPager;
 import net.coding.program.common.event.EventFilter;
 import net.coding.program.common.event.EventPosition;
 import net.coding.program.common.event.EventRefresh;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.search.SearchProjectActivity_;
 
 import org.androidannotations.annotations.AfterViews;

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.route.GlobalCommon;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.LongClickLinkMovementMethod;
@@ -20,7 +20,7 @@ import net.coding.program.route.URLSpanNoUnderline;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.widget.DataAdapter;
 import net.coding.program.login.auth.Utilities;
-import net.coding.program.model.DynamicObject;
+import net.coding.program.common.model.DynamicObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -185,7 +185,7 @@ public class DateSectionDynamicAdapter<T extends DynamicObject.DynamicBaseObject
         }
 
         if (holder.mIcon != null) {
-            holder.mIcon.setOnClickListener(GlobalCommon.clickUser);
+            holder.mIcon.setOnClickListener(GlobalCommon.mOnClickUser);
             mImageLoader.loadImage(holder.mIcon, data.user.avatar);
             holder.mIcon.setTag(data.user.global_key);
         }

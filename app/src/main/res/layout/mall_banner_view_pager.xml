@@ -11,7 +11,7 @@
         android:layout_height="250dp"
         android:layout_marginBottom="@dimen/padding_14" />
 
-    <net.coding.program.common.guide.IndicatorView
+    <net.coding.program.guide.IndicatorView
         android:id="@+id/indicatorView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
