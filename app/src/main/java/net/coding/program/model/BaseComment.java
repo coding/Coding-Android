@@ -1,6 +1,6 @@
 package net.coding.program.model;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 
 import org.json.JSONObject;
 
@@ -50,9 +50,9 @@ public class BaseComment implements Serializable {
 
     public boolean isMy() {
         if (owner_id != 0) {
-            return MyApp.sUserObject.id == owner_id;
+            return GlobalData.sUserObject.id == owner_id;
         } else {
-            return MyApp.sUserObject.global_key.equals(owner.global_key);
+            return GlobalData.sUserObject.global_key.equals(owner.global_key);
         }
     }
 }

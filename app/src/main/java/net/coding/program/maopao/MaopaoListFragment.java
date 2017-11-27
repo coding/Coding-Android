@@ -16,13 +16,13 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.melnykov.fab.FloatingActionButton;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.guide.IndicatorView;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.route.URLSpanNoUnderline;
 import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.common.util.LoadGifUtil;
 import net.coding.program.model.AccountInfo;
@@ -86,7 +86,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
             if (actionBar != null) {
                 String actionBarTitle = actionBar.getTitle().toString();
                 if (TextUtils.isEmpty(actionBarTitle)) {
-                    if (userId == MyApp.sUserObject.id) {
+                    if (userId == GlobalData.sUserObject.id) {
                         actionBar.setTitle("我的冒泡");
                     } else {
                         actionBar.setTitle("TA的冒泡");
@@ -224,7 +224,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         bannerLayout.setVisibility(View.INVISIBLE);
 
         ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
-        layoutParams.height = MyApp.sWidthPix * 130 / 360;
+        layoutParams.height = GlobalData.sWidthPix * 130 / 360;
         banner.setLayoutParams(layoutParams);
 
         bannerIndicator = (IndicatorView) bannerLayout.findViewById(R.id.indicatorView);

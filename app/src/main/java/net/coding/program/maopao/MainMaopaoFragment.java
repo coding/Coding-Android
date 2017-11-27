@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.event.EventRefrushMaopao;
+import net.coding.program.common.event.EventRefrushMaopao;
 import net.coding.program.subject.SubjectWallActivity_;
 
 import org.androidannotations.annotations.AfterViews;

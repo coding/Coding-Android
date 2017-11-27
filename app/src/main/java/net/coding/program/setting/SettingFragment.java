@@ -7,20 +7,18 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.tencent.android.tpush.XGPushManager;
 
-import net.coding.program.MainActivity;
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.compatible.CodingCompat;
-import net.coding.program.event.EventMessage;
+import net.coding.program.common.event.EventMessage;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.project.detail.file.FileSaveHelp;
 import net.coding.program.push.CodingPush;
@@ -160,11 +158,11 @@ public class SettingFragment extends BaseFragment {
 
     @Click
     void loginOut() {
-        showDialog(MyApp.sUserObject.global_key, "退出当前账号?", (dialog, which) -> {
+        showDialog(GlobalData.sUserObject.global_key, "退出当前账号?", (dialog, which) -> {
             umengEvent(UmengEvent.E_USER_CENTER, "退登_确定退登");
             FragmentActivity activity = getActivity();
 
-            if (MyApp.isEnterprise()) {
+            if (GlobalData.isEnterprise()) {
                 XGPushManager.registerPush(activity, "*");
             } else {
                 CodingPush.instance().unbindGK(AccountInfo.loadAccount(getActivity()).global_key);

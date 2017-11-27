@@ -11,7 +11,7 @@ import android.view.View;
 
 import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 
 /**
  * Created by chenchao on 16/1/25.

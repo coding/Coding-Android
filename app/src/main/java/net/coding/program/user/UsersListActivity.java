@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
@@ -205,7 +205,7 @@ public class UsersListActivity extends BackActivity implements LoadMore {
 
     private boolean isMyFriendList() {
         return (mUserParam == null ||
-                mUserParam.mUser.global_key.equals(MyApp.sUserObject.global_key)) &&
+                mUserParam.mUser.global_key.equals(GlobalData.sUserObject.global_key)) &&
                 statUrl == null;
     }
 

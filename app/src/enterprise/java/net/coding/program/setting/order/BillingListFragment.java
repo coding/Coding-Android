@@ -13,7 +13,7 @@ import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 
 import net.coding.program.R;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.event.EventRefresh;
+import net.coding.program.common.event.EventRefresh;
 import net.coding.program.model.payed.Billing;
 
 import org.androidannotations.annotations.AfterViews;

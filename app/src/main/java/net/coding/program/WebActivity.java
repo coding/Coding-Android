@@ -25,7 +25,7 @@ import android.widget.Toast;
 import com.umeng.socialize.sso.UMSsoHandler;
 
 import net.coding.program.common.Global;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.route.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.maopao.share.CustomShareBoard;

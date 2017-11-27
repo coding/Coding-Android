@@ -29,14 +29,14 @@ import android.widget.ListView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.network.NetworkImpl;
-import net.coding.program.pickphoto.ImageInfo;
+import net.coding.program.common.ImageInfo;
 import net.coding.program.pickphoto.PhotoPickActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.BlankViewHelp;
@@ -74,7 +74,7 @@ import cz.msebera.android.httpclient.Header;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
-import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
+import static net.coding.program.common.Global.PHOTO_MAX_COUNT;
 
 /**
  * Created by yangzhen

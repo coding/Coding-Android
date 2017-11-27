@@ -20,10 +20,10 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.pickphoto.ImageInfo;
+import net.coding.program.common.ImageInfo;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.model.AttachmentFileObject;

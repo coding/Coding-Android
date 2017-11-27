@@ -17,7 +17,7 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.Global;
@@ -86,7 +86,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
         //initListFirst();
 
         if (globalKey != null) {
-            if (globalKey.equals(MyApp.sUserObject.global_key)) {
+            if (globalKey.equals(GlobalData.sUserObject.global_key)) {
                 isMe = true;
 
                 CodingCompat.instance().launchMyDetailActivity(this);
@@ -98,7 +98,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
         } else {
             try {
                 String name = getIntent().getData().getQueryParameter("name");
-                if (name.equals(MyApp.sUserObject.name)) {
+                if (name.equals(GlobalData.sUserObject.name)) {
                     isMe = true;
 
                     CodingCompat.instance().launchMyDetailActivity(this);

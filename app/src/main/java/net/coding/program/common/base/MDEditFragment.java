@@ -16,10 +16,10 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.PhotoOperate;
-import net.coding.program.pickphoto.CameraPhotoUtil;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.common.CameraPhotoUtil;
 import net.coding.program.project.detail.EditPreviewMarkdown;
 
 import org.androidannotations.annotations.AfterViews;

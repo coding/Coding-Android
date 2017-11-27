@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.GlobalData;
 import net.coding.program.MainActivity;
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
@@ -49,7 +49,7 @@ public class EmailRegisterActivity extends BackActivity {
     static void parseRegisterSuccess(Activity activity, JSONObject respanse) {
         UserObject user = new UserObject(respanse.optJSONObject("data"));
         AccountInfo.saveAccount(activity, user);
-        MyApp.sUserObject = user;
+        GlobalData.sUserObject = user;
         AccountInfo.saveReloginInfo(activity, user);
 
         Global.syncCookie(activity);

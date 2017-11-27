@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.common.util.FileUtil;
 
 import java.io.File;
@@ -72,7 +72,7 @@ public class PhotoOperate {
         }
 
         try {
-            return Luban.with(MyApp.getInstance()).load(oldFile).get().get(0);
+            return Luban.with(GlobalData.getInstance()).load(oldFile).get().get(0);
         } catch (Exception e) {
             return oldFile;
         }

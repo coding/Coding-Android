@@ -3,7 +3,7 @@ package net.coding.program.common.util;
 import android.view.View;
 
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 
 /**
  * Created by chenchao on 2016/12/14.

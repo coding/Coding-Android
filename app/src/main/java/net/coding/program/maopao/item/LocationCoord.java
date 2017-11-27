@@ -3,7 +3,7 @@ package net.coding.program.maopao.item;
 import android.text.TextUtils;
 import android.util.Log;
 
-import net.coding.program.model.LocationObject;
+import net.coding.program.common.module.maopao.LocationObject;
 
 /**
  * Created by Neutra on 2015/3/14.

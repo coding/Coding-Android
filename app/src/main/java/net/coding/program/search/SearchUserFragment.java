@@ -5,7 +5,7 @@ import android.widget.AbsListView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.adapter.SearchUserAdapter;
+import net.coding.program.adapter.SearchUserAdapter;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.UserObject;
 

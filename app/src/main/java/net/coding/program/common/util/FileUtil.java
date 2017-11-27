@@ -10,7 +10,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 
 import java.io.File;
 
@@ -226,7 +226,7 @@ public class FileUtil {
     }
 
     public static String getDownloadFolder() {
-        if (!MyApp.getEnterpriseGK().isEmpty()) {
+        if (!GlobalData.getEnterpriseGK().isEmpty()) {
             return DOWNLOAD_FOLDER_CODING_ENTERPRISE;
         }
 

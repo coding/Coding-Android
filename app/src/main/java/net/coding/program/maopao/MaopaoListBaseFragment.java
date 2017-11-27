@@ -31,12 +31,12 @@ import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import com.umeng.socialize.sso.UMSsoHandler;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.SimpleSHA1;
@@ -48,8 +48,8 @@ import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.widget.input.MainInputView;
-import net.coding.program.event.EventRefrushMaopao;
-import net.coding.program.event.EventShowBottom;
+import net.coding.program.common.event.EventRefrushMaopao;
+import net.coding.program.common.event.EventShowBottom;
 import net.coding.program.maopao.item.CommentArea;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
@@ -166,7 +166,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
     ClickSmallImage onClickImage = new ClickSmallImage(MaopaoListBaseFragment.this);
     View.OnClickListener onClickComment = v -> {
         final Maopao.Comment comment = (Maopao.Comment) v.getTag(TAG_COMMENT);
-        if (MyApp.sUserObject.id == (comment.owner_id)) {
+        if (GlobalData.sUserObject.id == (comment.owner_id)) {
             showDialog("冒泡", "删除评论？", (dialog, which) -> {
                 final String URI_COMMENT_DELETE = Global.HOST_API + "/tweet/%s/comment/%s";
                 deleteNetwork(String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id), TAG_DELETE_MAOPAO_COMMENT, -1, comment);
@@ -193,7 +193,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
                 return;
             }
 
-            if (maopaoData.owner.isMe() || maopaoData.owner_id == MyApp.sUserObject.id) {
+            if (maopaoData.owner.isMe() || maopaoData.owner_id == GlobalData.sUserObject.id) {
                 activity.showMiddleToast("您不能给自己打赏");
                 return;
             }
@@ -206,7 +206,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
 
             final TextView myPoints = (TextView) root.findViewById(R.id.myPoints);
             final String MY_POINT_FORMAT = "我的码币余额: <font color=\"#F5A623\">%.2f</font>";
-            myPoints.setText(Html.fromHtml(String.format(MY_POINT_FORMAT, MyApp.sUserObject.points_left)));
+            myPoints.setText(Html.fromHtml(String.format(MY_POINT_FORMAT, GlobalData.sUserObject.points_left)));
 
             final EditText password = (EditText) root.findViewById(R.id.password);
 
@@ -261,9 +261,9 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
                                 activity.showMiddleToast("打赏成功");
                                 maopaoData.rewarded = true;
                                 ++maopaoData.rewards;
-                                Maopao.Like_user me = new Maopao.Like_user(MyApp.sUserObject);
-                                MyApp.sUserObject.reward();
-                                AccountInfo.saveAccount(activity, MyApp.sUserObject);
+                                Maopao.Like_user me = new Maopao.Like_user(GlobalData.sUserObject);
+                                GlobalData.sUserObject.reward();
+                                AccountInfo.saveAccount(activity, GlobalData.sUserObject);
                                 me.setType(Maopao.Like_user.Type.Reward);
                                 maopaoData.reward_users.add(0, me);
                                 dialog.dismiss();
@@ -408,9 +408,9 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         // 图片显示，单位为 dp
         // 62 photo 3 photo 3 photo 34
         final int divide = 3;
-        mPxImageWidth = GlobalCommon.dpToPx(MyApp.sWidthDp - 62 - 34 - divide * 2) / 3;
+        mPxImageWidth = GlobalCommon.dpToPx(GlobalData.sWidthDp - 62 - 34 - divide * 2) / 3;
         int pxPadding = getResources().getDimensionPixelSize(R.dimen.padding_12);
-        mPxImageWidth = (MyApp.sWidthPix - pxPadding * 2 - GlobalCommon.dpToPx(divide) * 2) / 3;
+        mPxImageWidth = (GlobalData.sWidthPix - pxPadding * 2 - GlobalCommon.dpToPx(divide) * 2) / 3;
 
         myImageGetter = new MyImageGetter(getActivity());
     }
@@ -435,7 +435,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         // 图片显示，单位为 dp
         // 62 photo 3 photo 3 photo 34
         final int divide = 3;
-        mPxImageWidth = GlobalCommon.dpToPx(MyApp.sWidthDp - 62 - 34 - divide * 2) / 3;
+        mPxImageWidth = GlobalCommon.dpToPx(GlobalData.sWidthDp - 62 - 34 - divide * 2) / 3;
 
 //        mData = AccountInfo.loadMaopao(getActivity(), mType.toString(), userId);
 
@@ -640,7 +640,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
             if (code == 0) {
                 mEnterLayout.clearContent();
                 Maopao.Comment myComment = new Maopao.Comment(respanse.getJSONObject("data"));
-                myComment.owner = new DynamicObject.Owner(MyApp.sUserObject);
+                myComment.owner = new DynamicObject.Owner(GlobalData.sUserObject);
                 Maopao.Comment otherComment = (Maopao.Comment) data;
                 mEnterLayout.restoreDelete(myComment);
 
@@ -983,7 +983,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
             holder.time.setText(Global.dayToNow(data.created_at));
 
 
-            if (data.owner_id == (MyApp.sUserObject.id)) {
+            if (data.owner_id == (GlobalData.sUserObject.id)) {
                 holder.maopaoDelete.setVisibility(View.VISIBLE);
                 holder.maopaoDelete.setTag(TAG_MAOPAO_ID, data.id);
             } else {
@@ -1012,12 +1012,12 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
                             super.onMySuccess(response);
                             data.liked = !data.liked;
                             if (data.liked) {
-                                Maopao.Like_user like_user = new Maopao.Like_user(MyApp.sUserObject);
+                                Maopao.Like_user like_user = new Maopao.Like_user(GlobalData.sUserObject);
                                 data.like_users.add(0, like_user);
                                 ++data.likes;
                             } else {
                                 for (int j = 0; j < data.like_users.size(); ++j) {
-                                    if (data.like_users.get(j).global_key.equals(MyApp.sUserObject.global_key)) {
+                                    if (data.like_users.get(j).global_key.equals(GlobalData.sUserObject.global_key)) {
                                         data.like_users.remove(j);
                                         --data.likes;
                                         break;

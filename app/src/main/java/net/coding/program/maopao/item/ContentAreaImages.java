@@ -19,10 +19,11 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.maopao.VoicePlayCallBack;
+import net.coding.program.route.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.widget.GifMarkImageView;
@@ -307,7 +308,7 @@ public class ContentAreaImages extends ContentAreaBase {
             content.setFocusableInTouchMode(false);
 
             //让气泡的宽度随着录音长度变化 为什么还要在减去一个32dp?根据布局文件来算不需要的
-            int maxWidth = MyApp.sWidthPix - (isRight ? GlobalCommon.dpToPx(57 + 53 + 36 + 32) : GlobalCommon.dpToPx(57 + 53 + 24 + 32));
+            int maxWidth = GlobalData.sWidthPix - (isRight ? GlobalCommon.dpToPx(57 + 53 + 36 + 32) : GlobalCommon.dpToPx(57 + 53 + 24 + 32));
             int minWidth = GlobalCommon.dpToPx(60);
             int s = maopaoData.voiceDuration >= 60 ? 60 : maopaoData.voiceDuration;
             int width = minWidth + (maxWidth - minWidth) * s / 60;
@@ -438,21 +439,6 @@ public class ContentAreaImages extends ContentAreaBase {
         }
 
         imageLoad.loadImage(images, uris.get(pos), imageOptions);
-    }
-
-    /**
-     * 语音播放回调接口
-     */
-    public interface VoicePlayCallBack {
-        void onStartPlay(String path, int id, MediaPlayer.OnPreparedListener mOnPreparedListener, MediaPlayer.OnCompletionListener mOnCompletionListener);
-
-        String getPlayingVoicePath();
-
-        void onStopPlay();
-
-        void markVoicePlayed(int id);
-
-        int getPlayingVoiceId();
     }
 
 }

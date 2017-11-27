@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.network.model.user.Member;
@@ -51,7 +51,7 @@ public class ProjectTransferActivity extends ProjectAdvanceSetBaseActivity {
 
     @AfterViews
     final void initProjectTransferActivity() {
-        mUser = new Member(MyApp.sUserObject);
+        mUser = new Member(GlobalData.sUserObject);
         updatePickMemberDisplay();
     }
 

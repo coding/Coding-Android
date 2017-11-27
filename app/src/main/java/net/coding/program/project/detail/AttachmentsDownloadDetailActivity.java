@@ -29,7 +29,7 @@ import com.loopj.android.http.AsyncHttpClient;
 
 import net.coding.program.ImagePagerFragment;
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.base.MyJsonResponse;

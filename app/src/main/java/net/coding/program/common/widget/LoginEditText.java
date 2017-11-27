@@ -21,15 +21,14 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.util.OnTextChange;
+import net.coding.program.route.GlobalCommon;
 
 import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by chenchao on 15/12/17.
- *
  */
 public class LoginEditText extends FrameLayout implements OnTextChange {
     private static final String TAG = "LoginEditText";

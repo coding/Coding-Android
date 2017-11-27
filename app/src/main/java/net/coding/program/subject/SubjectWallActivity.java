@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
@@ -150,7 +150,7 @@ public class SubjectWallActivity extends BaseActivity {
 
     private void showHotTopic() {
         Fragment fragment = SubjectListFragment_.builder()
-                .userKey(MyApp.sUserObject.global_key)
+                .userKey(GlobalData.sUserObject.global_key)
                 .mType(SubjectListFragment.Type.hot)
                 .build();
         getSupportFragmentManager().beginTransaction().replace(R.id.topic_hot_container, fragment).commit();
@@ -290,7 +290,7 @@ public class SubjectWallActivity extends BaseActivity {
             };
 
             return SubjectListFragment_.builder()
-                    .userKey(MyApp.sUserObject.global_key)
+                    .userKey(GlobalData.sUserObject.global_key)
                     .mType(types[position])
                     .build();
         }

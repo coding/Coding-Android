@@ -16,7 +16,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ViewHolder;
-import net.coding.program.common.adapter.SearchFileAdapter;
+import net.coding.program.adapter.SearchFileAdapter;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.StringUtil;
 import net.coding.program.model.ProjectObject;

@@ -15,19 +15,19 @@ import android.widget.Toast;
 import com.loopj.android.http.RequestParams;
 import com.melnykov.fab.FloatingActionButton;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.common.widget.FlowLabelLayout;
-import net.coding.program.event.EventFilterDetail;
-import net.coding.program.event.EventRefreshTask;
+import net.coding.program.common.event.EventFilterDetail;
+import net.coding.program.common.event.EventRefreshTask;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.model.TaskObject;
@@ -158,13 +158,13 @@ public class TaskListFragment extends RefreshBaseFragment {
             //关注，创建可以返回数据
             if (!TextUtils.isEmpty(mMeAction) && !mMeAction.equals("owner")) {
                 if (!TextUtils.isEmpty(mMeAction)) {
-                    host += String.format("%s=%s&", mMeAction, MyApp.sUserObject.id);
+                    host += String.format("%s=%s&", mMeAction, GlobalData.sUserObject.id);
                 }
             }
         } else if (mShowAdd) {
             //项目内 全部任务
             if (!TextUtils.isEmpty(mMeAction) && !mMeAction.equals("owner")) {
-                host += String.format("%s=%s&", mMeAction, MyApp.sUserObject.id);
+                host += String.format("%s=%s&", mMeAction, GlobalData.sUserObject.id);
             }
         } else {
             //项目外
@@ -512,7 +512,7 @@ public class TaskListFragment extends RefreshBaseFragment {
             holder.mDiscuss.setText(String.valueOf(data.comments));
             iconfromNetwork(holder.mIcon, data.owner.avatar);
 
-            int flowWidth = MyApp.sWidthPix - GlobalCommon.dpToPx(100 + 15); // item 左边空 100 dp，右边空15dp
+            int flowWidth = GlobalData.sWidthPix - GlobalCommon.dpToPx(100 + 15); // item 左边空 100 dp，右边空15dp
             if (!data.deadline.isEmpty()) {
                 flowWidth -= GlobalCommon.dpToPx(55);
             }

@@ -16,7 +16,7 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.FootUpdate;
+import net.coding.program.common.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.DialogUtil;

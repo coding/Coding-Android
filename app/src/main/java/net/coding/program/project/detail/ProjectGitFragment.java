@@ -17,19 +17,19 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.network.NetworkImpl;
-import net.coding.program.pickphoto.ImageInfo;
+import net.coding.program.common.ImageInfo;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.url.UrlCreate;
 import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.dialog.AlertDialogMessage;
-import net.coding.program.event.EventExitCode;
+import net.coding.program.common.event.EventExitCode;
 import net.coding.program.model.GitFileInfoObject;
 import net.coding.program.model.GitLastCommitObject;
 import net.coding.program.model.GitUploadPrepareObject;
@@ -58,7 +58,7 @@ import java.util.regex.Pattern;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
-import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
+import static net.coding.program.common.Global.PHOTO_MAX_COUNT;
 
 /**
  * Created by yangzhen on 2014/10/25.

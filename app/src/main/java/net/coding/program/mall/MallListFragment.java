@@ -5,9 +5,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.RefreshBaseAppCompatFragment;
 import net.coding.program.model.MallItemObject;
@@ -107,7 +107,7 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
                 JSONObject jsonObject = respanse.getJSONObject("data");
                 String leftString = jsonObject.optString("points_left", "0");
                 userPoint = Double.valueOf(leftString);
-                MyApp.sUserObject.points_left = new BigDecimal(leftString);
+                GlobalData.sUserObject.points_left = new BigDecimal(leftString);
 
                 onRefresh();
             } else {

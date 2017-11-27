@@ -1,6 +1,6 @@
 package net.coding.program.param;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 
 import java.io.Serializable;
 import java.util.regex.Matcher;
@@ -20,7 +20,7 @@ public class ProjectJumpParam implements Serializable {
     }
 
     public ProjectJumpParam(String path) {
-        path = MyApp.transformEnterpriseUri(path);
+        path = GlobalData.transformEnterpriseUri(path);
         String[] regexs = new String[]{
                 "^/u/(.*?)/p/(.*?)(?:/git)?$",
                 "^/t/(.*?)/p/(.*?)(?:/git)?$",

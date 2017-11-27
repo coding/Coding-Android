@@ -10,7 +10,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.AllThirdKeys;
 import net.coding.program.model.AccountInfo;
-import net.coding.program.model.LocationObject;
+import net.coding.program.common.module.maopao.LocationObject;
 import net.coding.program.model.UserObject;
 
 import org.json.JSONArray;

@@ -7,7 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.holder.FolderHolder;

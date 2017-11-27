@@ -29,6 +29,9 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import net.coding.program.common.CameraPhotoUtil;
+import net.coding.program.common.ImageInfo;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 

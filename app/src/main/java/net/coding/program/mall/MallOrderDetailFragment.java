@@ -18,12 +18,12 @@ import com.loopj.android.http.RequestParams;
 import com.orhanobut.logger.Logger;
 
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.event.EventUpdateOrderList;
+import net.coding.program.common.event.EventUpdateOrderList;
 import net.coding.program.model.MallOrderObject;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.Network;

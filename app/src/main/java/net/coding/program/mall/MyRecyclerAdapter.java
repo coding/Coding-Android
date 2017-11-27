@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.util.SingleToast;
@@ -96,7 +96,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         }
 
         holder.itemView.setOnClickListener(v -> {
-            if (!MyApp.sUserObject.phone.isEmpty()) {
+            if (!GlobalData.sUserObject.phone.isEmpty()) {
                 MallOrderSubmitActivity_.intent(context)
                         .mallItemObject(object)
                         .start();

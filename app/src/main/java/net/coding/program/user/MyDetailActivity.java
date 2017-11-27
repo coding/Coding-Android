@@ -7,11 +7,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
 import net.coding.program.model.UserObject;
@@ -39,7 +39,7 @@ public class MyDetailActivity extends UserDetailCommonActivity {
 
     @AfterViews
     void initMyDetailActivity() {
-        bindUI(MyApp.sUserObject);
+        bindUI(GlobalData.sUserObject);
         tv_follow_state.setText("编辑资料");
         rl_follow_state.setOnClickListener(v -> {
             UserDetailEditActivity_
@@ -52,7 +52,7 @@ public class MyDetailActivity extends UserDetailCommonActivity {
     public void onResume() {
         super.onResume();
         final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
-        getNetwork(HOST_USER_INFO + MyApp.sUserObject.global_key, TAG_HOST_USER_INFO);
+        getNetwork(HOST_USER_INFO + GlobalData.sUserObject.global_key, TAG_HOST_USER_INFO);
     }
 
     @Override
@@ -101,11 +101,11 @@ public class MyDetailActivity extends UserDetailCommonActivity {
             if (position == 0) {
                 return MaopaoListFragment_.builder()
                         .mType(MaopaoListFragment.Type.user)
-                        .userId(MyApp.sUserObject.id)
+                        .userId(GlobalData.sUserObject.id)
                         .build();
             } else {
                 return SubjectListFragment_.builder()
-                        .userKey(MyApp.sUserObject.global_key)
+                        .userKey(GlobalData.sUserObject.global_key)
                         .mType(SubjectListFragment.Type.join)
                         .build();
             }

@@ -14,14 +14,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.CommentBackup;
 import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.widget.EnterLayoutAnimSupportContainer;
+import net.coding.program.route.GlobalCommon;
 
 import java.lang.reflect.Method;
 
@@ -62,7 +62,7 @@ public abstract class EnterLayout implements InputAction {
 
         panelHeight = GlobalCommon.dpToPx(200);
         inputBoxHeight = GlobalCommon.dpToPx(48);
-        screenHeight = MyApp.sHeightPix;
+        screenHeight = GlobalData.sHeightPix;
 
         commonEnterRoot = (ViewGroup) mActivity.findViewById(R.id.commonEnterRoot);
         if (commonEnterRoot != null && commonEnterRoot.getParent() instanceof EnterLayoutAnimSupportContainer) {

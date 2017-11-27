@@ -1,5 +1,7 @@
 package net.coding.program.pickphoto;
 
+import net.coding.program.common.ImageInfo;
+
 /**
  * Created by chenchao on 15/5/6.
  */

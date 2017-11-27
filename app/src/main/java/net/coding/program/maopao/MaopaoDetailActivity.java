@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.umeng.socialize.sso.UMSsoHandler;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.CustomWebViewClient;
 import net.coding.program.common.Global;
@@ -30,7 +30,7 @@ import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
-import net.coding.program.common.comment.HtmlCommentHolder;
+import net.coding.program.maopao.item.HtmlCommentHolder;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.MainInputView;
@@ -481,13 +481,13 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
                 maopao.liked = !maopao.liked;
                 if (maopao.liked) {
                     umengEvent(UmengEvent.MAOPAO, "冒泡点赞");
-                    Maopao.Like_user like_user = new Maopao.Like_user(MyApp.sUserObject);
+                    Maopao.Like_user like_user = new Maopao.Like_user(GlobalData.sUserObject);
                     maopao.like_users.add(0, like_user);
                     ++maopao.likes;
                 } else {
                     umengEvent(UmengEvent.MAOPAO, "冒泡取消点赞");
                     for (int j = 0; j < maopao.like_users.size(); ++j) {
-                        if (maopao.like_users.get(j).global_key.equals(MyApp.sUserObject.global_key)) {
+                        if (maopao.like_users.get(j).global_key.equals(GlobalData.sUserObject.global_key)) {
                             maopao.like_users.remove(j);
                             --maopao.likes;
                             break;

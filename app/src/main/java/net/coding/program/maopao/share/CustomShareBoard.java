@@ -36,8 +36,8 @@ import com.umeng.socialize.utils.OauthHelper;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
 
 import net.coding.program.AllThirdKeys;
+import net.coding.program.GlobalData;
 import net.coding.program.MainActivity_;
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.HtmlContent;
@@ -157,7 +157,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
         iconTextView.setOnClickListener(this);
         allButtonsLayout.addView(iconTextView);
         ViewGroup.LayoutParams lp = iconTextView.getLayoutParams();
-        lp.width = MyApp.sWidthPix / 4;
+        lp.width = GlobalData.sWidthPix / 4;
         iconTextView.setLayoutParams(lp);
     }
 

@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.CodingColor;
@@ -263,7 +263,7 @@ public class FileDynamicActivity extends BackActivity {
                 }
 
                 final int itemIdFinal = itemId;
-                if (globalKey.equals(MyApp.sUserObject.global_key)) {
+                if (globalKey.equals(GlobalData.sUserObject.global_key)) {
                     showDialog("评论", "删除评论？", (dialog, which) ->
                             deleteNetwork(mProjectFileParam.getHttpDeleteComment(itemIdFinal), TAG_HTTP_COMMENT_DELETE, tagData));
                 } else {

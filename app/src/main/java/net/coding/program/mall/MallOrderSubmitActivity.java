@@ -17,7 +17,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.orhanobut.logger.Logger;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
@@ -102,7 +102,7 @@ public class MallOrderSubmitActivity extends BackActivity {
 
     private void bindUIPay(boolean discount) {
         BigDecimal mabiPrice = mallItemObject.points_cost;
-        BigDecimal userMabi = MyApp.sUserObject.points_left;
+        BigDecimal userMabi = GlobalData.sUserObject.points_left;
 
         if (userMabi.compareTo(BigDecimal.ZERO) == 0) {
             discountLayout.setVisibility(View.GONE);

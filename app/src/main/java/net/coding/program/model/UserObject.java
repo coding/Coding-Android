@@ -2,7 +2,7 @@ package net.coding.program.model;
 
 import android.text.TextUtils;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.common.Global;
 import net.coding.program.network.constant.VIP;
 import net.sourceforge.pinyin4j.PinyinHelper;
@@ -171,7 +171,7 @@ public class UserObject implements Serializable, Comparable {
     }
 
     public boolean isMe() {
-        return MyApp.sUserObject.id == id;
+        return GlobalData.sUserObject.id == id;
     }
 
     public void reward() {

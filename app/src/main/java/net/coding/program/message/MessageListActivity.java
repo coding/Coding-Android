@@ -23,12 +23,14 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.common.maopao.VoicePlayCallBack;
+import net.coding.program.model.MyMessage;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 import net.coding.program.common.GlobalSetting;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.LoadMore;
@@ -38,8 +40,8 @@ import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.WeakRefHander;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
-import net.coding.program.pickphoto.ImageInfo;
+import net.coding.program.route.URLSpanNoUnderline;
+import net.coding.program.common.ImageInfo;
 import net.coding.program.pickphoto.PhotoPickActivity;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
@@ -49,7 +51,6 @@ import net.coding.program.common.widget.input.MainInputView;
 import net.coding.program.common.widget.input.VoiceRecordCompleteCallback;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.maopao.ContentArea;
-import net.coding.program.maopao.item.ContentAreaImages;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.Message;
 import net.coding.program.model.UserObject;
@@ -65,14 +66,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 @EActivity(R.layout.activity_message_list)
 public class MessageListActivity extends BackActivity implements SwipeRefreshLayout.OnRefreshListener, LoadMore,
         StartActivity, CameraAndPhoto, Handler.Callback, VoiceRecordCompleteCallback,
-        ContentAreaImages.VoicePlayCallBack {
+        VoicePlayCallBack {
 
     private static final int RESULT_REQUEST_FOLLOW = 1002;
     private static final int RESULT_REQUEST_PICK_PHOTO = 1003;
@@ -334,7 +333,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         // 图片显示，单位为 dp
         // 72 photo 3 photo 3 photo 72
         final int divide = 3;
-        mPxImageWidth = GlobalCommon.dpToPx(MyApp.sWidthDp - 72 * 2 - divide * 2) / 3;
+        mPxImageWidth = GlobalCommon.dpToPx(GlobalData.sWidthDp - 72 * 2 - divide * 2) / 3;
         mPxImageDivide = GlobalCommon.dpToPx(divide);
 
         if (mUserObject == null) {
@@ -956,37 +955,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 //    public EnterLayout getEnterLayout() {
 //        return mEnterLayout;
 //    }
-
-    public static class MyMessage extends Message.MessageObject implements Serializable {
-
-        public static final int STYLE_SENDING = 0;
-        public static final int STYLE_RESEND = 1;
-
-        public static final int REQUEST_TEXT = 0;
-        public static final int REQUEST_IMAGE = 1;
-        public static final int REQUEST_VOICE = 2;
-
-        public RequestParams requestParams;
-        public int myStyle = 0;
-        public int myRequestType = 0;
-
-
-        public MyMessage(int requestType, RequestParams params, UserObject friendUser) {
-            myStyle = STYLE_SENDING;
-
-            myRequestType = requestType;
-            requestParams = params;
-
-            friend = friendUser;
-            sender = MyApp.sUserObject;
-
-            created_at = Calendar.getInstance().getTimeInMillis();
-        }
-
-        public long getCreateTime() {
-            return created_at;
-        }
-    }
 
     static class ViewHolder {
         TextView time;

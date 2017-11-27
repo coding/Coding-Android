@@ -21,15 +21,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.maopao.VoicePlayCallBack;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.SoundWaveView;
-import net.coding.program.maopao.item.ContentAreaImages;
-import net.coding.program.message.AmrAudioRecorder;
+import net.coding.program.common.audio.AmrAudioRecorder;
+import net.coding.program.route.GlobalCommon;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EViewGroup;
@@ -186,8 +186,8 @@ public class VoiceView extends FrameLayout {
             return true;
         }
 
-        if (activity instanceof ContentAreaImages.VoicePlayCallBack) {
-            ContentAreaImages.VoicePlayCallBack voicePlayCallBack = (ContentAreaImages.VoicePlayCallBack) activity;
+        if (activity instanceof VoicePlayCallBack) {
+            VoicePlayCallBack voicePlayCallBack = (VoicePlayCallBack) activity;
             voicePlayCallBack.onStopPlay();
         }
 
@@ -301,7 +301,7 @@ public class VoiceView extends FrameLayout {
         tv.setTextSize(16);
         tv.setTextColor(Color.WHITE);
         tv.setBackgroundResource(R.drawable.tips_background);
-        tv.setWidth((int) (MyApp.sWidthPix * 0.7));
+        tv.setWidth((int) (GlobalData.sWidthPix * 0.7));
         tv.setHeight(GlobalCommon.dpToPx(48));
         tv.setGravity(Gravity.CENTER);
         Toast toast = new Toast(activity);

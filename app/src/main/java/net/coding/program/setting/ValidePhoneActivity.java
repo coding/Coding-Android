@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
@@ -76,7 +76,7 @@ public class ValidePhoneActivity extends MenuButtonActivity {
 
         handler2FA = new WeakRefHander(msg -> {
             if (twoFAEdit.getVisibility() == View.VISIBLE) {
-                String secret = AccountInfo.loadAuth(this, MyApp.sUserObject.global_key);
+                String secret = AccountInfo.loadAuth(this, GlobalData.sUserObject.global_key);
                 if (secret.isEmpty()) {
                     return true;
                 }
@@ -136,7 +136,7 @@ public class ValidePhoneActivity extends MenuButtonActivity {
                 setResult(Activity.RESULT_OK);
                 user.setPhone(editPhone.getTextString(), pickCountry.getCountryCode());
                 AccountInfo.saveAccount(this, user);
-                MyApp.sUserObject = user;
+                GlobalData.sUserObject = user;
 
                 if (isFirstSet) {
                     popRewardDialog();

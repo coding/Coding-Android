@@ -2,7 +2,7 @@ package net.coding.program.common.network.util;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -17,7 +17,7 @@ public class Login {
     public static void resendActivityEmail(BaseActivity activity) {
         String url = Global.HOST_API + "/account/register/email/send";
         RequestParams params = new RequestParams();
-        params.put("email", MyApp.sUserObject.email);
+        params.put("email", GlobalData.sUserObject.email);
         MyAsyncHttpClient.post(activity, url, params, new MyJsonResponse(activity) {
             @Override
             public void onMySuccess(JSONObject response) {

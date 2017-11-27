@@ -2,7 +2,7 @@ package net.coding.program.model;
 
 import android.text.Html;
 
-import net.coding.program.task.add.TaskAddActivity;
+import net.coding.program.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +17,12 @@ import java.util.ArrayList;
  */
 public class TaskObject {
 
+    public static final int[] priorityDrawable = new int[]{
+            R.drawable.ic_task_priority_0,
+            R.drawable.ic_task_priority_1,
+            R.drawable.ic_task_priority_2,
+            R.drawable.ic_task_priority_3
+    };
     public static int STATUS_PROGRESS = 1;
     public static int STATUS_FINISH = 2;
 
@@ -109,8 +115,8 @@ public class TaskObject {
             current_user_role_id = json.optString("current_user_role_id");
             id = json.optInt("id");
             priority = json.optInt("priority");
-            if (priority >= TaskAddActivity.priorityDrawable.length) {
-                priority = TaskAddActivity.priorityDrawable.length - 1;
+            if (priority >= priorityDrawable.length) {
+                priority = priorityDrawable.length - 1;
             }
 
             if (json.has("owner")) {

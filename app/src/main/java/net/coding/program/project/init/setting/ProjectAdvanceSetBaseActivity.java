@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
@@ -70,7 +70,7 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
     @Override
     public boolean handleMessage(Message msg) {
         if (edit2fa != null) {
-            String secret = AccountInfo.loadAuth(this, MyApp.sUserObject.global_key);
+            String secret = AccountInfo.loadAuth(this, GlobalData.sUserObject.global_key);
             if (secret.isEmpty()) {
                 return true;
             }
@@ -84,7 +84,7 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
     private void showDeleteDialog() {
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.dialog_delete_project, null);
-        final EditText edit1 = (EditText) textEntryView.findViewById(R.id.edit1);
+        final EditText edit1 = textEntryView.findViewById(R.id.edit1);
         new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("需要验证密码")
                 .setView(textEntryView)

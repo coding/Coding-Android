@@ -24,7 +24,7 @@ import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 import net.coding.program.common.GlobalVar_;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.Unread;
@@ -32,10 +32,10 @@ import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BaseActivity;
-import net.coding.program.event.EventMessage;
-import net.coding.program.event.EventNotifyBottomBar;
-import net.coding.program.event.EventShowBottom;
-import net.coding.program.login.MarketingHelp;
+import net.coding.program.common.event.EventMessage;
+import net.coding.program.common.event.EventNotifyBottomBar;
+import net.coding.program.common.event.EventShowBottom;
+import net.coding.program.model.MarketingHelp;
 import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.maopao.MainMaopaoFragment_;
 import net.coding.program.message.UsersListFragment_;
@@ -196,7 +196,7 @@ public class MainActivity extends BaseActivity {
 
     protected void startExtraService() {
         // 检查客户端是否有更新
-        if (!MyApp.isEnterprise()) {
+        if (!GlobalData.isEnterprise()) {
             checkNeedUpdate();
         }
 
@@ -264,7 +264,7 @@ public class MainActivity extends BaseActivity {
 
 
     private void startPushService() {
-        if (MyApp.isEnterprise()) {
+        if (GlobalData.isEnterprise()) {
             runQQPushServer();
         } else {
             runOtherPushServer();
@@ -275,7 +275,7 @@ public class MainActivity extends BaseActivity {
         // 信鸽 push 服务会发 broadcast
 //        XGPushConfig.enableDebug(this, true);
         if (!MyApp.isDebug()) {
-            String globalKey = MyApp.sUserObject.global_key;
+            String globalKey = GlobalData.sUserObject.global_key;
             XGPushManager.registerPush(this, globalKey);
             pushInXiaomi();
         }
@@ -290,7 +290,7 @@ public class MainActivity extends BaseActivity {
         String extra = Global.getExtraString(this);
         intent.putExtra("PARAM_APP", extra);
 
-        intent.putExtra("PARAM_GK", MyApp.sUserObject.global_key);
+        intent.putExtra("PARAM_GK", GlobalData.sUserObject.global_key);
         String sid = MyAsyncHttpClient.getCookie(this, Global.HOST);
         intent.putExtra("PARAM_COOKIE", sid);
 
@@ -314,8 +314,8 @@ public class MainActivity extends BaseActivity {
         if (sNeedWarnEmailNoValidLogin) {
             sNeedWarnEmailNoValidLogin = false;
 
-            String emailString = MyApp.sUserObject.email;
-            boolean emailValid = MyApp.sUserObject.isEmailValidation();
+            String emailString = GlobalData.sUserObject.email;
+            boolean emailValid = GlobalData.sUserObject.isEmailValidation();
             if (!emailString.isEmpty() && !emailValid) {
                 new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                         .setTitle("激活邮件")
@@ -589,7 +589,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void updateNotify() {
-        Unread unread = MyApp.sUnread;
+        Unread unread = GlobalData.sUnread;
         bottomBar.getTabWithId(R.id.tabProject).setBadgeCount(unread.getProjectCount() > 0 ? 0 : -1);
         int notifyCount = unread.getNotifyCount();
         if (notifyCount <= 0) {

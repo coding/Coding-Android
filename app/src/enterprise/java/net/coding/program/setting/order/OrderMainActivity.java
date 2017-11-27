@@ -21,7 +21,7 @@ import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.event.EventRefresh;
+import net.coding.program.common.event.EventRefresh;
 import net.coding.program.model.EnterpriseAccount;
 import net.coding.program.model.EnterpriseInfo;
 import net.coding.program.model.payed.Billing;

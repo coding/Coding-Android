@@ -20,12 +20,12 @@ import android.widget.EditText;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.orhanobut.logger.Logger;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.pickphoto.ImageInfo;
+import net.coding.program.common.ImageInfo;
 import net.coding.program.pickphoto.PhotoPickActivity;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
@@ -72,7 +72,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static net.coding.program.maopao.MaopaoAddActivity.PHOTO_MAX_COUNT;
+import static net.coding.program.common.Global.PHOTO_MAX_COUNT;
 
 /**
  * Created by chenchao on 2017/5/15.
@@ -390,7 +390,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                                     public void onSuccess(CodingFile data) {
                                         super.onSuccess(data);
 
-                                        data.owner = MyApp.sUserObject;
+                                        data.owner = GlobalData.sUserObject;
 
                                         umengEvent(UmengEvent.FILE, "新建文件夹");
                                         parentFolder.count++;

@@ -6,7 +6,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -11,6 +11,8 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import net.coding.program.common.ImageInfo;
+
 /**
  * Created by chenchao on 15/5/6.
  */

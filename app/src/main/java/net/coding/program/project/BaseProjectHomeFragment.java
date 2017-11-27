@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.readystatesoftware.viewbadger.BadgeView;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
@@ -37,7 +37,7 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
     ProjectObject mProjectObject;
 
     protected View.OnClickListener clickProjectSetting = v -> {
-        if (MyApp.getEnterpriseGK().isEmpty()) {
+        if (GlobalData.getEnterpriseGK().isEmpty()) {
             ProjectSetActivity_.intent(BaseProjectHomeFragment.this)
                     .projectObject(mProjectObject)
                     .startForResult(InitProUtils.REQUEST_PRO_UPDATE);

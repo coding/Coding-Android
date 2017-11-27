@@ -49,4 +49,6 @@ public interface ClassCompatInterface {
 
     void launchProjectMaopoaList(Context context, ProjectJumpParam param);
 
+    void launchSetGKActivity(Context context);
+
 }

@@ -7,9 +7,9 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.readystatesoftware.viewbadger.BadgeView;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.event.EventNotifyBottomBar;
+import net.coding.program.common.event.EventNotifyBottomBar;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
@@ -26,9 +26,7 @@ import cz.msebera.android.httpclient.Header;
 public class UnreadNotify {
 
     public static void update(Context context) {
-        final MyApp myApp = (MyApp) context.getApplicationContext();
         AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
-
         client.get(Global.HOST_API + "/user/unread-count", new JsonHttpResponseHandler() {
 
             @Override
@@ -37,7 +35,7 @@ public class UnreadNotify {
                     if (response.getInt("code") == 0) {
                         JSONObject json = response.getJSONObject("data");
                         Unread unread = new Unread(json);
-                        MyApp.sUnread = unread;
+                        GlobalData.sUnread = unread;
 
                         UnreadNotifySubject.getInstance().notifyObserver();
                         EventBus.getDefault().post(EventNotifyBottomBar.getInstance());

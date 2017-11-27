@@ -5,7 +5,7 @@ import android.text.Spannable;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 
 import org.json.JSONException;
 import org.json.JSONObject;

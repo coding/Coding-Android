@@ -10,13 +10,13 @@ import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.View;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PinyinComparator;
-import net.coding.program.event.EventFilter;
-import net.coding.program.event.EventRefreshTask;
+import net.coding.program.common.event.EventFilter;
+import net.coding.program.common.event.EventRefreshTask;
 import net.coding.program.message.JSONUtils;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
@@ -102,7 +102,7 @@ public class TaskFragment extends TaskFilterFragment {
             getNetwork(urlTaskCountAll, urlTaskCountAll);
         } else {
             ProjectObject mProjectObject = mData.get(index);
-            int userid = MyApp.sUserObject.id;
+            int userid = GlobalData.sUserObject.id;
             //某个项目
             getNetwork(String.format(urlTaskSomeCount_owner, mProjectObject.getId(), userid), urlTaskSomeCount_owner);
             getNetwork(String.format(urlTaskSomeCount_watcher, mProjectObject.getId(), userid), urlTaskSomeCount_watcher);
@@ -280,7 +280,7 @@ public class TaskFragment extends TaskFilterFragment {
         if (mData != null && mData.size() > 0) {
             ProjectObject projectObject = mData.get(pager.getCurrentItem());
             TaskAddActivity_.intent(this)
-                    .mUserOwner(MyApp.sUserObject)
+                    .mUserOwner(GlobalData.sUserObject)
                     .mProjectObject(projectObject)
                     .startForResult(ListModify.RESULT_EDIT_LIST);
         }

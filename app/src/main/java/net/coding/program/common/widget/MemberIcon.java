@@ -6,12 +6,12 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 import net.coding.program.R;
-import net.coding.program.common.GlobalCommon;
 import net.coding.program.model.UserObject;
 import net.coding.program.network.constant.VIP;
+import net.coding.program.route.GlobalCommon;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by chenchao on 2017/5/31.

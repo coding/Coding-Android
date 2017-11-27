@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoadMore;
@@ -155,7 +155,7 @@ public class MembersListFragment extends CustomMoreFragment implements LoadMore 
 
             if (type == Type.Pick) {
                 holder.btn.setVisibility(View.GONE);
-            } else if (user.name.equals(MyApp.sUserObject.name) && MyApp.getEnterpriseGK().isEmpty()) {
+            } else if (user.name.equals(GlobalData.sUserObject.name) && GlobalData.getEnterpriseGK().isEmpty()) {
                 // 企业版中去除 退出 按钮
                 holder.btn.setImageResource(R.drawable.ic_member_list_quit);
                 holder.btn.setOnClickListener(quitProject);

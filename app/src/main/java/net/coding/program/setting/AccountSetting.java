@@ -3,7 +3,7 @@ package net.coding.program.setting;
 import android.support.v7.app.AlertDialog;
 import android.widget.TextView;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
@@ -30,7 +30,7 @@ public class AccountSetting extends BackActivity {
 
     @AfterViews
     final void initAccountSetting() {
-        UserObject userObject = MyApp.sUserObject;
+        UserObject userObject = GlobalData.sUserObject;
         email.setText(userObject.email);
         suffix.setText(userObject.global_key);
         updatePhoneDisplay();
@@ -45,7 +45,7 @@ public class AccountSetting extends BackActivity {
 
                 UserObject user = new UserObject(response.optJSONObject("data"));
                 AccountInfo.saveAccount(AccountSetting.this, user);
-                MyApp.sUserObject = user;
+                GlobalData.sUserObject = user;
                 AccountInfo.saveReloginInfo(AccountSetting.this, user);
                 updatePhoneDisplay();
             }
@@ -67,7 +67,7 @@ public class AccountSetting extends BackActivity {
     }
 
     private void updatePhoneDisplay() {
-        String phoneString = MyApp.sUserObject.phone;
+        String phoneString = GlobalData.sUserObject.phone;
         if (!phoneString.isEmpty()) {
             phone.setText(phoneString);
 //            phone.setCompoundDrawables(null, null, null, null);
@@ -75,9 +75,9 @@ public class AccountSetting extends BackActivity {
             phone.setText("未绑定");
         }
 
-        String emailString = MyApp.sUserObject.email;
+        String emailString = GlobalData.sUserObject.email;
         if (!emailString.isEmpty()) {
-            boolean emailValid = MyApp.sUserObject.isEmailValidation();
+            boolean emailValid = GlobalData.sUserObject.isEmailValidation();
             if (emailValid) {
                 email.setText(emailString);
             } else {
@@ -96,8 +96,8 @@ public class AccountSetting extends BackActivity {
 
     @Click
     void emailLayout() {
-        String emailString = MyApp.sUserObject.email;
-        boolean emailValid = MyApp.sUserObject.isEmailValidation();
+        String emailString = GlobalData.sUserObject.email;
+        boolean emailValid = GlobalData.sUserObject.isEmailValidation();
         if (!emailString.isEmpty() && !emailValid) {
             new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                     .setTitle("激活邮件")

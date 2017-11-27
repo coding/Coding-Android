@@ -20,19 +20,19 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.comment.BaseCommentParam;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.route.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
@@ -124,7 +124,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         @Override
         public void onClick(View v) {
             final DynamicObject.DynamicMergeRequest comment = (DynamicObject.DynamicMergeRequest) v.getTag();
-            if (comment != null && comment.user.global_key.equals(MyApp.sUserObject.global_key)) {
+            if (comment != null && comment.user.global_key.equals(GlobalData.sUserObject.global_key)) {
                 showDialog("Merge Request", "删除评论？", (dialog, which) -> {
                     String url = mMerge.getHttpDeleteComment(comment.id);
                     deleteNetwork(url, HOST_DELETE_COMMENT, comment);
@@ -265,7 +265,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DynamicObject.DynamicBaseObject activity =
                         (DynamicObject.DynamicBaseObject) mAdapter.getItem(position);
-                if (activity.user.global_key.equals(MyApp.sUserObject.global_key) && "comment".equals(activity.action)) {
+                if (activity.user.global_key.equals(GlobalData.sUserObject.global_key) && "comment".equals(activity.action)) {
                     showDialog(mMerge.getTitle(), "删除评论?", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -753,7 +753,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
             role = 2;
             if (reviewerList != null) {
                 for (Merge.Reviewer reviewer : reviewerList) {
-                    if (MyApp.sUserObject.id == reviewer.user.id) {
+                    if (GlobalData.sUserObject.id == reviewer.user.id) {
                         if (reviewer.value > 0)
                             role = 3;
                         break;

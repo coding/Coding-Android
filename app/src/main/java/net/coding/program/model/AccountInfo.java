@@ -8,13 +8,11 @@ import android.support.annotation.NonNull;
 
 import com.loopj.android.http.PersistentCookieStore;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
-import net.coding.program.login.MarketingHelp;
-import net.coding.program.maopao.MaopaoAddActivity;
-import net.coding.program.message.MessageListActivity;
+import net.coding.program.common.module.maopao.MaopaoDraft;
 import net.coding.program.param.TopicData;
 import net.coding.program.param.WikiDraft;
 import net.coding.program.user.UsersListActivity;
@@ -93,7 +91,7 @@ public class AccountInfo {
     }
 
     public static void saveAccount(Context ctx, UserObject data) {
-        MyApp.sUserObject = data;
+        GlobalData.sUserObject = data;
         File file = new File(ctx.getFilesDir(), ACCOUNT);
         if (file.exists()) {
             file.delete();
@@ -412,13 +410,13 @@ public class AccountInfo {
         return new DataCache<Maopao.MaopaoObject>().load(ctx, USER_MAOPAO + type + id);
     }
 
-    public static void saveMaopaoDraft(Context ctx, MaopaoAddActivity.MaopaoDraft draft) {
+    public static void saveMaopaoDraft(Context ctx, MaopaoDraft draft) {
         if (draft.isEmpty()) {
-            new DataCache<MaopaoAddActivity.MaopaoDraft>().delete(ctx, MAOPAO_DRAFT);
+            new DataCache<MaopaoDraft>().delete(ctx, MAOPAO_DRAFT);
         } else {
-            ArrayList<MaopaoAddActivity.MaopaoDraft> data = new ArrayList<>();
+            ArrayList<MaopaoDraft> data = new ArrayList<>();
             data.add(draft);
-            new DataCache<MaopaoAddActivity.MaopaoDraft>().save(ctx, data, MAOPAO_DRAFT);
+            new DataCache<MaopaoDraft>().save(ctx, data, MAOPAO_DRAFT);
         }
     }
 
@@ -459,10 +457,10 @@ public class AccountInfo {
         new DataCache<WikiDraft>().delete(ctx, createSaveName(DraftType.wiki, projectPath, wikiId));
     }
 
-    public static MaopaoAddActivity.MaopaoDraft loadMaopaoDraft(Context ctx) {
-        ArrayList<MaopaoAddActivity.MaopaoDraft> data = new DataCache<MaopaoAddActivity.MaopaoDraft>().load(ctx, MAOPAO_DRAFT);
+    public static MaopaoDraft loadMaopaoDraft(Context ctx) {
+        ArrayList<MaopaoDraft> data = new DataCache<MaopaoDraft>().load(ctx, MAOPAO_DRAFT);
         if (data.isEmpty()) {
-            return new MaopaoAddActivity.MaopaoDraft();
+            return new MaopaoDraft();
         } else {
             return data.get(0);
         }
@@ -521,10 +519,10 @@ public class AccountInfo {
         return new DataCache<TaskObject.SingleTask>().load(context, String.format(USER_TASKS, projectId, userId));
     }
 
-    public static void saveNoSendMessage(Context context, MessageListActivity.MyMessage message) {
-        ArrayList<MessageListActivity.MyMessage> allMessages = loadNoSendMessage(context);
+    public static void saveNoSendMessage(Context context, MyMessage message) {
+        ArrayList<MyMessage> allMessages = loadNoSendMessage(context);
         allMessages.add(message);
-        new DataCache<MessageListActivity.MyMessage>().save(context, allMessages, USER_NO_SEND_MESSAGE);
+        new DataCache<MyMessage>().save(context, allMessages, USER_NO_SEND_MESSAGE);
     }
 
     public static void saveCustomHost(Context context, CustomHost data) {
@@ -561,22 +559,22 @@ public class AccountInfo {
     }
 
     public static void removeNoSendMessage(Context context, long createTime) {
-        ArrayList<MessageListActivity.MyMessage> allMessages = loadNoSendMessage(context);
+        ArrayList<MyMessage> allMessages = loadNoSendMessage(context);
         for (int i = 0; i < allMessages.size(); ++i) {
-            MessageListActivity.MyMessage item = allMessages.get(i);
+            MyMessage item = allMessages.get(i);
             if (item.getCreateTime() == createTime) {
                 allMessages.remove(i);
                 break;
             }
         }
 
-        new DataCache<MessageListActivity.MyMessage>().save(context, allMessages, USER_NO_SEND_MESSAGE);
+        new DataCache<MyMessage>().save(context, allMessages, USER_NO_SEND_MESSAGE);
     }
 
-    public static ArrayList<MessageListActivity.MyMessage> loadNoSendMessage(Context context, String globalKey) {
-        ArrayList<MessageListActivity.MyMessage> allMessages = loadNoSendMessage(context);
-        ArrayList<MessageListActivity.MyMessage> messages = new ArrayList<>();
-        for (MessageListActivity.MyMessage item : allMessages) {
+    public static ArrayList<MyMessage> loadNoSendMessage(Context context, String globalKey) {
+        ArrayList<MyMessage> allMessages = loadNoSendMessage(context);
+        ArrayList<MyMessage> messages = new ArrayList<>();
+        for (MyMessage item : allMessages) {
             if (item.friend.global_key.equals(globalKey)) {
                 messages.add(item);
             }
@@ -585,8 +583,8 @@ public class AccountInfo {
         return messages;
     }
 
-    public static ArrayList<MessageListActivity.MyMessage> loadNoSendMessage(Context context) {
-        return new DataCache<MessageListActivity.MyMessage>().load(context, USER_NO_SEND_MESSAGE);
+    public static ArrayList<MyMessage> loadNoSendMessage(Context context) {
+        return new DataCache<MyMessage>().load(context, USER_NO_SEND_MESSAGE);
     }
 
     public static String loadRelogininfo(Context ctx, String key) {
@@ -614,7 +612,7 @@ public class AccountInfo {
     }
 
     public static MarketingHelp.MarkedMarketingData loadGlobalMarkedMarketing(Context context) {
-        String global_key = MyApp.sUserObject.global_key;
+        String global_key = GlobalData.sUserObject.global_key;
 
         ArrayList<MarketingHelp.MarkedMarketingData> allUser = new DataCache<MarketingHelp.MarkedMarketingData>().load(context, GLOBAL_MARKED_MARKETING);
         for (MarketingHelp.MarkedMarketingData item : allUser) {

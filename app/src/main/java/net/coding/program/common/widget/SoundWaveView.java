@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import net.coding.program.R;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 
 import java.util.ArrayList;
 

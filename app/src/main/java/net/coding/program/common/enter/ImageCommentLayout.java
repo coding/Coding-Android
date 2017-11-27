@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.pickphoto.ImageInfo;
 import net.coding.program.common.util.PermissionUtil;
-import net.coding.program.maopao.MaopaoAddActivity;
 import net.coding.program.maopao.item.ContentAreaMuchImages;
+import net.coding.program.common.ImageInfo;
 import net.coding.program.pickphoto.PhotoPickActivity;
 import net.coding.program.pickphoto.PhotoPickDetailActivity;
 
@@ -41,7 +41,7 @@ public class ImageCommentLayout {
             int pos = (int) v.getTag(R.id.image);
             Intent intent = new Intent(mActivity, PhotoPickDetailActivity.class);
             intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, pos);
-            intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, MaopaoAddActivity.PHOTO_MAX_COUNT);
+            intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, Global.PHOTO_MAX_COUNT);
             intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mArrayImages);
             intent.putExtra(PhotoPickDetailActivity.ALL_DATA, mArrayImages);
             mActivity.startActivityForResult(intent, RESULT_REQUEST_COMMENT_IMAGE_DETAIL);

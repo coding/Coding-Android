@@ -25,7 +25,7 @@ import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.DatePickerFragment;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
-import net.coding.program.pickphoto.CameraPhotoUtil;
+import net.coding.program.common.CameraPhotoUtil;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
@@ -361,7 +361,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
             if (code == 0) {
                 user = new UserObject(respanse.getJSONObject("data"));
                 AccountInfo.saveAccount(this, user);
-                MyApp.sUserObject = user;
+                GlobalData.sUserObject = user;
                 getUserInfoRows();
                 adapter.notifyDataSetChanged();
                 //setControlContent(user);

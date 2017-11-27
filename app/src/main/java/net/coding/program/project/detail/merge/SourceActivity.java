@@ -4,7 +4,7 @@ import android.webkit.WebView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.GitFileObject;
 

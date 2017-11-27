@@ -10,7 +10,7 @@ import android.webkit.WebViewClient;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
@@ -303,7 +303,7 @@ public class MergeFileDetailActivity extends BackActivity {
         }
 
         public boolean isMe() {
-            return MyApp.sUserObject.global_key.equals(clicked_user_name);
+            return GlobalData.sUserObject.global_key.equals(clicked_user_name);
         }
 
         public String getGlobalKey() {

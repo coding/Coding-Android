@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import net.coding.program.common.ImageInfo;
+
 import java.util.ArrayList;
 
 public class PhotoPickDetailActivity extends AppCompatActivity {

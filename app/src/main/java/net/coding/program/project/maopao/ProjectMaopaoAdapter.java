@@ -7,11 +7,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
@@ -47,7 +47,7 @@ class ProjectMaopaoAdapter extends BaseAdapter {
         onClickImage = new ClickSmallImage(activity);
         myImageGetter = new MyImageGetter(activity);
         imageLoadTool = activity.getImageLoad();
-        mPxImageWidth = GlobalCommon.dpToPx(MyApp.sWidthDp - 12 - 40 - 10 - 10 - 3 * 2) / 3;
+        mPxImageWidth = GlobalCommon.dpToPx(GlobalData.sWidthDp - 12 - 40 - 10 - 10 - 3 * 2) / 3;
     }
 
     @Override
@@ -83,7 +83,7 @@ class ProjectMaopaoAdapter extends BaseAdapter {
         holder.content.setText(GlobalCommon.changeHyperlinkColor(data.content.replace("<p>", "").replace("</p>", "").replace("</blockquote>", "").replace("<blockquote>", "")));
         holder.comment.setText(String.format("%s条评论", data.comments));
         holder.delete.setTag(data);
-        if (data.owner_id == MyApp.sUserObject.id) {
+        if (data.owner_id == GlobalData.sUserObject.id) {
             holder.delete.setVisibility(View.VISIBLE);
         } else {
             holder.delete.setVisibility(View.INVISIBLE);

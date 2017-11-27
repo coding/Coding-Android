@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
@@ -67,7 +67,7 @@ public class MemberAuthorityActivity extends BackActivity {
         projectMemberLimited.setChecked(false);
 
 
-        if (MyApp.getEnterpriseGK().isEmpty()) {
+        if (GlobalData.getEnterpriseGK().isEmpty()) {
             projectNo.setVisibility(View.GONE);
             divideNo.setVisibility(View.GONE);
 
@@ -120,7 +120,7 @@ public class MemberAuthorityActivity extends BackActivity {
     }
 
     private void modifyAuthority(int id) {
-        if (MyApp.getEnterpriseGK().isEmpty()) {
+        if (GlobalData.getEnterpriseGK().isEmpty()) {
             modifyCoding(id);
         } else {
             modifyEnterprise(id);
@@ -150,7 +150,7 @@ public class MemberAuthorityActivity extends BackActivity {
         String projects = String.valueOf(projectId);
         String roles = String.valueOf(id);
         Network.getRetrofit(this)
-                .setUserJoinedProjects(MyApp.getEnterpriseGK(), globayKey, projects, roles)
+                .setUserJoinedProjects(GlobalData.getEnterpriseGK(), globayKey, projects, roles)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseHttpObserver(this) {
@@ -178,7 +178,7 @@ public class MemberAuthorityActivity extends BackActivity {
 
     @OptionsItem
     void action_about() {
-        if (MyApp.getEnterpriseGK().isEmpty()) {
+        if (GlobalData.getEnterpriseGK().isEmpty()) {
             showPop("项目所有者：拥有对项目的所有权限。\n" +
                     "项目管理员：拥有对项目的部分权限。不能删除，转让项目，不能对其他管理员进行操作。\n" +
                     "普通成员：可以阅读和推送代码。\n" +

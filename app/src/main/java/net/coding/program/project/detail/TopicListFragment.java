@@ -14,11 +14,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.widget.FlowLabelLayout;
@@ -139,7 +139,7 @@ public class TopicListFragment extends CustomMoreFragment implements LoadMore {
             holder.time.setText(GlobalCommon.changeHyperlinkColor(Global.dayToNow(data.created_at)));
             holder.discuss.setText(String.format("%d", data.child_count));
 
-            int flowWidth = MyApp.sWidthPix - GlobalCommon.dpToPx(66 + 12);
+            int flowWidth = GlobalData.sWidthPix - GlobalCommon.dpToPx(66 + 12);
             holder.flowLayout.setLabels(data.labels, flowWidth);
 
             if (position == (getCount() - 1)) {

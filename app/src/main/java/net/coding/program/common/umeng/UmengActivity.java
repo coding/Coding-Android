@@ -5,11 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.umeng.analytics.MobclickAgent;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 
 /**
  * Created by chaochen on 14-10-9.
- *  封装 umeng 统计
+ * 封装 umeng 统计
  */
 public class UmengActivity extends AppCompatActivity {
 
@@ -17,8 +17,6 @@ public class UmengActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MobclickAgent.openActivityDurationTrack(false);
-
-        MyApp application = (MyApp) getApplication();
     }
 
     @Override
@@ -27,7 +25,7 @@ public class UmengActivity extends AppCompatActivity {
         MobclickAgent.onPageStart(getClass().getSimpleName());
         MobclickAgent.onResume(this);
 
-        MyApp.setMainActivityState(true);
+        GlobalData.setMainActivityState(true);
     }
 
     @Override
@@ -36,7 +34,7 @@ public class UmengActivity extends AppCompatActivity {
         MobclickAgent.onPageEnd(getClass().getSimpleName());
         MobclickAgent.onPause(this);
 
-        MyApp.setMainActivityState(false);
+        GlobalData.setMainActivityState(false);
     }
 
     protected void umengEvent(String s, String param) {

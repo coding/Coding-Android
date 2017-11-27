@@ -5,9 +5,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.DialogCopy;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.util.PhoneUtil;

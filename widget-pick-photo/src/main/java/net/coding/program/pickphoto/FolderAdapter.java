@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import net.coding.program.common.ImageInfo;
+
 import java.util.ArrayList;
 
 /**

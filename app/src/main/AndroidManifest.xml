@@ -749,6 +749,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".login.SetGlobalKeyActivity_"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_set_global_key"
             android:screenOrientation="portrait" />
         <activity

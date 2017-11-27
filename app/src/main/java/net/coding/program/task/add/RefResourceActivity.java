@@ -12,7 +12,7 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.route.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.model.RefResourceObject;

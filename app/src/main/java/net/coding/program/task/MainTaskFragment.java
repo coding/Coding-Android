@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.event.EventFilter;
-import net.coding.program.event.EventPosition;
+import net.coding.program.common.event.EventFilter;
+import net.coding.program.common.event.EventPosition;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

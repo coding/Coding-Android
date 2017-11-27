@@ -14,8 +14,6 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ui.PopCaptchaDialog;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.compatible.CodingCompat;
-import net.coding.program.login.SetGlobalKeyActivity;
-import net.coding.program.login.SetGlobalKeyActivity_;
 import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.model.AccountInfo;
@@ -90,10 +88,7 @@ public class NetworkImpl {
                     if (code == HTTP_CODE_RELOGIN || code == HTTP_CODE_RELOGIN_2FA) {
                         appContext.startActivity(new Intent(appContext, CodingCompat.instance().getLoginActivity()));
                     } else if (code == HTTP_CODE_NEED_ACTIVITY) {
-                        if (!SetGlobalKeyActivity.isShowing()) {
-                            Intent activityIntent = new Intent(appContext, SetGlobalKeyActivity_.class);
-                            appContext.startActivity(activityIntent);
-                        }
+                        CodingCompat.instance().launchSetGKActivity(appContext);
                     }
 
                     try {

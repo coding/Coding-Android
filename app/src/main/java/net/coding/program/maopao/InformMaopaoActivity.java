@@ -5,7 +5,7 @@ import android.widget.ListView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
@@ -48,7 +48,7 @@ public class InformMaopaoActivity extends BackActivity {
         showDialog("举报", item, (dialog, which) -> {
             final String url = Global.HOST_API + "/inform/tweet";
             RequestParams params = new RequestParams();
-            params.put("user", MyApp.sUserObject.global_key);
+            params.put("user", GlobalData.sUserObject.global_key);
             params.put("content", maopaoId);
             params.put("reason", item);
             postNetwork(new RequestData(url, params), TAG_INFORM_MAOPAO);

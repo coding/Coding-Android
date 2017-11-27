@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.subject.service.ISubjectRecommendObject;
+import net.coding.program.model.ISubjectRecommendObject;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 

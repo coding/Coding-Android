@@ -9,6 +9,7 @@ import net.coding.program.LoginActivity_;
 import net.coding.program.MainActivity_;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.guide.GuideActivity;
+import net.coding.program.login.SetGlobalKeyActivity_;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.MainProjectFragment_;
@@ -138,5 +139,11 @@ public class CodingCompatImp implements ClassCompatInterface {
     @Override
     public void launchProjectMaopoaList(Context context, ProjectJumpParam param) {
         // coding 可以直接跳转到详情，不需要实现这个
+    }
+
+    @Override
+    public void launchSetGKActivity(Context context) {
+        Intent activityIntent = new Intent(context, SetGlobalKeyActivity_.class);
+        context.startActivity(activityIntent);
     }
 }

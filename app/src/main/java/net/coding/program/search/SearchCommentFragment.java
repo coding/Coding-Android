@@ -5,7 +5,7 @@ import android.widget.AbsListView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.adapter.SearchTopicAdapter;
+import net.coding.program.adapter.SearchTopicAdapter;
 import net.coding.program.model.TopicObject;
 import net.coding.program.project.detail.topic.TopicListDetailActivity_;
 

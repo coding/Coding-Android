@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.model.LocationObject;
+import net.coding.program.common.module.maopao.LocationObject;
 
 /**
  * Created by Neutra on 2015/3/11.

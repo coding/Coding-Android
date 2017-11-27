@@ -18,13 +18,13 @@ import com.loopj.android.http.RequestParams;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.event.EventRefresh;
+import net.coding.program.common.event.EventRefresh;
 import net.coding.program.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.init.InitProUtils;

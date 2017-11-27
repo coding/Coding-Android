@@ -6,7 +6,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ui.BackActivity;

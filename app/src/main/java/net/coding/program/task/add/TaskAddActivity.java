@@ -22,9 +22,9 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.CommentBackup;
 import net.coding.program.common.DatePickerFragment;
@@ -38,11 +38,11 @@ import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.pickphoto.ImageInfo;
+import net.coding.program.common.ImageInfo;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
-import net.coding.program.event.EventRefreshTask;
+import net.coding.program.common.event.EventRefreshTask;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.model.DynamicObject;
@@ -95,12 +95,6 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
     public static final int RESULT_LABEL = 7;
     public static final int RESULT_REQUEST_PICK_WATCH_USER = 8;
     public static final int RESULT_RESUSE_REFRESOURCE = 9;
-    public static final int priorityDrawable[] = new int[]{
-            R.drawable.ic_task_priority_0,
-            R.drawable.ic_task_priority_1,
-            R.drawable.ic_task_priority_2,
-            R.drawable.ic_task_priority_3
-    };
     private static final String TAG = makeLogTag(TaskAddActivity.class);
     private static final String TAG_HTTP_REMOVE_LABEL = "TAG_HTTP_REMOVE_LABEL";
     final String HOST_COMMENT_ADD = Global.HOST_API + "/task/%s/comment";
@@ -692,7 +686,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
         layoutPriovity.setOnClickListener(v -> popListSelectDialog(
                 mPriorityAdapter,
                 (dialog, which) -> {
-                    mNewParam.priority = priorityDrawable.length - 1 - which;
+                    mNewParam.priority = TaskObject.priorityDrawable.length - 1 - which;
                     setPriority();
                     updateSendButton();
                 }));
@@ -1031,7 +1025,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
             mSingleTask.project = project;
             mSingleTask.project_id = project.getId();
 
-            Member member = new Member(MyApp.sUserObject);
+            Member member = new Member(GlobalData.sUserObject);
             setPickUser(member);
 
             uiBindDataProject();

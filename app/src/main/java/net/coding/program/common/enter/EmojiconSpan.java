@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.text.style.DynamicDrawableSpan;
 
 import net.coding.program.common.MyImageGetter;
-import net.coding.program.message.EmojiFragment;
 
 /**
  * Created by chaochen on 14-11-12.
@@ -20,7 +19,7 @@ class EmojiconSpan extends DynamicDrawableSpan {
         super();
         mContext = context;
 
-        String name = EmojiFragment.textToMonkdyMap.get(iconName);
+        String name = net.coding.program.common.widget.input.EmojiconSpan.textToMonkdyMap.get(iconName);
         if (name == null) {
             name = iconName;
             mIsMonkey = false;

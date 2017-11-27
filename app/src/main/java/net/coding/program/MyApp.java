@@ -12,8 +12,6 @@ import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.liulishuo.filedownloader.FileDownloader;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -24,19 +22,15 @@ import net.coding.program.common.Global;
 import net.coding.program.common.PhoneType;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.Unread;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.GlobalUnit;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.model.AccountInfo;
-import net.coding.program.model.UserObject;
-import net.coding.program.push.CodingPush;
-import net.coding.program.push.xiaomi.CommonPushClick;
+import net.coding.program.route.URLSpanNoUnderline;
 import net.coding.program.third.MyImageDownloader;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by cc191954 on 14-8-9.
@@ -44,39 +38,6 @@ import java.util.Map;
  * 初始化图片库配置
  */
 public class MyApp extends MultiDexApplication {
-
-    public static float sScale;
-    public static int sWidthDp;
-    public static int sWidthPix;
-    public static int sHeightPix;
-
-    public static int sEmojiNormal;
-    public static int sEmojiMonkey;
-
-    public static UserObject sUserObject;
-    public static Unread sUnread;
-
-    private static int sMainCreate = 0;
-    private static String enterpriseGK = "";
-
-    private static MyApp app;
-
-    public static MyApp getInstance() {
-        return app;
-    }
-
-    public static boolean getMainActivityState() {
-        return sMainCreate > 0;
-    }
-
-    public static void setMainActivityState(boolean create) {
-        if (create) {
-            ++sMainCreate;
-        } else {
-            --sMainCreate;
-        }
-        Log.d("", "showsss " + sMainCreate);
-    }
 
     public static void initImageLoader(Context context) {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
@@ -88,7 +49,7 @@ public class MyApp extends MultiDexApplication {
                 .imageDownloader(new MyImageDownloader(context))
                 .tasksProcessingOrder(QueueProcessingType.LIFO)
 //                .writeDebugLogs() // Remove for release app
-                .diskCacheExtraOptions(sWidthPix / 3, sWidthPix / 3, null)
+                .diskCacheExtraOptions(GlobalData.sWidthPix / 3, GlobalData.sWidthPix / 3, null)
                 .build();
 
         ImageLoader.getInstance().init(config);
@@ -105,35 +66,10 @@ public class MyApp extends MultiDexApplication {
         return "";
     }
 
-    // 应对修改企业版路径以 /p/project 开头的问题
-    public static String transformEnterpriseUri(String uri) {
-        if (uri.startsWith("/p/")) {
-            uri = String.format("/u/%s%s", enterpriseGK, uri);
-        } else if (uri.startsWith(Global.HOST + "/p/")) {
-            int pathStart = Global.HOST.length();
-            String uriPath = uri.substring(pathStart, uri.length());
-            uri = String.format("/u/%s%s", enterpriseGK, uriPath);
-        }
-
-        return uri;
-    }
-
-    public static String getEnterpriseGK() {
-        return enterpriseGK;
-    }
-
-    public static void setEnterpriseGK(String enterpriseGK) {
-        MyApp.enterpriseGK = enterpriseGK;
-    }
-
-    public static boolean isEnterprise() {
-        return !TextUtils.isEmpty(enterpriseGK);
-    }
-
     public static void openNewActivityFromMain(Context context, String url) {
         if (TextUtils.isEmpty(url)) return;
 
-        if (MyApp.getMainActivityState()) {
+        if (GlobalData.getMainActivityState()) {
             URLSpanNoUnderline.openActivityByUri(context, url, true);
         } else {
             Intent mainIntent = new Intent(context, CodingCompat.instance().getMainActivity());
@@ -155,7 +91,7 @@ public class MyApp extends MultiDexApplication {
         }
 
         if (isInMainProcess(this)) {
-            app = this;
+            GlobalData.app = this;
         }
 
         CodingColor.init(this);
@@ -182,16 +118,16 @@ public class MyApp extends MultiDexApplication {
 
         loadBaiduMap();
 
-        sScale = getResources().getDisplayMetrics().density;
-        sWidthPix = getResources().getDisplayMetrics().widthPixels;
-        sHeightPix = getResources().getDisplayMetrics().heightPixels;
-        sWidthDp = (int) (sWidthPix / sScale);
+        GlobalData.sScale = getResources().getDisplayMetrics().density;
+        GlobalData.sWidthPix = getResources().getDisplayMetrics().widthPixels;
+        GlobalData.sHeightPix = getResources().getDisplayMetrics().heightPixels;
+        GlobalData.sWidthDp = (int) (GlobalData.sWidthPix / GlobalData.sScale);
 
-        sEmojiNormal = getResources().getDimensionPixelSize(R.dimen.emoji_normal);
-        sEmojiMonkey = getResources().getDimensionPixelSize(R.dimen.emoji_monkey);
+        GlobalData.sEmojiNormal = getResources().getDimensionPixelSize(R.dimen.emoji_normal);
+        GlobalData.sEmojiMonkey = getResources().getDimensionPixelSize(R.dimen.emoji_monkey);
 
-        sUserObject = AccountInfo.loadAccount(this);
-        sUnread = new Unread();
+        GlobalData.sUserObject = AccountInfo.loadAccount(this);
+        GlobalData.sUnread = new Unread();
 
         RedPointTip.init(this);
         GlobalUnit.init(this);

@@ -26,7 +26,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.guide.GuideActivity;
@@ -406,7 +406,7 @@ public class LoginActivity extends BaseActivity {
                 showProgressBar(false);
                 UserObject user = new UserObject(respanse.getJSONObject("data"));
                 AccountInfo.saveAccount(this, user);
-                MyApp.sUserObject = user;
+                GlobalData.sUserObject = user;
                 AccountInfo.saveReloginInfo(this, user);
 
                 Global.syncCookie(this);

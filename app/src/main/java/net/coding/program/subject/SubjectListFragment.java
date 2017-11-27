@@ -6,9 +6,9 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.network.RefreshBaseFragment;
@@ -125,7 +125,7 @@ public class SubjectListFragment extends RefreshBaseFragment {
                     mFootUpdate.updateState(code, isLoadingLastPage(tag), mSubjectList.size());
 
                 String tip = BlankViewDisplay.OTHER_SUBJECT_BLANK;
-                if (userKey.equals(MyApp.sUserObject.global_key)) {
+                if (userKey.equals(GlobalData.sUserObject.global_key)) {
                     tip = BlankViewDisplay.MY_SUBJECT_BLANK;
                 }
                 BlankViewDisplay.setBlank(mSubjectList.size(), this, true, blankLayout, null, tip);

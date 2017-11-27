@@ -6,14 +6,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.PermissionUtil;
-import net.coding.program.event.EventFilter;
-import net.coding.program.event.EventPosition;
+import net.coding.program.common.event.EventFilter;
+import net.coding.program.common.event.EventPosition;
 import net.coding.program.login.auth.QRScanActivity;
 import net.coding.program.maopao.MaopaoAddActivity_;
 import net.coding.program.project.init.create.ProjectCreateActivity_;
@@ -114,7 +114,7 @@ public class MainProjectFragment extends BaseFragment {
     @OptionsItem
     final void action_create_task() {
         umengEvent(UmengEvent.LOCAL, "快捷创建任务");
-        TaskAddActivity_.intent(this).mUserOwner(MyApp.sUserObject).start();
+        TaskAddActivity_.intent(this).mUserOwner(GlobalData.sUserObject).start();
     }
 
     @OptionsItem

@@ -17,10 +17,9 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.WeakRefHander;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.compatible.CodingCompat;
-import net.coding.program.login.MarketingHelp;
+import net.coding.program.model.MarketingHelp;
 import net.coding.program.login.ResetPasswordActivity_;
 import net.coding.program.login.UserActiveActivity_;
 import net.coding.program.model.AccountInfo;
@@ -154,7 +153,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
                 hideLogo();
             }
         } else {
-            ImageSize imageSize = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
+            ImageSize imageSize = new ImageSize(GlobalData.sWidthPix, GlobalData.sHeightPix);
             image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("drawable://" + R.drawable.entrance1, imageSize));
         }
 
@@ -187,7 +186,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
             if (code == 0) {
                 UserObject user = new UserObject(respanse.getJSONObject("data"));
                 AccountInfo.saveAccount(this, user);
-                MyApp.sUserObject = user;
+                GlobalData.sUserObject = user;
                 AccountInfo.saveReloginInfo(this, user);
                 next();
             } else {

@@ -173,7 +173,6 @@ public class FileListHeadItem2 extends FrameLayout {
                 });
     }
 
-
     private void stopUpload() {
         if (subscription != null && !subscription.isUnsubscribed()) {
             subscription.unsubscribe();

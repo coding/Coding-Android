@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
@@ -86,7 +86,7 @@ public class LikeUsersListActivity extends BackActivity {
                 holder.vip.setVisibility(View.INVISIBLE);
             }
 
-            if (MyApp.sUserObject.global_key.equals(data.global_key)) {
+            if (GlobalData.sUserObject.global_key.equals(data.global_key)) {
                 holder.mutual.setVisibility(View.INVISIBLE);
 
             } else {

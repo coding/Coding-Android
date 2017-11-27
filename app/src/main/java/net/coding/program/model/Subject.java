@@ -1,7 +1,5 @@
 package net.coding.program.model;
 
-import net.coding.program.subject.service.ISubjectRecommendObject;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

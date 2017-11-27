@@ -7,7 +7,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.model.AccountInfo;
 
@@ -111,7 +111,7 @@ public class LoginBackground {
             final File fileTaget = item.getCacheFile(context);
             if (!fileTaget.exists()) {
                 AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
-                final String url = String.format("%s?imageMogr2/thumbnail/!%d", item.getUrl(), MyApp.sWidthPix);
+                final String url = String.format("%s?imageMogr2/thumbnail/!%d", item.getUrl(), GlobalData.sWidthPix);
                 File sourceFile = item.getCacheTempFile(context);
                 if (sourceFile.exists()) {
                     sourceFile.delete();

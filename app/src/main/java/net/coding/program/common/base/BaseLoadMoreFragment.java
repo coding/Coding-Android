@@ -2,7 +2,7 @@ package net.coding.program.common.base;
 
 import android.widget.ListView;
 
-import net.coding.program.FootUpdate;
+import net.coding.program.common.FootUpdate;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.network.RefreshBaseFragment;
 

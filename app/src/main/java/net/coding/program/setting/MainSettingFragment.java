@@ -5,7 +5,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
@@ -78,7 +78,7 @@ public class MainSettingFragment extends BaseFragment {
     }
 
     private void bindDataUserinfo() {
-        UserObject me = MyApp.sUserObject;
+        UserObject me = GlobalData.sUserObject;
         userName.setText(me.name);
         userGK.setText(String.format("个性后缀：%s", me.global_key));
         iconfromNetwork(userIcon, me.avatar);

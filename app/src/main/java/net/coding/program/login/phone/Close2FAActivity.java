@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
@@ -39,7 +39,7 @@ public class Close2FAActivity extends BackActivity {
 
     @AfterViews
     void initClose2FAActivity() {
-        if (!MyApp.getEnterpriseGK().isEmpty()) { // 企业版和 coding 设计风格不一样
+        if (!GlobalData.getEnterpriseGK().isEmpty()) { // 企业版和 coding 设计风格不一样
             hideActionbarShade();
             getSupportActionBar().setElevation(0);
         } else {

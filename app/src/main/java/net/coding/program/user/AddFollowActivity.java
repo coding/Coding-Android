@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
@@ -79,7 +79,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
     ProjectServiceInfo serviceInfo;
 
     public static void bindData(TextView maxUserCount, ProjectServiceInfo serviceInfo) {
-        if (TextUtils.isEmpty(MyApp.getEnterpriseGK())) {
+        if (TextUtils.isEmpty(GlobalData.getEnterpriseGK())) {
             maxUserCount.setVisibility(View.VISIBLE);
             int count = serviceInfo.maxmember - serviceInfo.member;
             if (count > 0) {
@@ -210,7 +210,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
 
     @Click
     void listItemFollow() {
-        UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(MyApp.sUserObject,
+        UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(GlobalData.sUserObject,
                 UsersListActivity.Friend.Follow);
 
         UsersListActivity_
@@ -225,7 +225,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
 
     @Click
     void listItemFans() {
-        UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(MyApp.sUserObject,
+        UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(GlobalData.sUserObject,
                 UsersListActivity.Friend.Fans);
 
         UsersListActivity_

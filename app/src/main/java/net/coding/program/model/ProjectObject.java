@@ -3,7 +3,7 @@ package net.coding.program.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.common.Global;
 import net.coding.program.network.constant.MemberAuthority;
 import net.coding.program.param.ProjectJumpParam;
@@ -174,7 +174,7 @@ public class ProjectObject implements Serializable {
     }
 
     public static String translatePath(String path) {
-        return MyApp.transformEnterpriseUri(path)
+        return GlobalData.transformEnterpriseUri(path)
                 .replace("/u/", "/user/")
                 .replace("/t/", "/user/")
                 .replace("/p/", "/project/");
@@ -343,7 +343,7 @@ public class ProjectObject implements Serializable {
     }
 
     public boolean isMy() {
-        return MyApp.sUserObject.id == owner_id;
+        return GlobalData.sUserObject.id == owner_id;
     }
 
     /*

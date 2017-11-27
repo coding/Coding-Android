@@ -14,14 +14,14 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PinyinComparator;
-import net.coding.program.event.EventRefreshTask;
+import net.coding.program.common.event.EventRefreshTask;
 import net.coding.program.message.JSONUtils;
 import net.coding.program.model.AccountInfo;
 import net.coding.program.model.ProjectObject;
@@ -182,7 +182,7 @@ public class ProjectTaskFragment extends TaskFilterFragment {
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     Member userInfo = new Member(jsonArray.getJSONObject(i));
                     if (mMemberTask.memberHasTask(userInfo.user_id)) { // 只显示有任务的
-                        if (userInfo.user.global_key.equals(MyApp.sUserObject.global_key)) {
+                        if (userInfo.user.global_key.equals(GlobalData.sUserObject.global_key)) {
                             usersInfo.add(0, userInfo);
                         } else {
                             usersInfo.add(userInfo);

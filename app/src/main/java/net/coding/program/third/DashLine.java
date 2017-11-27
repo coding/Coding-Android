@@ -9,7 +9,7 @@ import android.graphics.PathEffect;
 import android.util.AttributeSet;
 import android.view.View;
 
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.route.GlobalCommon;
 
 /**
  * Created by chenchao on 15/3/14.

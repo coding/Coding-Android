@@ -18,9 +18,9 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.base.CustomMoreFragment;
@@ -161,7 +161,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Loa
                         holder.reviewerStatus.setVisibility(View.GONE);
                     }
 
-                    if (user.global_key.equals(MyApp.sUserObject.global_key)) {
+                    if (user.global_key.equals(GlobalData.sUserObject.global_key)) {
 
                     }
                 }
@@ -194,7 +194,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Loa
                 holder.reviewerStatus.setBackgroundColor(0);
                 holder.reviewerStatus.setVisibility(View.VISIBLE);
 
-                if (user != null && user.global_key.equals(MyApp.sUserObject.global_key)) {
+                if (user != null && user.global_key.equals(GlobalData.sUserObject.global_key)) {
 
                 }
             }
@@ -256,7 +256,7 @@ public class MergeReviewerListFragment extends CustomMoreFragment implements Loa
 //                            .mMember((TaskObject.Members) mSearchData.get(position))
 //                            .start();
 
-                    if (reviewer.user.global_key.equals(MyApp.sUserObject.global_key) && !isDealed()) {
+                    if (reviewer.user.global_key.equals(GlobalData.sUserObject.global_key) && !isDealed()) {
                         if (reviewer.value <= 0) {
                             postNetwork(mMerge.getHttpReviewGood(), new RequestParams(), TAG_URL_REVIEW_GOOD, 0, reviewer);
                         } else {

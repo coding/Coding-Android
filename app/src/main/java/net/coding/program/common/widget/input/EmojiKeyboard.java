@@ -13,11 +13,11 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
-import net.coding.program.message.EmojiFragment;
+import net.coding.program.common.ui.emoji.EmojiFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -271,7 +271,7 @@ public class EmojiKeyboard extends FrameLayout {
         viewPager.setOnPageChangeListener(pageChange);
         emojiButton();
 
-        if (MyApp.isEnterprise()) {
+        if (GlobalData.isEnterprise()) {
             codeButton.setVisibility(GONE);
             codeButtonLeftLine.setVisibility(GONE);
         }
@@ -289,7 +289,7 @@ public class EmojiKeyboard extends FrameLayout {
             viewPager.setAdapter(mEmojiPagerAdapter);
             pageChange.resetPos();
         }
-        setPressEmojiType(EmojiFragment.Type.Small);
+        setPressEmojiType(Type.Small);
     }
 
     @Click
@@ -300,7 +300,7 @@ public class EmojiKeyboard extends FrameLayout {
             viewPager.setAdapter(mMonkeyPagerAdapter);
             pageChange.resetPos();
         }
-        setPressEmojiType(EmojiFragment.Type.Big);
+        setPressEmojiType(Type.Big);
     }
 
     @Click
@@ -311,7 +311,7 @@ public class EmojiKeyboard extends FrameLayout {
             pageChange.resetPos();
         }
 
-        setPressEmojiType(EmojiFragment.Type.Zhongqiu);
+        setPressEmojiType(Type.Zhongqiu);
     }
 
     @Click
@@ -322,16 +322,16 @@ public class EmojiKeyboard extends FrameLayout {
             pageChange.resetPos();
         }
 
-        setPressEmojiType(EmojiFragment.Type.CODE);
+        setPressEmojiType(Type.CODE);
     }
 
-    private void setPressEmojiType(EmojiFragment.Type type) {
+    private void setPressEmojiType(Type type) {
 
-        if (type == EmojiFragment.Type.Small) {
+        if (type == Type.Small) {
             setEmojiButtonBackground(emojiButton);
-        } else if (type == EmojiFragment.Type.Big) {
+        } else if (type == Type.Big) {
             setEmojiButtonBackground(monkeyButton);
-        } else if (type == EmojiFragment.Type.Zhongqiu) {
+        } else if (type == Type.Zhongqiu) {
             setEmojiButtonBackground(zhongqiuButton);
         } else {
             setEmojiButtonBackground(codeButton);
@@ -378,6 +378,10 @@ public class EmojiKeyboard extends FrameLayout {
         Default, SmallOnly
     }
 
+    public enum Type {
+        Small, Big, Zhongqiu, CODE
+    }
+
     class PageChangeListener extends ViewPager.SimpleOnPageChangeListener {
         int oldPos = 0;
 
@@ -405,7 +409,7 @@ public class EmojiKeyboard extends FrameLayout {
         @Override
         public Fragment getItem(int i) {
             EmojiFragment fragment = new EmojiFragment();
-            fragment.init(emojiIcons[i], myImageGetter, inputAction, EmojiFragment.Type.Small);
+            fragment.init(emojiIcons[i], myImageGetter, inputAction, Type.Small);
             return fragment;
         }
 
@@ -433,7 +437,7 @@ public class EmojiKeyboard extends FrameLayout {
         @Override
         public Fragment getItem(int i) {
             EmojiFragment fragment = new EmojiFragment();
-            fragment.init(monkeyIcons[i], myImageGetter, inputAction, EmojiFragment.Type.Big);
+            fragment.init(monkeyIcons[i], myImageGetter, inputAction, Type.Big);
             return fragment;
         }
 
@@ -461,7 +465,7 @@ public class EmojiKeyboard extends FrameLayout {
         @Override
         public Fragment getItem(int position) {
             EmojiFragment fragment = new EmojiFragment();
-            fragment.init(zhongqiuIcons[position], myImageGetter, inputAction, EmojiFragment.Type.Zhongqiu);
+            fragment.init(zhongqiuIcons[position], myImageGetter, inputAction, Type.Zhongqiu);
             return fragment;
         }
 
@@ -489,7 +493,7 @@ public class EmojiKeyboard extends FrameLayout {
         @Override
         public Fragment getItem(int position) {
             EmojiFragment fragment = new EmojiFragment();
-            fragment.init(codeIcons[position], myImageGetter, inputAction, EmojiFragment.Type.Small);
+            fragment.init(codeIcons[position], myImageGetter, inputAction, Type.Small);
             return fragment;
         }
 

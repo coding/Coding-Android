@@ -2,7 +2,7 @@ package net.coding.program.compatible;
 
 import android.text.TextUtils;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.common.Global;
 
 /**
@@ -14,7 +14,7 @@ public class UriCompat {
 
     public static String createProject() {
         final String host;
-        String teamGK = MyApp.getEnterpriseGK();
+        String teamGK = GlobalData.getEnterpriseGK();
         if (TextUtils.isEmpty(teamGK)) {
             host = Global.HOST_API + "/project";
         } else {

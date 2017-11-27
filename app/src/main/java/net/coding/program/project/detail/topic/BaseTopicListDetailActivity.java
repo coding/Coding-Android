@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
+import net.coding.program.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.CodingColor;
@@ -25,7 +25,7 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
-import net.coding.program.pickphoto.ImageInfo;
+import net.coding.program.common.ImageInfo;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.model.AttachmentFileObject;
@@ -302,7 +302,7 @@ public abstract class BaseTopicListDetailActivity extends CodingToolbarBackActiv
     public DynamicObject.Owner findVoteOwnerWithMe(ArrayList<DynamicObject.Owner> users) {
         DynamicObject.Owner voteOwner = null;
         for (DynamicObject.Owner item : users) {
-            if (item.global_key.equals(MyApp.sUserObject.global_key)) {
+            if (item.global_key.equals(GlobalData.sUserObject.global_key)) {
                 voteOwner = item;
                 break;
             }

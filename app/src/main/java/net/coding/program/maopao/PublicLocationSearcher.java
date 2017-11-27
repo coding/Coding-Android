@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.baidu.mapapi.model.LatLng;
 
-import net.coding.program.model.LocationObject;
+import net.coding.program.common.module.maopao.LocationObject;
 
 import java.util.List;
 
