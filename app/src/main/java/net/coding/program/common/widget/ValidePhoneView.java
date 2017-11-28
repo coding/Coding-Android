@@ -115,6 +115,7 @@ public class ValidePhoneView extends AppCompatTextView {
         }
 
         if (type == Type.setPassword) {
+            params.put("phoneCountryCode", pickCountry.getCountryCode());
             params.put("account", phoneString);
         } else if (type == Type.register) {
             params.put("phoneCountryCode", pickCountry.getCountryCode());
@@ -124,6 +125,7 @@ public class ValidePhoneView extends AppCompatTextView {
             params.put("phoneCountryCode", pickCountry.getCountryCode());
             params.put("phone", phoneString);
         } else if (type == Type.close2FA) {
+            params.put("phoneCountryCode", pickCountry.getCountryCode());
             params.put("phone", phoneString);
         }
         client.post(getContext(), type.url, params, parseJson);
