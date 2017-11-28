@@ -20,7 +20,6 @@ import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.compatible.CodingCompat;
-import net.coding.program.common.model.MarketingHelp;
 import net.coding.program.login.ResetPasswordActivity_;
 import net.coding.program.login.UserActiveActivity_;
 import net.coding.program.common.model.AccountInfo;

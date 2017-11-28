@@ -23,7 +23,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.route.BlankViewDisplay;
-import net.coding.program.common.ClickSmallImage;
+import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;

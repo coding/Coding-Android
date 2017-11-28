@@ -28,7 +28,7 @@ import net.coding.program.R;
 import net.coding.program.common.maopao.VoicePlayCallBack;
 import net.coding.program.common.model.MyMessage;
 import net.coding.program.route.BlankViewDisplay;
-import net.coding.program.common.ClickSmallImage;
+import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.GlobalSetting;

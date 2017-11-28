@@ -33,7 +33,7 @@ import com.umeng.socialize.sso.UMSsoHandler;
 
 import net.coding.program.common.GlobalData;
 import net.coding.program.R;
-import net.coding.program.common.ClickSmallImage;
+import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;

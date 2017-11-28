@@ -36,7 +36,6 @@ import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.event.EventMessage;
 import net.coding.program.common.event.EventNotifyBottomBar;
 import net.coding.program.common.event.EventShowBottom;
-import net.coding.program.common.model.MarketingHelp;
 import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.maopao.MainMaopaoFragment_;
 import net.coding.program.message.UsersListFragment_;

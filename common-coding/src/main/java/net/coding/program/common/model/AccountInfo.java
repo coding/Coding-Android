@@ -611,24 +611,24 @@ public class AccountInfo {
         return array.toArray(data);
     }
 
-    public static MarketingHelp.MarkedMarketingData loadGlobalMarkedMarketing(Context context) {
+    public static MarkedMarketingData loadGlobalMarkedMarketing(Context context) {
         String global_key = GlobalData.sUserObject.global_key;
 
-        ArrayList<MarketingHelp.MarkedMarketingData> allUser = new DataCache<MarketingHelp.MarkedMarketingData>().load(context, GLOBAL_MARKED_MARKETING);
-        for (MarketingHelp.MarkedMarketingData item : allUser) {
+        ArrayList<MarkedMarketingData> allUser = new DataCache<MarkedMarketingData>().load(context, GLOBAL_MARKED_MARKETING);
+        for (MarkedMarketingData item : allUser) {
             if (item.mGlobalKey.equals(global_key)) {
                 return item;
             }
         }
 
-        return new MarketingHelp.MarkedMarketingData(global_key);
+        return new MarkedMarketingData(global_key);
     }
 
-    public static void saveGlobalMarkedMarketing(Context context, MarketingHelp.MarkedMarketingData data) {
-        ArrayList<MarketingHelp.MarkedMarketingData> allUser = new DataCache<MarketingHelp.MarkedMarketingData>().load(context, GLOBAL_MARKED_MARKETING);
+    public static void saveGlobalMarkedMarketing(Context context, MarkedMarketingData data) {
+        ArrayList<MarkedMarketingData> allUser = new DataCache<MarkedMarketingData>().load(context, GLOBAL_MARKED_MARKETING);
         boolean find = false;
         for (int i = 0; i < allUser.size(); ++i) {
-            MarketingHelp.MarkedMarketingData item = allUser.get(i);
+            MarkedMarketingData item = allUser.get(i);
             if (data.mGlobalKey.equals(item.mGlobalKey)) {
                 find = true;
                 item.mReadData = data.mReadData;
@@ -640,7 +640,7 @@ public class AccountInfo {
             allUser.add(data);
         }
 
-        new DataCache<MarketingHelp.MarkedMarketingData>().save(context, allUser, GLOBAL_MARKED_MARKETING);
+        new DataCache<MarkedMarketingData>().save(context, allUser, GLOBAL_MARKED_MARKETING);
     }
 
     public static void saveBackgrounds(Context ctx, ArrayList<LoginBackground.PhotoItem> data) {

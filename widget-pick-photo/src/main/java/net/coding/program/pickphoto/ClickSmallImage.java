@@ -1,10 +1,11 @@
-package net.coding.program.common;
+package net.coding.program.pickphoto;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
 import net.coding.program.common.maopao.ClickImageParam;
+import net.coding.program.pickphoto.detail.ImagePagerActivity_;
 
 /**
  * Created by chaochen on 14-9-22.
@@ -27,15 +28,15 @@ public class ClickSmallImage implements View.OnClickListener {
         ClickImageParam param = (ClickImageParam) v.getTag();
 
         // todo 恢复 ImagePagerActivity_
-//        ImagePagerActivity_.IntentBuilder_ builder;
-//        if (mActivity != null) {
-//            builder = ImagePagerActivity_.intent(mActivity);
-//        } else {
-//            builder = ImagePagerActivity_.intent(mFragment);
-//        }
-//        builder.mArrayUri(param.urls)
-//                .mPagerPosition(param.pos)
-//                .needEdit(param.needEdit)
-//                .start();
+        ImagePagerActivity_.IntentBuilder_ builder;
+        if (mActivity != null) {
+            builder = ImagePagerActivity_.intent(mActivity);
+        } else {
+            builder = ImagePagerActivity_.intent(mFragment);
+        }
+        builder.mArrayUri(param.urls)
+                .mPagerPosition(param.pos)
+                .needEdit(param.needEdit)
+                .start();
     }
 }

@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.AbsListView;
 
 import net.coding.program.R;
-import net.coding.program.common.ClickSmallImage;
+import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.comment.BaseCommentParam;

@@ -182,8 +182,6 @@ dependencies {
 
     compile 'com.bigkoo:convenientbanner:1.0.8'
 
-    //    compile 'com.alibaba:fastjson:1.1.44.android'
-
     // 方便显示 view 显示一些样式，不用写 selector
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
 

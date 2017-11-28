@@ -4,6 +4,8 @@ import android.content.Context;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import net.coding.program.route.URLSpanNoUnderline;
+
 import java.util.ArrayList;
 
 /**
@@ -25,24 +27,22 @@ public class CustomWebViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        // TODO: 2017/11/22  未实现
-        return false;
-//            if (mUris != null) {
-//        for (int i = 0; i < mUris.size(); ++i) {
-//            if (mUris.get(i).equals(url)) {
-//                ImagePagerActivity_.intent(mContext)
-//                        .mArrayUri(mUris)
-//                        .mPagerPosition(i)
-//                        .start();
-//                return true;
-//            }
-//        }
-//            }
-//        boolean openActivity = URLSpanNoUnderline.openActivityByUri(mContext, url, false, false);
-//        if (!openActivity) {
-//            view.loadUrl(url);
-//        }
-//
-//        return !openActivity;
+        if (mUris != null) {
+            for (int i = 0; i < mUris.size(); ++i) {
+                if (mUris.get(i).equals(url)) {
+                    ImagePagerActivity_.intent(mContext)
+                            .mArrayUri(mUris)
+                            .mPagerPosition(i)
+                            .start();
+                    return true;
+                }
+            }
+        }
+        boolean openActivity = URLSpanNoUnderline.openActivityByUri(mContext, url, false, false);
+        if (!openActivity) {
+            view.loadUrl(url);
+        }
+
+        return !openActivity;
     }
 }

@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.ClickSmallImage;
+import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.common.DatePickerFragment;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalData;

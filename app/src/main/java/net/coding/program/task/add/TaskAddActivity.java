@@ -25,7 +25,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.route.BlankViewDisplay;
-import net.coding.program.common.ClickSmallImage;
+import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.common.CommentBackup;
 import net.coding.program.common.DatePickerFragment;
 import net.coding.program.common.Global;

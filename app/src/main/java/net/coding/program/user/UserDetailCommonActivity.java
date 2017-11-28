@@ -14,7 +14,7 @@ import com.flyco.roundview.RoundTextView;
 
 import net.coding.program.R;
 import net.coding.program.common.ActivenessView;
-import net.coding.program.common.ClickSmallImage;
+import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.SyncHorizontalScrollView;
 import net.coding.program.common.maopao.ClickImageParam;
