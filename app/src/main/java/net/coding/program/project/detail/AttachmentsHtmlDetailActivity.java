@@ -11,7 +11,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.pickphoto.detail.ImagePagerFragment;
 import net.coding.program.R;
-import net.coding.program.common.CustomWebViewClient;
+import net.coding.program.CustomWebViewClient;
 import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;

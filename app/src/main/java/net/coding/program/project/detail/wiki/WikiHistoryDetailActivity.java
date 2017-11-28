@@ -6,8 +6,8 @@ import android.webkit.WebView;
 
 import com.orhanobut.logger.Logger;
 
+import net.coding.program.CodingGlobal;
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.databinding.ActivityWikiDetailHeaderBinding;
 import net.coding.program.common.event.EventRefresh;
@@ -87,7 +87,7 @@ public class WikiHistoryDetailActivity extends BackActivity {
     }
 
     void displayWebviewContent(String html) {
-        Global.setWebViewContent(webView, "markdown.html", html);
+        CodingGlobal.setWebViewContent(webView, "markdown.html", html);
     }
 
     @Click(R.id.rollbackLayout)

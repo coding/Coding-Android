@@ -357,8 +357,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
                     List<ImageInfo> oldPhotos = new ArrayList<>();
                     Luban.with(MaopaoAddActivity.this)
                             .load(photos)                                   // 传人要压缩的图片列表
-                            .ignoreBy(100)                                  // 忽略不压缩图片的大小
-                            .setTargetDir(getCacheDir().getPath())                        // 设置压缩后文件存储位置
+                            .ignoreBy(100)                                  // 小于 100k 的图片不压缩
                             .setCompressListener(new OnCompressListener() { //设置回调
 
                                 int zipCount = 0;

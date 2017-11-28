@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.CodingGlobal;
 import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.route.BlankViewDisplay;
@@ -582,7 +583,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                 updateBottomBarStyle();
                 if (!TextUtils.isEmpty(mMergeDetail.getBody())) {
                     contentWeb.setVisibility(View.VISIBLE);
-                    Global.setWebViewContent(contentWeb, "topic-android.html", mMergeDetail.getBody());
+                    CodingGlobal.setWebViewContent(contentWeb, "topic-android.html", mMergeDetail.getBody());
                 }
 
                 refreshReviewers();

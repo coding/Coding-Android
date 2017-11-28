@@ -6,8 +6,8 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.CodingGlobal;
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseFragment;
@@ -50,7 +50,7 @@ public class TopicPreviewFragment extends BaseFragment {
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
                 String html = response.optString("data", "");
-                Global.setWebViewContent(content, getWebViewTempate(), html);
+                CodingGlobal.setWebViewContent(content, getWebViewTempate(), html);
             }
         };
 

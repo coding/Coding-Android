@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import com.umeng.socialize.sso.UMSsoHandler;
 
-import net.coding.program.common.CustomWebViewClient;
 import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseActivity;

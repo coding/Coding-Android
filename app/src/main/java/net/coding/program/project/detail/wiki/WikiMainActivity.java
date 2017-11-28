@@ -22,6 +22,7 @@ import com.cpiz.android.bubbleview.BubbleTextView;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
+import net.coding.program.CodingGlobal;
 import net.coding.program.R;
 import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
@@ -412,7 +413,7 @@ public class WikiMainActivity extends BackActivity {
     void displayWebviewContent(String html) {
 //        getContent(html);
 //        Global.setWebViewContent(webView, wikiContent);
-        Global.setWebViewContent(webView, "wiki.html", html);
+        CodingGlobal.setWebViewContent(webView, "wiki.html", html);
         BlankViewDisplay.setBlank(html.length(), WikiMainActivity.this, true, blankLayout, v -> onRefrush());
         headerBinding.setWiki(selectWiki);
 

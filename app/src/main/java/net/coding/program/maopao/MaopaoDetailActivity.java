@@ -24,7 +24,7 @@ import com.umeng.socialize.sso.UMSsoHandler;
 
 import net.coding.program.common.GlobalData;
 import net.coding.program.R;
-import net.coding.program.common.CustomWebViewClient;
+import net.coding.program.CustomWebViewClient;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;

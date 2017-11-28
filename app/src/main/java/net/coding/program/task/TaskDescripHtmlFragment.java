@@ -12,7 +12,7 @@ import android.webkit.WebView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
-import net.coding.program.common.CustomWebViewClient;
+import net.coding.program.CustomWebViewClient;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.model.ProjectObject;

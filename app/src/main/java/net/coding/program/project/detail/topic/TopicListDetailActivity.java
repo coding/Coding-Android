@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import net.coding.program.CodingGlobal;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoadMore;
@@ -295,7 +296,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
         updateLabels(topicObject.labels);
 
         WebView webView = (WebView) mListHead.findViewById(R.id.comment);
-        Global.setWebViewContent(webView, "topic-android.html", topicObject.content);
+        CodingGlobal.setWebViewContent(webView, "topic-android.html", topicObject.content);
 
         textViewCommentCount = (TextView) mListHead.findViewById(R.id.commentCount);
         updateDisplayCommentCount();

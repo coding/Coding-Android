@@ -10,6 +10,7 @@ import android.webkit.WebViewClient;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.CodingGlobal;
 import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -245,7 +246,7 @@ public class MergeFileDetailActivity extends BackActivity {
     }
 
     private void updateWebViewDisplay() {
-        Global.setWebViewContent(webView, "diff-ios.html", "${diff-content}",
+        CodingGlobal.setWebViewContent(webView, "diff-ios.html", "${diff-content}",
                 mContent.replace("\u2028", "").replace("\u2029", ""), "${comments}", mCommentsData.toString());
         webView.setWebViewClient(webViewClient);
     }

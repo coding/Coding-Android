@@ -1034,8 +1034,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
                 List<File> zipPhotos = new ArrayList<>();
                 Luban.with(this)
                         .load(photos)                                   // 传人要压缩的图片列表
-                        .ignoreBy(100)                                  // 忽略不压缩图片的大小
-                        .setTargetDir(getCacheDir().getPath())                        // 设置压缩后文件存储位置
+                        .ignoreBy(1024 * 10)                                  // 小于 10M 的图片不压缩
                         .setCompressListener(new OnCompressListener() { //设置回调
 
                             int zipCount = 0;

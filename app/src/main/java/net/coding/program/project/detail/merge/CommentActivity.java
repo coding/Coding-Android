@@ -128,6 +128,7 @@ public class CommentActivity extends BackActivity implements EditPreviewMarkdown
     private void addUmengLog() {
         if (mParam instanceof FileDynamicActivity.FileDynamicParam) {
             // 文件评论
+            umengEvent(UmengEvent.E_FILE, "添加文件评论");
         } else if (mParam instanceof MergeFileDetailActivity.LineNoteParam) {
             umengEvent(UmengEvent.E_GIT, "添加Linenote评论");
         } else if (mParam instanceof MergeDetailActivity.MergeCommentParam) {

@@ -1,9 +1,11 @@
-package net.coding.program.common;
+package net.coding.program;
 
 import android.content.Context;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import net.coding.program.common.HtmlContent;
+import net.coding.program.pickphoto.detail.ImagePagerActivity_;
 import net.coding.program.route.URLSpanNoUnderline;
 
 import java.util.ArrayList;

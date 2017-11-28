@@ -59,29 +59,6 @@ public class GlobalCommon {
         activity.startActivity(intent);
     }
 
-    static public void setWebViewContent(WebView webview, GitFileObject gitFile) {
-        Context context = webview.getContext();
-        if (gitFile.lang.equals("markdown")) {
-            try {
-                String template = Global.readTextFile(context.getAssets().open("markdown.html"));
-                webview.loadDataWithBaseURL(Global.HOST, template.replace("${webview_content}", gitFile.preview), "text/html", "UTF-8", null);
-
-            } catch (Exception e) {
-                Global.errorLog(e);
-            }
-        } else {
-            try {
-                String template = Global.readTextFile(context.getAssets().open("code.html"));
-                String replaceData = gitFile.data.replace("<", "&lt;").replace(">", "&gt;").replace("\u2028", "").replace("\u2029", "");
-                webview.loadDataWithBaseURL(Global.HOST, template.replace("${file_code}", replaceData).replace("${file_lang}", gitFile.lang), "text/html", "UTF-8", null);
-            } catch (Exception e) {
-                Global.errorLog(e);
-            }
-        }
-        webview.setWebViewClient(new CustomWebViewClient(webview.getContext()));
-
-    }
-
     public static Spannable changeHyperlinkColor(String content) {
         return changeHyperlinkColor(content, null, null);
     }
