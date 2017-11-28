@@ -13,6 +13,8 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        packageBuildConfig(false)
+
     }
 
     buildTypes {
