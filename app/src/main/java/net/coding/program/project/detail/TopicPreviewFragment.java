@@ -13,7 +13,7 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.TopicLabelObject;
-import net.coding.program.param.TopicData;
+import net.coding.program.common.model.topic.TopicData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

@@ -32,6 +32,7 @@ import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.common.model.project.ProjectServiceInfo;
 import net.coding.program.common.param.MessageParse;
+import net.coding.program.network.constant.Friend;
 import net.coding.program.third.sidebar.IndexableListView;
 import net.coding.program.third.sidebar.StringMatcher;
 
@@ -403,10 +404,6 @@ public class UsersListActivity extends BackActivity implements LoadMore {
                 showErrorMsg(code, respanse);
             }
         }
-    }
-
-    public enum Friend {
-        Follow, Fans
     }
 
     public enum Type {

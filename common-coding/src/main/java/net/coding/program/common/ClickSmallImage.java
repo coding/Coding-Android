@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import net.coding.program.ImagePagerActivity_;
 import net.coding.program.common.maopao.ClickImageParam;
 
 /**
@@ -27,15 +26,16 @@ public class ClickSmallImage implements View.OnClickListener {
     public void onClick(View v) {
         ClickImageParam param = (ClickImageParam) v.getTag();
 
-        ImagePagerActivity_.IntentBuilder_ builder;
-        if (mActivity != null) {
-            builder = ImagePagerActivity_.intent(mActivity);
-        } else {
-            builder = ImagePagerActivity_.intent(mFragment);
-        }
-        builder.mArrayUri(param.urls)
-                .mPagerPosition(param.pos)
-                .needEdit(param.needEdit)
-                .start();
+        // todo 恢复 ImagePagerActivity_
+//        ImagePagerActivity_.IntentBuilder_ builder;
+//        if (mActivity != null) {
+//            builder = ImagePagerActivity_.intent(mActivity);
+//        } else {
+//            builder = ImagePagerActivity_.intent(mFragment);
+//        }
+//        builder.mArrayUri(param.urls)
+//                .mPagerPosition(param.pos)
+//                .needEdit(param.needEdit)
+//                .start();
     }
 }

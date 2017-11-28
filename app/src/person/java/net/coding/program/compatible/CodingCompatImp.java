@@ -11,6 +11,7 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.guide.GuideActivity;
 import net.coding.program.login.SetGlobalKeyActivity_;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.network.constant.Friend;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.MainProjectFragment_;
 import net.coding.program.project.PrivateProjectHomeFragment_;
@@ -19,7 +20,6 @@ import net.coding.program.project.maopao.ProjectMaopaoActivity_;
 import net.coding.program.user.AddFollowActivity_;
 import net.coding.program.user.MyDetailActivity_;
 import net.coding.program.user.UserDetailActivity_;
-import net.coding.program.user.UsersListActivity;
 import net.coding.program.user.UsersListActivity_;
 
 import java.util.ArrayList;
@@ -97,7 +97,7 @@ public class CodingCompatImp implements ClassCompatInterface {
     public void launchPickUser(Context context, StartActivity startActivity, int result) {
         Intent intent;
         intent = new Intent(context, UsersListActivity_.class);
-        intent.putExtra("type", UsersListActivity.Friend.Follow);
+        intent.putExtra("type", Friend.Follow);
         intent.putExtra("selectType", true);
         intent.putExtra("hideFollowButton", true);
         startActivity.startActivityForResult(intent, result);
@@ -114,7 +114,7 @@ public class CodingCompatImp implements ClassCompatInterface {
     @Override
     public void launchPickUser(Activity activity, String relayString) {
         UsersListActivity_.intent(activity)
-                .type(UsersListActivity.Friend.Follow)
+                .type(Friend.Follow)
                 .hideFollowButton(true)
                 .relayString(relayString)
                 .start();

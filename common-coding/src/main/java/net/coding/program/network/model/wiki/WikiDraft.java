@@ -1,4 +1,6 @@
-package net.coding.program.param;
+package net.coding.program.network.model.wiki;
+
+import net.coding.program.common.model.topic.TopicData;
 
 import java.io.Serializable;
 

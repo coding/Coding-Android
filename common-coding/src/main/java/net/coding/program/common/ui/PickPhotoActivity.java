@@ -13,7 +13,7 @@ import net.coding.program.common.CameraPhotoUtil;
 
 import org.androidannotations.annotations.EActivity;
 
-@EActivity(R.layout.activity_base_annotation)
+@EActivity
 public abstract class PickPhotoActivity extends BackActivity {
 
     protected abstract void pickImageCallback(Uri uri, String path);

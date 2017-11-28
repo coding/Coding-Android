@@ -3,10 +3,9 @@ package net.coding.program.common.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.network.constant.MemberAuthority;
-import net.coding.program.param.ProjectJumpParam;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,7 +14,6 @@ import java.io.Serializable;
 
 /**
  * Created by cc191954 on 14-8-8.
- *
  */
 
 public class ProjectObject implements Serializable {
@@ -361,10 +359,6 @@ public class ProjectObject implements Serializable {
         String type = open ? "open" : "closed";
         String pull = isPublic() ? "/git/pulls/" : "/git/merges/";
         return Global.HOST_API + getBackendProjectPath() + pull + type + "?";
-    }
-
-    public ProjectJumpParam generateJumpParam() {
-        return new ProjectJumpParam(getBackendProjectPath());
     }
 
     public String getHttpMergeExamine(boolean open, MergeExamine mineType) {

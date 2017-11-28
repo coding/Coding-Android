@@ -21,6 +21,7 @@ import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.Global;
+import net.coding.program.common.maopao.MaopaoRequestTag;
 import net.coding.program.common.util.DensityUtil;
 import net.coding.program.common.widget.ListItem1;
 import net.coding.program.compatible.CodingCompat;
@@ -218,9 +219,9 @@ public class UserDetailActivity extends UserDetailCommonActivity {
                 RequestParams params = new RequestParams();
                 params.put("users", mUserObject.global_key);
                 if (!mUserObject.followed) {
-                    postNetwork(HOST_FOLLOW, params, HOST_FOLLOW);
+                    postNetwork(HOST_FOLLOW, params, MaopaoRequestTag.TAG_HOST_FOLLOW);
                 } else {
-                    postNetwork(HOST_UNFOLLOW, params, HOST_UNFOLLOW);
+                    postNetwork(HOST_UNFOLLOW, params, MaopaoRequestTag.TAG_HOST_UNFOLLOW);
                 }
             });
         }
@@ -242,7 +243,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
                 showButtomToast("获取用户信息错误");
                 onBackPressed();
             }
-        } else if (tag.equals(HOST_FOLLOW)) {
+        } else if (tag.equals(MaopaoRequestTag.TAG_HOST_FOLLOW)) {
             if (code == 0) {
                 mNeedUpdate = true;
                 showButtomToast(R.string.follow_success);
@@ -251,7 +252,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
                 showButtomToast(R.string.follow_fail);
             }
             displayUserinfo();
-        } else if (tag.equals(HOST_UNFOLLOW)) {
+        } else if (tag.equals(MaopaoRequestTag.TAG_HOST_UNFOLLOW)) {
             if (code == 0) {
                 mNeedUpdate = true;
                 showButtomToast(R.string.unfollow_success);

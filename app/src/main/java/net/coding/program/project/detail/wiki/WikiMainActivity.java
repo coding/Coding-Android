@@ -36,7 +36,7 @@ import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.wiki.Wiki;
 import net.coding.program.param.ProjectJumpParam;
-import net.coding.program.param.WikiDraft;
+import net.coding.program.network.model.wiki.WikiDraft;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -244,7 +244,7 @@ public class WikiMainActivity extends BackActivity {
 
     @Click(R.id.clickEdit)
     void onClickEdit() {
-        ProjectJumpParam projectParam = project.generateJumpParam();
+        ProjectJumpParam projectParam = generateJumpParam(project);
         ArrayList<WikiDraft> drafts = AccountInfo.loadWikiDraft(this, projectParam.toPath(), selectWiki.id);
         boolean useDraft = false;
         if (!drafts.isEmpty()) {
@@ -264,12 +264,16 @@ public class WikiMainActivity extends BackActivity {
     }
 
     private void jumpToEdit(boolean useDraft) {
-        ProjectJumpParam projectParam = project.generateJumpParam();
+        ProjectJumpParam projectParam = generateJumpParam(project);
         WikiEditActivity_.intent(this)
                 .projectParam(projectParam)
                 .useDraft(useDraft)
                 .wiki(selectWiki)
                 .start();
+    }
+
+    private ProjectJumpParam generateJumpParam(ProjectObject project) {
+        return new ProjectJumpParam(project.getBackendProjectPath());
     }
 
     @Click(R.id.clickPopDrawer)
@@ -287,7 +291,7 @@ public class WikiMainActivity extends BackActivity {
         bubbleWindowHistory = null;
 
         WikiHistoryActivity_.intent(this)
-                .jumpParam(project.generateJumpParam())
+                .jumpParam(generateJumpParam(project))
                 .wiki(selectWiki)
                 .start();
     }

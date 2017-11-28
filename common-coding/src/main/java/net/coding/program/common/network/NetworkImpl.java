@@ -9,13 +9,12 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.umeng.analytics.MobclickAgent;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.maopao.MaopaoRequestTag;
+import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.ui.PopCaptchaDialog;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.common.model.AccountInfo;
-import net.coding.program.user.UserDetailActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -105,9 +104,9 @@ public class NetworkImpl {
                         PopCaptchaDialog.pop(appContext);
                     }
 
-                    if (tag.equals(UserDetailActivity.getHostFollow())) {
+                    if (tag.equals(MaopaoRequestTag.TAG_HOST_FOLLOW)) {
                         umengEvent(UmengEvent.USER, "关注好友");
-                    } else if (tag.equals(UserDetailActivity.getHostUnfollow())) {
+                    } else if (tag.equals(MaopaoRequestTag.TAG_HOST_UNFOLLOW)) {
                         umengEvent(UmengEvent.USER, "取消关注好友");
                     } else if (tag.equals(MaopaoRequestTag.TAG_DELETE_MAOPAO)) {
                         umengEvent(UmengEvent.MAOPAO, "删除冒泡");

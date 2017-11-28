@@ -33,6 +33,7 @@ import net.coding.program.compatible.CodingCompat;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.common.model.project.ProjectServiceInfo;
+import net.coding.program.network.constant.Friend;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -211,12 +212,12 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
     @Click
     void listItemFollow() {
         UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(GlobalData.sUserObject,
-                UsersListActivity.Friend.Follow);
+                Friend.Follow);
 
         UsersListActivity_
                 .intent(this)
                 .mUserParam(userParams)
-                .type(UsersListActivity.Friend.Follow)
+                .type(Friend.Follow)
                 .hideFollowButton(true)
                 .projectObject(mProjectObject)
                 .projectServiceInfo(serviceInfo)
@@ -226,12 +227,12 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
     @Click
     void listItemFans() {
         UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(GlobalData.sUserObject,
-                UsersListActivity.Friend.Fans);
+                Friend.Fans);
 
         UsersListActivity_
                 .intent(this)
                 .mUserParam(userParams)
-                .type(UsersListActivity.Friend.Fans)
+                .type(Friend.Fans)
                 .projectObject(mProjectObject)
                 .projectServiceInfo(serviceInfo)
                 .hideFollowButton(true)

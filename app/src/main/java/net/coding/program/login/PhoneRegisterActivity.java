@@ -11,16 +11,16 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
+import net.coding.program.common.TermsActivity_;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.PhoneCountry;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.common.util.ActivityNavigate;
 import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
 import net.coding.program.common.widget.ValidePhoneView;
 import net.coding.program.login.phone.CountryPickActivity_;
-import net.coding.program.common.model.PhoneCountry;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -198,7 +198,7 @@ public class PhoneRegisterActivity extends BackActivity {
 
     @Click
     void textClause() {
-        ActivityNavigate.startTermActivity(this);
+        TermsActivity_.intent(this).start();
     }
 
     @OnActivityResult(EmailRegisterActivity.RESULT_REGISTER_EMAIL)

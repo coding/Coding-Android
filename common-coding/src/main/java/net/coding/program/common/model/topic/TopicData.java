@@ -1,4 +1,4 @@
-package net.coding.program.param;
+package net.coding.program.common.model.topic;
 
 import net.coding.program.common.model.TopicLabelObject;
 import net.coding.program.common.model.TopicObject;

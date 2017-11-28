@@ -24,6 +24,7 @@ import net.coding.program.common.widget.LoadingView;
 import net.coding.program.message.JSONUtils;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.common.model.user.ActiveModel;
+import net.coding.program.network.constant.Friend;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,12 +71,12 @@ public class UserDetailCommonActivity extends BackActivity {
                 return;
             }
             UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(mUserObject,
-                    UsersListActivity.Friend.Fans);
+                    Friend.Fans);
 
             UsersListActivity_
                     .intent(UserDetailCommonActivity.this)
                     .mUserParam(userParams)
-                    .type(UsersListActivity.Friend.Fans)
+                    .type(Friend.Fans)
                     .start();
         }
     };
@@ -86,12 +87,12 @@ public class UserDetailCommonActivity extends BackActivity {
                 return;
             }
             UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(mUserObject,
-                    UsersListActivity.Friend.Follow);
+                    Friend.Follow);
 
             UsersListActivity_
                     .intent(UserDetailCommonActivity.this)
                     .mUserParam(userParams)
-                    .type(UsersListActivity.Friend.Follow)
+                    .type(Friend.Follow)
                     .start();
         }
     };

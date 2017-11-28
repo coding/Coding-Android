@@ -311,11 +311,6 @@
         <item name="android:layout_gravity">center_vertical</item>
     </style>
 
-    <style name="DivideSectionBottom5">
-        <item name="android:background">@mipmap/shadow_bottom</item>
-        <item name="android:layout_height">5dp</item>
-        <item name="android:layout_width">match_parent</item>
-    </style>
 
     <style name="DivideSectionTop5">
         <item name="android:background">@mipmap/shadow_top</item>
@@ -455,25 +450,6 @@
         <item name="elevation">0dp</item>
     </style>
 
-    <style name="Widget_RoundButton">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">50dp</item>
-        <item name="android:layout_marginLeft">15dp</item>
-        <item name="android:layout_marginRight">15dp</item>
-        <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:gravity">center</item>
-        <item name="rv_backgroundColor">@color/font_2</item>
-        <item name="android:textSize">15sp</item>
-        <item name="rv_cornerRadius">4dp</item>
-    </style>
-
-    <style name="retryButton" parent="Widget_RoundButton">
-        <item name="android:layout_width">130dp</item>
-        <item name="android:layout_height">44dp</item>
-        <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:layout_marginTop">25dp</item>
-    </style>
 
     <style name="BaseListText">
         <item name="android:layout_marginLeft">15dp</item>
@@ -497,27 +473,12 @@
         <item name="android:textColor">@color/font_1</item>
     </style>
 
-    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:textColorPrimary">@color/font_1</item>
-        <item name="colorAccent">#FF999999</item>
-        <item name="buttonBarPositiveButtonStyle">@style/GreenTextButton</item>
-    </style>
-
-    <style name="CodingWarnDialog" parent="MyAlertDialogStyle">
-        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
-    </style>
-
     <style name="GreenTextButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">#FF2EBE76</item>
     </style>
 
     <style name="GrayTextButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">#FF999999</item>
-    </style>
-
-
-    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">#FFFE3824</item>
     </style>
 
     <style name="NumberPick" parent="Theme.AppCompat.Light">

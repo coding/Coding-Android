@@ -10,7 +10,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 
-@EActivity(R.layout.activity_base_annotation)
+@EActivity
 public class BackActivity extends BaseActivity {
 
     @AfterViews

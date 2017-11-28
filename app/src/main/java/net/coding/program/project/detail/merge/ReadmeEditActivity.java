@@ -10,7 +10,7 @@ import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.ProjectObject;
-import net.coding.program.param.TopicData;
+import net.coding.program.common.model.topic.TopicData;
 import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.task.TaskDescrip;
 import net.coding.program.task.TaskDespEditFragment;

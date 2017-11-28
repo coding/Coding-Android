@@ -153,7 +153,6 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.github.rampo.updatechecker:library:2.1.4'
     compile 'com.daimajia.swipelayout:library:1.1.7@aar'
-    compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.melnykov:floatingactionbutton:1.3.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.11'
@@ -162,6 +161,9 @@ dependencies {
     compile 'it.neokree:MaterialNavigationDrawer:1.3.2'
     compile 'com.prolificinteractive:parallaxpager:2.2.1'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.5.0'
+
+    // umeng 统计
+    compile 'com.umeng.analytics:analytics:latest.integration'
 
     // 高版本fix使用support库crash
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
@@ -224,10 +226,10 @@ dependencies {
     compile files('libs/alipaySingle-20170510.jar')
     compile files('libs/BaiduLBS_Android.jar')
     compile files('libs/jg_filter_sdk_1.1.jar')
-    compile files('libs/pinyin4j-2.5.0.jar')
     compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
     compile files('libs/Xg_sdk_v2.47_20161026_0936.jar')
     provided files('../common-coding/libs/android-viewbadger.jar')   // 小红点
+    provided files('../common-coding/libs/pinyin4j-2.5.0.jar')
 }
 
 

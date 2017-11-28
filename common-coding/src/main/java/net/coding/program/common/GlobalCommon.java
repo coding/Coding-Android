@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.style.ImageSpan;
@@ -12,7 +13,6 @@ import android.text.style.URLSpan;
 import android.view.View;
 import android.webkit.WebView;
 
-import net.coding.program.common.enter.DrawableTool;
 import net.coding.program.common.enter.GifImageSpan;
 import net.coding.program.common.htmltext.GrayQuoteSpan;
 import net.coding.program.common.model.AccountInfo;
@@ -164,7 +164,7 @@ public class GlobalCommon {
                 if (imageSource.endsWith(endString)) {
                     try {
                         GifDrawable gifDrawable = new GifDrawable(assetManager, endString);
-                        DrawableTool.zoomDrwable(gifDrawable, true);
+                        zoomDrwable(gifDrawable, true);
                         gifDrawable.setLoopCount(100);
                         GifImageSpan gifImageSpan = new GifImageSpan(gifDrawable);
                         s.removeSpan(imageSpan);
@@ -177,5 +177,11 @@ public class GlobalCommon {
         }
 
         return s;
+    }
+
+    // todo 删除
+    public static void zoomDrwable(Drawable drawable, boolean isMonkey) {
+        int width = isMonkey ? GlobalData.sEmojiMonkey : GlobalData.sEmojiNormal;
+        drawable.setBounds(0, 0, width, width);
     }
 }

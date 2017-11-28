@@ -6,7 +6,6 @@ import android.text.Html;
 import android.util.Log;
 
 import net.coding.program.R;
-import net.coding.program.common.enter.DrawableTool;
 
 import java.lang.reflect.Field;
 
@@ -61,8 +60,14 @@ public class MyImageGetter implements Html.ImageGetter {
         Drawable drawable;
         drawable = mActivity.getResources().getDrawable(id);
 
-        DrawableTool.zoomDrwable(drawable, isMonkey(name));
+        zoomDrwable(drawable, isMonkey(name));
         return drawable;
+    }
+
+    // todo 删除
+    public static void zoomDrwable(Drawable drawable, boolean isMonkey) {
+        int width = isMonkey ? GlobalData.sEmojiMonkey : GlobalData.sEmojiNormal;
+        drawable.setBounds(0, 0, width, width);
     }
 
     private String getPhotoName(String s) {

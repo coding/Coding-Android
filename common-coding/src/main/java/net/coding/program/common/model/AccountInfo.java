@@ -8,14 +8,14 @@ import android.support.annotation.NonNull;
 
 import com.loopj.android.http.PersistentCookieStore;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
+import net.coding.program.common.model.topic.TopicData;
 import net.coding.program.common.module.maopao.MaopaoDraft;
-import net.coding.program.param.TopicData;
-import net.coding.program.param.WikiDraft;
-import net.coding.program.user.UsersListActivity;
+import net.coding.program.network.constant.Friend;
+import net.coding.program.network.model.wiki.WikiDraft;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -308,18 +308,18 @@ public class AccountInfo {
         return data;
     }
 
-    public static void saveFriends(Context ctx, ArrayList<UserObject> data, UsersListActivity.Friend type) {
+    public static void saveFriends(Context ctx, ArrayList<UserObject> data, Friend type) {
         String name = friendTypeToFileName(type);
         new DataCache<UserObject>().save(ctx, data, name);
     }
 
-    public static ArrayList<UserObject> loadFriends(Context ctx, UsersListActivity.Friend type) {
+    public static ArrayList<UserObject> loadFriends(Context ctx, Friend type) {
         String fileName = friendTypeToFileName(type);
         return new DataCache<UserObject>().load(ctx, fileName);
     }
 
-    private static String friendTypeToFileName(UsersListActivity.Friend type) {
-        if (type == UsersListActivity.Friend.Follow) {
+    private static String friendTypeToFileName(Friend type) {
+        if (type == Friend.Follow) {
             return CACHE_FRIEND_FOLLOW;
         }
 

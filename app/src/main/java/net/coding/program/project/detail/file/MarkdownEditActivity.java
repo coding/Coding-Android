@@ -9,7 +9,7 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.model.RequestData;
 import net.coding.program.common.model.TaskObject;
-import net.coding.program.param.TopicData;
+import net.coding.program.common.model.topic.TopicData;
 import net.coding.program.project.detail.AttachmentsActivity;
 import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.task.TaskDescrip;

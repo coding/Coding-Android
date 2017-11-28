@@ -1,6 +1,6 @@
 package net.coding.program.project.detail;
 
-import net.coding.program.param.TopicData;
+import net.coding.program.common.model.topic.TopicData;
 
 /**
  * Created by chenchao on 2017/4/13.
