@@ -180,12 +180,13 @@ public class MyApp extends MultiDexApplication {
 
         initGlobaData();
         initBlankView();
-        initURLCallback();
 
         RedPointTip.init(this);
         GlobalUnit.init(this);
 
-        FileDownloader.init(getApplicationContext());
+        FileDownloader.init(this);
+
+        initURLCallback();
     }
 
     public void initGlobaData() {
