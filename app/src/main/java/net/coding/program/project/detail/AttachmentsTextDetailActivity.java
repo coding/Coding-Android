@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
-import net.coding.program.ImagePagerFragment;
+import net.coding.program.pickphoto.detail.ImagePagerFragment;
 import net.coding.program.R;
 import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;

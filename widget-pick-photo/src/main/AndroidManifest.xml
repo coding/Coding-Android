@@ -13,5 +13,10 @@
             android:process=":pickimage"
             android:screenOrientation="portrait"
             android:theme="@style/TranslateTheme" />
+
+        <activity
+            android:name=".detail.ImagePagerActivity_"
+            android:label="" />
+
     </application>
 </manifest>

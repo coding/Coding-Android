@@ -10,7 +10,7 @@ import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.ImagePagerFragment;
+import net.coding.program.pickphoto.detail.ImagePagerFragment;
 import net.coding.program.R;
 import net.coding.program.common.widget.BottomToolBar;
 import net.coding.program.common.model.AttachmentFileObject;

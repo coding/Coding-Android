@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 
-import net.coding.program.ImagePagerFragment;
+import net.coding.program.pickphoto.detail.ImagePagerFragment;
 import net.coding.program.R;
 import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;

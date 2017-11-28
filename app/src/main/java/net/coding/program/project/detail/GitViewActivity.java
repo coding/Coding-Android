@@ -12,8 +12,8 @@ import android.webkit.WebView;
 
 import com.loopj.android.http.AsyncHttpClient;
 
-import net.coding.program.ImagePagerFragment;
-import net.coding.program.ImagePagerFragment_;
+import net.coding.program.pickphoto.detail.ImagePagerFragment;
+import net.coding.program.pickphoto.detail.ImagePagerFragment_;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;

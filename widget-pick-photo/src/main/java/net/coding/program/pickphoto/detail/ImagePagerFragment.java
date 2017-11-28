@@ -1,8 +1,8 @@
-package net.coding.program;
+package net.coding.program.pickphoto.detail;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,14 +20,13 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
-import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ImageInfo;
-import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.model.AttachmentFileObject;
-import net.coding.program.project.detail.file.FileSaveHelp;
+import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.pickphoto.R;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -45,8 +44,9 @@ import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by chaochen on 2014-9-7.
+ *
  */
-@EFragment(R.layout.activity_image_pager_item)
+@EFragment(resName = "activity_image_pager_item")
 public class ImagePagerFragment extends BaseFragment {
 
     public static final int HTTP_CODE_FILE_NOT_EXIST = 1304;
@@ -63,14 +63,14 @@ public class ImagePagerFragment extends BaseFragment {
             .build();
     private final View.OnClickListener onClickImageClose = v -> getActivity().onBackPressed();
 
-    @ViewById
+    @ViewById(resName = "circleLoading")
     DonutProgress circleLoading;
-    @ViewById
+    @ViewById(resName = "imageLoadFail")
     View imageLoadFail;
-    @ViewById
+    @ViewById(resName = "rootLayout")
     ViewGroup rootLayout;
 
-    @ViewById
+    @ViewById(resName = "blankLayout")
     View blankLayout;
 
     View image;
@@ -207,8 +207,13 @@ public class ImagePagerFragment extends BaseFragment {
                                                             return;
                                                         }
                                                         client = null;
-                                                        showButtomToast("图片已保存到:" + file1.getPath());
-                                                        getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file1)));/**/
+                                                        try {
+                                                            MediaStore.Images.Media.insertImage(getContext().getContentResolver(), mFile.getPath(), mFile.getName(), "from coding");
+                                                            showButtomToast("图片已保存到:" + file1.getPath());
+                                                        } catch (Exception e) {
+                                                            e.printStackTrace();
+                                                        }
+//                                                        getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file1)));/**/
                                                     }
                                                 });
                                             }
@@ -242,8 +247,10 @@ public class ImagePagerFragment extends BaseFragment {
                     circleLoading.setProgress(progress);
                 });
 
-        FileSaveHelp fileSaveHelp = new FileSaveHelp(getActivity());
-        mFile = FileUtil.getDestinationInExternalPublicDir(fileSaveHelp.getFileDownloadPath(), uri.replaceAll(".*/(.*?)", "$1"));
+        mFile = new File(getContext().getCacheDir(), uri.replaceAll(".*/(.*?)", "$1"));
+        if (mFile.exists()) {
+            mFile.delete();
+        }
     }
 
     @Override

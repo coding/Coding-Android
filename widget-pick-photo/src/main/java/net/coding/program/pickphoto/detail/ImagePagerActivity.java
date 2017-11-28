@@ -15,7 +15,7 @@
  * limitations under the License.
  * *****************************************************************************
  */
-package net.coding.program;
+package net.coding.program.pickphoto.detail;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,6 +37,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
+import net.coding.program.pickphoto.R;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.PermissionUtil;
 
@@ -48,12 +49,12 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
-@EActivity(R.layout.activity_image_pager)
+@EActivity(resName = "activity_image_pager")
 public class ImagePagerActivity extends BackActivity {
 
     private final String SAVE_INSTANCE_INDEX = "SAVE_INSTANCE_INDEX";
     DisplayImageOptions options;
-    @ViewById
+    @ViewById(resName = "pager")
     ViewPager pager;
     @Extra
     int mPagerPosition;
@@ -187,7 +188,7 @@ public class ImagePagerActivity extends BackActivity {
         finish();
     }
 
-    @OptionsItem
+    @OptionsItem(resName = "action_del_maopao")
     protected final void action_del_maopao() {
         final int selectPos = pager.getCurrentItem();
         AlertDialog dialog = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)

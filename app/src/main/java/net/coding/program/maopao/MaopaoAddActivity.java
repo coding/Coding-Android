@@ -27,8 +27,8 @@ import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.common.GlobalData;
-import net.coding.program.ImagePagerActivity_;
-import net.coding.program.ImagePagerFragment;
+import net.coding.program.pickphoto.detail.ImagePagerActivity_;
+import net.coding.program.pickphoto.detail.ImagePagerFragment;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ListModify;

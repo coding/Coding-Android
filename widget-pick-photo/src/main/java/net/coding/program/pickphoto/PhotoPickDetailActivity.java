@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import net.coding.program.common.ImageInfo;
+import net.coding.program.pickphoto.detail.ImagePagerFragment_;
 
 import java.util.ArrayList;
 
@@ -227,15 +228,13 @@ public class PhotoPickDetailActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // todo 加回来
-//            ImagePagerFragment_ fragment = new ImagePagerFragment_();
-//            Bundle bundle = new Bundle();
-//
-//            String path = getImagePath(position);
-//            bundle.putString("uri", ImageInfo.pathAddPreFix(path));
-//            fragment.setArguments(bundle);
-//            return fragment;
-            return null;
+            ImagePagerFragment_ fragment = new ImagePagerFragment_();
+            Bundle bundle = new Bundle();
+
+            String path = getImagePath(position);
+            bundle.putString("uri", ImageInfo.pathAddPreFix(path));
+            fragment.setArguments(bundle);
+            return fragment;
         }
 
         @Override
