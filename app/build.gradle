@@ -124,6 +124,7 @@ dependencies {
     implementation project(':push-xiaomi')
     implementation project(':widget-pick-photo')
     implementation project(':common-coding')
+    implementation project(':pay-coding')
 
     // dagger 2 依赖
     def daggerVersion = '2.10'
