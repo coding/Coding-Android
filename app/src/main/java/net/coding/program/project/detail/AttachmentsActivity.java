@@ -78,8 +78,8 @@ import static net.coding.program.common.Global.PHOTO_MAX_COUNT;
 
 /**
  * Created by yangzhen
+ * 本来应该统一用 ProjectFileMainActivity_，然而服务端一直没改，企业版和平台板文件使用两套 api
  */
-@Deprecated
 @EActivity(R.layout.activity_attachments)
 public class AttachmentsActivity extends FileDownloadBaseActivity implements LoadMore, UploadStyle {
 
@@ -641,12 +641,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
                         mProjectObjectId(mProjectObjectId)
                         .mProject(mProject)
                         .startForResult(RESULT_REQUEST_FILES);
-//            } else if (data.isImage()) {
-//                AttachmentsPicDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).fileList(getPicFiles()).startForResult(FILE_DELETE_CODE);
-//                    } else if (data.isHtml() || data.isMd()) {
-//                        AttachmentsHtmlDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
-//                    } else if (data.isTxt()) {
-//                        AttachmentsTextDetailActivity_.intent(AttachmentsActivity.this).mProjectObjectId(mProjectObjectId).mAttachmentFolderObject(mAttachmentFolderObject).mAttachmentFileObject(data).startForResult(FILE_DELETE_CODE);
             } else {
                 if (data.isDownload) {
                     jumpToDetail(data);
