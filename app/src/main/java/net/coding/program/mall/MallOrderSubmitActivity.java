@@ -10,41 +10,34 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alipay.sdk.app.PayTask;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
-import com.orhanobut.logger.Logger;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.base.MyJsonResponse;
-import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.MallItemObject;
 import net.coding.program.common.model.MallOrderObject;
 import net.coding.program.common.model.UserObject;
-import net.coding.program.network.model.HttpResult;
-import net.coding.program.network.model.point.OrderObject;
+import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.ui.BackActivity;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Map;
 
 
 /**
@@ -93,7 +86,6 @@ public class MallOrderSubmitActivity extends BackActivity {
 
     BigDecimal paymentAmout = BigDecimal.ZERO;
     BigDecimal pointDiscount = BigDecimal.ZERO;
-    public static String payMethod = "Alipay";
 
     @Click(R.id.switchPointDiscount)
     void clickPointDiscount(SwitchCompat button) {
@@ -255,7 +247,7 @@ public class MallOrderSubmitActivity extends BackActivity {
 
         RequestParams params = new RequestParams();
 //        params.put("password", password);
-        params.put("pay_method", payMethod);
+//        params.put("pay_method", PaymentActivity.payMethod);
 //        params.put("payment_amount", paymentAmout);
         params.put("point_discount", pointDiscount);
 
@@ -290,9 +282,9 @@ public class MallOrderSubmitActivity extends BackActivity {
             @Override
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
-                MallOrderObject item = new MallOrderObject(response.optJSONObject("data")); // todo 只生成订单
+                MallOrderObject item = new MallOrderObject(response.optJSONObject("data"));
                 if (item.getStatus() == MallOrderObject.STATUS_NO_PAY) {
-                    createPayOrder(item);
+                    PaymentActivity_.intent(MallOrderSubmitActivity.this).order(item).start();
                 } else {
                     showButtomToast("恭喜您，订单提交成功！");
                     MallOrderDetailActivity_.intent(MallOrderSubmitActivity.this).start();
@@ -308,56 +300,14 @@ public class MallOrderSubmitActivity extends BackActivity {
         });
     }
 
-    OrderObject orderObject = null;
-
-    private void createPayOrder(MallOrderObject data) {
-        String url = Global.HOST_API + "/gifts/pay/" + data.getOrderNo();
-        RequestParams params = new RequestParams();
-        params.put("pay_method", payMethod);
-        MyAsyncHttpClient.post(this, url, params, new MyJsonResponse(this) {
-            @Override
-            public void onMySuccess(JSONObject response) {
-                super.onMySuccess(response);
-
-                HttpResult<OrderObject> order = new Gson().fromJson(response.toString(), new TypeToken<HttpResult<OrderObject>>(){}.getType());
-                orderObject = order.data;
-                payOrder();
-
-                showProgressBar(false);
-            }
-
-            @Override
-            public void onMyFailure(JSONObject response) {
-                super.onMyFailure(response);
-                showProgressBar(false);
-            }
-        });
-    }
-
-    private void payOrder() {
-        if (orderObject == null) {
-            return;
-        }
-
-        payByClient(orderObject.url);
-    }
-
-    @Background
-    void payByClient(String payInfo) {
-        // 构造PayTask 对象
-        PayTask alipay = new PayTask(this);
-        // 调用支付接口，获取支付结果
-        Map<String, String> result = alipay.payV2(payInfo, false);
-        Gson gson = new Gson();
-        Logger.d(gson.toJson(result));
-
-        checkPayResult();
-    }
-
-    @UiThread
-    void checkPayResult() {
+    private void checkPayResult() {
         MallOrderDetailActivity_.intent(MallOrderSubmitActivity.this).start();
         finish();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventCheckResult(EventCheckResult event) {
+        checkPayResult();
     }
 
     @Click

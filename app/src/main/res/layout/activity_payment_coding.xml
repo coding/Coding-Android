@@ -3,14 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/divide"
-    android:orientation="vertical"
-    tools:context="net.coding.program.setting.AboutActivity">
+    android:orientation="vertical">
 
     <android.support.v4.widget.Space
         android:layout_width="wrap_content"
         android:layout_height="20dp" />
 
-    <!--<include layout="@layout/divide_top_10" />-->
+    <include layout="@layout/divide_top_10" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,13 +26,15 @@
             android:paddingLeft="15dp"
             android:text="支付宝支付"
             android:textColor="@color/font_1"
+            android:id="@+id/zhifubao"
             android:textSize="15sp" />
 
-        <view style="@style/DivideLine_15" />
+        <View style="@style/DivideLine_15" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:id="@+id/weixin"
             android:drawableLeft="@mipmap/pay_weixin"
             android:gravity="center_vertical"
             android:drawablePadding="15dp"
@@ -44,7 +45,7 @@
 
     </LinearLayout>
 
-    <!--<include layout="@layout/divide_bottom_15" />-->
+    <include layout="@layout/divide_bottom_15" />
 
 </LinearLayout>
 

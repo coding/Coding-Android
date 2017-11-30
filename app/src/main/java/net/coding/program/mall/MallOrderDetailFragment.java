@@ -177,7 +177,10 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
             if (item.getStatus() == MallOrderObject.STATUS_NO_PAY) {
                 holder.itemActionLayout.setVisibility(View.VISIBLE);
                 holder.itemActionCancel.setOnClickListener(v -> cancelPayOrder(item));
-                holder.itemActionPay.setOnClickListener(v -> createPayOrder(item));
+                holder.itemActionPay.setOnClickListener(v ->
+                        PaymentActivity_.intent(MallOrderDetailFragment.this)
+                                .order(item)
+                                .start());
             } else {
                 holder.itemActionLayout.setVisibility(View.GONE);
             }
@@ -208,6 +211,15 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
         onRefresh();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventCheckResult(EventCheckResult event) {
+        checkPayResult();
+    }
+
+    private void checkPayResult() {
+        EventBus.getDefault().post(new EventUpdateOrderList());
+    }
+
     private void cancelPayOrder(MallOrderObject data) {
         showDialog("确定取消订单?", new DialogInterface.OnClickListener() {
             @Override
@@ -232,51 +244,6 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
             }
         });
 
-    }
-
-    private void createPayOrder(MallOrderObject data) {
-        String url = Global.HOST_API + "/gifts/pay/" + data.getOrderNo();
-        RequestParams params = new RequestParams();
-        params.put("pay_method", MallOrderSubmitActivity.payMethod);
-        MyAsyncHttpClient.post(getActivity(), url, params, new MyJsonResponse(getActivity()) {
-            @Override
-            public void onMySuccess(JSONObject response) {
-                super.onMySuccess(response);
-
-                HttpResult<OrderObject> order = new Gson().fromJson(response.toString(), new TypeToken<HttpResult<OrderObject>>() {
-                }.getType());
-                payOrder(order.data.url);
-
-                showProgressBar(false);
-            }
-
-            @Override
-            public void onMyFailure(JSONObject response) {
-                super.onMyFailure(response);
-                showProgressBar(false);
-            }
-        });
-    }
-
-    private void payOrder(String url) {
-        payByClient(url);
-    }
-
-    @Background
-    void payByClient(String payInfo) {
-        // 构造PayTask 对象
-        PayTask alipay = new PayTask(getActivity());
-        // 调用支付接口，获取支付结果
-        Map<String, String> result = alipay.payV2(payInfo, false);
-        Gson gson = new Gson();
-        Logger.d(gson.toJson(result));
-
-        checkPayResult();
-    }
-
-    @UiThread
-    void checkPayResult() {
-        EventBus.getDefault().post(new EventUpdateOrderList());
     }
 
     @AfterViews

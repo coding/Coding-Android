@@ -146,7 +146,6 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().register(this);
 
         requestPermission();
-
     }
 
     @UiThread(delay = 2000)
@@ -368,7 +367,6 @@ public class MainActivity extends BaseActivity {
 
         bottomBar.setOnTabSelectListener(tabId -> switchTab(tabId));
 
-        PaymentActivity_.intent(this).start();
     }
 
     protected void switchTab(int tabId) {
