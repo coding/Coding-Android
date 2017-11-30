@@ -51,7 +51,7 @@ android {
             dimension "mode"
             applicationId "net.coding.program"
             versionCode 160
-            versionName "5.0"
+            versionName "4.9"
             targetSdkVersion 23
         }
         enterprise {
