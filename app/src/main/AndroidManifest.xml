@@ -666,6 +666,10 @@
 
         <!-- 商城 -->
         <activity
+            android:name=".mall.PaymentActivity_"
+            android:label="@string/title_activity_payment"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".mall.MallIndexActivity_"
             android:label="@string/title_activity_mall"
             android:screenOrientation="portrait" />

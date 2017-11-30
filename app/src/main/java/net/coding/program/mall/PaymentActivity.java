@@ -13,7 +13,7 @@ import org.androidannotations.annotations.EActivity;
  * Created by chenchao on 2017/11/29.
  */
 
-@EActivity
+@EActivity(R.layout.activity_payment)
 public class PaymentActivity extends BackActivity {
 
     @AfterViews

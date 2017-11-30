@@ -708,8 +708,7 @@ public class MyApp extends MultiDexApplication {
                     return true;
                 }
 
-                String s = PushUrl.getHost2FA();
-                if (uriString.equals(s)) {
+                if (PushUrl.is2faLink(uriString)) {
                     intent.setClass(context, AuthListActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);

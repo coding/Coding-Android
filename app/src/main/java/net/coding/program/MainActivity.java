@@ -37,6 +37,7 @@ import net.coding.program.common.event.EventMessage;
 import net.coding.program.common.event.EventNotifyBottomBar;
 import net.coding.program.common.event.EventShowBottom;
 import net.coding.program.login.ZhongQiuGuideActivity;
+import net.coding.program.mall.PaymentActivity_;
 import net.coding.program.maopao.MainMaopaoFragment_;
 import net.coding.program.message.UsersListFragment_;
 import net.coding.program.common.model.AccountInfo;
@@ -366,6 +367,8 @@ public class MainActivity extends BaseActivity {
         setListenerToRootView();
 
         bottomBar.setOnTabSelectListener(tabId -> switchTab(tabId));
+
+        PaymentActivity_.intent(this).start();
     }
 
     protected void switchTab(int tabId) {

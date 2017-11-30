@@ -182,6 +182,7 @@
     <string name="alert_activity_email2">该邮箱尚未激活，请尽快去邮箱查收邮件并激活账号。如若在收件箱中未看到激活邮件，请留意一下垃圾邮件箱(T_T)。</string>
 
     <!--商城-->
+    <string name="title_activity_payment">支付</string>
     <string name="title_activity_mall">商城</string>
     <string name="title_activity_mall_order">提交订单</string>
     <string name="desc_mall_order_item_tip">身高，体重参考：S码（165-50kg），M码（170-60kg），L码（175-70kg） XL码（180-80kg），XXL码（185-90kg）</string>
