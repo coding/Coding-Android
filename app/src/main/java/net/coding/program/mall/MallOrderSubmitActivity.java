@@ -284,7 +284,9 @@ public class MallOrderSubmitActivity extends BackActivity {
                 super.onMySuccess(response);
                 MallOrderObject item = new MallOrderObject(response.optJSONObject("data"));
                 if (item.getStatus() == MallOrderObject.STATUS_NO_PAY) {
+                    MallOrderDetailActivity_.intent(MallOrderSubmitActivity.this).start();
                     PaymentActivity_.intent(MallOrderSubmitActivity.this).order(item).start();
+                    finish();
                 } else {
                     showButtomToast("恭喜您，订单提交成功！");
                     MallOrderDetailActivity_.intent(MallOrderSubmitActivity.this).start();
@@ -298,16 +300,6 @@ public class MallOrderSubmitActivity extends BackActivity {
                 showProgressBar(false);
             }
         });
-    }
-
-    private void checkPayResult() {
-        MallOrderDetailActivity_.intent(MallOrderSubmitActivity.this).start();
-        finish();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventCheckResult(EventCheckResult event) {
-        checkPayResult();
     }
 
     @Click

@@ -24,27 +24,28 @@ import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalData;
 import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.GlobalVar_;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.Unread;
 import net.coding.program.common.UnreadNotify;
-import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.network.util.Login;
-import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.event.EventMessage;
 import net.coding.program.common.event.EventNotifyBottomBar;
 import net.coding.program.common.event.EventShowBottom;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.network.util.Login;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.login.ZhongQiuGuideActivity;
-import net.coding.program.mall.PaymentActivity_;
 import net.coding.program.maopao.MainMaopaoFragment_;
 import net.coding.program.message.UsersListFragment_;
-import net.coding.program.common.model.AccountInfo;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.HttpObserverRaw;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.common.AppVersion;
+import net.coding.program.pay.PayKeys;
+import net.coding.program.pay.WXPay;
 import net.coding.program.project.MainProjectFragment_;
 import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.init.InitProUtils;
@@ -146,6 +147,9 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().register(this);
 
         requestPermission();
+
+
+        WXPay.getInstance().regToWeixin(this);
     }
 
     @UiThread(delay = 2000)

@@ -163,6 +163,7 @@ public class Network {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (showLog) builder.addInterceptor(interceptor);
 
+
         builder.addNetworkInterceptor(chain -> {
             Request request = chain.request();
 
@@ -196,7 +197,13 @@ public class Network {
 
         if (interceptorCookie != null) builder.addInterceptor(interceptorCookie);
 
+
+
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         return builder
+                .addInterceptor(loggingInterceptor)
                 .addInterceptor(chain -> {
                     Request request = chain.request();
 

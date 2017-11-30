@@ -211,15 +211,6 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
         onRefresh();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventCheckResult(EventCheckResult event) {
-        checkPayResult();
-    }
-
-    private void checkPayResult() {
-        EventBus.getDefault().post(new EventUpdateOrderList());
-    }
-
     private void cancelPayOrder(MallOrderObject data) {
         showDialog("确定取消订单?", new DialogInterface.OnClickListener() {
             @Override
