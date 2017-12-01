@@ -110,23 +110,23 @@
         android:layout_height="wrap_content"
         android:background="@color/stand_bg"
         android:orientation="horizontal"
-        android:paddingBottom="8dp"
+        android:paddingBottom="10dp"
         android:paddingLeft="@dimen/padding_15"
         android:paddingRight="@dimen/padding_15"
-        android:paddingTop="8dp">
+        android:paddingTop="10dp">
 
         <include
             android:id="@+id/buttonStar"
             layout="@layout/project_home_list_head_public_button"
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="36dp"
             android:layout_weight="1" />
 
         <include
             android:id="@+id/buttonWatch"
             layout="@layout/project_home_list_head_public_button"
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="36dp"
             android:layout_marginLeft="8dp"
             android:layout_weight="1" />
 
@@ -134,7 +134,7 @@
             android:id="@+id/buttonFork"
             layout="@layout/project_home_list_head_public_button"
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="36dp"
             android:layout_marginLeft="8dp"
             android:layout_weight="1" />
 

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.view.View;
 import android.widget.TextView;
 
+import com.flyco.roundview.RoundLinearLayout;
 import com.loopj.android.http.RequestParams;
 import com.readystatesoftware.viewbadger.BadgeView;
 
@@ -142,9 +143,9 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         };
 
         int[][] titlesColors = new int[][]{
-                new int[]{CodingColor.font1, CodingColor.fontWhite},
-                new int[]{CodingColor.font1, CodingColor.fontWhite},
-                new int[]{CodingColor.font1, CodingColor.font1},
+                new int[]{CodingColor.font2, CodingColor.fontWhite},
+                new int[]{CodingColor.font2, CodingColor.fontWhite},
+                new int[]{CodingColor.font2, CodingColor.font2},
         };
 
         int[][] icons = new int[][]{
@@ -154,20 +155,14 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         };
 
         int[][] backgroundLeft = new int[][]{
-                new int[]{R.drawable.public_star_button_bg_left0, R.drawable.public_star_button_bg_left1},
-                new int[]{R.drawable.public_star_button_bg_left0, R.drawable.public_star_button_bg_left1},
-                new int[]{R.drawable.public_star_button_bg_left0, R.drawable.public_star_button_bg_left0},
+                new int[]{CodingColor.bg, CodingColor.font1},
+                new int[]{CodingColor.bg, CodingColor.fontBlue},
+                new int[]{CodingColor.divideLine, CodingColor.divideLine},
         };
 
-        int[][] backgroundRight = new int[][]{
-                new int[]{R.drawable.public_star_button_bg_right0, R.drawable.public_star_button_bg_right1},
-                new int[]{R.drawable.public_star_button_bg_right0, R.drawable.public_star_button_bg_right1},
-                new int[]{R.drawable.public_star_button_bg_right0, R.drawable.public_star_button_bg_right0},
-        };
-
-        mButtonStar = new ProjectMarkButton(buttonStar, titles[0], titlesColors[0], icons[0], backgroundLeft[0], backgroundRight[0], mProjectObject.stared, mProjectObject.star_count, onClickStatCount);
-        mButtonWatch = new ProjectMarkButton(buttonWatch, titles[1], titlesColors[1], icons[1], backgroundLeft[1], backgroundRight[1], mProjectObject.watched, mProjectObject.watch_count, onClickFollowCount);
-        mButtonFork = new ProjectMarkButton(buttonFork, titles[2], titlesColors[2], icons[2], backgroundLeft[2], backgroundRight[2], mProjectObject.forked, mProjectObject.fork_count, onClickForkCount);
+        mButtonStar = new ProjectMarkButton(buttonStar, titles[0], titlesColors[0], icons[0], backgroundLeft[0],  mProjectObject.stared, mProjectObject.star_count, onClickStatCount);
+        mButtonWatch = new ProjectMarkButton(buttonWatch, titles[1], titlesColors[1], icons[1], backgroundLeft[1], mProjectObject.watched, mProjectObject.watch_count, onClickFollowCount);
+        mButtonFork = new ProjectMarkButton(buttonFork, titles[2], titlesColors[2], icons[2], backgroundLeft[2], mProjectObject.forked, mProjectObject.fork_count, onClickForkCount);
     }
 
     private void startUserList(String title, String url) {
@@ -298,14 +293,13 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         int[] titleColor;
         int[] icon;
         int[] leftBackground;
-        int[] rightBackground;
 
         boolean mCheck = false;
         int mCount = 0;
         View mButton;
 
         ProjectMarkButton(View button, String[] title, int[] titleColor, int[] icon, int[] leftBackground,
-                          int[] rightBackground, final boolean mCheck, int mCount, View.OnClickListener onClickListener) {
+                           final boolean mCheck, int mCount, View.OnClickListener onClickListener) {
             this.title = title;
             this.titleColor = titleColor;
             this.icon = icon;
@@ -313,7 +307,6 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
             this.mCheck = mCheck;
             this.mCount = mCount;
             this.mButton = button;
-            this.rightBackground = rightBackground;
 
             button.findViewById(R.id.count).setOnClickListener(onClickListener);
             updateControl();
@@ -344,15 +337,16 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
             TextView countView = (TextView) mButton.findViewById(R.id.count);
             countView.setText(String.valueOf(mCount));
             countView.setTextColor(!mCheck ? titleColor[0] : titleColor[1]);
-            countView.setBackgroundResource(!mCheck ? rightBackground[0] : rightBackground[1]);
 
             mButton.findViewById(R.id.icon).setBackgroundResource(!mCheck ? icon[0] : icon[1]);
             TextView title = (TextView) mButton.findViewById(R.id.title);
             title.setText(!mCheck ? this.title[0] : this.title[1]);
             title.setTextColor(!mCheck ? titleColor[0] : titleColor[1]);
 
-            mButton.findViewById(R.id.leftBg).setBackgroundResource(!mCheck ? leftBackground[0] : leftBackground[1]);
+            View line = mButton.findViewById(R.id.divideLine);
+            line.setBackgroundColor(!mCheck ? titleColor[0] : titleColor[1]);
 
+            ((RoundLinearLayout) mButton).getDelegate().setBackgroundColor(!mCheck ? leftBackground[0] : leftBackground[1]);
         }
 
         public boolean isChecked() {

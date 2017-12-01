@@ -23,6 +23,7 @@ public class CodingColor {
     public static int fontOrange;
     public static int fontBlue;
     public static int fontPink;
+    public static int bg;
     public static String fontGreenString;
     public static String fontOrangeString;
     public static String fon1String;
@@ -35,6 +36,7 @@ public class CodingColor {
         fontGreen = r.getColor(R.color.font_green);
         fontYellow = r.getColor(R.color.font_yellow);
         divideLine = r.getColor(R.color.divide_line);
+        bg = r.getColor(R.color.stand_bg);
 
         fontWhite = r.getColor(R.color.font_white);
         font1 = r.getColor(R.color.font_1);
