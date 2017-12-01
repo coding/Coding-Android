@@ -119,7 +119,7 @@ public class ProjectObject implements Serializable {
     private String fork_path = "";
     private DynamicObject.Owner owner;
 
-    public ProjectObject(JSONObject json) throws JSONException {
+    public ProjectObject(JSONObject json) {
         backend_project_path = json.optString("backend_project_path", "").replace("/team/", "/user/");
         name = json.optString("name", "");
         owner_id = json.optInt("owner_id");

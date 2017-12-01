@@ -558,9 +558,9 @@ public class MyApp extends MultiDexApplication {
                 pattern = Pattern.compile(FileUrlActivity.PATTERN_DIR);
                 matcher = pattern.matcher(uriString);
                 if (matcher.find()) {
-                    FileUrlActivity_.intent(context)
-                            .url(uriString)
-                            .start();
+                    FileUrlActivity_.IntentBuilder_ build = FileUrlActivity_.intent(context);
+                    if (newTask) build.flags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    build.url(uriString).start();
                     return true;
                 }
 
@@ -573,18 +573,23 @@ public class MyApp extends MultiDexApplication {
                     AttachmentFolderObject folder = new AttachmentFolderObject();
                     folder.file_id = matcher.group(3);
                     folder.name = matcher.group(5);
-                    AttachmentsActivity_.intent(context)
-                            .mAttachmentFolderObject(folder)
+                    AttachmentsActivity_.IntentBuilder_ builder = AttachmentsActivity_.intent(context);
+                    if (newTask) builder.flags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    builder.mAttachmentFolderObject(folder)
                             .mProjectObjectId(Integer.valueOf(matcher.group(4)))
                             .start();
                     return true;
                 }
 
+                // 文件，文件评论
+                // https://coding.net/u/8206503/p/TestIt2/attachment/65138/preview/66171
                 pattern = Pattern.compile(FileUrlActivity.PATTERN_DIR_FILE);
                 matcher = pattern.matcher(uriString);
                 if (matcher.find()) {
-                    FileUrlActivity_.intent(context)
-                            .url(uriString)
+                    FileUrlActivity_.IntentBuilder_ builder = FileUrlActivity_.intent(context);
+                    if (newTask) builder.flags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    builder.url(uriString)
+                            .flags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             .start();
                     return true;
                 }
@@ -609,31 +614,35 @@ public class MyApp extends MultiDexApplication {
                     final String htmlMdType = ".*\\.(html|htm|markd|markdown|md|mdown)$";
                     final String txtType = ".*\\.(sh|txt)$";
                     if (extension.matches(imageType)) {
-                        AttachmentsPhotoDetailActivity_.intent(context)
-                                .mProjectObjectId(projectId)
+                        AttachmentsPhotoDetailActivity_.IntentBuilder_ builder = AttachmentsPhotoDetailActivity_.intent(context);
+                        if (newTask) builder.flags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        builder.mProjectObjectId(projectId)
                                 .mAttachmentFolderObject(folder)
                                 .mAttachmentFileObject(folderFile)
                                 .showClickTitleTip(true)
                                 .start();
 
                     } else if (extension.matches(htmlMdType)) {
-                        AttachmentsHtmlDetailActivity_.intent(context)
-                                .mProjectObjectId(projectId)
+                        AttachmentsHtmlDetailActivity_.IntentBuilder_ builder = AttachmentsHtmlDetailActivity_.intent(context);
+                        if (newTask) builder.flags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        builder.mProjectObjectId(projectId)
                                 .mAttachmentFolderObject(folder)
                                 .mAttachmentFileObject(folderFile)
                                 .showClickTitleTip(true)
                                 .start();
 
                     } else if (extension.matches(txtType)) {
-                        AttachmentsTextDetailActivity_.intent(context)
-                                .mProjectObjectId(projectId)
+                        AttachmentsTextDetailActivity_.IntentBuilder_ builder = AttachmentsTextDetailActivity_.intent(context);
+                        if (newTask) builder.flags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        builder.mProjectObjectId(projectId)
                                 .mAttachmentFolderObject(folder)
                                 .showClickTitleTip(true)
                                 .mAttachmentFileObject(folderFile)
                                 .start();
                     } else {
-                        AttachmentsDownloadDetailActivity_.intent(context)
-                                .mProjectObjectId(projectId)
+                        AttachmentsDownloadDetailActivity_.IntentBuilder_ builder = AttachmentsDownloadDetailActivity_.intent(context);
+                        if (newTask) builder.flags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        builder.mProjectObjectId(projectId)
                                 .mAttachmentFolderObject(folder)
                                 .mAttachmentFileObject(folderFile)
                                 .showClickTitleTip(true)

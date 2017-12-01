@@ -27,6 +27,8 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 
+import net.coding.program.FileUrlActivity;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.pickphoto.detail.ImagePagerFragment;
 import net.coding.program.R;
 import net.coding.program.route.BlankViewDisplay;
@@ -73,6 +75,7 @@ public class AttachmentsDownloadDetailActivity extends CodingToolbarBackActivity
     private static final String TAG_SHARE_LINK_ON = "TAG_SHARE_LINK_ON";
 
     private static String TAG = AttachmentsDownloadDetailActivity.class.getSimpleName();
+
     @Extra
     int mProjectObjectId;
     @Extra
