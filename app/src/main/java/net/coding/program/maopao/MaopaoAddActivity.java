@@ -379,6 +379,8 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
                                             ImageInfo oldInfo = oldPhotos.get(i);
                                             mData.add(new PhotoData(item, oldInfo));
                                         }
+
+                                        updateAddButton();
                                     }
                                     adapter.notifyDataSetChanged();
                                 }
