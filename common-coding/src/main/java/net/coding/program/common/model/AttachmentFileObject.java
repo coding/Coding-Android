@@ -17,6 +17,8 @@ import java.util.regex.Pattern;
  */
 public class AttachmentFileObject implements Serializable {
 
+    private static final long serialVersionUID = -5645713635532570497L;
+
     public static final int ROLE_TYPE_OWNER = 100;
 
     public static final String RESULT = "AttachmentFileObject";
@@ -106,10 +108,6 @@ public class AttachmentFileObject implements Serializable {
 
     public AttachmentFileObject() {
     }
-
-//    public void setShare(Share shareParam) {
-//        share = shareParam;
-//    }
 
     public AttachmentFileObject(JSONObject json) {
         created_at = json.optLong("created_at");

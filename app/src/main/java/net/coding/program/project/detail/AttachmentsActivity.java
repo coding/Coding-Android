@@ -1179,27 +1179,8 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
                 data.getIntExtra(FileActions.ACTION_NAME, 0);
             }
             switch (actionName) {
-//                case FileActions.ACTION_DELETE: {
-//                    AttachmentFileObject paramFileObject = (AttachmentFileObject) data.getSerializableExtra(AttachmentFileObject.RESULT);
-//                    for (AttachmentFileObject file : mFilesArray) {
-//                        if (file.file_id.equals(paramFileObject.file_id)) {
-//                            mFilesArray.remove(file);
-//                            adapter.notifyDataSetChanged();
-//                            break;
-//                        }
-//                    }
-//                }
-
-//                case FileActions.ACTION_EDIT: {
-//                    AttachmentFileObject paramFileObject = (AttachmentFileObject) data.getSerializableExtra(AttachmentFileObject.RESULT);
-//                    upadateListItem(paramFileObject);
-//                    onRefresh();
-//                    break;
-//                }
-
                 case FileActions.ACTION_DOWNLOAD_OPEN: {
                     AttachmentFileObject paramFileObject = (AttachmentFileObject) data.getSerializableExtra(AttachmentFileObject.RESULT);
-//                    upadateListItem(paramFileObject);
                     jumpToDetail(paramFileObject);
                     onRefresh();
                     break;
@@ -1208,17 +1189,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
                 default:
                     onRefresh();
                     setResult(Activity.RESULT_OK);
-            }
-        }
-    }
-
-    private void upadateListItem(AttachmentFileObject paramFileObject) {
-        for (int i = 0; i < mFilesArray.size(); ++i) {
-            AttachmentFileObject file = mFilesArray.get(i);
-            if (file.file_id.equals(paramFileObject.file_id)) {
-                mFilesArray.set(i, paramFileObject);
-                adapter.notifyDataSetChanged();
-                break;
             }
         }
     }
@@ -1649,7 +1619,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
         for (AttachmentFileObject fileObject : mFilesArray) {
             if (!fileObject.isFolder) {
                 setDownloadStatus(fileObject);
-                //Log.d("onResume", "update status:" + fileObject.name + " " + fileObject.isDownload);
             }
         }
         adapter.notifyDataSetChanged();

@@ -13,6 +13,9 @@ import java.util.ArrayList;
  * Created by yangzhen on 2014/10/25.
  */
 public class AttachmentFolderObject implements Serializable {
+
+    private static final long serialVersionUID = -2909859091872550261L;
+
     public static final String SHARE_FOLDER_ID = "-1";
     public static final String DEFAULT_FOLDER_ID = "0";
     public static final String ROOT_FOLDER_ID = "-2";
