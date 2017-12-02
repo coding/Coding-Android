@@ -5,6 +5,7 @@
         <item name="android:textColorPrimary">@color/font_1</item>
         <item name="colorAccent">#FF999999</item>
         <item name="buttonBarPositiveButtonStyle">@style/GreenTextButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/GreenTextButton</item>
     </style>
 
     <style name="GreenTextButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
