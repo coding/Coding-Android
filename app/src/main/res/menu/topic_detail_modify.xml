@@ -16,7 +16,7 @@
         <menu>
             <item
                 android:id="@+id/action_copy"
-                android:icon="@drawable/ic_menu_link"
+                android:icon="@drawable/ic_menu_share_link"
                 android:orderInCategory="100"
                 android:title="复制链接"
                 app:showAsAction="always" />

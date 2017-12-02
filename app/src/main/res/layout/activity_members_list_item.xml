@@ -97,7 +97,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_toRightOf="@id/name"
                 android:scaleType="center"
-                android:src="@drawable/ic_watchuser_check"
+                android:src="@drawable/ic_task_status_list_check"
                 android:visibility="invisible"
                 tools:visibility="visible"/>
 

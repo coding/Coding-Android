@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:text="私有"
                 android:textColor="@color/font_1"
-                android:textSize="20sp" />
+                android:textSize="15sp" />
 
 
             <ImageView
@@ -34,7 +34,7 @@
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/pick_photo_list_checked" />
+                android:src="@drawable/ic_task_status_list_check" />
         </RelativeLayout>
 
         <View
@@ -57,8 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="公开"
                 android:textColor="@color/font_1"
-                android:textSize="20sp" />
-
+                android:textSize="15sp" />
 
             <ImageView
                 android:id="@+id/iconPublicRight"
@@ -66,7 +65,7 @@
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/pick_photo_list_checked"
+                android:src="@drawable/ic_task_status_list_check"
                 android:visibility="gone" />
         </RelativeLayout>
 
