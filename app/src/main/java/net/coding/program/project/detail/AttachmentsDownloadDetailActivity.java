@@ -370,7 +370,7 @@ public class AttachmentsDownloadDetailActivity extends CodingToolbarBackActivity
         hideProgressDialog();
 
         icon.setVisibility(View.VISIBLE);
-        icon.setImageResource(mFileObject.getIconResourceId());
+        icon.setImageResource(AttachmentFileObject.getIconBigResourceId(mFileObject.fileType));
 
         iconTxt.setVisibility(View.GONE);
 
@@ -449,10 +449,7 @@ public class AttachmentsDownloadDetailActivity extends CodingToolbarBackActivity
                 AttachmentFileObject.Share mShare = new AttachmentFileObject.Share(response.optJSONObject("data"));
                 mAttachmentFileObject.setShereLink(mShare.getUrl());
 
-                Intent intent = new Intent();
-                intent.putExtra(AttachmentsActivity.FileActions.ACTION_NAME, AttachmentsActivity.FileActions.ACTION_EDIT);
-                intent.putExtra(AttachmentFileObject.RESULT, mAttachmentFileObject);
-                setResult(RESULT_OK, intent);
+                setResult(RESULT_OK);
 
                 copyShareLink();
             } else {

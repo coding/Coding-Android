@@ -277,6 +277,38 @@ public class AttachmentFileObject implements Serializable {
         }
     }
 
+    public static int getIconBigResourceId(String fileName) {
+        if (AttachmentFileObject.isAi(fileName)) {
+            return R.drawable.ic_file_ai_big;
+        } else if (AttachmentFileObject.isApk(fileName)) {
+            return R.drawable.ic_file_apk_big;
+        } else if (AttachmentFileObject.isDoc(fileName)) {
+            return R.drawable.ic_file_docx_big;
+        } else if (AttachmentFileObject.isHtml(fileName)) {
+            return R.drawable.ic_file_html_big;
+        } else if (AttachmentFileObject.isMd(fileName)) {
+            return R.drawable.ic_file_md_big;
+        } else if (AttachmentFileObject.isPdf(fileName)) {
+            return R.drawable.ic_file_pdf_big;
+        } else if (AttachmentFileObject.isPpt(fileName)) {
+            return R.drawable.ic_file_ppt_big;
+        } else if (AttachmentFileObject.isPsd(fileName)) {
+            return R.drawable.ic_file_psd_big;
+        } else if (AttachmentFileObject.isSound(fileName)) {
+            return R.drawable.ic_file_sound_big;
+        } else if (AttachmentFileObject.isTxt(fileName)) {
+            return R.drawable.ic_file_txt_big;
+        } else if (AttachmentFileObject.isVideo(fileName)) {
+            return R.drawable.ic_file_video_big;
+        } else if (AttachmentFileObject.isXls(fileName)) {
+            return R.drawable.ic_file_x_big;
+        } else if (AttachmentFileObject.isZip(fileName)) {
+            return R.drawable.ic_file_zip_big;
+        } else {
+            return R.drawable.ic_file_unknown_big;
+        }
+    }
+
     public boolean isShared() {
         return !share_url.isEmpty();
     }

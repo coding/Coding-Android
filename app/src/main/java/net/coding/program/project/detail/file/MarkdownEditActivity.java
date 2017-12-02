@@ -103,10 +103,7 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, E
                 TxtEditActivity.writeFile(localFile, modifyData.content);
                 fileObject.isDownload = true;
 
-                Intent intent = new Intent();
-                intent.putExtra(AttachmentFileObject.RESULT, fileObject);
-                intent.putExtra(AttachmentsActivity.FileActions.ACTION_NAME, AttachmentsActivity.FileActions.ACTION_EDIT);
-                setResult(RESULT_OK, intent);
+                setResult(RESULT_OK);
                 finish();
             } else {
                 showErrorMsg(code, respanse);

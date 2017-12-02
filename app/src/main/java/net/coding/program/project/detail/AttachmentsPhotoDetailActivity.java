@@ -122,12 +122,8 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
     protected void onDownloadFinish(boolean success) {
         showProgressBar(false);
         if (success) {
-            Intent intent = new Intent();
             mAttachmentFileObject.isDownload = true;
-            intent.putExtra(AttachmentFileObject.RESULT, mAttachmentFileObject);
-            intent.putExtra(AttachmentsActivity.FileActions.ACTION_NAME,
-                    AttachmentsActivity.FileActions.ACTION_EDIT);
-            setResult(RESULT_OK, intent);
+            setResult(RESULT_OK);
             updateDisplay();
         } else {
             bindUIDownload(false);

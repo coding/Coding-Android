@@ -29,6 +29,8 @@ import android.widget.ListView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
+import net.coding.program.project.detail.file.v2.SearchProjectFileActivity;
+import net.coding.program.project.detail.file.v2.SearchProjectFileActivity_;
 import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.DialogUtil;
 import net.coding.program.common.Global;
@@ -517,6 +519,17 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
     void close() {
         onBackPressed();
     }
+
+
+//    @OptionsItem
+//    void actionSearch() {
+//        SearchProjectFileActivity.setsCodingFiles(mFilesArray);
+//        SearchProjectFileActivity_.intent(this)
+//                .project(mProject)
+//                .folder(mAttachmentFolderObject)
+//                .start();
+//        overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -1161,35 +1174,40 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
     @OnActivityResult(FILE_DELETE_CODE)
     void onFileResult(int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            int actionName = data.getIntExtra(FileActions.ACTION_NAME, 0);
+            int actionName = 0;
+            if (data != null) {
+                data.getIntExtra(FileActions.ACTION_NAME, 0);
+            }
             switch (actionName) {
-                case FileActions.ACTION_DELETE: {
-                    AttachmentFileObject paramFileObject = (AttachmentFileObject) data.getSerializableExtra(AttachmentFileObject.RESULT);
-                    for (AttachmentFileObject file : mFilesArray) {
-                        if (file.file_id.equals(paramFileObject.file_id)) {
-                            mFilesArray.remove(file);
-                            adapter.notifyDataSetChanged();
-                            break;
-                        }
-                    }
-                    setResult(Activity.RESULT_OK);
-                }
+//                case FileActions.ACTION_DELETE: {
+//                    AttachmentFileObject paramFileObject = (AttachmentFileObject) data.getSerializableExtra(AttachmentFileObject.RESULT);
+//                    for (AttachmentFileObject file : mFilesArray) {
+//                        if (file.file_id.equals(paramFileObject.file_id)) {
+//                            mFilesArray.remove(file);
+//                            adapter.notifyDataSetChanged();
+//                            break;
+//                        }
+//                    }
+//                }
 
-                case FileActions.ACTION_EDIT: {
-                    AttachmentFileObject paramFileObject = (AttachmentFileObject) data.getSerializableExtra(AttachmentFileObject.RESULT);
-                    upadateListItem(paramFileObject);
-                    break;
-                }
+//                case FileActions.ACTION_EDIT: {
+//                    AttachmentFileObject paramFileObject = (AttachmentFileObject) data.getSerializableExtra(AttachmentFileObject.RESULT);
+//                    upadateListItem(paramFileObject);
+//                    onRefresh();
+//                    break;
+//                }
 
                 case FileActions.ACTION_DOWNLOAD_OPEN: {
                     AttachmentFileObject paramFileObject = (AttachmentFileObject) data.getSerializableExtra(AttachmentFileObject.RESULT);
-                    upadateListItem(paramFileObject);
+//                    upadateListItem(paramFileObject);
                     jumpToDetail(paramFileObject);
+                    onRefresh();
                     break;
                 }
 
-//                default:
-//                    showMiddleToast("");
+                default:
+                    onRefresh();
+                    setResult(Activity.RESULT_OK);
             }
         }
     }
@@ -1696,8 +1714,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
 
     public class FileActions {
         public static final String ACTION_NAME = "ACTION_NAME";
-        public static final int ACTION_EDIT = 1;
-        public static final int ACTION_DELETE = 2;
         public static final int ACTION_DOWNLOAD_OPEN = 4;
     }
 
