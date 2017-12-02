@@ -66,7 +66,7 @@
     <color name="white_pressed1">#ffdfdfdf</color>
     <drawable name="white">#ffffffff</drawable>
 
-    <color name="file_downloaded">#1A81BCFF</color>
+    <color name="file_downloaded">#FFEEF5FF</color>
 
     <color name="input_background">#ffe8e8e8</color>
 

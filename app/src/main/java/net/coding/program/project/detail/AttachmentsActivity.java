@@ -305,9 +305,13 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
 
             holder.more.setTag(position);
             holder.more.setOnClickListener(onMoreClickListener);
-            holder.item_layout_root.setBackgroundResource(data.isDownload
-                    ? R.drawable.list_item_selector_project_file
-                    : R.drawable.list_item_selector);
+//            holder.item_layout_root.setBackgroundResource(data.isDownload
+//                    ? R.drawable.list_item_selector_project_file
+//                    : R.drawable.list_item_selector);
+
+            holder.item_layout_root.setBackgroundColor(getResources().getColor(data.isDownload
+                    ? R.color.file_downloaded
+                    : R.color.stand_bg));
 
             if (data.isFolder) {
                 holder.more.setVisibility(View.INVISIBLE);

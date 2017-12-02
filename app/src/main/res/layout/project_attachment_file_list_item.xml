@@ -4,8 +4,8 @@
     android:id="@+id/item_layout_root"
     android:layout_width="match_parent"
     android:layout_height="85dp"
-    android:background="@color/stand_bg"
-    android:foreground="?attr/selectableItemBackground">
+    android:foreground="?attr/selectableItemBackground"
+    android:background="@color/stand_bg">
 
     <CheckBox
         android:id="@+id/checkbox"
