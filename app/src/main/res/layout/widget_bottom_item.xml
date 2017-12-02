@@ -19,7 +19,7 @@
             android:gravity="center"
             android:id="@+id/itemText"
             tools:text="下载"
-            android:textColor="@color/font_1"
+            android:textColor="@drawable/bottom_text"
             android:textSize="16sp"/>
 
 </FrameLayout>

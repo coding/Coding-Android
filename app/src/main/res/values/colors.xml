@@ -47,6 +47,8 @@
     <color name="layout_yellow_bg">#FAF8D4</color>
     <color name="layout_yellow_font">#836E32</color>
 
+    <color name="text_disable">#BDC8D5</color>
+
     <color name="emoji_line">@color/divide_line</color>
 
     <!--对话框背景色-->
