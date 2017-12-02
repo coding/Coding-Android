@@ -17,6 +17,7 @@
         android:background="@color/transparent"
         android:imeOptions="actionSearch"
         android:maxLines="1"
+        android:lines="1"
         android:textColor="@color/font_1"
         android:textColorHint="@color/color_hint"
         android:textSize="15sp" />

@@ -204,6 +204,27 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         }
     }
 
+    public static void fileItemJump(AttachmentFileObject attachmentFile, AttachmentFolderObject folder, ProjectObject project, Context context) {
+        if (attachmentFile.isDownload) {
+            jumpToDetail(context, folder, attachmentFile, project);
+        } else if (attachmentFile.isImage()) {
+            AttachmentsPhotoDetailActivity_
+                    .intent(context)
+                    .mProjectObjectId(project.getId())
+                    .mAttachmentFolderObject(folder)
+                    .mAttachmentFileObject(attachmentFile)
+                    .mProject(project)
+                    .startForResult(RESULT_FILE_DETAIL);
+        } else {
+            AttachmentsDownloadDetailActivity_.intent(context)
+                    .mProjectObjectId(project.getId())
+                    .mAttachmentFolderObject(folder)
+                    .mAttachmentFileObject(attachmentFile)
+                    .mProject(project)
+                    .startForResult(RESULT_FILE_DETAIL);
+        }
+    }
+
     public static void fileItemJump(CodingFile fileObject, CodingFile parentFolder, ProjectObject project, Context context) {
         if (fileObject.isFolder()) {
             ProjectFileMainActivity_.intent(context)
@@ -213,25 +234,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         } else {
             AttachmentFolderObject folder = new AttachmentFolderObject(parentFolder);
             AttachmentFileObject attachmentFile = new AttachmentFileObject(fileObject);
-
-            if (fileObject.isDownloaded()) {
-                jumpToDetail(context, folder, attachmentFile, project);
-            } else if (fileObject.isImage()) {
-                AttachmentsPhotoDetailActivity_
-                        .intent(context)
-                        .mProjectObjectId(project.getId())
-                        .mAttachmentFolderObject(folder)
-                        .mAttachmentFileObject(attachmentFile)
-                        .mProject(project)
-                        .startForResult(RESULT_FILE_DETAIL);
-            } else {
-                AttachmentsDownloadDetailActivity_.intent(context)
-                        .mProjectObjectId(project.getId())
-                        .mAttachmentFolderObject(folder)
-                        .mAttachmentFileObject(attachmentFile)
-                        .mProject(project)
-                        .startForResult(RESULT_FILE_DETAIL);
-            }
+            fileItemJump(attachmentFile, folder, project, context);
         }
     }
 

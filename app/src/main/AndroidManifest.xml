@@ -815,6 +815,11 @@
             android:label="@string/title_activity_search_project"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".project.detail.file.OldSearchProjectFileActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_search_project"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".project.detail.file.v2.SearchProjectFileActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_search_project"
