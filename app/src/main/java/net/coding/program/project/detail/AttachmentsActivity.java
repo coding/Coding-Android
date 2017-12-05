@@ -29,6 +29,7 @@ import android.widget.ListView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
+import net.coding.program.project.detail.file.EventFileModify;
 import net.coding.program.project.detail.file.OldSearchProjectFileActivity;
 import net.coding.program.project.detail.file.OldSearchProjectFileActivity_;
 import net.coding.program.project.detail.file.v2.SearchProjectFileActivity;
@@ -507,6 +508,11 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
             initSetting();
             loadMore();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventFileModify(EventFileModify event) {
+        onRefresh();
     }
 
     private void showFolderAction() {

@@ -2,6 +2,7 @@ package net.coding.program.project.detail.file;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
@@ -13,6 +14,7 @@ import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.model.RequestData;
 import net.coding.program.common.model.TaskObject;
 import net.coding.program.common.model.topic.TopicData;
+import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.project.detail.AttachmentsActivity;
 import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.task.TaskDescrip;
@@ -23,6 +25,8 @@ import net.coding.program.task.TaskDespPreviewFragment_;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,6 +43,9 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, E
     @Extra
     FileDynamicActivity.ProjectFileParam mParam;
 
+    @ViewById(R.id.blankLayout)
+    View blankLayout;
+
     TaskObject.TaskDescription descriptionData = new TaskObject.TaskDescription();
 
     String HOST_DESCRIPTION = Global.HOST_API + "/task/%s/description";
@@ -49,6 +56,7 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, E
 
     @AfterViews
     protected final void initTaskDescriptionActivity() {
+        BlankViewHelp.setBlankLoading(blankLayout, true);
         editFragment = TaskDespEditFragment_.builder().build();
         previewFragment = TaskDespPreviewFragment_.builder().build();
 
@@ -56,6 +64,7 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, E
         File file = mParam.getLocalFile(mFileSaveHelp.getFileDownloadPath());
         if (file != null && file.exists()) {
             initData(file);
+            BlankViewHelp.setBlankLoading(blankLayout, false);
         } else {
             String urlDownload = Global.HOST_API + "/project/%d/files/%s/download";
             String url = String.format(urlDownload, mParam.getProjectId(), mParam.getFileId());
@@ -67,6 +76,12 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, E
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, File file) {
                     initData(file);
+                }
+
+                @Override
+                public void onFinish() {
+                    super.onFinish();
+                    BlankViewHelp.setBlankLoading(blankLayout, false);
                 }
             });
         }
@@ -125,6 +140,8 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, E
                 File localFile = mParam.getLocalFile(help.getFileDownloadPath());
                 TxtEditActivity.writeFile(localFile, modifyData.content);
                 fileObject.isDownload = true;
+
+                EventBus.getDefault().post(new EventFileModify());
 
                 setResult(RESULT_OK);
                 finish();

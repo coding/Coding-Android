@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:background="@color/stand_bg"
-    android:foreground="?attr/selectableItemBackground">
+    android:background="@color/stand_bg">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"

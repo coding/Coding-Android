@@ -1,6 +1,7 @@
 package net.coding.program.project.detail.file;
 
 import android.content.Intent;
+import android.view.View;
 import android.widget.EditText;
 
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
@@ -12,6 +13,7 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.model.RequestData;
+import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.project.detail.AttachmentsActivity;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity;
 import net.coding.program.project.detail.file.v2.DownloadHelp;
@@ -22,6 +24,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,6 +47,9 @@ public class TxtEditActivity extends BackActivity {
     @ViewById
     EditText editText;
 
+    @ViewById(R.id.blankLayout)
+    View blankLayout;
+
     private FileSaveHelp mFileSaveHelp;
 
     public static void writeFile(File srcFile, String content) {
@@ -61,15 +67,18 @@ public class TxtEditActivity extends BackActivity {
         getSupportActionBar().setTitle(mParam.getFileObject().getName());
         mFileSaveHelp = new FileSaveHelp(this);
 
+        BlankViewHelp.setBlankLoading(blankLayout, true);
         File file = mParam.getLocalFile(mFileSaveHelp.getFileDownloadPath());
         if (file != null && file.exists()) {
             initFile(file);
+            BlankViewHelp.setBlankLoading(blankLayout, false);
         } else {
             String urlDownload = Global.HOST_API + "/project/%d/files/%s/download";
             String url = String.format(urlDownload, mParam.getProjectId(), mParam.getFileId());
             MyAsyncHttpClient.get(this, url, new FileAsyncHttpResponseHandler(this) {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+
                 }
 
                 @Override
@@ -80,6 +89,7 @@ public class TxtEditActivity extends BackActivity {
                 @Override
                 public void onFinish() {
                     super.onFinish();
+                    BlankViewHelp.setBlankLoading(blankLayout, false);
                 }
             });
 
@@ -132,6 +142,7 @@ public class TxtEditActivity extends BackActivity {
                 writeFile(localFile, editText.getText().toString());
                 fileObject.isDownload = true;
 
+                EventBus.getDefault().post(new EventFileModify());
                 setResult(RESULT_OK);
                 finish();
             } else {
