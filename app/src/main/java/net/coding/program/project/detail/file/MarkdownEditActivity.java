@@ -3,8 +3,11 @@ package net.coding.program.project.detail.file;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
+
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.model.RequestData;
@@ -25,8 +28,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 
+import cz.msebera.android.httpclient.Header;
+
 @EActivity(R.layout.activity_markdown_edit)
-//@OptionsMenu(R.menu.menu_markdown_edit)
 public class MarkdownEditActivity extends BackActivity implements TaskDescrip, EditPreviewMarkdown {
 
     private static final String TAG_SAVE_CONTENT = "TAG_SAVE_CONTENT";
@@ -50,6 +54,25 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, E
 
         FileSaveHelp mFileSaveHelp = new FileSaveHelp(this);
         File file = mParam.getLocalFile(mFileSaveHelp.getFileDownloadPath());
+        if (file != null && file.exists()) {
+            initData(file);
+        } else {
+            String urlDownload = Global.HOST_API + "/project/%d/files/%s/download";
+            String url = String.format(urlDownload, mParam.getProjectId(), mParam.getFileId());
+            MyAsyncHttpClient.get(this, url, new FileAsyncHttpResponseHandler(this) {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, File file) {
+                    initData(file);
+                }
+            });
+        }
+    }
+
+    private void initData(File file) {
         descriptionData.markdown = Global.readTextFile(file);
 
         String markdown = descriptionData.markdown;

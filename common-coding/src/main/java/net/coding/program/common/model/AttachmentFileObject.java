@@ -144,7 +144,7 @@ public class AttachmentFileObject implements Serializable {
         fileType = file.fileType;
         file_id = String.valueOf(file.fileId);
         name = file.name;
-            owner = file.owner;
+        owner = file.owner;
         owner_id = String.valueOf(file.ownerId);
         owner_preview = file.ownerPreview;
         parent_id = String.valueOf(file.parentId);
@@ -372,6 +372,14 @@ public class AttachmentFileObject implements Serializable {
 
     public boolean isGif() {
         return this.fileType.toLowerCase().equals("gif");
+    }
+
+    public boolean isMarkdown() {
+        return AttachmentFileObject.isMd(fileType);
+    }
+
+    public boolean isTxt() {
+        return AttachmentFileObject.isTxt(fileType);
     }
 
     public boolean needJump() {

@@ -3,14 +3,18 @@ package net.coding.program.project.detail.file;
 import android.content.Intent;
 import android.widget.EditText;
 
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
+
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.model.RequestData;
 import net.coding.program.project.detail.AttachmentsActivity;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity;
+import net.coding.program.project.detail.file.v2.DownloadHelp;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -24,6 +28,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+
+import cz.msebera.android.httpclient.Header;
 
 @EActivity(R.layout.activity_txt_edit)
 @OptionsMenu(R.menu.menu_txt_edit)
@@ -57,18 +63,38 @@ public class TxtEditActivity extends BackActivity {
 
         File file = mParam.getLocalFile(mFileSaveHelp.getFileDownloadPath());
         if (file != null && file.exists()) {
-            String content = "";
-            try {
-                FileInputStream is = new FileInputStream(file);
-                content = AttachmentsHtmlDetailActivity.readTextFile(is);
-            } catch (Exception e) {
-                Global.errorLog(e);
-            }
-            editText.setText(content);
+            initFile(file);
         } else {
-            showButtomToast("文件未保存到本地");
-            finish();
+            String urlDownload = Global.HOST_API + "/project/%d/files/%s/download";
+            String url = String.format(urlDownload, mParam.getProjectId(), mParam.getFileId());
+            MyAsyncHttpClient.get(this, url, new FileAsyncHttpResponseHandler(this) {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, File file) {
+                    initFile(file);
+                }
+
+                @Override
+                public void onFinish() {
+                    super.onFinish();
+                }
+            });
+
         }
+    }
+
+    private void initFile(File file) {
+        String content = "";
+        try {
+            FileInputStream is = new FileInputStream(file);
+            content = AttachmentsHtmlDetailActivity.readTextFile(is);
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+        editText.setText(content);
     }
 
     @OptionsItem

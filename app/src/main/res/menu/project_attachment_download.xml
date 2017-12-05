@@ -11,6 +11,12 @@
 
         <menu>
             <item
+               android:id="@+id/action_text_edit"
+                android:icon="@drawable/ic_menu_edit_txt"
+                android:title="编辑"
+                app:showAsAction="always" />
+
+            <item
                 android:id="@+id/action_link_public"
                 android:icon="@drawable/ic_menu_share_link"
                 android:title="@string/public_link"
