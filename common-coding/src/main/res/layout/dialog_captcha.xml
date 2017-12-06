@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="left"
-        android:text="来，输个验证码先！"
+        android:text="提示：请输入图片验证码"
         android:textColor="@color/font_2"
         android:textIsSelectable="false"
         android:textSize="16sp" />
