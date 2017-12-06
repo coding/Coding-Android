@@ -64,15 +64,13 @@ public class ImagePagerFragment extends BaseFragment {
             .build();
     private final View.OnClickListener onClickImageClose = v -> getActivity().onBackPressed();
 
-    @ViewById(resName = "circleLoading")
+    @ViewById
     DonutProgress circleLoading;
-
-    @ViewById(resName = "imageLoadFail")
+    @ViewById
     View imageLoadFail;
-    @ViewById(resName = "rootLayout")
+    @ViewById
     ViewGroup rootLayout;
-
-    @ViewById(resName = "blankLayout")
+    @ViewById
     View blankLayout;
 
     View image;

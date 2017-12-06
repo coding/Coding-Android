@@ -40,6 +40,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import net.coding.program.pickphoto.R;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.PermissionUtil;
+import net.coding.program.pickphoto.R2;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -49,13 +50,12 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
-@EActivity(resName = "activity_image_pager")
+@EActivity(R2.layout.activity_image_pager)
 public class ImagePagerActivity extends BackActivity {
 
     private final String SAVE_INSTANCE_INDEX = "SAVE_INSTANCE_INDEX";
     DisplayImageOptions options;
-    @ViewById(resName = "pager")
-    ViewPager pager;
+
     @Extra
     int mPagerPosition;
     @Extra
@@ -66,6 +66,10 @@ public class ImagePagerActivity extends BackActivity {
     String mSingleUri;
     @Extra
     boolean needEdit;
+
+    @ViewById(R2.id.pager)
+    ViewPager pager;
+
     ImagePager adapter;
 
     ArrayList<String> mDelUrls = new ArrayList<>();
@@ -188,8 +192,8 @@ public class ImagePagerActivity extends BackActivity {
         finish();
     }
 
-    @OptionsItem(resName = "action_del_maopao")
-    protected final void action_del_maopao() {
+    @OptionsItem(R2.id.action_del_maopao)
+    protected final void actionRelMaopao() {
         final int selectPos = pager.getCurrentItem();
         AlertDialog dialog = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("图片")
