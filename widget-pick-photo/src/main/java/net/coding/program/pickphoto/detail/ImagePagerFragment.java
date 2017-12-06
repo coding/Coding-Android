@@ -26,6 +26,7 @@ import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.pickphoto.R;
+import net.coding.program.pickphoto.R2;
 import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
@@ -44,9 +45,9 @@ import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by chaochen on 2014-9-7.
- *
+ * 图片显示控件
  */
-@EFragment(resName = "activity_image_pager_item")
+@EFragment(R2.layout.activity_image_pager_item)
 public class ImagePagerFragment extends BaseFragment {
 
     public static final int HTTP_CODE_FILE_NOT_EXIST = 1304;
@@ -65,6 +66,7 @@ public class ImagePagerFragment extends BaseFragment {
 
     @ViewById(resName = "circleLoading")
     DonutProgress circleLoading;
+
     @ViewById(resName = "imageLoadFail")
     View imageLoadFail;
     @ViewById(resName = "rootLayout")
