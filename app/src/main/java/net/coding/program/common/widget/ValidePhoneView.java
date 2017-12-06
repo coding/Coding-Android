@@ -2,7 +2,9 @@ package net.coding.program.common.widget;
 
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -12,6 +14,8 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.network.NetworkImpl;
+import net.coding.program.common.ui.PopCaptchaDialog;
 import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.OnTextChange;
 import net.coding.program.common.model.PhoneCountry;
@@ -32,7 +36,7 @@ public class ValidePhoneView extends AppCompatTextView {
     private CountDownTimer countDownTimer = new CountDownTimer(60000, 1000) {
 
         public void onTick(long millisUntilFinished) {
-            ValidePhoneView.this.setText(String.format("%d秒", millisUntilFinished / 1000));
+            ValidePhoneView.this.setText(String.format("%s秒", millisUntilFinished / 1000));
             ValidePhoneView.this.setEnabled(false);
         }
 
@@ -49,7 +53,7 @@ public class ValidePhoneView extends AppCompatTextView {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        setOnClickListener(v -> sendPhoneMessage());
+        setOnClickListener(v -> sendPhoneMessage(""));
     }
 
     public void setEditPhone(OnTextChange edit) {
@@ -78,7 +82,7 @@ public class ValidePhoneView extends AppCompatTextView {
         countDownTimer.onFinish();
     }
 
-    void sendPhoneMessage() {
+    void sendPhoneMessage(String captche) {
         if (inputPhone.isEmpty() && editPhone == null) {
             Log.e("", "editPhone is null");
             return;
@@ -107,11 +111,23 @@ public class ValidePhoneView extends AppCompatTextView {
 
                 @Override
                 public void onMyFailure(JSONObject response) {
-                    super.onMyFailure(response);
                     countDownTimer.cancel();
                     countDownTimer.onFinish();
+
+                    if (response.optInt("code", 0) == NetworkImpl.NETWORK_ERROR_SEND_MESSAGE_NEED_CAPTCHA) {
+                        PopCaptchaDialog.pop(getContext(), (input, dialog) -> {
+                            ValidePhoneView.this.sendPhoneMessage(input);
+                            dialog.dismiss();
+                        });
+                    } else {
+                        super.onMyFailure(response);
+                    }
                 }
             };
+        }
+
+        if (!TextUtils.isEmpty(captche)) {
+            params.put("j_captcha", captche);
         }
 
         if (type == Type.setPassword) {

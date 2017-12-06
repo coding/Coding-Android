@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="left"
-        android:text="亲，你操作这么快，不会是机器人吧？来，输个验证码先！"
+        android:text="来，输个验证码先！"
         android:textColor="@color/font_2"
         android:textIsSelectable="false"
         android:textSize="16sp" />
@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="验证码"
+            android:textColor="@color/font_2"
             android:textSize="16sp" />
 
         <ImageView

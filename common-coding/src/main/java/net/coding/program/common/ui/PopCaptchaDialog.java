@@ -28,12 +28,18 @@ import cz.msebera.android.httpclient.Header;
 public class PopCaptchaDialog {
 
     public static void pop(Context context) {
+        pop(context, null);
+    }
+
+    public static void pop(Context context, Callback callback) {
         View layout = LayoutInflater.from(context).inflate(R.layout.dialog_captcha, null);
-        EditText captchaEdit = (EditText) layout.findViewById(R.id.captchaEdit);
-        ImageView captchaImage = (ImageView) layout.findViewById(R.id.imageValify);
+        EditText captchaEdit = layout.findViewById(R.id.captchaEdit);
+        ImageView captchaImage = layout.findViewById(R.id.imageValify);
 
         captchaImage.setOnClickListener(v -> {
-            String url = Global.HOST_API + "/getCaptcha?type=0";
+            String url = Global.HOST_API + "/getCaptcha";
+            if (callback == null) url = url + "?type=0";
+
             MyAsyncHttpClient.get(context, url, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -61,18 +67,27 @@ public class PopCaptchaDialog {
                 return;
             }
 
-            String url = Global.HOST_API + "/request_valid?type=0";
-            RequestParams params = new RequestParams();
-            params.put("j_captcha", input);
-            MyAsyncHttpClient.post(context, url, params, new MyJsonResponse(context) {
-                @Override
-                public void onMySuccess(JSONObject response) {
-                    dialog.dismiss();
-                }
-            });
+            if (callback == null) {
+                String url = Global.HOST_API + "/request_valid?type=0";
+                RequestParams params = new RequestParams();
+                params.put("j_captcha", input);
+                MyAsyncHttpClient.post(context, url, params, new MyJsonResponse(context) {
+                    @Override
+                    public void onMySuccess(JSONObject response) {
+                        dialog.dismiss();
+                    }
+                });
+            } else {
+                callback.callback(input, dialog);
+            }
 
         });
 
         captchaImage.performClick();
     }
+
+    public interface Callback {
+        void callback(String captcha, AlertDialog dialog);
+    }
+
 }

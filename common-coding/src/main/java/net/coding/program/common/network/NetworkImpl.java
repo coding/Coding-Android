@@ -30,6 +30,7 @@ public class NetworkImpl {
     public static final int NETWORK_ERROR_SERVICE = -2;
     public static final int NETWORK_CONNECT_FAIL = -3; // 联网失败
     public static final int NETWORK_ERROR_NEED_CAPTCHA = 907;
+    public static final int NETWORK_ERROR_SEND_MESSAGE_NEED_CAPTCHA = 903;
     public static final String ERROR_MSG_CONNECT_FAIL = "连接服务器失败，请检查网络或稍后重试";
     public static final String ERROR_MSG_SERVICE_ERROR = "服务器内部错误，请稍后重试";
     private final NetworkCallback callback;
