@@ -15,6 +15,8 @@ public class Subject {
 
     public static class SubjectDescObject implements Serializable, ISubjectRecommendObject {
 
+        private static final long serialVersionUID = -8890594453428648661L;
+
         public int id;
         public String name;
         public Integer speackers;
@@ -69,6 +71,9 @@ public class Subject {
     }
 
     public static class HotTweetDescObject implements Serializable {
+
+        private static final long serialVersionUID = 6695978729344184433L;
+
         public int id;
         public int owner_id;
         public UserObject owner;
@@ -114,6 +119,8 @@ public class Subject {
     }
 
     public static class SubjectLastUsedObject implements Serializable, ISubjectRecommendObject {
+
+        private static final long serialVersionUID = 587704153402125828L;
 
         public String name;
 

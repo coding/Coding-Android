@@ -13,6 +13,14 @@ android {
 
         packageBuildConfig(false)
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["logLevel"          : "TRACE",
+                             "library"           : "true",
+                             "logAppenderConsole": "true"]
+            }
+        }
+
     }
 
     buildTypes {
@@ -28,7 +36,7 @@ android {
     }
 }
 
-def AAVersion = '4.3.1'
+def AAVersion = '4.4.0'
 
 dependencies {
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
