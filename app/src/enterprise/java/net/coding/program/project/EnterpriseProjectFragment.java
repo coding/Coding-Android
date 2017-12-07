@@ -23,28 +23,29 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import com.readystatesoftware.viewbadger.BadgeView;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.TextWatcherAt;
+import net.coding.program.common.event.EventRefresh;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.PermissionUtil;
-import net.coding.program.common.event.EventRefresh;
 import net.coding.program.message.MessageListActivity_;
-import net.coding.program.common.model.AccountInfo;
-import net.coding.program.common.model.ProjectObject;
-import net.coding.program.common.model.UserObject;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.Pager;
 import net.coding.program.project.init.InitProUtils;
 import net.coding.program.project.init.create.ProjectCreateActivity_;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.task.add.TaskAddActivity_;
 import net.coding.program.user.UsersListActivity;
+import net.coding.program.util.TextWatcherAt;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -183,7 +184,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
     }
 
     void actionCreateTask() {
-        TaskAddActivity_.intent(this).mUserOwner(MyApp.sUserObject).start();
+        TaskAddActivity_.intent(this).mUserOwner(GlobalData.sUserObject).start();
     }
 
     void actionSendMessage() {
@@ -195,7 +196,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
             return;
         }
 
-        Global.start2FAActivity(getActivity());
+        GlobalCommon.start2FAActivity(getActivity());
     }
 
     @Override

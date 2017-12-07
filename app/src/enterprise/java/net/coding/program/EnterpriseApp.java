@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.compatible.EnterpriseCompatImp;
 import net.coding.program.common.model.EnterpriseInfo;
@@ -46,7 +47,7 @@ public class EnterpriseApp extends MyApp {
             }
         }
 
-        setEnterpriseGK(enterpriseName);
+        GlobalData.setEnterpriseGK(enterpriseName);
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
     }

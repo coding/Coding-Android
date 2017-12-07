@@ -338,7 +338,6 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
             if (code == 0) {
                 user = new UserObject(respanse.getJSONObject("data"));
                 AccountInfo.saveAccount(this, user);
-                //MyApp.sUserObject = user;
                 getUserInfoRows();
                 adapter.notifyDataSetChanged();
             } else {

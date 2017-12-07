@@ -86,7 +86,7 @@
             android:persistent="true"
             android:process=":xg_service_v2" />
 
-        <receiver android:name=".common.EnterprisePushReceiver">
+        <receiver android:name=".EnterprisePushReceiver">
             <intent-filter>
 
                 <!-- 接收消息透传 -->

@@ -17,19 +17,18 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 
-import net.coding.program.EnterpriseApp;
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.WeakRefHander;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.EnterpriseInfo;
+import net.coding.program.common.model.team.TeamMember;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
-import net.coding.program.common.model.AccountInfo;
-import net.coding.program.common.model.EnterpriseInfo;
-import net.coding.program.common.model.team.TeamMember;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.constant.MemberAuthority;
@@ -80,7 +79,7 @@ public class ManageMemberActivity extends BackActivity implements Handler.Callba
     }
 
     private void onRefresh() {
-        String host = String.format("%s/team/%s/members", Global.HOST_API, EnterpriseApp.getEnterpriseGK());
+        String host = String.format("%s/team/%s/members", Global.HOST_API, GlobalData.getEnterpriseGK());
         getNetwork(host, TAG_PROJECT);
     }
 
@@ -240,7 +239,7 @@ public class ManageMemberActivity extends BackActivity implements Handler.Callba
 
     private void actionDelete2FA(TeamMember user, String code) {
         Network.getRetrofit(this)
-                .removeEnterpriseMember(MyApp.getEnterpriseGK(), user.user.global_key, code)
+                .removeEnterpriseMember(GlobalData.getEnterpriseGK(), user.user.global_key, code)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseHttpObserver(this) {
@@ -267,7 +266,7 @@ public class ManageMemberActivity extends BackActivity implements Handler.Callba
     @Override
     public boolean handleMessage(Message msg) {
         if (edit2fa != null) {
-            String secret = AccountInfo.loadAuth(this, MyApp.sUserObject.global_key);
+            String secret = AccountInfo.loadAuth(this, GlobalData.sUserObject.global_key);
             if (secret.isEmpty()) {
                 return true;
             }

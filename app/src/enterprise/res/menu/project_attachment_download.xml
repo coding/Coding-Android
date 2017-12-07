@@ -10,6 +10,11 @@
         app:showAsAction="withText|always">
 
         <menu>
+            <item
+                android:id="@+id/action_text_edit"
+                android:icon="@drawable/ic_menu_edit_txt"
+                android:title="编辑"
+                app:showAsAction="always" />
 
             <item
                 android:id="@+id/action_info"

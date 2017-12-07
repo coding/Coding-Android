@@ -11,6 +11,7 @@ import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.ui.BaseActivity;
@@ -146,7 +147,7 @@ public class EnterpriseEntranceActivity extends BaseActivity implements Handler.
             if (code == 0) {
                 UserObject user = new UserObject(respanse.getJSONObject("data"));
                 AccountInfo.saveAccount(this, user);
-                MyApp.sUserObject = user;
+                GlobalData.sUserObject = user;
                 AccountInfo.saveReloginInfo(this, user);
                 next();
             } else {

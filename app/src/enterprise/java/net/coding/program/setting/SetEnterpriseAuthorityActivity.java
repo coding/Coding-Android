@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.network.BaseHttpObserver;
@@ -63,7 +64,7 @@ public class SetEnterpriseAuthorityActivity extends BackActivity {
 
     private void modifyAuthority(int id) {
         Network.getRetrofit(this)
-                .setEnterpriseRole(MyApp.getEnterpriseGK(), globayKey, id)
+                .setEnterpriseRole(GlobalData.getEnterpriseGK(), globayKey, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseHttpObserver(this) {

@@ -125,4 +125,9 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
                 .jumpParam(param)
                 .start();
     }
+
+    @Override
+    public void launchSetGKActivity(Context context) {
+        // todo 未完成
+    }
 }

@@ -4,6 +4,8 @@ import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
@@ -19,7 +21,7 @@ public class EnterpriseMyDetailActivity extends UserDetailCommonActivity {
 
     @AfterViews
     void initMyDetailActivity() {
-        bindUI(MyApp.sUserObject);
+        bindUI(GlobalData.sUserObject);
         tv_follow_state.setText("编辑资料");
         rl_follow_state.setOnClickListener(v -> {
             UserDetailEditActivity_
@@ -28,7 +30,7 @@ public class EnterpriseMyDetailActivity extends UserDetailCommonActivity {
         });
 
         final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
-        getNetwork(HOST_USER_INFO + MyApp.sUserObject.global_key, TAG_HOST_USER_INFO);
+        getNetwork(HOST_USER_INFO + GlobalData.sUserObject.global_key, TAG_HOST_USER_INFO);
     }
 
     @Override
@@ -48,11 +50,11 @@ public class EnterpriseMyDetailActivity extends UserDetailCommonActivity {
     protected void onStart() {
         super.onStart();
 
-        bindUI(MyApp.sUserObject);
+        bindUI(GlobalData.sUserObject);
     }
 
     public int getActionBarSize() {
-        return Global.dpToPx(48);
+        return GlobalCommon.dpToPx(48);
     }
 
 }

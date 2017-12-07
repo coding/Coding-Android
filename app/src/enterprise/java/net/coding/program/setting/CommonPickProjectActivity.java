@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 
-import net.coding.program.EnterpriseApp;
 import net.coding.program.R;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
@@ -65,7 +65,7 @@ public class CommonPickProjectActivity extends BackActivity {
 
     private void onRefresh() {
         Network.getRetrofit(CommonPickProjectActivity.this, listView)
-                .getUserJoinedProjects(EnterpriseApp.getEnterpriseGK(), member.user.global_key)
+                .getUserJoinedProjects(GlobalData.getEnterpriseGK(), member.user.global_key)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpObserver<List<MemberRole>>(this, listView) {

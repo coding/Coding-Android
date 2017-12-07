@@ -8,11 +8,8 @@ import android.content.Intent;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import net.coding.program.common.EnterprisePushReceiver;
 import net.coding.program.common.Global;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.compatible.CodingCompat;
 
 public class EnterpriseMyPushReceiver extends BroadcastReceiver {
 
@@ -37,7 +34,7 @@ public class EnterpriseMyPushReceiver extends BroadcastReceiver {
         String url = intent.getStringExtra("data");
 
         if (url != null) {
-            openNewActivityFromMain(context, url);
+            MyApp.openNewActivityFromMain(context, url);
         }
 
         String id = intent.getStringExtra("id");

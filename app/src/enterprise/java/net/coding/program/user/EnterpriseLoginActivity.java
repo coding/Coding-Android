@@ -26,25 +26,27 @@ import net.coding.program.EnterpriseApp;
 import net.coding.program.EnterpriseMainActivity_;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.SimpleSHA1;
-import net.coding.program.common.widget.input.SimpleTextWatcher;
-import net.coding.program.guide.GuideActivity;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.EnterpriseDetail;
+import net.coding.program.common.model.EnterpriseInfo;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.widget.LoginEditTextNew;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.compatible.CodingCompat;
+import net.coding.program.guide.GuideActivity;
 import net.coding.program.login.PhoneRegisterActivity_;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.login.phone.Close2FAActivity_;
 import net.coding.program.login.phone.EnterpriseEmailSetPasswordActivity_;
-import net.coding.program.common.model.AccountInfo;
-import net.coding.program.common.model.EnterpriseDetail;
-import net.coding.program.common.model.EnterpriseInfo;
-import net.coding.program.common.model.UserObject;
 import net.coding.program.network.constant.MemberAuthority;
 
 import org.androidannotations.annotations.AfterViews;
@@ -259,18 +261,18 @@ public class EnterpriseLoginActivity extends BaseActivity {
     }
 
     private void login2fa() {
-            String input = edit2FA.getText().toString();
-            if (input.isEmpty()) {
-                showMiddleToast("请输入身份验证器中的验证码");
-                return;
-            }
+        String input = edit2FA.getText().toString();
+        if (input.isEmpty()) {
+            showMiddleToast("请输入身份验证器中的验证码");
+            return;
+        }
 
-            RequestParams params = new RequestParams();
-            params.put("code", input);
-            postNetwork(Global.HOST_API + "/check_two_factor_auth_code", params, TAG_HOST_USER_NEED_2FA);
-            showProgressBar(true, "登录中");
+        RequestParams params = new RequestParams();
+        params.put("code", input);
+        postNetwork(Global.HOST_API + "/check_two_factor_auth_code", params, TAG_HOST_USER_NEED_2FA);
+        showProgressBar(true, "登录中");
 
-            Global.popSoftkeyboard(this, edit2FA, false);
+        Global.popSoftkeyboard(this, edit2FA, false);
     }
 
     private void login() {
@@ -329,7 +331,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
         if (login2faMenu.getText().equals(CLOSE_2FA_TIP)) {
             Close2FAActivity_.intent(this).startForResult(RESULT_CLOSE_2FA);
         } else {
-            Global.start2FAActivity(this);
+            GlobalCommon.start2FAActivity(this);
         }
     }
 
@@ -423,7 +425,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
         } else if (tag.equals(TAG_HOST_IS_ADMIN)) { // 判断是否管理员
             if (code == 0) {
                 showProgressBar(false);
-                 boolean isAdmin = respanse.optBoolean("data", false);
+                boolean isAdmin = respanse.optBoolean("data", false);
                 if (isAdmin) {
                     if (!EnterpriseInfo.instance().canManagerEnterprise()) {
                         enterpriseDetail.setIdentity(MemberAuthority.manager);
@@ -451,7 +453,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
         EnterpriseInfo.instance().update(this, enterpriseDetail);
 
         AccountInfo.saveAccount(this, currentUserInfo);
-        EnterpriseApp.sUserObject = currentUserInfo;
+        GlobalData.sUserObject = currentUserInfo;
         AccountInfo.saveReloginInfo(this, currentUserInfo);
 
         Global.syncCookie(this);

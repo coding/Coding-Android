@@ -1,4 +1,4 @@
-package net.coding.program.common;
+package net.coding.program;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -15,13 +15,13 @@ import com.tencent.android.tpush.XGPushRegisterResult;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
 
-import net.coding.program.EnterpriseMyPushReceiver;
-import net.coding.program.MyApp;
-import net.coding.program.R;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
+import net.coding.program.common.GlobalSetting;
+import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.push.PushUrl;
 import net.coding.program.message.UsersListFragment;
-import net.coding.program.common.model.AccountInfo;
+import net.coding.program.route.URLSpanNoUnderline;
 
 import org.json.JSONObject;
 
@@ -57,7 +57,7 @@ public class EnterprisePushReceiver extends XGPushBaseReceiver {
 
     public void onTextMessage(Context context, XGPushTextMessage message) {
         try {
-            if (!AccountInfo.getNeedPush(context) || !AccountInfo.isLogin(context)) {
+            if (!AccountInfo.isLogin(context)) {
                 return;
             }
 
@@ -87,8 +87,8 @@ public class EnterprisePushReceiver extends XGPushBaseReceiver {
             String url = jsonCustom.optString("param_url", "");
 
             // 如果本地没有 2FA，就不显示这个推送
-            if (url.equals(PushUrl.getHost2FA())) {
-                String authUri = AccountInfo.loadAuth(context, MyApp.sUserObject.global_key);
+            if (PushUrl.is2faLink(url)) {
+                String authUri = AccountInfo.loadAuth(context, GlobalData.sUserObject.global_key);
                 if (authUri.isEmpty()) {
                     return;
                 }

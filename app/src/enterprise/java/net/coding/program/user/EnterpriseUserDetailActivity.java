@@ -3,11 +3,12 @@ package net.coding.program.user;
 import android.view.View;
 import android.widget.TextView;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.message.MessageListActivity_;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.model.UserObject;
+import net.coding.program.message.MessageListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -31,7 +32,7 @@ public class EnterpriseUserDetailActivity extends UserDetailCommonActivity {
 
     @AfterViews
     void initEnterpriseUserDetailActivity() {
-        if (MyApp.sUserObject.global_key.equals(globalKey)) {
+        if (GlobalData.sUserObject.global_key.equals(globalKey)) {
             EnterpriseMyDetailActivity_.intent(this).start();
             finish();
             return;
@@ -77,7 +78,7 @@ public class EnterpriseUserDetailActivity extends UserDetailCommonActivity {
     }
 
     public int getActionBarSize() {
-        return Global.dpToPx(48);
+        return GlobalCommon.dpToPx(48);
     }
 
 

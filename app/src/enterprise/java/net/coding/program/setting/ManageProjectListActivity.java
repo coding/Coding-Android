@@ -15,12 +15,13 @@ import android.widget.TextView;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
-import net.coding.program.EnterpriseApp;
-import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.WeakRefHander;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
 import net.coding.program.common.umeng.UmengEvent;
@@ -28,8 +29,6 @@ import net.coding.program.common.widget.CommonAdapter;
 import net.coding.program.common.widget.CommonListView;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
-import net.coding.program.common.model.AccountInfo;
-import net.coding.program.common.model.ProjectObject;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
@@ -78,7 +77,7 @@ public class ManageProjectListActivity extends BackActivity {
 
         hander2fa = new WeakRefHander(msg -> {
             if (edit2fa != null) {
-                String secret = AccountInfo.loadAuth(getApplicationContext(), MyApp.sUserObject.global_key);
+                String secret = AccountInfo.loadAuth(getApplicationContext(), GlobalData.sUserObject.global_key);
                 if (secret.isEmpty()) {
                     return true;
                 }
@@ -103,7 +102,7 @@ public class ManageProjectListActivity extends BackActivity {
                     listJoinData.clear();
                     listJoinData.addAll(listHttpResult.data.list);
                     return Network.getRetrofit(ManageProjectListActivity.this, listView)
-                            .getManagerProjects(EnterpriseApp.getEnterpriseGK())
+                            .getManagerProjects(GlobalData.getEnterpriseGK())
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread());
                 })
@@ -144,6 +143,7 @@ public class ManageProjectListActivity extends BackActivity {
             head = (TextView) v.findViewById(R.id.head);
         }
     }
+
     protected class ProjectAdapter extends CommonAdapter<ProjectObject, ProjectHolder> {
 
         public ProjectAdapter(List<ProjectObject> list) {

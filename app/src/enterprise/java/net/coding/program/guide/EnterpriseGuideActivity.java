@@ -19,6 +19,7 @@ import com.fivehundredpx.android.blur.BlurringView;
 import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.guide.IndicatorView;
 import net.coding.program.user.EnterpriseLoginActivity_;
 
@@ -120,7 +121,7 @@ public class EnterpriseGuideActivity extends AppCompatActivity {
 
         blurringView.invalidate();
 
-        int width = MyApp.sWidthPix;
+        int width = GlobalData.sWidthPix;
         setPoint(ball0, width);
         setPoint(ball1, width);
         setPoint(ball2, width);

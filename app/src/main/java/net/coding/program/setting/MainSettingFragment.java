@@ -59,7 +59,10 @@ public class MainSettingFragment extends BaseFragment {
             return true;
         });
 
-        itemShop.showBadge(RedPointTip.show(getActivity(), RedPointTip.Type.SettingShop_P460));
+        // 企业版没有商城
+        if (itemShop != null) {
+            itemShop.showBadge(RedPointTip.show(getActivity(), RedPointTip.Type.SettingShop_P460));
+        }
 
         bindDataUserinfo();
     }

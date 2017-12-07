@@ -12,13 +12,13 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.R;
+import net.coding.program.common.CameraPhotoUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.pickphoto.CameraPhotoUtil;
-import net.coding.program.common.ui.BackActivity;
-import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.model.EnterpriseDetail;
 import net.coding.program.common.model.EnterpriseInfo;
+import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.util.FileUtil;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -53,23 +53,23 @@ public class EnterpriseSettingActivity extends BackActivity {
     @ViewById
     TextView personIp;
 
-    private String getUploadImgHost(){
+    private String getUploadImgHost() {
         String host = String.format("%s/user", Global.HOST_API);
-        return host+"/avatar";
+        return host + "/avatar";
     }
 
-    private String getUpdateHost(){
+    private String getUpdateHost() {
         String host = String.format("%s/team/%s", Global.HOST_API, EnterpriseInfo.instance().getGlobalkey());
-        return host+"/avatar";
+        return host + "/avatar";
     }
 
-    private String getImgHost(){
+    private String getImgHost() {
         String host = String.format("%s/team/%s", Global.HOST_API, EnterpriseInfo.instance().getGlobalkey());
-        return host+"/get";
+        return host + "/get";
     }
 
     @AfterViews
-    void initView(){
+    void initView() {
         setActionBarTitle(getString(R.string.enterprise_setting));
         ImageLoader.getInstance().displayImage(EnterpriseInfo.instance().getAvatar(), enterpriseHead, ImageLoadTool.options);
         enterpriseNameTv.setText(EnterpriseInfo.instance().getName());
@@ -77,12 +77,12 @@ public class EnterpriseSettingActivity extends BackActivity {
     }
 
     @Click
-    void enterpriseName(){
+    void enterpriseName() {
         EnterpriseNameActivity_.intent(this).startForResult(REQUEST_UPDATE_NAME);
     }
 
     @Click
-    void enterpriseHeadLayout(){
+    void enterpriseHeadLayout() {
         setIcon();
     }
 
@@ -105,6 +105,7 @@ public class EnterpriseSettingActivity extends BackActivity {
 
     private Uri fileUri;
     private Uri fileCropUri;
+
     private void camera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         fileUri = CameraPhotoUtil.getOutputMediaFileUri();
@@ -118,7 +119,7 @@ public class EnterpriseSettingActivity extends BackActivity {
     }
 
     @OnActivityResult(REQUEST_UPDATE_NAME)
-    void updateNameResult(int result){
+    void updateNameResult(int result) {
         if (result == Activity.RESULT_OK) {
             enterpriseNameTv.setText(EnterpriseInfo.instance().getName());
             setResult(Activity.RESULT_OK);
@@ -126,7 +127,7 @@ public class EnterpriseSettingActivity extends BackActivity {
     }
 
     @OnActivityResult(RESULT_REQUEST_PHOTO)
-    void updateHeadResult(int result, Intent data){
+    void updateHeadResult(int result, Intent data) {
         if (result == Activity.RESULT_OK) {
             if (data != null) {
                 fileUri = data.getData();
@@ -138,13 +139,13 @@ public class EnterpriseSettingActivity extends BackActivity {
     }
 
     @OnActivityResult(RESULT_REQUEST_PHOTO_CROP)
-    void updatePhotoCropResult(int result, Intent data){
+    void updatePhotoCropResult(int result, Intent data) {
         if (result == Activity.RESULT_OK) {
             try {
                 String filePath = FileUtil.getPath(this, fileCropUri);
                 RequestParams params = new RequestParams();
                 params.put("images.jpg", new File(filePath));
-                postNetwork(uploadImgHost,params, UPLOAD_IMG);
+                postNetwork(uploadImgHost, params, UPLOAD_IMG);
                 showDialogLoading();
             } catch (Exception e) {
                 Global.errorLog(e);
@@ -158,26 +159,26 @@ public class EnterpriseSettingActivity extends BackActivity {
             if (code == 0) {
                 String url = respanse.optString("data");
                 putImg(url);
-            }else{
+            } else {
                 showErrorMsg(code, respanse);
                 hideProgressDialog();
             }
-        }else if(tag.equals(PUT_IMG)){
+        } else if (tag.equals(PUT_IMG)) {
             hideProgressDialog();
             if (code == 0) {
                 getImgData();
-            }else{
+            } else {
                 showErrorMsg(code, respanse);
                 hideProgressDialog();
             }
-        }else if(tag.equals(GET_IMG_DATA)){
+        } else if (tag.equals(GET_IMG_DATA)) {
             hideProgressDialog();
             if (code == 0) {
                 JSONObject dataObject = respanse.optJSONObject("data");
                 EnterpriseDetail detail = new EnterpriseDetail(dataObject);
                 EnterpriseInfo.instance().update(this, detail);
                 ImageLoader.getInstance().displayImage(EnterpriseInfo.instance().getAvatar(), enterpriseHead, ImageLoadTool.options);
-            }else{
+            } else {
                 showErrorMsg(code, respanse);
             }
         }

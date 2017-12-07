@@ -660,36 +660,6 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
                 showErrorMsg(code, respanse);
             }
 
-//        } else if (tag.equals(HOST_GOOD)) {
-//            if (code == 0) {
-////                int headCount = listView.getHeaderViewsCount();
-//                for (int i = 0; i < mData.size(); ++i) {
-//                    Maopao.MaopaoObject maopao = mData.get(i);
-//                    if (maopao.id == ((Maopao.MaopaoObject) data).id) {
-//                        maopao.liked = !maopao.liked;
-//                        if (maopao.liked) {
-//                            Maopao.Like_user like_user = new Maopao.Like_user(MyApp.sUserObject);
-//                            maopao.like_users.add(0, like_user);
-//                            ++maopao.likes;
-//                        } else {
-//                            for (int j = 0; j < maopao.like_users.size(); ++j) {
-//                                if (maopao.like_users.get(j).global_key.equals(MyApp.sUserObject.global_key)) {
-//                                    maopao.like_users.remove(j);
-//                                    --maopao.likes;
-//                                    break;
-//                                }
-//                            }
-//                        }
-//
-//                        mAdapter.notifyDataSetChanged();
-//
-//                        break;
-//                    }
-//                }
-//            } else {
-//                showErrorMsg(code, respanse);
-//            }
-
         } else if (tag.equals(MaopaoRequestTag.TAG_DELETE_MAOPAO)) {
             int maopaoId = (int) data;
             if (code == 0) {
