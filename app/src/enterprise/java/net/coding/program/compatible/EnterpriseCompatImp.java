@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 /**
  * Created by chenchao on 2016/12/28.
+ * 企业版与平台板不同的跳转页面
  */
 
 public class EnterpriseCompatImp implements ClassCompatInterface {
@@ -128,6 +129,6 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
 
     @Override
     public void launchSetGKActivity(Context context) {
-        // todo 未完成
+        // 跳转到设置 GK 界面，企业版没有这个界面
     }
 }
