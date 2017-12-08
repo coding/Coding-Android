@@ -20,6 +20,7 @@ import net.coding.program.common.widget.input.InputAction;
 /**
  * Created by chaochen on 14-10-30.
  * todo 单独的控件
+ *
  */
 public class EmojiFragment extends Fragment {
 

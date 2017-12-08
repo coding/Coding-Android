@@ -128,9 +128,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (type == Type.Main || type == Type.Create) {
-            // 不显示菜单
-        } else {
+        if (type != Type.Main && type != Type.Create) {
             inflater.inflate(R.menu.menu_project_pick_search, menu);
         }
 
@@ -139,6 +137,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
 
     @Override
     public void updateRead(int id) {
+        // TODO: 2017/12/8  有 bug
         List<WeakReference<Fragment>> fragmentList = adapter.getFragments();
         for (WeakReference<Fragment> item : fragmentList) {
             Fragment fragment = item.get();
@@ -150,6 +149,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
 
     @Override
     public void updatePin(int id, boolean pin) {
+        // TODO: 2017/12/8  有 bug
         List<WeakReference<Fragment>> fragmentList = adapter.getFragments();
         for (WeakReference<Fragment> item : fragmentList) {
             Fragment fragment = item.get();
@@ -217,6 +217,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO: 2017/12/8  有 bug
         List<WeakReference<Fragment>> fragmentList = adapter.getFragments();
         for (WeakReference<Fragment> item : fragmentList) {
             Fragment fragment = item.get();
