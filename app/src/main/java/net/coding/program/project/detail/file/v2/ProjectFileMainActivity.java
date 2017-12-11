@@ -20,13 +20,15 @@ import android.widget.EditText;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.orhanobut.logger.Logger;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.PhotoOperate;
-import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ImageInfo;
-import net.coding.program.pickphoto.PhotoPickActivity;
+import net.coding.program.common.PhotoOperate;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.AttachmentFolderObject;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
 import net.coding.program.common.umeng.UmengEvent;
@@ -35,9 +37,6 @@ import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.BottomToolBar;
 import net.coding.program.common.widget.CommonListView;
 import net.coding.program.common.widget.FileListHeadItem2;
-import net.coding.program.common.model.AttachmentFileObject;
-import net.coding.program.common.model.AttachmentFolderObject;
-import net.coding.program.common.model.ProjectObject;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.CodingRequest;
 import net.coding.program.network.FileDownloadCallback;
@@ -46,6 +45,7 @@ import net.coding.program.network.Network;
 import net.coding.program.network.model.HttpPageResult;
 import net.coding.program.network.model.Pager;
 import net.coding.program.network.model.file.CodingFile;
+import net.coding.program.pickphoto.PhotoPickActivity;
 import net.coding.program.project.detail.AttachmentsDownloadDetailActivity_;
 import net.coding.program.project.detail.AttachmentsFolderSelectorActivity_;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity_;
@@ -147,8 +147,8 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
         listView.setDefaultOnRefreshListener(() -> onRefresh());
         onRefresh();
 
-        bottomLayout.setOnClickListener(clickBottom);
-        bottomLayoutBatch.setOnClickListener(clickBottom);
+        bottomLayout.setClick(clickBottom);
+        bottomLayoutBatch.setClick(clickBottom);
     }
 
     protected void onRefresh() {
@@ -580,6 +580,8 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
                         listAdapter.notifyDataSetChanged();
                         showButtomToast("移动成功");
+
+                        setResult(RESULT_OK);
                     }
                 });
     }
@@ -588,6 +590,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
     void onResultDetail(int resultCode) {
         if (resultCode == RESULT_OK) {
             onRefresh();
+            setResult(RESULT_OK);
         }
     }
 
