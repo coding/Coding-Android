@@ -1,7 +1,6 @@
 package net.coding.program.project.init.setting.v2;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -21,9 +20,7 @@ import net.coding.program.common.model.ProjectObject;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
-import net.coding.program.project.ProjectFragment;
-import net.coding.program.project.ProjectHomeActivity;
-import net.coding.program.project.init.InitProUtils;
+import net.coding.program.project.EventProjectModify;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -31,6 +28,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 
@@ -138,10 +136,10 @@ public class EnterpriseProjectSetActivity extends PickPhotoActivity {
                         umengEvent(UmengEvent.PROJECT, "修改项目");
                         showButtomToast("修改成功");
 
-                        InitProUtils.hideSoftInput(EnterpriseProjectSetActivity.this);
-                        Intent intent = new Intent();
-                        intent.putExtra("projectObject", data);
-                        setResult(Activity.RESULT_OK, intent);
+                        Global.hideSoftKeyboard(EnterpriseProjectSetActivity.this);
+
+                        setResult(Activity.RESULT_OK);
+                        EventBus.getDefault().post(new EventProjectModify());
                         finish();
                     }
 
@@ -172,10 +170,7 @@ public class EnterpriseProjectSetActivity extends PickPhotoActivity {
                                     umengEvent(UmengEvent.PROJECT, "退出项目");
 
                                     showButtomToast("已退出项目");
-                                    Intent intent = new Intent();
-                                    intent.setAction(ProjectFragment.RECEIVER_INTENT_REFRESH_PROJECT);
-                                    intent.setAction(ProjectHomeActivity.BROADCAST_CLOSE);
-                                    sendBroadcast(intent);
+                                    EventBus.getDefault().post(new EventProjectModify().setExit());
                                     finish();
                                 }
 
@@ -215,10 +210,10 @@ public class EnterpriseProjectSetActivity extends PickPhotoActivity {
 
                             iconfromNetwork(projectIcon, data.icon);
 
-                            InitProUtils.hideSoftInput(EnterpriseProjectSetActivity.this);
-                            Intent intent = new Intent();
-                            intent.putExtra("projectObject", data);
-                            setResult(Activity.RESULT_OK, intent);
+                            Global.hideSoftKeyboard(EnterpriseProjectSetActivity.this);
+
+                            setResult(Activity.RESULT_OK);
+                            EventBus.getDefault().post(new EventProjectModify());
                         }
 
                         @Override

@@ -14,7 +14,6 @@ import net.coding.program.common.ui.BaseListActivity;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.ProjectHomeActivity_;
-import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -29,7 +28,7 @@ public class ForksListActivity extends BaseListActivity {
         ProjectJumpParam param = new ProjectJumpParam(projectObject.depot_path);
         ProjectHomeActivity_.intent(ForksListActivity.this)
                 .mJumpParam(param)
-                .startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+                .start();
     };
 
     @Override

@@ -20,4 +20,6 @@ abstract class SearchBaseFragment extends RefreshBaseFragment {
 
     @ViewById(R.id.emptyView)
     LinearLayout emptyView;
+
+
 }

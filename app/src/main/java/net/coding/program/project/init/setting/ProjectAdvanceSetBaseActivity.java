@@ -21,13 +21,14 @@ import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.ProjectObject;
-import net.coding.program.project.init.InitProUtils;
+import net.coding.program.project.EventProjectModify;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -146,7 +147,9 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
             if (code == 0) {
                 umengEvent(UmengEvent.PROJECT, "删除项目");
                 showButtomToast("删除成功");
-                InitProUtils.intentToMain(ProjectAdvanceSetBaseActivity.this);
+
+                EventBus.getDefault().post(new EventProjectModify().setExit());
+                setResult(RESULT_OK);
                 finish();
             } else {
                 showErrorMsg(code, respanse);
@@ -156,7 +159,9 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
             if (code == 0) {
                 umengEvent(UmengEvent.PROJECT, "转让项目");
                 showButtomToast("转让成功");
-                InitProUtils.intentToMain(ProjectAdvanceSetBaseActivity.this);
+
+                EventBus.getDefault().post(new EventProjectModify().setExit());
+                setResult(RESULT_OK);
                 finish();
             } else {
                 showErrorMsg(code, respanse);

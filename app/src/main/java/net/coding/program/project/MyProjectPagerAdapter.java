@@ -3,9 +3,9 @@ package net.coding.program.project;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 
-import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.model.ProjectObject;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by chenchao on 15/8/1.
  */
-class MyProjectPagerAdapter extends SaveFragmentPagerAdapter {
+class MyProjectPagerAdapter extends FragmentStatePagerAdapter {
 
     private ProjectFragment projectFragment;
 
@@ -60,8 +60,6 @@ class MyProjectPagerAdapter extends SaveFragmentPagerAdapter {
         bundle.putSerializable("mData", getChildData(position));
         bundle.putSerializable("type", projectFragment.type);
         fragment.setArguments(bundle);
-
-        saveFragment(fragment);
 
         return fragment;
     }

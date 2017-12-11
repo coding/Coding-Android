@@ -219,7 +219,7 @@ public class MyApp extends MultiDexApplication {
         GlobalData.sUserObject = AccountInfo.loadAccount(this);
         GlobalData.sUnread = new Unread();
 
-        // todo 路由要想办法，否则后面没法做
+        // todo  路由要想办法，否则后面没法做
         GlobalCommon.rounterMap.put(GlobalCommon.ROUNTER_2FA, Login2FATipActivity.class);
         GlobalCommon.rounterMap.put(GlobalCommon.ROUNTER_AUTH_LIST, AuthListActivity.class);
 

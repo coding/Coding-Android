@@ -31,6 +31,7 @@ import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.network.constant.MemberAuthority;
 import net.coding.program.network.model.user.Member;
+import net.coding.program.project.EventProjectModify;
 import net.coding.program.project.ProjectFragment;
 import net.coding.program.project.ProjectHomeActivity;
 
@@ -41,6 +42,7 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -495,10 +497,9 @@ public class MembersListFragment extends CustomMoreFragment implements LoadMore 
                 umengEvent(UmengEvent.PROJECT, "退出项目");
 
                 showButtomToast("成功退出项目");
-                Intent intent = new Intent();
-                intent.setAction(ProjectFragment.RECEIVER_INTENT_REFRESH_PROJECT);
-                intent.setAction(ProjectHomeActivity.BROADCAST_CLOSE);
-                getActivity().sendBroadcast(intent);
+
+                EventBus.getDefault().post(new EventProjectModify().setExit());
+
                 getActivity().onBackPressed();
             } else {
                 showErrorMsg(code, respanse);

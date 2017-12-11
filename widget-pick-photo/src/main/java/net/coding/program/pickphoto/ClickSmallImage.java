@@ -27,7 +27,6 @@ public class ClickSmallImage implements View.OnClickListener {
     public void onClick(View v) {
         ClickImageParam param = (ClickImageParam) v.getTag();
 
-        // todo 恢复 ImagePagerActivity_
         ImagePagerActivity_.IntentBuilder_ builder;
         if (mActivity != null) {
             builder = ImagePagerActivity_.intent(mActivity);

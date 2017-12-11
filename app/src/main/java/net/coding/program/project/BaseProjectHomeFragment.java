@@ -1,8 +1,6 @@
 package net.coding.program.project;
 
 
-import android.app.Activity;
-import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +14,6 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.model.ProjectObject;
-import net.coding.program.project.init.InitProUtils;
 import net.coding.program.project.init.setting.ProjectSetActivity_;
 import net.coding.program.project.init.setting.v2.EnterpriseProjectSetActivity_;
 
@@ -24,6 +21,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,11 +38,11 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
         if (GlobalData.getEnterpriseGK().isEmpty()) {
             ProjectSetActivity_.intent(BaseProjectHomeFragment.this)
                     .projectObject(mProjectObject)
-                    .startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+                    .start();
         } else {
             EnterpriseProjectSetActivity_.intent(BaseProjectHomeFragment.this)
                     .project(mProjectObject)
-                    .startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+                    .start();
         }
     };
 
@@ -61,7 +59,6 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
     TextView projectName, description, projectAuthor;
 
     BadgeView dynamicBadge;
-    private boolean isBackToRefresh = false;
 
     public static String getHostVisit() {
         return Global.HOST_API + "/project/%d/update_visit";
@@ -104,11 +101,6 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
         }
     }
 
-    public boolean isBackToRefresh() {
-        return isBackToRefresh;
-    }
-
-
     protected void setRedPointStyle(int buttonId, RedPointTip.Type type) {
         View item = getView().findViewById(buttonId);
         View redPoint = item.findViewById(R.id.badge);
@@ -123,18 +115,6 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
 
     abstract void updateRedPoinitStyle();
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == InitProUtils.REQUEST_PRO_UPDATE) {
-            if (resultCode == Activity.RESULT_OK) {
-                mProjectObject = (ProjectObject) data.getSerializableExtra("projectObject");
-                isBackToRefresh = true;
-                initHeadHead();
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
     protected final void updateDynamic() {
         String s = String.format(BaseProjectHomeFragment.getHostVisit(), mProjectObject.getId());
         getNetwork(s, HOST_VISTIT, 0, mProjectObject.getId());
@@ -144,8 +124,7 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_VISTIT)) {
             if (respanse.getInt("code") == 0) {
-                int id = (int) data;
-                InitProUtils.updateDynamic(getActivity(), id);
+                EventBus.getDefault().post(new EventProjectModify());
                 Global.setBadgeView(dynamicBadge, 0);
                 mProjectObject.setReadActivities();
             }

@@ -1,10 +1,8 @@
 package net.coding.program.project;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +16,15 @@ import com.loopj.android.http.RequestParams;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.R;
-import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.UnreadNotify;
-import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.event.EventRefresh;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.param.ProjectJumpParam;
-import net.coding.program.project.init.InitProUtils;
 import net.coding.program.project.init.create.ProjectCreateActivity_;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -40,10 +36,10 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
-
-import java.util.ArrayList;
 
 @EFragment(R.layout.project_list_fragment)
 public class ProjectListFragment extends RefreshBaseFragment implements View.OnClickListener, ProjectActionUtil.OnSettingListener {
@@ -144,15 +140,8 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        EventBus.getDefault().unregister(this);
+    protected boolean useEventBus() {
+        return true;
     }
 
     // 用于处理推送
@@ -165,20 +154,34 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
 
     @Override
     public void onRefresh() {
-        ((SwipeRefreshLayout.OnRefreshListener) getParentFragment()).onRefresh();
+        EventBus.getDefault().post(new EventProjectModify());
     }
 
-    public void setRead(int id) {
-        for (int i = 0; i < mData.size(); ++i) {
-            if (mData.get(i).getId() == id) {
-                mData.get(i).unReadActivitiesCount = 0;
-                myAdapter.notifyDataSetChanged();
-                break;
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(URL_PIN_SET)) {
+            if (code == 0) {
+                setPin((int) data, true);
+                EventBus.getDefault().post(new EventProjectModify());
+
+                umengEvent(UmengEvent.PROJECT, "设为常用");
+            } else {
+                showErrorMsg(code, respanse);
+            }
+
+        } else if (tag.equals(URL_PIN_DELETE)) {
+            if (code == 0) {
+                setPin((int) data, false);
+                EventBus.getDefault().post(new EventProjectModify());
+
+                umengEvent(UmengEvent.PROJECT, "取消常用");
+            } else {
+                showErrorMsg(code, respanse);
             }
         }
     }
 
-    public void setPin(int id, boolean pin) {
+    private void setPin(int id, boolean pin) {
         for (int i = 0; i < mData.size(); ++i) {
             if (mData.get(i).getId() == id) {
                 mData.get(i).setPin(pin);
@@ -193,28 +196,6 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
                 }
                 myAdapter.notifyDataSetChanged();
                 break;
-            }
-        }
-    }
-
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(URL_PIN_SET)) {
-            if (code == 0) {
-                int id = (int) data;
-                ((UpdateData) getParentFragment()).updatePin(id, true);
-                umengEvent(UmengEvent.PROJECT, "设为常用");
-            } else {
-                showErrorMsg(code, respanse);
-            }
-
-        } else if (tag.equals(URL_PIN_DELETE)) {
-            if (code == 0) {
-                int id = (int) data;
-                ((UpdateData) getParentFragment()).updatePin(id, false);
-                umengEvent(UmengEvent.PROJECT, "取消常用");
-            } else {
-                showErrorMsg(code, respanse);
             }
         }
     }
@@ -234,37 +215,13 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
 
         if (type == ProjectFragment.Type.Main || type == ProjectFragment.Type.Create) {
             ProjectJumpParam param = new ProjectJumpParam(item.project_path);
-            ProjectHomeActivity_.intent(fragment).mJumpParam(param).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+            ProjectHomeActivity_.intent(fragment).mJumpParam(param).start();
         } else {
             Intent intent = new Intent();
             intent.putExtra("data", item);
             getActivity().setResult(Activity.RESULT_OK, intent);
             getActivity().finish();
         }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == InitProUtils.REQUEST_PRO_UPDATE) {
-            if (resultCode == Activity.RESULT_OK) {
-                String action = data.getStringExtra("action");
-                if (action.equals(InitProUtils.FLAG_REFRESH)) {
-                    onRefresh();
-                } else if (action.equals(InitProUtils.FLAG_UPDATE_DYNAMIC)) {
-                    int projectId = data.getIntExtra("projectId", 0);
-                    if (projectId != 0) {
-                        Fragment parentFragment = getParentFragment();
-                        FragmentActivity activity = getActivity();
-                        if ((parentFragment instanceof UpdateData)
-                                && (activity != null)) {
-                            ((UpdateData) parentFragment).updateRead(projectId);
-                            UnreadNotify.update(activity);
-                        }
-                    }
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

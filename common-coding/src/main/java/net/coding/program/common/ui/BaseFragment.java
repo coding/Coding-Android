@@ -40,6 +40,7 @@ import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.GlobalCommon;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -188,6 +189,14 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Load
         mProgressDialog.setCancelable(false);
 
         mSingleToast = new SingleToast(getActivity());
+
+        if (useEventBus()) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    protected boolean useEventBus() {
+        return false;
     }
 
     @Override
@@ -198,6 +207,10 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Load
         }
 
         super.onDestroy();
+
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 
     @Override

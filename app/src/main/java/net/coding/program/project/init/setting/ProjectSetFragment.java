@@ -1,7 +1,6 @@
 package net.coding.program.project.init.setting;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,7 +17,7 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.common.model.ProjectObject;
-import net.coding.program.project.init.InitProUtils;
+import net.coding.program.project.EventProjectModify;
 import net.coding.program.project.init.setting.v2.ProjectSetFragmentBase;
 
 import org.androidannotations.annotations.AfterViews;
@@ -26,6 +25,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,7 +39,6 @@ public class ProjectSetFragment extends ProjectSetFragmentBase {
 
     private static final String TAG = "ProjectSetFragment";
 
-    boolean isBackToRefresh = false;
     MenuItem mMenuSave;
 
     @ViewById
@@ -151,12 +150,15 @@ public class ProjectSetFragment extends ProjectSetFragmentBase {
             if (code == 0) {
                 umengEvent(UmengEvent.PROJECT, "修改项目");
                 showButtomToast("修改成功");
-                isBackToRefresh = true;
                 mProjectObject = new ProjectObject(respanse.getJSONObject("data"));
-                InitProUtils.hideSoftInput(getActivity());
-                backToRefresh();
+                Global.hideSoftKeyboard(getActivity());
+
+                getActivity().setResult(Activity.RESULT_OK);
+                EventBus.getDefault().post(new EventProjectModify());
+
+                getActivity().finish();
+
             } else {
-                isBackToRefresh = false;
                 showErrorMsg(code, respanse);
             }
         } else {
@@ -164,19 +166,13 @@ public class ProjectSetFragment extends ProjectSetFragmentBase {
                 umengEvent(UmengEvent.PROJECT, "修改项目图片");
                 showButtomToast("图片上传成功...");
                 mProjectObject = new ProjectObject(respanse.getJSONObject("data"));
-                isBackToRefresh = true;
+
+                EventBus.getDefault().post(new EventProjectModify());
             } else {
-                isBackToRefresh = false;
                 showErrorMsg(code, respanse);
             }
         }
     }
 
 
-    public void backToRefresh() {
-        Intent intent = new Intent();
-        intent.putExtra("projectObject", mProjectObject);
-        getActivity().setResult(Activity.RESULT_OK, intent);
-        getActivity().finish();
-    }
 }

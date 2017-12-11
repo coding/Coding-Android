@@ -1,6 +1,7 @@
 package net.coding.program.common.util;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,5 +39,13 @@ public class InputCheck {
             SingleToast.showMiddleToast(context, "您输入的电话号码格式错误");
         }
         return result;
+    }
+
+    public static boolean textValidate(String text) {
+        if (TextUtils.isEmpty(text)) {
+            return false;
+        }
+        Matcher matcher = Pattern.compile("^[a-zA-Z0-9][a-zA-Z0-9_-]+$").matcher(text);
+        return matcher.find();
     }
 }

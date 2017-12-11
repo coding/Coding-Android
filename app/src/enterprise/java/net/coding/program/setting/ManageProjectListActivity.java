@@ -33,12 +33,12 @@ import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.project.ProjectHomeActivity_;
-import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -250,7 +250,7 @@ public class ManageProjectListActivity extends BackActivity {
             if (item.isJoined()) {
                 ProjectHomeActivity_.intent(this)
                         .mProjectObject(item)
-                        .startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+                        .start();
             } else {
                 showMiddleToast("无权进入项目");
             }
@@ -350,15 +350,17 @@ public class ManageProjectListActivity extends BackActivity {
                         showButtomToast("删除成功");
                         listData.remove(project);
                         adapter.notifyDataSetChanged();
-
-//                        umengEvent(Proj);
                     }
                 });
     }
 
-    @OnActivityResult(InitProUtils.REQUEST_PRO_UPDATE)
-    void onResultUpdate(int resultCode) {
-        onRefresh();
+    @Override
+    protected boolean userEventBus() {
+        return true;
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventProjectModify() {
+        onRefresh();
+    }
 }

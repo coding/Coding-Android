@@ -29,12 +29,12 @@ import net.coding.program.common.CameraPhotoUtil;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.compatible.UriCompat;
 import net.coding.program.common.event.EventRefresh;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.ProjectHomeActivity_;
-import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.CheckedChange;
@@ -245,7 +245,7 @@ public class ProjectCreateFragment extends BaseFragment {
             showButtomToast("项目名不能为空...");
             return;
         }
-        if (!InitProUtils.textValidate(projectInfo.name)) {
+        if (!InputCheck.textValidate(projectInfo.name)) {
             showWarningDialog();
             return;
         }

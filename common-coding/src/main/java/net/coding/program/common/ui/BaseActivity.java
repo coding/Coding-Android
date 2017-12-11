@@ -31,6 +31,7 @@ import net.coding.program.common.umeng.UmengActivity;
 import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.model.RequestData;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -158,6 +159,14 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         if (actionBar != null) {
             actionBar.setElevation(GlobalUnit.ACTIONBAR_SHADOW);
         }
+
+        if (userEventBus()) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    protected boolean userEventBus() {
+        return false;
     }
 
     protected void hideActionbarShade() {
@@ -177,6 +186,10 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         GlobalSetting.getInstance().removeMessageNoNotify();
 
         super.onDestroy();
+
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 
     protected void initSetting() {

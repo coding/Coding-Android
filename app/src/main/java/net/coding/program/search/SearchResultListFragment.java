@@ -1,7 +1,5 @@
 package net.coding.program.search;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -18,12 +16,13 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.ProjectHomeActivity_;
-import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ItemClick;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,6 +62,16 @@ public class SearchResultListFragment extends SearchBaseFragment {
             }
         }
     };
+
+    @Override
+    protected boolean useEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventProjectModify() {
+        onRefresh();
+    }
 
     @AfterViews
     protected void init() {
@@ -105,7 +114,7 @@ public class SearchResultListFragment extends SearchBaseFragment {
         itemData.getOwner().global_key = itemData.project_path.substring(0, itemData.project_path.indexOf("/p/")).replace("/u/", "");
         ProjectJumpParam param = new ProjectJumpParam(itemData.getOwner().global_key,
                 itemData.name);
-        ProjectHomeActivity_.intent(this).mJumpParam(param).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+        ProjectHomeActivity_.intent(this).mJumpParam(param).start();
     }
 
     @Override
@@ -148,19 +157,6 @@ public class SearchResultListFragment extends SearchBaseFragment {
                 hasMore = false;
             }
         }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == InitProUtils.REQUEST_PRO_UPDATE) {
-            if (resultCode == Activity.RESULT_OK) {
-                String action = data.getStringExtra("action");
-                if (action.equals(InitProUtils.FLAG_REFRESH)) {
-                    onRefresh();
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private static class ViewHolder {

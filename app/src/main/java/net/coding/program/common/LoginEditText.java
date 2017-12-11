@@ -13,7 +13,7 @@ import net.coding.program.common.widget.input.SimpleTextWatcher;
 
 /**
  * Created by chaochen on 15/1/6.
- * todo 自定义控件不要乱放
+ * todo  自定义控件不要乱放
  */
 public class LoginEditText extends EditText {
 

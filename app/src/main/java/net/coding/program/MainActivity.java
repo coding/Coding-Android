@@ -44,11 +44,8 @@ import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.HttpObserverRaw;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.common.AppVersion;
-import net.coding.program.pay.PayKeys;
 import net.coding.program.pay.WXPay;
 import net.coding.program.project.MainProjectFragment_;
-import net.coding.program.project.ProjectFragment;
-import net.coding.program.project.init.InitProUtils;
 import net.coding.program.push.CodingPush;
 import net.coding.program.push.xiaomi.EventPushToken;
 import net.coding.program.push.xiaomi.EventUnbindToken;
@@ -438,24 +435,6 @@ public class MainActivity extends BaseActivity {
 
         fragmentTransaction.commit();
 
-    }
-
-    //当项目设置里删除项目后，重新跳转到主界面，并刷新ProjectFragment
-    @Override
-    protected void onNewIntent(Intent intent) {
-        String action = intent.getStringExtra("action");
-        if (!TextUtils.isEmpty(action) && action.equals(InitProUtils.FLAG_REFRESH)) {
-            List<Fragment> fragments = getSupportFragmentManager().getFragments();
-            for (Fragment item : fragments) {
-                if (item instanceof ProjectFragment) {
-                    if (item.isAdded()) {
-                        ((ProjectFragment) item).onRefresh();
-                    }
-                    break;
-                }
-            }
-        }
-        super.onNewIntent(intent);
     }
 
     // 判断是否打开DrawerLayout

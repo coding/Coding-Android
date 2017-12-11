@@ -20,12 +20,13 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
-import net.coding.program.project.init.InitProUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,10 +41,10 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
  *
  */
 @EFragment(R.layout.project_list_fragment)
-public class ProjectOtherFragment extends RefreshBaseFragment implements ProjectListFragment.UpdateData, View.OnClickListener {
+public class ProjectOtherFragment extends RefreshBaseFragment implements View.OnClickListener {
 
-    final String hostWatched = Global.HOST_API + "/projects?page=1&pageSize=20&type=watched";
-    final String hostStared = Global.HOST_API + "/projects?page=1&pageSize=20&type=stared";
+    final String hostWatched = Global.HOST_API + "/projects?page=1&pageSize=200&type=watched";
+    final String hostStared = Global.HOST_API + "/projects?page=1&pageSize=200&type=stared";
 
     final String[] host = {hostWatched, hostStared};
 
@@ -75,7 +76,6 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
     @AfterViews
     protected void initProjectOtherFragment() {
         hideDialogLoading();
-//        mData = AccountInfo.loadProjects(getActivity());
         setHasOptionsMenu(true);
         initRefreshLayout();
         setRefreshing(true);
@@ -97,7 +97,7 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
             item.getOwner().global_key = item.project_path.substring(0, item.project_path.indexOf("/p/")).replace("/u/", "");
             ProjectJumpParam param = new ProjectJumpParam(item.getOwner().global_key,
                     item.name);
-            ProjectHomeActivity_.intent(fragment).mJumpParam(param).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+            ProjectHomeActivity_.intent(fragment).mJumpParam(param).start();
         } else {
             Intent intent = new Intent();
             intent.putExtra("data", item);
@@ -113,6 +113,16 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
             needRefresh = false;
             onRefresh();
         }
+    }
+
+    @Override
+    protected boolean useEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventProjectModify(EventProjectModify event) {
+        onRefresh();
     }
 
     @Override
@@ -163,23 +173,6 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements Project
     @Override
     public void onRefresh() {
         getNetwork(host[postion], host[postion]);
-    }
-
-//    private View.OnClickListener mOnClickRetry = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            onRefresh();
-//        }
-//    };
-
-    @Override
-    public void updateRead(int id) {
-
-    }
-
-    @Override
-    public void updatePin(int id, boolean pin) {
-
     }
 
     public String getTitle() {

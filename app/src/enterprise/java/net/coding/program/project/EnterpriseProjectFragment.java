@@ -1,7 +1,6 @@
 package net.coding.program.project;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
@@ -40,7 +39,6 @@ import net.coding.program.message.MessageListActivity_;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.Pager;
-import net.coding.program.project.init.InitProUtils;
 import net.coding.program.project.init.create.ProjectCreateActivity_;
 import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.task.add.TaskAddActivity_;
@@ -51,7 +49,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
@@ -98,6 +95,11 @@ public class EnterpriseProjectFragment extends BaseFragment {
             return 0;
         }
     };
+
+    @Override
+    protected boolean useEventBus() {
+        return true;
+    }
 
     @AfterViews
     void initEnterpriseProjectFramgent() {
@@ -199,18 +201,6 @@ public class EnterpriseProjectFragment extends BaseFragment {
         GlobalCommon.start2FAActivity(getActivity());
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        EventBus.getDefault().unregister(this);
-    }
-
     private void onRefresh() {
         Network.getRetrofit(getContext())
                 .getProjects()
@@ -263,7 +253,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
             ProjectObject item = (ProjectObject) object;
             ProjectHomeActivity_.intent(this)
                     .mProjectObject(item)
-                    .startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+                    .start();
         }
     };
 
@@ -275,6 +265,10 @@ public class EnterpriseProjectFragment extends BaseFragment {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventProjectModify(EventProjectModify event) {
+        onRefresh();
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -304,11 +298,6 @@ public class EnterpriseProjectFragment extends BaseFragment {
     }
 
     View.OnClickListener mOnClickRetry = v -> onRefresh();
-
-    @OnActivityResult(InitProUtils.REQUEST_PRO_UPDATE)
-    void onResultRefresh() {
-        onRefresh();
-    }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
