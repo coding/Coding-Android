@@ -29,4 +29,8 @@ allprojects {
         // huawei push need
         maven {url 'http://developer.huawei.com/repo/'}
     }
+
+    ext {
+
+    }
 }

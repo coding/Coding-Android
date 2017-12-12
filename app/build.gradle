@@ -44,7 +44,9 @@ android {
             abortOnError false
         }
     }
+
     flavorDimensions "mode", "version"
+
     productFlavors {
 
         // 版本号不能放在
@@ -88,9 +90,7 @@ android {
             jniDebuggable false
         }
         debug {
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
-//            jniDebuggable true
         }
     }
     packagingOptions {
@@ -101,7 +101,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
+
 gradle.projectsEvaluated {
     tasks.withType(JavaCompile) {
         options.compilerArgs << "-Xmaxerrs" << "99999" // 显示更多的编译错误，默认只显示 100 个
