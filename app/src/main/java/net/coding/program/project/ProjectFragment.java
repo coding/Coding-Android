@@ -100,6 +100,8 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
         if (type == Type.Create) {
             pager.setCurrentItem(MenuProjectFragment.POS_MY_CREATE, false);
         }
+
+        onRefresh();
     }
 
     @Override
