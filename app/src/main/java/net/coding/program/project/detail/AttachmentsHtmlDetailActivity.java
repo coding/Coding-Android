@@ -195,7 +195,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     @OptionsItem
     protected final void action_edit() {
         FileDynamicActivity.ProjectFileParam param = new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject,
-                mProject);
+                mProject).openByEditor();
         MarkdownEditActivity_.intent(this)
                 .mParam(param)
                 .startForResult(RESULT_MODIFY_TXT);

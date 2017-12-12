@@ -8,14 +8,13 @@ import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.model.RequestData;
 import net.coding.program.common.model.TaskObject;
 import net.coding.program.common.model.topic.TopicData;
+import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.BlankViewHelp;
-import net.coding.program.project.detail.AttachmentsActivity;
 import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.task.TaskDescrip;
 import net.coding.program.task.TaskDespEditFragment;
@@ -89,12 +88,10 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, E
 
     private void initData(File file) {
         descriptionData.markdown = Global.readTextFile(file);
-
-        String markdown = descriptionData.markdown;
-        if (markdown.isEmpty()) {
+        modifyData.content = descriptionData.markdown;
+        if (modifyData.content.isEmpty() || mParam.openByEditor) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
         } else {
-            modifyData.content = markdown;
             getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
         }
     }
@@ -194,7 +191,7 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, E
     public void exit() {
         RequestData request = mParam.getHttpEditFile(modifyData.content);
         postNetwork(request, TAG_SAVE_CONTENT);
-        showProgressBar(true, "正在保存到服务器");
+        showProgressBar(true, "正在保存");
     }
 
     @Override
