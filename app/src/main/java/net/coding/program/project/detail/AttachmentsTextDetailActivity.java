@@ -39,7 +39,6 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
     BottomToolBar bottomToolBar;
 
     String urlFiles = Global.HOST_API + "/project/%s/files/%s/view";
-    AttachmentFileObject mFiles = new AttachmentFileObject();
 
     @AfterViews
     protected final void initAttachmentsTextDetailActivity() {
@@ -95,8 +94,6 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
         if (tag.equals(urlFiles)) {
             if (code == 0) {
                 hideProgressDialog();
-                JSONObject file = respanse.getJSONObject("data").getJSONObject("file");
-                mFiles = new AttachmentFileObject(file);
                 String content = respanse.getJSONObject("data").optString("content");
                 textView.setText(content);
                 invalidateOptionsMenu();

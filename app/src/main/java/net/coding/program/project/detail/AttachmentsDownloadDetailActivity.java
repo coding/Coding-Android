@@ -298,7 +298,7 @@ public class AttachmentsDownloadDetailActivity extends CodingToolbarBackActivity
 //        urlPages = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id, mAttachmentFolderObject.file_id);
         urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
         urlDownload = String.format(urlDownload, mProjectObjectId, mAttachmentFileObject.file_id);
-        if (mAttachmentFileObject == null) {
+        if (mAttachmentFileObject == null || mAttachmentFileObject.getSize() == 0) {
             mainLayout.setVisibility(View.GONE);
             showDialogLoading();
             getFileUrlFromNetwork();
