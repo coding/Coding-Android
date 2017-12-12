@@ -274,12 +274,12 @@ public class MainActivity extends BaseActivity {
 
     private void runQQPushServer() {
         // 信鸽 push 服务会发 broadcast
-//        XGPushConfig.enableDebug(this, true);
-        if (!MyApp.isDebug()) {
+//        if (!MyApp.isDebug()) {
+//            XGPushConfig.enableDebug(this, true);
             String globalKey = GlobalData.sUserObject.global_key;
             XGPushManager.registerPush(this, globalKey);
             pushInXiaomi();
-        }
+//        }
     }
 
     private void runOtherPushServer() {
