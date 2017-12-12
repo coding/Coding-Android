@@ -14,13 +14,13 @@ import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.AttachmentFolderObject;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
-import net.coding.program.common.model.AttachmentFileObject;
-import net.coding.program.common.model.AttachmentFolderObject;
-import net.coding.program.common.model.ProjectObject;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity_;
 import net.coding.program.project.detail.file.FileSaveHelp;
@@ -49,6 +49,7 @@ public class AttachmentsDetailBaseActivity extends CodingToolbarBackActivity {
     private static final String TAG_SHARE_LINK_ON = "TAG_SHARE_LINK_ON";
     private static String TAG = AttachmentsDetailBaseActivity.class.getSimpleName();
     protected File mFile;
+
     @Extra
     protected File mExtraFile;
     @Extra
@@ -61,6 +62,7 @@ public class AttachmentsDetailBaseActivity extends CodingToolbarBackActivity {
     AttachmentFileObject mAttachmentFileObject;
     @Extra
     AttachmentFolderObject mAttachmentFolderObject;
+
     String urlDownload = "";
     AsyncHttpClient client;
     String fileInfoFormat =
@@ -230,8 +232,11 @@ public class AttachmentsDetailBaseActivity extends CodingToolbarBackActivity {
     void onResultShareLink(int result, Intent intent) {
         if (result == RESULT_OK) {
             setResult(result, intent);
-            mAttachmentFileObject = (AttachmentFileObject) intent.getSerializableExtra("data");
+            onRefresh();
         }
+    }
+
+    protected void onRefresh() {
     }
 
     @OptionsItem

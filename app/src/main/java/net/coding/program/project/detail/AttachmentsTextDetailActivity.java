@@ -5,15 +5,15 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
-import net.coding.program.pickphoto.detail.ImagePagerFragment;
 import net.coding.program.R;
-import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.widget.BottomToolBar;
-import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.pickphoto.detail.ImagePagerFragment;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.TxtEditActivity_;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -119,6 +119,11 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
         }
     }
 
+    @Override
+    protected void onRefresh() {
+        getFileUrlFromNetwork();
+    }
+
     @OptionsItem
     public void action_add() {
     }
@@ -136,8 +141,7 @@ public class AttachmentsTextDetailActivity extends AttachmentsDetailBaseActivity
     protected void onResultModify(int result, Intent intent) {
         if (result == Activity.RESULT_OK) {
             setResult(result, intent);
-            mAttachmentFileObject = (AttachmentFileObject) intent.getSerializableExtra(AttachmentFileObject.RESULT);
-            updateLoadFile();
+            onRefresh();
         }
     }
 }

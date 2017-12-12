@@ -205,8 +205,24 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
     }
 
     public static void fileItemJump(AttachmentFileObject attachmentFile, AttachmentFolderObject folder, ProjectObject project, Context context) {
-        if (attachmentFile.isDownload) {
-            jumpToDetail(context, folder, attachmentFile, project);
+        if (AttachmentFileObject.isTxt(attachmentFile.fileType)) {
+            AttachmentsTextDetailActivity_
+                    .intent(context)
+                    .mProjectObjectId(project.getId())
+                    .mAttachmentFolderObject(folder)
+                    .mAttachmentFileObject(attachmentFile)
+                    .mProject(project)
+                    .startForResult(RESULT_FILE_DETAIL);
+
+        } else if (AttachmentFileObject.isMd(attachmentFile.fileType)) {
+            AttachmentsHtmlDetailActivity_
+                    .intent(context)
+                    .mProjectObjectId(project.getId())
+                    .mAttachmentFolderObject(folder)
+                    .mAttachmentFileObject(attachmentFile)
+                    .mProject(project)
+                    .startForResult(RESULT_FILE_DETAIL);
+
         } else if (attachmentFile.isImage()) {
             AttachmentsPhotoDetailActivity_
                     .intent(context)
@@ -215,6 +231,7 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
                     .mAttachmentFileObject(attachmentFile)
                     .mProject(project)
                     .startForResult(RESULT_FILE_DETAIL);
+
         } else {
             AttachmentsDownloadDetailActivity_.intent(context)
                     .mProjectObjectId(project.getId())
@@ -235,45 +252,6 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
             AttachmentFolderObject folder = new AttachmentFolderObject(parentFolder);
             AttachmentFileObject attachmentFile = new AttachmentFileObject(fileObject);
             fileItemJump(attachmentFile, folder, project, context);
-        }
-    }
-
-    private static void jumpToDetail(Context context, AttachmentFolderObject mAttachmentFolderObject,
-                                     AttachmentFileObject data,
-                                     ProjectObject project) {
-        if (AttachmentFileObject.isTxt(data.fileType)) {
-            AttachmentsTextDetailActivity_
-                    .intent(context)
-                    .mProjectObjectId(project.getId())
-                    .mAttachmentFolderObject(mAttachmentFolderObject)
-                    .mAttachmentFileObject(data)
-                    .mProject(project)
-                    .startForResult(RESULT_FILE_DETAIL);
-
-        } else if (AttachmentFileObject.isMd(data.fileType)) {
-            AttachmentsHtmlDetailActivity_
-                    .intent(context)
-                    .mProjectObjectId(project.getId())
-                    .mAttachmentFolderObject(mAttachmentFolderObject)
-                    .mAttachmentFileObject(data)
-                    .mProject(project)
-                    .startForResult(RESULT_FILE_DETAIL);
-
-        } else if (data.isImage()) {
-            AttachmentsPhotoDetailActivity_
-                    .intent(context)
-                    .mProjectObjectId(project.getId())
-                    .mAttachmentFolderObject(mAttachmentFolderObject)
-                    .mAttachmentFileObject(data)
-                    .mProject(project)
-                    .startForResult(RESULT_FILE_DETAIL);
-        } else {
-            AttachmentsDownloadDetailActivity_.intent(context)
-                    .mProjectObjectId(project.getId())
-                    .mAttachmentFolderObject(mAttachmentFolderObject)
-                    .mAttachmentFileObject(data)
-                    .mProject(project)
-                    .startForResult(RESULT_FILE_DETAIL);
         }
     }
 

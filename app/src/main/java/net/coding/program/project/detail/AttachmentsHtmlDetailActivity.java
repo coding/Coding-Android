@@ -9,18 +9,18 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.pickphoto.detail.ImagePagerFragment;
-import net.coding.program.R;
 import net.coding.program.CustomWebViewClient;
-import net.coding.program.route.BlankViewDisplay;
+import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
+import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.widget.BottomToolBar;
-import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.pickphoto.detail.ImagePagerFragment;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.MarkdownEditActivity_;
 import net.coding.program.project.detail.file.TxtEditActivity;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -42,7 +42,6 @@ import java.io.InputStream;
  * Created by yangzhen
  */
 @EActivity(R.layout.activity_attachments_html)
-//@OptionsMenu(R.menu.users)
 public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity {
 
     private static final int RESULT_MODIFY_TXT = 1;
@@ -117,7 +116,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         super.parseJson(code, respanse, tag, pos, data);
         if (tag.equals(urlFiles)) {
-            showProgressBar(false);
+            showDialogLoading();
             if (code == 0) {
                 JSONObject file = respanse.getJSONObject("data").getJSONObject("file");
                 mFiles = new AttachmentFileObject(file);
@@ -129,9 +128,10 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
 //                } else
 //                if (mFiles.isMd()) {
                 requestMd2Html(content);
-                showProgressBar(true, "");
 //                }
                 invalidateOptionsMenu();
+                BlankViewDisplay.setBlank(1, this, true, blankLayout, null);
+
 
             } else {
                 if (code == ImagePagerFragment.HTTP_CODE_FILE_NOT_EXIST) {
@@ -171,7 +171,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
 
                 showButtomToast(R.string.connect_service_fail);
             }
-            showProgressBar(false, "");
+            showDialogLoading();
         }
     }
 
@@ -205,8 +205,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     protected void onResultModify(int result, Intent intent) {
         if (result == Activity.RESULT_OK) {
             setResult(result, intent);
-            mAttachmentFileObject = (AttachmentFileObject) intent.getSerializableExtra(AttachmentFileObject.RESULT);
-            updateLoadFile();
+            onRefresh();
         }
     }
 
@@ -227,6 +226,11 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
         } else {
             getFileUrlFromNetwork();
         }
+    }
+
+    @Override
+    protected void onRefresh() {
+        getFileUrlFromNetwork();
     }
 
     private void getFileUrlFromNetwork() {
