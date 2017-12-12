@@ -84,16 +84,10 @@
             <TextView
                 android:id="@+id/commentWebviewDetail"
                 style="@style/commentWebviewDetail"
+                android:visibility="invisible"
                 android:text="查看详情" />
 
         </RelativeLayout>
     </LinearLayout>
-
-    <!--<include-->
-    <!--layout="@layout/divide_1"-->
-    <!--android:layout_below="@id/layout_1"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="1dp"-->
-    <!--android:layout_marginTop="10dp" />-->
 
 </RelativeLayout>

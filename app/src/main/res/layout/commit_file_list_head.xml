@@ -72,6 +72,9 @@
         android:paddingRight="@dimen/padding_15"
         android:text="5个文件，共1新增和0删除" />
 
-    <include layout="@layout/divide_middle_15" />
+    <include
+        android:id="@+id/headerDivide"
+        layout="@layout/divide_middle_15"
+        android:visibility="gone" />
 
 </LinearLayout>

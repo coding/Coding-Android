@@ -16,11 +16,12 @@
             android:layout_height="wrap_content"
             android:background="@color/stand_bg">
 
-
             <ListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:divider="@color/divide_line"
+                android:dividerHeight="0.5dp"
                 android:background="@color/stand_bg" />
 
         </FrameLayout>

@@ -11,19 +11,19 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
-import net.coding.program.route.BlankViewDisplay;
-import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.comment.BaseCommentParam;
-import net.coding.program.common.network.NetworkImpl;
-import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.model.BaseComment;
 import net.coding.program.common.model.Commit;
 import net.coding.program.common.model.DiffFile;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.RequestData;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.network.NetworkImpl;
+import net.coding.program.common.ui.CodingToolbarBackActivity;
+import net.coding.program.pickphoto.ClickSmallImage;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -38,7 +38,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_commit_file_list)
-//@OptionsMenu(R.menu.menu_commit_file_list)
 public class CommitFileListActivity extends CodingToolbarBackActivity {
 
     public static final int RESULT_COMMENT = 1;
@@ -137,14 +136,9 @@ public class CommitFileListActivity extends CodingToolbarBackActivity {
     }
 
     private void initListFooter() {
-        View footer = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
+        View footer = mInflater.inflate(R.layout.activity_commit_list_footer, listView, false);
         listView.addFooterView(footer, null, false);
-        footer.findViewById(R.id.itemAddComment).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startSendCommentActivity();
-            }
-        });
+        footer.findViewById(R.id.itemAddComment).setOnClickListener(v -> startSendCommentActivity());
     }
 
     private void startSendCommentActivity() {
@@ -166,8 +160,12 @@ public class CommitFileListActivity extends CodingToolbarBackActivity {
         bindData(mListHead, R.id.time, Global.dayToNow(mCommit.getCommitTime(), "创建%s"));
         bindData(mListHead, R.id.mergeId, mCommit.getCommitIdPrefix());
 
+
+
         String preString = "";
         bindData(mListHead, R.id.preView, preString);
+
+
     }
 
     private void bindData(View view, int textViewId, String text) {
@@ -188,9 +186,12 @@ public class CommitFileListActivity extends CodingToolbarBackActivity {
                 DiffFile diffFile = new DiffFile(respanse.getJSONObject("data"));
 
                 findViewById(R.id.preView);
-                String s = String.format("%d 个文件，共 %d 新增和 %d 删除", diffFile.getFileCount(),
+                String s = String.format("%s 个文件，共 %s 新增和 %s 删除", diffFile.getFileCount(),
                         diffFile.getInsertions(), diffFile.getDeletions());
                 bindData(mListHead, R.id.preView, s);
+                if (diffFile.getFileCount() > 0) {
+                    mListHead.findViewById(R.id.headerDivide).setVisibility(View.VISIBLE);
+                }
 
                 mAdapter.setFilesCount(diffFile.getFiles().size());
                 mAdapter.insertDataUpdate((ArrayList) diffFile.getFiles());
