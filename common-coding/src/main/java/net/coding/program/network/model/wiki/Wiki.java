@@ -1,8 +1,16 @@
 package net.coding.program.network.model.wiki;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.loopj.android.http.RequestParams;
 
+import net.coding.program.common.Global;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.RequestData;
+import net.coding.program.common.model.Share;
+import net.coding.program.common.model.ShareParam;
 import net.coding.program.common.model.UserObject;
 
 import java.io.Serializable;
@@ -13,7 +21,7 @@ import java.util.List;
  * Created by chenchao on 2017/4/11.
  */
 
-public class Wiki implements Serializable {
+public class Wiki implements Serializable, ShareParam {
 
     static final SimpleDateFormat timeFormat = new SimpleDateFormat("MM/dd hh:mm");
 
@@ -76,6 +84,9 @@ public class Wiki implements Serializable {
     @SerializedName("order")
     @Expose
     public float order;
+    @SerializedName("share")
+    @Expose
+    public Share share = new Share();
 
     public void update(Wiki wiki) {
         this.id = wiki.id;
@@ -102,5 +113,43 @@ public class Wiki implements Serializable {
     public String getTitleTip() {
         String time = timeFormat.format(updatedAt);
         return String.format("%s   更新于 %s   当前版本 %s", editor.name, time, currentVersion);
+    }
+
+    @Override
+    public RequestData getHttpShareLinkOn(ProjectObject projectObject) {
+        String url = Global.HOST_API + "/share/create";
+        RequestParams params = new RequestParams();
+        params.put("resourceId", iid);
+        params.put("resourceType", 2);
+        params.put("projectId", projectObject.getId());
+        params.put("accessType", 0);
+        return new RequestData(url, params);
+    }
+
+    @Override
+    public String getHttpShareLinkOff() {
+        String shareUrl = share.url;
+        int pos = shareUrl.lastIndexOf("/");
+        if (pos == -1) {
+            return "";
+        }
+
+        String hash = shareUrl.substring(pos + 1);
+        return Global.HOST_API + "/share/" + hash;
+    }
+
+    @Override
+    public boolean isShared() {
+        return !TextUtils.isEmpty(share.url);
+    }
+
+    @Override
+    public String getShareLink() {
+        return share.url;
+    }
+
+    @Override
+    public void setShereLink(String link) {
+        share.url = link;
     }
 }

@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * Created by yangzhen on 2014/10/25.
  * 项目文件中的文件
  */
-public class AttachmentFileObject implements Serializable {
+public class AttachmentFileObject implements Serializable, ShareParam {
 
     private static final long serialVersionUID = -5645713635532570497L;
 
@@ -90,7 +90,7 @@ public class AttachmentFileObject implements Serializable {
     private int size = 0;
     private int history_id;
     private String share_url = ""; // 早期的版本是使用 share_url，现在的版本改成了 share
-    private AttachmentFileObject.Share share;
+    private Share share;
 
     public static AttachmentFileObject create(String type) {
         AttachmentFileObject item = new AttachmentFileObject();
@@ -133,7 +133,7 @@ public class AttachmentFileObject implements Serializable {
         share_url = json.optString("share_url");
 
         if (json.has("share")) {
-            share = new AttachmentFileObject.Share(json.optJSONObject("share"));
+            share = new Share(json.optJSONObject("share"));
             share_url = share.getUrl();
         }
     }
@@ -394,59 +394,4 @@ public class AttachmentFileObject implements Serializable {
         return current_user_role_id == ROLE_TYPE_OWNER;
     }
 
-    public static class Share implements Serializable {
-
-        /**
-         * resource_type : 0
-         * resource_id : 308811
-         * user_id : 7074
-         * access_type : 0
-         * project_id : 126848
-         * overdue : 0
-         * created_at : 1440992709000
-         * hash : 572e7ead-8b42-4e2f-9d18-b74b48d2195a
-         * url : https://coding.net/s/572e7ead-8b42-4e2f-9d18-b74b48d2195a
-         */
-
-        int resource_type;
-        int resource_id;
-        int user_id;
-        int access_type;
-        int project_id;
-        int overdue;
-        long created_at;
-        String hash = "";
-        String url = "";
-
-        public Share() {
-        }
-
-        public Share(JSONObject json) {
-            resource_type = json.optInt("resource_type");
-            resource_id = json.optInt("resource_id");
-            user_id = json.optInt("user_id");
-            access_type = json.optInt("access_type");
-            project_id = json.optInt("project_id");
-            overdue = json.optInt("overdue");
-            created_at = json.optLong("created_at");
-            hash = json.optString("hash");
-            url = json.optString("url");
-        }
-
-        public Share(net.coding.program.network.model.file.Share file) {
-            resource_type = file.resourceType;
-            resource_id = file.resourceId;
-            user_id = file.userId;
-            access_type = file.accessType;
-            project_id = file.projectId;
-            overdue = file.overdue;
-            created_at = file.createdAt;
-            hash = file.hash;
-            url = file.url;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-    }
 }

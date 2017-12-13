@@ -27,16 +27,14 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 
-import net.coding.program.FileUrlActivity;
-import net.coding.program.param.ProjectJumpParam;
-import net.coding.program.pickphoto.detail.ImagePagerFragment;
 import net.coding.program.R;
-import net.coding.program.project.detail.file.MarkdownEditActivity_;
-import net.coding.program.project.detail.file.TxtEditActivity_;
-import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.AttachmentFolderObject;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.Share;
 import net.coding.program.common.network.DownloadManagerPro;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
@@ -44,13 +42,12 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.BottomToolBar;
-import net.coding.program.common.model.AttachmentFileObject;
-import net.coding.program.common.model.AttachmentFolderObject;
-import net.coding.program.common.model.ProjectObject;
+import net.coding.program.pickphoto.detail.ImagePagerFragment;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity_;
 import net.coding.program.project.detail.file.FileSaveHelp;
 import net.coding.program.project.detail.file.ShareFileLinkActivity_;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -235,7 +232,6 @@ public class AttachmentsDownloadDetailActivity extends CodingToolbarBackActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.project_attachment_download, menu);
         menu.findItem(R.id.action_delete).setVisible(mAttachmentFileObject.isOwner());
-        menu.findItem(R.id.action_text_edit).setVisible(mAttachmentFileObject.isMarkdown() || mAttachmentFileObject.isTxt());
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -443,7 +439,7 @@ public class AttachmentsDownloadDetailActivity extends CodingToolbarBackActivity
         } else if (tag.equals(TAG_SHARE_LINK_ON)) {
             if (code == 0) {
                 umengEvent(UmengEvent.FILE, "开启共享");
-                AttachmentFileObject.Share mShare = new AttachmentFileObject.Share(response.optJSONObject("data"));
+                Share mShare = new Share(response.optJSONObject("data"));
                 mAttachmentFileObject.setShereLink(mShare.getUrl());
 
                 setResult(RESULT_OK);
@@ -544,23 +540,6 @@ public class AttachmentsDownloadDetailActivity extends CodingToolbarBackActivity
             Log.v("updateView", bytesAndStatus[0] + " " + bytesAndStatus[1] + " " + bytesAndStatus[2]);
 
             handler.sendMessage(handler.obtainMessage(0, bytesAndStatus[0], bytesAndStatus[1], bytesAndStatus[2]));
-        }
-    }
-
-    @OptionsItem(R.id.action_text_edit)
-    void actionTxtEdit() {
-        if (mAttachmentFileObject.isTxt()) {
-            FileDynamicActivity.ProjectFileParam param = new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject,
-                    mProject);
-            TxtEditActivity_.intent(this)
-                    .mParam(param)
-                    .start();
-        } else if (mAttachmentFileObject.isMarkdown()) {
-            FileDynamicActivity.ProjectFileParam param = new FileDynamicActivity.ProjectFileParam(mAttachmentFileObject,
-                    mProject);
-            MarkdownEditActivity_.intent(this)
-                    .mParam(param)
-                    .start();
         }
     }
 

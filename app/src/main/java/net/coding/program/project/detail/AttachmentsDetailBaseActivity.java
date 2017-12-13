@@ -17,6 +17,7 @@ import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.model.AttachmentFolderObject;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.Share;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.umeng.UmengEvent;
@@ -148,7 +149,7 @@ public class AttachmentsDetailBaseActivity extends CodingToolbarBackActivity {
         } else if (tag.equals(TAG_SHARE_LINK_ON)) {
             if (code == 0) {
                 umengEvent(UmengEvent.FILE, "开启共享");
-                AttachmentFileObject.Share mShare = new AttachmentFileObject.Share(response.optJSONObject("data"));
+                Share mShare = new Share(response.optJSONObject("data"));
                 mAttachmentFileObject.setShereLink(mShare.getUrl());
 
                 setResult(RESULT_OK);

@@ -24,25 +24,27 @@ import com.unnamed.b.atv.view.AndroidTreeView;
 
 import net.coding.program.CodingGlobal;
 import net.coding.program.R;
-import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
-import net.coding.program.common.ui.BackActivity;
-import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.databinding.ActivityWikiDetailHeaderBinding;
 import net.coding.program.common.event.EventRefresh;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.databinding.ActivityWikiDetailHeaderBinding;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.wiki.Wiki;
-import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.network.model.wiki.WikiDraft;
+import net.coding.program.param.ProjectJumpParam;
+import net.coding.program.project.detail.file.ShareFileLinkActivity_;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -58,6 +60,8 @@ import rx.schedulers.Schedulers;
 
 @EActivity(R.layout.activity_wiki_main)
 public class WikiMainActivity extends BackActivity {
+
+    private static final int RESULT_SHARE_LINK = 1;
 
     @Extra
     ProjectObject project;
@@ -120,6 +124,10 @@ public class WikiMainActivity extends BackActivity {
 
     @UiThread(delay = 3000)
     void popGuide0() {
+        if (isFinishing()) {
+            return;
+        }
+
         if (dataList.isEmpty()) {
             return;
         }
@@ -132,6 +140,10 @@ public class WikiMainActivity extends BackActivity {
     }
 
     void popGuide1() {
+        if (isFinishing()) {
+            return;
+        }
+
         if (dataList.isEmpty()) {
             return;
         }
@@ -327,6 +339,23 @@ public class WikiMainActivity extends BackActivity {
     @OptionsItem(R.id.action_delete)
     void onActionDelete() {
         showDialog("", "删除的同时也会删除历史版本，请确认删除该 Wiki ?", (dialog, which) -> deleteSelectWiki(), null);
+    }
+
+    @OptionsItem(R.id.action_link_public)
+    void optionLinkPublic() {
+        ShareFileLinkActivity_.intent(this)
+                .mAttachmentFileObject(selectWiki)
+                .mProject(project)
+                .startForResult(RESULT_SHARE_LINK);
+    }
+
+    @OnActivityResult(RESULT_SHARE_LINK)
+    void onResultShareLink(int result, @OnActivityResult.Extra Wiki intentData) {
+        if (result == RESULT_OK) {
+            if (intentData != null) {
+                selectWiki.share = intentData.share;
+            }
+        }
     }
 
     private void deleteSelectWiki() {
