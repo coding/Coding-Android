@@ -10,7 +10,6 @@ import org.androidannotations.annotations.OptionsItem;
  * Created by chenchao on 15/3/9.
  */
 @EFragment
-
 public abstract class CustomMoreFragment extends RefreshBaseFragment {
 
     protected abstract String getLink();

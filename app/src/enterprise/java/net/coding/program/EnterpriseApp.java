@@ -5,9 +5,10 @@ import android.text.TextUtils;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalData;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.EnterpriseInfo;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.compatible.EnterpriseCompatImp;
-import net.coding.program.common.model.EnterpriseInfo;
 
 /**
  * Created by cc191954 on 14-8-9.
@@ -32,12 +33,12 @@ public class EnterpriseApp extends MyApp {
 
     public static void setHost(@NonNull String enterpriseName) {
         String host = "https://e.coding.net";
-
-        if (Global.HOST.equals("t") || Global.HOST.startsWith("http://")) {
+        AccountInfo.CustomHost customHost = AccountInfo.getCustomHost(GlobalData.getInstance());
+        if (customHost.getHost().equalsIgnoreCase("s")) {
             if (TextUtils.isEmpty(enterpriseName)) {
-                host = "http://e.staging.coding.test";
+                host = "http://e.coding.codingprod.net";
             } else {
-                host = String.format("http://%s.staging.coding.test", enterpriseName);
+                host = String.format("http://%s.coding.codingprod.net", enterpriseName);
             }
         } else {
             if (enterpriseName.isEmpty()) {

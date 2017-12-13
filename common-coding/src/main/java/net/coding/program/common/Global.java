@@ -26,7 +26,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -60,8 +59,8 @@ import cz.msebera.android.httpclient.cookie.Cookie;
 public class Global {
 
     public static final String DEFAULT_HOST = "https://coding.net";
-    //        public static final String DEFAULT_HOST = "http://coding.com";
-//    public static final String DEFAULT_HOST = "http://192.168.0.197:8080";
+    public static final String STAGING_HOST = "http://coding.codingprod.net";
+
     public static final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd EEE");
     public static final SimpleDateFormat mDateYMDHH = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     public static final int PHOTO_MAX_COUNT = 6;

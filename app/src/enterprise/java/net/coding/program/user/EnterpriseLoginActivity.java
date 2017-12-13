@@ -182,17 +182,14 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
             View content = getLayoutInflater().inflate(R.layout.host_setting, null);
-            final EditText editText = (EditText) content.findViewById(R.id.edit);
-            final EditText editCode = (EditText) content.findViewById(R.id.editCode);
+            final EditText editText = content.findViewById(R.id.edit);
             AccountInfo.CustomHost customHost = AccountInfo.getCustomHost(this);
             editText.setText(customHost.getHost());
-            editCode.setText(customHost.getCode());
             editText.setHint(Global.DEFAULT_HOST);
             builder.setView(content)
                     .setPositiveButton(R.string.action_ok, (dialog, which) -> {
                         String hostString = editText.getText().toString();
-                        String hostCode = editCode.getText().toString();
-                        AccountInfo.CustomHost customHost1 = new AccountInfo.CustomHost(hostString, hostCode);
+                        AccountInfo.CustomHost customHost1 = new AccountInfo.CustomHost(hostString, "");
                         if (!hostString.isEmpty()) {
                             AccountInfo.saveCustomHost(this, customHost1);
                         } else {
@@ -201,7 +198,6 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
                         AccountInfo.loginOut(this);
                         setResult(RESULT_OK);
-                        finish();
                     })
                     .setNegativeButton(R.string.action_cancel, null)
                     .show();

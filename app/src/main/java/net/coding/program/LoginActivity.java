@@ -26,11 +26,12 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalData;
 import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
-import net.coding.program.guide.GuideActivity;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BaseActivity;
@@ -39,13 +40,12 @@ import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.compatible.CodingCompat;
+import net.coding.program.guide.GuideActivity;
 import net.coding.program.login.PhoneRegisterActivity_;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.login.phone.Close2FAActivity_;
 import net.coding.program.login.phone.InputAccountActivity_;
-import net.coding.program.common.model.AccountInfo;
-import net.coding.program.common.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -179,17 +179,14 @@ public class LoginActivity extends BaseActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
             View content = getLayoutInflater().inflate(R.layout.host_setting, null);
-            final EditText editText = (EditText) content.findViewById(R.id.edit);
-            final EditText editCode = (EditText) content.findViewById(R.id.editCode);
+            final EditText editText = content.findViewById(R.id.edit);
             AccountInfo.CustomHost customHost = AccountInfo.getCustomHost(this);
             editText.setText(customHost.getHost());
-            editCode.setText(customHost.getCode());
             editText.setHint(Global.DEFAULT_HOST);
             builder.setView(content)
                     .setPositiveButton(R.string.action_ok, (dialog, which) -> {
                         String hostString = editText.getText().toString();
-                        String hostCode = editCode.getText().toString();
-                        AccountInfo.CustomHost customHost1 = new AccountInfo.CustomHost(hostString, hostCode);
+                        AccountInfo.CustomHost customHost1 = new AccountInfo.CustomHost(hostString, "");
                         if (!hostString.isEmpty()) {
                             AccountInfo.saveCustomHost(this, customHost1);
                         } else {

@@ -150,9 +150,9 @@ public class MyApp extends MultiDexApplication {
 
         }
 
-        if (isInMainProcess(this)) {
+//        if (isInMainProcess(this)) {
             GlobalData.app = this;
-        }
+//        }
 
         CodingColor.init(this);
 
@@ -160,6 +160,8 @@ public class MyApp extends MultiDexApplication {
         String host = customHost.getHost();
         if (host.isEmpty()) {
             host = Global.DEFAULT_HOST;
+        } else if (host.equalsIgnoreCase("s")) {
+            host = Global.STAGING_HOST;
         }
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
@@ -170,7 +172,6 @@ public class MyApp extends MultiDexApplication {
         } catch (Exception e) {
             Global.errorLog(e);
         }
-
 
         MyAsyncHttpClient.init(this);
 
