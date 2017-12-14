@@ -23,9 +23,15 @@
             <android.support.design.widget.AppBarLayout style="@style/AppBarLayout">
 
                 <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
+                    android:id="@+id/codingToolbar"
                     style="@style/Toolbar"
-                    app:layout_scrollFlags="scroll|enterAlways|snap" />
+                    app:layout_scrollFlags="scroll|enterAlways|snap">
+
+                    <TextView
+                        android:id="@+id/toolbarTitle"
+                        style="@style/CodingToolbarTitle"
+                        tools:text="我的" />
+                </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.AppBarLayout>
 

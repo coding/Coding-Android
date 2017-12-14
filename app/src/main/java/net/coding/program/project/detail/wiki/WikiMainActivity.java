@@ -2,6 +2,7 @@ package net.coding.program.project.detail.wiki;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -29,6 +30,7 @@ import net.coding.program.common.event.EventRefresh;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.databinding.ActivityWikiDetailHeaderBinding;
 import net.coding.program.network.HttpObserver;
@@ -58,7 +60,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 @EActivity(R.layout.activity_wiki_main)
-public class WikiMainActivity extends BackActivity {
+public class WikiMainActivity extends CodingToolbarBackActivity {
 
     private static final int RESULT_SHARE_LINK = 1;
 
@@ -86,7 +88,7 @@ public class WikiMainActivity extends BackActivity {
     @ViewById
     View bottomBarLayout;
 
-    @ViewById
+    @ViewById(R.id.codingToolbar)
     Toolbar toolbar;
 
     MenuItem actionMore;
@@ -108,10 +110,14 @@ public class WikiMainActivity extends BackActivity {
     BubblePopupWindow bubbleWindowHistory = null;
     int oldToolbarFlags = 0;
 
+    @Nullable
+    @Override
+    protected ProjectObject getProject() {
+        return project;
+    }
+
     @AfterViews
     void initWikiMainActivity() {
-        useToolbar();
-
         if (project != null) {
             initReal();
         } else if (jumpParam != null) {
