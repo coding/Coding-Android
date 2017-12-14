@@ -7,15 +7,15 @@ import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.MyImageGetter;
-import net.coding.program.network.constant.VIP;
 import net.coding.program.common.param.MessageParse;
+import net.coding.program.network.constant.VIP;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -114,6 +114,11 @@ public class DynamicObject {
             final String format = "%s %s Wiki";
             String title = String.format(format, user.getHtml(), action_msg);
             return GlobalCommon.changeHyperlinkColor(title);
+        }
+
+        @Override
+        public String jump() {
+            return Global.HOST + wiki_path;
         }
 
         @Override

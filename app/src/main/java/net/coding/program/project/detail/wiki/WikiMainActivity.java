@@ -1,7 +1,6 @@
 package net.coding.program.project.detail.wiki;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.GravityCompat;
@@ -48,10 +47,10 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +64,9 @@ public class WikiMainActivity extends BackActivity {
 
     @Extra
     ProjectObject project;
+
+    @Extra
+    JumpParam jumpParam;
 
     @ViewById
     DrawerLayout drawerLayoutRoot;
@@ -109,6 +111,32 @@ public class WikiMainActivity extends BackActivity {
     @AfterViews
     void initWikiMainActivity() {
         useToolbar();
+
+        if (project != null) {
+            initReal();
+        } else if (jumpParam != null) {
+            Network.getRetrofit(this)
+                    .getProject(jumpParam.user, jumpParam.project)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new HttpObserver<ProjectObject>(this) {
+                        @Override
+                        public void onSuccess(ProjectObject data) {
+                            super.onSuccess(data);
+
+                            project = data;
+                            initReal();
+                        }
+
+                        @Override
+                        public void onFail(int errorCode, @NonNull String error) {
+                            super.onFail(errorCode, error);
+                        }
+                    });
+        }
+    }
+
+    private void initReal() {
         setActionBarTitle(project.name);
 
         oldToolbarFlags = ((AppBarLayout.LayoutParams) toolbar.getLayoutParams()).getScrollFlags();
@@ -194,15 +222,8 @@ public class WikiMainActivity extends BackActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
+    protected boolean userEventBus() {
+        return true;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -449,6 +470,8 @@ public class WikiMainActivity extends BackActivity {
         contentFrame.scrollTo(0, 0);
     }
 
+
+
     private void addTreeNode(TreeNode node, List<Wiki> wikis) {
         for (Wiki item : wikis) {
             TreeNode childNode = new TreeNode(item);
@@ -457,11 +480,30 @@ public class WikiMainActivity extends BackActivity {
                 firstTreeNode = childNode;
             }
 
+            if (jumpParam != null && jumpParam.iid == item.iid) {
+                selectWiki = item;
+            }
+
             if (selectWiki != null && selectWiki.id == item.id) {
                 firstTreeNode = childNode;
             }
 
             addTreeNode(childNode, item.children);
+        }
+    }
+
+    public static class JumpParam implements Serializable {
+
+        private static final long serialVersionUID = 5713184453322682844L;
+
+        public int iid;
+        public String project;
+        public String user;
+
+        public JumpParam(String user, String project, int iid) {
+            this.user = user;
+            this.project = project;
+            this.iid = iid;
         }
     }
 

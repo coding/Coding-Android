@@ -75,6 +75,8 @@ import net.coding.program.project.detail.merge.MergeListFragment;
 import net.coding.program.project.detail.merge.MergeReviewerListFragment;
 import net.coding.program.project.detail.topic.TopicListDetailActivity;
 import net.coding.program.project.detail.topic.TopicListDetailActivity_;
+import net.coding.program.project.detail.wiki.WikiMainActivity;
+import net.coding.program.project.detail.wiki.WikiMainActivity_;
 import net.coding.program.project.git.BranchMainActivity_;
 import net.coding.program.project.maopao.ProjectMaopaoActivity;
 import net.coding.program.route.BlankViewDisplay;
@@ -672,6 +674,21 @@ public class MyApp extends MultiDexApplication {
                 if (matcher.find()) {
                     intent.setClass(context, ImagePagerActivity_.class);
                     intent.putExtra("mSingleUri", uriString);
+                    context.startActivity(intent);
+                    return true;
+                }
+
+                // 跳转到 wiki
+                final String wikiUrl = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/wiki/(\\d+)";
+                pattern = Pattern.compile(wikiUrl);
+                matcher = pattern.matcher(uriString);
+                if (matcher.find()) {
+                    intent.setClass(context, WikiMainActivity_.class);
+                    WikiMainActivity.JumpParam param = new WikiMainActivity.JumpParam(
+                            matcher.group(1),
+                            matcher.group(2),
+                            Integer.valueOf(matcher.group(3)));
+                    intent.putExtra("jumpParam", param);
                     context.startActivity(intent);
                     return true;
                 }

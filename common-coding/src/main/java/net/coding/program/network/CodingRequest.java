@@ -36,6 +36,9 @@ public interface CodingRequest {
     @GET("user/{user}/project/{project}/wikis")
     Observable<HttpResult<List<Wiki>>> getWikis(@Path("user") String user, @Path("project") String project);
 
+    @GET("user/{user}/project/{project}")
+    Observable<HttpResult<ProjectObject>> getProject(@Path("user") String user, @Path("project") String project);
+
     @DELETE("user/{user}/project/{project}/wiki/{iid}")
     Observable<HttpResult<Boolean>> deleteWiki(@Path("user") String user, @Path("project") String project, @Path("iid") int iid);
 
