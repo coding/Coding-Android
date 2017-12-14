@@ -847,6 +847,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.detail.file.v2.ProjectFileMainActivity_"
+            android:theme="@style/Theme_CodingActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.member.MemberAuthorityManualActivity_"

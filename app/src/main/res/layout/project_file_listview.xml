@@ -1,28 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/divide"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <net.coding.program.common.widget.CommonListView
-        android:id="@+id/listView"
+    <include layout="@layout/common_actionbar" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/actionbar_height"
         android:background="@color/divide"
-        app:recyclerviewDefaultSwipeColor="@array/pull_to_refrush"
-        android:layout_weight="1" />
+        android:orientation="vertical">
 
-    <net.coding.program.common.widget.BottomToolBar
-            app:btb_xml="@xml/bottomtoolbar_file_upload"
+        <net.coding.program.common.widget.CommonListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/divide"
+            app:recyclerviewDefaultSwipeColor="@array/pull_to_refrush" />
+
+        <net.coding.program.common.widget.BottomToolBar
             android:id="@+id/bottomLayout"
-            style="@style/BottomToolBar"/>
+            style="@style/BottomToolBar"
+            app:btb_xml="@xml/bottomtoolbar_file_upload" />
 
-    <net.coding.program.common.widget.BottomToolBar
-            app:btb_xml="@xml/bottomtoolbar_files_action"
+        <net.coding.program.common.widget.BottomToolBar
             android:id="@+id/bottomLayoutBatch"
+            style="@style/BottomToolBar"
             android:visibility="gone"
-            style="@style/BottomToolBar"/>
+            app:btb_xml="@xml/bottomtoolbar_files_action" />
 
-</LinearLayout>
+    </LinearLayout>
+</FrameLayout>

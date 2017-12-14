@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +31,7 @@ import net.coding.program.common.model.AttachmentFolderObject;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
@@ -80,7 +82,7 @@ import static net.coding.program.common.Global.PHOTO_MAX_COUNT;
  */
 @EActivity(R.layout.project_file_listview)
 @OptionsMenu(R.menu.project_file_listview)
-public class ProjectFileMainActivity extends BackActivity implements UploadCallback, FileDownloadCallback {
+public class ProjectFileMainActivity extends CodingToolbarBackActivity implements UploadCallback, FileDownloadCallback {
 
     public static final int RESULT_REQUEST_PICK_PHOTO = 8;
     public static final int RESULT_MOVE_FOLDER = 9;
@@ -149,6 +151,12 @@ public class ProjectFileMainActivity extends BackActivity implements UploadCallb
 
         bottomLayout.setClick(clickBottom);
         bottomLayoutBatch.setClick(clickBottom);
+    }
+
+    @Nullable
+    @Override
+    protected ProjectObject getProject() {
+        return project;
     }
 
     protected void onRefresh() {
