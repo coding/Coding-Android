@@ -16,25 +16,27 @@
         android:icon="@drawable/ic_menu_add"
         android:title="@string/action_more"
         app:showAsAction="always">
-        <menu>
+
+        <!--<menu>-->
+
             <item
                 android:id="@+id/action_create_file"
                 android:title="@string/create_file"
-                app:showAsAction="always" />
+                app:showAsAction="never" />
             <item
                 android:id="@+id/action_upload_picture"
                 android:title="@string/upload_picture"
-                app:showAsAction="always" />
+                app:showAsAction="never" />
 
             <item
                 android:id="@+id/action_exit_code"
                 android:title="@string/action_exit_code"
-                app:showAsAction="always" />
-            <!--<item-->
-            <!--android:id="@+id/action_copy"-->
-            <!--android:icon="@drawable/ic_menu_share_link"-->
-            <!--android:title="@string/copy_link"-->
-            <!--app:showAsAction="ifRoom" />-->
-        </menu>
+                app:showAsAction="never" />
+        <!--</menu>-->
+        <!--<item-->
+        <!--android:id="@+id/action_copy"-->
+        <!--android:icon="@drawable/ic_menu_share_link"-->
+        <!--android:title="@string/copy_link"-->
+        <!--app:showAsAction="ifRoom" />-->
     </item>
 </menu>
