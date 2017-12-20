@@ -17,7 +17,7 @@ public class PersonApp extends MyApp {
     public void onCreate() {
         super.onCreate();
 
-        AllThirdKeys.initInApp();
+        AllThirdKeys.initInApp(this);
 
         CodingCompat.init(new CodingCompatImp());
 

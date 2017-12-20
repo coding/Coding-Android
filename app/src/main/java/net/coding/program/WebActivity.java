@@ -21,7 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.umeng.socialize.sso.UMSsoHandler;
+import com.umeng.socialize.UMShareAPI;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -152,6 +152,8 @@ public class WebActivity extends BaseActivity {
         webView.destroy();
         webView = null;
 
+        CustomShareBoard.onDestory(this);
+
         super.onDestroy();
     }
 
@@ -214,11 +216,7 @@ public class WebActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        UMSsoHandler ssoHandler = CustomShareBoard.getShareController().getConfig().getSsoHandler(
-                requestCode);
-        if (ssoHandler != null) {
-            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
+        CustomShareBoard.onActivityResult(requestCode, resultCode, data, this);
     }
-
 }
+

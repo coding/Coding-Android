@@ -29,21 +29,22 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
-import com.umeng.socialize.sso.UMSsoHandler;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
-import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.StartActivity;
-import net.coding.program.util.TextWatcherAt;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.event.EventRefrushMaopao;
 import net.coding.program.common.event.EventShowBottom;
 import net.coding.program.common.maopao.MaopaoRequestTag;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.DynamicObject;
+import net.coding.program.common.model.Maopao;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.ui.BaseActivity;
@@ -53,13 +54,11 @@ import net.coding.program.common.widget.input.MainInputView;
 import net.coding.program.maopao.item.CommentArea;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
-import net.coding.program.common.model.AccountInfo;
-import net.coding.program.common.model.DynamicObject;
-import net.coding.program.common.model.Maopao;
+import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.route.BlankViewDisplay;
-import net.coding.program.common.GlobalCommon;
 import net.coding.program.setting.ValidePhoneActivity_;
 import net.coding.program.third.EmojiFilter;
+import net.coding.program.util.TextWatcherAt;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -547,14 +546,9 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
 
 
         super.onActivityResult(requestCode, resultCode, data);
-        UMSsoHandler ssoHandler = CustomShareBoard.getShareController().getConfig().getSsoHandler(
-                requestCode);
-        if (ssoHandler != null) {
-            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
     }
 
-    protected void hideSoftkeyboard() {
+   protected void hideSoftkeyboard() {
         if (!mEnterLayout.isShow()) {
             return;
         }
@@ -793,13 +787,6 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         mEnterLayout.showSystemInput(true);
     }
 
-    void action_share_third(Maopao.MaopaoObject mMaopaoObject) {
-        mEnterLayout.hideKeyboard();
-        CustomShareBoard.ShareData shareData = new CustomShareBoard.ShareData(mMaopaoObject);
-        CustomShareBoard shareBoard = new CustomShareBoard(getActivity(), shareData);
-        shareBoard.showAtLocation(getActivity().getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
-    }
-
     static class ViewHolder {
         View maopaoItemTop;
 
@@ -816,7 +803,6 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         CheckBox likeBtn;
         TextView commentBtn;
         TextView reward;
-        View shareBtn;
 
         LikeUsersArea likeUsersArea;
         View commentLikeArea;
@@ -850,37 +836,29 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
             holder.maopaoItem = convertView.findViewById(R.id.MaopaoItem);
             holder.maopaoItem.setOnClickListener(mOnClickMaopaoItem);
 
-            holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+            holder.icon = convertView.findViewById(R.id.icon);
             holder.icon.setOnClickListener(GlobalCommon.mOnClickUser);
 
-            holder.name = (TextView) convertView.findViewById(R.id.name);
+            holder.name = convertView.findViewById(R.id.name);
             holder.name.setOnClickListener(GlobalCommon.mOnClickUser);
-            holder.time = (TextView) convertView.findViewById(R.id.time);
+            holder.time = convertView.findViewById(R.id.time);
 
             holder.contentArea = new ContentArea(convertView, mOnClickMaopaoItem, onClickImage, myImageGetter, getImageLoad(), mPxImageWidth);
 
             holder.commentLikeArea = convertView.findViewById(R.id.commentLikeArea);
             holder.likeUsersArea = new LikeUsersArea(convertView, MaopaoListBaseFragment.this, getImageLoad(), GlobalCommon.mOnClickUser);
 
-            holder.location = (TextView) convertView.findViewById(R.id.location);
-            holder.photoType = (TextView) convertView.findViewById(R.id.photoType);
-            holder.likeBtn = (CheckBox) convertView.findViewById(R.id.likeBtn);
-            holder.commentBtn = (TextView) convertView.findViewById(R.id.commentBtn);
-            holder.reward = (TextView) convertView.findViewById(R.id.rewardCount);
+            holder.location = convertView.findViewById(R.id.location);
+            holder.photoType = convertView.findViewById(R.id.photoType);
+            holder.likeBtn = convertView.findViewById(R.id.likeBtn);
+            holder.commentBtn = convertView.findViewById(R.id.commentBtn);
+            holder.reward = convertView.findViewById(R.id.rewardCount);
             holder.likeBtn.setTag(R.id.likeBtn, holder);
             holder.maopaoGoodView = convertView.findViewById(R.id.maopaoGood);
             holder.likeAreaDivide = convertView.findViewById(R.id.likeAreaDivide);
             holder.commentBtn.setOnClickListener(v -> popComment(v));
 
             holder.reward.setOnClickListener(v -> popReward((BaseActivity) getActivity(), v, mAdapter));
-
-            holder.shareBtn = convertView.findViewById(R.id.shareBtn);
-            holder.shareBtn.setOnClickListener(v -> {
-                Object item = v.getTag();
-                if (item instanceof Maopao.MaopaoObject) {
-                    action_share_third((Maopao.MaopaoObject) item);
-                }
-            });
 
             holder.maopaoDelete = convertView.findViewById(R.id.deleteButton);
             holder.maopaoDelete.setOnClickListener(onClickDeleteMaopao);
@@ -1042,7 +1020,6 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
                     });
                 }
             });
-            holder.shareBtn.setTag(data);
 
             if (data.likes > 0 || data.rewards > 0) {
                 holder.likeAreaDivide.setVisibility(data.comments > 0 ? View.VISIBLE : View.INVISIBLE);

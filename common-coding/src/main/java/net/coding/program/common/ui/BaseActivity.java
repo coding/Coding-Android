@@ -176,6 +176,8 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
 
         GlobalSetting.getInstance().removeMessageNoNotify();
 
+
+
         super.onDestroy();
     }
 

@@ -603,11 +603,6 @@
             android:label="@string/title_activity_inform_maopao"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".maopao.share.ShareSinaHelpActivity"
-            android:label="@string/title_activity_share_sina_help"
-            android:screenOrientation="portrait"
-            android:theme="@style/TranslateThemeFull" />
-        <activity
             android:name=".login.ZhongQiuGuideActivity"
             android:label="@string/title_activity_zhong_qiu_guide"
             android:screenOrientation="portrait"

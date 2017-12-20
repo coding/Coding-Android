@@ -1,5 +1,7 @@
 package net.coding.program;
 
+import android.content.Context;
+
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -39,12 +41,12 @@ public class AllThirdKeys {
     static final String WEIBO_SECRET = "65c17448203f0b0dda096556cdb91e85";
     static final String WEIBO_CALLBACK_URL = "http://sns.whalecloud.com/coding/phone/callback";
 
-    public static void initInApp() {
+    public static void initInApp(Context context) {
         PlatformConfig.setWeixin(WX_APP_ID, WX_APP_KEY);
         PlatformConfig.setQQZone(QQ_APP_ID, QQ_APP_KEY);
         PlatformConfig.setSinaWeibo(WEIBO_KEY, WEIBO_SECRET, WEIBO_CALLBACK_URL);
 
-        UMShareAPI.get(this);
+        UMShareAPI.get(context);
     }
 
 }
