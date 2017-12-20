@@ -20,6 +20,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -75,7 +76,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
             umWeb.setDescription(mShareData.des + " " + mShareData.link);
         } else {
             if (TextUtils.isEmpty(mShareData.des)) {
-                umWeb.setDescription( mShareData.link);
+                umWeb.setDescription(mShareData.link);
             } else {
                 umWeb.setDescription(mShareData.des);
             }
@@ -96,7 +97,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
                     @Override
                     public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-
+                        Logger.e(throwable.getMessage());
                     }
 
                     @Override
@@ -201,7 +202,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
         addButton(datas[4]);
 
-        if (umShareApi.isInstall(mActivity, SHARE_MEDIA.EVERNOTE)) {
+        if (umShareApi.isSupport(mActivity, SHARE_MEDIA.EVERNOTE)) {
             addButton(datas[5]);
         }
 

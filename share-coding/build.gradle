@@ -25,20 +25,18 @@ android {
 }
 
 dependencies {
-//    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    //    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
-
-    compile files('libs/open_sdk_r5788_lite.jar')
-    compile files('libs/SocialSDK_evernote.jar')
-    compile files('libs/SocialSDK_QQ_Full.jar')
-    compile files('libs/SocialSDK_WeiXin_Full.jar')
-    compile files('libs/umeng_social_api.jar')
-    compile files('libs/umeng_social_net.jar')
-    compile files('libs/umeng_social_tool.jar')
-    compile files('libs/wechat-sdk-android-with-mta-1.1.6.jar')
+    api files('libs/open_sdk_r5788_lite.jar')
+    api files('libs/SocialSDK_evernote.jar')
+    api files('libs/SocialSDK_QQ_Full.jar')
+    api files('libs/SocialSDK_WeiXin_Full.jar')
+    api files('libs/umeng_social_api.jar')
+    api files('libs/umeng_social_net.jar')
+    api files('libs/umeng_social_tool.jar')
+    api files('libs/wechat-sdk-android-with-mta-1.1.6.jar')
+    implementation files('libs/SocialSDK_Sina_Simplify.jar')
 }
