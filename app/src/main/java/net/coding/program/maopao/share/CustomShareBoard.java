@@ -202,7 +202,7 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
         addButton(datas[4]);
 
-        if (umShareApi.isSupport(mActivity, SHARE_MEDIA.EVERNOTE)) {
+        if (umShareApi.isInstall(mActivity, SHARE_MEDIA.EVERNOTE)) {
             addButton(datas[5]);
         }
 

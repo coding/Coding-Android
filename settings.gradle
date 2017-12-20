@@ -1,5 +1,4 @@
 include ':app', ':widget-pick-photo', ':common-coding', ':pay-coding', ':share-coding'
-include ':social_sdk_library_project'
 include ':bottom-bar'
 include ':luban'
 
