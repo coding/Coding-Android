@@ -1,5 +1,8 @@
 package net.coding.program;
 
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
+
 /**
  * Created by chenchao on 15/9/7.
  * 第三方的 key，需要自己申请添加
@@ -31,6 +34,18 @@ public class AllThirdKeys {
     public static final String geotable = "96880";
     public static final String ak = "ak046T8G6m1GvIPGKdOdq04D";
     public static final String sk = "8bEsFsyaAUZRS1XVIyqywGnBlitSyjj5";
+
+    static final String WEIBO_KEY = "600921819";
+    static final String WEIBO_SECRET = "65c17448203f0b0dda096556cdb91e85";
+    static final String WEIBO_CALLBACK_URL = "http://sns.whalecloud.com/coding/phone/callback";
+
+    public static void initInApp() {
+        PlatformConfig.setWeixin(WX_APP_ID, WX_APP_KEY);
+        PlatformConfig.setQQZone(QQ_APP_ID, QQ_APP_KEY);
+        PlatformConfig.setSinaWeibo(WEIBO_KEY, WEIBO_SECRET, WEIBO_CALLBACK_URL);
+
+        UMShareAPI.get(this);
+    }
 
 }
 

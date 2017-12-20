@@ -15,6 +15,7 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fivehundredpx.android.blur.BlurringView;
 import com.loopj.android.http.AsyncHttpClient;
@@ -24,13 +25,17 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalData;
 import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
-import net.coding.program.guide.GuideActivity;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BaseActivity;
@@ -39,13 +44,12 @@ import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.compatible.CodingCompat;
+import net.coding.program.guide.GuideActivity;
 import net.coding.program.login.PhoneRegisterActivity_;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.login.phone.Close2FAActivity_;
 import net.coding.program.login.phone.InputAccountActivity_;
-import net.coding.program.common.model.AccountInfo;
-import net.coding.program.common.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -59,6 +63,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -504,4 +509,34 @@ public class LoginActivity extends BaseActivity {
 
         loginButton.setEnabled(true);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+    private UMAuthListener umAuthListener = new UMAuthListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //授权开始的回调
+        }
+
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+            Toast.makeText(getApplicationContext(), "Authorize succeed", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            Toast.makeText(getApplicationContext(), "Authorize fail", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            Toast.makeText(getApplicationContext(), "Authorize cancel", Toast.LENGTH_SHORT).show();
+        }
+    };
+
 }
