@@ -14,8 +14,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.event.EventRefrushMaopao;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.subject.SubjectWallActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -42,14 +42,14 @@ public class MainMaopaoFragment extends BaseFragment {
 
     @AfterViews
     void initMainMaopaoFragment() {
-        mainMaopaoToolbar.inflateMenu(R.menu.menu_fragment_maopao);
-        mainMaopaoToolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_search) {
-                action_search();
-            }
-
-            return true;
-        });
+//        mainMaopaoToolbar.inflateMenu(R.menu.menu_fragment_maopao);
+//        mainMaopaoToolbar.setOnMenuItemClickListener(item -> {
+//            if (item.getItemId() == R.id.action_search) {
+//                action_search();
+//            }
+//
+//            return true;
+//        });
 
         mSpinnerAdapter = new MaopaoTypeAdapter(getActivity().getLayoutInflater(), maopaoActionTypes);
         toolbarMaopaoTitle.setAdapter(mSpinnerAdapter);
