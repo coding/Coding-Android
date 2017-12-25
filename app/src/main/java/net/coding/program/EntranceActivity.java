@@ -220,7 +220,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
         }
 
         startActivity(intent);
-        overridePendingTransition(R.anim.umeng_socialize_fade_in, R.anim.umeng_socialize_fade_out);
+        overridePendingTransition(R.anim.entrance_fade_in, R.anim.entrance_fade_out);
 
         UnreadNotify.update(this);
         finish();

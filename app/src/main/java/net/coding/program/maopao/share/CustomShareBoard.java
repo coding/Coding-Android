@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,135 +20,133 @@ import android.view.animation.AnimationUtils;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.bean.SocializeEntity;
-import com.umeng.socialize.controller.UMEvernoteHandler;
-import com.umeng.socialize.controller.UMServiceFactory;
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.controller.listener.SocializeListeners;
-import com.umeng.socialize.media.QZoneShareContent;
-import com.umeng.socialize.media.SinaShareContent;
 import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.sso.QZoneSsoHandler;
-import com.umeng.socialize.sso.SinaSsoHandler;
-import com.umeng.socialize.sso.UMQQSsoHandler;
-import com.umeng.socialize.utils.OauthHelper;
-import com.umeng.socialize.weixin.controller.UMWXHandler;
+import com.umeng.socialize.media.UMWeb;
 
-import net.coding.program.AllThirdKeys;
-import net.coding.program.common.GlobalData;
-import net.coding.program.MainActivity_;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.HtmlContent;
+import net.coding.program.common.model.Maopao;
+import net.coding.program.common.param.MessageParse;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.IconTextView;
 import net.coding.program.compatible.CodingCompat;
-import net.coding.program.common.model.Maopao;
-import net.coding.program.common.param.MessageParse;
 
 public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
-    private static UMSocialService mController = UMServiceFactory.getUMSocialService("net.coding.program");
+//    private static UMSocialService mController = UMServiceFactory.getUMSocialService("net.coding.program");
 
     private Activity mActivity;
     private ShareData mShareData;
 
     private View mBackground;
     private View mButtonsLayout;
-    private UMQQSsoHandler mQqSsoHandler;
-    private QZoneSsoHandler mQZoneSsoHandler;
-    private SinaSsoHandler mSinaSsoHandler;
-    private UMWXHandler mWXHandler;
-    private UMEvernoteHandler mEvernoteHandler;
+    //    private UMQQSsoHandler mQqSsoHandler;
+//    private QZoneSsoHandler mQZoneSsoHandler;
+//    private SinaSsoHandler mSinaSsoHandler;
+//    private UMWXHandler mWXHandler;
+//    private UMEvernoteHandler mEvernoteHandler;
     private ViewGroup allButtonsLayout;
 
     public CustomShareBoard(Activity activity, ShareData shareData) {
         super(activity);
         this.mActivity = activity;
         initView(activity);
-        mController.getConfig().closeToast();
-
         mShareData = shareData;
     }
 
-    public static UMSocialService getShareController() {
-        return mController;
+    public static void performShare(SHARE_MEDIA platform, Activity mActivity, ShareData mShareData) {
+        ShareAction shareAction = new ShareAction(mActivity);
+        UMWeb umWeb = new UMWeb(mShareData.link);
+
+        if (!TextUtils.isEmpty(mShareData.getImg())) {
+            UMImage umImage = new UMImage(mActivity, mShareData.getImg());
+            umWeb.setThumb(umImage);
+        }
+
+        umWeb.setTitle(mShareData.name);
+        if (platform == SHARE_MEDIA.SINA) {
+            umWeb.setDescription(mShareData.des + " " + mShareData.link);
+        } else {
+            if (TextUtils.isEmpty(mShareData.des)) {
+                umWeb.setDescription(mShareData.link);
+            } else {
+                umWeb.setDescription(mShareData.des);
+            }
+        }
+        shareAction.withMedia(umWeb);
+
+        shareAction.setPlatform(platform)
+                .setCallback(new UMShareListener() {
+                    @Override
+                    public void onStart(SHARE_MEDIA share_media) {
+
+                    }
+
+                    @Override
+                    public void onResult(SHARE_MEDIA share_media) {
+
+                    }
+
+                    @Override
+                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                        Logger.e(throwable.getMessage());
+                    }
+
+                    @Override
+                    public void onCancel(SHARE_MEDIA share_media) {
+
+                    }
+                })
+                .share();
     }
 
-    public static void performShare(SHARE_MEDIA platform, Activity mActivity, ShareData mShareData) {
-        mController.setShareContent(mShareData.des);
+    public static void onActivityResult(int requestCode, int resultCode, Intent data, Context activity) {
+        UMShareAPI.get(activity).onActivityResult(requestCode, resultCode, data);
+    }
 
-        UMImage umImage;
-        if (!mShareData.getImg().isEmpty()) {
-            umImage = new UMImage(mActivity, mShareData.getImg());
-        } else {
-            umImage = new UMImage(mActivity, R.drawable.share_default_icon);
-        }
-        mController.setShareImage(umImage);
-
-        if (platform == SHARE_MEDIA.SINA) {
-            SinaShareContent sinaContent = new SinaShareContent();
-            sinaContent.setShareContent(mShareData.des + " " + mShareData.link);
-            sinaContent.setTargetUrl(mShareData.link);
-            sinaContent.setShareImage(umImage);
-            sinaContent.setTitle(mShareData.name);
-            mController.setShareMedia(sinaContent);
-        } else if (platform == SHARE_MEDIA.QZONE) {
-            QZoneShareContent qzone = new QZoneShareContent();
-            qzone.setShareContent(mShareData.des);
-            qzone.setTitle(mShareData.name);
-            qzone.setTargetUrl(mShareData.link);
-            qzone.setShareImage(umImage);
-            mController.setShareMedia(qzone);
-        }
-
-        mController.postShare(mActivity, platform, new SocializeListeners.SnsPostListener() {
-
-                    @Override
-                    public void onStart() {
-                    }
-
-                    @Override
-                    public void onComplete(SHARE_MEDIA platform, int eCode, SocializeEntity entity) {
-                    }
-                }
-
-        );
+    public static void onDestory(Context context) {
+        UMShareAPI.get(context).release();
     }
 
     private void addQQ() {
-        mQqSsoHandler.setTargetUrl(mShareData.link);
-        mQqSsoHandler.setTitle(mShareData.name);
-        mQqSsoHandler.addToSocialSDK();
+//        mQqSsoHandler.setTargetUrl(mShareData.link);
+//        mQqSsoHandler.setTitle(mShareData.name);
+//        mQqSsoHandler.addToSocialSDK();
     }
 
     private void addWX() {
-        mWXHandler.setTargetUrl(mShareData.link);
-        mWXHandler.setTitle(mShareData.name);
-        mWXHandler.addToSocialSDK();
+//        mWXHandler.setTargetUrl(mShareData.link);
+//        mWXHandler.setTitle(mShareData.name);
+//        mWXHandler.addToSocialSDK();
     }
 
     private void addWXCircle() {
-        mWXHandler.setTargetUrl(mShareData.link);
-        mWXHandler.setTitle(mShareData.des);
-        mWXHandler.setToCircle(true);
-        mWXHandler.addToSocialSDK();
+//        mWXHandler.setTargetUrl(mShareData.link);
+//        mWXHandler.setTitle(mShareData.des);
+//        mWXHandler.setToCircle(true);
+//        mWXHandler.addToSocialSDK();
     }
 
     private void addQQZone() {
         // 添加QZone平台
-        mQZoneSsoHandler.setTargetUrl(mShareData.link);
-        mQZoneSsoHandler.addToSocialSDK();
+//        mQZoneSsoHandler.setTargetUrl(mShareData.link);
+//        mQZoneSsoHandler.addToSocialSDK();
     }
 
     private void addSinaWeibo() {
-        mController.getConfig().setSsoHandler(mSinaSsoHandler);
+//        mController.getConfig().setSsoHandler(mSinaSsoHandler);
     }
 
     private void addEvernote() {
-        mEvernoteHandler.addToSocialSDK();
+//        mEvernoteHandler.addToSocialSDK();
     }
 
     private void addButton(IconTextView.Data data) {
@@ -185,32 +184,25 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
                 new IconTextView.Data(R.id.linkCopy, "复制链接", R.drawable.icon_share_copy_link)
         };
 
-        allButtonsLayout = (ViewGroup) rootView.findViewById(R.id.allButtonsLayout);
+        allButtonsLayout = rootView.findViewById(R.id.allButtonsLayout);
 
-        mWXHandler = new UMWXHandler(mActivity, AllThirdKeys.WX_APP_ID, AllThirdKeys.WX_APP_KEY);
-        if (mWXHandler.isClientInstalled()) {
+        UMShareAPI umShareApi = UMShareAPI.get(mActivity);
+        if (umShareApi.isInstall(mActivity, SHARE_MEDIA.WEIXIN)) {
             addButton(datas[0]);
             addButton(datas[1]);
         }
 
-        mQqSsoHandler = new UMQQSsoHandler(mActivity, AllThirdKeys.QQ_APP_ID, AllThirdKeys.QQ_APP_KEY);
-        if (mQqSsoHandler.isClientInstalled()) {
+        if (umShareApi.isInstall(mActivity, SHARE_MEDIA.QQ)) {
             addButton(datas[2]);
         }
 
-
-        mQZoneSsoHandler = new QZoneSsoHandler(mActivity, AllThirdKeys.QQ_APP_ID, AllThirdKeys.QQ_APP_KEY);
-        if (mQZoneSsoHandler.isClientInstalled()) {
+        if (umShareApi.isInstall(mActivity, SHARE_MEDIA.QZONE)) {
             addButton(datas[3]);
         }
 
-        mSinaSsoHandler = new SinaSsoHandler();
-//        if (mSinaSsoHandler.isClientInstalled()) {
         addButton(datas[4]);
-//        }
 
-        mEvernoteHandler = new UMEvernoteHandler(mActivity);
-        if (mEvernoteHandler.isClientInstalled()) {
+        if (umShareApi.isInstall(mActivity, SHARE_MEDIA.EVERNOTE)) {
             addButton(datas[5]);
         }
 
@@ -274,15 +266,16 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
             case R.id.sinaWeibo:
                 umengEvent(UmengEvent.MAOPAO, "分享到sina");
-                if (mActivity instanceof MainActivity_
-                        && !OauthHelper.isAuthenticatedAndTokenNotExpired(mActivity, SHARE_MEDIA.SINA)) {
-                    Intent intent = new Intent(mActivity, ShareSinaHelpActivity.class);
-                    intent.putExtra(ShareSinaHelpActivity.EXTRA_SHARE_DATA, mShareData);
-                    mActivity.startActivity(intent);
-                } else {
-                    addSinaWeibo();
-                    performShare(SHARE_MEDIA.SINA);
-                }
+                // TODO: 2017/12/20 有没有装客户端 未实现
+//                if (mActivity instanceof MainActivity_
+//                        && !OauthHelper.isAuthenticatedAndTokenNotExpired(mActivity, SHARE_MEDIA.SINA)) {
+//                    Intent intent = new Intent(mActivity, ShareSinaHelpActivity.class);
+//                    intent.putExtra(ShareSinaHelpActivity.EXTRA_SHARE_DATA, mShareData);
+//                    mActivity.startActivity(intent);
+//                } else {
+                addSinaWeibo();
+                performShare(SHARE_MEDIA.SINA);
+//                }
                 break;
 
             case R.id.evernote:

@@ -44,17 +44,15 @@ android {
             abortOnError false
         }
     }
-
     flavorDimensions "mode", "version"
-
     productFlavors {
 
         // 版本号不能放在
         person {
             dimension "mode"
             applicationId "net.coding.program"
-            versionCode 162
-            versionName "4.9.1"
+            versionCode 495
+            versionName "4.9.5"
             targetSdkVersion 23
         }
         enterprise {
@@ -101,7 +99,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
 }
 
 gradle.projectsEvaluated {
@@ -180,10 +177,10 @@ dependencies {
     }
 
     //    compile 'com.twotoasters.jazzylistview:library:1.2.1'
-    implementation project(':social_sdk_library_project')
+    // 删除旧版 umeng
+//    implementation project(':social_sdk_library_project')
     implementation project(':bottom-bar')
     implementation project(':luban')
-
     compile 'com.bigkoo:convenientbanner:1.0.8'
 
     // 方便显示 view 显示一些样式，不用写 selector
@@ -232,6 +229,7 @@ dependencies {
     compile files('libs/Xg_sdk_v2.47_20161026_0936.jar')
     provided files('../common-coding/libs/android-viewbadger.jar')   // 小红点
     provided files('../common-coding/libs/pinyin4j-2.5.0.jar')
+    implementation project(':share-coding')
 }
 
 

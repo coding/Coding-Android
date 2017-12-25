@@ -11,12 +11,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 import com.orhanobut.logger.Logger;
-import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.modelpay.PayReq;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import net.coding.program.AllThirdKeys;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
@@ -43,7 +42,6 @@ import java.util.Map;
 
 /**
  * Created by chenchao on 2017/11/29.
- *
  */
 
 @EActivity(R.layout.activity_payment_coding)
@@ -99,11 +97,13 @@ public class PaymentActivity extends BackActivity {
 
                 if (payMethod == Type.Alipay) {
                     HttpResult<OrderObject> order = new Gson().fromJson(jsonString,
-                            new TypeToken<HttpResult<OrderObject>>() {}.getType());
+                            new TypeToken<HttpResult<OrderObject>>() {
+                            }.getType());
                     payByClient(order.data.url);
                 } else {
                     HttpResult<WeixinOrder> order = new Gson().fromJson(jsonString,
-                            new TypeToken<HttpResult<WeixinOrder>>() {}.getType());
+                            new TypeToken<HttpResult<WeixinOrder>>() {
+                            }.getType());
                     paybyWeixinClient(order.data);
                 }
 

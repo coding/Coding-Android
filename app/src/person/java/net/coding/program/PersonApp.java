@@ -17,6 +17,8 @@ public class PersonApp extends MyApp {
     public void onCreate() {
         super.onCreate();
 
+        AllThirdKeys.initInApp(this);
+
         CodingCompat.init(new CodingCompatImp());
 
         CodingPush.instance().initApplication(this, (context, params) -> {
@@ -41,7 +43,5 @@ public class PersonApp extends MyApp {
             }
 
         });
-
     }
-
 }

@@ -20,26 +20,25 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
-import com.umeng.socialize.sso.UMSsoHandler;
 
-import net.coding.program.common.GlobalData;
-import net.coding.program.R;
 import net.coding.program.CustomWebViewClient;
+import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
-import net.coding.program.common.GlobalCommon;
-import net.coding.program.util.TextWatcherAt;
-import net.coding.program.maopao.item.HtmlCommentHolder;
+import net.coding.program.common.model.Maopao;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.MainInputView;
+import net.coding.program.maopao.item.HtmlCommentHolder;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
-import net.coding.program.common.model.Maopao;
-import net.coding.program.common.model.ProjectObject;
 import net.coding.program.third.EmojiFilter;
+import net.coding.program.util.TextWatcherAt;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -615,11 +614,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        UMSsoHandler ssoHandler = CustomShareBoard.getShareController().getConfig().getSsoHandler(
-                requestCode);
-        if (ssoHandler != null) {
-            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
+        CustomShareBoard.onActivityResult(requestCode, resultCode, data, this);
     }
 
     public static class ClickParam implements Serializable {
@@ -647,6 +642,13 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         }
     }
 
-//    private UMSocialService mController = UMServiceFactory.getUMSocialService("net.coding.program");
+    @Override
+    protected void onDestroy() {
+        CustomShareBoard.onDestory(this);
+
+        super.onDestroy();
+    }
+
+    //    private UMSocialService mController = UMServiceFactory.getUMSocialService("net.coding.program");
 
 }
