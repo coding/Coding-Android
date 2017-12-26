@@ -30,6 +30,35 @@
 
     </android.support.design.widget.AppBarLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/topTip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/layout_yellow_bg"
+        android:minHeight="44dp">
+
+        <ImageView
+            android:id="@+id/closeTipButton"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentRight="true"
+            android:scaleType="center"
+            android:src="@drawable/delete_edit_login_black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:id="@+id/topTipText"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="44dp"
+            android:text="完善个人信息，即可升级成为银牌会员。去完善>>"
+            android:textColor="@color/font_yellow"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

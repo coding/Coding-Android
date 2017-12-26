@@ -21,21 +21,22 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.pickphoto.ClickSmallImage;
+import net.coding.program.common.CameraPhotoUtil;
 import net.coding.program.common.DatePickerFragment;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalData;
 import net.coding.program.common.ListModify;
-import net.coding.program.common.CameraPhotoUtil;
 import net.coding.program.common.maopao.ClickImageParam;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
-import net.coding.program.common.model.AccountInfo;
-import net.coding.program.common.model.UserObject;
+import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.user.ProvincesPickerDialog;
 import net.coding.program.user.SetUserInfoActivity_;
 import net.coding.program.user.SetUserInfoListActivity_;
+import net.coding.program.user.SetUserSkillsActivity_;
 import net.coding.program.user.SetUserTagActivity_;
 import net.coding.program.user.UserProvincesDialogFragment;
 
@@ -226,6 +227,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                     break;
 
                 case USERINFO_SKILL:
+                    SetUserSkillsActivity_.intent(UserDetailEditActivity.this).startForResult(ListModify.RESULT_EDIT_LIST);
                     break;
 
                 case USERINFO_TAGS:

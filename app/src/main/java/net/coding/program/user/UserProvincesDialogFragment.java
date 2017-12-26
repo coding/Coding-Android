@@ -16,7 +16,6 @@ import org.androidannotations.annotations.EFragment;
 @EFragment(R.layout.fragment_user_provinces_dialog)
 public class UserProvincesDialogFragment extends DialogFragment implements ProvincesPickerDialog.OnDateSetListener {
 
-    //private UserInfoActivity mActivity;
     private ProvincesPickerDialog.OnDateSetListener mCallBack;
 
     @Override

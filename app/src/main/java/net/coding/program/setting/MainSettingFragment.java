@@ -2,21 +2,23 @@ package net.coding.program.setting;
 
 
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
+import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.RedPointTip;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.UserObject;
+import net.coding.program.common.model.user.ServiceInfo;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.ListItem1;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.mall.MallIndexActivity_;
-import net.coding.program.common.model.AccountInfo;
-import net.coding.program.common.model.UserObject;
-import net.coding.program.common.model.user.ServiceInfo;
 import net.coding.program.project.detail.file.LocalProjectFileActivity_;
 import net.coding.program.user.AddFollowActivity_;
 import net.coding.program.user.UserPointActivity_;
@@ -49,6 +51,9 @@ public class MainSettingFragment extends BaseFragment {
     @ViewById
     ImageView userIcon;
 
+    @ViewById(R.id.topTip)
+    View topTip;
+
     @AfterViews
     void initMainSettingFragment() {
         mainSettingToolbar.inflateMenu(R.menu.main_setting);
@@ -75,17 +80,18 @@ public class MainSettingFragment extends BaseFragment {
         bindDataUserinfo();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
     private void bindDataUserinfo() {
         UserObject me = GlobalData.sUserObject;
         userName.setText(me.name);
         userGK.setText(String.format("个性后缀：%s", me.global_key));
         iconfromNetwork(userIcon, me.avatar);
         userIcon.setTag(me);
+
+        if (topTip.getVisibility() == View.VISIBLE) {
+            if (me.isFillInfo()) {
+                topTip.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void bindData() {
@@ -166,6 +172,18 @@ public class MainSettingFragment extends BaseFragment {
     @Click
     void itemAbout() {
         AboutActivity_.intent(this).start();
+    }
+
+    @Click
+    void topTipText() {
+        UserDetailEditActivity_
+                .intent(this)
+                .start();
+    }
+
+    @Click
+    void closeTipButton() {
+        topTip.setVisibility(View.GONE);
     }
 
     void actionAddFollow() {

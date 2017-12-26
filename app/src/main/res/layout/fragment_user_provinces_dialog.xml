@@ -31,4 +31,5 @@
         android:layout_weight="1.8"
         android:focusable="true"
         android:focusableInTouchMode="true" />
+
 </LinearLayout>

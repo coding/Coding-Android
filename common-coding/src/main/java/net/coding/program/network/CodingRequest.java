@@ -14,6 +14,7 @@ import net.coding.program.network.model.wiki.Wiki;
 import net.coding.program.network.model.wiki.WikiHistory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -177,5 +178,9 @@ public interface CodingRequest {
 
     @GET("update/app")
     Observable<AppVersion> getAppVersion();
+
+//    @GET("user/updateInfo")
+    @GET("options/skills")
+    Observable<HttpResult<HashMap<Integer, String>>> getAllSkills();
 
 }

@@ -16,6 +16,7 @@
     <string name="title_activity_my_created">我创建的</string>
     <string name="title_activity_help">帮助与反馈</string>
     <string name="title_activity_user_info">个人信息</string>
+    <string name="title_activity_user_info_skill">开发技能</string>
     <string name="title_activity_about_point">关于码币</string>
     <string name="title_activity_my_detail">个人主页</string>
     <string name="title_activity_comment_detail">评论详情</string>

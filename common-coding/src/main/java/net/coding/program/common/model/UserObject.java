@@ -2,8 +2,8 @@ package net.coding.program.common.model;
 
 import android.text.TextUtils;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.network.constant.VIP;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -218,6 +218,25 @@ public class UserObject implements Serializable, Comparable {
 
     public boolean isEmailValidation() {
         return email_validation != 0;
+    }
+
+    public boolean isFillInfo() {
+        if (TextUtils.isEmpty(birthday) ||
+                TextUtils.isEmpty(location) ||
+                TextUtils.isEmpty(job_str) ||
+                TextUtils.isEmpty(getUserDegree()) ||
+                TextUtils.isEmpty(school) ||
+                phone_validation != 1 ||
+                email_validation != 1 ||
+                !isSkillsCompleted()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean isSkillsCompleted() {
+        return skills != null && skills.size() > 0;
     }
 
     @Override

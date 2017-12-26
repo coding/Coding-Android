@@ -23,7 +23,13 @@
             android:value="5435f151fd98c5751102d2d5" />
 
 
-        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".TestActivity">
+             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".EntranceActivity_"

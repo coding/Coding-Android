@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/divide">
+    android:background="@color/divide"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textTip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF2DEDE"
+        android:paddingBottom="@dimen/padding_10"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15"
+        android:paddingTop="@dimen/padding_10"
+        android:textColor="#FFC55351"
+        android:textSize="12sp"
+        android:visibility="gone"
+        tools:text="验证手机和邮箱后完善资料才能升级，去验证 >>"
+        tools:visibility="visible" />
 
     <ListView
         android:id="@+id/listView"
@@ -12,4 +29,4 @@
         android:divider="@null"
         android:dividerHeight="0dp" />
 
-</FrameLayout>
+</LinearLayout>
