@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textTip"
+        android:id="@+id/topTip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFF2DEDE"
@@ -18,7 +18,7 @@
         android:textColor="#FFC55351"
         android:textSize="12sp"
         android:visibility="gone"
-        tools:text="验证手机和邮箱后完善资料才能升级，去验证 >>"
+        android:text="验证手机和邮箱后完善资料才能升级，去验证 >>"
         tools:visibility="visible" />
 
     <ListView

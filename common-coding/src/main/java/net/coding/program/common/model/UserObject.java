@@ -235,6 +235,10 @@ public class UserObject implements Serializable, Comparable {
         return true;
     }
 
+    public boolean phoneAndEmailValid() {
+        return phone_validation == 1 && email_validation == 1;
+    }
+
     public boolean isSkillsCompleted() {
         return skills != null && skills.size() > 0;
     }

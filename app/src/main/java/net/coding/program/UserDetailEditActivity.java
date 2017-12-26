@@ -33,6 +33,8 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.pickphoto.ClickSmallImage;
+import net.coding.program.setting.AccountSetting;
+import net.coding.program.setting.AccountSetting_;
 import net.coding.program.user.ProvincesPickerDialog;
 import net.coding.program.user.SetUserInfoActivity_;
 import net.coding.program.user.SetUserInfoListActivity_;
@@ -83,6 +85,9 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     String[] user_info_list_second;
     @ViewById
     ListView listView;
+    @ViewById
+    View topTip;
+
     String[] user_jobs;
     BaseAdapter adapter = new BaseAdapter() {
         @Override
@@ -274,6 +279,14 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         listViewAddFootSection(listView);
         user = AccountInfo.loadAccount(this);
 
+        if (user.phoneAndEmailValid()) {
+            topTip.setVisibility(View.GONE);
+        } else {
+            topTip.setVisibility(View.VISIBLE);
+            topTip.setOnClickListener(v -> AccountSetting_.intent(UserDetailEditActivity
+                    .this).startForResult(ListModify.RESULT_EDIT_LIST));
+        }
+
         View head = mInflater.inflate(R.layout.activity_user_info_head, listView, false);
         icon = (ImageView) head.findViewById(R.id.icon);
         icon.setOnClickListener(new ClickSmallImage(this));
@@ -293,6 +306,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         listView.setOnItemClickListener(itemClickListener);
 
         getNetwork(String.format(HOST_USER, user.global_key), HOST_USER);
+
     }
 
     void getUserInfoRows() {
