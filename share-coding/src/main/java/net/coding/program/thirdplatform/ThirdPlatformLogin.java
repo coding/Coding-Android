@@ -15,7 +15,7 @@ import java.util.Map;
 public class ThirdPlatformLogin {
 
     public static void loginByWeixin(Activity activity, UMAuthListener authListener) {
-        UMShareAPI.get(activity).doOauthVerify(activity, SHARE_MEDIA.WEIXIN, authListener);
+        UMShareAPI.get(activity).getPlatformInfo(activity, SHARE_MEDIA.WEIXIN, authListener);
     }
 
     public static void loginOut(Activity activity) {
