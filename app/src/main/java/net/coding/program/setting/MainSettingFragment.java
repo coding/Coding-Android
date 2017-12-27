@@ -87,10 +87,8 @@ public class MainSettingFragment extends BaseFragment {
         iconfromNetwork(userIcon, me.avatar);
         userIcon.setTag(me);
 
-        if (topTip.getVisibility() == View.VISIBLE) {
-            if (me.isFillInfo()) {
-                topTip.setVisibility(View.GONE);
-            }
+        if (me.isFillInfo()) {
+            topTip.setVisibility(View.GONE);
         }
     }
 

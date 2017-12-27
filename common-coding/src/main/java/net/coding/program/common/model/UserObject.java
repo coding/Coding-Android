@@ -59,7 +59,7 @@ public class UserObject implements Serializable, Comparable {
     public int phone_validation = 0;
     public String phone_country_code = "+86";
     private String pingYin = "";
-    public VIP vip;
+    public VIP vip = VIP.normal;
 
     public UserObject(JSONObject json) {
         if (json == null) {

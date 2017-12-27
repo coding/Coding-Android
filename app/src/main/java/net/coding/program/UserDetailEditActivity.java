@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -24,7 +25,6 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.common.CameraPhotoUtil;
 import net.coding.program.common.DatePickerFragment;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalData;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.maopao.ClickImageParam;
 import net.coding.program.common.model.AccountInfo;
@@ -33,6 +33,7 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.databinding.ActivityUserDetailEditBinding;
+import net.coding.program.network.constant.VIP;
 import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.setting.AccountSetting_;
 import net.coding.program.user.ProvincesPickerDialog;
@@ -89,6 +90,8 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     View topTip;
 
     ActivityUserDetailEditBinding binding;
+
+    private VIP lastVIP = VIP.normal;
 
     String[] user_jobs;
     BaseAdapter adapter = new BaseAdapter() {
@@ -157,7 +160,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
             return convertView;
         }
     };
-    String HOST = Global.HOST_API + "/user/key/%s";
+
     String HOST_JOB = Global.HOST_API + "/options/jobs";
     private Uri fileCropUri;
     private Uri fileUri;
@@ -282,6 +285,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
 
         listViewAddFootSection(listView);
         user = AccountInfo.loadAccount(this);
+        lastVIP = user.vip;
 
         if (user.phoneAndEmailValid()) {
             topTip.setVisibility(View.GONE);
@@ -294,16 +298,11 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         }
 
         View head = mInflater.inflate(R.layout.activity_user_info_head, listView, false);
-        icon = (ImageView) head.findViewById(R.id.icon);
+        icon = head.findViewById(R.id.icon);
         icon.setOnClickListener(new ClickSmallImage(this));
         iconfromNetwork(icon, user.avatar);
         icon.setTag(new ClickImageParam(user.avatar));
-        head.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setIcon();
-            }
-        });
+        head.setOnClickListener(v -> setIcon());
         listView.addHeaderView(head);
 
         getUserInfoRows();
@@ -313,6 +312,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
 
         getNetwork(String.format(HOST_USER, user.global_key), HOST_USER);
 
+//        popUpgradeSuccessDialog();
     }
 
     void getUserInfoRows() {
@@ -359,7 +359,10 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         if (tag.equals(HOST_USERINFO) || tag.equals(HOST_USER)) {
             if (code == 0) {
                 user = new UserObject(respanse.getJSONObject("data"));
+
                 AccountInfo.saveAccount(this, user);
+                popUpgradeDialog();
+
                 getUserInfoRows();
                 adapter.notifyDataSetChanged();
             } else {
@@ -374,19 +377,6 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                 user.avatar = iconUri;
                 AccountInfo.saveAccount(this, user);
                 icon.setTag(new ClickImageParam(user.avatar));
-
-
-            } else {
-                showErrorMsg(code, respanse);
-            }
-        } else if (tag.equals(HOST)) {
-            if (code == 0) {
-                user = new UserObject(respanse.getJSONObject("data"));
-                AccountInfo.saveAccount(this, user);
-                GlobalData.sUserObject = user;
-                getUserInfoRows();
-                adapter.notifyDataSetChanged();
-                //setControlContent(user);
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -409,6 +399,23 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                 showJobDialog();
             }
         }
+    }
+
+    // 填完资料，弹出白银会员升级提示框
+    private void popUpgradeDialog() {
+        if (lastVIP == VIP.normal && user.vip == VIP.silver) {
+            lastVIP = user.vip;
+            popUpgradeSuccessDialog();
+        }
+    }
+
+    private void popUpgradeSuccessDialog() {
+        View root = LayoutInflater.from(this).inflate(R.layout.upgrade_sliver_vip_dialog, null);
+        final AlertDialog dialog = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
+                .setView(root)
+                .show();
+        root.findViewById(R.id.closeDialog).setOnClickListener(v -> dialog.dismiss());
+        root.findViewById(R.id.buttonReward).setOnClickListener(v -> dialog.dismiss());
     }
 
     @Override
@@ -436,19 +443,13 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                 }
             }
         } else if (requestCode == ListModify.RESULT_EDIT_LIST) {
-            if (resultCode == Activity.RESULT_OK) {
-                //showButtomToast("EDITED");
-                //updateUserinfo();
-                user = AccountInfo.loadAccount(this);
-                getUserInfoRows();
-                adapter.notifyDataSetChanged();
-            }
+            //showButtomToast("EDITED");
+            //updateUserinfo();
+            user = AccountInfo.loadAccount(this);
+            getUserInfoRows();
+            adapter.notifyDataSetChanged();
+            popUpgradeDialog();
         }
-    }
-
-    public void updateUserinfo() {
-        UserObject oldUser = AccountInfo.loadAccount(this);
-        getNetwork(String.format(HOST, oldUser.global_key), HOST);
     }
 
     void setSexs() {
