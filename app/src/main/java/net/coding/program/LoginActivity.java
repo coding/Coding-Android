@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.TimingLogger;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -19,8 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fivehundredpx.android.blur.BlurringView;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -245,17 +244,13 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Click
+    void loginWeixin() {
+        Global.popSoftkeyboard(this, editName, false);
+        ThirdPlatformLogin.loginByWeixin(this, umAuthListener);
+    }
+
+    @Click
     void register() {
-        if (1 == 1) {
-
-//            final boolean isauth = UMShareAPI.get(mContext).isAuthorize(mActivity, list.get(position).mPlatform);
-//            if (isauth) {
-//                UMShareAPI.get(mContext).deleteOauth(mActivity, list.get(position).mPlatform, authListener);
-//            } else {
-            ThirdPlatformLogin.loginByWeixin(this, umAuthListener);
-            return;
-        }
-
         Global.popSoftkeyboard(this, editName, false);
         PhoneRegisterActivity_.intent(this)
                 .startForResult(RESULT_CLOSE);
@@ -535,6 +530,7 @@ public class LoginActivity extends BaseActivity {
         @Override
         public void onStart(SHARE_MEDIA platform) {
             //授权开始的回调
+            showProgressBar(true);
         }
 
         @Override
@@ -559,13 +555,14 @@ public class LoginActivity extends BaseActivity {
 
         @Override
         public void onError(SHARE_MEDIA platform, int action, Throwable t) {
-            Toast.makeText(getApplicationContext(), "请求失败", Toast.LENGTH_SHORT).show();
+            showProgressBar(false);
+            Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT).show();
             Logger.d(t);
         }
 
         @Override
         public void onCancel(SHARE_MEDIA platform, int action) {
-//            Toast.makeText(getApplicationContext(), "Authorize cancel", Toast.LENGTH_SHORT).show();
+            showProgressBar(false);
         }
     };
 

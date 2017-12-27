@@ -27,7 +27,7 @@
                 android:layout_gravity="center"
                 app:blurRadius="8"
                 app:downsampleFactor="16"
-                app:overlayColor="#99FFFFFF"/>
+                app:overlayColor="#99FFFFFF" />
 
             <View
                 android:layout_width="match_parent"
@@ -110,21 +110,21 @@
                             app:darkness="true" />
 
                         <net.coding.program.common.LoginEditText
-                                android:id="@+id/editPassword"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:background="@drawable/login_edit"
-                                android:hint="密码"
-                                android:imeOptions="actionUnspecified"
-                                android:inputType="textPassword"
-                                android:maxLines="1"
-                                android:lines="1"
-                                android:textColor="@color/font_white"
-                                android:textColorHint="@color/font_white_hint"
-                                android:textCursorDrawable="@null"
-                                android:textSize="18sp"
-                                app:dark="true"/>
+                            android:id="@+id/editPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:background="@drawable/login_edit"
+                            android:hint="密码"
+                            android:imeOptions="actionUnspecified"
+                            android:inputType="textPassword"
+                            android:lines="1"
+                            android:maxLines="1"
+                            android:textColor="@color/font_white"
+                            android:textColorHint="@color/font_white_hint"
+                            android:textCursorDrawable="@null"
+                            android:textSize="18sp"
+                            app:dark="true" />
 
                         <RelativeLayout
                             android:id="@+id/captchaLayout"
@@ -134,16 +134,16 @@
                             android:visibility="gone">
 
                             <EditText
-                                    android:id="@+id/editValify"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/login_edit"
-                                    android:hint="验证码"
-                                    android:lines="1"
-                                    android:textColor="@color/font_white"
-                                    android:textColorHint="@color/font_white_hint"
-                                    android:textCursorDrawable="@null"
-                                    android:textSize="18sp"/>
+                                android:id="@+id/editValify"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/login_edit"
+                                android:hint="验证码"
+                                android:lines="1"
+                                android:textColor="@color/font_white"
+                                android:textColorHint="@color/font_white_hint"
+                                android:textCursorDrawable="@null"
+                                android:textSize="18sp" />
 
                             <ImageView
                                 android:id="@+id/imageValify"
@@ -174,21 +174,21 @@
 
 
                         <net.coding.program.common.LoginEditText
-                                android:id="@+id/edit2FA"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:background="@drawable/login_edit"
-                                android:hint="输入动态验证码"
-                                android:imeOptions="actionUnspecified"
-                                android:inputType="number"
-                                android:maxLines="1"
-                                android:lines="1"
-                                android:textColor="@color/font_white"
-                                android:textColorHint="@color/font_white_hint"
-                                android:textCursorDrawable="@null"
-                                android:textSize="18sp"
-                                app:dark="true"/>
+                            android:id="@+id/edit2FA"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:background="@drawable/login_edit"
+                            android:hint="输入动态验证码"
+                            android:imeOptions="actionUnspecified"
+                            android:inputType="number"
+                            android:lines="1"
+                            android:maxLines="1"
+                            android:textColor="@color/font_white"
+                            android:textColorHint="@color/font_white_hint"
+                            android:textCursorDrawable="@null"
+                            android:textSize="18sp"
+                            app:dark="true" />
                     </LinearLayout>
 
 
@@ -210,34 +210,58 @@
 
 
                 <RelativeLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/loginFail"
-                        android:layout_width="100dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
+                        android:drawableLeft="@drawable/ic_login_wexin"
+                        android:drawablePadding="8dp"
                         android:gravity="center"
-                        android:text="找回密码"
+                        android:id="@+id/loginWeixin"
+                        android:text="使用微信登录"
                         android:textColor="@color/font_white"
                         android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/register"
-                        android:layout_width="80dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="21dp"
-                        android:gravity="center"
-                        android:text="去注册"
-                        android:textColor="@color/font_white"
-                        android:textSize="16sp" />
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
 
+                        <TextView
+                            android:id="@+id/loginFail"
+                            android:layout_width="80dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:text="找回密码"
+                            android:textColor="#CCFFFFFF"
+                            android:textSize="16sp" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="#CCFFFFFF" />
+
+                        <TextView
+                            android:id="@+id/register"
+                            android:layout_width="80dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:text="注册帐号"
+                            android:textColor="#CCFFFFFF"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
 
                 </RelativeLayout>
 

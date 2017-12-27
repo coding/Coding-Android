@@ -146,7 +146,7 @@
     <string name="title_activity_email_set_password">找回密码</string>
     <string name="title_activity_phone_set_password">找回密码</string>
     <string name="title_input_account_activity">找回密码</string>
-    <string name="set_global_activity">账号激活</string>
+    <string name="set_global_activity">帐号激活</string>
     <string name="qr_scan_activity">扫描二维码</string>
     <string name="auth_list_activity">身份验证器</string>
     <string name="scan_text">将二维码对准取景框，即可自动扫描</string>
@@ -181,8 +181,8 @@
     <string name="title_activity_all_tasks">我的任务</string>
     <string name="title_activity_filter_tasks">任务筛选</string>
 
-    <string name="alert_activity_email">欢迎注册 Coding，请尽快去邮箱查收邮件并激活账号。如若在收件箱中未看到激活邮件，请留意一下垃圾邮件箱(T_T)。</string>
-    <string name="alert_activity_email2">该邮箱尚未激活，请尽快去邮箱查收邮件并激活账号。如若在收件箱中未看到激活邮件，请留意一下垃圾邮件箱(T_T)。</string>
+    <string name="alert_activity_email">欢迎注册 Coding，请尽快去邮箱查收邮件并激活帐号。如若在收件箱中未看到激活邮件，请留意一下垃圾邮件箱(T_T)。</string>
+    <string name="alert_activity_email2">该邮箱尚未激活，请尽快去邮箱查收邮件并激活帐号。如若在收件箱中未看到激活邮件，请留意一下垃圾邮件箱(T_T)。</string>
 
     <!--商城-->
     <string name="title_activity_payment">支付</string>

@@ -34,7 +34,7 @@ public class PhoneRegisterActivity extends BackActivity {
 
     private static final int RESULT_PICK_COUNTRY = 10;
 
-    public static CharSequence REGIST_TIP = Global.createGreenHtml("注册 Coding 账号表示您已同意", "《Coding 服务条款》", "");
+    public static CharSequence REGIST_TIP = Global.createGreenHtml("注册 Coding 帐号表示您已同意", "《Coding 服务条款》", "");
 
     @ViewById
     LoginEditText globalKeyEdit, phoneEdit, passwordEdit, phoneCodeEdit, captchaEdit;

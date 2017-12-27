@@ -169,16 +169,16 @@ public class AuthListActivity extends BaseActivity implements Handler.Callback {
     private void showCoverDialog(String uriString) {
         final AuthInfo item = new AuthInfo(uriString, mClock);
         if (mAuthAdapter.containItem(item)) {
-            Toast.makeText(this, "这个账号已经添加过了", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "这个帐号已经添加过了", Toast.LENGTH_SHORT).show();
         } else if (mAuthAdapter.containItemDiffSecrect(item)) {
-            showDialog("警告", "存在同名账号，确定覆盖？", new DialogInterface.OnClickListener() {
+            showDialog("警告", "存在同名帐号，确定覆盖？", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     addAndSave(item);
                 }
             });
         } else {
-            Toast.makeText(this, "成功添加账号", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "成功添加帐号", Toast.LENGTH_SHORT).show();
             addAndSave(item);
         }
     }

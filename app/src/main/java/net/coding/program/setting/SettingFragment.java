@@ -22,6 +22,7 @@ import net.coding.program.common.event.EventMessage;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.project.detail.file.FileSaveHelp;
 import net.coding.program.push.CodingPush;
+import net.coding.program.thirdplatform.ThirdPlatformLogin;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -158,7 +159,7 @@ public class SettingFragment extends BaseFragment {
 
     @Click
     void loginOut() {
-        showDialog(GlobalData.sUserObject.global_key, "退出当前账号?", (dialog, which) -> {
+        showDialog(GlobalData.sUserObject.global_key, "退出当前帐号?", (dialog, which) -> {
             umengEvent(UmengEvent.E_USER_CENTER, "退登_确定退登");
             FragmentActivity activity = getActivity();
 
@@ -169,6 +170,7 @@ public class SettingFragment extends BaseFragment {
             }
 
             AccountInfo.loginOut(activity);
+            ThirdPlatformLogin.loginOut(activity);
             startActivity(new Intent(activity, CodingCompat.instance().getGuideActivity()));
             EventBus.getDefault().post(new EventMessage(EventMessage.Type.loginOut));
             activity.finish();
