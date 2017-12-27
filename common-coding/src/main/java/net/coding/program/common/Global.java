@@ -60,6 +60,7 @@ public class Global {
 
     public static final String DEFAULT_HOST = "https://coding.net";
     public static final String STAGING_HOST = "http://coding.codingprod.net";
+    public static final String TESTING_HOST = "http://coding.t.codingprod.net";
 
     public static final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd EEE");
     public static final SimpleDateFormat mDateYMDHH = new SimpleDateFormat("yyyy-MM-dd HH:mm");

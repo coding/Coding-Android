@@ -153,7 +153,7 @@ public class MyApp extends MultiDexApplication {
         }
 
 //        if (isInMainProcess(this)) {
-            GlobalData.app = this;
+        GlobalData.app = this;
 //        }
 
         CodingColor.init(this);
@@ -164,6 +164,8 @@ public class MyApp extends MultiDexApplication {
             host = Global.DEFAULT_HOST;
         } else if (host.equalsIgnoreCase("s")) {
             host = Global.STAGING_HOST;
+        } else if (host.equalsIgnoreCase("t")) {
+            host = Global.TESTING_HOST;
         }
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";

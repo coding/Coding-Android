@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fivehundredpx.android.blur.BlurringView;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -31,8 +34,8 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalData;
 import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.model.AccountInfo;
@@ -84,6 +87,8 @@ public class LoginActivity extends BaseActivity {
 
     private final String CLOSE_2FA = "关闭两步验证";
     public String HOST_USER = Global.HOST_API + "/user/key/%s";
+    public String HOST_LOGIN_WEIXIN = Global.HOST_API + "/oauth/wechat/mobile/login";
+
     @Extra
     Uri background;
     @ViewById
@@ -534,20 +539,33 @@ public class LoginActivity extends BaseActivity {
 
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
-            Toast.makeText(getApplicationContext(), "Authorize succeed", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "Authorize succeed", Toast.LENGTH_SHORT).show();
             Logger.d(data);
 
+            String accessToken = data.get("access_token");
+            String account = data.get("unionid");
+
+            if (TextUtils.isEmpty(accessToken) || TextUtils.isEmpty(account)) {
+                showMiddleToast("登录失败");
+                return;
+            }
+
+            RequestParams param = new RequestParams();
+            param.put("oauth_access_token", accessToken);
+            param.put("account", account);
+            param.put("response", new JSONObject(data).toString());
+            postNetwork(HOST_LOGIN_WEIXIN, param, TAG_LOGIN);
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, int action, Throwable t) {
-            Toast.makeText(getApplicationContext(), "Authorize fail", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "请求失败", Toast.LENGTH_SHORT).show();
             Logger.d(t);
         }
 
         @Override
         public void onCancel(SHARE_MEDIA platform, int action) {
-            Toast.makeText(getApplicationContext(), "Authorize cancel", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "Authorize cancel", Toast.LENGTH_SHORT).show();
         }
     };
 
