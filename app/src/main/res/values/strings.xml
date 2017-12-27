@@ -26,6 +26,8 @@
     <string name="title_activity_feedback">用户反馈</string>
     <string name="title_activity_about">关于我们</string>
     <string name="title_activity_topic_comment">讨论</string>
+    <string name="tip_need_phone_and_email">验证手机和邮箱后完善资料才能升级，<u>去验证</u></string>
+    <string name="tip_need_userinfo">完善个人信息，即可升级成为银牌会员。<u>去完善</u></string>
     <string name="topic_create">创建讨论</string>
     <string name="topic_edit">编辑讨论</string>
     <string name="topic_label">标签管理</string>

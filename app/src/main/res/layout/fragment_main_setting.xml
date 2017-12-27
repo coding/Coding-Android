@@ -30,34 +30,35 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/topTip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/layout_yellow_bg"
-        android:minHeight="44dp">
-
-        <ImageView
-            android:id="@+id/closeTipButton"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_alignParentRight="true"
-            android:scaleType="center"
-            android:src="@drawable/delete_edit_login_black"/>
+        android:background="@color/layout_yellow_bg">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:textColor="@color/layout_yellow_font"
             android:id="@+id/topTipText"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="44dp"
-            android:text="完善个人信息，即可升级成为银牌会员。去完善>>"
-            android:textColor="@color/font_yellow"
-            android:textSize="14sp"/>
-    </RelativeLayout>
+            android:layout_weight="1"
+            android:paddingBottom="@dimen/padding_10"
+            android:paddingLeft="@dimen/padding_15"
+            android:paddingRight="@dimen/padding_15"
+            android:paddingTop="@dimen/padding_10"
+            android:text="@string/tip_need_phone_and_email"
+            android:textSize="14sp" />
 
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:id="@+id/closeTipButton"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="center"
+            android:src="@drawable/ic_fork_yellow" />
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"

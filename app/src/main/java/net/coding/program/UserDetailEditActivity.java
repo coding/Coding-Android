@@ -32,8 +32,8 @@ import net.coding.program.common.model.UserObject;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.databinding.ActivityUserDetailEditBinding;
 import net.coding.program.pickphoto.ClickSmallImage;
-import net.coding.program.setting.AccountSetting;
 import net.coding.program.setting.AccountSetting_;
 import net.coding.program.user.ProvincesPickerDialog;
 import net.coding.program.user.SetUserInfoActivity_;
@@ -87,6 +87,8 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     ListView listView;
     @ViewById
     View topTip;
+
+    ActivityUserDetailEditBinding binding;
 
     String[] user_jobs;
     BaseAdapter adapter = new BaseAdapter() {
@@ -276,6 +278,8 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     protected final void initUserDetailEditActivity() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        binding = ActivityUserDetailEditBinding.bind(findViewById(R.id.rootLayout));
+
         listViewAddFootSection(listView);
         user = AccountInfo.loadAccount(this);
 
@@ -283,8 +287,10 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
             topTip.setVisibility(View.GONE);
         } else {
             topTip.setVisibility(View.VISIBLE);
+//            binding.topTipText.setText(Html.fromHtml("验证手机和邮箱后完善资料才能升级，<u>去验证</u>"));
             topTip.setOnClickListener(v -> AccountSetting_.intent(UserDetailEditActivity
                     .this).startForResult(ListModify.RESULT_EDIT_LIST));
+            binding.topTipFork.setOnClickListener(v -> topTip.setVisibility(View.GONE));
         }
 
         View head = mInflater.inflate(R.layout.activity_user_info_head, listView, false);
