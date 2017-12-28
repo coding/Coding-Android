@@ -58,7 +58,7 @@ public class PhotoPickActivity extends AppCompatActivity implements LoaderManage
     private final String CameraItem = "CameraItem";
     MenuItem mMenuItem;
     int mFolderId = 0;
-    private int mMaxPick = Config.MAX_COUNT;
+    private int mMaxPick = Config.INSTANCE.getMAX_COUNT();
     private LayoutInflater mInflater;
     private TextView mFoldName;
     private View mListViewGroup;
@@ -86,17 +86,17 @@ public class PhotoPickActivity extends AppCompatActivity implements LoaderManage
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(PhotoPickActivity.this, PhotoPickDetailActivity.class);
 
-            intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mPickData);
-            intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, mMaxPick);
+            intent.putExtra(PhotoPickDetailActivity.Companion.getPICK_DATA(), mPickData);
+            intent.putExtra(PhotoPickDetailActivity.Companion.getEXTRA_MAX(), mMaxPick);
             String folderParam = "";
             if (isAllPhotoMode()) {
                 // 第一个item是照相机
-                intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, position - 1);
+                intent.putExtra(PhotoPickDetailActivity.Companion.getPHOTO_BEGIN(), position - 1);
             } else {
-                intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, position);
+                intent.putExtra(PhotoPickDetailActivity.Companion.getPHOTO_BEGIN(), position);
                 folderParam = mFolderAdapter.getSelect();
             }
-            intent.putExtra(PhotoPickDetailActivity.FOLDER_NAME, folderParam);
+            intent.putExtra(PhotoPickDetailActivity.Companion.getFOLDER_NAME(), folderParam);
             PhotoPickActivity.this.startActivityForResult(intent, RESULT_PICK);
         }
     };
@@ -116,10 +116,10 @@ public class PhotoPickActivity extends AppCompatActivity implements LoaderManage
             }
 
             Intent intent = new Intent(PhotoPickActivity.this, PhotoPickDetailActivity.class);
-            intent.putExtra(PhotoPickDetailActivity.FOLDER_NAME, mFolderAdapter.getSelect());
-            intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mPickData);
-            intent.putExtra(PhotoPickDetailActivity.ALL_DATA, mPickData);
-            intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, mMaxPick);
+            intent.putExtra(PhotoPickDetailActivity.Companion.getFOLDER_NAME(), mFolderAdapter.getSelect());
+            intent.putExtra(PhotoPickDetailActivity.Companion.getPICK_DATA(), mPickData);
+            intent.putExtra(PhotoPickDetailActivity.Companion.getALL_DATA(), mPickData);
+            intent.putExtra(PhotoPickDetailActivity.Companion.getEXTRA_MAX(), mMaxPick);
             startActivityForResult(intent, RESULT_PICK);
         }
     };

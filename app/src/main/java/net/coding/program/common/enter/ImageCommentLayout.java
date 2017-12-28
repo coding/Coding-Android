@@ -40,10 +40,10 @@ public class ImageCommentLayout {
         public void onClick(View v) {
             int pos = (int) v.getTag(R.id.image);
             Intent intent = new Intent(mActivity, PhotoPickDetailActivity.class);
-            intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, pos);
-            intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, Global.PHOTO_MAX_COUNT);
-            intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mArrayImages);
-            intent.putExtra(PhotoPickDetailActivity.ALL_DATA, mArrayImages);
+            intent.putExtra(PhotoPickDetailActivity.Companion.getPHOTO_BEGIN(), pos);
+            intent.putExtra(PhotoPickDetailActivity.Companion.getEXTRA_MAX(), Global.PHOTO_MAX_COUNT);
+            intent.putExtra(PhotoPickDetailActivity.Companion.getPICK_DATA(), mArrayImages);
+            intent.putExtra(PhotoPickDetailActivity.Companion.getALL_DATA(), mArrayImages);
             mActivity.startActivityForResult(intent, RESULT_REQUEST_COMMENT_IMAGE_DETAIL);
         }
     };

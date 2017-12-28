@@ -13,6 +13,16 @@ buildscript {
 apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
 
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-allopen"
+apply plugin: "kotlin-kapt"
+
+
+allOpen {
+    annotation("org.androidannotations.api.KotlinOpen")
+}
+
 android {
     compileSdkVersion 26
 
@@ -50,11 +60,17 @@ android {
 def AAVersion = '4.4.0'
 
 dependencies {
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
     // 生成 R2
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
+
+    kapt "org.androidannotations:androidannotations:$AAVersion"
+    implementation "org.androidannotations:androidannotations-api:$AAVersion"
+
+//    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
