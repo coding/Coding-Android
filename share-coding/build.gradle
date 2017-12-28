@@ -11,6 +11,8 @@ android {
         versionCode 1
         versionName "1.0"
 
+        packageBuildConfig(false)
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }

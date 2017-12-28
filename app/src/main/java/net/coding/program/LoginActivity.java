@@ -10,7 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.TimingLogger;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -408,6 +407,7 @@ public class LoginActivity extends BaseActivity {
                 showProgressBar(false);
 
             } else {
+                ThirdPlatformLogin.loginOut(this);
                 loginFail(code, respanse, true);
             }
 
