@@ -430,7 +430,7 @@ public class ProjectGitFragment extends CustomMoreFragment implements LoadMore {
         }
 
         Intent intent = new Intent(getActivity(), PhotoPickActivity.class);
-        intent.putExtra(PhotoPickActivity.EXTRA_MAX, PHOTO_MAX_COUNT);
+        intent.putExtra(PhotoPickActivity.Companion.getEXTRA_MAX(), PHOTO_MAX_COUNT);
         startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
     }
 

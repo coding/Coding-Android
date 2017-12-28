@@ -70,7 +70,7 @@ public class ImageCommentLayout {
                 }
 
                 Intent intent = new Intent(mActivity, PhotoPickActivity.class);
-                intent.putExtra(PhotoPickActivity.EXTRA_PICKED, mArrayImages);
+                intent.putExtra(PhotoPickActivity.Companion.getEXTRA_PICKED(), mArrayImages);
                 mActivity.startActivityForResult(intent, RESULT_REQUEST_COMMENT_IMAGE);
             }
         });

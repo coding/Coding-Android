@@ -46,9 +46,10 @@ open class GridPhotoAdapter(context: Context, c: Cursor, autoRequery: Boolean, v
 
         val holder = GridViewHolder()
         holder.icon = convertView.findViewById<View>(R.id.icon) as ImageView
-        holder.iconFore = convertView.findViewById<View>(R.id.iconFore) as ImageView
+        val viewIconFore = convertView.findViewById<View>(R.id.iconFore)
+        holder.iconFore = viewIconFore as ImageView
         holder.check = convertView.findViewById<View>(R.id.check) as CheckBox
-        val checkTag = PhotoPickActivity.GridViewCheckTag(holder.iconFore)
+        val checkTag = PhotoPickActivity.GridViewCheckTag(viewIconFore)
         holder.check!!.tag = checkTag
         holder.check!!.setOnClickListener(mClickItem)
         convertView.tag = holder

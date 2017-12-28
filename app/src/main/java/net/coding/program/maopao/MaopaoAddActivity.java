@@ -288,13 +288,13 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
         }
 
         Intent intent = new Intent(MaopaoAddActivity.this, PhotoPickActivity.class);
-        intent.putExtra(PhotoPickActivity.EXTRA_MAX, Global.PHOTO_MAX_COUNT);
+        intent.putExtra(PhotoPickActivity.Companion.getEXTRA_MAX(), Global.PHOTO_MAX_COUNT);
 
         ArrayList<ImageInfo> pickImages = new ArrayList<>();
         for (PhotoData item : mData) {
             pickImages.add(item.mImageinfo);
         }
-        intent.putExtra(PhotoPickActivity.EXTRA_PICKED, pickImages);
+        intent.putExtra(PhotoPickActivity.Companion.getEXTRA_PICKED(), pickImages);
         startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
     }
 

@@ -755,7 +755,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
         }
 
         Intent intent = new Intent(this, PhotoPickActivity.class);
-        intent.putExtra(PhotoPickActivity.EXTRA_MAX, PHOTO_MAX_COUNT);
+        intent.putExtra(PhotoPickActivity.Companion.getEXTRA_MAX(), PHOTO_MAX_COUNT);
         startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
     }
 

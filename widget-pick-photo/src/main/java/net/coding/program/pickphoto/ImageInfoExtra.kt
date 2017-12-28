@@ -5,12 +5,12 @@ import net.coding.program.common.ImageInfo
 /**
  * Created by chenchao on 15/5/6.
  */
-class ImageInfoExtra(name: String, private val mImageInfo: ImageInfo, countParam: Int) {
+class ImageInfoExtra(name: String, val mImageInfo: ImageInfo ?, countParam: Int) {
     var count = 0
     private var mName = ""
 
     val path: String
-        get() = mImageInfo.path
+        get() = mImageInfo!!.path
 
     init {
         mName = name
@@ -32,7 +32,7 @@ class ImageInfoExtra(name: String, private val mImageInfo: ImageInfo, countParam
     }
 
     override fun hashCode(): Int {
-        var result = mImageInfo.hashCode()
+        var result = mImageInfo!!.hashCode()
         result = 31 * result + count
         return result
     }
