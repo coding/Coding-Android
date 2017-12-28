@@ -46,7 +46,7 @@
             android:paddingLeft="@dimen/padding_15"
             android:paddingRight="@dimen/padding_15"
             android:paddingTop="@dimen/padding_10"
-            android:text="@string/tip_need_phone_and_email"
+            android:text="@string/tip_need_userinfo"
             android:textSize="14sp" />
 
         <ImageView

@@ -235,6 +235,10 @@ public class UserObject implements Serializable, Comparable {
         return true;
     }
 
+    public boolean isHighLevel() {
+        return vip != null && vip.id >= VIP.silver.id;
+    }
+
     public boolean phoneAndEmailValid() {
         return phone_validation == 1 && email_validation == 1;
     }

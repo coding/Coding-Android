@@ -287,7 +287,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         user = AccountInfo.loadAccount(this);
         lastVIP = user.vip;
 
-        if (user.phoneAndEmailValid()) {
+        if (user.phoneAndEmailValid() || user.isHighLevel()) {
             topTip.setVisibility(View.GONE);
         } else {
             topTip.setVisibility(View.VISIBLE);

@@ -405,9 +405,11 @@ public class LoginActivity extends BaseActivity {
                 globalKey = respanse.optJSONObject("msg").optString("two_factor_auth_code_not_empty", "");
                 show2FA(true);
                 showProgressBar(false);
-
-            } else {
+            } else if (code == 3019) {
                 ThirdPlatformLogin.loginOut(this);
+                showMiddleToast("抱歉，你还未绑定微信，请前往 Coding 主站完成微信绑定操作");
+                showProgressBar(false);
+            } else {
                 loginFail(code, respanse, true);
             }
 
@@ -536,6 +538,7 @@ public class LoginActivity extends BaseActivity {
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
 //            Toast.makeText(getApplicationContext(), "Authorize succeed", Toast.LENGTH_SHORT).show();
+            showProgressBar(false);
             Logger.d(data);
 
             String accessToken = data.get("access_token");
@@ -551,6 +554,7 @@ public class LoginActivity extends BaseActivity {
             param.put("account", account);
             param.put("response", new JSONObject(data).toString());
             postNetwork(HOST_LOGIN_WEIXIN, param, TAG_LOGIN);
+            showProgressBar(true);
         }
 
         @Override
