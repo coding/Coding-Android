@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import com.flyco.roundview.RoundTextView;
+
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
@@ -16,11 +18,11 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.MyImageGetter;
-import net.coding.program.route.URLSpanNoUnderline;
+import net.coding.program.common.model.DynamicObject;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.widget.DataAdapter;
 import net.coding.program.login.auth.Utilities;
-import net.coding.program.common.model.DynamicObject;
+import net.coding.program.route.URLSpanNoUnderline;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -294,7 +296,7 @@ public class DateSectionDynamicAdapter<T extends DynamicObject.DynamicBaseObject
         public ImageView mIcon;
         public TextView mContent;
         public View timeLineUp;
-        public View timeLinePoint;
+        public RoundTextView timeLinePoint;
         public View timeLineDown;
         public View divideLeft;
         protected View divideRight;

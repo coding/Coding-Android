@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.coding.program.R;
-import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
@@ -20,6 +19,7 @@ import net.coding.program.common.model.DynamicObject;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.network.model.user.Member;
 import net.coding.program.project.DateSectionDynamicAdapter;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -295,9 +295,9 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements LoadMo
         public void afterGetView(int position, View convertView, ViewGroup parent, DateSectionDynamicAdapter.ViewHolder holder) {
             super.afterGetView(position, convertView, parent, holder);
             if (position < mProjectObject.unReadActivitiesCount) {
-                holder.timeLinePoint.setBackgroundResource(R.drawable.ic_dynamic_timeline_new);
+                holder.timeLinePoint.getDelegate().setBackgroundColor(0xFFF75288);
             } else {
-                holder.timeLinePoint.setBackgroundResource(R.drawable.ic_dynamic_timeline_old);
+                holder.timeLinePoint.getDelegate().setBackgroundColor(0xFFD8DDE4);
             }
 
             if (position == mProjectObject.unReadActivitiesCount - 1) {
