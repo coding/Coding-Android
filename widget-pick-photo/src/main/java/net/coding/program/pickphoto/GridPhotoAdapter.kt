@@ -15,19 +15,12 @@ import net.coding.program.common.ImageInfo
 
 /**
  * Created by chenchao on 15/5/6.
+ *
  */
 open class GridPhotoAdapter(context: Context, c: Cursor, autoRequery: Boolean, var mActivity: PhotoPickActivity) : CursorAdapter(context, c, autoRequery) {
 
     val itemWidth: Int
     var mInflater: LayoutInflater
-    //
-    //    enum Mode { All, Folder }
-    //    private Mode mMode = Mode.All;
-    //
-    //    void setmMode(Mode mMode) {
-    //        this.mMode = mMode;
-    //    }
-    var mClickItem: View.OnClickListener = View.OnClickListener { v -> mActivity.clickPhotoItem(v) }
 
     init {
         mInflater = LayoutInflater.from(context)
@@ -51,7 +44,7 @@ open class GridPhotoAdapter(context: Context, c: Cursor, autoRequery: Boolean, v
         holder.check = convertView.findViewById<View>(R.id.check) as CheckBox
         val checkTag = PhotoPickActivity.GridViewCheckTag(viewIconFore)
         holder.check!!.tag = checkTag
-        holder.check!!.setOnClickListener(mClickItem)
+        holder.check!!.setOnClickListener { mActivity.clickPhotoItem(it) }
         convertView.tag = holder
 
         val iconParam = holder.icon!!.layoutParams
