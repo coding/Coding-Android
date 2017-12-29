@@ -65,28 +65,28 @@ public class ImagePagerFragment extends BaseFragment {
     private final View.OnClickListener onClickImageClose = v -> getActivity().onBackPressed();
 
     @ViewById
-    DonutProgress circleLoading;
+    protected DonutProgress circleLoading;
     @ViewById
-    View imageLoadFail;
+    protected View imageLoadFail;
     @ViewById
-    ViewGroup rootLayout;
+    protected ViewGroup rootLayout;
     @ViewById
-    View blankLayout;
+    protected View blankLayout;
 
     View image;
     HashMap<String, AttachmentFileObject> picCache;
 
     File mFile;
     @FragmentArg
-    String uri;
+    protected String uri;
     @FragmentArg
-    String fileId;
+    protected String fileId;
     @FragmentArg
-    int mProjectObjectId;
+    protected int mProjectObjectId;
 
     // 是否允许使用自己的菜单
     @FragmentArg
-    boolean customMenu = true;
+    protected boolean customMenu = true;
 
     private String URL_FILES = "";
     private AsyncHttpClient client;
@@ -101,7 +101,7 @@ public class ImagePagerFragment extends BaseFragment {
     }
 
     @AfterViews
-    void init() {
+    protected void init() {
         setHasOptionsMenu(customMenu);
 
         circleLoading.setVisibility(View.INVISIBLE);
@@ -122,7 +122,7 @@ public class ImagePagerFragment extends BaseFragment {
     }
 
     @Click
-    protected final void rootLayout() {
+    protected void rootLayout() {
         getActivity().onBackPressed();
     }
 
@@ -239,12 +239,10 @@ public class ImagePagerFragment extends BaseFragment {
                     }
                 },
                 (imageUri, view, current, total) -> {
-                    if (!isAdded()) {
-                        return;
+                    if (isAdded()) {
+                        int progress = current * 100 / total;
+                        circleLoading.setProgress(progress);
                     }
-
-                    int progress = current * 100 / total;
-                    circleLoading.setProgress(progress);
                 });
 
         mFile = new File(getContext().getCacheDir(), uri.replaceAll(".*/(.*?)", "$1"));
