@@ -414,7 +414,7 @@ public class AttachmentsDownloadDetailActivity extends CodingToolbarBackActivity
             } else {
                 hideProgressDialog();
                 showErrorMsg(code, response);
-                if (code == ImagePagerFragment.HTTP_CODE_FILE_NOT_EXIST) {
+                if (code == ImagePagerFragment.Companion.getHTTP_CODE_FILE_NOT_EXIST()) {
                     BlankViewDisplay.setBlank(0, this, true, blankLayout, null);
                 } else {
                     BlankViewDisplay.setBlank(0, this, false, blankLayout, new View.OnClickListener() {

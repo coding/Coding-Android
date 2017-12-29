@@ -625,7 +625,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
                 String imageUri = intent.getStringExtra(Intent.EXTRA_STREAM);
                 if (imageUri != null) {
                     ImageSize size = new ImageSize(GlobalData.sWidthPix, GlobalData.sHeightPix);
-                    ImageLoader.getInstance().loadImage(imageUri, size, ImagePagerFragment.optionsImage, new SimpleImageLoadingListener() {
+                    ImageLoader.getInstance().loadImage(imageUri, size, ImagePagerFragment.Companion.getOptionsImage(), new SimpleImageLoadingListener() {
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                             if (isFinishing()) {

@@ -72,7 +72,7 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
             layout_image_prototype.setVisibility(View.GONE);
             bottomToolBar.setVisibility(View.VISIBLE);
         } else if (!TextUtils.isEmpty(mAttachmentFileObject.owner_preview)) {
-            getImageLoad().imageLoader.loadImage(mAttachmentFileObject.owner_preview, ImagePagerFragment.optionsImage, new SimpleImageLoadingListener() {
+            getImageLoad().imageLoader.loadImage(mAttachmentFileObject.owner_preview, ImagePagerFragment.Companion.getOptionsImage(), new SimpleImageLoadingListener() {
                 @Override
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                     File file = getImageLoad().imageLoader.getDiskCache().get(imageUri);
