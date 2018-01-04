@@ -11,6 +11,32 @@ import net.coding.program.common.model.GitFileObject;
  */
 
 public class CodingGlobal {
+    public enum WebviewType {
+        markdown("markdown.html", "${webview_content}");
+
+        public final String asset;
+        public final String replace;
+
+        WebviewType(String asset, String replace) {
+            this.asset = asset;
+            this.replace = replace;
+        }
+    }
+
+    static public void setWebViewContent(WebView webView, WebviewType type, String content) {
+        Context context = webView.getContext();
+        Global.initWebView(webView);
+        webView.setWebViewClient(new CustomWebViewClient(context, content));
+        try {
+            Global.syncCookie(webView.getContext());
+            String bubble = Global.readTextFile(context.getAssets().open(type.asset));
+            webView.loadDataWithBaseURL(Global.HOST, bubble.replace(type.replace, content), "text/html", "UTF-8", null);
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+    }
+
+
     static public void setWebViewContent(WebView webView, String tempate, String content) {
         Context context = webView.getContext();
         Global.initWebView(webView);

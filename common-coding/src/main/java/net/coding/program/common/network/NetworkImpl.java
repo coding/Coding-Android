@@ -7,8 +7,10 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
+import net.coding.program.BuildConfig;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalData;
 import net.coding.program.common.maopao.MaopaoRequestTag;
@@ -81,6 +83,9 @@ public class NetworkImpl {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
+                    if (BuildConfig.DEBUG && response != null) {
+                        Logger.d(response);
+                    }
                     int code = response.getInt("code");
 
                     if (code == HTTP_CODE_RELOGIN || code == HTTP_CODE_RELOGIN_2FA) {

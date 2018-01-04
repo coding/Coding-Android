@@ -8,9 +8,9 @@ import com.orhanobut.logger.Logger;
 
 import net.coding.program.CodingGlobal;
 import net.coding.program.R;
+import net.coding.program.common.event.EventRefresh;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.databinding.ActivityWikiDetailHeaderBinding;
-import net.coding.program.common.event.EventRefresh;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.wiki.Wiki;
@@ -87,7 +87,7 @@ public class WikiHistoryDetailActivity extends BackActivity {
     }
 
     void displayWebviewContent(String html) {
-        CodingGlobal.setWebViewContent(webView, "markdown.html", html);
+        CodingGlobal.setWebViewContent(webView, CodingGlobal.WebviewType.markdown, html);
     }
 
     @Click(R.id.rollbackLayout)

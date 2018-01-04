@@ -29,7 +29,6 @@ import net.coding.program.common.RedPointTip;
 import net.coding.program.common.event.EventRefresh;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.ProjectObject;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.databinding.ActivityWikiDetailHeaderBinding;
@@ -453,22 +452,7 @@ public class WikiMainActivity extends CodingToolbarBackActivity {
                 });
     }
 
-//    String wikiContent = "";
-
-//    @Background(serial = "content")
-//    void getContent(String html) {
-//        wikiContent = "";
-//        try {
-//            String bubble = Global.readTextFile(getAssets().open("markdown.html"));
-//            wikiContent =  bubble.replace("${webview_content}", html);
-//        } catch (Exception e) {
-//            Global.errorLog(e);
-//        }
-//    }
-
     void displayWebviewContent(String html) {
-//        getContent(html);
-//        Global.setWebViewContent(webView, wikiContent);
         CodingGlobal.setWebViewContent(webView, "wiki.html", html);
         BlankViewDisplay.setBlank(html.length(), WikiMainActivity.this, true, blankLayout, v -> onRefrush());
         headerBinding.setWiki(selectWiki);

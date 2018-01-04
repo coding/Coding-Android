@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.CustomWebViewClient;
+import net.coding.program.CodingGlobal;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
@@ -178,8 +178,7 @@ public class AttachmentsHtmlDetailActivity extends AttachmentsDetailBaseActivity
     private void showHtml(String html) {
         webview.setVisibility(View.VISIBLE);
         textView.setVisibility(View.GONE);
-        webview.loadDataWithBaseURL(null, markdown.replace("${webview_content}", html), "text/html", "UTF-8", null);
-        webview.setWebViewClient(new CustomWebViewClient(this));
+        CodingGlobal.setWebViewContent(webview, CodingGlobal.WebviewType.markdown, html);
     }
 
     private void requestMd2Html(String content) {

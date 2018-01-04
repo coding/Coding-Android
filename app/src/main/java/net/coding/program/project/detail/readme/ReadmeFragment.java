@@ -9,12 +9,11 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
+import net.coding.program.CodingGlobal;
 import net.coding.program.R;
-import net.coding.program.CustomWebViewClient;
-import net.coding.program.common.Global;
-import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.model.Depot;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.project.detail.merge.ReadmeEditActivity;
 import net.coding.program.project.detail.merge.ReadmeEditActivity_;
 
@@ -82,17 +81,7 @@ public class ReadmeFragment extends BaseFragment {
                         needReadme.setVisibility(View.GONE);
                         webView.setVisibility(View.VISIBLE);
 
-                        Global.initWebView(webView);
-
-                        String bubble = "${webview_content}";
-                        try {
-                            bubble = Global.readTextFile(getResources().getAssets().open("markdown.html"));
-                        } catch (Exception e) {
-                            Global.errorLog(e);
-                        }
-
-                        webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", readmeHtml), "text/html", "UTF-8", null);
-                        webView.setWebViewClient(new CustomWebViewClient(getActivity(), readmeHtml));
+                        CodingGlobal.setWebViewContent(webView, CodingGlobal.WebviewType.markdown, readmeHtml);
                     }
                 }
             } else if (code == 1209) {
