@@ -58,8 +58,8 @@ android {
         enterprise {
             dimension "mode"
             applicationId "net.coding.program.enterprise"
-            versionCode 25
-            versionName "2.5"
+            versionCode 260
+            versionName "2.6"
             targetSdkVersion 21
         }
 
