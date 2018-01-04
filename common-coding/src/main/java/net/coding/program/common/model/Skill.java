@@ -1,5 +1,8 @@
 package net.coding.program.common.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -14,8 +17,14 @@ public class Skill implements Serializable {
 
     private static final long serialVersionUID = -521263171727383003L;
 
+    @SerializedName("skillName")
+    @Expose
     public String skillName = "";
+    @SerializedName("skillId")
+    @Expose
     public int skillId;
+    @SerializedName("level")
+    @Expose
     public int level;
 
     public Skill(JSONObject json) {

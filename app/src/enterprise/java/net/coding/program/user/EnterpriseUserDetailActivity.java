@@ -18,6 +18,7 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+// TODO: 2018/1/4  删除
 @EActivity(R.layout.enterprise_activity_my_detail)
 public class EnterpriseUserDetailActivity extends UserDetailCommonActivity {
 

@@ -1,6 +1,5 @@
 package net.coding.program.user;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.Global;
@@ -13,6 +12,7 @@ import org.androidannotations.annotations.EActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+// TODO: 2018/1/4  删除
 @EActivity(R.layout.enterprise_activity_my_detail)
 public class EnterpriseMyDetailActivity extends UserDetailCommonActivity {
 

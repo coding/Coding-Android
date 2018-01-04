@@ -111,7 +111,7 @@
     <string name="title_activity_file_url"></string>
     <string name="title_activity_project_home">项目首页</string>
     <string name="open_by_browser">用浏览器打开</string>
-    <string name="title_activity_user_detail_more">更多资料</string>
+    <string name="title_activity_user_detail_more">TA 的资料</string>
     <string name="title_activity_user_project">TA的项目</string>
     <string name="title_activity_my_project">我的项目</string>
     <string name="title_activity_base_reset_password">BaseResetPasswordActivity</string>

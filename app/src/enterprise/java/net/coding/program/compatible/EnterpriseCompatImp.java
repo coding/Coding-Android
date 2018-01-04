@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 
 import net.coding.program.EnterpriseMainActivity_;
 import net.coding.program.EnterpriseMyPushReceiver;
+import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.StartActivity;
 import net.coding.program.guide.EnterpriseGuideActivity_;
 import net.coding.program.common.model.ProjectObject;
@@ -20,6 +21,8 @@ import net.coding.program.user.EnterpriseMyDetailActivity_;
 import net.coding.program.user.EnterpriseUserDetailActivity_;
 import net.coding.program.user.PickUserActivity_;
 import net.coding.program.user.PickUserRelayMessageActivity_;
+import net.coding.program.user.UserDetailMoreActivity;
+import net.coding.program.user.UserDetailMoreActivity_;
 
 import java.util.ArrayList;
 
@@ -60,22 +63,22 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
 
     @Override
     public void launchMyDetailActivity(Context context) {
-        EnterpriseMyDetailActivity_.intent(context).start();
+        UserDetailEditActivity_.intent(context).start();
     }
 
     @Override
     public void launchUserDetailActivity(Context context, String globalKey) {
-        EnterpriseUserDetailActivity_.intent(context).globalKey(globalKey).start();
+        UserDetailMoreActivity_.intent(context).globalKey(globalKey).start();
     }
 
     @Override
     public void launchUserDetailActivity(Context context, String globalKey, int result) {
-        EnterpriseUserDetailActivity_.intent(context).globalKey(globalKey).startForResult(result);
+        UserDetailMoreActivity_.intent(context).globalKey(globalKey).start();
     }
 
     @Override
     public void launchUserDetailActivity(Fragment fragment, String globalKey, int result) {
-        EnterpriseUserDetailActivity_.intent(fragment).globalKey(globalKey).startForResult(result);
+        UserDetailMoreActivity_.intent(fragment).globalKey(globalKey).startForResult(result);
     }
 
     @Override

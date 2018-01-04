@@ -1,6 +1,7 @@
 package net.coding.program.network;
 
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.model.user.IntKeyMapHttpResult;
 import net.coding.program.network.model.BaseHttpResult;
 import net.coding.program.network.model.HttpPageResult;
@@ -182,5 +183,8 @@ public interface CodingRequest {
 //    @GET("user/updateInfo")
     @GET("options/skills")
     Observable<HttpResult<HashMap<Integer, String>>> getAllSkills();
+
+    @GET("user/key/{gk}")
+    Observable<HttpResult<UserObject>> getUserInfo(@Path("gk") String gk);
 
 }

@@ -2,6 +2,9 @@ package net.coding.program.common.model;
 
 import android.text.TextUtils;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalData;
 import net.coding.program.network.constant.VIP;
@@ -23,42 +26,116 @@ import java.util.ArrayList;
  */
 public class UserObject implements Serializable, Comparable {
 
+    @SerializedName("degree")
+    @Expose
     public int degree;
+    @SerializedName("school")
+    @Expose
     public String school = "";
+    @SerializedName("skills")
+    @Expose
     public ArrayList<Skill> skills = new ArrayList<>();
+    @SerializedName("avatar")
+    @Expose
     public String avatar = "";
+    @SerializedName("slogan")
+    @Expose
     public String slogan = "";
+    @SerializedName("tags")
+    @Expose
     public String tags = "";
+    @SerializedName("tags_str")
+    @Expose
     public String tags_str = "";
+    @SerializedName("company")
+    @Expose
     public String company = "";
+    @SerializedName("global_key")
+    @Expose
     public String global_key = "";
+    @SerializedName("id")
+    @Expose
     public int id;
+    @SerializedName("introduction")
+    @Expose
     public String introduction = "";
+    @SerializedName("job_str")
+    @Expose
     public String job_str = "";
+    @SerializedName("lavatar")
+    @Expose
     public String lavatar = "";
+    @SerializedName("location")
+    @Expose
     public String location = "";
+    @SerializedName("name")
+    @Expose
     public String name = "";
+    @SerializedName("path")
+    @Expose
     public String path = "";
+    @SerializedName("phone")
+    @Expose
     public String phone = "";
+    @SerializedName("birthday")
+    @Expose
     public String birthday = "";
+    @SerializedName("created_at")
+    @Expose
     public long created_at;
+    @SerializedName("fans_count")
+    @Expose
     public int fans_count;
+    @SerializedName("follow")
+    @Expose
     public boolean follow;  // 别人是否关注我
+    @SerializedName("followed")
+    @Expose
     public boolean followed;
+    @SerializedName("follows_count")
+    @Expose
     public int follows_count;
+    @SerializedName("job")
+    @Expose
     public int job;
+    @SerializedName("sex")
+    @Expose
     public int sex;
+    @SerializedName("status")
+    @Expose
     public int status;
+    @SerializedName("last_activity_at")
+    @Expose
     public long last_activity_at;
+    @SerializedName("last_logined_at")
+    @Expose
     public long last_logined_at;
+    @SerializedName("updated_at")
+    @Expose
     public long updated_at;
+    @SerializedName("tweets_count")
+    @Expose
     public int tweets_count;
+    @SerializedName("email")
+    @Expose
     public String email = "";
+    @SerializedName("points_left")
+    @Expose
     public BigDecimal points_left = BigDecimal.ZERO;
+    @SerializedName("email_validation")
+    @Expose
     public int email_validation = 0;
+    @SerializedName("phone_validation")
+    @Expose
     public int phone_validation = 0;
+    @SerializedName("phone_country_code")
+    @Expose
     public String phone_country_code = "+86";
+    @SerializedName("pingYin")
+    @Expose
     private String pingYin = "";
+    @SerializedName("vip")
+    @Expose
     public VIP vip = VIP.normal;
 
     public UserObject(JSONObject json) {

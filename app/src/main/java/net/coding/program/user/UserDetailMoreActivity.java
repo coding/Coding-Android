@@ -1,5 +1,7 @@
 package net.coding.program.user;
 
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,6 +10,11 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.UserObject;
+import net.coding.program.common.util.BlankViewHelp;
+import net.coding.program.network.HttpObserverRaw;
+import net.coding.program.network.Network;
+import net.coding.program.network.model.HttpResult;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -16,6 +23,9 @@ import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 @EActivity(R.layout.activity_user_detail_more)
 @OptionsMenu(R.menu.menu_user_detail_more)
 public class UserDetailMoreActivity extends BackActivity {
@@ -23,11 +33,17 @@ public class UserDetailMoreActivity extends BackActivity {
     @Extra
     UserObject mUserObject;
 
+    @Extra
+    String globalKey;
+
     @StringArrayRes
     String[] user_detail_more_list_first;
 
     @StringArrayRes
     String[] sexs;
+
+    @ViewById
+    View blankLayout;
 
     @ViewById
     View createAtLayout,
@@ -69,6 +85,39 @@ public class UserDetailMoreActivity extends BackActivity {
 
     @AfterViews
     protected final void initUserDetailMoreActivity() {
+        if (mUserObject != null) {
+            bindUI();
+        } else if (!TextUtils.isEmpty(globalKey)) {
+            onRefrush();
+        } else {
+            finish();
+        }
+    }
+
+    private void onRefrush() {
+        BlankViewHelp.setBlankLoading(blankLayout, true);
+        Network.getRetrofit(this)
+                .getUserInfo(globalKey)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpObserverRaw<HttpResult<UserObject>>(this) {
+                    @Override
+                    public void onSuccess(HttpResult<UserObject> data) {
+                        super.onSuccess(data);
+                        mUserObject = data.data;
+                        bindUI();
+                        BlankViewHelp.setBlankLoading(blankLayout, false);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, @NonNull String error) {
+                        super.onFail(errorCode, error);
+                        BlankViewHelp.setBlank(0, UserDetailMoreActivity.this, false, blankLayout, v -> onRefrush());
+                    }
+                });
+    }
+
+    private void bindUI() {
         iconfromNetwork(icon, mUserObject.avatar);
         nameTextView.setText(mUserObject.name);
 
