@@ -66,7 +66,7 @@ public class SearchReslutAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         TaskObject.SingleTask bean = mData.get(position);
-        HoloUtils.setHoloText(holder.nameTask, key, bean.content);
+        HoloUtils.setHoloText(holder.nameTask, bean.content);
         holder.bottomName.setText(bean.creator.name);
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
         holder.bottomTime.setText(format.format(bean.created_at));

@@ -92,7 +92,7 @@ public class OldSearchProjectFileActivity extends BackActivity implements TextWa
 
             AttachmentFileObject data = searchNames.get(position);
 
-            HoloUtils.setHoloText(txtTitle, "", data.getName());
+            HoloUtils.setHoloText(txtTitle, data.getName());
             txtTitle.setText(data.getName());
             if (data.isFolder) {
                 txtFileSize.setVisibility(View.GONE);

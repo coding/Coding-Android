@@ -15,6 +15,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
+import net.coding.program.project.EventProjectModify;
 import net.coding.program.project.ProjectHomeActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -69,7 +70,7 @@ public class SearchResultListFragment extends SearchBaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventProjectModify() {
+    public void onEventProjectModify(EventProjectModify event) {
         onRefresh();
     }
 
@@ -224,19 +225,19 @@ public class SearchResultListFragment extends SearchBaseFragment {
                 Global.errorLog(e);
             }
             holder.content.setText(name);
-            HoloUtils.setHoloText(holder.desc, keyword, item.getDescription());
+            HoloUtils.setHoloText(holder.desc, item.getDescription());
             holder.tv_follow_count.setText(item.getWatchCountString());
             holder.tv_star_count.setText(item.getStarString());
             holder.tv_fork_count.setText(item.getForkCountString());
             holder.badge.setVisibility(View.INVISIBLE);
             if (item.getType() == 1) {
                 holder.name2.setVisibility(View.VISIBLE);
-                HoloUtils.setHoloText(holder.name2, keyword, item.name);
+                HoloUtils.setHoloText(holder.name2, item.name);
                 holder.name.setVisibility(View.INVISIBLE);
                 holder.content.setVisibility(View.GONE);
             } else {
                 holder.name.setVisibility(View.VISIBLE);
-                HoloUtils.setHoloText(holder.name, keyword, item.name);
+                HoloUtils.setHoloText(holder.name, item.name);
                 holder.name2.setVisibility(View.INVISIBLE);
                 holder.content.setVisibility(View.VISIBLE);
             }

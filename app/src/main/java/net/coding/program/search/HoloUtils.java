@@ -1,5 +1,6 @@
 package net.coding.program.search;
 
+import android.databinding.BindingAdapter;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -12,12 +13,11 @@ import android.widget.TextView;
 public class HoloUtils {
     /**
      * 关键词加高亮
-     *
-     * @param textView
-     * @param key
+     *  @param textView
      * @param content
      */
-    public static void setHoloText(TextView textView, String key, String content) {
+    @BindingAdapter({"bind:textEM"})
+    public static void setHoloText(TextView textView, String content) {
         if (content.contains("<em>")) {
             int start = content.indexOf("<em>");
             int end = content.indexOf("</em>") - 4;

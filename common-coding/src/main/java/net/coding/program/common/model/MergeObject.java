@@ -1,29 +1,55 @@
 package net.coding.program.common.model;
 
+import android.databinding.BindingAdapter;
+import android.graphics.Color;
 import android.text.Spannable;
+import android.widget.ImageView;
 
 import com.loopj.android.http.RequestParams;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.ImageLoadTool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by Vernon on 15/11/30.
  */
 public class MergeObject implements Serializable {
-    private static final String STYLE_ACCEPT = "ACCEPTED";
-    private static final String STYLE_REFUSE = "REFUSED";
-    private static final String STYLE_CANNEL = "CANCEL";
-    private static final String STYLE_CANMERGE = "CANMERGE";
-    private static final String STYLE_CANNOTMERGE = "CANNOTMERGE";
-    public String merge_status = "";
+
+    public enum Status {
+        ACCEPTED(0xFFEB7A19, "已合并"),
+        REFUSED(0xFFE84D60, "已拒绝"),
+        CANCEL(0xFF76808E, "已取消"),
+        CANMERGE(0xFF2EBE76, "可合并"),
+        CANNOTMERGE(0xFFB17EDD, "不可自动合并");
+
+        public int color;
+        public String alics;
+
+        Status(int color, String alics) {
+            this.color = color;
+            this.alics = alics;
+        }
+
+        public static Status nameToEnum(String name) {
+            for (Status item : Status.values()) {
+                if (item.name().equals(name)) {
+                    return item;
+                }
+            }
+            return CANCEL;
+        }
+    }
+
+    public Status merge_status;
     private int id;
     private String srcBranch = "";
     private String desBranch = "";
@@ -53,7 +79,7 @@ public class MergeObject implements Serializable {
         } else {
             this.body = "";
         }
-        merge_status = json.optString("merge_status");
+        merge_status = Status.nameToEnum(json.optString("merge_status"));
         path = ProjectObject.translatePath(json.optString("path", ""));
         created_at = json.optLong("created_at");
         granted = json.optInt("granted");
@@ -104,28 +130,28 @@ public class MergeObject implements Serializable {
     }
 
     public boolean isMergeAccept() {
-        return merge_status.equals(STYLE_ACCEPT);
+        return merge_status == Status.ACCEPTED;
     }
 
     public boolean isStyleCannotMerge() {
-        return merge_status.equals(STYLE_CANNOTMERGE);
+        return merge_status == Status.CANNOTMERGE;
     }
 
     public boolean isStyleCanMerge() {
-        return merge_status.equals(STYLE_CANMERGE);
+        return merge_status == Status.CANMERGE;
     }
 
     public boolean isMergeRefuse() {
-        return merge_status.equals(STYLE_REFUSE);
+        return merge_status == Status.REFUSED;
     }
 
     public boolean isMergeTreate() {
-        return merge_status.equals(STYLE_ACCEPT) ||
-                merge_status.equals(STYLE_REFUSE);
+        return merge_status == Status.ACCEPTED ||
+                merge_status == Status.REFUSED;
     }
 
     public boolean isMergeCannel() {
-        return merge_status.equals(STYLE_CANNEL);
+        return merge_status == Status.CANCEL;
     }
 
     public int getGranted() {
@@ -192,27 +218,12 @@ public class MergeObject implements Serializable {
         return color;
     }
 
-    public String getMergeStatus() {
-        switch (merge_status) {
-            case STYLE_ACCEPT:
-                color = "#EB7A19";
-                return "已合并";
-            case STYLE_REFUSE:
-                color = "#E84D60";
-                return "已拒绝";
-            case STYLE_CANMERGE:
-                color = CodingColor.fontGreenString;
-                return "可合并";
-            case STYLE_CANNOTMERGE:
-                color = "#B17EDD";
-                return "不可自动合并";
-            case STYLE_CANNEL:
-                color = CodingColor.fon3String;
-                return "已取消";
-            default:
-                color = CodingColor.fon3String;
-                return "已取消";
-        }
+    public String getMergeStatusTxt() {
+        return merge_status.alics;
+    }
+
+    public int getMergeStatusColor() {
+        return merge_status.color;
     }
 
     public long getCreatedAt() {
@@ -270,10 +281,27 @@ public class MergeObject implements Serializable {
         return head + "/git/line_notes";
     }
 
+    public String getBottomName() {
+        return getTitleIId() + "  " + getAuthor().name;
+    }
+
+    public String getCreateTime() {
+        final SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
+        return format.format(created_at);
+    }
+
+    public int getStatusColor() {
+        return Color.parseColor(getColor());
+    }
+
     public Spannable getTitleSpannable() {
         return GlobalCommon.changeHyperlinkColor(title);
     }
 
+    @BindingAdapter({"bind:imageUrl"})
+    public static void loadImage(ImageView view, String imageUrl) {
+        ImageLoader.getInstance().displayImage(imageUrl, view, ImageLoadTool.options);
+    }
 
     public String getTitleIId() {
         return "# " + iid;

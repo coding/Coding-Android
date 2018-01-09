@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:background="@color/stand_bg"
-                android:foreground="?attr/selectableItemBackground"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="12dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <data>
+        <variable
+            name="data"
+            type="net.coding.program.common.model.MergeObject" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/stand_bg"
+        android:id="@+id/layoutRoot"
+        android:foreground="?attr/selectableItemBackground"
+        android:orientation="vertical"
+        android:paddingBottom="12dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/personImg"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            app:imageUrl="@{data.author.avatar}"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="15dp" />
 
-    <TextView
+        <TextView
             android:id="@+id/txtTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,11 +35,12 @@
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@+id/personImg"
             android:lines="1"
-            android:text="222"
+            app:textEM="@{data.title}"
             android:textColor="@color/font_1"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            tools:text="222" />
 
-    <TextView
+        <TextView
             android:id="@+id/txtMergeName"
             android:layout_width="103dp"
             android:layout_height="25dp"
@@ -37,11 +50,12 @@
             android:background="@drawable/shape_merge_detail_rectangle"
             android:gravity="center"
             android:lines="1"
-            android:text="merss"
+            android:text="@{data.srcBranch}"
+            tools:text="merss"
             android:textColor="@color/font_3"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
-    <View
+        <View
             android:id="@+id/voiceLayout"
             android:layout_width="15dp"
             android:layout_height="5.5dp"
@@ -49,38 +63,39 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="22dp"
             android:layout_toRightOf="@+id/txtMergeName"
-            android:background="@drawable/merge_detail_arrow"/>
+            android:background="@drawable/merge_detail_arrow" />
 
-    <TextView
-            android:id="@+id/txtMergeBranch"
+        <TextView
             android:layout_width="60dp"
             android:layout_height="25dp"
             android:layout_below="@+id/txtTitle"
             android:layout_marginLeft="10dp"
+            android:id="@+id/txtMergeBranch"
             android:layout_marginTop="11dp"
             android:layout_toRightOf="@+id/voiceLayout"
             android:background="@drawable/shape_merge_detail_rectangle"
             android:gravity="center"
             android:lines="1"
-            android:text="merss"
+            android:text="@{data.desBranch}"
+            tools:text="merss"
             android:textColor="@color/font_3"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
-    <!--<TextView-->
-    <!--android:id="@+id/txtContent"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignLeft="@+id/txtTitle"-->
-    <!--android:layout_below="@+id/txtMergeName"-->
-    <!--android:layout_marginTop="6.5dp"-->
-    <!--android:ellipsize="end"-->
-    <!--android:maxLines="2"-->
-    <!--android:minLines="1"-->
-    <!--android:text="kshdkahsdkj"-->
-    <!--android:textColor="@color/font_6"-->
-    <!--android:textSize="15sp" />-->
+        <!--<TextView-->
+        <!--android:id="@+id/txtContent"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignLeft="@+id/txtTitle"-->
+        <!--android:layout_below="@+id/txtMergeName"-->
+        <!--android:layout_marginTop="6.5dp"-->
+        <!--android:ellipsize="end"-->
+        <!--android:maxLines="2"-->
+        <!--android:minLines="1"-->
+        <!--android:text="kshdkahsdkj"-->
+        <!--android:textColor="@color/font_6"-->
+        <!--android:textSize="15sp" />-->
 
-    <LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/txtTitle"
@@ -88,41 +103,46 @@
             android:layout_marginTop="19dp"
             android:orientation="horizontal">
 
-        <TextView
+            <TextView
                 android:id="@+id/txtBottomName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="asdj"
+                android:text="@{data.bottomName}"
+                tools:text="asdj"
                 android:textColor="@color/font_3"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
-        <ImageView
+            <ImageView
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_clock"/>
+                android:src="@drawable/ic_clock" />
 
-        <TextView
+            <TextView
                 android:id="@+id/bottomTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="6dp"
-                android:text="2"
+                android:text="@{data.createTime}"
+                tools:text="2"
                 android:textColor="@color/font_3"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
-        <TextView
+            <TextView
                 android:id="@+id/bottomStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
-                android:text="拒绝"
-                android:textColor="@color/font_3"
-                android:textSize="12sp"/>
-    </LinearLayout>
-</RelativeLayout>
+                android:text="@{data.mergeStatusTxt}"
+                tools:text="拒绝"
+                android:textColor="@{data.mergeStatusColor}"
+                tools:textColor="@color/font_3"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

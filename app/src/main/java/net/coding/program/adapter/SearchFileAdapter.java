@@ -81,7 +81,7 @@ public class SearchFileAdapter extends BaseAdapter {
 
         AttachmentFileObject bean = mData.get(position);
 
-        HoloUtils.setHoloText(txtTitle, key, bean.getName());
+        HoloUtils.setHoloText(txtTitle, bean.getName());
         txtFileSize.setText(getDataSize(bean.getSize()));
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
         txtContent.setText(bean.owner.name + " 创建于 " + format.format(bean.created_at));

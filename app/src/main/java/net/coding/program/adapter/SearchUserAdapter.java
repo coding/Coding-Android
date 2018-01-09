@@ -63,7 +63,7 @@ public class SearchUserAdapter extends BaseAdapter {
 
         UserObject bean = mData.get(position);
 
-        HoloUtils.setHoloText(txtTitle, key, bean.name);
+        HoloUtils.setHoloText(txtTitle, bean.name);
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
         txtContent.setText(format.format(bean.created_at) + "    加入coding");
         ImageLoader.getInstance().displayImage(bean.avatar, personImg, ImageLoadTool.options);

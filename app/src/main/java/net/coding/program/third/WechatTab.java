@@ -183,10 +183,15 @@ public class WechatTab extends HorizontalScrollView {
         setSelectedTextColor(CodingColor.fontGreen);
         // 取消点击Tab时的背景色
         setTabBackground(0);
+
+        updateTabStyles();
     }
 
     public void setViewPager(ViewPager pager) {
         this.pager = pager;
+        this.selectedPosition = 0;
+
+        setTabsValue();
 
         if (pager.getAdapter() == null) {
             throw new IllegalStateException("ViewPager does not have adapter instance.");
@@ -196,7 +201,6 @@ public class WechatTab extends HorizontalScrollView {
 
         notifyDataSetChanged();
 
-        setTabsValue();
     }
 
     public void setOnPageChangeListener(OnPageChangeListener listener) {

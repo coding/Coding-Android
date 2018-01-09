@@ -68,7 +68,7 @@ public class SearchTopicAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         TopicObject bean = mData.get(position);
-        HoloUtils.setHoloText(holder.nameTask, key, bean.title);
+        HoloUtils.setHoloText(holder.nameTask, bean.title);
 //        HoloUtils.setHoloText(holder.descTask, key, Html.fromHtml(bean.content).toString());
         holder.bottomName.setText(bean.owner.name);
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");

@@ -90,7 +90,7 @@ public class SearchProjectFileActivity extends BackActivity implements TextWatch
 
             CodingFile data = searchNames.get(position);
 
-            HoloUtils.setHoloText(txtTitle, "", data.getName());
+            HoloUtils.setHoloText(txtTitle, data.getName());
             txtTitle.setText(data.name);
             if (data.isFolder()) {
                 txtFileSize.setVisibility(View.GONE);

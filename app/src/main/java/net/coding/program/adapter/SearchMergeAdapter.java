@@ -1,7 +1,9 @@
 package net.coding.program.adapter;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,24 +15,21 @@ import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ViewHolder;
 import net.coding.program.common.model.MergeObject;
+import net.coding.program.databinding.SearchMergeListBinding;
 import net.coding.program.search.HoloUtils;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-/**
- * Created by Vernon on 15/11/30.
- */
 public class SearchMergeAdapter extends BaseAdapter {
     private List<MergeObject> mData;
     private Context context;
-    private String key;
 
     public SearchMergeAdapter(List<MergeObject> mData, String key, Context context) {
         this.mData = mData;
-        this.key = key;
         this.context = context;
     }
 
@@ -51,34 +50,17 @@ public class SearchMergeAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        SearchMergeListBinding binding;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.search_merge_list, null);
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            binding = SearchMergeListBinding.inflate(inflater, parent, false);
+            convertView = binding.layoutRoot;
+            convertView.setTag(binding);
+        } else {
+            binding = (SearchMergeListBinding) convertView.getTag();
         }
-        TextView txtTitle = ViewHolder.get(convertView, R.id.txtTitle);
-        CircleImageView personImg = ViewHolder.get(convertView, R.id.personImg);
-        TextView txtMergeName = ViewHolder.get(convertView, R.id.txtMergeName);
-        TextView txtMergeBranch = ViewHolder.get(convertView, R.id.txtMergeBranch);
-//        TextView txtContent = ViewHolder.get(convertView, R.id.txtContent);
-        TextView txtBottomName = ViewHolder.get(convertView, R.id.txtBottomName);
-        TextView bottomTime = ViewHolder.get(convertView, R.id.bottomTime);
-        TextView bottomStatus = ViewHolder.get(convertView, R.id.bottomStatus);
-
-
-        MergeObject bean = mData.get(position);
-
-        HoloUtils.setHoloText(txtTitle, key, bean.getTitle());
-        txtMergeName.setText(bean.getSrcBranch());
-
-        txtMergeBranch.setText(bean.getDesBranch());
-//        HoloUtils.setHoloText(txtContent, key, bean.getBody());
-        txtBottomName.setText(bean.getTitleIId() + "  " + bean.getAuthor().name);
-        SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
-        bottomTime.setText(format.format(bean.getCreated_at()));
-        bottomStatus.setText(bean.getMergeStatus());
-        bottomStatus.setTextColor(Color.parseColor(bean.getColor()));
-        ImageLoader.getInstance().displayImage(bean.getAuthor().avatar, personImg, ImageLoadTool.options);
+        binding.setData(mData.get(position));
         return convertView;
     }
-
 }
 
