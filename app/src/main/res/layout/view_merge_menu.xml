@@ -17,6 +17,7 @@
         android:gravity="center_vertical"
         android:text="@string/merge_default"
         android:textColor="@drawable/text_menu_selector"
+        android:drawableRight="@drawable/text_menu_icon"
         android:textSize="16sp" />
 
     <RadioButton
@@ -26,6 +27,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:button="@null"
+        android:drawableRight="@drawable/text_menu_icon"
         android:gravity="center_vertical"
         android:text="@string/merge_can"
         android:textColor="@drawable/text_menu_selector"
@@ -36,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginLeft="20dp"
+        android:drawableRight="@drawable/text_menu_icon"
         android:layout_marginRight="20dp"
         android:button="@null"
         android:gravity="center_vertical"
@@ -49,6 +52,7 @@
         android:layout_height="60dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:drawableRight="@drawable/text_menu_icon"
         android:button="@null"
         android:gravity="center_vertical"
         android:text="@string/merge_refuse"
@@ -58,6 +62,7 @@
     <RadioButton
         android:id="@+id/merge_accept"
         android:layout_width="match_parent"
+        android:drawableRight="@drawable/text_menu_icon"
         android:layout_height="60dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"

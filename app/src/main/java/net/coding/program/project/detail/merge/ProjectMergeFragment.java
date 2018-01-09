@@ -9,11 +9,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.base.BaseLoadMoreFragment;
 import net.coding.program.common.model.Merge;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -21,6 +21,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.StringArrayRes;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,9 +44,12 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
 
     private TextView toolbarTitle;
 
-    private String[] status;
-    private String[] statusEng;
-    private String[] prStatus;
+    @StringArrayRes(R.array.merge_status)
+    protected String[] status;
+    @StringArrayRes(R.array.merge_status_english)
+    protected String[] statusEng;
+    @StringArrayRes(R.array.pr_status)
+    protected String[] prStatus;
 
     private MergeAdapter mMergeAdapter;
     private String mUrlMerge;
@@ -56,11 +60,7 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
 
     @AfterViews
     protected final void initProjectMergeFragment() {
-        status = getResources().getStringArray(R.array.merge_status);
-        statusEng = getResources().getStringArray(R.array.merge_status_english);
-        prStatus = getResources().getStringArray(R.array.pr_status);
-
-        toolbarTitle = (TextView) getActivity().findViewById(R.id.toolbarProjectTitle);
+        toolbarTitle = getActivity().findViewById(R.id.toolbarProjectTitle);
         if (!mProjectObject.isPublic) {
             toolbarTitle.setText(status[0]);
             mUrlMerge = mProjectObject.getMergesFilter();
@@ -68,6 +68,7 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
             toolbarTitle.setText(prStatus[0]);
             mUrlMerge = mProjectObject.getMergesFilterAll();
         }
+
         Drawable drawable = getResources().getDrawable(R.drawable.arrow_drop_down_green);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         toolbarTitle.setCompoundDrawables(null, null, drawable, null);
@@ -97,6 +98,7 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
             }
         });
 
+
         listViewAddHeaderSection(listView);
         listView.setVisibility(View.INVISIBLE);
         initRefreshLayout();
@@ -109,7 +111,7 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
     }
 
     @Click
-    void toolbarTitle(View v) {
+    void toolbarTitle() {
         if (mProjectObject.isPublic) {
             if (prRoot.getVisibility() == View.GONE || prRoot.getVisibility() == View.INVISIBLE) {
                 prRoot.setVisibility(View.VISIBLE);
@@ -127,9 +129,7 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
                 listView.setVisibility(View.VISIBLE);
             }
         }
-
     }
-
 
     @Override
     public void onDestroyOptionsMenu() {
