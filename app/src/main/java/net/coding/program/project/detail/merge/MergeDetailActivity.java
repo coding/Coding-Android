@@ -52,8 +52,8 @@ import net.coding.program.common.model.RequestData;
 import net.coding.program.project.detail.MembersSelectActivity_;
 import net.coding.program.project.git.CommitListActivity_;
 import net.coding.program.task.add.CommentHolder;
-import net.coding.program.task.add.RefResourceActivity;
 import net.coding.program.task.add.RefResourceActivity_;
+import net.coding.program.task.add.TaskParam;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -497,7 +497,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         head.findViewById(R.id.itemRefResource).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RefResourceActivity.Param param = new RefResourceActivity.Param(mMerge.getProjectPath(),
+                TaskParam param = new TaskParam(mMerge.getProjectPath(),
                         mMerge.getIid());
 
                 RefResourceActivity_.intent(MergeDetailActivity.this)

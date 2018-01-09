@@ -400,7 +400,7 @@ public class MyApp extends MultiDexApplication {
                 }
 
                 // 用户名
-                final String atSomeOne = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)$";
+                final String atSomeOne = "^/u/([\\w.-]+)$";
                 pattern = Pattern.compile(atSomeOne);
                 matcher = pattern.matcher(uriString);
                 if (matcher.find()) {
@@ -411,7 +411,7 @@ public class MyApp extends MultiDexApplication {
 
                 // 项目讨论列表
                 // https://coding.net/u/8206503/p/TestIt2/topic/mine
-                final String topicList = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/topic/(mine|all)$";
+                final String topicList = "^/u/([\\w.-]+)/p/([\\w.-]+)/topic/(mine|all)$";
                 pattern = Pattern.compile(topicList);
                 matcher = pattern.matcher(uriString);
                 if (matcher.find()) {
@@ -427,7 +427,7 @@ public class MyApp extends MultiDexApplication {
 
                 // 单个项目讨论
                 // https://coding.net/u/8206503/p/AndroidCoding/topic/9638?page=1
-                final String topic = "^(?:https?://[\\w.]*)?/[ut]/([\\w.-]+)/p/([\\w.-]+)/topic/([\\w.-]+)(?:\\?[\\w=&-]*)?(#comment-\\w*)?$";
+                final String topic = "^/[ut]/([\\w.-]+)/p/([\\w.-]+)/topic/([\\w.-]+)(?:\\?[\\w=&-]*)?(#comment-\\w*)?$";
                 pattern = Pattern.compile(topic);
                 matcher = pattern.matcher(uriString);
                 if (matcher.find()) {
@@ -445,7 +445,7 @@ public class MyApp extends MultiDexApplication {
                 // https://coding.net/u/8206503/p/AndroidCoding
                 // https://coding.net/u/8206503/p/FireEye/git
                 //
-                final String project = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)(/git)?$";
+                final String project = "^/u/([\\w.-]+)/p/([\\w.-]+)(/git)?$";
                 pattern = Pattern.compile(project);
                 matcher = pattern.matcher(uriString);
                 if (matcher.find()) {
@@ -460,7 +460,7 @@ public class MyApp extends MultiDexApplication {
 
                 // 冒泡
                 // https://coding.net/u/8206503/pp/9275
-                final String maopao = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/pp/([\\w.-]+)$";
+                final String maopao = "^/u/([\\w.-]+)/pp/([\\w.-]+)$";
                 pattern = Pattern.compile(maopao);
                 matcher = pattern.matcher(uriString);
                 if (matcher.find()) {
@@ -499,7 +499,7 @@ public class MyApp extends MultiDexApplication {
 
                 // 冒泡话题
                 // https://coding.net/u/8206503/pp/9275
-                final String maopaoTopic = "^(?:(?:https://[\\w.]*)?/u/(?:[\\w.-]+))?/pp/topic/([\\w.-]+)$";
+                final String maopaoTopic = "^(?:/u/(?:[\\w.-]+))?/pp/topic/([\\w.-]+)$";
                 pattern = Pattern.compile(maopaoTopic);
                 matcher = pattern.matcher(uriString);
                 if (matcher.find()) {
@@ -510,7 +510,7 @@ public class MyApp extends MultiDexApplication {
                 }
 
                 // 还是冒泡话题 https://coding.net/pp/topic/551
-                final String maopao2 = "^https://[\\w.]*/pp/topic/([\\w.-]+)$";
+                final String maopao2 = "^/pp/topic/([\\w.-]+)$";
                 pattern = Pattern.compile(maopao2);
                 matcher = pattern.matcher(uriString);
                 if (matcher.find()) {
@@ -522,7 +522,7 @@ public class MyApp extends MultiDexApplication {
 
                 // 任务详情
                 // https://coding.net/u/wzw/p/coding/task/9220
-                final String task = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/task/(\\w+)(#comment-\\w*)?$";
+                final String task = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/task/(\\w+)(#comment-\\w*)?$";
                 pattern = Pattern.compile(task);
                 matcher = pattern.matcher(uriString);
                 if (matcher.find()) {
@@ -571,7 +571,7 @@ public class MyApp extends MultiDexApplication {
 
                 // 文件夹，这个url后面的字段是添加上去的
                 // https://coding.net/u/8206503/p/TestIt2/attachment/65138/projectid/5741/name/aa.jpg
-                final String dir = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/projectid/([\\d]+)/name/(.*+)$";
+                final String dir = "^/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/projectid/([\\d]+)/name/(.*+)$";
                 pattern = Pattern.compile(dir);
                 matcher = pattern.matcher(uriString);
                 if (matcher.find()) {
@@ -601,7 +601,7 @@ public class MyApp extends MultiDexApplication {
 
                 // 文件，这个url后面的字段是添加上去的
                 // https://coding.net/u/8206503/p/TestIt2/attachment/65138/preview/66171/projectid/5741/name/aa.jpg
-                final String dirFile = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/preview/([\\d]+)/projectid/([\\d]+)/name/(.*+)$";
+                final String dirFile = "^/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/preview/([\\d]+)/projectid/([\\d]+)/name/(.*+)$";
                 pattern = Pattern.compile(dirFile);
                 matcher = pattern.matcher(uriString);
                 if (matcher.find()) {
@@ -696,7 +696,7 @@ public class MyApp extends MultiDexApplication {
                 }
 
                 // 跳转到merge或pull
-                final String mergeString = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/git/(merge)?(pull)?/(\\d+)";
+                final String mergeString = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/git/(merge)?(pull)?/(\\d+)";
                 pattern = Pattern.compile(mergeString);
                 matcher = pattern.matcher(uriString);
                 if (matcher.find()) {
@@ -708,7 +708,7 @@ public class MyApp extends MultiDexApplication {
                 }
 
                 // 跳转到commit
-                final String commitString = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/git/commit/.+$";
+                final String commitString = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/git/commit/.+$";
                 pattern = Pattern.compile(commitString);
                 matcher = pattern.matcher(uriString);
                 if (matcher.find()) {
@@ -720,7 +720,7 @@ public class MyApp extends MultiDexApplication {
                 }
 
                 // 跳转到branch
-                final String branchString = "^(?:https?://[\\w.]*)?/u/([\\w.-]+)/p/([\\w\\.-]+)/git/tree/(.+)$";
+                final String branchString = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/git/tree/(.+)$";
                 pattern = Pattern.compile(branchString);
                 matcher = pattern.matcher(uriString);
                 if (matcher.find()) {

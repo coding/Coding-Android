@@ -291,7 +291,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
     };
     private ArrayList<RefResourceObject> refResourceList = new ArrayList<>();
     View.OnClickListener clickRefResource = v -> {
-        RefResourceActivity.Param param = new RefResourceActivity.Param(mSingleTask.project.getProjectPath(),
+        TaskParam param = new TaskParam(mSingleTask.project.getProjectPath(),
                 mSingleTask.getNumberValue());
 
         RefResourceActivity_.intent(TaskAddActivity.this)
@@ -1258,11 +1258,11 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
             }
         }
 
-        String send = mEnterComment.getEnterLayout().getContent();
+        StringBuilder sb = new StringBuilder(mEnterComment.getEnterLayout().getContent());
         for (ImageInfo item : photos) {
-            send += mSendedImages.get(item.path);
+            sb.append(mSendedImages.get(item.path));
         }
-        sendComment(send);
+        sendComment(sb.toString());
     }
 
 

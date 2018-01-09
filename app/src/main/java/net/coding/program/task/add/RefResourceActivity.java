@@ -25,7 +25,6 @@ import org.androidannotations.annotations.ItemLongClick;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_ref_resource)
@@ -35,7 +34,7 @@ public class RefResourceActivity extends BackActivity {
     ArrayList<RefResourceObject> mData;
 
     @Extra
-    Param mParam;
+    TaskParam mParam;
 
     @ViewById
     ListView listView;
@@ -141,13 +140,4 @@ public class RefResourceActivity extends BackActivity {
         });
     }
 
-    public static class Param implements Serializable {
-        String projectPath;
-        int taskId;
-
-        public Param(String projectPath, int taskId) {
-            this.projectPath = projectPath;
-            this.taskId = taskId;
-        }
-    }
 }
