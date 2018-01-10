@@ -2,6 +2,8 @@ package net.coding.program.common;
 
 import net.coding.program.common.param.MessageParse;
 
+import org.androidannotations.annotations.res.StringArrayRes;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

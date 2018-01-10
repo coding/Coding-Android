@@ -17,6 +17,7 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.param.MessageParse;
 import net.coding.program.network.constant.VIP;
 
+import org.androidannotations.annotations.res.StringArrayRes;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -953,6 +954,7 @@ public class DynamicObject {
         Project project;
         Task task;
         TaskObject.TaskComment taskComment;
+        Owner watcher;
 
         MergeRequestBaseDelegate mergeRequest;
         String ref;
@@ -977,6 +979,10 @@ public class DynamicObject {
 
             if (json.has("task")) {
                 task = new Task(json.optJSONObject("task"));
+            }
+
+            if (json.has("watcher")) {
+                watcher = new Owner(json.optJSONObject("watcher"));
             }
 
             if (action.equals("update_deadline")) {
@@ -1015,10 +1021,26 @@ public class DynamicObject {
                     format = "%s %s";
                     title = String.format(format, user.getHtml(), action_msg);
                     return GlobalCommon.changeHyperlinkColor(title);
+
                 case "update_priority":
                 case "update_description":
                     format = "%s %s";
                     title = String.format(format, user.getHtml(), action_msg);
+                    return GlobalCommon.changeHyperlinkColor(title);
+
+                case "reassign":
+                    format = "%s %s %s 的任务给 %s";
+                    title = String.format(format, user.getHtml(), action_msg, origin_task.owner.getHtml(), task.owner.getHtml());
+                    return GlobalCommon.changeHyperlinkColor(title);
+
+                case "remove_watcher":
+                    format = "%s 删除了任务 %s 的关注者";
+                    title = String.format(format, user.getHtml(), task.getHtml());
+                    return GlobalCommon.changeHyperlinkColor(title);
+
+                case "add_watcher":
+                    format = "%s 添加了任务 %s 的关注者";
+                    title = String.format(format, user.getHtml(), task.getHtml());
                     return GlobalCommon.changeHyperlinkColor(title);
 
                 default:
@@ -1111,6 +1133,11 @@ public class DynamicObject {
 
                 case "update_description":
                     s = task.getDescripHtml();
+                    break;
+
+                case "remove_watcher":
+                case "add_watcher":
+                    s = watcher.getHtml();
                     break;
 
                 default:
@@ -1268,7 +1295,7 @@ public class DynamicObject {
         }
 
         public String getHtml() {
-            return String.format(BLACK_HTML, title);
+            return createLink(title, path);
         }
 
         public String getDescripHtml() {
