@@ -16,7 +16,7 @@ public class HoloUtils {
      *  @param textView
      * @param content
      */
-    @BindingAdapter({"bind:textEM"})
+    @BindingAdapter({"textEM"})
     public static void setHoloText(TextView textView, String content) {
         if (content.contains("<em>")) {
             int start = content.indexOf("<em>");

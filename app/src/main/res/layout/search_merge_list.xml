@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="data"
             type="net.coding.program.common.model.Merge" />
     </data>
 
     <RelativeLayout
+        android:id="@+id/layoutRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/stand_bg"
-        android:id="@+id/layoutRoot"
         android:foreground="?attr/selectableItemBackground"
         android:orientation="vertical"
         android:paddingBottom="12dp">
@@ -22,9 +23,9 @@
             android:id="@+id/personImg"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:imageUrl="@{data.author.avatar}"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="15dp"
+            app:imageUrl="@{data.author.avatar}" />
 
         <TextView
             android:id="@+id/txtTitle"
@@ -35,51 +36,63 @@
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@+id/personImg"
             android:lines="1"
-            app:textEM="@{data.title}"
             android:textColor="@color/font_1"
             android:textSize="16sp"
+            app:textEM="@{data.title}"
             tools:text="222" />
 
-        <TextView
-            android:id="@+id/txtMergeName"
-            android:layout_width="103dp"
-            android:layout_height="25dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/txtTitle"
+            android:id="@+id/branchLayout"
+            android:layout_marginTop="10dp"
             android:layout_below="@+id/txtTitle"
-            android:layout_marginTop="11dp"
-            android:background="@drawable/shape_merge_detail_rectangle"
-            android:gravity="center"
-            android:lines="1"
-            android:text="@{data.srcBranch}"
-            tools:text="merss"
-            android:textColor="@color/font_3"
-            android:textSize="14sp" />
+            android:gravity="center_vertical">
 
-        <View
-            android:id="@+id/voiceLayout"
-            android:layout_width="15dp"
-            android:layout_height="5.5dp"
-            android:layout_below="@+id/txtTitle"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="22dp"
-            android:layout_toRightOf="@+id/txtMergeName"
-            android:background="@drawable/merge_detail_arrow" />
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/txtMergeName"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:lines="1"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                app:textEM="@{data.srcBranch}"
+                android:textColor="@color/font_3"
+                tools:text="src"
+                android:textSize="12sp"
+                app:rv_cornerRadius="2dp"
+                app:rv_strokeColor="#FFA9B3BE"
+                app:rv_strokeWidth="1dp" />
 
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="25dp"
-            android:layout_below="@+id/txtTitle"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/txtMergeBranch"
-            android:layout_marginTop="11dp"
-            android:layout_toRightOf="@+id/voiceLayout"
-            android:background="@drawable/shape_merge_detail_rectangle"
-            android:gravity="center"
-            android:lines="1"
-            android:text="@{data.desBranch}"
-            tools:text="merss"
-            android:textColor="@color/font_3"
-            android:textSize="14sp" />
+            <ImageView
+                android:id="@+id/voiceLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_10"
+                android:src="@drawable/ic_arrow_merge" />
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/txtMergeBranch"
+                tools:text="master"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:lines="1"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                app:textEM="@{data.desBranch}"
+                android:textColor="@color/font_3"
+                android:textSize="12sp"
+                app:rv_cornerRadius="2dp"
+                app:rv_strokeColor="#FFA9B3BE"
+                app:rv_strokeWidth="1dp" />
+
+
+        </LinearLayout>
 
         <!--<TextView-->
         <!--android:id="@+id/txtContent"-->
@@ -99,8 +112,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/txtTitle"
-            android:layout_below="@+id/txtMergeName"
-            android:layout_marginTop="19dp"
+            android:layout_below="@+id/branchLayout"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -109,9 +122,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@{data.bottomName}"
-                tools:text="asdj"
                 android:textColor="@color/font_3"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:text="asdj" />
 
             <ImageView
                 android:layout_width="12dp"
@@ -128,9 +141,9 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="6dp"
                 android:text="@{data.createTime}"
-                tools:text="2"
                 android:textColor="@color/font_3"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:text="2" />
 
             <TextView
                 android:id="@+id/bottomStatus"
@@ -139,10 +152,10 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:text="@{data.mergeStatusTxt}"
-                tools:text="拒绝"
                 android:textColor="@{data.mergeStatusColor}"
-                tools:textColor="@color/font_3"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:text="拒绝"
+                tools:textColor="@color/font_3" />
         </LinearLayout>
     </RelativeLayout>
 </layout>

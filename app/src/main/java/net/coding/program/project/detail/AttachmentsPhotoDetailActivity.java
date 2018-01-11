@@ -47,7 +47,11 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
     @ViewById
     TextView progressBarText;
 
-    String urlFiles = Global.HOST_API + "/project/%s/files/%s/view";
+    String urlTemplate = Global.HOST_API + "/project/%s/files/%s/view";
+
+    String urlFiles = null;
+
+    private static final String TAG_PhotoDetailActivity = "TAG_PhotoDetailActivity";
 
     @AfterViews
     protected final void initAttachmentsPhotoDetailActivity() {
@@ -72,6 +76,9 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
             layout_image_prototype.setVisibility(View.GONE);
             bottomToolBar.setVisibility(View.VISIBLE);
         } else if (!TextUtils.isEmpty(mAttachmentFileObject.owner_preview)) {
+            if (mProjectObjectId != 0 && !TextUtils.isEmpty(mAttachmentFileObject.file_id)) {
+                urlFiles = String.format(urlTemplate, mProjectObjectId, mAttachmentFileObject.file_id);
+            }
             getImageLoad().imageLoader.loadImage(mAttachmentFileObject.owner_preview, ImagePagerFragment.Companion.getOptionsImage(), new SimpleImageLoadingListener() {
                 @Override
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -84,7 +91,7 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
                 }
             });
         } else {
-            urlFiles = String.format(urlFiles, mProjectObjectId, mAttachmentFileObject.file_id);
+            urlFiles = String.format(urlTemplate, mProjectObjectId, mAttachmentFileObject.file_id);
             onRefresh();
         }
 
@@ -105,7 +112,8 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
 
     @Override
     protected void onRefresh() {
-        getNetwork(urlFiles, urlFiles);
+        if (TextUtils.isEmpty(urlFiles)) return;
+        getNetwork(urlFiles, TAG_PhotoDetailActivity);
     }
 
     private void bindUIDownload(boolean downloading) {
@@ -130,7 +138,7 @@ public class AttachmentsPhotoDetailActivity extends AttachmentsDetailBaseActivit
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         super.parseJson(code, respanse, tag, pos, data);
-        if (tag.equals(urlFiles)) {
+        if (tag.equals(TAG_PhotoDetailActivity)) {
             if (code == 0) {
                 JSONObject file = respanse.getJSONObject("data").getJSONObject("file");
                 mAttachmentFileObject = new AttachmentFileObject(file);

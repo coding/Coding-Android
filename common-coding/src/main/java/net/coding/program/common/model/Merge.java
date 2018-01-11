@@ -43,8 +43,20 @@ public class Merge implements Serializable {
 
     public Merge(JSONObject json) {
         id = json.optInt("id");
-        srcBranch = json.optString("srcBranch");
-        desBranch = json.optString("desBranch");
+        if (json.has("srcBranch")) {
+            srcBranch = json.optString("srcBranch");
+        }
+        if (json.has("source_branch")) {
+            srcBranch = json.optString("source_branch");
+        }
+
+        if (json.has("desBranch")) {
+            desBranch = json.optString("desBranch");
+        }
+        if (json.has("target_branch")) {
+            desBranch = json.optString("target_branch");
+        }
+
         title = json.optString("title");
         iid = json.optInt("iid");
         merge_status = Status.nameToEnum(json.optString("merge_status"));
@@ -53,7 +65,9 @@ public class Merge implements Serializable {
         src_project_name = json.optString("src_project_name");
         created_at = json.optLong("created_at");
         author = new UserObject(json.optJSONObject("author"));
-        action_author = new ActionAuthor(json.optJSONObject("action_author"));
+        if (json.has("action_author")) {
+            action_author = new ActionAuthor(json.optJSONObject("action_author"));
+        }
         action_at = json.optLong("action_at");
         if (json.has("source_depot")) {
             source_depot = new SourceDepot(json.optJSONObject("source_depot"));

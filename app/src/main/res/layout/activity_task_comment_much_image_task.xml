@@ -19,7 +19,7 @@
     <View
         android:id="@+id/timeLineUp"
         android:layout_width="2dp"
-        android:layout_height="13.5dp"
+        android:layout_height="11dp"
         android:layout_alignLeft="@id/icon"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="15.5dp"
@@ -34,6 +34,7 @@
         android:layout_alignLeft="@id/icon"
         android:layout_alignRight="@+id/timeLineUp"
         android:layout_below="@id/icon"
+        android:layout_marginTop="1dp"
         android:layout_marginLeft="15.5dp"
         android:background="@color/divide" />
 
