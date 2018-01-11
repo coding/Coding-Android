@@ -65,7 +65,7 @@ public class CommitsAdapter extends SimpleData1Adaper<Commit> implements StickyL
         if (convertView == null) {
             holder = new HeaderViewHolder();
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.commit_list_section, parent, false);
-            holder.mHead = (TextView) convertView.findViewById(R.id.sectionTitle);
+            holder.mHead = convertView.findViewById(R.id.sectionTitle);
             convertView.setTag(holder);
         } else {
             holder = (HeaderViewHolder) convertView.getTag();

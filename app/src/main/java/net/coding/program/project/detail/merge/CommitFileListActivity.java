@@ -3,6 +3,8 @@ package net.coding.program.project.detail.merge;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.MyImageGetter;
@@ -154,18 +157,23 @@ public class CommitFileListActivity extends CodingToolbarBackActivity {
         mListHead = mInflater.inflate(R.layout.commit_file_list_head, listView, false);
         listView.addHeaderView(mListHead, null, false);
 
-        bindData(mListHead, R.id.title, mCommit.getTitle());
-        bindData(mListHead, R.id.icon, mCommit.getIcon());
+        String title = mCommit.getTitle();
+        if (TextUtils.isEmpty(title)) title = "未填写";
+        bindData(mListHead, R.id.title, title);
         bindData(mListHead, R.id.name, mCommit.getName());
         bindData(mListHead, R.id.time, Global.dayToNow(mCommit.getCommitTime(), "创建%s"));
         bindData(mListHead, R.id.mergeId, mCommit.getCommitIdPrefix());
 
-
-
         String preString = "";
         bindData(mListHead, R.id.preView, preString);
+    }
 
-
+    private void bindData(View view, int textViewId, CharSequence text) {
+        View v = view.findViewById(textViewId);
+        if (v instanceof TextView) {
+            TextView textview = (TextView) v;
+            textview.setText(text);
+        }
     }
 
     private void bindData(View view, int textViewId, String text) {
@@ -186,8 +194,9 @@ public class CommitFileListActivity extends CodingToolbarBackActivity {
                 DiffFile diffFile = new DiffFile(respanse.getJSONObject("data"));
 
                 findViewById(R.id.preView);
-                String s = String.format("%s 个文件，共 %s 新增和 %s 删除", diffFile.getFileCount(),
-                        diffFile.getInsertions(), diffFile.getDeletions());
+                String files = String.format("%s 个文件", diffFile.getFileCount());
+                String all = String.format(" 共 %s 新增和 %s 删除", diffFile.getInsertions(), diffFile.getDeletions());
+                Spanned s = Global.createColorHtml("", files, all, CodingColor.fontBlue);
                 bindData(mListHead, R.id.preView, s);
                 if (diffFile.getFileCount() > 0) {
                     mListHead.findViewById(R.id.headerDivide).setVisibility(View.VISIBLE);
