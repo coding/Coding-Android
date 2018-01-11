@@ -165,6 +165,7 @@
     <style name="Theme_CodingActionBar" parent="ActionbarNoIcon">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="windowActionModeOverlay">true</item>
     </style>
 
     <style name="ActionbarTranslate" parent="ActionbarNoIcon">

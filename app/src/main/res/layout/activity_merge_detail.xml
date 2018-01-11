@@ -25,7 +25,6 @@
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false" />
 
-
         <include
             android:id="@+id/blankLayout"
             layout="@layout/view_exception"
@@ -36,18 +35,17 @@
 
     <include layout="@layout/divide_line_1" />
 
-    <LinearLayout
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/actionLayout"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/stand_bg"
         android:gravity="center_vertical"
-        tools:visibility="visible"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="horizontal"
-        android:paddingRight="16dp"
         android:paddingLeft="8dp"
-        android:visibility="gone">
+        android:paddingRight="16dp"
+        android:visibility="gone"
+        tools:visibility="visible">
 
 
         <com.flyco.roundview.RoundTextView
@@ -56,14 +54,12 @@
             android:layout_height="36dp"
             android:layout_marginLeft="@dimen/bottom_button_padding"
             android:layout_weight="1"
-            android:background="@drawable/edit_send"
-            app:rv_strokeColor="@color/divide_line"
-            android:textSize="15sp"
-            app:rv_strokeWidth="1dp"
             android:gravity="center"
-            app:rv_cornerRadius="2dp"
             android:text="取消"
-            android:textColor="@color/font_1" />
+            android:textColor="@color/font_1"
+            android:textSize="15sp"
+            app:rv_backgroundColor="@color/divide_line"
+            app:rv_cornerRadius="2dp" />
 
 
         <com.flyco.roundview.RoundTextView
@@ -73,25 +69,25 @@
             android:layout_marginLeft="@dimen/bottom_button_padding"
             android:layout_weight="1"
             android:gravity="center"
-            app:rv_cornerRadius="2dp"
+            android:text="拒绝"
+            android:textColor="@color/font_white"
             android:textSize="15sp"
             app:rv_backgroundColor="#FFF56061"
-            android:text="拒绝"
-            android:textColor="@color/font_white" />
+            app:rv_cornerRadius="2dp" />
 
 
         <com.flyco.roundview.RoundTextView
             android:id="@+id/actionAuth"
             android:layout_width="0dp"
-            app:rv_cornerRadius="2dp"
-            app:rv_backgroundColor="@color/font_green"
             android:layout_height="36dp"
             android:layout_marginLeft="@dimen/bottom_button_padding"
-            android:textSize="15sp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="授权"
-            android:textColor="@color/font_white" />
+            android:textColor="@color/font_white"
+            android:textSize="15sp"
+            app:rv_backgroundColor="@color/font_blue"
+            app:rv_cornerRadius="2dp" />
 
         <com.flyco.roundview.RoundTextView
             android:id="@+id/actionCancelAuth"
@@ -99,12 +95,12 @@
             android:layout_height="36dp"
             android:layout_marginLeft="@dimen/bottom_button_padding"
             android:layout_weight="1"
-            app:rv_cornerRadius="2dp"
-            app:rv_backgroundColor="@color/font_green"
             android:gravity="center"
-            android:textSize="15sp"
             android:text="撤消授权"
-            android:textColor="@color/font_white" />
+            android:textColor="@color/font_white"
+            android:textSize="15sp"
+            app:rv_backgroundColor="@color/font_green"
+            app:rv_cornerRadius="2dp" />
 
 
         <com.flyco.roundview.RoundTextView
@@ -113,12 +109,12 @@
             android:layout_height="36dp"
             android:layout_marginLeft="@dimen/bottom_button_padding"
             android:layout_weight="1"
-            android:textSize="15sp"
-            app:rv_cornerRadius="2dp"
-            app:rv_backgroundColor="@color/font_2"
             android:gravity="center"
             android:text="合并"
-            android:textColor="@color/font_white" />
+            android:textColor="@color/font_white"
+            android:textSize="15sp"
+            app:rv_backgroundColor="@color/font_2"
+            app:rv_cornerRadius="2dp" />
 
     </LinearLayout>
 

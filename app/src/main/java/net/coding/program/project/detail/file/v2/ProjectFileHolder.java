@@ -23,7 +23,6 @@ import java.util.Set;
 public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
 
     public ImageView icon;
-    public TextView icon_txt;
     public TextView name;
     public TextView content;
     public TextView desc;
@@ -42,6 +41,7 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
     public RelativeLayout icon_layout;
 
     public LinearLayout desc_layout;
+    public View progressLayout;
     public ProgressBar progressBar;
     public TextView downloadFlag;
     public View item_layout_root;
@@ -51,7 +51,6 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
         item_layout_root = convertView.findViewById(R.id.item_layout_root);
         name = (TextView) convertView.findViewById(R.id.name);
         icon = (ImageView) convertView.findViewById(R.id.icon);
-        icon_txt = (TextView) convertView.findViewById(R.id.icon_txt);
         content = (TextView) convertView.findViewById(R.id.comment);
         desc = (TextView) convertView.findViewById(R.id.desc);
         checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
@@ -67,8 +66,9 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
 
         icon_layout = (RelativeLayout) convertView.findViewById(R.id.icon_layout);
 
-        desc_layout = (LinearLayout) convertView.findViewById(R.id.desc_layout);
-        progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
+        desc_layout = convertView.findViewById(R.id.desc_layout);
+        progressLayout = convertView.findViewById(R.id.progress_layout);
+        progressBar = convertView.findViewById(R.id.progressBar);
         shareMark = convertView.findViewById(R.id.shareMark);
     }
 
@@ -86,7 +86,6 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
             }
             icon.setVisibility(View.VISIBLE);
             icon.setBackgroundResource(android.R.color.transparent);
-            icon_txt.setVisibility(View.GONE);
             file_info_layout.setVisibility(View.GONE);
             folder_name.setVisibility(View.VISIBLE);
         } else if (data.isImage()) {
@@ -94,14 +93,12 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
             ImageLoadTool.loadFileImage(icon, data.preview, ImageLoadTool.optionsRounded2);
             icon.setVisibility(View.VISIBLE);
             icon.setBackgroundResource(R.drawable.shape_image_icon_bg);
-            icon_txt.setVisibility(View.GONE);
             file_info_layout.setVisibility(View.VISIBLE);
             folder_name.setVisibility(View.GONE);
         } else {
             ImageLoadTool.loadFileImage(icon, "drawable://" + data.getIconResourceId(), ImageLoadTool.optionsRounded2);
             icon.setVisibility(View.VISIBLE);
             icon.setBackgroundResource(android.R.color.transparent);
-            icon_txt.setVisibility(View.GONE);
             file_info_layout.setVisibility(View.VISIBLE);
             folder_name.setVisibility(View.GONE);
         }
@@ -136,25 +133,27 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
 
         if (data.isDownloading()) {
             progressBar.setProgress(data.downloadProgress);
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            progressBar.setVisibility(View.GONE);
         }
 
         more.setTag(data);
 
         if (data.isDownloaded()) {
+            progressLayout.setVisibility(View.GONE);
+            desc_layout.setVisibility(View.VISIBLE);
             downloadFlag.setText("查看");
         } else if (data.isDownloading()) {
+            progressLayout.setVisibility(View.VISIBLE);
+            desc_layout.setVisibility(View.GONE);
             downloadFlag.setText("取消");
         } else {
+            progressLayout.setVisibility(View.GONE);
+            desc_layout.setVisibility(View.VISIBLE);
             downloadFlag.setText("下载");
         }
 
         item_layout_root.setBackgroundResource(data.isDownloaded()
                 ? R.drawable.list_item_selector_project_file
                 : R.drawable.list_item_selector);
-
 
         if (data.isFolder()) {
             more.setVisibility(View.INVISIBLE);

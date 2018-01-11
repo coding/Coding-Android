@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
             android:ellipsize="middle"
-            android:lines="1"
+            android:singleLine="true"
             android:text="一季度报告.ppt"
             android:textColor="@color/font_1"
             android:textSize="17sp" />
