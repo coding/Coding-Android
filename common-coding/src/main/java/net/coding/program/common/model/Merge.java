@@ -1,41 +1,30 @@
 package net.coding.program.common.model;
 
+import android.databinding.BindingAdapter;
 import android.text.Spannable;
+import android.widget.ImageView;
 
 import com.loopj.android.http.RequestParams;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.ImageLoadTool;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 
-/**
- * Created by chenchao on 15/5/25.
- * Merge对象，由json生成
- */
 public class Merge implements Serializable {
-    private static final String STYLE_ACCEPT = "ACCEPTED";
-    private static final String STYLE_REFUSE = "REFUSED";
-    private static final String STYLE_CANNEL = "CANCEL";
-    private static final String STYLE_CANMERGE = "CANMERGE";
-    private static final String STYLE_CANNOTMERGE = "CANNOTMERGE";
-    public static final String[] STYLES = new String[]{
-            STYLE_ACCEPT,
-            STYLE_REFUSE,
-            STYLE_CANMERGE,
-            STYLE_CANNOTMERGE,
-            STYLE_CANNEL,
-    };
 
     private int id;
     private String srcBranch = "";
     private String desBranch = "";
     private String title = "";
     private int iid;
-    private String merge_status = "";
+    public Status merge_status = Status.CANCEL;
     private String path = "";
     private String src_owner_name = "";
     private String src_project_name = "";
@@ -58,7 +47,7 @@ public class Merge implements Serializable {
         desBranch = json.optString("desBranch");
         title = json.optString("title");
         iid = json.optInt("iid");
-        merge_status = json.optString("merge_status");
+        merge_status = Status.nameToEnum(json.optString("merge_status"));
         path = ProjectObject.translatePath(json.optString("path", ""));
         src_owner_name = json.optString("src_owner_name");
         src_project_name = json.optString("src_project_name");
@@ -81,20 +70,21 @@ public class Merge implements Serializable {
     public Merge() {
     }
 
+    public String getBottomName() {
+        return getTitleIId() + "  " + getAuthor().name;
+    }
+
+    @BindingAdapter({"bind:imageUrl"})
+    public static void loadImage(ImageView view, String imageUrl) {
+        ImageLoader.getInstance().displayImage(imageUrl, view, ImageLoadTool.options);
+    }
+
     public String getDesBranch() {
         return desBranch;
     }
 
     public void setDesBranch(String desBranch) {
         this.desBranch = desBranch;
-    }
-
-    public String getMerge_status() {
-        return merge_status;
-    }
-
-    public void setMerge_status(String merge_status) {
-        this.merge_status = merge_status;
     }
 
     public String getPath() {
@@ -170,11 +160,11 @@ public class Merge implements Serializable {
     }
 
     public boolean isStyleCanMerge() {
-        return merge_status.equals(STYLE_CANMERGE);
+        return merge_status == Status.CANMERGE;
     }
 
     public boolean isStyleCannotMerge() {
-        return merge_status.equals(STYLE_CANNOTMERGE);
+        return merge_status == Status.CANNOTMERGE;
     }
 
     public String getTitle() {
@@ -230,26 +220,26 @@ public class Merge implements Serializable {
 
     }
 
-    public String getMergeStatus() {
+    public Status getMergeStatus() {
         return merge_status;
     }
 
     public boolean isMergeAccept() {
-        return merge_status.equals(STYLE_ACCEPT);
+        return merge_status == Status.ACCEPTED;
     }
 
     public boolean isMergeRefuse() {
-        return merge_status.equals(STYLE_REFUSE);
+        return merge_status == Status.REFUSED;
     }
 
     //已处理
     public boolean isMergeTreate() {
-        return merge_status.equals(STYLE_ACCEPT) ||
-                merge_status.equals(STYLE_REFUSE);
+        return merge_status == Status.ACCEPTED ||
+                merge_status == Status.REFUSED;
     }
 
     public boolean isCanceled() {
-        return merge_status.equals(STYLE_CANNEL);
+        return merge_status == Status.CANCEL;
     }
 
     public long getCreatedAt() {
@@ -295,10 +285,6 @@ public class Merge implements Serializable {
 
     public void setGranted(int granted) {
         this.granted = granted;
-    }
-
-    public String getHttpComments() {
-        return getHostPublicHead("/comments");
     }
 
     public String getHttpActivities() {
@@ -404,6 +390,31 @@ public class Merge implements Serializable {
         return String.format(template, ProjectObject.getTitle(isPull()), iid, srcBranch, desBranch);
     }
 
+    public enum Status {
+        ACCEPTED(0xFFEB7A19, "已合并"),
+        REFUSED(0xFFE84D60, "已拒绝"),
+        CANCEL(0xFF76808E, "已取消"),
+        CANMERGE(0xFF2EBE76, "可合并"),
+        CANNOTMERGE(0xFFB17EDD, "不可自动合并");
+
+        public int color;
+        public String alics;
+
+        Status(int color, String alics) {
+            this.color = color;
+            this.alics = alics;
+        }
+
+        public static Status nameToEnum(String name) {
+            for (Status item : Status.values()) {
+                if (item.name().equals(name)) {
+                    return item;
+                }
+            }
+            return CANCEL;
+        }
+    }
+
     public static class ActionAuthor extends UserObject implements Serializable {
 
         private int status;
@@ -449,5 +460,24 @@ public class Merge implements Serializable {
             volunteer = "invitee";
         }
     }
+
+
+    public String getHttpComments() {
+        return getHostPublicHead("/comments");
+    }
+
+    public String getCreateTime() {
+        final SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
+        return format.format(created_at);
+    }
+
+    public String getMergeStatusTxt() {
+        return merge_status.alics;
+    }
+
+    public int getMergeStatusColor() {
+        return merge_status.color;
+    }
+
 
 }

@@ -22,14 +22,13 @@
         android:text="merge_request"
         android:textColor="@color/font_3"
         android:textSize="12sp"
-        app:rv_cornerRadius="2dp"
-        app:rv_strokeColor="#FFA9B3BE"
-        app:rv_strokeWidth="1dp" />
+        app:rv_backgroundColor="#FFF2F4F6"
+        app:rv_cornerRadius="2dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding_10"
+        android:layout_margin="8dp"
         android:src="@drawable/ic_arrow_merge" />
 
     <com.flyco.roundview.RoundTextView
@@ -44,9 +43,8 @@
         android:text="master"
         android:textColor="@color/font_3"
         android:textSize="12sp"
-        app:rv_cornerRadius="2dp"
-        app:rv_strokeColor="#FFA9B3BE"
-        app:rv_strokeWidth="1dp" />
+        app:rv_backgroundColor="#FFD8DDE4"
+        app:rv_cornerRadius="2dp" />
 </org.apmem.tools.layouts.FlowLayout>
 
     

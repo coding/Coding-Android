@@ -22,13 +22,11 @@ import java.util.ArrayList;
  */
 public class MergeAdapter extends DataAdapter<Merge> {
 
-    //    ImageLoadTool mImageLoadr;
     LoadMore mLoadMore;
 
     public MergeAdapter(ArrayList<Merge> data, LoadMore loadMore, ImageLoadTool imageLoader) {
         super(data);
         mLoadMore = loadMore;
-//        mImageLoadr = imageLoader;
     }
 
     @Override
@@ -76,14 +74,17 @@ public class MergeAdapter extends DataAdapter<Merge> {
             holder.icon.setImageResource(R.drawable.merge_accepted);
         } else if (data.isMergeRefuse()) {
             holder.icon.setImageResource(R.drawable.merge_refused);
+        } else {
+            holder.icon.setImageResource(R.drawable.merge_can_not_merge);
         }
+
         holder.icon.setTag(data.getAuthor().global_key);
 
         holder.title.setText(data.getTitleSpannable());
 
         holder.name.setText(data.getAuthor().name);
         holder.time.setText(Global.dayToNow(data.getCreatedAt()));
-        holder.discuss.setText(String.format("%d", data.getCommentCount()));
+        holder.discuss.setText(String.format("%s", data.getCommentCount()));
         holder.mergeId.setText(data.getTitleIId());
         holder.branchSrc.setText(data.getSrcBranch());
         holder.branchDesc.setText(data.getDescBranch());

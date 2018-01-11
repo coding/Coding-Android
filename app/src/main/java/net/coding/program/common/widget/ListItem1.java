@@ -32,7 +32,7 @@ public class ListItem1 extends FrameLayout {
     private void init(Context context, AttributeSet attrs) {
         View.inflate(context, R.layout.list_item_1, this);
         mIcon = findViewById(R.id.icon);
-        mText = (TextView) findViewById(R.id.title);
+        mText = findViewById(R.id.title);
         badge = findViewById(R.id.badge);
         badge.setVisibility(INVISIBLE);
 
@@ -41,6 +41,7 @@ public class ListItem1 extends FrameLayout {
         int icon = array.getResourceId(R.styleable.ListItem1_itemIcon, R.drawable.user_home_project);
 
         boolean showBottomLine = array.getBoolean(R.styleable.ListItem1_itemShowBottomLine, false);
+        boolean showTopLine = array.getBoolean(R.styleable.ListItem1_itemShowTopLine, false);
         boolean showArrow = array.getBoolean(R.styleable.ListItem1_itemShowArrow, true);
 
         boolean center = array.getBoolean(R.styleable.ListItem1_itemCenter, false);
@@ -52,6 +53,11 @@ public class ListItem1 extends FrameLayout {
 
         if (showBottomLine) {
             View line = findViewById(R.id.bottomLine);
+            line.setVisibility(VISIBLE);
+        }
+
+        if (showTopLine) {
+            View line = findViewById(R.id.topLine);
             line.setVisibility(VISIBLE);
         }
 

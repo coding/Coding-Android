@@ -1,34 +1,21 @@
 package net.coding.program.adapter;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-
-import net.coding.program.R;
-import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.ViewHolder;
-import net.coding.program.common.model.MergeObject;
+import net.coding.program.common.model.Merge;
 import net.coding.program.databinding.SearchMergeListBinding;
-import net.coding.program.search.HoloUtils;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class SearchMergeAdapter extends BaseAdapter {
-    private List<MergeObject> mData;
+    private List<Merge> mData;
     private Context context;
 
-    public SearchMergeAdapter(List<MergeObject> mData, String key, Context context) {
+    public SearchMergeAdapter(List<Merge> mData, String key, Context context) {
         this.mData = mData;
         this.context = context;
     }

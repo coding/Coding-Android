@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="net.coding.program.project.detail.merge.ProjectMergeFragment">
 
-    <include layout="@layout/common_refresh_listview" />
+    <include layout="@layout/common_refresh_listview_divide" />
 
     <include
         layout="@layout/view_merge_menu"

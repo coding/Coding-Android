@@ -52,6 +52,8 @@
     <dimen name="project_icon_text">15sp</dimen>
     <dimen name="project_item_height">45dp</dimen>
 
+    <dimen name="project_content_left_merge">52dp</dimen>
+
     <dimen name="notify_main_icon_width">45dp</dimen>
 
     <dimen name="divideline_height">0.5dp</dimen>

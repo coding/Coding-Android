@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Commentlayout"
     android:layout_width="match_parent"
-    android:minHeight="50dp"
-    tools:minHeight="80dp"
     android:layout_height="wrap_content"
     android:background="@color/stand_bg"
     android:clickable="true"
-    android:visibility="visible">
+    android:minHeight="50dp"
+    android:visibility="visible"
+    tools:minHeight="80dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/icon"
-        android:layout_width="@dimen/task_list_item_icon"
-        android:layout_height="@dimen/task_list_item_icon"
-        android:layout_marginLeft="@dimen/padding_12"
-        android:layout_marginRight="@dimen/padding_12"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/ic_default_user" />
+    <LinearLayout
+        android:layout_width="63dp"
+        android:gravity="center_horizontal"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <View
-        android:id="@+id/timeLineUp"
-        android:layout_width="2dp"
-        android:layout_height="15dp"
-        android:layout_alignLeft="@id/icon"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="15.5dp"
-        android:background="@color/divide" />
+        <View
+            android:id="@+id/timeLineUp"
+            android:layout_width="2dp"
+            android:layout_height="14dp"
+            android:background="@color/divide" />
 
-    <View
-        android:id="@+id/timeLineDown"
-        android:layout_width="2dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/include"
-        android:layout_alignLeft="@id/icon"
-        android:layout_below="@id/icon"
-        android:layout_marginLeft="15.5dp"
-        android:background="@color/divide" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/task_list_item_icon"
+            android:layout_height="@dimen/task_list_item_icon"
+            android:layout_marginTop="1dp"
+            android:src="@drawable/ic_default_user" />
+
+        <View
+            android:id="@+id/timeLineDown"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:background="@color/divide" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layout_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/icon"
-        android:layout_toRightOf="@+id/icon"
+        android:layout_marginTop="15dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -71,19 +71,12 @@
             android:background="@color/gray_dark"
             android:lineSpacingExtra="3dp"
             android:padding="8dp"
-            tools:text="1111"
             android:textColor="@color/font_2"
             android:textSize="14sp"
-            tools:visibility="visible"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:text="1111"
+            tools:visibility="visible" />
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/include"
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="0dp" />
-
-</RelativeLayout>
+</LinearLayout>

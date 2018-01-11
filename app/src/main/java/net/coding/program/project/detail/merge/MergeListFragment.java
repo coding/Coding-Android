@@ -27,7 +27,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-@EFragment(R.layout.common_refresh_listview)
+@EFragment(R.layout.common_refresh_listview_divide)
 public class MergeListFragment extends BaseLoadMoreFragment {
 
     public static final String EVENT_UPDATE = "EVENT_UPDATE";

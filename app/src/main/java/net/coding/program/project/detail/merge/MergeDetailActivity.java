@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -61,6 +62,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
+import org.eclipse.jgit.api.MergeResult;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -188,10 +190,9 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                 holder.mContent.setText(data.title());
                 int iconResId = data.action_icon;
                 holder.mIcon.setImageResource(iconResId);
-                holder.updateLine(position, count);
                 if (type == 2) {
-                    holder.mContent2.setText(data.content(myImageGetter));
                     holder.mContent2.setVisibility(View.VISIBLE);
+                    holder.mContent2.setText(data.content(myImageGetter));
                     holder.mContent2.setOnClickListener(v -> {
                         DiffFile.DiffSingleFile fileData =
                                 ((DynamicObject.DynamicMergeRequestCommentCommit) data).getDiffSingleFile();
@@ -205,6 +206,8 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                 } else {
                     holder.mContent2.setVisibility(View.GONE);
                 }
+                holder.updateLine(position, count);
+
                 return convertView;
             }
         }
@@ -285,10 +288,10 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         updateReviewer();
 
         if (mMerge == null || mMerge.isPull()) {
-            findViewById(R.id.itemRefResourceLayout).setVisibility(View.GONE);
+            findViewById(R.id.itemRefResource).setVisibility(View.GONE);
             return;
         } else {
-            findViewById(R.id.itemRefResourceLayout).setVisibility(View.VISIBLE);
+            findViewById(R.id.itemRefResource).setVisibility(View.VISIBLE);
         }
 
         setActionStyle(false, false, false, false, false);
@@ -423,41 +426,16 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
 
         ((TextView) head.findViewById(R.id.title)).setText(mMerge.getTitleSpannable());
 
-        ImageView imageView = (ImageView) head.findViewById(R.id.icon);
-        iconfromNetwork(imageView, mMerge.getAuthor().avatar);
+        TextView userText = head.findViewById(R.id.userName);
+        userText.setText(mMerge.getAuthor().name);
 
         ((TextView) head.findViewById(R.id.time)).setText(Global.dayToNowCreate(mMerge.getCreatedAt()));
 
-        TextView styleView = (TextView) head.findViewById(R.id.mergeStyle);
+        TextView styleView = head.findViewById(R.id.mergeStyle);
 
-        String[] styles = Merge.STYLES;
-        final String[] styleStrings = new String[]{
-                "已合并",
-                "已拒绝",
-                "可合并",
-                "不可合并",
-                "已取消"
-        };
-
-        final String[] actionStrings = new String[]{
-                "已合并",
-                "已拒绝",
-                "已拒绝",
-                "已拒绝",
-                "已取消"
-        };
-        String action = "";
-        final int[] styleColors = new int[]{
-                CodingColor.fontGreen, 0xfffb3b30, CodingColor.fontGreen, 0xffac8cd3, CodingColor.font2
-        };
-
-        for (int i = 0; i < styles.length; ++i) {
-            if (mMerge.getMergeStatus().equals(styles[i])) {
-                styleView.setText(styleStrings[i]);
-                styleView.setTextColor(styleColors[i]);
-                action = actionStrings[i];
-            }
-        }
+        Merge.Status status = mMerge.getMergeStatus();
+        styleView.setText(status.alics);
+        styleView.setTextColor(status.color);
 
         String src = mMerge.getSrcBranch();
         String desc = mMerge.getDescBranch();
@@ -468,7 +446,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
 
         ((TextView) head.findViewById(R.id.mergeActionUser)).setText(mMerge.getActionAuthor().name);
         String mergeActionMessage = String.format(" %s %s这个%s", Global.dayToNow(mMerge.getAction_at()),
-                action, ProjectObject.getTitle(mMerge.isPull()));
+                mMerge.getMergeStatus().alics, ProjectObject.getTitle(mMerge.isPull()));
         ((TextView) head.findViewById(R.id.mergeLog)).setText(mergeActionMessage);
 
 
@@ -635,7 +613,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
     }
 
     private void updateRefResourceUI() {
-        View item = findViewById(R.id.itemRefResourceLayout);
+        View item = findViewById(R.id.itemRefResource);
         if (refResourceList.isEmpty()) {
             item.setVisibility(View.GONE);
         } else {
@@ -815,10 +793,10 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         });
 
 
-        LinearLayout reviewersLayout = (LinearLayout) findViewById(R.id.reviewers);
+        LinearLayout reviewersLayout = findViewById(R.id.reviewers);
         reviewersLayout.removeAllViews();
         if (reviewerList != null && reviewerList.size() > 0) {
-            int imageSize = DensityUtil.dip2px(this, 33);
+            int imageSize = DensityUtil.dip2px(this, 38);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(imageSize, imageSize);
             lp.rightMargin = DensityUtil.dip2px(this, 8);
             int addedCount = 0;

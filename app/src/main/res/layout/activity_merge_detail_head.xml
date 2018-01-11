@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/stand_bg"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/padding_12">
+        android:paddingBottom="10dp">
 
         <TextView
             android:id="@+id/title"
@@ -21,35 +23,42 @@
             android:maxLines="2"
             android:text="Medium Text"
             android:textColor="@color/font_1"
-            android:textSize="20sp" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/title"
             android:layout_marginLeft="@dimen/padding_15"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="0dp" />
+            android:layout_marginTop="0dp"
+            android:textColor="@color/font_3"
+            android:textSize="12sp"
+            tools:text="Samall Text" />
 
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/icon"
+            android:layout_alignBottom="@+id/userName"
             android:layout_marginBottom="1dp"
-            android:layout_toRightOf="@+id/icon"
+
+            android:layout_toRightOf="@+id/userName"
             android:text="Small Text"
-            android:textColor="@color/font_3" />
+            android:textColor="@color/font_3"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/mergeStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/icon"
+            android:layout_alignBottom="@id/userName"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/padding_15"
-            android:text="已拒绝" />
+            tools:text="已拒绝"
+            android:textSize="12sp" />
 
     </RelativeLayout>
 
@@ -85,13 +94,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="jeff"
-            android:textColor="@color/font_1" />
+            android:textColor="@color/font_1"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/mergeLog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" 1天前 拒绝了这个合并请求" />
+            android:text=" 1天前 拒绝了这个合并请求"
+            android:textColor="@color/font_2"
+            android:textSize="14sp" />
 
     </LinearLayout>
 
@@ -111,37 +123,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
-        app:itemIcon="@drawable/ic_listitem_commit"
+        app:itemIcon="@drawable/project_button_icon_dynamic"
         app:itemShowArrow="false"
         app:itemTitle="提交记录" />
-
-    <include layout="@layout/divideline_15" />
 
     <net.coding.program.common.widget.ListItem1
         android:id="@+id/itemFile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
+        app:itemIcon="@drawable/project_button_icon_readme"
         app:itemShowArrow="false"
-        app:itemIcon="@drawable/ic_listitem_mergefile"
+        app:itemShowTopLine="true"
         app:itemTitle="文件改动" />
 
-    <LinearLayout
-        android:id="@+id/itemRefResourceLayout"
+    <net.coding.program.common.widget.ListItem1
+        android:id="@+id/itemRefResource"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <include layout="@layout/divideline_15" />
-
-        <net.coding.program.common.widget.ListItem1
-            android:id="@+id/itemRefResource"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:itemIcon="@drawable/ic_task_ref_resource"
-            app:itemShowArrow="false"
-            app:itemTitle="关联资源" />
-    </LinearLayout>
+        app:itemIcon="@drawable/ic_task_ref_resource"
+        app:itemShowArrow="false"
+        app:itemShowTopLine="true"
+        app:itemTitle="关联资源" />
 
     <include layout="@layout/divide_middle_15" />
 
@@ -155,23 +158,25 @@
             android:id="@+id/itemReviewer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:itemIcon="@drawable/maopao_extra_comment"
             app:itemShowArrow="false"
-            app:itemIcon="@drawable/ic_listitem_reviewers"
             app:itemTitle="评审者" />
 
-        <include
+        <View
             android:id="@+id/reviewer_divide"
-            layout="@layout/divideline_15" />
+            style="@style/DivideLine"
+            android:layout_marginLeft="@dimen/project_content_left_merge"
+            android:visibility="invisible" />
 
         <LinearLayout
             android:id="@+id/reviewers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginBottom="@dimen/padding_12"
-            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginLeft="@dimen/project_content_left_merge"
             android:layout_marginRight="@dimen/padding_15"
             android:layout_marginTop="@dimen/padding_12"
+            android:orientation="horizontal"
             android:visibility="gone" />
 
         <include layout="@layout/divide_middle_15" />

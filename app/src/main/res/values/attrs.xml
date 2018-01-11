@@ -36,6 +36,7 @@
         <attr name="itemTitle" format="string" />
         <attr name="itemCenter" format="boolean" />
         <attr name="itemShowBottomLine" format="boolean" />
+        <attr name="itemShowTopLine" format="boolean" />
         <attr name="itemShowArrow" format="boolean" />
     </declare-styleable>
 

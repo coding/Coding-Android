@@ -4,9 +4,9 @@ import android.view.View;
 import android.widget.AbsListView;
 
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.adapter.SearchMergeAdapter;
-import net.coding.program.common.model.MergeObject;
+import net.coding.program.common.Global;
+import net.coding.program.common.model.Merge;
 import net.coding.program.project.detail.merge.MergeDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -29,7 +29,7 @@ public class SearchMergeRequestsFragment extends SearchBaseFragment {
     final String tmp = "&types=%s&pageSize=10";
     @InstanceState
     protected String tabPrams;
-    ArrayList<MergeObject> mData = new ArrayList<>();
+    ArrayList<Merge> mData = new ArrayList<>();
     String page = "&page=%s";
     int pos = 1;
     SearchMergeAdapter adapter;
@@ -65,8 +65,8 @@ public class SearchMergeRequestsFragment extends SearchBaseFragment {
     }
 
     @ItemClick
-    final void listView(MergeObject itemData) {
-        if (itemData.isMergeCannel()) {
+    final void listView(Merge itemData) {
+        if (itemData.getMergeStatus() == Merge.Status.CANCEL) {
             return;
         }
 
@@ -118,7 +118,7 @@ public class SearchMergeRequestsFragment extends SearchBaseFragment {
                 JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
                 for (int i = 0; i < array.length(); ++i) {
                     JSONObject item = array.getJSONObject(i);
-                    MergeObject oneData = new MergeObject(item);
+                    Merge oneData = new Merge(item);
                     mData.add(oneData);
                 }
                 emptyView.setVisibility(mData.size() == 0 ? View.VISIBLE : View.GONE);

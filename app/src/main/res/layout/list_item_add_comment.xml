@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<net.coding.program.common.widget.ListItem1 xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:listItem1="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/itemAddComment"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:focusable="false"
-    listItem1:itemCenter="true"
-    listItem1:itemIcon="@drawable/ic_mergefile_add_comment"
-    listItem1:itemTitle="发表评论"
-    tools:showIn="@layout/activity_merge_detail_footer" />
+    android:layout_height="50dp"
+    android:background="@drawable/list_item_selector">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawableLeft="@drawable/maopao_extra_comment"
+        android:drawablePadding="8dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="添加评论"
+        android:textColor="@color/font_3"
+        android:textSize="14sp" />
+
+</RelativeLayout>

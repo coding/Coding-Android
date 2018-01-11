@@ -59,6 +59,13 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/topLine"
+        style="@style/DivideLine"
+        android:layout_alignLeft="@id/contentLayout"
+        android:layout_alignParentTop="true"
+        android:visibility="gone" />
+
+    <View
         android:id="@+id/bottomLine"
         style="@style/DivideLine"
         android:layout_alignLeft="@id/contentLayout"

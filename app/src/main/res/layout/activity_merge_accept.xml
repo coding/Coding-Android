@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/divide"
     android:orientation="vertical"
     tools:context="net.coding.program.project.detail.merge.MergeAcceptActivity">
@@ -55,13 +56,14 @@
 
     <include layout="@layout/divide_bottom_15" />
 
-    <TextView
+    <com.flyco.roundview.RoundTextView
         android:id="@+id/send"
         android:layout_width="match_parent"
+        app:rv_cornerRadius="2dp"
+        app:rv_backgroundColor="@color/font_2"
         android:layout_height="40dp"
         android:layout_marginLeft="@dimen/bottom_button_padding"
         android:layout_marginRight="@dimen/bottom_button_padding"
-        android:background="@drawable/button_merge_accept"
         android:gravity="center"
         android:text="合并"
         android:textColor="@color/font_white" />
