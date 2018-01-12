@@ -57,13 +57,7 @@ public class MainSettingFragment extends BaseFragment {
 
     @AfterViews
     void initMainSettingFragment() {
-        mainSettingToolbar.inflateMenu(R.menu.main_setting);
-        mainSettingToolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.actionAddFollow) {
-                actionAddFollow();
-            }
-            return true;
-        });
+        initMenuItem();
 
         // 企业版没有商城
         if (itemShop != null) {
@@ -71,6 +65,16 @@ public class MainSettingFragment extends BaseFragment {
         }
 
         bindDataUserinfo();
+    }
+
+    protected void initMenuItem() {
+        mainSettingToolbar.inflateMenu(R.menu.main_setting);
+        mainSettingToolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.actionAddFollow) {
+                actionAddFollow();
+            }
+            return true;
+        });
     }
 
     @Override

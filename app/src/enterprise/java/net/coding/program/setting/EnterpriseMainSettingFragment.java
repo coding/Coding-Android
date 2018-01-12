@@ -42,6 +42,12 @@ public class EnterpriseMainSettingFragment extends MainSettingFragment {
         setHasOptionsMenu(false);
     }
 
+
+    @Override
+    protected void initMenuItem() {
+        // 没有菜单
+    }
+
     @Click
     void itemManager() {
         EnterpriseAccountActivity_.intent(this).start();
