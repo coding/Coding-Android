@@ -353,10 +353,12 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
     }
 
     protected void iconfromNetwork(ImageView view, String url) {
+        url = Global.translateStaticIcon(url);
         imageLoadTool.loadImage(view, Global.makeSmallUrl(view, url));
     }
 
     protected void iconfromNetwork(ImageView view, String url, SimpleImageLoadingListener animate) {
+        url = Global.translateStaticIcon(url);
         imageLoadTool.loadImage(view, Global.makeSmallUrl(view, url), animate);
     }
 

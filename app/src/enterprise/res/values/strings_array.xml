@@ -33,6 +33,38 @@
         <item>提交代码、合并请求一步到位</item>
     </string-array>
 
+    <string-array name="user_info_list_first">
+        <item>姓名</item>
+        <item>性别</item>
+        <item>生日</item>
+        <item>所在地</item>
+        <item>座右铭</item>
+        <item>学历</item>
+        <item>学校</item>
+        <item>部门</item>
+        <item>工作</item>
+        <item>开发技能</item>
+        <item>个性标签</item>
+    </string-array>
+
+
+    <string-array name="user_detail_more_list_first">
+        <item>加入时间</item>
+        <item>最后活动</item>
+        <item>姓名</item>
+        <item>性别</item>
+        <item>生日</item>
+        <item>所在地</item>
+        <item>座右铭</item>
+        <item>学历</item>
+        <item>学校</item>
+        <item>部门</item>
+        <item>职位</item>
+        <item>开发技能</item>
+        <item>个性标签</item>
+    </string-array>
+
+
 
     <string-array name="guide_gif_down">
         <item></item>

@@ -127,7 +127,9 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         @Override
         public void onClick(View v) {
             final DynamicObject.DynamicMergeRequest comment = (DynamicObject.DynamicMergeRequest) v.getTag();
-            if (comment != null && comment.user.global_key.equals(GlobalData.sUserObject.global_key)) {
+            if (comment == null) return;
+
+            if (comment.user.global_key.equals(GlobalData.sUserObject.global_key)) {
                 showDialog("Merge Request", "删除评论？", (dialog, which) -> {
                     String url = mMerge.getHttpDeleteComment(comment.id);
                     deleteNetwork(url, HOST_DELETE_COMMENT, comment);

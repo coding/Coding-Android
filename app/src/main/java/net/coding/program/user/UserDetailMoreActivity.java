@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.common.util.BlankViewHelp;
@@ -169,7 +170,7 @@ public class UserDetailMoreActivity extends BackActivity {
         degreeTextView.setText(notEmpty(mUserObject.getUserDegree()));
         schoolTextView.setText(notEmpty(mUserObject.school));
         skillTextView.setText(notEmpty(mUserObject.getUserSkills()));
-    }
+   }
 
     private String notEmpty(String s) {
         if (s.isEmpty()) {

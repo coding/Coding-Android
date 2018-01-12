@@ -184,7 +184,7 @@ open class ImagePagerFragment : BaseFragment() {
                                                 client = null
                                                 try {
                                                     MediaStore.Images.Media.insertImage(context.contentResolver, mFile?.path ?: "", mFile?.name ?: "", "from coding")
-                                                    showButtomToast("图片已保存到:" + file1.path)
+                                                    showButtomToast("图片已保存到本机，可以在系统相册中查看")
                                                 } catch (e: Exception) {
                                                     e.printStackTrace()
                                                 }

@@ -25,6 +25,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.common.CameraPhotoUtil;
 import net.coding.program.common.DatePickerFragment;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.maopao.ClickImageParam;
 import net.coding.program.common.model.AccountInfo;
@@ -121,6 +122,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                 holder.third = (TextView) convertView.findViewById(R.id.third);
                 holder.divide = convertView.findViewById(R.id.divide);
                 holder.divideLine = convertView.findViewById(R.id.divideLine);
+                holder.contentLayout = convertView.findViewById(R.id.contentLayout);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -157,8 +159,25 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                 holder.divideLine.setVisibility(View.VISIBLE);
             }
 
+
+            // 企业版隐藏几项
+            if (GlobalData.isEnterprise()) {
+                if (position == 5 || position == 6 || position == 9) {
+                    holder.contentLayout.setVisibility(View.GONE);
+                } else {
+                    holder.contentLayout.setVisibility(View.VISIBLE);
+                }
+
+                if (position == 6) {
+                    holder.divide.setVisibility(View.VISIBLE);
+                    holder.divideLine.setVisibility(View.GONE);
+                }
+            }
+
+
             return convertView;
         }
+
     };
 
     String HOST_JOB = Global.HOST_API + "/options/jobs";
@@ -172,7 +191,9 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
 
                 case USERINFO_NAME:
                     //昵称
-                    SetUserInfoActivity_.intent(UserDetailEditActivity.this).title("昵称").row(USERINFO_NAME).startForResult(ListModify.RESULT_EDIT_LIST);
+                    SetUserInfoActivity_.intent(UserDetailEditActivity.this)
+                            .title(GlobalData.isEnterprise() ? "姓名" : "昵称")
+                            .row(USERINFO_NAME).startForResult(ListModify.RESULT_EDIT_LIST);
                     break;
 
                 case USERINFO_SEX:
@@ -228,7 +249,9 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
 
                 case USERINFO_COMPANY:
                     //公司
-                    SetUserInfoActivity_.intent(UserDetailEditActivity.this).title("公司").row(USERINFO_COMPANY).startForResult(ListModify.RESULT_EDIT_LIST);
+                    SetUserInfoActivity_.intent(UserDetailEditActivity.this)
+                            .title(GlobalData.isEnterprise() ? "部门" : "公司")
+                            .row(USERINFO_COMPANY).startForResult(ListModify.RESULT_EDIT_LIST);
                     break;
 
                 case USERINFO_JOB:
@@ -287,7 +310,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         user = AccountInfo.loadAccount(this);
         lastVIP = user.vip;
 
-        if (user.phoneAndEmailValid() || user.isHighLevel()) {
+        if (user.phoneAndEmailValid() || user.isHighLevel() || GlobalData.isEnterprise()) {
             topTip.setVisibility(View.GONE);
         } else {
             topTip.setVisibility(View.VISIBLE);
@@ -535,6 +558,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         TextView third;
         View divide;
         View divideLine;
+        View contentLayout;
     }
 
 }
