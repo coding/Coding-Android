@@ -332,6 +332,8 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         if (!refuse && accept != null && !accept && !cancel && !auth && !cancelAuth) {
             actionLayout.setVisibility(View.GONE);
         } else {
+            if (cancel) refuse = false; // 显示"取消"按钮的时候不显示"拒绝"
+
             if (accept != null) {
                 actionAccept.setVisibility(accept ? View.VISIBLE : View.GONE);
                 actionAccept.setAlpha(1f);

@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.loopj.android.http.PersistentCookieStore;
+import com.orhanobut.logger.Logger;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import org.json.JSONObject;
@@ -208,7 +209,7 @@ public class Global {
         }
 
         e.printStackTrace();
-        Log.e("", "" + e);
+        Logger.e("Coding", "" + e);
     }
 
     public static String encodeInput(String at, String input) {

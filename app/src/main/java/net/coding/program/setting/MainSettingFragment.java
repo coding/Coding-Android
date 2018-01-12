@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.Global;
@@ -87,8 +88,10 @@ public class MainSettingFragment extends BaseFragment {
         iconfromNetwork(userIcon, me.avatar);
         userIcon.setTag(me);
 
-        if (me.isFillInfo() || me.isHighLevel()) {
-            topTip.setVisibility(View.GONE);
+        if (GlobalData.isEnterprise() || me.isFillInfo() || me.isHighLevel()) {
+            if (topTip != null) {
+                topTip.setVisibility(View.GONE);
+            }
         }
     }
 

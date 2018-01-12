@@ -17,7 +17,6 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.param.MessageParse;
 import net.coding.program.network.constant.VIP;
 
-import org.androidannotations.annotations.res.StringArrayRes;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -832,6 +831,31 @@ public class DynamicObject {
 
         public String comment_content;
         public int action_icon;
+        public MergeComment comment;
+
+        public static class MergeComment implements Serializable {
+
+            public UserObject user;
+            public TopicLabelObject label;
+
+            private static final long serialVersionUID = -1623893273311282227L;
+
+            public MergeComment(JSONObject json) {
+                try {
+                    if (json.has("author")) {
+                        user = new UserObject(json.optJSONObject("author"));
+                    }
+                    if (json.has("reviewer")) {
+                        user = new UserObject(json.optJSONObject("reviewer"));
+                    }
+                    if (json.has("label")) {
+                        label = new TopicLabelObject(new JSONObject(json.optString("label")));
+                    }
+                } catch (Exception e) {
+                    Global.errorLog(e);
+                }
+            }
+        }
 
         public DynamicMergeRequest(JSONObject json, boolean isComment) throws JSONException {
             this(json);
@@ -845,6 +869,10 @@ public class DynamicObject {
             comment_content = json.optString("content");
             if (json.has("commit")) {
                 comment_content = json.optString("commit");
+            }
+
+            if (json.has("comment")) {
+                comment = new MergeComment(json.optJSONObject("comment"));
             }
             if (TextUtils.isEmpty(action_msg)) {
                 if (action.equals("create")) {
@@ -885,15 +913,49 @@ public class DynamicObject {
                     action_icon = R.drawable.merge_request_edit;
                 } else if (action.equals("comment")) {
                     action_msg = "发表了评论";
+                } else if (action.equals("add_reviewer")) {
+                    action_msg = getUserMessage("增加评审者 %s");
+                    action_icon = R.drawable.merge_request_reviewer;
+                } else if (action.equals("del_reviewer")) {
+                    action_msg = getUserMessage("移除评审者 %s");
+                    action_icon = R.drawable.merge_request_reviewer;
+                } else if (action.equals("add_watcher")) {
+                    action_msg = getUserMessage("添加关注者 %s");
+                    action_icon = R.drawable.merge_request_watch;
+                } else if (action.equals("del_watcher")) {
+                    action_msg = getUserMessage("移除关注者 %s");
+                    action_icon = R.drawable.merge_request_watch;
+                } else if (action.equals("add_label")) {
+                    action_msg = getLabelMessage("添加标签 %s");
+                    action_icon = R.drawable.merge_request_tag;
+                } else if (action.equals("del_label")) {
+                    action_msg = getLabelMessage("移除标签 %s");
+                    action_icon = R.drawable.merge_request_tag;
                 } else if (action.equals("comment_commit")) {
                     outDate = json.optBoolean("outdated");
                     action_msg = "对文件改动发起了评论";
                     action_icon = outDate ? R.drawable.merge_request_outdate : R.drawable.merge_request_commont_commit;
                 } else {
                     action_msg = "";
-                    action_icon = R.drawable.merge_request_edit;
+                    action_icon = R.drawable.merge_request_default;
                 }
             }
+        }
+
+        private String getUserMessage(String template) {
+            String s = "";
+            if (comment != null && comment.user != null && comment.user.name != null) {
+                s = comment.user.name;
+            }
+            return String.format(template, s);
+        }
+
+        private String getLabelMessage(String template) {
+            String s = "";
+            if (comment != null && comment.label != null && comment.label.name != null) {
+                s = comment.label.name;
+            }
+            return String.format(template, s);
         }
 
         @Override

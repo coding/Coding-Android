@@ -344,7 +344,9 @@ public class AccountInfo {
         for (String uriString : uris) {
             Uri uri = Uri.parse(uriString);
             String[] item = uri.getPath().split("@");
-            if (item.length >= 2 && item[1].equals("Coding") && item[0].equals(globalKey)) {
+            if (item.length >= 2 &&
+                    (item[1].equals("Coding") || item[1].equals("CodingEnterprise")) &&
+                    item[0].equals(globalKey)) {
                 return uriString;
             }
         }

@@ -139,6 +139,10 @@ public class DiffFile implements Serializable {
                 return R.drawable.ic_mergefile_modify;
             } else if (changeType.equals("ADD")) {
                 return R.drawable.ic_mergefile_add;
+            } else if (changeType.equals("RENAME")) {
+                return R.drawable.ic_mergefile_rename;
+            } else if (changeType.equals("COPY")) {
+                return R.drawable.ic_mergefile_copy;
             } else { // DELETE
                 return R.drawable.ic_mergefile_delete;
             }
