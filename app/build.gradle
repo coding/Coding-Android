@@ -51,8 +51,8 @@ android {
         person {
             dimension "mode"
             applicationId "net.coding.program"
-            versionCode 495
-            versionName "4.9.5"
+            versionCode 500
+            versionName "5.0"
             targetSdkVersion 23
         }
         enterprise {
