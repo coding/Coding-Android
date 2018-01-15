@@ -276,9 +276,9 @@ public class MainActivity extends BaseActivity {
         // 信鸽 push 服务会发 broadcast
 //        if (!MyApp.isDebug()) {
 //            XGPushConfig.enableDebug(this, true);
-            String globalKey = GlobalData.sUserObject.global_key;
-            XGPushManager.registerPush(this, globalKey);
-            pushInXiaomi();
+        String globalKey = GlobalData.sUserObject.global_key;
+        XGPushManager.registerPush(this, globalKey);
+        pushInXiaomi();
 //        }
     }
 
@@ -581,6 +581,4 @@ public class MainActivity extends BaseActivity {
         }
         bottomBar.getTabWithId(R.id.tabMessage).setBadgeCount(notifyCount);
     }
-
-
 }
