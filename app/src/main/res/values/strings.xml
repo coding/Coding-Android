@@ -263,5 +263,6 @@
     <string name="merge_close">未处理</string>
     <string name="upload_ing">正在上传图片...</string>
     <string name="upload_img_success">上传图片成功</string>
+    <string name="readme_file_name">README.md</string>
 
 </resources>

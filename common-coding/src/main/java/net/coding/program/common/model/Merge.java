@@ -32,7 +32,7 @@ public class Merge implements Serializable {
     private UserObject author;
     private UserObject action_author;
     private long action_at;
-    private SourceDepot source_depot;
+    private Depot source_depot;
     private String merged_sha = "";
     private String content = "";
     private boolean srcExist;
@@ -70,7 +70,7 @@ public class Merge implements Serializable {
         }
         action_at = json.optLong("action_at");
         if (json.has("source_depot")) {
-            source_depot = new SourceDepot(json.optJSONObject("source_depot"));
+            source_depot = new Depot(json.optJSONObject("source_depot"));
         }
         merged_sha = json.optString("merged_sha");
         srcExist = json.optBoolean("srcExist");
@@ -133,13 +133,10 @@ public class Merge implements Serializable {
         this.created_at = created_at;
     }
 
-    public SourceDepot getSource_depot() {
+    public Depot getSource_depot() {
         return source_depot;
     }
 
-    public void setSource_depot(SourceDepot source_depot) {
-        this.source_depot = source_depot;
-    }
 
     public String getContent() {
         if (!content.isEmpty()) {

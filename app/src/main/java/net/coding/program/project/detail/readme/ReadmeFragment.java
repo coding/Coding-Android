@@ -103,7 +103,7 @@ public class ReadmeFragment extends BaseFragment {
     }
 
     private void showEmptyReadme() {
-        readme.setText("README.md");
+        readme.setText(R.string.readme_file_name);
         needReadme.setVisibility(View.VISIBLE);
         webView.setVisibility(View.GONE);
     }
