@@ -1,7 +1,6 @@
 package net.coding.program.common;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
@@ -11,12 +10,10 @@ import android.text.style.ImageSpan;
 import android.text.style.QuoteSpan;
 import android.text.style.URLSpan;
 import android.view.View;
-import android.webkit.WebView;
 
 import net.coding.program.common.enter.GifImageSpan;
 import net.coding.program.common.htmltext.GrayQuoteSpan;
 import net.coding.program.common.model.AccountInfo;
-import net.coding.program.common.model.GitFileObject;
 import net.coding.program.route.URLSpanNoUnderline;
 
 import java.util.HashMap;

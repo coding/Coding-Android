@@ -11,6 +11,7 @@ public class WikiEvent {
         this.action = action;
         this.wiki = wiki;
     }
+
     public WikiEvent() {
     }
 }

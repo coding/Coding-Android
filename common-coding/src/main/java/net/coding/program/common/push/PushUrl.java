@@ -2,8 +2,6 @@ package net.coding.program.common.push;
 
 import android.net.Uri;
 
-import net.coding.program.common.Global;
-
 /**
  * Created by chenchao on 16/1/18.
  */

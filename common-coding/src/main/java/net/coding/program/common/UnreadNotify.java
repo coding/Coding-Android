@@ -7,8 +7,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.readystatesoftware.viewbadger.BadgeView;
 
-import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.event.EventNotifyBottomBar;
+import net.coding.program.common.network.MyAsyncHttpClient;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;

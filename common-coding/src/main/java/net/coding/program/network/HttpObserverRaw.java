@@ -10,7 +10,6 @@ import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.widget.CommonListView;
 import net.coding.program.network.model.BaseHttpResult;
-import net.coding.program.network.model.HttpResult;
 
 import org.json.JSONObject;
 

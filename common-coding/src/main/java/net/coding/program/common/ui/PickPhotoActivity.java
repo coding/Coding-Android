@@ -7,9 +7,9 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 
 import net.coding.program.R;
+import net.coding.program.common.CameraPhotoUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.util.FileUtil;
-import net.coding.program.common.CameraPhotoUtil;
 
 import org.androidannotations.annotations.EActivity;
 

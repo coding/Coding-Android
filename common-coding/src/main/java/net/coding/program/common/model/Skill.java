@@ -37,7 +37,8 @@ public class Skill implements Serializable {
         level = json.optInt("level");
     }
 
-    public Skill() {}
+    public Skill() {
+    }
 
     @Override
     public String toString() {

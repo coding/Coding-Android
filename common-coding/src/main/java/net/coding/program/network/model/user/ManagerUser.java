@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  * Created by chenchao on 2017/5/22.
- *  管理用户
+ * 管理用户
  */
 
 public class ManagerUser implements Serializable {

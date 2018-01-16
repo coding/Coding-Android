@@ -12,15 +12,18 @@ public class EventFilterDetail {
     public String label;
     public String status;
     public String keyword;
+
     public EventFilterDetail(String meAction, String label, int status, String keyword) {
         this.meAction = meAction;
         this.label = label;
         this.status = String.valueOf(status);
         this.keyword = keyword;
     }
+
     public EventFilterDetail(String meAction) {
         this.meAction = meAction;
     }
+
     public EventFilterDetail(String label, String status, String keyword) {
         this.label = label;
         this.status = status;

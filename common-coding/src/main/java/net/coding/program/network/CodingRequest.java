@@ -154,7 +154,7 @@ public interface CodingRequest {
     @Multipart
     @POST("project/{id}/project_icon")
     Observable<HttpResult<ProjectObject>> setProjectIcon(@Path("id") int projectId,
-            @Part MultipartBody.Part body);
+                                                         @Part MultipartBody.Part body);
 
     @GET("options/skills")
     Observable<IntKeyMapHttpResult> getSkills();
@@ -180,7 +180,7 @@ public interface CodingRequest {
     @GET("update/app")
     Observable<AppVersion> getAppVersion();
 
-//    @GET("user/updateInfo")
+    //    @GET("user/updateInfo")
     @GET("options/skills")
     Observable<HttpResult<HashMap<Integer, String>>> getAllSkills();
 

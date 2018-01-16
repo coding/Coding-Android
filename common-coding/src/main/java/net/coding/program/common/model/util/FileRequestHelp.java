@@ -3,10 +3,10 @@ package net.coding.program.common.model.util;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.Global;
-import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.model.AttachmentFileHistoryObject;
 import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.model.RequestData;
+import net.coding.program.common.util.FileUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

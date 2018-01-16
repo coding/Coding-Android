@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 /**
  * Created by chenchao on 2017/11/28.
- *
  */
 public class MarkedMarketingData implements Serializable {
     public String mGlobalKey = "";

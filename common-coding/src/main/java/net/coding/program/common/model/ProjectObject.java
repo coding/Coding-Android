@@ -7,7 +7,6 @@ import net.coding.program.common.Global;
 import net.coding.program.common.GlobalData;
 import net.coding.program.network.constant.MemberAuthority;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;

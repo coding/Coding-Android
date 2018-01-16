@@ -198,7 +198,6 @@ public class Network {
         if (interceptorCookie != null) builder.addInterceptor(interceptorCookie);
 
 
-
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 

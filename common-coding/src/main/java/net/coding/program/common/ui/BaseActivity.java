@@ -25,11 +25,11 @@ import net.coding.program.common.GlobalSetting;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.UnreadNotify;
+import net.coding.program.common.model.RequestData;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.umeng.UmengActivity;
 import net.coding.program.common.util.SingleToast;
-import net.coding.program.common.model.RequestData;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -184,7 +184,6 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         }
 
         GlobalSetting.getInstance().removeMessageNoNotify();
-
 
 
         super.onDestroy();

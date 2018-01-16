@@ -30,6 +30,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import net.coding.program.R;
 import net.coding.program.common.FootUpdate;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.StartActivity;
@@ -38,7 +39,6 @@ import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.network.UmengFragment;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.util.SingleToast;
-import net.coding.program.common.GlobalCommon;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;

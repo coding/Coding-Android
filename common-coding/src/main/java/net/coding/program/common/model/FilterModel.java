@@ -31,6 +31,7 @@ public class FilterModel {
         this.status = 0;
         this.keyword = keyword;
     }
+
     public FilterModel(List<TaskLabelModel> labelModels) {
         this.labelModels = labelModels;
     }

@@ -139,7 +139,6 @@ public class Maopao {
     }
 
 
-
     public static class Like_user extends DynamicObject.User implements Serializable {
         public Type type = Type.Like; // 0表示点赞，1表示打赏
 

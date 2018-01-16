@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class Depot implements Serializable {
 
     private static final long serialVersionUID = -9111895567170031794L;
+
     protected int id; //: 5164,
     protected int parent_id; // 0,
     protected int project_id; // 5166,

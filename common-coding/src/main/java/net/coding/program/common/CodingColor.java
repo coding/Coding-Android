@@ -2,6 +2,7 @@ package net.coding.program.common;
 
 import android.content.Context;
 import android.content.res.Resources;
+
 import net.coding.program.R;
 
 /**

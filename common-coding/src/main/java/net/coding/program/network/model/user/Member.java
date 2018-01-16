@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  * Created by chenchao on 2017/5/24.
- *  项目成员
+ * 项目成员
  */
 public class Member implements Serializable {
 
