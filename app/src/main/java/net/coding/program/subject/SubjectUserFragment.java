@@ -12,9 +12,9 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoadMore;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.compatible.CodingCompat;
-import net.coding.program.common.model.UserObject;
 import net.coding.program.subject.adapter.SubjectUserListAdapter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -32,7 +32,6 @@ import java.util.List;
 
 /**
  * Created by david on 15-7-28.
- *
  */
 @EFragment(R.layout.fragment_subject_list)
 public class SubjectUserFragment extends RefreshBaseFragment implements LoadMore {

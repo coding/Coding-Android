@@ -191,17 +191,17 @@
             tools:text="深圳市扣钉网络科技有限公司" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="14dp"
-                android:layout_toRightOf="@id/icon"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:lines="1"
-                android:textColor="@color/font_2"
-                android:textSize="13sp"
-                android:text="企业账户管理中心"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="14dp"
+            android:layout_toRightOf="@id/icon"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/font_2"
+            android:textSize="13sp"
+            android:text="企业账户管理中心" />
 
     </RelativeLayout>
 

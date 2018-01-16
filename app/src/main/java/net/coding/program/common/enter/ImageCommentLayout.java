@@ -9,10 +9,10 @@ import android.widget.ImageView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.ImageInfo;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.maopao.ContentAreaMushImageOption;
 import net.coding.program.common.util.PermissionUtil;
-import net.coding.program.common.ImageInfo;
 import net.coding.program.pickphoto.PhotoPickActivity;
 import net.coding.program.pickphoto.PhotoPickDetailActivity;
 

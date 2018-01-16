@@ -64,7 +64,7 @@ public class EnterpriseAccount implements Serializable {
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Logger.d("today %s %s %s", df.format(new Long(today)), df.format(new Long(end)), diffDay);
-        return (int)diffDay;
+        return (int) diffDay;
     }
 
     private long setHour0(Calendar calendar) {

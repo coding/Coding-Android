@@ -6,13 +6,13 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.maopao.MaopaoRequestTag;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.LongClickLinkMovementMethod;
-import net.coding.program.maopao.MaopaoListBaseFragment;
+import net.coding.program.common.maopao.MaopaoRequestTag;
 import net.coding.program.common.model.Maopao;
 import net.coding.program.common.param.MessageParse;
+import net.coding.program.maopao.MaopaoListBaseFragment;
 
 /**
  * Created by chaochen on 15/1/14.

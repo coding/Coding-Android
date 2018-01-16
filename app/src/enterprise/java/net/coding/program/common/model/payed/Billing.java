@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 public class Billing implements Serializable {
 
     static final SimpleDateFormat df = new SimpleDateFormat("yyyy.MM.dd");
-    static final  SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm");
+    static final SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm");
 
     private static final long serialVersionUID = 7066544112808570842L;
     public int id;

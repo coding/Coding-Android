@@ -11,9 +11,9 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.team.TeamListObject;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.ProjectHomeActivity_;
 

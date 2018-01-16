@@ -12,15 +12,15 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import net.coding.program.R;
-import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.shadow.LoadMoreRecyclerViewSpace;
 import net.coding.program.common.widget.RefreshBaseActivity;
-import net.coding.program.common.model.ProjectObject;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.Pager;
 import net.coding.program.project.init.create.ProjectCreateActivity_;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.search.SearchProjectActivity_;
 
 import org.androidannotations.annotations.AfterViews;

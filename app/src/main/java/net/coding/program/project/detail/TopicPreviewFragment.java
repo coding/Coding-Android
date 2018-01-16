@@ -9,11 +9,11 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.CodingGlobal;
 import net.coding.program.R;
 import net.coding.program.common.base.MyJsonResponse;
-import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.TopicLabelObject;
 import net.coding.program.common.model.topic.TopicData;
+import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.ui.BaseFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

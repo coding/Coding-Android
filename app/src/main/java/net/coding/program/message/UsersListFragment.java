@@ -17,20 +17,20 @@ import com.loopj.android.http.RequestParams;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.R;
-import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
-import net.coding.program.util.TextWatcherAt;
 import net.coding.program.common.Unread;
 import net.coding.program.common.UnreadNotify;
-import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.Message;
 import net.coding.program.common.model.UserObject;
+import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.user.UsersListActivity;
+import net.coding.program.util.TextWatcherAt;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

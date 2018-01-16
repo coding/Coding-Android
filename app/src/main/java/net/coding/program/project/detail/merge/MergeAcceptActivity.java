@@ -4,10 +4,10 @@ import android.view.View;
 import android.widget.EditText;
 
 import net.coding.program.R;
-import net.coding.program.common.ui.BackActivity;
-import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.model.MergeDetail;
 import net.coding.program.common.model.RequestData;
+import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;

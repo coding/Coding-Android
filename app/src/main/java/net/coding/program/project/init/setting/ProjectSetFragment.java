@@ -14,9 +14,9 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
-import net.coding.program.common.model.ProjectObject;
 import net.coding.program.project.EventProjectModify;
 import net.coding.program.project.init.setting.v2.ProjectSetFragmentBase;
 

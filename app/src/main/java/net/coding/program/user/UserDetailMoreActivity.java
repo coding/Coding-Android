@@ -8,14 +8,12 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalData;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.UserObject;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.network.HttpObserverRaw;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.HttpResult;
-import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -170,7 +168,7 @@ public class UserDetailMoreActivity extends BackActivity {
         degreeTextView.setText(notEmpty(mUserObject.getUserDegree()));
         schoolTextView.setText(notEmpty(mUserObject.school));
         skillTextView.setText(notEmpty(mUserObject.getUserSkills()));
-   }
+    }
 
     private String notEmpty(String s) {
         if (s.isEmpty()) {

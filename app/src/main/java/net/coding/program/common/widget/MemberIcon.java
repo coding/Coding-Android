@@ -7,9 +7,9 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
 import net.coding.program.R;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.network.constant.VIP;
-import net.coding.program.common.GlobalCommon;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

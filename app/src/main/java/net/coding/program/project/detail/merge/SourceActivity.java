@@ -5,8 +5,8 @@ import android.webkit.WebView;
 import net.coding.program.CodingGlobal;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.GitFileObject;
+import net.coding.program.common.ui.BackActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

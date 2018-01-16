@@ -6,14 +6,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
+import net.coding.program.common.event.EventFilter;
+import net.coding.program.common.event.EventPosition;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.PermissionUtil;
-import net.coding.program.common.event.EventFilter;
-import net.coding.program.common.event.EventPosition;
 import net.coding.program.login.auth.QRScanActivity;
 import net.coding.program.maopao.MaopaoAddActivity_;
 import net.coding.program.project.init.create.ProjectCreateActivity_;

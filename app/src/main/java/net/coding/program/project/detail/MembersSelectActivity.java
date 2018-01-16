@@ -8,9 +8,9 @@ import android.view.MenuItem;
 
 import net.coding.program.R;
 import net.coding.program.common.base.CustomMoreFragment;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.Merge;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.project.detail.merge.MergeReviewerListFragment_;
 
 import org.androidannotations.annotations.AfterViews;

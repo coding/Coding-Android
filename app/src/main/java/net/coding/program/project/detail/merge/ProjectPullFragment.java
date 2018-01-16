@@ -8,8 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.widget.RadioGroup;
 
 import net.coding.program.R;
-import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.ui.BaseFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

@@ -17,16 +17,16 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.maopao.MaopaoRequestTag;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.util.DensityUtil;
 import net.coding.program.common.widget.ListItem1;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.message.MessageListActivity_;
-import net.coding.program.common.model.UserObject;
 import net.coding.program.project.detail.file.LocalProjectFileActivity_;
 
 import org.androidannotations.annotations.AfterViews;

@@ -7,9 +7,9 @@ import android.content.Intent;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.StartActivity;
-import net.coding.program.util.TextWatcherAt;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.project.detail.TopicEditFragment;
+import net.coding.program.util.TextWatcherAt;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

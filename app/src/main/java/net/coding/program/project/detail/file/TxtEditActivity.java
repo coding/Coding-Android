@@ -1,6 +1,5 @@
 package net.coding.program.project.detail.file;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -8,15 +7,13 @@ import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.RequestData;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.common.model.AttachmentFileObject;
-import net.coding.program.common.model.RequestData;
 import net.coding.program.common.util.BlankViewHelp;
-import net.coding.program.project.detail.AttachmentsActivity;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity;
-import net.coding.program.project.detail.file.v2.DownloadHelp;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

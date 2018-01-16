@@ -15,8 +15,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
 
 public class LoginAutoCompleteEdit extends AutoCompleteTextView {
     private static final String TAG = "LoginAutoCompleteEdit";

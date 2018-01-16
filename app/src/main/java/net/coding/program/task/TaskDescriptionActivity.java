@@ -6,9 +6,9 @@ import android.support.v4.app.Fragment;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.TaskObject;
 import net.coding.program.common.model.topic.TopicData;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.project.detail.EditPreviewMarkdown;
 
 import org.androidannotations.annotations.AfterViews;

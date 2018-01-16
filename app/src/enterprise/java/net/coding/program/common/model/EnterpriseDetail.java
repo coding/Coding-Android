@@ -66,7 +66,8 @@ public class EnterpriseDetail implements Serializable {
         return identity;
     }
 
-    public EnterpriseDetail() {}
+    public EnterpriseDetail() {
+    }
 
     public String getAvatar() {
         return avatar;

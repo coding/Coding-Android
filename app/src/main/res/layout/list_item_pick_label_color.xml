@@ -18,16 +18,16 @@
         tools:src="@color/font_green" />
 
     <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/icon"
-            android:ellipsize="end"
-            android:lines="1"
-            android:textColor="@color/font_1"
-            android:textSize="16sp"
-            tools:text="红色"/>
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/icon"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@color/font_1"
+        android:textSize="16sp"
+        tools:text="红色" />
 
     <ImageView
         android:id="@+id/picked"

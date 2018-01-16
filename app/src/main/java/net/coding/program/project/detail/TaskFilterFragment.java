@@ -10,11 +10,11 @@ import net.coding.program.R;
 import net.coding.program.common.DrawerLayoutHelper;
 import net.coding.program.common.FilterListener;
 import net.coding.program.common.Global;
-import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.common.event.EventFilterDetail;
 import net.coding.program.common.model.FilterModel;
 import net.coding.program.common.model.TaskLabelModel;
 import net.coding.program.common.model.TaskProjectCountModel;
+import net.coding.program.common.network.LoadingFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -24,7 +24,6 @@ import java.util.List;
 
 /**
  * Created by anfs on 16/12/2016.
- *
  */
 public class TaskFilterFragment extends LoadingFragment {
 

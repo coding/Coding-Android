@@ -7,15 +7,15 @@
     android:layout_marginRight="@dimen/padding_15">
 
     <EditText
-            android:id="@+id/editValify"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@null"
-            android:hint="验证码"
-            android:lines="1"
-            android:textCursorDrawable="@null"
-            android:textSize="18sp"/>
+        android:id="@+id/editValify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@null"
+        android:hint="验证码"
+        android:lines="1"
+        android:textCursorDrawable="@null"
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/imageValify"

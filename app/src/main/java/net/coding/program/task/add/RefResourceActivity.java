@@ -12,10 +12,10 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
-import net.coding.program.route.URLSpanNoUnderline;
+import net.coding.program.common.model.RefResourceObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.common.model.RefResourceObject;
+import net.coding.program.route.URLSpanNoUnderline;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

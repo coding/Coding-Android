@@ -13,7 +13,8 @@ import android.widget.TextView;
 public class HoloUtils {
     /**
      * 关键词加高亮
-     *  @param textView
+     *
+     * @param textView
      * @param content
      */
     @BindingAdapter({"textEM"})

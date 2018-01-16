@@ -1,9 +1,9 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:duration="700">
     <!--<translate-->
-        <!--android:duration="700"-->
-        <!--android:fromXDelta="0%p"-->
-        <!--android:toXDelta="-100%p" />-->
+    <!--android:duration="700"-->
+    <!--android:fromXDelta="0%p"-->
+    <!--android:toXDelta="-100%p" />-->
     <alpha
         android:duration="700"
         android:fromAlpha="1.0"

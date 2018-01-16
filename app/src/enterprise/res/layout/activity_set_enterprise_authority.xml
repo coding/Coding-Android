@@ -17,8 +17,7 @@
             android:id="@+id/enterprseManager"
             layout="@layout/dropdown_tab_list_item" />
 
-        <View
-            style="@style/DivideLine_15" />
+        <View style="@style/DivideLine_15" />
 
         <include
             android:id="@+id/enterpriseMember"
@@ -28,6 +27,8 @@
 
     </LinearLayout>
 
-    <include layout="@layout/view_exception" android:id="@+id/blankLayout" />
+    <include
+        layout="@layout/view_exception"
+        android:id="@+id/blankLayout" />
 
 </FrameLayout>

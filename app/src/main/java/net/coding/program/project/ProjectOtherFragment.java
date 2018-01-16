@@ -17,8 +17,8 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.param.ProjectJumpParam;
 
 import org.androidannotations.annotations.AfterViews;
@@ -38,7 +38,6 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created by Vernon on 15/11/15.
- *
  */
 @EFragment(R.layout.project_list_fragment)
 public class ProjectOtherFragment extends RefreshBaseFragment implements View.OnClickListener {

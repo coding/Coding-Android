@@ -4,14 +4,14 @@ import android.view.View;
 import android.widget.AbsListView;
 
 import net.coding.program.R;
-import net.coding.program.pickphoto.ClickSmallImage;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.comment.BaseCommentParam;
-import net.coding.program.common.widget.RefreshBaseActivity;
 import net.coding.program.common.model.Commit;
+import net.coding.program.common.widget.RefreshBaseActivity;
+import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.project.detail.merge.CommitFileListActivity_;
-import net.coding.program.common.GlobalCommon;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

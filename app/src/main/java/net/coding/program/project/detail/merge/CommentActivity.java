@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import net.coding.program.R;
-import net.coding.program.common.ui.BackActivity;
-import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.model.BaseComment;
 import net.coding.program.common.model.RequestData;
 import net.coding.program.common.model.topic.TopicData;
+import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.task.TaskDespPreviewFragment_;

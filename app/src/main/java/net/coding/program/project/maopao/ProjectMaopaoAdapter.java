@@ -7,16 +7,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
-import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
-import net.coding.program.maopao.ContentArea;
 import net.coding.program.common.model.Maopao;
+import net.coding.program.maopao.ContentArea;
+import net.coding.program.pickphoto.ClickSmallImage;
 
 import java.util.List;
 

@@ -8,9 +8,9 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.EnterpriseDetail;
 import net.coding.program.common.model.EnterpriseInfo;
+import net.coding.program.common.ui.BackActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -28,20 +28,20 @@ public class EnterpriseNameActivity extends BackActivity {
 
     public static String getHostCurrent() {
         String host = String.format("%s/team/%s", Global.HOST_API, EnterpriseInfo.instance().getGlobalkey());
-        return host+"/update";
+        return host + "/update";
     }
 
     @ViewById
     EditText enterpriseNameEt;
 
     @AfterViews
-    void initView(){
+    void initView() {
         setActionBarTitle(getString(R.string.enterprise_name));
         enterpriseNameEt.setText(EnterpriseInfo.instance().getName());
     }
 
     @OptionsItem
-    void action_edit_name(){
+    void action_edit_name() {
         String name = enterpriseNameEt.getText().toString();
         if (!TextUtils.isEmpty(name)) {
             RequestParams params = new RequestParams();
@@ -61,7 +61,7 @@ public class EnterpriseNameActivity extends BackActivity {
                 EnterpriseInfo.instance().update(this, detail);
                 setResult(Activity.RESULT_OK);
                 this.finish();
-            }else{
+            } else {
                 showErrorMsg(code, respanse);
             }
         }

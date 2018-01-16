@@ -16,18 +16,18 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.melnykov.fab.FloatingActionButton;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.RedPointTip;
-import net.coding.program.guide.IndicatorView;
-import net.coding.program.route.URLSpanNoUnderline;
-import net.coding.program.common.network.LoadingFragment;
-import net.coding.program.common.util.LoadGifUtil;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.BannerObject;
 import net.coding.program.common.model.UserObject;
+import net.coding.program.common.network.LoadingFragment;
+import net.coding.program.common.util.LoadGifUtil;
+import net.coding.program.guide.IndicatorView;
+import net.coding.program.route.URLSpanNoUnderline;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

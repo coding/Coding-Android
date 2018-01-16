@@ -15,23 +15,23 @@ import android.widget.Toast;
 import com.loopj.android.http.RequestParams;
 import com.melnykov.fab.FloatingActionButton;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
-import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ListModify;
-import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.common.util.BlankViewHelp;
-import net.coding.program.common.widget.FlowLabelLayout;
 import net.coding.program.common.event.EventFilterDetail;
 import net.coding.program.common.event.EventRefreshTask;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.TaskObject;
+import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.util.BlankViewHelp;
+import net.coding.program.common.widget.FlowLabelLayout;
 import net.coding.program.network.model.user.Member;
+import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.task.add.TaskAddActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -48,12 +48,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 @EFragment(R.layout.fragment_task_list)
 public class TaskListFragment extends RefreshBaseFragment {

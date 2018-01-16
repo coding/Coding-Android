@@ -15,11 +15,11 @@ import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoadMore;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.AttachmentFolderObject;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.holder.FolderHolder;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.common.model.AttachmentFileObject;
-import net.coding.program.common.model.AttachmentFolderObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

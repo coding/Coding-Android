@@ -11,7 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -53,7 +52,6 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.MainInputView;
 import net.coding.program.maopao.item.CommentArea;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
-import net.coding.program.maopao.share.CustomShareBoard;
 import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.setting.ValidePhoneActivity_;
@@ -548,7 +546,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-   protected void hideSoftkeyboard() {
+    protected void hideSoftkeyboard() {
         if (!mEnterLayout.isShow()) {
             return;
         }

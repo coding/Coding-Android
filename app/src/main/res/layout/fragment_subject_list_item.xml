@@ -26,15 +26,15 @@
 
 
                 <TextView
-                        android:id="@+id/subject_list_item_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="#我最爱的变成语言#"
-                        android:textColor="@color/font_1"
-                        android:textSize="16sp"
-                        android:textStyle="bold"/>
+                    android:id="@+id/subject_list_item_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="#我最爱的变成语言#"
+                    android:textColor="@color/font_1"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/subject_list_item_content"

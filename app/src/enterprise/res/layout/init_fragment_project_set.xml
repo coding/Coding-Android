@@ -33,15 +33,15 @@
             android:visibility="gone" />
 
         <TextView
-                android:id="@+id/projectName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:lines="1"
-                android:text="Medium Text"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_1"
-                android:textSize="18sp"/>
+            android:id="@+id/projectName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:lines="1"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/font_1"
+            android:textSize="18sp" />
 
     </LinearLayout>
 

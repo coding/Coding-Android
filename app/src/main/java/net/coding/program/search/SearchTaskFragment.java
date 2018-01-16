@@ -4,8 +4,8 @@ import android.view.View;
 import android.widget.AbsListView;
 
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.adapter.SearchReslutAdapter;
+import net.coding.program.common.Global;
 import net.coding.program.common.model.TaskObject;
 import net.coding.program.task.add.TaskAddActivity_;
 import net.coding.program.task.add.TaskJumpParams;

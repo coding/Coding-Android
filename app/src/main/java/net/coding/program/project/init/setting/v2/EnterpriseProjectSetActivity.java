@@ -13,10 +13,10 @@ import android.widget.ImageView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.PickPhotoActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
-import net.coding.program.common.model.ProjectObject;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;

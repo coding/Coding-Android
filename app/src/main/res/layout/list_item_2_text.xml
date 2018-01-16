@@ -19,19 +19,19 @@
         android:textSize="16sp" />
 
     <TextView
-            android:id="@+id/second"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/first"
-            android:layout_toRightOf="@+id/first"
-            android:ellipsize="end"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="left"
-            android:scrollHorizontally="true"
-            android:lines="1"
-            android:textColor="@color/font_1"
-            android:textSize="16sp"
-            tools:text="askdfja;lskdjf;alksdjf;alksdjf;alsdfasdf"/>
+        android:id="@+id/second"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/first"
+        android:layout_toRightOf="@+id/first"
+        android:ellipsize="end"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="left"
+        android:scrollHorizontally="true"
+        android:lines="1"
+        android:textColor="@color/font_1"
+        android:textSize="16sp"
+        tools:text="askdfja;lskdjf;alksdjf;alksdjf;alsdfasdf" />
 
 </RelativeLayout>

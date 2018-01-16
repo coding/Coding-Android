@@ -12,12 +12,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.ViewHolder;
-import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.common.model.Maopao;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.maopao.MaopaoDetailActivity_;
 
 import java.text.SimpleDateFormat;
 import java.util.List;

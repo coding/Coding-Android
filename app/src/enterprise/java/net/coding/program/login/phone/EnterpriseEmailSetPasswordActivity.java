@@ -15,7 +15,6 @@ import org.androidannotations.annotations.ViewById;
 
 /**
  * Created by chenchao on 2017/1/4.
- *
  */
 @EActivity(R.layout.enterprise_activity_email_set_password)
 public class EnterpriseEmailSetPasswordActivity extends EmailSetPasswordActivity {

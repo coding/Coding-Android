@@ -7,11 +7,11 @@ import android.widget.ImageView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.maopao.ClickImageParam;
-import net.coding.program.common.maopao.ContentAreaMushImageOption;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.maopao.ClickImageParam;
+import net.coding.program.common.maopao.ContentAreaMushImageOption;
 import net.coding.program.common.param.MessageParse;
 
 import org.apmem.tools.layouts.FlowLayout;

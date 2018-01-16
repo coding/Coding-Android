@@ -14,14 +14,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.CommentBackup;
 import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
-import net.coding.program.common.widget.EnterLayoutAnimSupportContainer;
 import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
+import net.coding.program.common.widget.EnterLayoutAnimSupportContainer;
 
 import java.lang.reflect.Method;
 

@@ -44,7 +44,7 @@ public class Order implements Serializable {
                 statusColor = CodingColor.fontOrange;
                 break;
             case "closed":
-                statusString =  "关闭";
+                statusString = "关闭";
                 statusColor = CodingColor.font4;
                 break;
             default: // success

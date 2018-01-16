@@ -25,29 +25,29 @@
             android:paddingRight="@dimen/padding_15">
 
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="15dp"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:lines="1"
-                    android:text="位置名称"
-                    android:textColor="@color/font_2"
-                    android:textSize="16sp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:lines="1"
+                android:text="位置名称"
+                android:textColor="@color/font_2"
+                android:textSize="16sp" />
 
             <EditText
-                    android:id="@+id/nameText"
-                    android:layout_width="0px"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:lines="1"
-                    android:text=""
-                    android:textColor="@color/font_1"
-                    android:textSize="16sp"/>
+                android:id="@+id/nameText"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:lines="1"
+                android:text=""
+                android:textColor="@color/font_1"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <View
@@ -64,30 +64,30 @@
             android:paddingRight="@dimen/padding_15">
 
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="15dp"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:lines="1"
-                    android:text="所在地区"
-                    android:textColor="@color/font_2"
-                    android:textSize="16sp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:lines="1"
+                android:text="所在地区"
+                android:textColor="@color/font_2"
+                android:textSize="16sp" />
 
             <EditText
-                    android:id="@+id/areaText"
-                    android:layout_width="0px"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:editable="false"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:lines="1"
-                    android:text=""
-                    android:textColor="@color/font_1"
-                    android:textSize="16sp"/>
+                android:id="@+id/areaText"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:editable="false"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:lines="1"
+                android:text=""
+                android:textColor="@color/font_1"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <View
@@ -104,31 +104,31 @@
             android:paddingRight="@dimen/padding_15">
 
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="15dp"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:lines="1"
-                    android:text="详细地址"
-                    android:textColor="@color/font_2"
-                    android:textSize="16sp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:lines="1"
+                android:text="详细地址"
+                android:textColor="@color/font_2"
+                android:textSize="16sp" />
 
             <EditText
-                    android:id="@+id/addressText"
-                    android:layout_width="0px"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:hint="街道门牌信息"
-                    android:maxLines="1"
-                    android:lines="1"
-                    android:text=""
-                    android:textColor="@color/font_1"
-                    android:textColorHint="#a3a3a3"
-                    android:textSize="16sp"/>
+                android:id="@+id/addressText"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:hint="街道门牌信息"
+                android:maxLines="1"
+                android:lines="1"
+                android:text=""
+                android:textColor="@color/font_1"
+                android:textColorHint="#a3a3a3"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <View

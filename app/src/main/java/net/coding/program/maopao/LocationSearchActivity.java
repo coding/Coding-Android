@@ -17,9 +17,9 @@ import com.baidu.mapapi.model.LatLng;
 
 import net.coding.program.R;
 import net.coding.program.common.LoadMore;
+import net.coding.program.common.module.maopao.LocationObject;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.maopao.item.LocationItem;
-import net.coding.program.common.module.maopao.LocationObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

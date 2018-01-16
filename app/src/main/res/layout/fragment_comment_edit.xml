@@ -5,18 +5,18 @@
     android:orientation="vertical">
 
     <EditText
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_15"
-            android:layout_marginRight="@dimen/padding_15"
-            android:layout_marginTop="18dp"
-            android:background="@null"
-            android:hint="讨论标题"
-            android:lines="1"
-            android:text="我我问"
-            android:textColor="@color/font_1"
-            android:visibility="gone"/>
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_15"
+        android:layout_marginRight="@dimen/padding_15"
+        android:layout_marginTop="18dp"
+        android:background="@null"
+        android:hint="讨论标题"
+        android:lines="1"
+        android:text="我我问"
+        android:textColor="@color/font_1"
+        android:visibility="gone" />
 
     <View
         android:layout_width="match_parent"

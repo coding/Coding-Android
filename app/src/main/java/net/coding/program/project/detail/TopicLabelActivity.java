@@ -17,10 +17,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import net.coding.program.R;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.RequestData;
 import net.coding.program.common.model.TopicLabelObject;
 import net.coding.program.common.model.TopicObject;
+import net.coding.program.common.ui.BackActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

@@ -12,7 +12,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by chenchao on 15/12/2.
- *
  */
 public class LikeUserImage extends CircleImageView {
 

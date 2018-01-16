@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.widget.FrameLayout;
 
 import net.coding.program.R;
-import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.ui.BaseFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

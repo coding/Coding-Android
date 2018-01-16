@@ -7,9 +7,9 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.network.model.user.Member;
 import net.coding.program.project.detail.MembersActivity_;
 

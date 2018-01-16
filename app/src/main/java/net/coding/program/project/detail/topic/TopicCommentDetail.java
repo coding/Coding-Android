@@ -10,15 +10,15 @@ import android.widget.EditText;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
-import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.maopao.item.ImageCommentHolder;
 import net.coding.program.common.model.TopicObject;
 import net.coding.program.common.model.topic.TopicComment;
 import net.coding.program.common.model.topic.TopicCommentChild;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.maopao.item.ImageCommentHolder;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

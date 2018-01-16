@@ -23,16 +23,16 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.coding.program.R;
+import net.coding.program.common.CameraPhotoUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.CameraPhotoUtil;
+import net.coding.program.common.event.EventRefresh;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.compatible.UriCompat;
-import net.coding.program.common.event.EventRefresh;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.ProjectHomeActivity_;
 

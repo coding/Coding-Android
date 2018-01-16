@@ -11,9 +11,9 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.TopicLabelObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.common.model.TopicLabelObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

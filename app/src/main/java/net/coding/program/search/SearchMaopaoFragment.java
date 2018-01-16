@@ -4,9 +4,9 @@ import android.view.View;
 import android.widget.AbsListView;
 
 import net.coding.program.R;
+import net.coding.program.adapter.SearchMaopaoAdapter;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
-import net.coding.program.adapter.SearchMaopaoAdapter;
 import net.coding.program.common.model.Maopao;
 
 import org.androidannotations.annotations.AfterViews;

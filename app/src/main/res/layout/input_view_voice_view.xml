@@ -82,12 +82,12 @@
         </FrameLayout>
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/voiceRecordButton"
-                android:layout_centerHorizontal="true"
-                android:text="@string/sliding_upwards_and_cancel_sending"
-                android:textColor="@color/font_3"
-                android:textSize="14sp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/voiceRecordButton"
+            android:layout_centerHorizontal="true"
+            android:text="@string/sliding_upwards_and_cancel_sending"
+            android:textColor="@color/font_3"
+            android:textSize="14sp" />
     </com.skyfishjy.library.RippleBackground>
 </merge>

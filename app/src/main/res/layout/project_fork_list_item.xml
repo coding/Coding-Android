@@ -22,29 +22,29 @@
             android:src="@drawable/ic_default_image" />
 
         <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/icon"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@id/icon"
-                android:lines="1"
-                android:text="Medium Text"
-                android:textColor="@color/font_1"
-                android:textSize="18sp"/>
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/icon"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/icon"
+            android:lines="1"
+            android:text="Medium Text"
+            android:textColor="@color/font_1"
+            android:textSize="18sp" />
 
         <TextView
-                android:id="@+id/comment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/icon"
-                android:layout_alignLeft="@+id/name"
-                android:layout_marginBottom="5dp"
-                android:lines="1"
-                android:text="cc"
-                android:textColor="@color/font_3"
-                android:textSize="15sp"/>
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/icon"
+            android:layout_alignLeft="@+id/name"
+            android:layout_marginBottom="5dp"
+            android:lines="1"
+            android:text="cc"
+            android:textColor="@color/font_3"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 </FrameLayout>

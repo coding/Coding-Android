@@ -13,7 +13,6 @@ import java.util.Set;
 
 /**
  * Created by chenchao on 2017/5/15.
- *
  */
 public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFileHolder> {
 
@@ -77,7 +76,7 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
 
     @Override
     protected int getNormalLayoutResId() {
-        return R.layout.project_file_list_item ;
+        return R.layout.project_file_list_item;
     }
 
     @Override
@@ -95,7 +94,7 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
         holder.bind(data, editMode, selectFiles);
     }
 
-//    @Override
+    //    @Override
 //    public ProjectFileHolder newFooterHolder(View view) {
 //        return new ProjectFileHolder(view);
 //    }

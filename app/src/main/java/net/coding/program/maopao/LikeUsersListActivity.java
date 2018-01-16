@@ -10,13 +10,13 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BackActivity;
-import net.coding.program.compatible.CodingCompat;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.model.DynamicObject;
 import net.coding.program.common.model.Maopao;
+import net.coding.program.common.ui.BackActivity;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.network.constant.VIP;
 import net.coding.program.user.UserDetailActivity;
 

@@ -9,7 +9,7 @@
     android:orientation="vertical"
     tools:context="net.coding.program.setting.EnterpriseSettingActivity">
 
-    <include layout="@layout/divide_middle_15"/>
+    <include layout="@layout/divide_middle_15" />
 
     <LinearLayout
         android:id="@+id/enterpriseHeadLayout"
@@ -27,7 +27,7 @@
             android:layout_weight="1"
             android:textSize="15sp"
             android:textColor="@color/list_font_title"
-            android:text="@string/enterprise_head"/>
+            android:text="@string/enterprise_head" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/enterpriseHead"
@@ -35,11 +35,11 @@
             android:layout_height="50dp"
             app:civ_border_width="0.5dp"
             app:civ_border_color="@color/divide_line"
-            android:src="@drawable/ic_loading_logo"/>
+            android:src="@drawable/ic_loading_logo" />
 
     </LinearLayout>
 
-    <include layout="@layout/divide_middle_15"/>
+    <include layout="@layout/divide_middle_15" />
 
     <LinearLayout
         android:id="@+id/enterpriseName"
@@ -57,7 +57,7 @@
             android:layout_weight="1"
             android:textSize="15sp"
             android:textColor="@color/list_font_title"
-            android:text="@string/enterprise_name"/>
+            android:text="@string/enterprise_name" />
 
         <TextView
             android:id="@+id/enterpriseNameTv"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:text="Coding"
             android:textSize="15sp"
-            android:textColor="@color/list_font_enable"/>
+            android:textColor="@color/list_font_enable" />
 
     </LinearLayout>
 
@@ -74,7 +74,7 @@
         android:layout_height="0.5dp"
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp"
-        layout="@layout/divide_line_1"/>
+        layout="@layout/divide_line_1" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -91,7 +91,7 @@
             android:layout_weight="1"
             android:textSize="15sp"
             android:textColor="@color/list_font_title"
-            android:text="@string/person_address"/>
+            android:text="@string/person_address" />
 
         <TextView
             android:id="@+id/personIp"
@@ -99,10 +99,10 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:textColor="@color/font_4"
-            tools:text="Coding.coding.net"/>
+            tools:text="Coding.coding.net" />
 
     </LinearLayout>
 
-    <include layout="@layout/divide_bottom_15"/>
+    <include layout="@layout/divide_bottom_15" />
 
 </LinearLayout>

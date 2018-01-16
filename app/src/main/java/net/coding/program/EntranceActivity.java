@@ -18,12 +18,12 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.WeakRefHander;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.login.ResetPasswordActivity_;
 import net.coding.program.login.UserActiveActivity_;
-import net.coding.program.common.model.AccountInfo;
-import net.coding.program.common.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -99,7 +99,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
                 }
 
                 default: {
-                   MyApp.openNewActivityFromMain(this, url);
+                    MyApp.openNewActivityFromMain(this, url);
                 }
             }
 

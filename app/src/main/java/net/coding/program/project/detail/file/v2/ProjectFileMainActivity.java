@@ -30,7 +30,6 @@ import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.model.AttachmentFolderObject;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.ui.shadow.RecyclerViewSpace;
 import net.coding.program.common.umeng.UmengEvent;

@@ -18,10 +18,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.adapter.SearchHistoryListAdapter;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.SearchProjectCache;
-import net.coding.program.adapter.SearchHistoryListAdapter;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.DensityUtil;
 import net.coding.program.common.widget.input.SimpleTextWatcher;

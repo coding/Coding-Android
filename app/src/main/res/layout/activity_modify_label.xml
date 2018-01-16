@@ -28,21 +28,21 @@
             android:src="@drawable/ic_custom_color" />
 
         <EditText
-                android:id="@+id/editText"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="14dp"
-                android:layout_marginRight="12dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:ellipsize="end"
-                android:hint="标签名"
-                android:maxLines="1"
-                android:lines="1"
-                android:text=""
-                android:textColor="@color/font_1"
-                android:textColorHint="#a3a3a3"
-                android:textSize="16sp"/>
+            android:id="@+id/editText"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="12dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:ellipsize="end"
+            android:hint="标签名"
+            android:maxLines="1"
+            android:lines="1"
+            android:text=""
+            android:textColor="@color/font_1"
+            android:textColorHint="#a3a3a3"
+            android:textSize="16sp" />
 
         <!--<ImageView-->
         <!--android:id="@+id/action_add"-->

@@ -42,7 +42,7 @@
             android:layout_marginTop="20dp"
             android:text="深圳市扣钉网络科技有限公司"
             android:textSize="17sp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
@@ -95,7 +95,7 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/divide_middle_15"/>
+    <include layout="@layout/divide_middle_15" />
 
     <net.coding.program.common.widget.ListItem1
         android:id="@+id/itemProject"
@@ -104,7 +104,7 @@
         app:itemIcon="@mipmap/enterprise_account_project"
         app:itemShowBottomLine="true"
         app:itemTitle="@string/title_manage_project_activity"
-        app:itemShowArrow="false"/>
+        app:itemShowArrow="false" />
 
     <net.coding.program.common.widget.ListItem1
         android:id="@+id/itemMember"
@@ -112,7 +112,7 @@
         android:layout_height="wrap_content"
         app:itemIcon="@mipmap/enterprise_account_member"
         app:itemTitle="@string/title_manage_member_activity"
-        app:itemShowArrow="false"/>
+        app:itemShowArrow="false" />
 
     <include layout="@layout/divide_bottom_15" />
 

@@ -13,9 +13,9 @@ import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
-import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.model.DynamicObject;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.detail.MembersSelectActivity_;
 import net.coding.program.project.detail.ProjectActivity_;
@@ -160,7 +160,7 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                 new int[]{CodingColor.divideLine, CodingColor.divideLine},
         };
 
-        mButtonStar = new ProjectMarkButton(buttonStar, titles[0], titlesColors[0], icons[0], backgroundLeft[0],  mProjectObject.stared, mProjectObject.star_count, onClickStatCount);
+        mButtonStar = new ProjectMarkButton(buttonStar, titles[0], titlesColors[0], icons[0], backgroundLeft[0], mProjectObject.stared, mProjectObject.star_count, onClickStatCount);
         mButtonWatch = new ProjectMarkButton(buttonWatch, titles[1], titlesColors[1], icons[1], backgroundLeft[1], mProjectObject.watched, mProjectObject.watch_count, onClickFollowCount);
         mButtonFork = new ProjectMarkButton(buttonFork, titles[2], titlesColors[2], icons[2], backgroundLeft[2], mProjectObject.forked, mProjectObject.fork_count, onClickForkCount);
     }
@@ -299,7 +299,7 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         View mButton;
 
         ProjectMarkButton(View button, String[] title, int[] titleColor, int[] icon, int[] leftBackground,
-                           final boolean mCheck, int mCount, View.OnClickListener onClickListener) {
+                          final boolean mCheck, int mCount, View.OnClickListener onClickListener) {
             this.title = title;
             this.titleColor = titleColor;
             this.icon = icon;

@@ -18,6 +18,7 @@ public class AutoScrollLoopViewPager extends LoopViewPager {
             goForwardSmoothly();
         }
     };
+
     public AutoScrollLoopViewPager(Context context) {
         super(context);
     }

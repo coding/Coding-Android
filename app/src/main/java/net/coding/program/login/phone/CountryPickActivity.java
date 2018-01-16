@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.PhoneCountry;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.third.country.sidebar.IndexableListView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -41,7 +41,7 @@ public class CountryPickActivity extends BackActivity {
     CountryAdapter countryAdapter;
     private ArrayList<PhoneCountry> countryDataSrc = new ArrayList<>();
     private ArrayList<PhoneCountry> countryDataTargetFull = new ArrayList<>();
-//    private Tess adapter;
+    //    private Tess adapter;
     private ArrayList<PhoneCountry> countryDataTargetSearch = new ArrayList<>();
 
 //    private RecyclerView.LayoutManager manager;
@@ -150,7 +150,7 @@ public class CountryPickActivity extends BackActivity {
 
         private final String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private final String TOP_SECTION = "常用";
-//        private ArrayList<String> mSectionTitle = new ArrayList<>();
+        //        private ArrayList<String> mSectionTitle = new ArrayList<>();
 //        private ArrayList<Integer> mSectionId = new ArrayList<>();
         ArrayList<String> headData = new ArrayList<>();
         ArrayList<Integer> posData = new ArrayList<>();

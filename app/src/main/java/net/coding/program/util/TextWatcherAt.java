@@ -6,8 +6,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 
 import net.coding.program.common.StartActivity;
-import net.coding.program.compatible.CodingCompat;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.project.detail.MembersSelectActivity_;
 
 /**

@@ -9,7 +9,8 @@ public class EventProjectModify {
 
     public boolean exitProject = false;
 
-    public EventProjectModify() {}
+    public EventProjectModify() {
+    }
 
     public EventProjectModify setExit() {
         exitProject = true;

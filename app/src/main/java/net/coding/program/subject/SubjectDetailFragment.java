@@ -9,13 +9,13 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.network.LoadingFragment;
-import net.coding.program.common.widget.MemberIcon;
-import net.coding.program.maopao.MaopaoListBaseFragment;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.model.Maopao;
 import net.coding.program.common.model.Subject;
 import net.coding.program.common.model.UserObject;
-import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.network.LoadingFragment;
+import net.coding.program.common.widget.MemberIcon;
+import net.coding.program.maopao.MaopaoListBaseFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

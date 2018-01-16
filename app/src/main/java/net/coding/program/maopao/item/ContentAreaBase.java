@@ -9,11 +9,11 @@ import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.LongClickLinkMovementMethod;
-import net.coding.program.common.util.PhoneUtil;
-import net.coding.program.maopao.MaopaoListBaseFragment;
 import net.coding.program.common.model.Commit;
 import net.coding.program.common.model.TaskObject;
 import net.coding.program.common.param.MessageParse;
+import net.coding.program.common.util.PhoneUtil;
+import net.coding.program.maopao.MaopaoListBaseFragment;
 
 /**
  * Created by chaochen on 14/12/22.

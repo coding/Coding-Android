@@ -98,7 +98,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
     };
     private List<BranchItem> mBranchesData = new ArrayList<>();
 
-//    ExpandableListAdapter versionAdapter = new BaseExpandableListAdapter() {
+    //    ExpandableListAdapter versionAdapter = new BaseExpandableListAdapter() {
 //        @Override
 //        public int getGroupCount() {
 //            return mDataVers.length;

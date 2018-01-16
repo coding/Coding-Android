@@ -10,17 +10,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.WeakRefHander;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
-import net.coding.program.common.model.AccountInfo;
-import net.coding.program.common.model.ProjectObject;
 import net.coding.program.project.EventProjectModify;
 
 import org.androidannotations.annotations.AfterViews;

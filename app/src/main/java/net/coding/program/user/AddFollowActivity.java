@@ -22,17 +22,17 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.WeakRefHander;
-import net.coding.program.common.ui.BackActivity;
-import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.compatible.CodingCompat;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.common.model.project.ProjectServiceInfo;
+import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.network.constant.Friend;
 
 import org.androidannotations.annotations.AfterViews;

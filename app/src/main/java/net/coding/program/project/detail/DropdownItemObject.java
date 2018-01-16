@@ -8,6 +8,7 @@ public class DropdownItemObject {
     public String text;
     public String value;
     private String suffix;
+
     public DropdownItemObject(String text, int id, String value) {
         this.text = text;
         this.id = id;

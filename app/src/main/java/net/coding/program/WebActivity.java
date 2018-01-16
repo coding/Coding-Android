@@ -21,8 +21,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.umeng.socialize.UMShareAPI;
-
 import net.coding.program.common.Global;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseActivity;

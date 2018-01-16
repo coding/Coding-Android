@@ -212,7 +212,6 @@
 
     </LinearLayout>
 
-    <View
-        style="@style/DivideLine_15" />
+    <View style="@style/DivideLine_15" />
 
 </LinearLayout>

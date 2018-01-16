@@ -11,14 +11,14 @@ import android.webkit.WebViewClient;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.CodingGlobal;
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BackActivity;
-import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.model.DiffFile;
 import net.coding.program.common.model.Merge;
 import net.coding.program.common.model.RequestData;
+import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

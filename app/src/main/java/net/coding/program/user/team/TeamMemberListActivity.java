@@ -7,10 +7,10 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BackActivity;
-import net.coding.program.compatible.CodingCompat;
 import net.coding.program.common.model.team.TeamListObject;
 import net.coding.program.common.model.team.TeamMember;
+import net.coding.program.common.ui.BackActivity;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.network.constant.MemberAuthority;
 
 import org.androidannotations.annotations.AfterViews;

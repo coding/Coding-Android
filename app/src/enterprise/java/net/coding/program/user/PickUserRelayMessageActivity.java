@@ -4,9 +4,9 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.HtmlContent;
-import net.coding.program.message.MessageListActivity;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.common.param.MessageParse;
+import net.coding.program.message.MessageListActivity;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;

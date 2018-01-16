@@ -12,10 +12,10 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.base.MyJsonResponse;
-import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.EnterpriseAccount;
 import net.coding.program.common.model.EnterpriseInfo;
+import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.setting.order.OrderMainActivity_;
 
 import org.androidannotations.annotations.AfterViews;

@@ -122,7 +122,7 @@ public class SetUserSkillsActivity extends BackActivity {
         firstPicker.setMaxValue(dialogFirst.size() - 1);
         secondPicker.setDisplayedValues(dialogSecond.toArray(new String[0]));
         secondPicker.setMinValue(0);
-        secondPicker.setMaxValue(dialogSecond.size() -1);
+        secondPicker.setMaxValue(dialogSecond.size() - 1);
 
         new AlertDialog.Builder(this)
                 .setTitle("选择技能")

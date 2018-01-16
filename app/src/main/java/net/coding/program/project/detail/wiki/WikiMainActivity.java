@@ -461,7 +461,6 @@ public class WikiMainActivity extends CodingToolbarBackActivity {
     }
 
 
-
     private void addTreeNode(TreeNode node, List<Wiki> wikis) {
         for (Wiki item : wikis) {
             TreeNode childNode = new TreeNode(item);

@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="net.coding.program.TestActivity">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="net.coding.program.TestActivity">
 
     <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            android:layout_marginTop="200dp"
-            tools:layout_editor_absoluteX="99dp"
-            tools:layout_editor_absoluteY="-183dp"/>
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:layout_marginTop="200dp"
+        tools:layout_editor_absoluteX="99dp"
+        tools:layout_editor_absoluteY="-183dp" />
 
     <net.coding.program.common.widget.BottomToolBar
-            app:btb_xml="@xml/bottomtoolbar_file_upload"
-            style="@style/BottomToolBar"/>
+        app:btb_xml="@xml/bottomtoolbar_file_upload"
+        style="@style/BottomToolBar" />
 </FrameLayout>

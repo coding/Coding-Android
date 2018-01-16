@@ -7,18 +7,18 @@ import android.widget.ListView;
 
 import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
-import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.Maopao;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.widget.RefreshBaseActivity;
 import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.maopao.MaopaoDetailActivity_;
-import net.coding.program.common.model.Maopao;
-import net.coding.program.common.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

@@ -2,21 +2,19 @@ package net.coding.program.project.detail.wiki;
 
 import android.support.annotation.NonNull;
 
-import info.hoang8f.android.segmented.SegmentedGroup;
-
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BackActivity;
-import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.event.EventRefresh;
 import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.topic.TopicData;
+import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.wiki.Wiki;
-import net.coding.program.param.ProjectJumpParam;
-import net.coding.program.common.model.topic.TopicData;
 import net.coding.program.network.model.wiki.WikiDraft;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.project.detail.TopicEditFragment;
 import net.coding.program.project.detail.TopicPreviewFragment;
@@ -31,6 +29,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import info.hoang8f.android.segmented.SegmentedGroup;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 

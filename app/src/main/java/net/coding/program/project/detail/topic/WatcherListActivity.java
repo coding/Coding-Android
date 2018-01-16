@@ -7,8 +7,8 @@ import android.view.View;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
-import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.model.UserObject;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.network.model.user.Member;
 import net.coding.program.project.detail.MembersActivity;
 

@@ -7,10 +7,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
 import net.coding.program.R;
-import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.event.EventExitCode;
 import net.coding.program.common.model.GitFileInfoObject;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.ui.CodingToolbarBackActivity;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;

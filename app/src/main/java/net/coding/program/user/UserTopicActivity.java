@@ -8,8 +8,8 @@ import android.support.v7.app.ActionBar;
 import android.util.TypedValue;
 
 import net.coding.program.R;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.UserObject;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.subject.SubjectListFragment;
 import net.coding.program.subject.SubjectListFragment_;
 import net.coding.program.third.WechatTab;

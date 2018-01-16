@@ -10,8 +10,8 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoadMore;
-import net.coding.program.common.widget.DataAdapter;
 import net.coding.program.common.model.Merge;
+import net.coding.program.common.widget.DataAdapter;
 import net.coding.program.project.detail.TopicListFragment;
 
 import java.util.ArrayList;

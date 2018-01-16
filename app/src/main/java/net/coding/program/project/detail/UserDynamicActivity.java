@@ -3,8 +3,8 @@ package net.coding.program.project.detail;
 import android.os.Bundle;
 
 import net.coding.program.R;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.network.model.user.Member;
 
 import org.androidannotations.annotations.AfterViews;

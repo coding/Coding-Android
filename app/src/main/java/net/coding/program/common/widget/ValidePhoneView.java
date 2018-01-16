@@ -2,7 +2,6 @@ package net.coding.program.common.widget;
 
 import android.content.Context;
 import android.os.CountDownTimer;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -13,12 +12,12 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.PhoneCountry;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.PopCaptchaDialog;
 import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.OnTextChange;
-import net.coding.program.common.model.PhoneCountry;
 
 import org.json.JSONObject;
 

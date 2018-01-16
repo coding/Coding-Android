@@ -10,9 +10,9 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.model.ISubjectRecommendObject;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-
 import java.util.List;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
  * Created by david on 15-7-20.

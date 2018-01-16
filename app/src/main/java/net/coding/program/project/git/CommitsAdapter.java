@@ -9,8 +9,8 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.comment.BaseCommentParam;
-import net.coding.program.login.auth.Utilities;
 import net.coding.program.common.model.Commit;
+import net.coding.program.login.auth.Utilities;
 import net.coding.program.project.detail.merge.SimpleData1Adaper;
 
 import java.util.ArrayList;

@@ -9,12 +9,15 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.PhoneCountry;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.ViewStyleUtil;
@@ -23,9 +26,6 @@ import net.coding.program.common.widget.ValidePhoneView;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.login.phone.CountryPickActivity_;
-import net.coding.program.common.model.AccountInfo;
-import net.coding.program.common.model.PhoneCountry;
-import net.coding.program.common.model.UserObject;
 import net.coding.program.user.UserPointActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -38,7 +38,6 @@ import org.json.JSONObject;
 
 /**
  * Created by chenchao on 15/12/28.
- *
  */
 
 @EActivity(R.layout.activity_valide_phone)

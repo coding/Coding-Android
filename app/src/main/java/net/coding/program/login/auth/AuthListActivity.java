@@ -17,9 +17,9 @@ import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.WeakRefHander;
+import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.common.model.AccountInfo;
 
 import java.util.ArrayList;
 

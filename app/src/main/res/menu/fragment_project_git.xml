@@ -19,19 +19,19 @@
 
         <!--<menu>-->
 
-            <item
-                android:id="@+id/action_create_file"
-                android:title="@string/create_file"
-                app:showAsAction="never" />
-            <item
-                android:id="@+id/action_upload_picture"
-                android:title="@string/upload_picture"
-                app:showAsAction="never" />
+        <item
+            android:id="@+id/action_create_file"
+            android:title="@string/create_file"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_upload_picture"
+            android:title="@string/upload_picture"
+            app:showAsAction="never" />
 
-            <item
-                android:id="@+id/action_exit_code"
-                android:title="@string/action_exit_code"
-                app:showAsAction="never" />
+        <item
+            android:id="@+id/action_exit_code"
+            android:title="@string/action_exit_code"
+            app:showAsAction="never" />
         <!--</menu>-->
         <!--<item-->
         <!--android:id="@+id/action_copy"-->

@@ -232,7 +232,6 @@ dependencies {
     implementation project(':share-coding')
 }
 
-
 // 新功能提示，使用弹出框的样式 start ----------------------------------------------------------------
 repositories {
     maven {

@@ -1,9 +1,8 @@
 package net.coding.program.project.init.setting;
 
 import net.coding.program.R;
-import net.coding.program.common.model.request.Project;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.project.EventProjectModify;
 
 import org.androidannotations.annotations.AfterViews;
@@ -14,7 +13,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by jack wang on 2015/3/31.
- *
  */
 @EActivity(R.layout.init_activity_common)
 public class ProjectSetActivity extends BackActivity {

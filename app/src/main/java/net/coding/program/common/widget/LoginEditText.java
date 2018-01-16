@@ -21,9 +21,9 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.util.OnTextChange;
-import net.coding.program.common.GlobalCommon;
 
 import cz.msebera.android.httpclient.Header;
 

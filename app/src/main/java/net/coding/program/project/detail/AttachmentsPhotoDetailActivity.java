@@ -15,7 +15,6 @@ import net.coding.program.common.Global;
 import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.widget.BottomToolBar;
 import net.coding.program.pickphoto.detail.ImagePagerFragment;
-import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

@@ -2,8 +2,8 @@ package net.coding.program.compatible;
 
 import android.text.TextUtils;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 
 /**
  * Created by chenchao on 2017/1/17.

@@ -3,7 +3,6 @@ package net.coding.program.setting;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.GlobalData;
 import net.coding.program.common.ui.BackActivity;

@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.model.MallItemObject;
+import net.coding.program.common.util.SingleToast;
 import net.coding.program.setting.ValidePhoneActivity_;
 
 import java.math.BigDecimal;

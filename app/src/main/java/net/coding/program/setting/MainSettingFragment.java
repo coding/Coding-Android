@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.Global;

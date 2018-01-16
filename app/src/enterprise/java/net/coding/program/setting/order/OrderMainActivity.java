@@ -20,12 +20,12 @@ import com.orhanobut.logger.Logger;
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.event.EventRefresh;
 import net.coding.program.common.model.EnterpriseAccount;
 import net.coding.program.common.model.EnterpriseInfo;
 import net.coding.program.common.model.payed.Billing;
 import net.coding.program.common.model.payed.Order;
+import net.coding.program.common.ui.BackActivity;
 import net.coding.program.third.WechatTab;
 
 import org.androidannotations.annotations.AfterViews;

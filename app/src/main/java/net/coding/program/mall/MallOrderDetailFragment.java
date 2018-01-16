@@ -11,30 +11,18 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.alipay.sdk.app.PayTask;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.RequestParams;
-import com.orhanobut.logger.Logger;
-
 import net.coding.program.R;
-import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.common.Global;
-import net.coding.program.common.base.MyJsonResponse;
-import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.event.EventUpdateOrderList;
 import net.coding.program.common.model.MallOrderObject;
+import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.Network;
-import net.coding.program.network.model.HttpResult;
-import net.coding.program.network.model.point.OrderObject;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,7 +34,6 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import rx.android.schedulers.AndroidSchedulers;

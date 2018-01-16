@@ -6,19 +6,19 @@ import android.view.View;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
-import net.coding.program.common.model.AccountInfo;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

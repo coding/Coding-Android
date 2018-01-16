@@ -14,17 +14,17 @@ import com.flyco.roundview.RoundTextView;
 
 import net.coding.program.R;
 import net.coding.program.common.ActivenessView;
-import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.common.Global;
 import net.coding.program.common.SyncHorizontalScrollView;
 import net.coding.program.common.maopao.ClickImageParam;
+import net.coding.program.common.model.UserObject;
+import net.coding.program.common.model.user.ActiveModel;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.DensityUtil;
 import net.coding.program.common.widget.LoadingView;
 import net.coding.program.message.JSONUtils;
-import net.coding.program.common.model.UserObject;
-import net.coding.program.common.model.user.ActiveModel;
 import net.coding.program.network.constant.Friend;
+import net.coding.program.pickphoto.ClickSmallImage;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.widget.BottomToolBar;
 import net.coding.program.pickphoto.detail.ImagePagerFragment;

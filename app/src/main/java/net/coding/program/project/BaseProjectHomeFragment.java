@@ -7,13 +7,13 @@ import android.widget.TextView;
 
 import com.readystatesoftware.viewbadger.BadgeView;
 
-import net.coding.program.common.GlobalData;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.RedPointTip;
-import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.project.init.setting.ProjectSetActivity_;
 import net.coding.program.project.init.setting.v2.EnterpriseProjectSetActivity_;
 
