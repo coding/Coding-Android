@@ -30,7 +30,7 @@ public class Merge implements Serializable {
     private String src_project_name = "";
     private long created_at;
     private UserObject author;
-    private ActionAuthor action_author;
+    private UserObject action_author;
     private long action_at;
     private SourceDepot source_depot;
     private String merged_sha = "";
@@ -66,7 +66,7 @@ public class Merge implements Serializable {
         created_at = json.optLong("created_at");
         author = new UserObject(json.optJSONObject("author"));
         if (json.has("action_author")) {
-            action_author = new ActionAuthor(json.optJSONObject("action_author"));
+            action_author = new UserObject(json.optJSONObject("action_author"));
         }
         action_at = json.optLong("action_at");
         if (json.has("source_depot")) {
@@ -133,14 +133,6 @@ public class Merge implements Serializable {
         this.created_at = created_at;
     }
 
-    public ActionAuthor getAction_author() {
-        return action_author;
-    }
-
-    public void setAction_author(ActionAuthor action_author) {
-        this.action_author = action_author;
-    }
-
     public SourceDepot getSource_depot() {
         return source_depot;
     }
@@ -205,7 +197,7 @@ public class Merge implements Serializable {
         this.id = id;
     }
 
-    public ActionAuthor getActionAuthor() {
+    public UserObject getActionAuthor() {
         return action_author;
     }
 
@@ -426,33 +418,6 @@ public class Merge implements Serializable {
                 }
             }
             return CANCEL;
-        }
-    }
-
-    public static class ActionAuthor extends UserObject implements Serializable {
-
-        private int status;
-        private int is_member;
-        private int id;
-        private int follows_count;
-        private int fans_count;
-        private int tweets_count;
-        private boolean followed;
-        private boolean follow;
-
-        public ActionAuthor() {
-        }
-
-        public ActionAuthor(JSONObject json) {
-            super(json);
-            status = json.optInt("status");
-            is_member = json.optInt("is_member");
-            id = json.optInt("id");
-            follows_count = json.optInt("follows_count");
-            fans_count = json.optInt("fans_count");
-            tweets_count = json.optInt("tweets_count");
-            followed = json.optBoolean("followed");
-            follow = json.optBoolean("follow");
         }
     }
 
