@@ -239,7 +239,8 @@
 
                         <TextView
                             android:id="@+id/loginFail"
-                            android:layout_width="80dp"
+                            android:layout_width="wrap_content"
+                            android:paddingRight="10dp"
                             android:layout_height="50dp"
                             android:gravity="center"
                             android:text="找回密码"
@@ -254,7 +255,8 @@
 
                         <TextView
                             android:id="@+id/register"
-                            android:layout_width="80dp"
+                            android:layout_width="wrap_content"
+                            android:paddingLeft="10dp"
                             android:layout_height="50dp"
                             android:gravity="center"
                             android:text="注册帐号"
