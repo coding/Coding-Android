@@ -58,7 +58,7 @@
                 <View style="@style/DivideLineHomeList" />
 
                 <include
-                    android:id="@+id/itemTopic"
+                    android:id="@+id/itemWiki"
                     layout="@layout/project_home_list_head_button" />
 
                 <View style="@style/DivideLineHomeList" />
