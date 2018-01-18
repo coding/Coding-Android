@@ -108,7 +108,9 @@ public class MainSettingFragment extends BaseFragment {
     }
 
     void loadUser() {
-        getNetwork(url, TAG_SERVICE_INFO);
+        if (!GlobalData.isEnterprise()) { // 平台版才需要调用这个 API
+            getNetwork(url, TAG_SERVICE_INFO);
+        }
     }
 
     @Override
