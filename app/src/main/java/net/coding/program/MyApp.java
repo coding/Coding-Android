@@ -402,7 +402,7 @@ public class MyApp extends MultiDexApplication {
                 // 用户名
                 final String atSomeOne = "^/u/([\\w.-]+)$";
                 pattern = Pattern.compile(atSomeOne);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     String global = matcher.group(1);
                     CodingCompat.instance().launchUserDetailActivity(context, global);
@@ -413,7 +413,7 @@ public class MyApp extends MultiDexApplication {
                 // https://coding.net/u/8206503/p/TestIt2/topic/mine
                 final String topicList = "^/u/([\\w.-]+)/p/([\\w.-]+)/topic/(mine|all)$";
                 pattern = Pattern.compile(topicList);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     intent.setClass(context, ProjectActivity_.class);
                     ProjectJumpParam param = new ProjectJumpParam(
@@ -429,7 +429,7 @@ public class MyApp extends MultiDexApplication {
                 // https://coding.net/u/8206503/p/AndroidCoding/topic/9638?page=1
                 final String topic = "^/[ut]/([\\w.-]+)/p/([\\w.-]+)/topic/([\\w.-]+)(?:\\?[\\w=&-]*)?(#comment-\\w*)?$";
                 pattern = Pattern.compile(topic);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     intent.setClass(context, TopicListDetailActivity_.class);
                     TopicListDetailActivity.TopicDetailParam param =
@@ -447,7 +447,7 @@ public class MyApp extends MultiDexApplication {
                 //
                 final String project = "^/u/([\\w.-]+)/p/([\\w.-]+)(/git)?$";
                 pattern = Pattern.compile(project);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     intent.setClass(context, ProjectHomeActivity_.class);
                     ProjectJumpParam param = new ProjectJumpParam(
@@ -462,7 +462,7 @@ public class MyApp extends MultiDexApplication {
                 // https://coding.net/u/8206503/pp/9275
                 final String maopao = "^/u/([\\w.-]+)/pp/([\\w.-]+)$";
                 pattern = Pattern.compile(maopao);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     intent.setClass(context, MaopaoDetailActivity_.class);
                     MaopaoDetailActivity.ClickParam param = new MaopaoDetailActivity.ClickParam(
@@ -474,9 +474,9 @@ public class MyApp extends MultiDexApplication {
 
                 // 项目内冒泡
                 // https://coding.net/t/superrocket/p/TestPrivate?pp=2417
-                final String projectMaopao = String.format("^(?:%s)?%s\\?pp=([\\d]+)", Host, ProjectPath);
+                final String projectMaopao = String.format("^%s\\?pp=([\\d]+)", ProjectPath);
                 pattern = Pattern.compile(projectMaopao);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     intent.setClass(context, MaopaoDetailActivity_.class);
                     MaopaoDetailActivity.ClickParam param = new MaopaoDetailActivity.ClickParam(
@@ -488,9 +488,9 @@ public class MyApp extends MultiDexApplication {
 
                 // 冒泡列表
                 // https://codingcorp.coding.net/p/Coding/setting/notice
-                final String projectMaopaoList = String.format("^(?:%s)?%s/setting/notice", Host, ProjectPath);
+                final String projectMaopaoList = String.format("^%s/setting/notice", ProjectPath);
                 pattern = Pattern.compile(projectMaopaoList);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     ProjectJumpParam param = new ProjectJumpParam(matcher.group(1), matcher.group(2));
                     CodingCompat.instance().launchProjectMaopoaList(context, param);
@@ -501,7 +501,7 @@ public class MyApp extends MultiDexApplication {
                 // https://coding.net/u/8206503/pp/9275
                 final String maopaoTopic = "^(?:/u/(?:[\\w.-]+))?/pp/topic/([\\w.-]+)$";
                 pattern = Pattern.compile(maopaoTopic);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     intent.setClass(context, SubjectDetailActivity_.class);
                     intent.putExtra("topicId", Integer.valueOf(matcher.group(1)));
@@ -512,7 +512,7 @@ public class MyApp extends MultiDexApplication {
                 // 还是冒泡话题 https://coding.net/pp/topic/551
                 final String maopao2 = "^/pp/topic/([\\w.-]+)$";
                 pattern = Pattern.compile(maopao2);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     intent.setClass(context, SubjectDetailActivity_.class);
                     intent.putExtra("topicId", Integer.valueOf(matcher.group(1)));
@@ -524,7 +524,7 @@ public class MyApp extends MultiDexApplication {
                 // https://coding.net/u/wzw/p/coding/task/9220
                 final String task = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/task/(\\w+)(#comment-\\w*)?$";
                 pattern = Pattern.compile(task);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     Log.d("", "gg " + matcher.group(1) + " " + matcher.group(2) + " " + matcher.group(3));
                     intent.setClass(context, TaskAddActivity_.class);
@@ -537,9 +537,9 @@ public class MyApp extends MultiDexApplication {
 
 //      我的已过期任务  "/user/tasks"
 //      企业版我的已过期任务  "/user/tasks?owner=23"
-                final String myExpireTask = String.format("(%s)?%s", Global.DEFAULT_HOST, "/user/tasks");
+                final String myExpireTask = "/user/tasks";
                 pattern = Pattern.compile(myExpireTask);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     intent.setClass(context, AllTasksActivity_.class);
                     context.startActivity(intent);
@@ -573,7 +573,7 @@ public class MyApp extends MultiDexApplication {
                 // https://coding.net/u/8206503/p/TestIt2/attachment/65138/projectid/5741/name/aa.jpg
                 final String dir = "^/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/projectid/([\\d]+)/name/(.*+)$";
                 pattern = Pattern.compile(dir);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     AttachmentFolderObject folder = new AttachmentFolderObject();
                     folder.file_id = matcher.group(3);
@@ -603,7 +603,7 @@ public class MyApp extends MultiDexApplication {
                 // https://coding.net/u/8206503/p/TestIt2/attachment/65138/preview/66171/projectid/5741/name/aa.jpg
                 final String dirFile = "^/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/preview/([\\d]+)/projectid/([\\d]+)/name/(.*+)$";
                 pattern = Pattern.compile(dirFile);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     AttachmentFolderObject folder = new AttachmentFolderObject();
                     folder.name = matcher.group(3);
@@ -683,7 +683,7 @@ public class MyApp extends MultiDexApplication {
                 // 跳转到 wiki
                 final String wikiUrl = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/wiki/(\\d+)";
                 pattern = Pattern.compile(wikiUrl);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     intent.setClass(context, WikiMainActivity_.class);
                     WikiMainActivity.JumpParam param = new WikiMainActivity.JumpParam(
@@ -698,7 +698,7 @@ public class MyApp extends MultiDexApplication {
                 // 跳转到merge或pull
                 final String mergeString = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/git/(merge)?(pull)?/(\\d+)";
                 pattern = Pattern.compile(mergeString);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     intent.setClass(context, MergeDetailActivity_.class);
                     intent.putExtra("mMergeUrl", uriString);
@@ -710,7 +710,7 @@ public class MyApp extends MultiDexApplication {
                 // 跳转到commit
                 final String commitString = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/git/commit/.+$";
                 pattern = Pattern.compile(commitString);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     intent.setClass(context, CommitFileListActivity_.class);
                     intent.putExtra("mCommitUrl", uriString);
@@ -722,7 +722,7 @@ public class MyApp extends MultiDexApplication {
                 // 跳转到branch
                 final String branchString = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/git/tree/(.+)$";
                 pattern = Pattern.compile(branchString);
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     intent.setClass(context, BranchMainActivity_.class);
                     String userString = matcher.group(1);
