@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -438,7 +439,8 @@ public class Global {
     }
 
     public static void initWebView(WebView webView) {
-        webView.getSettings().setJavaScriptEnabled(true);
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
 
         // 防止webview滚动时背景变成黑色
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
@@ -447,7 +449,7 @@ public class Global {
             webView.setBackgroundColor(Color.argb(1, 0, 0, 0));
         }
 
-        webView.getSettings().setDefaultTextEncodingName("UTF-8");
+        settings.setDefaultTextEncodingName("UTF-8");
     }
 
     public static boolean isGif(String uri) {

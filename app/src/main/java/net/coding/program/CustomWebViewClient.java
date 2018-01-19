@@ -40,11 +40,7 @@ public class CustomWebViewClient extends WebViewClient {
                 }
             }
         }
-        boolean openActivity = URLSpanNoUnderline.openActivityByUri(mContext, url, false, false);
-        if (!openActivity) {
-            view.loadUrl(url);
-        }
 
-        return !openActivity;
+        return URLSpanNoUnderline.openActivityByUri(mContext, url, false, false);
     }
 }
