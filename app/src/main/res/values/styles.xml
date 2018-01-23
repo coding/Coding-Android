@@ -578,6 +578,20 @@
         <item name="colorControlActivated">@color/font_green</item>
     </style>
 
+    <style name="EditLogin">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/login_edit</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/font_1</item>
+        <item name="android:textColorHint">@color/font_hint</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->
     <!--<item name="android:$1">$2</item>-->

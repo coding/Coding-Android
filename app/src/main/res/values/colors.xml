@@ -22,7 +22,7 @@
     <color name="stand_bg">@color/white</color>
 
     <color name="font_black">@color/black</color>
-    <color name="font_1">#323A45</color>
+    <color name="font_1">#212B3A</color>
     <color name="font_2">#425063</color>
     <color name="font_3">#76808E</color>
     <color name="font_4">#A9B3BE</color>
@@ -33,9 +33,10 @@
 
     <color name="font_white">@color/white</color>
     <color name="font_white_hint">#7fffffff</color>
+    <color name="font_hint">#FFA9B3BE</color>
 
-    <color name="font_green">#2EBE76</color>
-    <color name="font_green_disable">#992EBE76</color>
+    <color name="font_green">#FF0060FF</color>
+    <color name="font_green_disable">#990060FF</color>
     <color name="font_pink">#F75288</color>
     <color name="font_orange">#F68435</color>
     <color name="font_red">#F56061</color>

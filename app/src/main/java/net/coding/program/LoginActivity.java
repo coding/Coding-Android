@@ -2,9 +2,7 @@ package net.coding.program;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -15,17 +13,11 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fivehundredpx.android.blur.BlurringView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.orhanobut.logger.Logger;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
@@ -34,7 +26,6 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.GlobalData;
-import net.coding.program.common.LoginBackground;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.UserObject;
@@ -58,14 +49,12 @@ import net.coding.program.thirdplatform.ThirdPlatformLogin;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FocusChange;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -77,78 +66,43 @@ public class LoginActivity extends BaseActivity {
     public static final String EXTRA_BACKGROUND = "background";
     final float radius = 8;
     final double scaleFactor = 16;
-    final String HOST_USER_RELOGIN = "HOST_USER_RELOGIN";
     final String HOST_USER_NEED_2FA = Global.HOST_API + "/check_two_factor_auth_code";
     private final String TAG_LOGIN = "TAG_LOGIN";
     private final int RESULT_CLOSE = 100;
     private final int RESULT_CLOSE_2FA = 101;
 
-    private final String CLOSE_2FA = "关闭两步验证";
     public String HOST_USER = Global.HOST_API + "/user/key/%s";
     public String HOST_LOGIN_WEIXIN = Global.HOST_API + "/oauth/wechat/mobile/login";
 
-    @Extra
-    Uri background;
     @ViewById
-    ImageView userIcon, backgroundImage, imageValify;
+    ImageView imageValify;
     @ViewById
     LoginAutoCompleteEdit editName;
     @ViewById
     EditText editPassword, editValify, edit2FA;
     @ViewById
-    View captchaLayout, loginButton, layout2fa, loginLayout, layoutRoot;
-    @ViewById
-    TextView loginFail;
-    @ViewById(R.id.blurringView)
-    BlurringView blurringView;
+    View login2FA, loginFail, captchaLayout, loginButton, layout2fa, loginLayout, layoutRoot, layoutTop2FA, register, loginWeixin;
 
-    DisplayImageOptions options = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.drawable.icon_user_monkey)
-            .showImageOnFail(R.drawable.icon_user_monkey)
-            .resetViewBeforeLoading(true)
-            .cacheOnDisk(true)
-            .imageScaleType(ImageScaleType.EXACTLY)
-            .bitmapConfig(Bitmap.Config.RGB_565)
-            .considerExifParams(true)
-            .displayer(new FadeInBitmapDisplayer(300))
-            .build();
     View androidContent;
-    TextWatcher textWatcher = new SimpleTextWatcher() {
-        @Override
-        public void afterTextChanged(Editable s) {
-            upateLoginButton();
-        }
-    };
-    TextWatcher textWatcherName = new SimpleTextWatcher() {
-        @Override
-        public void afterTextChanged(Editable s) {
-            userIcon.setImageResource(R.drawable.icon_user_monkey);
-//            userIcon.setBackgroundResource(R.drawable.icon_user_monkey);
-        }
-    };
+
     private String HOST_NEED_CAPTCHA = Global.HOST_API + "/captcha/login";
     private int clickIconCount = 0;
     private long lastClickTime = 0;
     private String globalKey = "";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @AfterViews
-    void init() {
-        blurringView.setBlurredView(backgroundImage);
-        settingBackground();
-
+    void initLoginActivity() {
         needCaptcha();
-
+        TextWatcher textWatcher = new SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                upateLoginButton();
+            }
+        };
         editName.addTextChangedListener(textWatcher);
         editPassword.addTextChangedListener(textWatcher);
         editValify.addTextChangedListener(textWatcher);
         upateLoginButton();
-
-        editName.addTextChangedListener(textWatcherName);
 
         androidContent = findViewById(android.R.id.content);
         androidContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -213,27 +167,9 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    private void settingBackground() {
-        try {
-//            if (ZhongQiuGuideActivity.isZhongqiu()) {
-//                bitmapDrawable = createBlur(R.drawable.zhongqiu_init_photo);
-//            } else {
-            if (background == null) {
-                LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();
-                File file = photoItem.getCacheFile(this);
-                if (file.exists()) {
-                    background = Uri.fromFile(file);
-                }
-            }
-
-            if (background == null) {
-                backgroundImage.setImageResource(R.drawable.entrance1);
-            } else {
-                ImageLoader.getInstance().displayImage(background.toString(), backgroundImage);
-            }
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
+    @Click
+    void backImage() {
+        onBackPressed();
     }
 
     @Click
@@ -262,10 +198,9 @@ public class LoginActivity extends BaseActivity {
 
     @OnActivityResult(RESULT_CLOSE)
     void resultRegiter(int result) {
-        if (result == Activity.RESULT_OK) {
+        if (result == Activity.RESULT_OK)
             sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
-            finish();
-        }
+        finish();
     }
 
     private void needCaptcha() {
@@ -356,20 +291,21 @@ public class LoginActivity extends BaseActivity {
 
     @Click
     protected final void loginFail() {
-        if (loginFail.getText().toString().equals(CLOSE_2FA)) {
-            Close2FAActivity_.intent(this).startForResult(RESULT_CLOSE_2FA);
-        } else {
-            String account = editName.getText().toString();
-            if (!InputCheck.isPhone(account) && !InputCheck.isEmail(account)) {
-                account = "";
-            }
-            InputAccountActivity_.intent(LoginActivity.this).account(account).start();
+        String account = editName.getText().toString();
+        if (!InputCheck.isPhone(account) && !InputCheck.isEmail(account)) {
+            account = "";
         }
+        InputAccountActivity_.intent(LoginActivity.this).account(account).start();
     }
 
     @Click
-    protected final void login_2fa() {
+    protected final void login2FA() {
         GlobalCommon.start2FAActivity(this);
+    }
+
+    @Click
+    protected final void loginClose2FA() {
+        Close2FAActivity_.intent(this).startForResult(RESULT_CLOSE_2FA);
     }
 
     private void show2FA(boolean show) {
@@ -382,13 +318,23 @@ public class LoginActivity extends BaseActivity {
                 edit2FA.getText().insert(0, code2FA);
                 loginButton();
             }
-            loginFail.setText(CLOSE_2FA);
 
+            layoutTop2FA.setVisibility(View.VISIBLE);
+            login2FA.setVisibility(View.GONE);
+            loginFail.setVisibility(View.GONE);
+
+            register.setVisibility(View.GONE);
+            loginWeixin.setVisibility(View.GONE);
         } else {
             layout2fa.setVisibility(View.GONE);
             loginLayout.setVisibility(View.VISIBLE);
 
-            loginFail.setText("找回密码");
+            layoutTop2FA.setVisibility(View.GONE);
+            login2FA.setVisibility(View.VISIBLE);
+            loginFail.setVisibility(View.VISIBLE);
+
+            register.setVisibility(View.VISIBLE);
+            loginWeixin.setVisibility(View.VISIBLE);
         }
     }
 
@@ -449,11 +395,6 @@ public class LoginActivity extends BaseActivity {
             } else {
                 showErrorMsg(code, respanse);
             }
-        } else if (tag.equals(HOST_USER_RELOGIN)) {
-            if (code == 0) {
-                UserObject user = new UserObject(respanse.getJSONObject("data"));
-                imagefromNetwork(userIcon, user.avatar, options);
-            }
         }
     }
 
@@ -498,8 +439,6 @@ public class LoginActivity extends BaseActivity {
         if (global.isEmpty()) {
             return;
         }
-
-        getNetwork(String.format(HOST_USER, global), HOST_USER_RELOGIN);
     }
 
     private void upateLoginButton() {
