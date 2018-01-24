@@ -38,14 +38,16 @@ public class LoginEditText extends EditText {
                 displayDelete(s.length() > 0);
             }
         });
+
     }
 
     private void displayDelete(boolean show) {
-        if (show) {
-            setDrawableRight(drawable);
-        } else {
-            setDrawableRight(null);
-        }
+        setDrawableRight(null);
+//        if (show) {
+//            setDrawableRight(drawable);
+//        } else {
+//            setDrawableRight(null);
+//        }
     }
 
     private void setDrawableRight(Drawable drawable) {

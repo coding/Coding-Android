@@ -2,6 +2,7 @@ package net.coding.program.common.util;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.widget.EditText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,5 +48,15 @@ public class InputCheck {
         }
         Matcher matcher = Pattern.compile("^[a-zA-Z0-9][a-zA-Z0-9_-]+$").matcher(text);
         return matcher.find();
+    }
+
+    public static boolean checkEditIsFill(EditText... edits) {
+        for (EditText edit : edits) {
+            if (edit.getText().length() <= 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -24,10 +24,8 @@
 
         <ImageView
             android:id="@+id/imageValify"
-            android:layout_width="72dp"
-            android:layout_height="30dp"
-            android:scaleType="fitCenter"
-            android:visibility="gone" />
+            android:visibility="gone"
+            style="@style/CaptchaImage" />
 
     </LinearLayout>
 

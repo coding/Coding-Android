@@ -3,7 +3,6 @@ package net.coding.program;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -129,7 +128,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Click
-    void userIcon() {
+    void loginTitle() {
         long clickTime = Calendar.getInstance().getTimeInMillis();
         long lastTemp = lastClickTime;
         lastClickTime = clickTime;

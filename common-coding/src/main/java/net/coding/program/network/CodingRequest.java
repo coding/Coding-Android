@@ -187,4 +187,21 @@ public interface CodingRequest {
     @GET("user/key/{gk}")
     Observable<HttpResult<UserObject>> getUserInfo(@Path("gk") String gk);
 
+    @GET("user/check")
+    Observable<HttpResult<Boolean>> checkGKRegistered(@Query("key") String gk);
+
+    // 注册检查短信验证码
+    @FormUrlEncoded
+    @POST("account/register/check-verify-code")
+    Observable<HttpResult<Boolean>> checkRegisterMessageCode(@Field("phoneCountryCode") String country,
+                                                             @Field("phone") String phone,
+                                                             @Field("verifyCode") String code);
+
+    // 修改密码检查短信验证码
+    @FormUrlEncoded
+    @POST("account/phone/code/check")
+    Observable<HttpResult<Boolean>> checkMessageCode(@Field("phoneCountryCode") String country,
+                                                     @Field("phone") String phone,
+                                                     @Field("code") String code,
+                                                     @Field("type") String type);
 }

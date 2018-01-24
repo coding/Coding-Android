@@ -32,6 +32,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONObject;
 
+// TODO: 2018/1/24 邮箱注册 删除
 @EActivity(R.layout.activity_email_register)
 public class EmailRegisterActivity extends BackActivity {
 

@@ -685,6 +685,7 @@
         <activity
             android:name=".login.PhoneRegisterActivity_"
             android:label="@string/title_activity_phone_register"
+            android:theme="@style/AppThemeNoActionbar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".login.EmailRegisterActivity_"
