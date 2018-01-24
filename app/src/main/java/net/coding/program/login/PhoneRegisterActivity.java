@@ -141,7 +141,6 @@ public class PhoneRegisterActivity extends BackActivity {
 
     @AfterTextChange({R.id.passwordEdit, R.id.passwordEditAgain, R.id.captchaEdit})
     void validRegisterButton(TextView tv, Editable text) {
-
         if (captchaEditLayout.getVisibility() == View.VISIBLE) {
             loginButton.setEnabled(InputCheck.checkEditIsFill(passwordEdit, passwordEditAgain, captchaEdit));
         } else {

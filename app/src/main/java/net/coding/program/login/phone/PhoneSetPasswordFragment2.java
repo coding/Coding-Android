@@ -3,7 +3,9 @@ package net.coding.program.login.phone;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.text.Editable;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +15,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalData;
+import net.coding.program.common.LoginEditText;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.TermsActivity_;
 import net.coding.program.common.base.MyJsonResponse;
@@ -21,20 +24,25 @@ import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.SingleToast;
-import net.coding.program.common.util.ViewStyleUtil;
-import net.coding.program.common.widget.LoginEditText;
 import net.coding.program.common.widget.ValidePhoneView;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.guide.GuideActivity;
+import net.coding.program.network.HttpObserver;
+import net.coding.program.network.Network;
 
+import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONObject;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 @EFragment(R.layout.fragment_phone_set_password4)
 public class PhoneSetPasswordFragment2 extends BaseFragment {
@@ -43,10 +51,13 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
     String account = "";
 
     @ViewById
-    LoginEditText phoneEdit, phoneCaptchaEdit, passwordEdit, repasswordEdit;
+    LoginEditText phoneEdit, phoneCodeEdit, passwordEdit, passwordEditAgain;
 
     @ViewById
-    TextView loginButton;
+    TextView firstStep, loginButton;
+
+    @ViewById
+    View firstLayout, secondLayout;
 
     @ViewById
     ValidePhoneView sendCode;
@@ -54,9 +65,6 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
     @AfterViews
     final void initPhoneSetPasswordFragment() {
         phoneEdit.setText(account);
-
-        ViewStyleUtil.editTextBindButton(loginButton, phoneEdit, phoneCaptchaEdit, passwordEdit,
-                repasswordEdit);
 
         sendCode.setType(ValidePhoneView.Type.setPassword);
         sendCode.setPhoneString(account);
@@ -76,11 +84,47 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
         super.onStop();
     }
 
+    @AfterTextChange({R.id.phoneEdit, R.id.phoneCodeEdit})
+    void validFirstStepButton(TextView tv, Editable text) {
+        firstStep.setEnabled(InputCheck.checkEditIsFill(phoneEdit, phoneCodeEdit));
+    }
+
+    @AfterTextChange({R.id.passwordEdit, R.id.passwordEditAgain})
+    void validRegisterButton(TextView tv, Editable text) {
+        loginButton.setEnabled(InputCheck.checkEditIsFill(passwordEdit, passwordEditAgain));
+    }
+
+    @Click
+    void firstStep() {
+        showProgressBar(true);
+        Network.getRetrofit(getActivity())
+                .checkMessageCode("+86", phoneEdit.getText().toString(), phoneCodeEdit.getText().toString(), "reset")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpObserver<Boolean>(getActivity()) {
+                    @Override
+                    public void onSuccess(Boolean data) {
+                        showProgressBar(false);
+                        super.onSuccess(data);
+
+                        firstLayout.setVisibility(View.GONE);
+                        secondLayout.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, @NonNull String error) {
+                        super.onFail(errorCode, error);
+                        showProgressBar(false);
+                    }
+                });
+    }
+
+
     @Click
     void loginButton() {
-        String phoneCode = phoneCaptchaEdit.getTextString();
-        String password = passwordEdit.getTextString();
-        String repassword = repasswordEdit.getTextString();
+        String phoneCode = phoneCodeEdit.getText().toString();
+        String password = passwordEdit.getText().toString();
+        String repassword = passwordEditAgain.getText().toString();
 
         if (password.length() < 6) {
             SingleToast.showMiddleToast(getActivity(), "密码至少为6位");
@@ -124,6 +168,19 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
         TermsActivity_.intent(this).start();
     }
 
+    @Click
+    void backImage() {
+        onBackPressed();
+    }
+
+    @Click
+    void emailResetPassword() {
+        getActivity().finish();
+        EmailSetPasswordActivity_.intent(this)
+                .account("")
+                .start();
+    }
+
     protected void loadCurrentUser() {
         AsyncHttpClient client = MyAsyncHttpClient.createClient(getActivity());
         String url = Global.HOST_API + "/current_user";
@@ -153,6 +210,15 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
                 showProgressBar(false, "");
             }
         });
+    }
+
+    public void onBackPressed() {
+        if (firstLayout.getVisibility() != View.VISIBLE) {
+            firstLayout.setVisibility(View.VISIBLE);
+            secondLayout.setVisibility(View.GONE);
+        } else {
+            getActivity().finish();
+        }
     }
 
     private void closeActivity() {

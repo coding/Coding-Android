@@ -597,7 +597,7 @@
         <item name="android:layout_height">50dp</item>
         <item name="android:layout_alignParentEnd">true</item>
         <item name="android:layout_alignParentRight">true</item>
-        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginTop">25dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@drawable/font_login_button</item>
         <item name="android:textSize">17sp</item>
@@ -608,6 +608,15 @@
         <item name="android:layout_width">72dp</item>
         <item name="android:layout_height">30dp</item>
         <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="NewTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:minHeight">42dp</item>
+        <item name="android:textColor">#FF212B3A</item>
+        <item name="android:textSize">30sp</item>
     </style>
 
     <!--正则替换工具-->

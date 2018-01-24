@@ -43,14 +43,9 @@
                 tools:visibility="visible">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/NewTitle"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:minHeight="42dp"
-                    android:text="注册"
-                    android:textColor="#FF212B3A"
-                    android:textSize="30sp" />
+                    android:text="注册" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -85,6 +80,7 @@
                         <net.coding.program.common.LoginEditText
                             android:id="@+id/phoneEdit"
                             style="@style/EditLogin"
+                            android:inputType="phone"
                             android:paddingLeft="55dp"
                             app:hint="手机号"
                             app:loginInput="number"
