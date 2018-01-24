@@ -664,6 +664,7 @@
         <activity
             android:name=".login.phone.EmailSetPasswordActivity_"
             android:label="@string/title_activity_email_set_password"
+            android:theme="@style/AppThemeNoActionbar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".login.phone.PhoneSetPasswordActivity_"
