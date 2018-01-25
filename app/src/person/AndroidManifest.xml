@@ -96,8 +96,8 @@
         <activity
             android:name=".login.phone.Close2FAActivity_"
             android:label="@string/title_activity_close_2fa"
-            tools:replace="android:label"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:replace="android:label" />
     </application>
 
 </manifest>

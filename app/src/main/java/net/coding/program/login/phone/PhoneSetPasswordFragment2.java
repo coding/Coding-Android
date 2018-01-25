@@ -20,6 +20,7 @@ import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.TermsActivity_;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.PhoneCountry;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseActivity;
@@ -38,6 +39,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONObject;
 
@@ -46,6 +48,8 @@ import rx.schedulers.Schedulers;
 
 @EFragment(R.layout.fragment_phone_set_password4)
 public class PhoneSetPasswordFragment2 extends BaseFragment {
+
+    private static final int RESULT_PICK_COUNTRY = 10;
 
     @FragmentArg
     String account = "";
@@ -57,10 +61,15 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
     TextView firstStep, loginButton;
 
     @ViewById
+    TextView countryCode;
+
+    @ViewById
     View firstLayout, secondLayout;
 
     @ViewById
     ValidePhoneView sendCode;
+
+    private PhoneCountry pickCountry = PhoneCountry.getChina();
 
     @AfterViews
     final void initPhoneSetPasswordFragment() {
@@ -76,6 +85,8 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
                 sendCode.setPhoneString(account);
             }
         });
+
+        bindCountry();
     }
 
     @Override
@@ -97,8 +108,9 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
     @Click
     void firstStep() {
         showProgressBar(true);
+
         Network.getRetrofit(getActivity())
-                .checkMessageCode("+86", phoneEdit.getText().toString(), phoneCodeEdit.getText().toString(), "reset")
+                .checkMessageCode(pickCountry.getCountryCode(), phoneEdit.getText().toString(), phoneCodeEdit.getText().toString(), "reset")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpObserver<Boolean>(getActivity()) {
@@ -163,6 +175,11 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
         showProgressBar(true, "");
     }
 
+    private void bindCountry() {
+        countryCode.setText(pickCountry.getCountryCode());
+        sendCode.setPhoneCountry(pickCountry);
+    }
+
     @Click
     void textClause() {
         TermsActivity_.intent(this).start();
@@ -179,6 +196,20 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
         EmailSetPasswordActivity_.intent(this)
                 .account("")
                 .start();
+    }
+
+    @Click
+    void countryCode() {
+        CountryPickActivity_.intent(this)
+                .startForResult(RESULT_PICK_COUNTRY);
+    }
+
+    @OnActivityResult(RESULT_PICK_COUNTRY)
+    void onResultPickCountry(int resultCode, @OnActivityResult.Extra PhoneCountry resultData) {
+        if (resultCode == Activity.RESULT_OK && resultData != null) {
+            pickCountry = resultData;
+            bindCountry();
+        }
     }
 
     protected void loadCurrentUser() {

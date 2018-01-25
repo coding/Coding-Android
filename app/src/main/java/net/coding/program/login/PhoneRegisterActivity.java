@@ -17,6 +17,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.LoginActivity_;
+import net.coding.program.MainActivity_;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
@@ -75,7 +76,7 @@ public class PhoneRegisterActivity extends BackActivity {
     @ViewById
     ValidePhoneView sendCode;
 
-    PhoneCountry pickCountry = PhoneCountry.getChina();
+    private PhoneCountry pickCountry = PhoneCountry.getChina();
 
     @AfterViews
     void initPhoneVerifyFragment() {
@@ -148,7 +149,7 @@ public class PhoneRegisterActivity extends BackActivity {
         }
     }
 
-    void bindCountry() {
+    private void bindCountry() {
         countryCode.setText(pickCountry.getCountryCode());
         sendCode.setPhoneCountry(pickCountry);
     }
@@ -184,8 +185,9 @@ public class PhoneRegisterActivity extends BackActivity {
 
     private void checkMessageCode() {
         showProgressBar(true);
+
         Network.getRetrofit(this)
-                .checkRegisterMessageCode("+86", phoneEdit.getText().toString(), phoneCodeEdit.getText().toString())
+                .checkRegisterMessageCode(pickCountry.getCountryCode(), phoneEdit.getText().toString(), phoneCodeEdit.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpObserver<Boolean>(this) {

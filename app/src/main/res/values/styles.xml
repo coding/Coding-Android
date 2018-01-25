@@ -619,6 +619,16 @@
         <item name="android:textSize">30sp</item>
     </style>
 
+    <style name="PhoneCountry">
+        <item name="android:layout_width">55dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:focusable">false</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/font_green</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <!--正则替换工具-->
     <!--android:(.*)="(.*)"-->
     <!--<item name="android:$1">$2</item>-->
