@@ -38,7 +38,7 @@ public final class CodingPush {
     public void initApplication(Context context, CommonPushClick clickPushAction) {
         this.clickPush = clickPushAction;
         if (Rom.isEmui()) {
-            Log.d(PushAction.TAG, "use huawei push");
+            Log.d(PushAction.Companion.getTAG(), "use huawei push");
             HuaweiPush.instance().initApplication(clickPushAction);
         } else {  // default device use xiaomi push
             if (pushAction == null) {

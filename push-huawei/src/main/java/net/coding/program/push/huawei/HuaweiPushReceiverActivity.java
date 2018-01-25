@@ -33,7 +33,7 @@ public class HuaweiPushReceiverActivity extends AppCompatActivity {
 
         Map<String, String> map = new HashMap<>();
 
-        Log.d(PushAction.TAG, "HuaweiPushReceiverActivity " + uri.toString());
+        Log.d(PushAction.Companion.getTAG(), "HuaweiPushReceiverActivity " + uri.toString());
         try {
             if (uri != null) {
                 final String paramUrl = "param_url";
@@ -51,7 +51,7 @@ public class HuaweiPushReceiverActivity extends AppCompatActivity {
                 HuaweiPush.instance().click(this, map);
             }
         } catch (Exception e) {
-            Log.d(PushAction.TAG, e.toString());
+            Log.d(PushAction.Companion.getTAG(), e.toString());
         }
     }
 

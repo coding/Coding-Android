@@ -479,13 +479,13 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEventPushToken(EventPushToken pushToken) {
-        if (TextUtils.isEmpty(pushToken.type) || TextUtils.isEmpty(pushToken.token)) {
+        if (TextUtils.isEmpty(pushToken.getType()) || TextUtils.isEmpty(pushToken.getToken())) {
             return;
         }
 
         Map<String, String> map = new HashMap<>();
-        map.put("push", pushToken.type);
-        map.put("token", pushToken.token);
+        map.put("push", pushToken.getType());
+        map.put("token", pushToken.getToken());
         try {
             map.put("deviceBrand", Build.BRAND);
             map.put("deviceType", Build.MODEL);
@@ -505,9 +505,9 @@ public class MainActivity extends BaseActivity {
                         super.onSuccess();
                         globalVar.edit()
                                 .pushType()
-                                .put(pushToken.type)
+                                .put(pushToken.getType())
                                 .pushToken()
-                                .put(pushToken.token)
+                                .put(pushToken.getToken())
                                 .apply();
                     }
 
