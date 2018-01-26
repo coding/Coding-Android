@@ -21,26 +21,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            sourceSets {
-                main {
-                    if (DEV_ENTERPRISE) {
-                        manifest.srcFile 'src/enterprise/AndroidManifest.xml'
-                    } else {
-                        manifest.srcFile 'src/main/AndroidManifest.xml'
-                    }
-                }
-            }
+
         }
-
-        debug {
-            sourceSets {
-                main {
-                    if (DEV_ENTERPRISE) {
-                        manifest.srcFile 'src/enterprise/AndroidManifest.xml'
-                    } else {
-                        manifest.srcFile 'src/main/AndroidManifest.xml'
-                    }
-
+        sourceSets {
+            main {
+                if (DEV_ENTERPRISE.toBoolean()) {
+                    manifest.srcFile "src/enterprise/AndroidManifest.xml"
+                } else {
+                    manifest.srcFile "src/main/AndroidManifest.xml"
                 }
             }
         }

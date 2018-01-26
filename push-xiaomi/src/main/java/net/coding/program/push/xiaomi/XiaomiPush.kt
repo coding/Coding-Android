@@ -23,21 +23,21 @@ class XiaomiPush : PushAction {
                 }
 
                 override fun log(content: String, t: Throwable) {
-                    Log.d(TAG, content, t)
+                    Log.d(PushAction.TAG, content, t)
                 }
 
                 override fun log(content: String) {
-                    Log.d(TAG, content)
+                    Log.d(PushAction.TAG, content)
                 }
             }
             Logger.setLogger(context, newLogger)
-            Log.d(PushAction.TAG, "use xiaomi push true")
+            Log.d(PushAction.TAG, "register xiaomi push no exception, wait result ...")
 
             clickPushAction = clickPushActionName
 
             return true
         }
-        Log.d(PushAction.TAG, "use xiaomi push false")
+        Log.d(PushAction.TAG, "register xiaomi push false")
 
         return false
     }
@@ -71,8 +71,6 @@ class XiaomiPush : PushAction {
         private val APP_ID = "2882303761517260238"
         // user your appid the key.
         private val APP_KEY = "5861726013238"
-
-        val TAG = "CodingPush xiaomi"
 
         var clickPushAction: CommonPushClick? = null
     }

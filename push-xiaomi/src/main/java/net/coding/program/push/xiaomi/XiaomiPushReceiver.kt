@@ -54,7 +54,7 @@ class XiaomiPushReceiver : PushMessageReceiver() {
         get() = SimpleDateFormat("MM-dd hh:mm:ss").format(Date())
 
     override fun onReceivePassThroughMessage(context: Context?, message: MiPushMessage?) {
-        Log.v(XiaomiPush.TAG,
+        Log.v(PushAction.TAG,
                 "onReceivePassThroughMessage is called. " + message!!.toString())
         //        String log = context.getString(R.string.recv_passthrough_message, message.getContent());
         //        MainActivity.logList.add(0, getSimpleDate() + " " + log);
@@ -71,7 +71,7 @@ class XiaomiPushReceiver : PushMessageReceiver() {
     }
 
     override fun onNotificationMessageClicked(context: Context?, message: MiPushMessage?) {
-        Log.v(XiaomiPush.TAG,
+        Log.v(PushAction.TAG,
                 "onNotificationMessageClicked is called. " + message!!.toString())
 
         val s = message.content
@@ -93,7 +93,7 @@ class XiaomiPushReceiver : PushMessageReceiver() {
                 extra[idKey] = paramId
             }
         } catch (e: Exception) {
-            Log.e(XiaomiPush.TAG, e.toString())
+            Log.e(PushAction.TAG, e.toString())
         }
 
         if (!extra.isEmpty()) {
@@ -102,7 +102,7 @@ class XiaomiPushReceiver : PushMessageReceiver() {
     }
 
     override fun onNotificationMessageArrived(context: Context?, message: MiPushMessage?) {
-        Log.v(XiaomiPush.TAG,
+        Log.v(PushAction.TAG,
                 "onNotificationMessageArrived is called. " + message!!.toString())
 
         //        String log = context.getString(R.string.arrive_notification_message, message.getContent());
@@ -120,7 +120,7 @@ class XiaomiPushReceiver : PushMessageReceiver() {
     }
 
     override fun onCommandResult(context: Context?, message: MiPushCommandMessage?) {
-        Log.v(XiaomiPush.TAG,
+        Log.v(PushAction.TAG,
                 "onCommandResult is called. " + message!!.toString())
         //        String command = message.getCommand();
         //        List<String> arguments = message.getCommandArguments();
@@ -195,7 +195,7 @@ class XiaomiPushReceiver : PushMessageReceiver() {
     }
 
     override fun onReceiveRegisterResult(context: Context?, message: MiPushCommandMessage?) {
-        Log.v(XiaomiPush.TAG,
+        Log.v(PushAction.TAG,
                 "onReceiveRegisterResult is called. " + message!!.toString())
 
         if (MiPushClient.COMMAND_REGISTER == message.command &&
