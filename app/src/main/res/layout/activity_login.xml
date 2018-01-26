@@ -145,7 +145,6 @@
                             android:textColor="@color/font_1"
                             android:textSize="14sp" />
 
-
                         <net.coding.program.common.LoginEditText
                             android:id="@+id/edit2FA"
                             style="@style/EditLogin"

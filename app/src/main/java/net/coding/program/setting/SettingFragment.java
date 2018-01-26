@@ -166,7 +166,7 @@ public class SettingFragment extends BaseFragment {
             if (GlobalData.isEnterprise()) {
                 XGPushManager.registerPush(activity, "*");
             } else {
-                CodingPush.instance().unbindGK(AccountInfo.loadAccount(getActivity()).global_key);
+                CodingPush.INSTANCE.unbindGK(getActivity(), AccountInfo.loadAccount(getActivity()).global_key);
             }
 
             AccountInfo.loginOut(activity);

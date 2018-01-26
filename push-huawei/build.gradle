@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 26
@@ -46,6 +47,8 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
 
     compile 'com.huawei.android.hms:push:2.5.2.300'
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation project(':push-xiaomi')
 

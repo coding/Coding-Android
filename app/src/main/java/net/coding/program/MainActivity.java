@@ -138,7 +138,7 @@ public class MainActivity extends BaseActivity {
         warnMailNoValidLogin();
         warnMailNoValidRegister();
 
-        CodingPush.instance().bindGK(AccountInfo.loadAccount(this).global_key);
+        CodingPush.INSTANCE.bindGK(this, AccountInfo.loadAccount(this).global_key);
 
         startExtraServiceDelay();
         EventBus.getDefault().register(this);
@@ -283,7 +283,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void runOtherPushServer() {
-        CodingPush.instance().onCreate(this, AccountInfo.loadAccount(this).global_key);
+        CodingPush.INSTANCE.onCreate(this, AccountInfo.loadAccount(this).global_key);
     }
 
     private void startNetworkCheckService() {
@@ -307,7 +307,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        CodingPush.instance().onActivityResult(requestCode, resultCode, data);
+        CodingPush.INSTANCE.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -346,7 +346,7 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        CodingPush.instance().onDestroy();
+        CodingPush.INSTANCE.onDestroy();
 
         EventBus.getDefault().unregister(this);
     }

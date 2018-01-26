@@ -21,27 +21,21 @@ public class PersonApp extends MyApp {
 
         CodingCompat.init(new CodingCompatImp());
 
-        CodingPush.instance().initApplication(this, (context, params) -> {
-            if (params == null) {
-                return;
-            }
+        CodingPush.INSTANCE.initApplication(this, (context, params) -> {
             String url = params.get("param_url");
             String id = params.get("notification_id");
             if (TextUtils.isEmpty(url)) {
                 return;
             }
 
-            if (url != null) {
-                openNewActivityFromMain(context, url);
-            }
+            openNewActivityFromMain(context, url);
 
-            if (id != null && !id.isEmpty()) {
+            if (!TextUtils.isEmpty(id)) {
                 AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
                 final String host = Global.HOST_API + "/notification/mark-read?id=%s";
                 client.post(String.format(host, id), new JsonHttpResponseHandler() {
                 });
             }
-
         });
     }
 }
