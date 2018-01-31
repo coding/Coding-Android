@@ -7,7 +7,6 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
@@ -30,6 +29,8 @@ class TerminalActivity : BackActivity() {
     private val colorNormal = 0xFFFFFFFF.toInt()
     private val colorSelectExt = 0xFFA7B0BD.toInt()
 
+    var showLogin = false
+
     val clickKeyButton = View.OnClickListener {
         val tag = it.tag
         if (tag is KeyItem) {
@@ -42,12 +43,38 @@ class TerminalActivity : BackActivity() {
                     altPressed = !altPressed
                     it.setBackgroundColor(if (altPressed) colorNormal else colorSelect)
                 }
+                KeyItem.ESC -> {
+                    showLogin = !showLogin
+                    if (showLogin) {
+                        loadUrl("http://ide.xiayule.net")
+                        showMiddleToast("打开登录页面")
+                    } else {
+                        loadUrl("http://ide.test:8060")
+                        showMiddleToast("打开Terminal")
+                    }
+                }
                 else -> {
                     webView.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, tag.value))
                     webView.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_UP, tag.value))
                 }
             }
         }
+    }
+
+    fun loadUrl(url: String) {
+//        url = "http://192.168.0.212:8060"
+//        url = "http://www.baidu.com"
+//        url = "http://ide.xiayule.net"
+        webView.settings.let {
+            it.javaScriptEnabled = true
+            it.domStorageEnabled = true
+            it.setAppCachePath(cacheDir.absolutePath)
+            it.allowFileAccess = true
+            it.setAppCacheEnabled(true)
+            it.cacheMode
+        }
+
+        webView.loadUrl(url)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,30 +122,18 @@ class TerminalActivity : BackActivity() {
     }
 
     private fun initWebView() {
-        webView.settings.let {
-            it.javaScriptEnabled = true
-            it.domStorageEnabled = true
-            it.setAppCachePath(cacheDir.absolutePath)
-            it.allowFileAccess = true
-            it.setAppCacheEnabled(true)
-            it.cacheMode
-        }
-
         webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                view?.loadUrl(request?.url?.toString() ?: "", request?.requestHeaders)
-                return true
-            }
 
-            override fun onUnhandledKeyEvent(view: WebView?, event: KeyEvent?) {
-                Logger.d("CKEY " + event)
-                super.onUnhandledKeyEvent(view, event)
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                if (view != null && url != null) {
+                    loadUrl(url)
+                    return true
+                }
+                return false
             }
         }
 
-        var url = "http://www.google.com"
-//         url = "http://coding.net"
-        webView.loadUrl(url)
+        loadUrl("http://ide.test:8060")
     }
 
     private fun initKeyExt() {
