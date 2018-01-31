@@ -5,16 +5,21 @@
     android:layout_height="match_parent"
     tools:context="net.coding.program.terminal.TerminalActivity">
 
-    <WebView
+    <net.coding.program.terminal.TerminalWebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="48dp" />
 
-    <EditText
+    <net.coding.program.terminal.TerminalEdit
         android:layout_width="match_parent"
         android:id="@+id/edit"
         android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/maskView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:id="@+id/keyboard"
@@ -41,7 +46,7 @@
             style="@style/KeyItem" />
 
         <LinearLayout
-            android:id="@+id/layoutReplace"
+            android:id="@+id/layoutSwitch"
             android:layout_width="0dp"
             android:layout_weight="4"
             android:orientation="horizontal"

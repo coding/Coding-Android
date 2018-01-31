@@ -13,7 +13,7 @@ android {
     defaultConfig {
 
         if (DEBUG_TERMINAL.toBoolean()) {
-            minSdkVersion 26
+            minSdkVersion 23
         } else {
             minSdkVersion 15
         }
@@ -30,6 +30,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
