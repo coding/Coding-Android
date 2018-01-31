@@ -43,10 +43,8 @@ class TerminalActivity : BackActivity() {
                     it.setBackgroundColor(if (altPressed) colorNormal else colorSelect)
                 }
                 else -> {
-                    showMiddleToast("click " + tag)
-                    val keyCode = KeyEvent.KEYCODE_DPAD_LEFT
-                    webView.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, keyCode))
-                    webView.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_UP, keyCode))
+                    webView.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, tag.value))
+                    webView.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_UP, tag.value))
                 }
             }
         }
