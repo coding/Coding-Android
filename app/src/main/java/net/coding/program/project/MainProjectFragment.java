@@ -19,6 +19,7 @@ import net.coding.program.maopao.MaopaoAddActivity_;
 import net.coding.program.project.init.create.ProjectCreateActivity_;
 import net.coding.program.search.SearchProjectActivity_;
 import net.coding.program.task.add.TaskAddActivity_;
+import net.coding.program.terminal.TerminalActivity;
 import net.coding.program.user.AddFollowActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -79,6 +80,12 @@ public class MainProjectFragment extends BaseFragment {
     @Click
     void toolbarTitle(View v) {
         EventBus.getDefault().post(new EventFilter(0));
+    }
+
+    @Click
+    void terminalClick() {
+        Intent i = new Intent(getActivity(), TerminalActivity.class);
+        startActivity(i);
     }
 
     @Override

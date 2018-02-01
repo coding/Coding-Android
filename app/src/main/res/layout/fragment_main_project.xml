@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="net.coding.program.project.MainProjectFragment">
@@ -39,6 +40,15 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <View
+            android:layout_width="60dp"
+            android:background="@color/font_green"
+            android:id="@+id/terminalClick"
+            android:layout_height="60dp"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="15dp" />
 
         <include layout="@layout/actionbar_shadow" />
     </FrameLayout>
