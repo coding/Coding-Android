@@ -9,6 +9,7 @@
     <application android:theme="@style/ActionbarNoIcon">
         <activity
             android:name=".TerminalActivity"
+            android:label="@string/terminal_activity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
