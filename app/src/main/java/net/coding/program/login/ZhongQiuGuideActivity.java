@@ -30,9 +30,8 @@ public class ZhongQiuGuideActivity extends BaseActivity {
     View entranceButton;
     View jumpButton;
     int[] mBackgroundResId = new int[]{
+            R.drawable.guide_zhongqiu_0,
             R.drawable.guide_zhongqiu_1,
-            R.drawable.guide_zhongqiu_2,
-            R.drawable.guide_zhongqiu_3
     };
     FragmentPagerAdapter pagerAdapter;
 
@@ -88,7 +87,7 @@ public class ZhongQiuGuideActivity extends BaseActivity {
 //                    mIndicatorView.setX((MyApp.sWidthPix - indicatorWidth) / 2 - positionOffsetPixels);
 //                }
 
-                if (position == 2) {
+                if (position == (mBackgroundResId.length - 1)) {
                     entranceButton.setVisibility(View.VISIBLE);
                 } else {
                     entranceButton.setVisibility(View.INVISIBLE);

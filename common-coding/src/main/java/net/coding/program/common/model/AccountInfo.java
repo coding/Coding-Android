@@ -216,7 +216,7 @@ public class AccountInfo {
 //        }
 //
 //        return result;
-        return false;
+        return true;
     }
 
     public static void markGuideReaded(Context context) {

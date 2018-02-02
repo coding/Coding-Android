@@ -18,16 +18,16 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
-        app:pointCount="3"
+        app:pointCount="2"
         app:pointView="@layout/guide_light_point" />
 
     <TextView
         android:id="@+id/entrance"
-        android:layout_width="207dp"
-        android:layout_height="43dp"
+        android:layout_width="174dp"
+        android:layout_height="48dp"
         android:layout_above="@id/indicatorView"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="55dp"
         android:background="@drawable/round_rect_guide_entrance"
         android:gravity="center"
         android:text="立即体验"
@@ -44,6 +44,7 @@
         android:layout_marginTop="27dp"
         android:background="@drawable/round_rect_guide_jump"
         android:gravity="center"
+        android:visibility="invisible"
         android:text="跳过"
         android:textColor="#99000000"
         android:textSize="13dp" />

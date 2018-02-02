@@ -131,7 +131,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ZhongQiuGuideActivity.showHolidayGuide(this);
+        showZhongQiuJie();
 
         MarketingHelp.showMarketing(this);
 
@@ -147,6 +147,15 @@ public class MainActivity extends BaseActivity {
 
 
         WXPay.getInstance().regToWeixin(this);
+    }
+
+    @UiThread(delay = 3000)
+    void showZhongQiuJie() {
+         if (MainActivity.this.isFinishing()) {
+            return;
+        }
+
+        ZhongQiuGuideActivity.showHolidayGuide(this);
     }
 
     @UiThread(delay = 2000)
