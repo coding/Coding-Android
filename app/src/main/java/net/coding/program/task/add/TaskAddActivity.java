@@ -810,9 +810,8 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
     @OptionsItem
     void action_copy() {
         final String urlTemplate = Global.HOST + "/u/%s/p/%s/task/%d";
-        String url = String.format(urlTemplate, mSingleTask.project.owner_user_name, mSingleTask.project.name, mSingleTask.getId());
-        Global.copy(this, url);
-        showButtomToast("已复制 " + url);
+        String link = String.format(urlTemplate, mSingleTask.project.owner_user_name, mSingleTask.project.name, mSingleTask.getId());
+        Global.tipCopyLink(this, link);
     }
 
     @OptionsItem

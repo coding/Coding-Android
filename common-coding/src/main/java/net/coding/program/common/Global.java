@@ -51,6 +51,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.cookie.Cookie;
 
@@ -114,6 +116,19 @@ public class Global {
         }
 
         return LOG_PREFIX + str;
+    }
+
+    public static void tipCopyLink(Context context, String link) {
+        if (GlobalData.isEnterprise()) {
+            Pattern pattern = Pattern.compile(Global.HOST + "/u/.*?/(.*)");
+            Matcher matcher = pattern.matcher(link);
+            if (matcher.find()) {
+                link = String.format("%s/%s", Global.HOST, matcher.group(1));
+            }
+        }
+
+        Global.copy(context, link);
+        Toast.makeText(context, "已复制链接 " + link, Toast.LENGTH_LONG).show();
     }
 
     public static Spanned createBlueHtml(String begin, String middle, String end) {
