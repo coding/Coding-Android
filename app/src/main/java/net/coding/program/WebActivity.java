@@ -158,7 +158,7 @@ public class WebActivity extends BaseActivity {
     @OptionsItem
     protected final void action_browser() {
         try {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webView.getUrl()));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(intent);
         } catch (Exception e) {
             Toast.makeText(WebActivity.this, "用浏览器打开失败", Toast.LENGTH_LONG).show();
@@ -167,7 +167,7 @@ public class WebActivity extends BaseActivity {
 
     @OptionsItem
     protected final void action_copy() {
-        String urlString = webView.getUrl();
+        String urlString = url;
         if (urlString == null) {
             Toast.makeText(WebActivity.this, "复制链接失败", Toast.LENGTH_SHORT).show();
             return;
@@ -179,7 +179,7 @@ public class WebActivity extends BaseActivity {
 
     @OptionsItem
     protected final void action_share() {
-        String urlString = webView.getUrl();
+        String urlString = url;
         if (urlString == null) {
             Toast.makeText(WebActivity.this, "获取链接失败", Toast.LENGTH_SHORT).show();
             return;
