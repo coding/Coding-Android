@@ -33,4 +33,5 @@
         android:scaleType="center"
         android:src="@drawable/ic_actionbar_cancel"
         android:visibility="invisible" />
+
 </RelativeLayout>

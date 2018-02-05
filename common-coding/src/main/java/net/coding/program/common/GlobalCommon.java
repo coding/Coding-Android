@@ -73,11 +73,11 @@ public class GlobalCommon {
     }
 
     public static Spannable changeHyperlinkColor(String content, Html.ImageGetter imageGetter, Html.TagHandler tagHandler) {
-        return changeHyperlinkColor(content, imageGetter, tagHandler, CodingColor.fontGreen);
+        return changeHyperlinkColor(content, imageGetter, tagHandler, CodingColor.select2);
     }
 
     public static Spannable changeHyperlinkColorMaopao(String content, Html.ImageGetter imageGetter, Html.TagHandler tagHandler, AssetManager assetManager) {
-        Spannable s = changeHyperlinkColor(content, imageGetter, tagHandler, CodingColor.fontGreen);
+        Spannable s = changeHyperlinkColor(content, imageGetter, tagHandler, CodingColor.select2);
         return spannToGif(s, assetManager);
     }
 

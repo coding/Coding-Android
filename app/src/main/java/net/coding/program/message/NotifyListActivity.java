@@ -213,7 +213,7 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
             }
 
             holder.title.setVisibility(View.VISIBLE);
-            holder.title.setText(GlobalCommon.changeHyperlinkColor(title));
+            holder.title.setText(GlobalCommon.changeHyperlinkColor(title, 0xFF136BFB));
 
             holder.badge.setVisibility(data.isUnRead() ? View.VISIBLE : View.INVISIBLE);
 

@@ -24,6 +24,8 @@ public class CodingColor {
     public static int fontOrange;
     public static int fontBlue;
     public static int fontPink;
+    public static int select1;
+    public static int select2;
     public static int bg;
     public static String fontGreenString;
     public static String fontOrangeString;
@@ -57,5 +59,8 @@ public class CodingColor {
 
         fontGreenString = Global.colorToString(fontGreen);
         fontOrangeString = Global.colorToString(fontOrange);
+
+        select1 = r.getColor(R.color.select_1);
+        select2 = r.getColor(R.color.select_2);
     }
 }
