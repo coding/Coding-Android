@@ -70,7 +70,7 @@ public class AccountInfo {
 
     // 每添加一个
     private static final String MARK_GUIDE_32 = "MARK_GUIDE_32"; // 标记3.2中的引导页面
-    private static final String MARK_GUIDE_FEATURES = "MARK_GUIDE_400"; // 修改这个值就可以了
+    private static final String MARK_GUIDE_FEATURES = "MARK_GUIDE_500"; // 修改这个值就可以了
 
     public static void loginOut(Context ctx) {
         File dir = ctx.getFilesDir();
@@ -210,13 +210,12 @@ public class AccountInfo {
 //        }
         // 4.0 特有, 下个版本删除, MARK_GUIDE_FEATURES 一定要修改
 
-//        Boolean result = new DataCache<Boolean>().loadGlobalObject(context, MARK_GUIDE_FEATURES);
-//        if (result == null) {
-//            return true;
-//        }
-//
-//        return result;
-        return true;
+        Boolean result = new DataCache<Boolean>().loadGlobalObject(context, MARK_GUIDE_FEATURES);
+        if (result == null) {
+            return true;
+        }
+
+        return result;
     }
 
     public static void markGuideReaded(Context context) {

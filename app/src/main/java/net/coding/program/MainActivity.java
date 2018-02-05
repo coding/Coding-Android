@@ -149,7 +149,7 @@ public class MainActivity extends BaseActivity {
         WXPay.getInstance().regToWeixin(this);
     }
 
-    @UiThread(delay = 3000)
+//    @UiThread(delay = 0)
     void showZhongQiuJie() {
          if (MainActivity.this.isFinishing()) {
             return;
