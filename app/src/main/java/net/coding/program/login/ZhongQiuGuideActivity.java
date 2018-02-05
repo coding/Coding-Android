@@ -1,6 +1,5 @@
 package net.coding.program.login;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import net.coding.program.LoginActivity_;
 import net.coding.program.R;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.guide.IndicatorView;
 
 /*
@@ -33,23 +34,13 @@ public class ZhongQiuGuideActivity extends BaseActivity {
     };
     FragmentPagerAdapter pagerAdapter;
 
-    public static void showHolidayGuide(Activity activity) {
-        if (AccountInfo.needDisplayGuide(activity)) {
-            AccountInfo.markGuideReaded(activity);
-            Intent intent1 = new Intent(activity, ZhongQiuGuideActivity.class);
-            activity.startActivity(intent1);
-        }
-    }
-
-    public static boolean isZhongqiu() {
-        return false;
-//        Calendar calendar = Calendar.getInstance();
-
-        // 25,26,27
-//        int day = calendar.get(Calendar.DAY_OF_MONTH);
-//        int month = calendar.get(Calendar.MONTH);
-//        return month == Calendar.SEPTEMBER && 25 <= day && day <= 27;
-    }
+//    public static void showHolidayGuide(Activity activity) {
+//        if (AccountInfo.needDisplayGuide(activity)) {
+//            AccountInfo.markGuideReaded(activity);
+//            Intent intent1 = new Intent(activity, ZhongQiuGuideActivity.class);
+//            activity.startActivity(intent1);
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +56,21 @@ public class ZhongQiuGuideActivity extends BaseActivity {
         mViewPager.setAdapter(pagerAdapter);
 
         jumpButton.setOnClickListener(v -> finish());
-        entranceButton.setOnClickListener(v -> finish());
+        entranceButton.setOnClickListener(v -> {
+            AccountInfo.markGuideReaded(ZhongQiuGuideActivity.this);
+
+            Intent intent;
+            String mGlobalKey = AccountInfo.loadAccount(this).global_key;
+            if (mGlobalKey.isEmpty()) {
+                intent = new Intent(this, LoginActivity_.class);
+            } else {
+                intent = new Intent(this, CodingCompat.instance().getMainActivity());
+            }
+
+            startActivity(intent);
+            overridePendingTransition(R.anim.entrance_fade_in, R.anim.entrance_fade_out);
+            finish();
+        });
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -74,16 +79,6 @@ public class ZhongQiuGuideActivity extends BaseActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 Log.d("", String.format("scr1 %d %f %d", position, positionOffset, positionOffsetPixels));
-//                if (position == 1 && positionOffset > 0) {
-//                    Fragment fragment1 = getFragment(1);
-//                    Fragment fragment2 = getFragment(2);
-//                    float alpha = 1 - positionOffset;
-//
-//                    if (indicatorWidth == 0) {
-//                        indicatorWidth = mIndicatorView.getWidth();
-//                    }
-//                    mIndicatorView.setX((MyApp.sWidthPix - indicatorWidth) / 2 - positionOffsetPixels);
-//                }
 
                 if (position == (mBackgroundResId.length - 1)) {
                     entranceButton.setVisibility(View.VISIBLE);

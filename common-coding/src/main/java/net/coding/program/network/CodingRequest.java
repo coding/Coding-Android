@@ -187,6 +187,9 @@ public interface CodingRequest {
     @GET("user/key/{gk}")
     Observable<HttpResult<UserObject>> getUserInfo(@Path("gk") String gk);
 
+    @GET("current_user")
+    Observable<HttpResult<UserObject>> getCurrentUser();
+
     @GET("user/check")
     Observable<HttpResult<Boolean>> checkGKRegistered(@Query("key") String gk);
 

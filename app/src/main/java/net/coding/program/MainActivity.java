@@ -27,7 +27,6 @@ import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.GlobalData;
 import net.coding.program.common.GlobalVar_;
-import net.coding.program.common.LoginBackground;
 import net.coding.program.common.Unread;
 import net.coding.program.common.UnreadNotify;
 import net.coding.program.common.event.EventMessage;
@@ -37,7 +36,6 @@ import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BaseActivity;
-import net.coding.program.login.ZhongQiuGuideActivity;
 import net.coding.program.maopao.MainMaopaoFragment_;
 import net.coding.program.message.UsersListFragment_;
 import net.coding.program.network.BaseHttpObserver;
@@ -131,8 +129,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        showZhongQiuJie();
-
         MarketingHelp.showMarketing(this);
 
         warnMailNoValidLogin();
@@ -147,15 +143,6 @@ public class MainActivity extends BaseActivity {
 
 
         WXPay.getInstance().regToWeixin(this);
-    }
-
-//    @UiThread(delay = 0)
-    void showZhongQiuJie() {
-         if (MainActivity.this.isFinishing()) {
-            return;
-        }
-
-        ZhongQiuGuideActivity.showHolidayGuide(this);
     }
 
     @UiThread(delay = 2000)
@@ -184,8 +171,6 @@ public class MainActivity extends BaseActivity {
                 .subscribe(permission -> {
                     if (permission.granted) {
                         startPushService();
-                        LoginBackground loginBackground = new LoginBackground(this);
-                        loginBackground.update();
                     } else if (permission.shouldShowRequestPermissionRationale) {
                         showDialog("", "开启 \"电话\" 权限后才能收到推送\n开启\"存储空间\"权限是为了能下载文件到外部存储",
                                 (dialog, which) -> requestPermissionReal(), null);
