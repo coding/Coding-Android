@@ -15,7 +15,7 @@ import org.greenrobot.eventbus.EventBus
  * Created by chenchao on 2017/11/2.
  */
 
-public object CodingPush {
+object CodingPush {
 
     //    private var context: Context? = null
     internal var pushAction: PushAction? = null
@@ -48,7 +48,7 @@ public object CodingPush {
         }
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent): Boolean {
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         return if (Rom.isEmui) {
             HuaweiPush.onActivityResult(requestCode, resultCode, data)
         } else false

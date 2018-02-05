@@ -26,7 +26,6 @@ object HuaweiPush : HuaweiApiClient.ConnectionCallbacks, HuaweiApiClient.OnConne
 
     val TAG = "CodingPush huawei"
 
-
     //华为移动服务Client
     private var client: HuaweiApiClient? = null
     private var activity: WeakReference<Activity>? = null
@@ -166,11 +165,11 @@ object HuaweiPush : HuaweiApiClient.ConnectionCallbacks, HuaweiApiClient.OnConne
      * 当调用HuaweiApiAvailability.getInstance().resolveError方法的时候，会通过onActivityResult
      * 将实际处理结果返回给CP。
      */
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent): Boolean {
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         if (requestCode == REQUEST_HMS_RESOLVE_ERROR) {
             if (resultCode == Activity.RESULT_OK) {
 
-                val result = data.getIntExtra(EXTRA_RESULT, 0)
+                val result = data?.getIntExtra(EXTRA_RESULT, 0)
 
                 if (result == ConnectionResult.SUCCESS) {
                     Log.i(TAG, "错误成功解决")
