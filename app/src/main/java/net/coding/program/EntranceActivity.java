@@ -5,10 +5,8 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 
@@ -44,17 +42,11 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
 
     private static final String TAG = Global.makeLogTag(EntranceActivity.class);
 
-    private static final int HANDLER_MESSAGE_ANIMATION = 0;
+    private static final int HANDLER_MESSAGE_ANIMATION = 0; // 删除
     private static final int HANDLER_MESSAGE_NEXT_ACTIVITY = 1;
     public final String HOST_CURRENT = getHostCurrent();
     @ViewById
     ImageView image;
-    @ViewById
-    TextView title;
-    @ViewById
-    View foreMask;
-    @ViewById
-    View logo;
     @AnimationRes
     Animation entrance;
     Uri background = null;
@@ -147,11 +139,7 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
         if (file.exists()) {
             background = Uri.fromFile(file);
             image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("file://" + file.getPath(), ImageLoadTool.enterOptions));
-            title.setText(photoItem.getTitle());
 
-            if (photoItem.isGuoguo()) {
-                hideLogo();
-            }
         } else {
             ImageSize imageSize = new ImageSize(GlobalData.sWidthPix, GlobalData.sHeightPix);
             image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("drawable://" + R.drawable.entrance1, imageSize));
@@ -163,21 +151,10 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
     @Override
     public boolean handleMessage(Message msg) {
         if (msg.what == HANDLER_MESSAGE_ANIMATION) {
-            playAnimator1();
         } else if (msg.what == HANDLER_MESSAGE_NEXT_ACTIVITY) {
             next();
         }
         return true;
-    }
-
-    private void playAnimator1() {
-        foreMask.startAnimation(entrance);
-    }
-
-    private void hideLogo() {
-//        mask.setVisibility(View.GONE);
-        title.setVisibility(View.GONE);
-        logo.setVisibility(View.GONE);
     }
 
     @Override
