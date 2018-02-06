@@ -149,7 +149,7 @@ public class TopicCommentDetail extends BaseTopicListDetailActivity {
     }
 
     private void loadAll() {
-        String url = topicComment.getUrlAllComment(topicObject.project.getId());
+        String url = topicComment.getUrlAllComment(topicObject.project_id);
         getNetwork(url, TAG_ALL_COMMENTS);
     }
 

@@ -1,12 +1,17 @@
 package net.coding.program.search;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AbsListView;
 
 import net.coding.program.R;
 import net.coding.program.adapter.SearchTopicAdapter;
 import net.coding.program.common.Global;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.TopicObject;
+import net.coding.program.network.HttpObserverRaw;
+import net.coding.program.network.Network;
+import net.coding.program.network.model.HttpResult;
 import net.coding.program.project.detail.topic.TopicListDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -17,6 +22,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Vernon on 15/11/27.
@@ -87,7 +95,28 @@ public class SearchCommentFragment extends SearchBaseFragment {
 
     @ItemClick
     final void listView(TopicObject itemData) {
-        TopicListDetailActivity_.intent(this).topicObject(itemData).start();
+        showProgressBar(true);
+
+        Network.getRetrofit(getActivity())
+                .getProject(itemData.project_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpObserverRaw<HttpResult<ProjectObject>>(getActivity()) {
+                    @Override
+                    public void onSuccess(HttpResult<ProjectObject> data) {
+                        super.onSuccess(data);
+                        showProgressBar(false);
+
+                        TopicListDetailActivity_.intent(getActivity()).topicObject(itemData).projectObject(data.data).start();
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, @NonNull String error) {
+                        super.onFail(errorCode, error);
+                        showProgressBar(false);
+                    }
+                });
+
     }
 
     @Override

@@ -25,7 +25,6 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
-import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.model.BaseComment;
 import net.coding.program.common.model.DynamicObject;
 import net.coding.program.common.model.ProjectObject;
@@ -70,6 +69,10 @@ public abstract class BaseTopicListDetailActivity extends CodingToolbarBackActiv
     HashMap<String, String> mSendedImages = new HashMap<>();
     @Extra
     TopicObject topicObject;
+
+    @Extra
+    ProjectObject projectObject;
+
     @ViewById
     ListView listView;
     @ViewById
@@ -101,7 +104,7 @@ public abstract class BaseTopicListDetailActivity extends CodingToolbarBackActiv
             new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle)
                     .setTitle("删除评论")
                     .setPositiveButton("确定", (dialog, which) -> {
-                        String url = String.format(Global.HOST_API + "/project/%s/topic/%s/comment/%s", topicObject.project.getId(), topicObject.id, comment.id);
+                        String url = String.format(Global.HOST_API + "/project/%s/topic/%s/comment/%s", topicObject.project_id, topicObject.id, comment.id);
                         if (tag instanceof TopicComment) {
                             deleteNetwork(url, TAG_DELETE_TOPIC_COMMENT, tag);
                         } else if (tag instanceof TopicCommentChild) {
@@ -142,7 +145,7 @@ public abstract class BaseTopicListDetailActivity extends CodingToolbarBackActiv
             DynamicObject.Owner voteOwner = findVoteOwnerWithMe(users);
 
             String host = String.format("%s/project/%s/topic/%s/comment/%s/upvote", Global.HOST_API,
-                    topicObject.project.getId(), topicObject.id, comment.id);
+                    topicObject.project_id, topicObject.id, comment.id);
             if (voteOwner == null) {
                 postNetwork(host, new RequestParams(), TAG_TOPIC_COMMENT_VOTE, -1, comment);
             } else {
@@ -160,11 +163,7 @@ public abstract class BaseTopicListDetailActivity extends CodingToolbarBackActiv
     @Nullable
     @Override
     protected ProjectObject getProject() {
-        if (topicObject == null || topicObject.project == null) {
-            return null;
-        }
-
-        return topicObject.project;
+        return projectObject;
     }
 
     protected void prepareComment() {
@@ -210,7 +209,7 @@ public abstract class BaseTopicListDetailActivity extends CodingToolbarBackActiv
             String imagePath = item.path;
             if (!mSendedImages.containsKey(imagePath)) {
                 try {
-                    String url = topicObject.project.getHttpUploadPhoto();
+                    String url = ProjectObject.getPublicTopicUploadPhoto(topicObject.project_id);
                     RequestParams params = new RequestParams();
                     params.put("dir", 0);
                     File fileImage = new File(imagePath);
@@ -243,12 +242,13 @@ public abstract class BaseTopicListDetailActivity extends CodingToolbarBackActiv
         if (tag.equals(tagUrlCommentPhoto)) {
             if (code == 0) {
                 String fileUri;
-                if (topicObject.project.isPublic()) {
-                    fileUri = respanse.optString("data", "");
-                } else {
-                    AttachmentFileObject fileObject = new AttachmentFileObject(respanse.optJSONObject("data"));
-                    fileUri = fileObject.owner_preview;
-                }
+//                if (topicObject.project.isPublic()) {
+                // 现在只有公开项目可以看 topic
+                fileUri = respanse.optString("data", "");
+//                } else {
+//                    AttachmentFileObject fileObject = new AttachmentFileObject(respanse.optJSONObject("data"));
+//                    fileUri = fileObject.owner_preview;
+//                }
                 String mdPhotoUri = String.format("\n![图片](%s)", fileUri);
                 mSendedImages.put((String) data, mdPhotoUri);
                 sendCommentAll();
@@ -406,6 +406,7 @@ public abstract class BaseTopicListDetailActivity extends CodingToolbarBackActiv
                 moreChildComment.setOnClickListener(v -> {
                     TopicCommentDetail_.intent(v.getContext())
                             .topicObject(topicObject)
+                            .projectObject(projectObject)
                             .topicComment(comment)
                             .startForResult(RESULT_COMMENT);
                 });

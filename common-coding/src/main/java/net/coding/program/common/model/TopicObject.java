@@ -26,8 +26,7 @@ public class TopicObject extends BaseComment implements Serializable {
     public int child_count;
     public String current_user_role_id = "";
     public int parent_id;
-    public ProjectObject project;
-    public String project_id = "";
+    public int project_id;
     public String title = "";
     public long updated_at;
     public ArrayList<TopicLabelObject> labels = new ArrayList<>();
@@ -41,10 +40,7 @@ public class TopicObject extends BaseComment implements Serializable {
         child_count = json.optInt("child_count");
         current_user_role_id = json.optString("current_user_role_id");
         parent_id = json.optInt("parent_id");
-        if (json.has("project")) {
-            project = new ProjectObject(json.optJSONObject("project"));
-        }
-        project_id = json.optString("project_id");
+        project_id = json.optInt("project_id");
         title = json.optString("title");
         updated_at = json.optLong("updated_at");
         number = json.optInt("number");

@@ -354,6 +354,10 @@ public class ProjectObject implements Serializable {
         }
     }
 
+    public static String getPublicTopicUploadPhoto(int projectId) {
+            return Global.HOST_API + "/project/" + projectId + "/upload_public_image";
+    }
+
     public String getHttpMerge(boolean open) {
         String type = open ? "open" : "closed";
         String pull = isPublic() ? "/git/pulls/" : "/git/merges/";

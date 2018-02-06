@@ -116,7 +116,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
     private ArrayList<UserObject> watchers = new ArrayList<>(0);
     View.OnClickListener clickAddWatch = v -> {
         WatcherListActivity_.intent(v.getContext())
-                .mProjectObjectId(topicObject.project.getId())
+                .mProjectObjectId(topicObject.project_id)
                 .topicId(topicObject.id)
                 .watchers(watchers)
                 .startForResult(RESULT_MODIFY_WATCHER);
@@ -149,7 +149,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
 
         } else if (topicObject != null) {
             owerGlobar = topicObject.owner.global_key;
-            setActionBarTitle(topicObject.project.name);
+            setActionBarTitle(projectObject.name);
 
             urlTopic = String.format(Global.HOST_API + "/topic/%s?", topicObject.id);
             getNetwork(urlTopic, urlTopic);
@@ -159,7 +159,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
     }
 
     private void initData() {
-        setActionBarTitle(topicObject.project.name);
+        setActionBarTitle(projectObject.name);
         updateHeadData();
         if (saveTopicWhenLoaded) {
             saveTopicWhenLoaded = false;
@@ -238,7 +238,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
 
     @OptionsItem
     void action_edit() {
-        TopicAddActivity_.intent(this).projectObject(topicObject.project).topicObject(topicObject).startForResult(RESULT_EDIT);
+        TopicAddActivity_.intent(this).projectObject(projectObject).topicObject(topicObject).startForResult(RESULT_EDIT);
     }
 
     @Override
@@ -259,10 +259,10 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
 
     @OptionsItem
     protected final void action_copy() {
-        final String urlTemplate = Global.HOST + "/u/%s/p/%s/topic/%d";
-        String url = String.format(urlTemplate, topicObject.project.owner_user_name, topicObject.project.name, topicObject.id);
-        Global.copy(this, url);
-        showButtomToast("已复制 " + url);
+//        final String urlTemplate = Global.HOST + "/u/%s/p/%s/topic/%d";
+//        String url = String.format(urlTemplate, topicObject.project.owner_user_name, topicObject.project.name, topicObject.id);
+//        Global.copy(this, url);
+//        showButtomToast("已复制 " + url);
     }
 
     void updateDisplayCommentCount() {
@@ -271,7 +271,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
     }
 
     private void updateHeadData() {
-        mEnterComment.getEnterLayout().content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_AT, topicObject.project));
+        mEnterComment.getEnterLayout().content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_AT, projectObject));
 
         if (mListHead == null) {
             mListHead = mInflater.inflate(R.layout.activity_project_topic_comment_list_head, listView, false);
@@ -352,7 +352,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
             public void onEditLabels(TopicLabelBar view) {
                 TopicLabelActivity_.intent(TopicListDetailActivity.this)
                         .labelType(TopicLabelActivity.LabelType.Topic)
-                        .projectPath(topicObject.project.getProjectPath())
+                        .projectPath(projectObject.getProjectPath())
                         .id(topicObject.id)
                         .checkedLabels(topicObject.labels)
                         .startForResult(RESULT_LABEL);
@@ -372,7 +372,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
             return;
         }
 
-        Project.topicWatchList(this, topicObject.project.getId(), topicObject.id, new MyJsonResponse(this) {
+        Project.topicWatchList(this, topicObject.project_id, topicObject.id, new MyJsonResponse(this) {
             @Override
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);

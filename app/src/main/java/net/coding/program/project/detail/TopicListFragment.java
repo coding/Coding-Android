@@ -173,6 +173,7 @@ public class TopicListFragment extends CustomMoreFragment implements LoadMore {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), TopicListDetailActivity_.class);
                 intent.putExtra("topicObject", ((TopicObject) baseAdapter.getItem((int) id)));
+                intent.putExtra("projectObject", mProjectObject);
                 getParentFragment().startActivityForResult(intent, RESULT_DETAIL);
             }
         });

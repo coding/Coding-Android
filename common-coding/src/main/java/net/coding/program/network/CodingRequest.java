@@ -41,6 +41,9 @@ public interface CodingRequest {
     @GET("user/{user}/project/{project}")
     Observable<HttpResult<ProjectObject>> getProject(@Path("user") String user, @Path("project") String project);
 
+    @GET("project/{id}")
+    Observable<HttpResult<ProjectObject>> getProject(@Path("id") int projectId);
+
     @DELETE("user/{user}/project/{project}/wiki/{iid}")
     Observable<HttpResult<Boolean>> deleteWiki(@Path("user") String user, @Path("project") String project, @Path("iid") int iid);
 
