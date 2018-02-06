@@ -19,20 +19,21 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
         app:pointCount="2"
+        android:visibility="invisible"
         app:pointView="@layout/guide_light_point" />
 
     <TextView
         android:id="@+id/entrance"
         android:layout_width="174dp"
-        android:layout_height="48dp"
-        android:layout_above="@id/indicatorView"
+        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="78dp"
         android:background="@drawable/round_rect_guide_entrance"
         android:gravity="center"
         android:text="立即体验"
+        android:layout_alignParentBottom="true"
         android:textColor="@color/white"
-        android:textSize="18dp" />
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/jump"

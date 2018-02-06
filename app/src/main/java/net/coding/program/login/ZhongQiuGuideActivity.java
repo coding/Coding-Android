@@ -30,7 +30,7 @@ public class ZhongQiuGuideActivity extends BaseActivity {
     View jumpButton;
     int[] mBackgroundResId = new int[]{
             R.drawable.guide_zhongqiu_0,
-            R.drawable.guide_zhongqiu_1,
+//            R.drawable.guide_zhongqiu_1,
     };
     FragmentPagerAdapter pagerAdapter;
 

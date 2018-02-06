@@ -46,6 +46,7 @@
             android:src="@mipmap/float_terminal"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
+            android:visibility="invisible"
             android:layout_marginRight="5dp" />
 
         <include layout="@layout/actionbar_shadow" />
