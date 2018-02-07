@@ -950,6 +950,9 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
                     invalidateOptionsMenu();
                     BlankViewDisplay.setBlank(0, this, false, blankLayout, onClickRetry, "任务不存在");
                 } else {
+                    if (code == 1100) { // 项目不存在
+                        mTaskNoFound = true;
+                    }
                     BlankViewDisplay.setBlank(0, this, false, blankLayout, onClickRetry);
                 }
             }

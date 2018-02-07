@@ -525,18 +525,7 @@ public class TaskListFragment extends RefreshBaseFragment {
 
             holder.mTaskDes.setVisibility(data.has_description ? View.VISIBLE : View.INVISIBLE);
 
-            final int priorityIcons[] = new int[]{
-                    R.drawable.task_mark_0,
-                    R.drawable.task_mark_1,
-                    R.drawable.task_mark_2,
-                    R.drawable.task_mark_3,
-            };
-
-            int priority = data.priority;
-            if (priorityIcons.length <= priority) {
-                priority = priorityIcons.length - 1;
-            }
-            holder.mTaskPriority.setBackgroundResource(priorityIcons[priority]);
+            holder.mTaskPriority.setBackgroundResource(data.getPriorityIcon());
 
             if (data.deadline.isEmpty() && data.labels.isEmpty()) {
                 holder.mLayoutDeadline.setVisibility(View.GONE);

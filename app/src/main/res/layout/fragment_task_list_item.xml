@@ -47,7 +47,7 @@
         android:layout_alignLeft="@id/title"
         android:layout_alignTop="@id/title"
         android:layout_marginTop="1.5dp"
-        android:background="@drawable/task_mark_0"
+        android:background="@drawable/ic_task_priority_0"
         android:focusable="false" />
 
     <LinearLayout

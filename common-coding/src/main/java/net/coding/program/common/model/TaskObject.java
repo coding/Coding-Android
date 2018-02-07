@@ -147,6 +147,14 @@ public class TaskObject {
             }
         }
 
+        public int getPriorityIcon() {
+            int icon = priorityDrawable[0];
+            if (0 <= priority && priority < priorityDrawable.length) {
+                icon = priorityDrawable[priority];
+            }
+            return icon;
+        }
+
         public SingleTask() {
         }
 
