@@ -1,6 +1,7 @@
 package net.coding.program.project.detail.topic;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Spanned;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import net.coding.program.common.LoadMore;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.enter.EnterLayout;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.TopicLabelObject;
 import net.coding.program.common.model.TopicObject;
 import net.coding.program.common.model.UserObject;
@@ -31,6 +33,9 @@ import net.coding.program.common.model.topic.TopicCommentChild;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.maopao.BaseUsersArea;
 import net.coding.program.maopao.item.ImageCommentHolder;
+import net.coding.program.network.HttpObserverRaw;
+import net.coding.program.network.Network;
+import net.coding.program.network.model.HttpResult;
 import net.coding.program.project.detail.TopicAddActivity_;
 import net.coding.program.project.detail.TopicLabelActivity;
 import net.coding.program.project.detail.TopicLabelActivity_;
@@ -50,6 +55,9 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 @EActivity(R.layout.activity_topic_list_detail)
 public class TopicListDetailActivity extends BaseTopicListDetailActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener, LoadMore {
@@ -144,9 +152,25 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
 
     private void loadData() {
         if (mJumpParam != null) {
-            urlTopic = String.format(Global.HOST_API + "/topic/%s?", mJumpParam.mTopic);
-            getNetwork(urlTopic, urlTopic);
+            Network.getRetrofit(this)
+                    .getProject(mJumpParam.mUser, mJumpParam.mProject)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new HttpObserverRaw<HttpResult<ProjectObject>>(this) {
+                        @Override
+                        public void onSuccess(HttpResult<ProjectObject> data) {
+                            super.onSuccess(data);
 
+                            projectObject = data.data;
+                            urlTopic = String.format(Global.HOST_API + "/topic/%s?", mJumpParam.mTopic);
+                            getNetwork(urlTopic, urlTopic);
+                        }
+
+                        @Override
+                        public void onFail(int errorCode, @NonNull String error) {
+                            super.onFail(errorCode, error);
+                        }
+                    });
         } else if (topicObject != null) {
             owerGlobar = topicObject.owner.global_key;
             setActionBarTitle(projectObject.name);
