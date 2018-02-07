@@ -145,6 +145,7 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
             }
 
         });
+        editText.setText("");
     }
 
     @CheckedChange
