@@ -34,7 +34,7 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
         return new ProjectFunction[]{
                 ProjectFunction.dynamic,
                 ProjectFunction.task,
-                ProjectFunction.wiki,
+                ProjectFunction.topic,
                 ProjectFunction.document,
                 ProjectFunction.code,
                 ProjectFunction.member,
