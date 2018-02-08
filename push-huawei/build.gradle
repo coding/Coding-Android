@@ -48,7 +48,7 @@ dependencies {
 
     compile 'com.huawei.android.hms:push:2.5.2.300'
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     implementation project(':push-xiaomi')
 

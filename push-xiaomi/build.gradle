@@ -46,7 +46,7 @@ dependencies {
     implementation files('libs/MiPush_SDK_Client_3_5_1.jar')
 
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
 repositories {
     mavenCentral()

@@ -1,7 +1,8 @@
-include ':app', ':widget-pick-photo', ':common-coding', ':pay-coding', ':share-coding', ':terminal-coding'
+include ':app', ':widget-pick-photo', ':common-coding', ':pay-coding', ':share-coding'
 include ':bottom-bar'
 include ':luban'
 
+include ':terminal-coding'
 include ':push-coding'
 include ":push-xiaomi"
 include ":push-huawei"

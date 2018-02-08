@@ -1,7 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.20'
+    ext.kotlinVersion = '1.2.20'
+    ext.supportVersion = '26.1.0'
+    ext.AAVersion = '4.4.0'
+    ext.compileSdkVersionValue = 26
+    ext.buildToolsVersionValue = '26.0.2'
 
     repositories {
         jcenter()
@@ -13,8 +17,8 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
     }
 }
 
@@ -31,7 +35,5 @@ allprojects {
         maven {url 'http://developer.huawei.com/repo/'}
     }
 
-    ext {
-
-    }
 }
+

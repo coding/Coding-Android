@@ -11,8 +11,13 @@ android {
             storePassword KEY_PASSWORD
         }
     }
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion compileSdkVersionValue
+    buildToolsVersion buildToolsVersionValue
+
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+    }
 
     sourceSets {
         main.java.srcDirs += "src/main/java"
@@ -115,13 +120,12 @@ kapt {
     }
 }
 
-def AAVersion = '4.4.0'
 dependencies {
     kapt 'com.android.databinding:compiler:3.0.1'
 
     kapt "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
 
     implementation project(':push-coding')
     implementation project(':push-xiaomi')
@@ -141,7 +145,6 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     // google 兼容库
-    def supportVersion = '26.1.0'
     compile "com.android.support:support-v4:$supportVersion"
     compile "com.android.support:design:$supportVersion"
     compile "com.android.support:percent:$supportVersion"
