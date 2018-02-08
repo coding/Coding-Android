@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import net.coding.program.network.Network;
 import net.coding.program.network.model.HttpResult;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -43,12 +45,16 @@ public class EntranceActivity extends BaseActivity {
 
     private static final String TAG = Global.makeLogTag(EntranceActivity.class);
 
+    private String jumpLink = "";
+
     @ViewById
     ImageView image;
     @ViewById
     View rootLayout;
 
     Uri background = null;
+
+    private boolean openNext = false;
 
     @AfterViews
     void init() {
@@ -120,6 +126,13 @@ public class EntranceActivity extends BaseActivity {
         next();
     }
 
+    @Click
+    void image() {
+        if (!TextUtils.isEmpty(jumpLink)) {
+            realNext(true);
+        }
+    }
+
     private void settingBackground() {
 //        if (ZhongQiuGuideActivity.isZhongqiu()) { // 修改首页图
 //            ImageSize imageSize = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
@@ -137,6 +150,7 @@ public class EntranceActivity extends BaseActivity {
         if (file.exists()) {
             background = Uri.fromFile(file);
             image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("file://" + file.getPath(), ImageLoadTool.enterOptions));
+            jumpLink = photoItem.getGroup().getLink();
         }
 
         MarketingHelp.setUrl(photoItem.getGroup().getLink());
@@ -144,6 +158,14 @@ public class EntranceActivity extends BaseActivity {
 
     @UiThread(delay = 2000)
     void next() {
+        realNext(false);
+    }
+
+    private void realNext(boolean openUrl) {
+        if (openNext || isFinishing()) return;
+
+        openNext = true;
+
         Intent intent;
         String mGlobalKey = AccountInfo.loadAccount(this).global_key;
         if (mGlobalKey.isEmpty()) {
@@ -157,9 +179,15 @@ public class EntranceActivity extends BaseActivity {
         }
 
         startActivity(intent);
-        overridePendingTransition(R.anim.entrance_fade_in, R.anim.entrance_fade_out);
+
+        if (openUrl && !TextUtils.isEmpty(jumpLink)) {
+            MyApp.openNewActivityFromMain(this, jumpLink);
+        } else {
+            overridePendingTransition(R.anim.entrance_fade_in, R.anim.entrance_fade_out);
+        }
 
         UnreadNotify.update(this);
+
         finish();
     }
 }
