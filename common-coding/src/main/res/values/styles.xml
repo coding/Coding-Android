@@ -9,7 +9,7 @@
     </style>
 
     <style name="GreenTextButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">#FF2EBE76</item>
+        <item name="android:textColor">#FF0060FF</item>
     </style>
 
     <style name="CodingWarnDialog" parent="MyAlertDialogStyle">
@@ -17,7 +17,7 @@
     </style>
 
     <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">#FFFE3824</item>
+        <item name="android:textColor">#FFFF0000</item>
     </style>
 
     <style name="Widget_RoundButton">

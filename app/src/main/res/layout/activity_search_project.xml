@@ -80,7 +80,7 @@
             <TextView
                 style="@style/searchEmptyIcon"
                 android:layout_marginLeft="0dp"
-                android:drawableTop="@mipmap/ic_search_user"
+                android:drawableTop="@mipmap/ic_search_file"
                 android:text="文件" />
 
             <TextView

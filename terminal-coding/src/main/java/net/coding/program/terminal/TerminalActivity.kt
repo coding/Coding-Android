@@ -46,10 +46,14 @@ class TerminalActivity : BackActivity() {
                 KeyItem.ESC -> {
                     showLogin = !showLogin
                     if (showLogin) {
-                        loadUrl("http://ide.xiayule.net")
+                        var url = "http://ide.xiayule.net"
+                        url = "http://ide.xiayule.net"
+                        loadUrl(url)
                         showMiddleToast("打开登录页面")
                     } else {
-                        loadUrl("http://ide.test:8060")
+                        var url = "http://ide.test:8060"
+                        url = "http://ide.test:8060 "
+                        loadUrl(url)
                         showMiddleToast("打开Terminal")
                     }
                 }

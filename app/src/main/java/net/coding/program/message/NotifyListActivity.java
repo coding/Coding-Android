@@ -180,7 +180,7 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
             String firstLink = "";
             if (firstStart != -1 && firstEnd != -1) {
                 firstLink = title.substring(firstStart, firstEnd + hrefEnd.length());
-                holder.name.setText(GlobalCommon.changeHyperlinkColor(firstLink));
+                holder.name.setText(GlobalCommon.changeHyperlinkColor(firstLink, CodingColor.select1));
 
                 title = title.replace(firstLink, "");
                 int lastEnd = title.lastIndexOf(hrefEnd);
@@ -213,7 +213,7 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
             }
 
             holder.title.setVisibility(View.VISIBLE);
-            holder.title.setText(GlobalCommon.changeHyperlinkColor(title, 0xFF136BFB));
+            holder.title.setText(GlobalCommon.changeHyperlinkColor(title, CodingColor.select2));
 
             holder.badge.setVisibility(data.isUnRead() ? View.VISIBLE : View.INVISIBLE);
 
