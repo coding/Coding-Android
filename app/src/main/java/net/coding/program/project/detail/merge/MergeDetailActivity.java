@@ -62,6 +62,7 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -534,8 +535,8 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
     public static class EventFileComment {
     }
 
-    @Subscribe
-    void onEventFileComment(EventFileComment event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventFileComment(EventFileComment event) {
         refreshActivities();
     }
 
