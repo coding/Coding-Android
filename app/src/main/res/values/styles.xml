@@ -475,7 +475,7 @@
     </style>
 
     <style name="GreenTextButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">#FF2EBE76</item>
+        <item name="android:textColor">#FF0060FF</item>
     </style>
 
     <style name="GrayTextButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
