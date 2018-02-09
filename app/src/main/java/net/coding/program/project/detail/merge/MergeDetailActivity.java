@@ -319,7 +319,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         boolean showCancel = mMerge.authorIsMe();
         boolean showMerge = canEdit || (granted == 1 && mMerge.authorIsMe());
         boolean showRefuse = canEdit;
-        boolean showAuth = canEdit && granted == 0 && !mMerge.authorIsMe() && !mMergeDetail.authorCanEdit();
+        boolean showAuth = canEdit && granted == 0 && !mMerge.authorIsMe() && !mMergeDetail.authorCanEdit() && !mMerge.isPull();
         boolean showCancelAuth = canEdit && granted == 1 && !mMerge.authorIsMe() && !mMergeDetail.authorCanEdit();
 
         if (mMerge.isStyleCanMerge()) {

@@ -46,6 +46,6 @@
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_location_list_check"
+        android:src="@drawable/ic_task_status_list_check"
         android:visibility="invisible" />
 </LinearLayout>

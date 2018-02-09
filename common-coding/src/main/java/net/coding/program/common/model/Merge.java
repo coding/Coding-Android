@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ImageLoadTool;
@@ -397,7 +398,7 @@ public class Merge implements Serializable {
         ACCEPTED(0xFFEB7A19, "已合并"),
         REFUSED(0xFFE84D60, "已拒绝"),
         CANCEL(0xFF76808E, "已取消"),
-        CANMERGE(0xFF2EBE76, "可合并"),
+        CANMERGE(CodingColor.fontGreen, "可合并"),
         CANNOTMERGE(0xFFB17EDD, "不可自动合并");
 
         public int color;

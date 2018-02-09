@@ -245,7 +245,7 @@ public class DrawerLayoutHelper {
             return;
         }
 
-        final Drawable originalBitmapDrawable = mContext.getResources().getDrawable(R.drawable.ic_project_topic_label).mutate();
+        final Drawable originalBitmapDrawable = mContext.getResources().getDrawable(R.drawable.ic_project_topic_label_light).mutate();
         Drawable right = isChecked ? mContext.getResources().getDrawable(R.drawable.ic_task_status_list_check) : null;
 
         ColorStateList colorStateList = ColorStateList.valueOf(Color.parseColor(color));
