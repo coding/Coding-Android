@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -27,6 +28,7 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,6 +80,7 @@ public class MergeFileDetailActivity extends BackActivity {
                     break;
                 }
 
+                case "line_note_comment":
                 case "note": {
                     final LineNote lineNote = new LineNote(uri, mMerge);
                     if (lineNote.isMe()) {
@@ -134,8 +137,7 @@ public class MergeFileDetailActivity extends BackActivity {
     @AfterViews
     protected final void initMergeFileDetailActivity() {
         showProgressBar(true, "正在载入");
-
-        getSupportActionBar().setTitle(mSingleFile.getName());
+        setActionBarTitle(mSingleFile.getName());
 
         String url;
         if (mergeIid != 0) {
@@ -167,6 +169,7 @@ public class MergeFileDetailActivity extends BackActivity {
                 updateWebViewDisplay();
                 showButtomToast("添加评论成功");
 
+                EventBus.getDefault().post(new MergeDetailActivity.EventFileComment());
             } catch (Exception e) {
                 Global.errorLog(e);
             }
@@ -213,6 +216,8 @@ public class MergeFileDetailActivity extends BackActivity {
                 mCommentsData.optJSONArray("data").put(respanse.optJSONObject("data"));
                 updateWebViewDisplay();
                 showButtomToast("添加评论成功");
+
+                EventBus.getDefault().post(new MergeDetailActivity.EventFileComment());
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -238,6 +243,8 @@ public class MergeFileDetailActivity extends BackActivity {
                         break;
                     }
                 }
+
+                EventBus.getDefault().post(new MergeDetailActivity.EventFileComment());
 
             } else {
                 showErrorMsg(code, respanse);
@@ -300,6 +307,9 @@ public class MergeFileDetailActivity extends BackActivity {
         public LineNote(Uri uri, Merge merge) {
             super(uri, merge);
             line_note_commentclicked_line_note_id = uri.getQueryParameter("line_note_commentclicked_line_note_id");
+            if (TextUtils.isEmpty(line_note_commentclicked_line_note_id)) {
+                line_note_commentclicked_line_note_id = uri.getQueryParameter("clicked_line_note_id");
+            }
             clicked_user_name = uri.getQueryParameter("clicked_user_name");
         }
 

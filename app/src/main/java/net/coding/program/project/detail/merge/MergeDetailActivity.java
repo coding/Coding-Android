@@ -61,6 +61,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -199,6 +200,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                                 .intent(MergeDetailActivity.this)
                                 .mProjectPath(mMerge.getProjectPath())
                                 .mergeIid(mMerge.getIid())
+                                .mMerge(mMerge)
                                 .mSingleFile(fileData)
                                 .start();
                     });
@@ -233,6 +235,11 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         }
     }
 
+    @Override
+    protected boolean userEventBus() {
+        return true;
+    }
+
     @Nullable
     @Override
     protected ProjectObject getProject() {
@@ -247,7 +254,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
     private void initByMereData() {
         setActionBarTitle(mMerge.getTitleIId());
 
-        View mListHead = mInflater.inflate(R.layout.activity_merge_detail_head, null);
+        View mListHead = mInflater.inflate(R.layout.activity_merge_detail_head, listView, false);
         initHead(mListHead);
         listView.addHeaderView(mListHead, null, false);
         View footer = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
@@ -524,6 +531,14 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         }
     }
 
+    public static class EventFileComment {
+    }
+
+    @Subscribe
+    void onEventFileComment(EventFileComment event) {
+        refreshActivities();
+    }
+
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_DELETE_COMMENT)) {
@@ -659,6 +674,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
 
     private void refreshActivities() {
         dynamicList.clear();
+        mAdapter.notifyDataSetChanged();
         String commentsUrl = mMerge.getHttpComments();
         String activitiesUrl = mMerge.getHttpActivities();
 
