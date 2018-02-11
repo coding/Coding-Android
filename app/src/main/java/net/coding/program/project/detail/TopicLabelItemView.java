@@ -56,7 +56,7 @@ public class TopicLabelItemView extends RelativeLayout implements Checkable {
     @Override
     public void setChecked(boolean checked) {
         this.checked = checked;
-        icon.setImageResource(checked ? R.drawable.ic_topic_label_checked : R.drawable.ic_topic_label_unchecked);
+        icon.setVisibility(checked ? VISIBLE : INVISIBLE);
     }
 
     @Override

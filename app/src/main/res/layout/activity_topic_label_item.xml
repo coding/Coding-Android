@@ -23,6 +23,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/padding_15"
-        android:src="@drawable/ic_topic_label_unchecked" />
+        android:src="@drawable/ic_task_status_list_check" />
 
 </RelativeLayout>
