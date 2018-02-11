@@ -314,11 +314,15 @@ public class TaskListFragment extends RefreshBaseFragment {
                     mUpdateAll = false;
                 }
 
-                JSONObject jsonData = respanse.getJSONObject("data");
-                JSONArray array = jsonData.getJSONArray("list");
-                for (int i = 0; i < array.length(); ++i) {
-                    TaskObject.SingleTask task = new TaskObject.SingleTask(array.getJSONObject(i));
-                    mData.add(task);
+                JSONObject jsonData = respanse.optJSONObject("data");
+                if (jsonData != null) {
+                    JSONArray array = jsonData.optJSONArray("list");
+                    if (array != null) {
+                        for (int i = 0; i < array.length(); ++i) {
+                            TaskObject.SingleTask task = new TaskObject.SingleTask(array.getJSONObject(i));
+                            mData.add(task);
+                        }
+                    }
                 }
 
                 mAdapter.notifyDataSetChanged();
