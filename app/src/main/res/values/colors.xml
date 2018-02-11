@@ -105,7 +105,7 @@
     <color name="possible_result_points">#c0ffff00</color>
     <color name="font_black_e">@color/divide</color>
     <color name="color_F6F6F6">#f6f6f6</color>
-    <color name="color_2EBE76">#2EBE76</color>
+    <color name="color_2EBE76">#FF0060FF</color>
     <color name="color_E5E5E5">#e5e5e5</color>
     <color name="color_hint">#686D75</color>
 
@@ -113,7 +113,6 @@
     <color name="color_B5B5B5">#B5B5B5</color>
     <color name="color_FDF2CB">#FDF2CB</color>
     <color name="color_FAFAFA">#FAFAFA</color>
-    <color name="color_32BE77">#32BE77</color>
 
     <color name="chunkWhite">#FFFFFF</color>
     <color name="chunkGrey">#EEEEEE</color>

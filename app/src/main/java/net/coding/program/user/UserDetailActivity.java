@@ -211,7 +211,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
                 tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_follow_state2, 0, 0, 0);
             } else {
                 tv_follow_state.setText("关注");
-                tv_follow_state.setTextColor(getResources().getColor(R.color.color_2EBE76));
+                tv_follow_state.setTextColor(getResources().getColor(R.color.font_green));
                 tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_follow_state1, 0, 0, 0);
             }
 
