@@ -13,7 +13,6 @@ import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.model.Maopao;
 import net.coding.program.common.model.Subject;
 import net.coding.program.common.model.UserObject;
-import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.common.widget.MemberIcon;
 import net.coding.program.maopao.MaopaoListBaseFragment;
 
@@ -125,7 +124,7 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
     @Override
     protected String createUrl() {
         if (subjectDescObject != null) {
-            if (id == LoadingFragment.UPDATE_ALL_INT) {
+            if (id == Global.UPDATE_ALL_INT) {
                 return String.format(maopaoUrlFirstFormat, subjectDescObject.id);
             } else
                 return String.format(maopaoUrlFormat, subjectDescObject.id, id);
@@ -142,7 +141,7 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
                 if (json != null) {
                     Maopao.MaopaoObject item = new Maopao.MaopaoObject(json);
                     mIsToMaopaoTopic = true;
-                    if (id == LoadingFragment.UPDATE_ALL_INT) {
+                    if (id == Global.UPDATE_ALL_INT) {
                         mData.clear();
                         mData.add(0, item);
                         id = item.id;

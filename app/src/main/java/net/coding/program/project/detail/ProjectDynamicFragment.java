@@ -53,7 +53,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements LoadMo
     protected View blankLayout;
     @ViewById
     protected ExpandableStickyListHeadersListView listView;
-    int mLastId = UPDATE_ALL_INT;
+    int mLastId = Global.UPDATE_ALL_INT;
     boolean mNoMore = false;
     ArrayList<DynamicObject.DynamicBaseObject> mData = new ArrayList<>();
     ProjectDynamicAdapter mAdapter;
@@ -167,7 +167,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements LoadMo
         Long yesterday = calendar.getTimeInMillis() - 1000 * 60 * 60 * 24;
         sYesterday = Global.mDateFormat.format(yesterday);
 
-        mLastId = UPDATE_ALL_INT;
+        mLastId = Global.UPDATE_ALL_INT;
 
         listView.setDividerHeight(0);
         mFootUpdate.init(listView, mInflater, this);
@@ -207,7 +207,7 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements LoadMo
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(TAG_PROJECT_DYNMAIC)) {
-            if (((int) data) == UPDATE_ALL_INT) {
+            if (((int) data) == Global.UPDATE_ALL_INT) {
                 if (mLoadingAnimation != null) {
                     mLoadingAnimation.destory();
                     mLoadingAnimation = null;

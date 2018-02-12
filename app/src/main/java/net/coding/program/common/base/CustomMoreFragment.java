@@ -20,7 +20,6 @@ public abstract class CustomMoreFragment extends RefreshBaseFragment {
     }
 
 
-
     public void search(String text) {
     }
 

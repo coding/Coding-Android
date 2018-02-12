@@ -14,7 +14,6 @@ import net.coding.program.common.model.Maopao;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.common.widget.RefreshBaseActivity;
 import net.coding.program.maopao.MaopaoDetailActivity;
 import net.coding.program.maopao.MaopaoDetailActivity_;
 import net.coding.program.param.ProjectJumpParam;
@@ -63,7 +62,7 @@ public class ProjectMaopaoActivity extends BackActivity implements LoadMore {
         }
     };
     private String projectMaopaoUrl = "";
-    private int lastId = RefreshBaseActivity.UPDATE_ALL_INT;
+    private int lastId = Global.UPDATE_ALL_INT;
     View.OnClickListener onClickRetry = v -> onRefresh();
     View.OnClickListener clickDelete = new View.OnClickListener() {
         @Override
@@ -160,7 +159,7 @@ public class ProjectMaopaoActivity extends BackActivity implements LoadMore {
 
     private void onRefreshReal() {
         initSetting();
-        lastId = RefreshBaseActivity.UPDATE_ALL_INT;
+        lastId = Global.UPDATE_ALL_INT;
         loadMore();
     }
 
@@ -168,7 +167,7 @@ public class ProjectMaopaoActivity extends BackActivity implements LoadMore {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(projectMaopaoUrl)) {
             if (code == 0) {
-                if (lastId == RefreshBaseActivity.UPDATE_ALL_INT) {
+                if (lastId == Global.UPDATE_ALL_INT) {
                     listData.clear();
                 }
 

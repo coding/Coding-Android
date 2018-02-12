@@ -19,7 +19,6 @@ import net.coding.program.common.LoadMore;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.model.DynamicObject;
-import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.widget.DataAdapter;
 import net.coding.program.login.auth.Utilities;
 import net.coding.program.route.URLSpanNoUnderline;
@@ -285,7 +284,7 @@ public class DateSectionDynamicAdapter<T extends DynamicObject.DynamicBaseObject
     }
 
     public void resetLastId() {
-        mLastId = RefreshBaseFragment.UPDATE_ALL_INT;
+        mLastId = Global.UPDATE_ALL_INT;
     }
 
     private class HeaderViewHolder {

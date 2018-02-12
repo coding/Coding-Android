@@ -70,6 +70,8 @@ public class Global {
     public static final SimpleDateFormat mDateYMDHH = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     public static final int PHOTO_MAX_COUNT = 6;
 
+    public static final int UPDATE_ALL_INT = 999999999;
+
     private static final String IMAGE_URL_SCAL = "%s?imageMogr2/thumbnail/!%s";
     private static final SimpleDateFormat sFormatToday = new SimpleDateFormat("今天 HH:mm");
     private static final SimpleDateFormat sFormatThisYear = new SimpleDateFormat("MM/dd HH:mm");

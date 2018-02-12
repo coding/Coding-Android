@@ -24,7 +24,6 @@ import net.coding.program.common.RedPointTip;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.BannerObject;
 import net.coding.program.common.model.UserObject;
-import net.coding.program.common.network.LoadingFragment;
 import net.coding.program.common.util.LoadGifUtil;
 import net.coding.program.guide.IndicatorView;
 import net.coding.program.route.URLSpanNoUnderline;
@@ -125,7 +124,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
     @Override
     protected void initMaopaoType() {
         if (mType == Type.friends) {
-            id = LoadingFragment.UPDATE_ALL_INT;
+            id = Global.UPDATE_ALL_INT;
             lastTime = 0;
         }
 

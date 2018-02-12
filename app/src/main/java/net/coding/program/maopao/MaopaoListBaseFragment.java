@@ -45,7 +45,6 @@ import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.DynamicObject;
 import net.coding.program.common.model.Maopao;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
@@ -106,7 +105,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
     @ViewById
     protected MainInputView mEnterLayout;
     protected boolean mIsToMaopaoTopic = false;
-    protected int id = RefreshBaseFragment.UPDATE_ALL_INT;
+    protected int id = Global.UPDATE_ALL_INT;
     protected long lastTime = 0;
     protected MyAdapter mAdapter;
     protected ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
@@ -575,7 +574,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
             showLoading(false);
             listView.setRefreshing(false);
             if (code == 0) {
-                if (id == RefreshBaseFragment.UPDATE_ALL_INT) {
+                if (id == Global.UPDATE_ALL_INT) {
                     mData.clear();
                 }
 
@@ -600,7 +599,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
                     lastTime = maopaoObject.sortTime;
                     mAdapter.notifyDataSetChanged();
 
-                    if (oldId == RefreshBaseFragment.UPDATE_ALL_INT) {
+                    if (oldId == Global.UPDATE_ALL_INT) {
                         // 当单个的冒泡item大于一屏时，smoothScrollToPosition(0)不会滚动到listview的顶端
                         listView.mRecyclerView.scrollToPosition(0);
                     }
@@ -692,7 +691,7 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
     @Override
     protected void initSetting() {
         super.initSetting();
-        id = RefreshBaseFragment.UPDATE_ALL_INT;
+        id = Global.UPDATE_ALL_INT;
         lastTime = 0;
     }
 

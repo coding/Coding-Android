@@ -9,7 +9,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalData;
 import net.coding.program.common.model.MallItemObject;
-import net.coding.program.common.network.RefreshBaseAppCompatFragment;
+import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * Created by libo on 2015/11/25.
  */
 @EFragment(R.layout.fragment_mall_index_list)
-public class MallListFragment extends RefreshBaseAppCompatFragment {
+public class MallListFragment extends RefreshBaseFragment {
 
     final String USER_POINT_URL = Global.HOST_API + "/account/points";
     @ViewById
