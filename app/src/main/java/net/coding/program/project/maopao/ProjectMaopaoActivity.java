@@ -39,7 +39,9 @@ public class ProjectMaopaoActivity extends BackActivity implements LoadMore {
 
     private static final int RESULT_ADD = 1;
     private static final int RESULT_EDIT = 2;
+
     private final String TAG_PROJECT = "TAG_PROJECT";
+
     protected List<Maopao.MaopaoObject> listData = new ArrayList<>();
     protected BaseAdapter projectMaopaoAdapter;
     @Extra
