@@ -128,7 +128,7 @@ public class RefResourceActivity extends BackActivity {
     }
 
     private void deleteRef(RefResourceObject item) {
-        String url = String.format("%s%s/resource_reference/%d?iid=%d", Global.HOST_API,
+        String url = String.format("%s%s/resource_reference/%s?iid=%s", Global.HOST_API,
                 mParam.projectPath, mParam.taskId, item.code);
         MyAsyncHttpClient.delete(this, url, new MyJsonResponse(this) {
             @Override

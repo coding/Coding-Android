@@ -110,7 +110,7 @@ public class LoginBackground {
             final File fileTaget = item.getCacheFile(context);
             if (!fileTaget.exists()) {
                 AsyncHttpClient client = MyAsyncHttpClient.createClient(context);
-                final String url = String.format("%s?imageMogr2/thumbnail/!%d", item.getUrl(), GlobalData.sWidthPix);
+                final String url = String.format("%s?imageMogr2/thumbnail/!%s", item.getUrl(), GlobalData.sWidthPix);
                 File sourceFile = item.getCacheTempFile(context);
                 if (sourceFile.exists()) {
                     sourceFile.delete();

@@ -201,11 +201,11 @@ public class DrawerLayoutHelper {
             if (i == 0) {
 
                 if (mFilterModel != null && mFilterModel.statusTaskDoing > 0) {
-                    txt += String.format(" (%d)", mFilterModel.statusTaskDoing);
+                    txt += String.format(" (%s)", mFilterModel.statusTaskDoing);
                 }
             } else {
                 if (mFilterModel != null && mFilterModel.statusTaskDone > 0) {
-                    txt += String.format(" (%d)", mFilterModel.statusTaskDone);
+                    txt += String.format(" (%s)", mFilterModel.statusTaskDone);
                 }
             }
             taskView.setText(txt);

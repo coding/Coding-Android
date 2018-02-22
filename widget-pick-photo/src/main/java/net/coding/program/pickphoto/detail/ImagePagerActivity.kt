@@ -142,7 +142,7 @@ open class ImagePagerActivity : BackActivity() {
     }
 
     private fun setPosDisplay(position: Int) {
-        val pos = String.format("%d/%d", position + 1, mArrayUri.size)
+        val pos = String.format("%s/%s", position + 1, mArrayUri.size)
         mMenuImagePos.text = pos
     }
 

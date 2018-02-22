@@ -137,7 +137,7 @@ public class TopicListFragment extends CustomMoreFragment implements LoadMore {
 
             holder.name.setText(data.owner.name);
             holder.time.setText(GlobalCommon.changeHyperlinkColor(Global.dayToNow(data.created_at)));
-            holder.discuss.setText(String.format("%d", data.child_count));
+            holder.discuss.setText(String.format("%s", data.child_count));
 
             int flowWidth = GlobalData.sWidthPix - GlobalCommon.dpToPx(66 + 12);
             holder.flowLayout.setLabels(data.labels, flowWidth);
@@ -508,7 +508,7 @@ public class TopicListFragment extends CustomMoreFragment implements LoadMore {
                 if (topicsCount == 0 && targetList == datasetAllLabel) continue;
                 DropdownItemObject item = new DropdownItemObject(name, id, String.valueOf(id));
                 if (targetList == datasetAllLabel)
-                    item.setSuffix(String.format(" (%d)", data.optInt("count", 0)));
+                    item.setSuffix(String.format(" (%s)", data.optInt("count", 0)));
                 targetList.add(item);
             }
             updateLabels(targetList);

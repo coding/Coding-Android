@@ -16,7 +16,7 @@ public class Maopao {
 
     public static String getHttpProjectMaopao(int projectId, int maopaoId) {
 //        https://coding.net/api/project/205646/tweet/2417
-        return String.format("%s/project/%d/tweet/%d", Global.HOST_API, projectId, maopaoId);
+        return String.format("%s/project/%s/tweet/%s", Global.HOST_API, projectId, maopaoId);
     }
 
     public static class MaopaoObject implements Serializable {

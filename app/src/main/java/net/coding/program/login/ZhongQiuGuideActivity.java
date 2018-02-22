@@ -78,7 +78,7 @@ public class ZhongQiuGuideActivity extends BaseActivity {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.d("", String.format("scr1 %d %f %d", position, positionOffset, positionOffsetPixels));
+                Log.d("", String.format("scr1 %s %f %s", position, positionOffset, positionOffsetPixels));
 
                 if (position == (mBackgroundResId.length - 1)) {
                     entranceButton.setVisibility(View.VISIBLE);
@@ -95,12 +95,12 @@ public class ZhongQiuGuideActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.d("", String.format("scr2 %d", position));
+                Log.d("", String.format("scr2 %s", position));
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Log.d("", String.format("scr3 %d", state)); //, positionOffset, positionOffset));
+                Log.d("", String.format("scr3 %s", state)); //, positionOffset, positionOffset));
 
             }
 

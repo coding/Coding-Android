@@ -50,7 +50,7 @@ public class BaiduLbsLoader {
         params.put("ak", AllThirdKeys.ak);
         UserObject userObject = AccountInfo.loadAccount(context);
         if (userObject != null) {
-            params.put("filter", String.format("user_id:[%d]", userObject.id));
+            params.put("filter", String.format("user_id:[%s]", userObject.id));
         }
         params.put("geotable_id", AllThirdKeys.geotable);
         params.put("q", keyword);

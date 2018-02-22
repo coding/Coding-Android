@@ -91,7 +91,7 @@ public class ParallaxFragment extends Fragment implements ViewPager.OnPageChange
 
     @Override
     public void onPageScrolled(int position, float offset, int offsetPixels) {
-//        Log.d("", String.format("off %d, %f, %d", position, offset, offsetPixels));
+//        Log.d("", String.format("off %s, %f, %s", position, offset, offsetPixels));
         if (offset > 0.5) {
             mIndicatorView.setSelect(position + 1);
         } else {

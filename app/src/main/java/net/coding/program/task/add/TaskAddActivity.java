@@ -566,7 +566,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
         if (watchUserCount == 0) {
             countString = "添加";
         } else {
-            countString = String.format("%d人关注", watchUserCount);
+            countString = String.format("%s人关注", watchUserCount);
         }
         layoutWatch.setText2(countString);
     }

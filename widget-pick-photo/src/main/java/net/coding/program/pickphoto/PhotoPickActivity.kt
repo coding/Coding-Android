@@ -17,22 +17,12 @@ import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.AdapterView
-import android.widget.BaseAdapter
-import android.widget.CheckBox
-import android.widget.GridView
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toast
-
+import android.widget.*
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.assist.ImageScaleType
-
 import net.coding.program.common.CameraPhotoUtil
 import net.coding.program.common.ImageInfo
-
-import java.util.ArrayList
-import java.util.LinkedHashMap
+import java.util.*
 
 
 class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
@@ -154,7 +144,7 @@ class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
         if ((v as CheckBox).isChecked) {
             if (mPickData.size >= mMaxPick) {
                 v.isChecked = false
-                val s = String.format("最多只能选择%d张", mMaxPick)
+                val s = String.format("最多只能选择%s张", mMaxPick)
                 Toast.makeText(this, s, Toast.LENGTH_LONG).show()
                 return
             }
@@ -275,7 +265,7 @@ class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
 
     fun camera() {
         if (mPickData.size >= mMaxPick) {
-            val s = String.format("最多只能选择%d张", mMaxPick)
+            val s = String.format("最多只能选择%s张", mMaxPick)
             Toast.makeText(this@PhotoPickActivity, s, Toast.LENGTH_LONG).show()
             return
         }

@@ -15,11 +15,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
 import android.widget.Toast
-
 import net.coding.program.common.ImageInfo
 import net.coding.program.pickphoto.detail.ImagePagerFragment_
-
-import java.util.ArrayList
+import java.util.*
 
 class PhotoPickDetailActivity : AppCompatActivity() {
     private val actionbarTitle = "%d/%d"
@@ -165,7 +163,7 @@ class PhotoPickDetailActivity : AppCompatActivity() {
     }
 
     private fun updateDataPickCount() {
-        val send = String.format("确定(%d/%d)", mPickPhotos!!.size, mMaxPick)
+        val send = String.format("确定(%s/%s)", mPickPhotos!!.size, mMaxPick)
         mMenuSend!!.setTitle(send)
     }
 

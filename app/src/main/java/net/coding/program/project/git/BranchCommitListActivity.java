@@ -165,7 +165,7 @@ public class BranchCommitListActivity extends RefreshBaseActivity implements Loa
         }
 
         public String getNextPageUrl() {
-            return String.format("%spage=%d", mCommitsUrl, mNextPage);
+            return String.format("%spage=%s", mCommitsUrl, mNextPage);
         }
     }
 

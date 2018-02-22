@@ -159,7 +159,7 @@ public class LocalProjectFileActivity extends BackActivity {
 
             String name = (String) getItem(position);
             int count = data.get(name).size();
-            holder.name.setText(String.format("%s (%d)", name, count));
+            holder.name.setText(String.format("%s (%s)", name, count));
             return holder.getRootView();
         }
     }

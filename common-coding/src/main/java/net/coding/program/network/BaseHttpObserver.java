@@ -23,12 +23,12 @@ public class BaseHttpObserver implements Observer<BaseHttpResult> {
 
     static {
         try {
-            String connectFailString = String.format("{\"code\":%d,\"msg\":{\"error\":\"%s\"}}",
+            String connectFailString = String.format("{\"code\":%s,\"msg\":{\"error\":\"%s\"}}",
                     NetworkImpl.NETWORK_CONNECT_FAIL, NetworkImpl.ERROR_MSG_CONNECT_FAIL);
             sNetworkError = new JSONObject(connectFailString);
 
 
-            String serviceFailString = String.format("{\"code\":%d,\"msg\":{\"error\":\"%s\"}}",
+            String serviceFailString = String.format("{\"code\":%s,\"msg\":{\"error\":\"%s\"}}",
                     NetworkImpl.NETWORK_ERROR_SERVICE, NetworkImpl.ERROR_MSG_SERVICE_ERROR);
             sServiceError = new JSONObject(serviceFailString);
 

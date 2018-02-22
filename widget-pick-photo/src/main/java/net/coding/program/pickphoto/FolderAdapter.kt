@@ -6,12 +6,9 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-
 import com.nostra13.universalimageloader.core.ImageLoader
-
 import net.coding.program.common.ImageInfo
-
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Created by chenchao on 15/5/6.
@@ -68,7 +65,7 @@ class FolderAdapter(mFolderData: ArrayList<ImageInfoExtra>) : BaseAdapter() {
         val count = data.count
 
         holder.foldName!!.text = data.getmName()
-        holder.photoCount!!.text = String.format("%d张", count)
+        holder.photoCount!!.text = String.format("%s张", count)
 
         ImageLoader.getInstance().displayImage(ImageInfo.pathAddPreFix(uri), holder.foldIcon!!,
                 PhotoPickActivity.optionsImage)

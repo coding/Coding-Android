@@ -114,7 +114,7 @@ public class TopicObject extends BaseComment implements Serializable {
 
         @Override
         public String removeLabel(int labelId) {
-            return String.format("%s%s/topics/label/%d", Global.HOST_API, projectPath, labelId);
+            return String.format("%s%s/topics/label/%s", Global.HOST_API, projectPath, labelId);
         }
 
         @Override
@@ -128,7 +128,7 @@ public class TopicObject extends BaseComment implements Serializable {
 
         @Override
         public RequestData saveTopic(Collection<Integer> ids) {
-            String url = String.format("%s%s/topics/%d/labels", Global.HOST_API, projectPath, id);
+            String url = String.format("%s%s/topics/%s/labels", Global.HOST_API, projectPath, id);
             RequestParams body = new RequestParams();
             body.put("label_id", TextUtils.join(",", ids));
             return new RequestData(url, body);
@@ -168,7 +168,7 @@ public class TopicObject extends BaseComment implements Serializable {
 
         @Override
         public RequestData saveTopic(Collection<Integer> ids) {
-            String url = String.format("%s%s/task/%d/labels", Global.HOST_API, projectPath, id);
+            String url = String.format("%s%s/task/%s/labels", Global.HOST_API, projectPath, id);
             RequestParams body = new RequestParams();
             body.put("label_id", TextUtils.join(",", ids));
             return new RequestData(url, body);

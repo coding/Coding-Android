@@ -361,7 +361,7 @@ public class Global {
             if (!url.contains("?imageMogr2/")) {
                 parma = "?imageMogr2/";
             }
-            return String.format("%s%s/!%dx%d", url, parma, widthPix, widthPix);
+            return String.format("%s%s/!%sx%s", url, parma, widthPix, widthPix);
         } else {
             return url;
         }

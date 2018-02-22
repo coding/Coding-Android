@@ -64,7 +64,7 @@ public class CommentArea {
 
             if ((data.comments > commentMaxCount) || (data.comments > data.comment_list.size())) {
                 commentMore.setVisibility(View.VISIBLE);
-                commentMoreCount.setText(String.format("查看全部%d条评论", data.comments));
+                commentMoreCount.setText(String.format("查看全部%s条评论", data.comments));
             } else {
                 commentMore.setVisibility(View.GONE);
             }

@@ -103,9 +103,9 @@ public class TaskFilterFragment extends LoadingFragment {
 //
 //        if (mTaskCountModel != null) {
 //            filterTxtCount = new String[]{
-//                    String.format(" (%d)", mTaskCountModel.processing + mTaskCountModel.done),
-//                    String.format(" (%d)", mTaskCountModel.watchAll),
-//                    String.format(" (%d)", mTaskCountModel.create)
+//                    String.format(" (%s)", mTaskCountModel.processing + mTaskCountModel.done),
+//                    String.format(" (%s)", mTaskCountModel.watchAll),
+//                    String.format(" (%s)", mTaskCountModel.create)
 //            };
 //        }
 
