@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 26
@@ -86,4 +87,8 @@ dependencies {
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.11'
 
     implementation project(':luban')
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+}
+repositories {
+    mavenCentral()
 }

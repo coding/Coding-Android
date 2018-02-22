@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +28,7 @@ import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
+import com.orhanobut.logger.Logger;
 
 import net.coding.program.R;
 import net.coding.program.route.URLSpanNoUnderline;
@@ -114,7 +116,10 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
 
     @Override
     public void onQRCodeRead(String s, PointF[] pointFs) {
-        Log.d("", "scan " + s);
+        Logger.d("scan " + s);
+
+        if (TextUtils.isEmpty(s)) return;
+
         if (!enableScan) {
             return;
         }
@@ -129,10 +134,16 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
         if (!AuthInfo.isAuthUrl(s)) {
             Uri uri = Uri.parse(s);
             String host = uri.getHost();
-            if (host.toLowerCase().endsWith("coding.net")) { // coding.net 结尾的使用内部浏览器打开, 比如 mart.coding.net
+            if (TextUtils.isEmpty(host)) {
+                enableScan = true;
+                return;
+            }
+
+            if (host.toLowerCase().endsWith("coding.net"))
+            { // coding.net 结尾的使用内部浏览器打开, 比如 mart.coding.net
                 URLSpanNoUnderline.openActivityByUri(this, s, false, true, true);
                 finish();
-            } else {
+            } else{
                 new AlertDialog.Builder(QRScanActivity.this, R.style.MyAlertDialogStyle)
                         .setTitle("打开外部链接")
                         .setMessage(s)

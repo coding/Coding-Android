@@ -737,7 +737,7 @@ public class MyApp extends MultiDexApplication {
                     return true;
                 }
 
-                if (PushUrl.is2faLink(uriString)) {
+                if (PushUrl.INSTANCE.is2faLink(uriString)) {
                     intent.setClass(context, AuthListActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
