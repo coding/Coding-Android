@@ -2,6 +2,7 @@ package net.coding.program.common.widget.input;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.text.style.DynamicDrawableSpan;
 
 import net.coding.program.R;
@@ -19,8 +20,8 @@ public class EmojiconSpan extends DynamicDrawableSpan {
     private Drawable mDrawable;
     private boolean mIsMonkey;
 
-    public static HashMap<String, String> emojiMonkeyMap = new HashMap<>();
-    public static HashMap<String, String> textToMonkdyMap = new HashMap<>();
+    private static HashMap<String, String> emojiMonkeyMap = new HashMap<>();
+    private static HashMap<String, String> textToMonkdyMap = new HashMap<>();
 
     static {
         emojiMonkeyMap.put("coding_emoji_01", "哈哈");
@@ -127,6 +128,12 @@ public class EmojiconSpan extends DynamicDrawableSpan {
         textToMonkdyMap.put("赏月", "festival_emoji_06");
         textToMonkdyMap.put("悠闲", "festival_emoji_07");
         textToMonkdyMap.put("爬爬", "festival_emoji_08");
+    }
+
+    public static String imageToText(String image) {
+        String text = emojiMonkeyMap.get(image);
+        if (TextUtils.isEmpty(text)) text = "哈哈";
+        return text;
     }
 
     public EmojiconSpan(Context context, String iconName) {

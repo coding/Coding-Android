@@ -204,8 +204,8 @@ public class EmojiFragment extends Fragment {
                         mEnterLayout.insertEmoji(name);
                     }
                 } else {
-                    String potoName = (String) adapterIcon.getItem((int) id);
-                    String editName = EmojiconSpan.emojiMonkeyMap.get(potoName);
+                    String imageName = (String) adapterIcon.getItem((int) id);
+                    String editName = EmojiconSpan.imageToText(imageName);
                     mEnterLayout.insertEmoji(editName);
                 }
             }

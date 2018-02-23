@@ -23,6 +23,7 @@ import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.GlobalData;
 import net.coding.program.common.widget.EnterLayoutAnimSupportContainer;
 import net.coding.program.common.widget.input.CameraAndPhoto;
+import net.coding.program.common.widget.input.EmojiconSpan;
 import net.coding.program.common.widget.input.InputAction;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
 
