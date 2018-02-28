@@ -13,7 +13,6 @@ import net.coding.program.guide.GuideActivity;
 import net.coding.program.login.SetGlobalKeyActivity_;
 import net.coding.program.network.constant.Friend;
 import net.coding.program.param.ProjectJumpParam;
-import net.coding.program.project.MainProjectFragment_;
 import net.coding.program.project.PrivateProjectHomeFragment_;
 import net.coding.program.project.PublicProjectHomeFragment_;
 import net.coding.program.project.maopao.ProjectMaopaoActivity_;
@@ -34,11 +33,6 @@ public class CodingCompatImp implements ClassCompatInterface {
     @Override
     public Class<?> getMainActivity() {
         return MainActivity_.class;
-    }
-
-    @Override
-    public Class<?> getMainProjectFragment() {
-        return MainProjectFragment_.FragmentBuilder_.class;
     }
 
     @Override

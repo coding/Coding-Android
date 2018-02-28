@@ -36,11 +36,6 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
     }
 
     @Override
-    public Class<?> getMainProjectFragment() {
-        return EnterpriseProjectFragment_.FragmentBuilder_.class;
-    }
-
-    @Override
     public Fragment getProjectHome(ProjectObject projectObject, boolean needReload) {
         return EnterpriseProjectHomeFragment_.builder()
                 .mProjectObject(projectObject)
