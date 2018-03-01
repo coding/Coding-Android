@@ -43,7 +43,7 @@ import net.coding.program.network.HttpObserverRaw;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.common.AppVersion;
 import net.coding.program.pay.WXPay;
-import net.coding.program.project.MainProjectFragment_;
+import net.coding.program.project.MainProjectFragment;
 import net.coding.program.push.CodingPush;
 import net.coding.program.push.xiaomi.EventPushToken;
 import net.coding.program.push.xiaomi.EventUnbindToken;
@@ -395,7 +395,7 @@ public class MainActivity extends BaseActivity {
     }
 
     protected void switchProject() {
-        switchFragment(MainProjectFragment_.FragmentBuilder_.class);
+        switchFragment(MainProjectFragment.FragmentBuilder_.class);
     }
 
     @Override

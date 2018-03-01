@@ -1,9 +1,13 @@
 package net.coding.program.project;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.coding.program.R;
@@ -22,25 +26,23 @@ import net.coding.program.task.add.TaskAddActivity_;
 import net.coding.program.terminal.TerminalActivity;
 import net.coding.program.user.AddFollowActivity_;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.ViewById;
+import org.androidannotations.api.builder.FragmentBuilder;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-@EFragment(R.layout.fragment_main_project)
 public class MainProjectFragment extends BaseFragment {
 
-    @ViewById
     TextView toolbarTitle;
-
-    @ViewById
     Toolbar mainProjectToolbar;
+    View hasViews;
 
-    @AfterViews
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        hasViews = inflater.inflate(R.layout.fragment_main_project, container, false);
+        return hasViews;
+    }
+
     void initMainProjectFragment() {
         toolbarTitle.setText("我的项目");
         mainProjectToolbar.inflateMenu(R.menu.menu_fragment_project);
@@ -77,12 +79,42 @@ public class MainProjectFragment extends BaseFragment {
                 .commit();
     }
 
-    @Click
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        this.toolbarTitle = hasViews.findViewById(R.id.toolbarTitle);
+        this.mainProjectToolbar = hasViews.findViewById(R.id.mainProjectToolbar);
+        View view_terminalClick = hasViews.findViewById(R.id.terminalClick);
+
+        if (view_terminalClick != null) {
+            view_terminalClick.setOnClickListener(new View.OnClickListener() {
+
+                                                      @Override
+                                                      public void onClick(View view) {
+                                                          terminalClick();
+                                                      }
+                                                  }
+            );
+        }
+        if (this.toolbarTitle != null) {
+            this.toolbarTitle.setOnClickListener(new View.OnClickListener() {
+
+                                                     @Override
+                                                     public void onClick(View view) {
+                                                         toolbarTitle(view);
+                                                     }
+                                                 }
+            );
+        }
+        initMainProjectFragment();
+    }
+
+
     void toolbarTitle(View v) {
         EventBus.getDefault().post(new EventFilter(0));
     }
 
-    @Click
     void terminalClick() {
         Intent i = new Intent(getActivity(), TerminalActivity.class);
         startActivity(i);
@@ -106,31 +138,26 @@ public class MainProjectFragment extends BaseFragment {
     }
 
 
-    @OptionsItem
     void action_create_friend() {
         umengEvent(UmengEvent.LOCAL, "快捷添加好友");
         AddFollowActivity_.intent(this).start();
     }
 
-    @OptionsItem
     final void action_create() {
         umengEvent(UmengEvent.LOCAL, "快捷创建项目");
         ProjectCreateActivity_.intent(this).start();
     }
 
-    @OptionsItem
     final void action_create_task() {
         umengEvent(UmengEvent.LOCAL, "快捷创建任务");
         TaskAddActivity_.intent(this).mUserOwner(GlobalData.sUserObject).start();
     }
 
-    @OptionsItem
     final void action_create_maopao() {
         umengEvent(UmengEvent.LOCAL, "快捷创建冒泡");
         MaopaoAddActivity_.intent(this).start();
     }
 
-    @OptionsItem
     final void action_scan() {
         if (!PermissionUtil.checkCamera(getActivity())) {
             return;
@@ -141,7 +168,6 @@ public class MainProjectFragment extends BaseFragment {
         startActivity(intent);
     }
 
-    @OptionsItem
     final void action_2fa() {
         if (!PermissionUtil.checkCamera(getActivity())) {
             return;
@@ -150,11 +176,19 @@ public class MainProjectFragment extends BaseFragment {
         GlobalCommon.start2FAActivity(getActivity());
     }
 
-    @OptionsItem
     void action_search() {
         SearchProjectActivity_.intent(this).start();
         getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
     }
 
+    public static class FragmentBuilder_
+            extends FragmentBuilder<MainProjectFragment.FragmentBuilder_, MainProjectFragment> {
 
+        @Override
+        public net.coding.program.project.MainProjectFragment build() {
+            MainProjectFragment fragment_ = new MainProjectFragment();
+            fragment_.setArguments(args);
+            return fragment_;
+        }
+    }
 }
