@@ -15,7 +15,12 @@ import net.coding.program.common.ui.BaseFragment
 import net.coding.program.common.umeng.UmengEvent
 import net.coding.program.common.util.PermissionUtil
 import net.coding.program.login.auth.QRScanActivity
+import net.coding.program.maopao.MaopaoAddActivity_
+import net.coding.program.project.init.create.ProjectCreateActivity_
+import net.coding.program.search.SearchProjectActivity_
+import net.coding.program.task.add.TaskAddActivity_
 import net.coding.program.terminal.TerminalActivity
+import net.coding.program.user.AddFollowActivity_
 import org.androidannotations.api.builder.FragmentBuilder
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
