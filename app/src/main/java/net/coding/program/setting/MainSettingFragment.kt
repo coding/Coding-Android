@@ -1,10 +1,8 @@
 package net.coding.program.setting
 
 
-import android.support.v7.widget.Toolbar
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
+import kotlinx.android.synthetic.main.fragment_main_setting.*
 import net.coding.program.R
 import net.coding.program.UserDetailEditActivity_
 import net.coding.program.common.Global
@@ -14,7 +12,6 @@ import net.coding.program.common.model.AccountInfo
 import net.coding.program.common.model.user.ServiceInfo
 import net.coding.program.common.ui.BaseFragment
 import net.coding.program.common.util.PermissionUtil
-import net.coding.program.common.widget.ListItem1
 import net.coding.program.compatible.CodingCompat
 import net.coding.program.mall.MallIndexActivity_
 import net.coding.program.project.detail.file.LocalProjectFileActivity_
@@ -24,30 +21,12 @@ import net.coding.program.user.team.TeamListActivity_
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.ViewById
 import org.json.JSONException
 import org.json.JSONObject
 
 @EFragment(R.layout.fragment_main_setting)
 open class MainSettingFragment : BaseFragment() {
     internal val url = Global.HOST_API + "/user/service_info"
-
-    @ViewById
-    protected lateinit var userName: TextView
-    @ViewById
-    protected lateinit var userGK: TextView
-    @ViewById
-    protected lateinit var projectCount: TextView
-    @ViewById
-    protected lateinit var teamCount: TextView
-    @ViewById
-    protected lateinit var mainSettingToolbar: Toolbar
-    @ViewById(R.id.itemShop)
-    protected lateinit var itemShop: ListItem1
-    @ViewById
-    protected lateinit var userIcon: ImageView
-    @ViewById(R.id.topTip)
-    protected lateinit var topTip: View
 
     var serviceInfo: ServiceInfo? = null
 
