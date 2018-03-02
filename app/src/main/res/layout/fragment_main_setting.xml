@@ -37,24 +37,24 @@
         android:background="@color/layout_yellow_bg">
 
         <TextView
+            android:id="@+id/topTipText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/layout_yellow_font"
-            android:id="@+id/topTipText"
             android:layout_weight="1"
             android:paddingBottom="@dimen/padding_10"
             android:paddingLeft="@dimen/padding_15"
             android:paddingRight="@dimen/padding_15"
             android:paddingTop="@dimen/padding_10"
             android:text="@string/tip_need_userinfo"
+            android:textColor="@color/layout_yellow_font"
             android:textSize="14sp" />
 
         <ImageView
+            android:id="@+id/closeTipButton"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:id="@+id/closeTipButton"
-            android:layout_marginRight="10dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
             android:scaleType="center"
             android:src="@drawable/ic_fork_yellow" />
 
@@ -145,7 +145,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:gravity="bottom">
+                        android:gravity="center"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/projectCount"
@@ -153,13 +154,13 @@
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textColor="@color/font_1"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:text="项目"
+                            android:text="私有"
+                            android:layout_marginTop="5dp"
                             android:textColor="@color/font_3"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -182,7 +183,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:gravity="bottom">
+                        android:gravity="center"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/teamCount"
@@ -190,17 +192,17 @@
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textColor="@color/font_1"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:text="团队"
+                            android:text="公有"
+                            android:layout_marginTop="5dp"
                             android:textColor="@color/font_3"
                             android:textSize="12sp" />
-                    </LinearLayout>
 
+                    </LinearLayout>
                 </FrameLayout>
 
             </LinearLayout>

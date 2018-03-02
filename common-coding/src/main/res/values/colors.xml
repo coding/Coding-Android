@@ -121,4 +121,10 @@
     <array name="pull_to_refrush">
         <item>@color/font_green</item>
     </array>
+
+
+    <color name="font_hint">#FFA9B3BE</color>
+
+    <color name="text_disable">#BDC8D5</color>
+
 </resources>

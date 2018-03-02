@@ -1,6 +1,7 @@
 package net.coding.program.setting
 
 
+import android.content.Intent
 import android.view.View
 import kotlinx.android.synthetic.main.fragment_main_setting.*
 import net.coding.program.R
@@ -8,16 +9,15 @@ import net.coding.program.UserDetailEditActivity_
 import net.coding.program.common.Global
 import net.coding.program.common.GlobalData
 import net.coding.program.common.RedPointTip
-import net.coding.program.common.model.AccountInfo
 import net.coding.program.common.model.user.ServiceInfo
 import net.coding.program.common.ui.BaseFragment
 import net.coding.program.common.util.PermissionUtil
 import net.coding.program.compatible.CodingCompat
 import net.coding.program.mall.MallIndexActivity_
+import net.coding.program.project.ProjectFragment
 import net.coding.program.project.detail.file.LocalProjectFileActivity_
 import net.coding.program.user.AddFollowActivity_
 import net.coding.program.user.UserPointActivity_
-import net.coding.program.user.team.TeamListActivity_
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EFragment
@@ -27,8 +27,6 @@ import org.json.JSONObject
 @EFragment(R.layout.fragment_main_setting)
 open class MainSettingFragment : BaseFragment() {
     internal val url = Global.HOST_API + "/user/service_info"
-
-    var serviceInfo: ServiceInfo? = null
 
     @AfterViews
     fun initMainSettingFragment() {
@@ -73,13 +71,12 @@ open class MainSettingFragment : BaseFragment() {
         }
     }
 
-    private fun bindData() {
-        if (serviceInfo == null) {
-            serviceInfo = ServiceInfo(AccountInfo.getGetRequestCacheData(activity, url))
-        }
-
-        projectCount!!.text = (serviceInfo!!.publicProject + serviceInfo!!.privateProject).toString()
-        teamCount!!.text = serviceInfo!!.team.toString()
+    private fun bindData(serviceInfo: ServiceInfo) {
+//        if (serviceInfo == null) {
+//            serviceInfo = ServiceInfo(AccountInfo.getGetRequestCacheData(activity, url))
+//        }
+        projectCount.text = "${serviceInfo.privateProject} / ${serviceInfo.privateMax}"
+        teamCount.text = "${serviceInfo.publicProject} / ${serviceInfo.publicMax}"
     }
 
     internal fun loadUser() {
@@ -92,8 +89,7 @@ open class MainSettingFragment : BaseFragment() {
     override fun parseJson(code: Int, respanse: JSONObject, tag: String, pos: Int, data: Any) {
         if (tag == TAG_SERVICE_INFO) {
             if (code == 0) {
-                serviceInfo = ServiceInfo(respanse.optJSONObject("data"))
-                bindData()
+                bindData(ServiceInfo(respanse.optJSONObject("data")))
             } else {
                 showErrorMsg(code, respanse)
             }
@@ -103,12 +99,18 @@ open class MainSettingFragment : BaseFragment() {
 
     @Click
     public fun projectLayout() {
-        MyCreateProjectListActivity_.intent(this).start()
+        jumpProjectList(ProjectFragment.ProjectType.Private)
+    }
+
+    fun jumpProjectList(type: ProjectFragment.ProjectType) {
+        val intent = Intent(activity, MyCreateProjectListActivity::class.java)
+        intent.putExtra("extra", type)
+        startActivity(intent)
     }
 
     @Click
     public fun teamLayout() {
-        TeamListActivity_.intent(this).start()
+        jumpProjectList(ProjectFragment.ProjectType.Public)
     }
 
     @Click

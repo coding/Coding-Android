@@ -18,6 +18,8 @@ public class ServiceInfo implements Serializable {
     public int balance;
     public int usedmemory;
     public int team;
+    private String publicProjectQuota = "0";
+    private String privateProjectQuota = "0";
 
     public ServiceInfo(JSONObject json) {
         privateProject = json.optInt("private");
@@ -27,5 +29,15 @@ public class ServiceInfo implements Serializable {
         balance = json.optInt("balance");
         usedmemory = json.optInt("used_memory");
         team = json.optInt("team");
+        publicProjectQuota = json.optString("public_project_quota", "0");
+        privateProjectQuota = json.optString("private_project_quota", "0");
+    }
+
+    public String getPublicMax() {
+        return publicProjectQuota;
+    }
+
+    public String getPrivateMax() {
+        return privateProjectQuota;
     }
 }

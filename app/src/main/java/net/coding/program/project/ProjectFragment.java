@@ -48,6 +48,9 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
     @FragmentArg
     Type type = Type.Main;
 
+    @FragmentArg
+    ProjectType projectType = null;
+
     boolean requestOk = true;
     ArrayList<ProjectObject> mData = new ArrayList<>();
     private int pageIndex = 0;
@@ -76,10 +79,31 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
         onRefresh();
     }
 
+    private void dataFilter() {
+        ArrayList<ProjectObject> temp = new ArrayList<>(mData);
+        if (projectType == ProjectType.Public) {
+            mData.clear();
+            for (ProjectObject item : temp) {
+                if (item.isPublic()) {
+                    mData.add(item);
+                }
+            }
+        } else if (projectType == ProjectType.Private) {
+            mData.clear();
+            for (ProjectObject item : temp) {
+                if (!item.isPublic()) {
+                    mData.add(item);
+                }
+            }
+        }
+    }
+
     @AfterViews
     protected void initProjectFragment() {
         hideDialogLoading();
         mData = AccountInfo.loadProjects(getActivity());
+        dataFilter();
+
         pager.setOnPageChangeListener(this);
         setHasOptionsMenu(true);
         if (type == Type.Main || type == Type.Create) {
@@ -157,12 +181,15 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
                 for (int i = 0; i < array.length(); ++i) {
                     JSONObject item = array.getJSONObject(i);
                     ProjectObject oneData = new ProjectObject(item);
+
                     if (oneData.isPin()) {
                         mData.add(pinCount++, oneData);
                     } else {
                         mData.add(oneData);
                     }
                 }
+                dataFilter();
+
                 AccountInfo.saveProjects(getActivity(), mData);
                 adapter.notifyDataSetChanged();
                 EventBus.getDefault().post(new EventRefresh(true));
@@ -192,4 +219,7 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
         Main, Pick, Filter, Create
     }
 
+    public enum ProjectType {
+        Public, Private
+    }
 }

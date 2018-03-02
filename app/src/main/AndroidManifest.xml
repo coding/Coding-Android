@@ -764,7 +764,7 @@
             android:label="@string/title_activity_setting"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".setting.MyCreateProjectListActivity_"
+            android:name=".setting.MyCreateProjectListActivity"
             android:label="@string/title_activity_my_created"
             android:screenOrientation="portrait" />
         <activity
