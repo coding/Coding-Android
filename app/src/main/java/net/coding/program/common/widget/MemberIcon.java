@@ -6,7 +6,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
-import net.coding.program.R;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.network.constant.VIP;
@@ -53,15 +52,11 @@ public class MemberIcon extends CircleImageView {
     public void setFlagIcon(Object tag) {
         if (tag instanceof UserObject) {
             VIP vip = ((UserObject) tag).vip;
-            if (vip == VIP.diamond) {
-                flagIcon = getResources().getDrawable(R.drawable.member_diamond);
-            } else if (vip == VIP.gold) {
-                flagIcon = getResources().getDrawable(R.drawable.member_gold);
-            } else {
+            if (vip.icon == 0) {
                 flagIcon = null;
+            } else {
+                flagIcon = getResources().getDrawable(vip.icon);
             }
-//        } else {
-//            flagIcon = null;
         }
     }
 

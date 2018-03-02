@@ -47,8 +47,8 @@
 
     <color name="font_yellow">#F3C033</color>
 
-    <color name="layout_yellow_bg">#FAF8D4</color>
-    <color name="layout_yellow_font">#836E32</color>
+    <color name="layout_yellow_bg">#FFECF9FF</color>
+    <color name="layout_yellow_font">#FF136BFB</color>
 
     <color name="emoji_line">@color/divide_line</color>
 

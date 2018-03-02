@@ -6,6 +6,7 @@ import android.view.View
 import kotlinx.android.synthetic.main.fragment_main_setting.*
 import net.coding.program.R
 import net.coding.program.UserDetailEditActivity_
+import net.coding.program.common.CodingColor
 import net.coding.program.common.Global
 import net.coding.program.common.GlobalData
 import net.coding.program.common.RedPointTip
@@ -59,8 +60,21 @@ open class MainSettingFragment : BaseFragment() {
 
     private fun bindDataUserinfo() {
         val me = GlobalData.sUserObject
-        userName!!.text = me.name
-        userGK!!.text = String.format("个性后缀：%s", me.global_key)
+        userName.text = me.name
+        vip.text = me.vip.alias
+        if (me.vip.isPayed) {
+            val time = Global.dayFromTime(me.vipExpiredAt)
+            var color = CodingColor.font3
+            if (me.vipExpiredAt - System.currentTimeMillis() < 3 * 3600 * 1000 * 24) {
+                color = CodingColor.fontRed
+            }
+            expire.text = Global.createColorHtml("到期时间：", time, "", color)
+
+        } else {
+            expire.text = ""
+        }
+        vipIcon.setImageResource(me.vip.icon)
+
         iconfromNetwork(userIcon, me.avatar)
         userIcon!!.tag = me
 

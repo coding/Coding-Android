@@ -36,13 +36,21 @@
         android:layout_height="wrap_content"
         android:background="@color/layout_yellow_bg">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:scaleType="center"
+            android:src="@drawable/top_tip_icon" />
+
         <TextView
             android:id="@+id/topTipText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingBottom="@dimen/padding_10"
-            android:paddingLeft="@dimen/padding_15"
             android:paddingRight="@dimen/padding_15"
             android:paddingTop="@dimen/padding_10"
             android:text="@string/tip_need_userinfo"
@@ -90,37 +98,58 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp" />
 
+                    <ImageView
+                        android:layout_marginLeft="49dp"
+                        android:layout_marginTop="52dp"
+                        android:id="@+id/vipIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
                     <TextView
                         android:id="@+id/userName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@id/userIcon"
-                        android:layout_marginTop="3dp"
                         android:layout_toRightOf="@id/userIcon"
                         android:textColor="@color/font_1"
                         android:textSize="16sp"
                         tools:text="Man" />
 
-                    <TextView
-                        android:id="@+id/userGK"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/userIcon"
-                        android:layout_marginBottom="3dp"
-                        android:layout_toRightOf="@id/userIcon"
-                        android:textColor="@color/font_3"
-                        android:textSize="13sp"
-                        tools:text="个性后缀" />
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="18dp"
+                        android:layout_marginLeft="80dp"
+                        android:orientation="horizontal">
 
-                    <View
-                        android:layout_width="10dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/padding_15"
-                        android:background="@drawable/user_home_arrow"
-                        tools:showIn="@layout/activity_user_detail" />
+                        <com.flyco.roundview.RoundTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="2dp"
+                            android:paddingLeft="6dp"
+                            android:paddingRight="6dp"
+                            android:paddingTop="2dp"
+                            android:text="普通会员"
+                            android:textColor="@color/font_3"
+                            android:textSize="12sp"
+                            android:id="@+id/vip"
+                            app:rv_backgroundColor="#FFD8DDE4"
+                            app:rv_cornerRadius="2dp" />
 
+                        <TextView
+                            android:id="@+id/expire"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@id/userIcon"
+                            android:layout_marginBottom="3dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_toRightOf="@id/userIcon"
+                            android:textColor="@color/font_3"
+                            android:textSize="13sp"
+                            tools:text="到期时间" />
+
+                    </LinearLayout>
                 </RelativeLayout>
 
                 <include layout="@layout/actionbar_shadow" />
@@ -159,8 +188,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="私有"
                             android:layout_marginTop="5dp"
+                            android:text="私有"
                             android:textColor="@color/font_3"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -197,8 +226,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="公有"
                             android:layout_marginTop="5dp"
+                            android:text="公有"
                             android:textColor="@color/font_3"
                             android:textSize="12sp" />
 

@@ -137,6 +137,10 @@ public class UserObject implements Serializable, Comparable {
     @SerializedName("vip")
     @Expose
     public VIP vip = VIP.normal;
+    @SerializedName("vip_expired_at")
+    @Expose
+    public long vipExpiredAt;
+
 
     public UserObject(JSONObject json) {
         if (json == null) {
