@@ -1,12 +1,15 @@
 package net.coding.program.project
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_main_project.*
+import kotlinx.android.synthetic.main.top_tip.*
 import net.coding.program.R
+import net.coding.program.common.Global
 import net.coding.program.common.GlobalCommon
 import net.coding.program.common.GlobalData
 import net.coding.program.common.event.EventFilter
@@ -16,6 +19,9 @@ import net.coding.program.common.umeng.UmengEvent
 import net.coding.program.common.util.PermissionUtil
 import net.coding.program.login.auth.QRScanActivity
 import net.coding.program.maopao.MaopaoAddActivity_
+import net.coding.program.network.HttpObserverRaw
+import net.coding.program.network.Network
+import net.coding.program.network.model.common.AppVersion
 import net.coding.program.project.init.create.ProjectCreateActivity_
 import net.coding.program.search.SearchProjectActivity_
 import net.coding.program.task.add.TaskAddActivity_
@@ -25,11 +31,13 @@ import org.androidannotations.api.builder.FragmentBuilder
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 class MainProjectFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.fragment_main_project, container, false)
+        return inflater?.inflate(R.layout.fragment_main_project, container, false)
     }
 
     internal fun initMainProjectFragment() {
@@ -54,12 +62,63 @@ class MainProjectFragment : BaseFragment() {
                 .commit()
     }
 
+    private fun getVersion(): Int {
+        try {
+            val pInfo = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0);
+            return pInfo.versionCode
+        } catch (e: java.lang.Exception) {
+            Global.errorLog(e)
+        }
+
+        return 1
+    }
+
+    // 检查客户端是否有更新
+    private fun checkNeedUpdate() {
+        updateTip()
+
+        Network.getRetrofit(activity)
+                .getAppVersion()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : HttpObserverRaw<AppVersion>(activity) {
+                    override fun onSuccess(data: AppVersion) {
+                        super.onSuccess(data)
+                        activity.getSharedPreferences("version", Context.MODE_PRIVATE)
+                                .edit()
+                                .putInt("NewAppVersion", data.build)
+                                .apply()
+
+                        updateTip()
+                    }
+
+                    override fun onFail(errorCode: Int, error: String) {}
+                })
+    }
+
+    private fun updateTip() {
+        val versionCode = getVersion()
+        val share = activity.getSharedPreferences("version", Context.MODE_PRIVATE)
+        val newVersion = share.getInt("NewAppVersion", 0)
+
+        if (versionCode < newVersion) {
+            topTip.visibility = View.VISIBLE
+            closeTipButton.setOnClickListener { topTip.visibility = View.GONE }
+            topTipText.setText(R.string.tip_update_app)
+            topTip.setOnClickListener { Global.updateByMarket(activity) }
+        } else {
+            topTip.visibility = View.GONE
+        }
+    }
+
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         terminalClick.setOnClickListener { terminalClick() }
         toolbarTitle.setOnClickListener { view -> toolbarTitle(view) }
         initMainProjectFragment()
+
+        checkNeedUpdate()
     }
 
     internal fun toolbarTitle(v: View) {
@@ -83,7 +142,7 @@ class MainProjectFragment : BaseFragment() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(eventPosition: EventPosition) {
-        toolbarTitle!!.text = eventPosition.title
+        toolbarTitle?.text = eventPosition.title
     }
 
 

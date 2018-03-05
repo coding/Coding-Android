@@ -47,6 +47,7 @@
     <string name="title_activity_test_activity2">TestActivity2</string>
     <string name="title_activity_friend">选择好友</string>
     <string name="tip_vip_expired">请到网站续费</string>
+    <string name="tip_update_app">立即升级最新 Coding 客户端</string>
     <string name="empty" />
     <string name="title_activity_manually_qcode">手动添加帐号</string>
     <string name="title_activity_like_users_list">打赏和点赞的用户</string>

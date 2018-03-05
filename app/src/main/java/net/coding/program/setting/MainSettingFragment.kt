@@ -4,6 +4,7 @@ package net.coding.program.setting
 import android.content.Intent
 import android.view.View
 import kotlinx.android.synthetic.main.fragment_main_setting.*
+import kotlinx.android.synthetic.main.top_tip.*
 import net.coding.program.R
 import net.coding.program.UserDetailEditActivity_
 import net.coding.program.common.CodingColor

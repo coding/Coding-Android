@@ -3,8 +3,6 @@ package net.coding.program;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -39,9 +37,7 @@ import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.maopao.MainMaopaoFragment_;
 import net.coding.program.message.UsersListFragment_;
 import net.coding.program.network.BaseHttpObserver;
-import net.coding.program.network.HttpObserverRaw;
 import net.coding.program.network.Network;
-import net.coding.program.network.model.common.AppVersion;
 import net.coding.program.pay.WXPay;
 import net.coding.program.project.MainProjectFragment;
 import net.coding.program.push.CodingPush;
@@ -190,73 +186,9 @@ public class MainActivity extends BaseActivity {
     }
 
     protected void startExtraService() {
-        // 检查客户端是否有更新
-        if (!GlobalData.isEnterprise()) {
-            checkNeedUpdate();
-        }
-
 //         检查客户端的网络状况
         startNetworkCheckService();
     }
-
-    private void checkNeedUpdate() {
-        if (!Global.isWifiConnected(this)) {
-            return;
-        }
-
-        Network.getRetrofit(this)
-                .getAppVersion()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpObserverRaw<AppVersion>(this) {
-                    @Override
-                    public void onSuccess(AppVersion data) {
-                        super.onSuccess(data);
-                        try {
-                            AppVersion appVersion = data;
-                            int versionCode = getVersion();
-
-                            if (data.build > versionCode) {
-                                SharedPreferences share = getSharedPreferences("version", Context.MODE_PRIVATE);
-                                int jumpVersion = share.getInt("jump", 0);
-
-                                if (appVersion.build > jumpVersion) {
-                                    new AlertDialog.Builder(MainActivity.this, R.style.MyAlertDialogStyle)
-                                            .setTitle("客户端有更新")
-                                            .setMessage(data.message)
-                                            .setPositiveButton("去更新", (dialog, which) -> Global.updateByMarket(MainActivity.this))
-                                            .setNegativeButton("取消", null)
-                                            .setNeutralButton("不再提示", (dialog, which) -> {
-                                                SharedPreferences share1 = getSharedPreferences("version", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor editor = share1.edit();
-                                                editor.putInt("jump", data.build);
-                                                editor.commit();
-                                            })
-                                            .show();
-                                }
-                            }
-                        } catch (Exception e) {
-                            Global.errorLog(e);
-                        }
-                    }
-
-                    @Override
-                    public void onFail(int errorCode, @NonNull String error) {
-                    }
-                });
-    }
-
-    private int getVersion() {
-        try {
-            PackageInfo pInfo = this.getPackageManager().getPackageInfo(this.getPackageName(), 0);
-            return pInfo.versionCode;
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
-
-        return 1;
-    }
-
 
     private void startPushService() {
         if (GlobalData.isEnterprise()) {
