@@ -90,20 +90,25 @@
                     android:background="@color/stand_bg"
                     android:foreground="?attr/selectableItemBackground">
 
-                    <net.coding.program.common.widget.MemberIcon
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/userIcon"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
+                        tools:src="@drawable/icon_user_monkey"
+                        app:civ_border_width="0.5dp"
+                        app:civ_border_color="@color/divide_line"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp" />
 
                     <ImageView
+                        android:id="@+id/vipIcon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_marginLeft="49dp"
                         android:layout_marginTop="52dp"
-                        android:id="@+id/vipIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:scaleType="centerInside"
+                        tools:src="@drawable/member_gold" />
 
                     <TextView
                         android:id="@+id/userName"
@@ -124,6 +129,7 @@
                         android:orientation="horizontal">
 
                         <com.flyco.roundview.RoundTextView
+                            android:id="@+id/vip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingBottom="2dp"
@@ -133,7 +139,6 @@
                             android:text="普通会员"
                             android:textColor="@color/font_3"
                             android:textSize="12sp"
-                            android:id="@+id/vip"
                             app:rv_backgroundColor="#FFD8DDE4"
                             app:rv_cornerRadius="2dp" />
 

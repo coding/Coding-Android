@@ -142,6 +142,10 @@ public class UserObject implements Serializable, Comparable {
     public long vipExpiredAt;
 
 
+    public boolean vipNearExpired() {
+        return vipExpiredAt - System.currentTimeMillis() < 3 * 3600 * 1000 * 24;
+    }
+
     public UserObject(JSONObject json) {
         if (json == null) {
             return;

@@ -15,6 +15,8 @@ import net.coding.program.common.ui.BaseFragment
 import net.coding.program.common.util.PermissionUtil
 import net.coding.program.compatible.CodingCompat
 import net.coding.program.mall.MallIndexActivity_
+import net.coding.program.network.HttpObserver
+import net.coding.program.network.Network
 import net.coding.program.project.ProjectFragment
 import net.coding.program.project.detail.file.LocalProjectFileActivity_
 import net.coding.program.user.AddFollowActivity_
@@ -22,28 +24,25 @@ import net.coding.program.user.UserPointActivity_
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EFragment
-import org.json.JSONException
-import org.json.JSONObject
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 @EFragment(R.layout.fragment_main_setting)
 open class MainSettingFragment : BaseFragment() {
-    internal val url = Global.HOST_API + "/user/service_info"
 
     @AfterViews
     fun initMainSettingFragment() {
         initMenuItem()
 
         // 企业版没有商城
-        if (itemShop != null) {
-            itemShop!!.showBadge(RedPointTip.show(activity, RedPointTip.Type.SettingShop_P460))
-        }
+        itemShop?.showBadge(RedPointTip.show(activity, RedPointTip.Type.SettingShop_P460))
 
         bindDataUserinfo()
     }
 
     protected fun initMenuItem() {
-        mainSettingToolbar!!.inflateMenu(R.menu.main_setting)
-        mainSettingToolbar!!.setOnMenuItemClickListener { item ->
+        mainSettingToolbar?.inflateMenu(R.menu.main_setting)
+        mainSettingToolbar?.setOnMenuItemClickListener { item ->
             if (item.itemId == R.id.actionAddFollow) {
                 actionAddFollow()
             }
@@ -64,55 +63,67 @@ open class MainSettingFragment : BaseFragment() {
         vip.text = me.vip.alias
         if (me.vip.isPayed) {
             val time = Global.dayFromTime(me.vipExpiredAt)
-            var color = CodingColor.font3
-            if (me.vipExpiredAt - System.currentTimeMillis() < 3 * 3600 * 1000 * 24) {
-                color = CodingColor.fontRed
-            }
+            val color = if (me.vipNearExpired()) CodingColor.fontRed else CodingColor.font3
             expire.text = Global.createColorHtml("到期时间：", time, "", color)
 
         } else {
             expire.text = ""
         }
+
         vipIcon.setImageResource(me.vip.icon)
-
         iconfromNetwork(userIcon, me.avatar)
-        userIcon!!.tag = me
+        userIcon?.tag = me
 
-        if (GlobalData.isEnterprise() || me.isFillInfo || me.isHighLevel) {
-            if (topTip != null) {
-                topTip!!.visibility = View.GONE
-            }
+        if (GlobalData.isEnterprise() ) {
+            topTip?.visibility = View.GONE
+            return
+        }
+
+        if (me.isFillInfo || me.isHighLevel) {
+            topTip?.visibility = View.GONE
+        }
+
+        if (me.vip.isPayed && me.vipNearExpired()) {
+            topTip?.visibility = View.VISIBLE
+            topTipText?.text = "会员过期将自动降级到银牌会员"
+            topTipText.setOnClickListener { showDialog(R.string.tip_vip_expired, null) }
+
+        }
+
+        if (!GlobalData.isEnterprise()) {
+            itemAccount.text2.visibility = View.VISIBLE
+            itemAccount.text2.text = "${me.points_left} 码币"
+            itemAccount.text2.setTextColor(CodingColor.fontBlue)
+            itemAccount.text2.textSize = 13f
         }
     }
 
     private fun bindData(serviceInfo: ServiceInfo) {
-//        if (serviceInfo == null) {
-//            serviceInfo = ServiceInfo(AccountInfo.getGetRequestCacheData(activity, url))
-//        }
-        projectCount.text = "${serviceInfo.privateProject} / ${serviceInfo.privateMax}"
-        teamCount.text = "${serviceInfo.publicProject} / ${serviceInfo.publicMax}"
+        projectCount.text = "${serviceInfo.privateProject} / ${serviceInfo.privateProjectMax}"
+        teamCount.text = "${serviceInfo.publicProject} / ${serviceInfo.publicProjectMax}"
     }
 
-    internal fun loadUser() {
+    private fun loadUser() {
         if (!GlobalData.isEnterprise()) { // 平台版才需要调用这个 API
-            getNetwork(url, TAG_SERVICE_INFO)
-        }
-    }
+            Network.getRetrofit(activity)
+                    .serviceInfo()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(object : HttpObserver<ServiceInfo>(activity) {
+                        override fun onSuccess(data: ServiceInfo?) {
+                            super.onSuccess(data)
+                            bindData(data!!)
+                        }
 
-    @Throws(JSONException::class)
-    override fun parseJson(code: Int, respanse: JSONObject, tag: String, pos: Int, data: Any) {
-        if (tag == TAG_SERVICE_INFO) {
-            if (code == 0) {
-                bindData(ServiceInfo(respanse.optJSONObject("data")))
-            } else {
-                showErrorMsg(code, respanse)
-            }
+                        override fun onError(e: Throwable?) {
+                            super.onError(e)
+                        }
+                    })
         }
-        super.parseJson(code, respanse, tag, pos, data)
     }
 
     @Click
-    public fun projectLayout() {
+    fun projectLayout() {
         jumpProjectList(ProjectFragment.ProjectType.Private)
     }
 
@@ -123,25 +134,25 @@ open class MainSettingFragment : BaseFragment() {
     }
 
     @Click
-    public fun teamLayout() {
+    fun teamLayout() {
         jumpProjectList(ProjectFragment.ProjectType.Public)
     }
 
     @Click
-    public fun itemAccount() {
+    fun itemAccount() {
         UserPointActivity_.intent(this).start()
     }
 
     @Click
-    public fun itemShop() {
+    fun itemShop() {
         RedPointTip.markUsed(activity, RedPointTip.Type.SettingShop_P460)
-        itemShop!!.showBadge(false)
+        itemShop?.showBadge(false)
 
         MallIndexActivity_.intent(this).start()
     }
 
     @Click
-    public fun itemLocalFile() {
+    fun itemLocalFile() {
         if (!PermissionUtil.writeExtralStorage(activity)) {
             return
         }
@@ -150,46 +161,41 @@ open class MainSettingFragment : BaseFragment() {
     }
 
     @Click
-    public fun itemHelp() {
+    fun itemHelp() {
         val url = "https://coding.net/help/doc/mobile"
         val title = getString(R.string.title_activity_help)
         HelpActivity_.intent(this).url(url).title(title).start()
     }
 
     @Click
-    public fun userLayout() {
+    fun userLayout() {
         CodingCompat.instance().launchMyDetailActivity(activity)
     }
 
     @Click
-    public fun itemSetting() {
+    fun itemSetting() {
         SettingActivity_.intent(this).start()
     }
 
     @Click
-    public fun itemAbout() {
+    fun itemAbout() {
         AboutActivity_.intent(this).start()
     }
 
     @Click
-    public fun topTipText() {
+    fun topTipText() {
         UserDetailEditActivity_
                 .intent(this)
                 .start()
     }
 
     @Click
-    public fun closeTipButton() {
-        topTip!!.visibility = View.GONE
+    fun closeTipButton() {
+        topTip?.visibility = View.GONE
     }
 
     fun actionAddFollow() {
         AddFollowActivity_.intent(this).start()
-    }
-
-    companion object {
-
-        private val TAG_SERVICE_INFO = "TAG_SERVICE_INFO"
     }
 
 }

@@ -22,6 +22,7 @@ public class ListItem1 extends FrameLayout {
     private View mIcon;
     private TextView mText;
     private View badge;
+    public TextView text2;
 
     public ListItem1(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -35,6 +36,7 @@ public class ListItem1 extends FrameLayout {
         mText = findViewById(R.id.title);
         badge = findViewById(R.id.badge);
         badge.setVisibility(INVISIBLE);
+        text2 = findViewById(R.id.text2);
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ListItem1);
         String title = array.getString(R.styleable.ListItem1_itemTitle);
@@ -90,4 +92,5 @@ public class ListItem1 extends FrameLayout {
     public void showBadge(boolean show) {
         badge.setVisibility(show ? VISIBLE : INVISIBLE);
     }
+
 }

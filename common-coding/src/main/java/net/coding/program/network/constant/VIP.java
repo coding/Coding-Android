@@ -1,5 +1,7 @@
 package net.coding.program.network.constant;
 
+import com.google.gson.annotations.SerializedName;
+
 import net.coding.program.R;
 
 import java.io.Serializable;
@@ -9,9 +11,13 @@ import java.io.Serializable;
  */
 public enum VIP implements Serializable {
 
+    @SerializedName("1")
     normal(1, "普通会员", 0),
+    @SerializedName("2")
     silver(2, "银牌会员", 0),
+    @SerializedName("3")
     gold(3, "金牌会员", R.drawable.member_gold),
+    @SerializedName("4")
     diamond(4, "钻石会员", R.drawable.member_diamond);
 
     public int id;

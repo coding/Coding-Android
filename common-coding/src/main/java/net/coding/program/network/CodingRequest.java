@@ -3,6 +3,7 @@ package net.coding.program.network;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.common.model.user.IntKeyMapHttpResult;
+import net.coding.program.common.model.user.ServiceInfo;
 import net.coding.program.network.model.BaseHttpResult;
 import net.coding.program.network.model.HttpPageResult;
 import net.coding.program.network.model.HttpResult;
@@ -210,4 +211,9 @@ public interface CodingRequest {
                                                      @Field("phone") String phone,
                                                      @Field("code") String code,
                                                      @Field("type") String type);
+
+    // 获取账户详情
+    @GET("user/service_info")
+    Observable<HttpResult<ServiceInfo>> serviceInfo();
+
 }
