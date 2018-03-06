@@ -1,6 +1,5 @@
 package net.coding.program.project.detail.merge;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -70,7 +69,6 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -100,7 +98,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
     ListView listView;
     DataAdapter mAdapter;
     MyImageGetter myImageGetter = new MyImageGetter(this);
-    Comparator<DynamicObject.DynamicBaseObject> mDynamicSorter = (lhs, rhs) -> (int) (lhs.created_at - rhs.created_at);
+
     View.OnClickListener mOnClickItem = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -514,12 +512,8 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_COMMENT) {
             if (resultCode == RESULT_OK) {
-                String commentString = (String) data.getSerializableExtra("data");
                 try {
-                    JSONObject json = new JSONObject(commentString);
-                    DynamicObject.DynamicMergeRequest comment = new DynamicObject.DynamicMergeRequest(json, true);
-                    mAdapter.appendData(comment);
-                    mAdapter.notifyDataSetChanged();
+                    refreshActivities();
                 } catch (Exception e) {
                     showButtomToast("" + e.toString());
                 }
@@ -674,55 +668,88 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
     }
 
     private void refreshActivities() {
-        dynamicList.clear();
         mAdapter.notifyDataSetChanged();
+
         String commentsUrl = mMerge.getHttpComments();
         String activitiesUrl = mMerge.getHttpActivities();
 
         MyJsonResponse activityResponse = new MyJsonResponse(this) {
             @Override
             public void onMySuccess(JSONObject response) {
-                try {
-                    JSONArray json = response.getJSONArray("data");
-                    for (int i = 0; i < json.length(); ++i) {
-                        Object object = json.get(i);
-                        JSONObject activityJson = null;
-                        boolean isCommentCommit = false;
-                        if (object instanceof JSONArray) {  //  comment 的结构是  data : [ [comment] , [comment]]
-                            activityJson = ((JSONArray) object).getJSONObject(0);
-                            if (activityJson.has("diff_html")) {
-                                isCommentCommit = true;
-                                activityJson.put("action", "comment_commit");
-                            } else {
-                                activityJson.put("action", "comment");
-                            }
-                        } else if (object instanceof JSONObject) {  //  activity 的结构是  data : [ activity , activity]
-                            activityJson = (JSONObject) object;
+                requestCount++;
+                handleActivitiesData(tempList, response);
+
+                if (requestCount == 2) {
+                    dynamicList.clear();
+                    dynamicList.addAll(tempList);
+                    Collections.sort(dynamicList, (o1, o2) -> {
+                        if (o1.created_at > o2.created_at) {
+                            return 1;
+                        } else {
+                            return -1;
                         }
+                    });
 
-                        DynamicObject.DynamicMergeRequest activity =
-                                isCommentCommit ?
-                                        new DynamicObject.DynamicMergeRequestCommentCommit(activityJson) :
-                                        new DynamicObject.DynamicMergeRequest(activityJson);
-                        dynamicList.add(activity);
-
-                        Collections.sort(dynamicList, mDynamicSorter);
-                    }
-                    if (dynamicList.size() > 0) {
-                        listView.findViewById(R.id.gap_to_list).setVisibility(View.VISIBLE);
-                    } else {
-                        listView.findViewById(R.id.gap_to_list).setVisibility(View.GONE);
-                    }
-                    mAdapter.resetData(dynamicList);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    updateListView();
+                    tempList.clear();
                 }
+            }
 
+            @Override
+            public void onMyFailure(JSONObject response) {
+                super.onMyFailure(response);
             }
         };
         MyAsyncHttpClient.get(this, activitiesUrl, activityResponse);
         MyAsyncHttpClient.get(this, commentsUrl, activityResponse);
+        requestCount = 0;
+        tempList.clear();
+    }
 
+    private int requestCount = 0;
+
+    private ArrayList<DynamicObject.DynamicMergeRequest> tempList = new ArrayList<>();
+
+    private static void handleActivitiesData(ArrayList<DynamicObject.DynamicMergeRequest> dynamicList, JSONObject response) {
+        try {
+            JSONArray json = response.getJSONArray("data");
+            for (int i = 0; i < json.length(); ++i) {
+                Object object = json.get(i);
+                JSONObject activityJson = null;
+                boolean isCommentCommit = false;
+                if (object instanceof JSONArray) {  //  comment 的结构是  data : [ [comment] , [comment]]
+                    activityJson = ((JSONArray) object).getJSONObject(0);
+                    if (activityJson.has("diff_html")) {
+                        isCommentCommit = true;
+                        activityJson.put("action", "comment_commit");
+                    } else {
+                        activityJson.put("action", "comment");
+                    }
+                } else if (object instanceof JSONObject) {  //  activity 的结构是  data : [ activity , activity]
+                    activityJson = (JSONObject) object;
+                }
+
+                DynamicObject.DynamicMergeRequest activity =
+                        isCommentCommit ?
+                                new DynamicObject.DynamicMergeRequestCommentCommit(activityJson) :
+                                new DynamicObject.DynamicMergeRequest(activityJson);
+                dynamicList.add(activity);
+
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateListView() {
+        if (dynamicList.size() > 0) {
+            listView.findViewById(R.id.gap_to_list).setVisibility(View.VISIBLE);
+        } else {
+            listView.findViewById(R.id.gap_to_list).setVisibility(View.GONE);
+        }
+        mAdapter.resetData(dynamicList);
     }
 
     private void finishAndUpdateList() {
@@ -884,9 +911,8 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
 
     @OnActivityResult(MergeReviewerListFragment.RESULT_ADD_USER)
     public void onAddReviewer(int result) {
-        if (result == Activity.RESULT_OK) {
-            refreshReviewers();
-        }
+        refreshReviewers();
+        refreshActivities();
     }
 
     public static class MergeCommentParam extends CommentActivity.CommentParam implements Serializable {
