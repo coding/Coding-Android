@@ -67,6 +67,8 @@ import static net.coding.program.common.Global.PHOTO_MAX_COUNT;
 public class ProjectGitFragment extends CustomMoreFragment implements LoadMore {
 
     public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
+    public static final int RESULT_REQUEST_DETAIL = 1014;
+
     public static final String MASTER = "master";
     private static final String HOST_GIT_TREE = "HOST_GIT_TREE";
     private static final String HOST_GIT_TREEINFO = "HOST_GIT_TREEINFO";
@@ -173,9 +175,9 @@ public class ProjectGitFragment extends CustomMoreFragment implements LoadMore {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             GitFileInfoObject selectedFile = mData.get(position);
             if (selectedFile.isTree()) {
-                GitTreeActivity_.intent(getActivity()).mProjectPath(mProjectPath).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
+                GitTreeActivity_.intent(this).mProjectPath(mProjectPath).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
             } else {
-                GitViewActivity_.intent(getActivity()).mProjectPath(mProjectPath).mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
+                GitViewActivity_.intent(this).mProjectPath(mProjectPath).mVersion(mVersion).mGitFileInfoObject(selectedFile).startForResult(RESULT_REQUEST_DETAIL);
             }
         });
         listView.setVisibility(View.INVISIBLE);
@@ -432,6 +434,13 @@ public class ProjectGitFragment extends CustomMoreFragment implements LoadMore {
         Intent intent = new Intent(getActivity(), PhotoPickActivity.class);
         intent.putExtra(PhotoPickActivity.Companion.getEXTRA_MAX(), PHOTO_MAX_COUNT);
         startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
+    }
+
+    @OnActivityResult(RESULT_REQUEST_DETAIL)
+    void resultDetail(int resultCode) {
+        if (resultCode == Activity.RESULT_OK) {
+            onRefresh();
+        }
     }
 
     @OnActivityResult(RESULT_REQUEST_PICK_PHOTO)

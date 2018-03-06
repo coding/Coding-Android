@@ -23,7 +23,15 @@ public class UrlCreate {
     }
 
     public static String gitTreeCommit(String projectPath, String version, String path) {
-        final String HOST_GIT_TREEINFO = Global.HOST_API + "%s/git/commits/%s%s";
+        return createUrl("commits", projectPath, version, path);
+    }
+
+    public static String gitDeleteFile(String projectPath, String version, String path) {
+        return createUrl("delete", projectPath, version, path);
+    }
+
+    private static String createUrl(String requestType, String projectPath, String version, String path) {
+        final String HOST_GIT_TREEINFO = Global.HOST_API + "%s/git/" + requestType + "/%s%s";
         String filePath = encode2Pager(path);
         return String.format(HOST_GIT_TREEINFO,
                 projectPath, version, filePath);

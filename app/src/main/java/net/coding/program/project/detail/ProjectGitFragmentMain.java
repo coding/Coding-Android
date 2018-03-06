@@ -313,7 +313,6 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 
     @Override
     protected void switchVersionSuccess() {
-        showButtomToast(String.format("已切换到 %s", mVersion));
         versionButton.setText(mVersion);
     }
 

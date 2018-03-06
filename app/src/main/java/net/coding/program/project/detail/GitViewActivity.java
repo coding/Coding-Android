@@ -6,15 +6,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.RequestParams;
 
 import net.coding.program.CodingGlobal;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.model.GitFileBlobObject;
 import net.coding.program.common.model.GitFileInfoObject;
 import net.coding.program.common.model.ProjectObject;
@@ -31,7 +36,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +45,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_gitview)
-@OptionsMenu(R.menu.git_view)
 public class GitViewActivity extends CodingToolbarBackActivity {
     private static final int RESULT_EDIT = 1;
     private static String TAG = GitViewActivity.class.getSimpleName();
@@ -72,6 +75,8 @@ public class GitViewActivity extends CodingToolbarBackActivity {
 
     GitFileBlobObject mFile;
 
+    private MenuItem menuItemEdit;
+
     @AfterViews
     protected final void initGitViewActivity() {
         setActionBarTitle(mGitFileInfoObject.name);
@@ -101,6 +106,14 @@ public class GitViewActivity extends CodingToolbarBackActivity {
         return mProjectPath;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.git_view, menu);
+        menuItemEdit = menu.findItem(R.id.action_edit);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @OptionsItem
     void action_edit() {
         EditCodeActivity_.intent(this)
@@ -114,7 +127,6 @@ public class GitViewActivity extends CodingToolbarBackActivity {
 
     @OptionsItem
     void action_history() {
-
         String peek = mGitFileInfoObject.path;
         if (peek.isEmpty() && mVersion.isEmpty()) {
             showButtomToast("没有Commit记录");
@@ -124,6 +136,44 @@ public class GitViewActivity extends CodingToolbarBackActivity {
         String commitUrl = UrlCreate.gitTreeCommit(mProjectPath, mVersion, peek);
         BranchCommitListActivity_.intent(this).mCommitsUrl(commitUrl).start();
 //        RedPointTip.markUsed(getActivity(), RedPointTip.Type.CodeHistory);
+    }
+
+    @OptionsItem
+    void actionDelete() {
+        showDialog(String.format("确定删除文件 %s?", mGitFileInfoObject.name), (dialog, which) -> realDelete());
+    }
+
+    private void realDelete() {
+        String peek = mGitFileInfoObject.path;
+        if (peek.isEmpty() && mVersion.isEmpty()) {
+            showButtomToast("无法删除");
+            return;
+        }
+
+        String deleteUrl = UrlCreate.gitDeleteFile(mProjectPath, mVersion, peek);
+
+        RequestParams params = new RequestParams();
+        params.put("message", "delete file " + mGitFileInfoObject.name);
+        params.put("lastCommitSha", mFile.getCommitId());
+        MyAsyncHttpClient.post(this, deleteUrl, params, new MyJsonResponse(this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                super.onMySuccess(response);
+                showProgressBar(false);
+
+                showButtomToast("已删除文件 " + mGitFileInfoObject.name);
+                setResult(RESULT_OK);
+                finish();
+            }
+
+            @Override
+            public void onMyFailure(JSONObject response) {
+                super.onMyFailure(response);
+                showProgressBar(false);
+            }
+        });
+
+        showProgressBar(true);
     }
 
 //    @OptionsItem
@@ -155,9 +205,13 @@ public class GitViewActivity extends CodingToolbarBackActivity {
         }
     }
 
+
+
     public void bindUIByData() {
         if (mFile.getGitFileObject().mode.equals("image")) {
             try {
+                menuItemEdit.setVisible(false);
+
                 mTempPicFile = File.createTempFile("Coding_", ".tmp", getCacheDir());
                 mTempPicFile.deleteOnExit();
                 String s = ProjectObject.translatePathToOld(mProjectPath);
@@ -220,6 +274,7 @@ public class GitViewActivity extends CodingToolbarBackActivity {
             ImagePagerFragment_ fragment = new ImagePagerFragment_();
             Bundle bundle = new Bundle();
             bundle.putString("uri", mArrayUri.get(i));
+            bundle.putBoolean("customMenu", false);
             fragment.setArguments(bundle);
             return fragment;
         }

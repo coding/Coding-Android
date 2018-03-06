@@ -266,6 +266,9 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         showDialog(title, msg, clickOk, null);
     }
 
+    protected void showDialog(String msg, DialogInterface.OnClickListener clickOk) {
+        showDialog("", msg, clickOk, null);
+    }
 
 //    protected void showListDialog() {
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);

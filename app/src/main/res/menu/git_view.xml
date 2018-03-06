@@ -11,6 +11,11 @@
         android:title="编辑代码"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/actionDelete"
+        android:title="删除代码文件"
+        app:showAsAction="never" />
+
     <!--<item-->
     <!--android:id="@+id/action_commit"-->
     <!--android:title="查看提交记录"-->

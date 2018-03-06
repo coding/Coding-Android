@@ -32,11 +32,4 @@ public class GitFileBlobObject implements Serializable {
         return headCommitObject.commitId;
     }
 
-    static class HeadCommitObject implements Serializable {
-        String commitId;
-
-        public HeadCommitObject(JSONObject json) {
-            commitId = json.optString("commitId", "");
-        }
-    }
 }
