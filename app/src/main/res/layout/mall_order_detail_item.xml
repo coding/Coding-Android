@@ -80,7 +80,24 @@
                 android:layout_marginTop="5dp"
                 android:drawableLeft="@mipmap/ic_setting_mabi_small"
                 android:drawablePadding="7dp"
+                android:textSize="14sp"
+                android:textColor="@color/font_3"
                 android:text="0.0 码币" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="0dp" />
+
+            <TextView
+                android:id="@+id/order_rmb"
+                android:layout_width="match_parent"
+                android:textSize="18sp"
+                android:textColor="@color/font_1"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:drawablePadding="7dp"
+                tools:text="￥0.0" />
 
         </LinearLayout>
     </LinearLayout>

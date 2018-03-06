@@ -85,6 +85,15 @@
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/font_3"
                             android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_alignParentBottom="true"
+                            android:id="@+id/mallOrderRmb"
+                            tools:text="￥33"
+                            android:textSize="18sp"
+                            android:textColor="@color/font_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
                     </RelativeLayout>
                 </LinearLayout>
 

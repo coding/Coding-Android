@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.GlobalData;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.model.MallItemObject;
@@ -65,26 +66,11 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final MallItemObject object = mDataList.get(position);
-        String nameString = object.getName();
-        int pos = nameString.indexOf("¥");
-        if (pos > 0) {
-            nameString = nameString.substring(0, pos);
-        }
-        pos = nameString.indexOf("￥");
-        if (pos > 0) {
-            nameString = nameString.substring(0, pos);
-        }
 
-        holder.name.setText(nameString);
+        holder.name.setText(object.getName());
         holder.points_cost.setText(object.getShowPoints());
         holder.sales.setText("销量：" + String.valueOf(object.count));
-        String rmbString = String.valueOf(object.points_cost.multiply(new BigDecimal(50)));
-        if (rmbString.endsWith(".00")) {
-            rmbString = rmbString.substring(0, rmbString.length() - 3);
-        } else if (rmbString.endsWith(".0")) {
-            rmbString = rmbString.substring(0, rmbString.length() - 2);
-        }
-        holder.rmbPrice.setText("￥" + rmbString);
+        holder.rmbPrice.setText(GlobalCommon.mbToRmb(object.points_cost));
 
         String imgUrl = object.getImage();
         imageLoader.loadImageDefaultCoding(holder.image, imgUrl);

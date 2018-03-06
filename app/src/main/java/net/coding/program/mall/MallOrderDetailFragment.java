@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.event.EventUpdateOrderList;
 import net.coding.program.common.model.MallOrderObject;
 import net.coding.program.common.network.RefreshBaseFragment;
@@ -31,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -85,6 +87,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
                 holder.goodTitle = (TextView) view.findViewById(R.id.order_title);
                 holder.count = (TextView) view.findViewById(R.id.order_point);
                 holder.pointCost = (TextView) view.findViewById(R.id.order_point);
+                holder.rmb = view.findViewById(R.id.order_rmb);
                 holder.note = (TextView) view.findViewById(R.id.order_note);
                 holder.receiverName = (TextView) view.findViewById(R.id.order_receiver_name);
                 holder.receiverPhone = (TextView) view.findViewById(R.id.order_receiver_phone);
@@ -123,6 +126,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
             holder.goodTitle.setText(Html.fromHtml(titleString));
             getImageLoad().loadImage(holder.goodImg, item.getGiftImage());
             holder.pointCost.setText(item.pointsCost + " 码币");
+            holder.rmb.setText(GlobalCommon.mbToRmb(new BigDecimal(item.pointsCost)));
 
             if (item.getRemark().equals("")) {
                 holder.note.setText("暂无");
@@ -173,7 +177,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
             }
 
             holder.discount.setText(item.pointDiscount + " 码币");
-            holder.realPay.setText("￥" + item.paymentAmount);
+            holder.realPay.setText("¥" + item.paymentAmount);
 
             return view;
         }
@@ -331,6 +335,7 @@ public class MallOrderDetailFragment extends RefreshBaseFragment {
         TextView express;
         TextView time;
         TextView receiverAddress;
+        TextView rmb;
 
         TextView discount;
         TextView realPay;

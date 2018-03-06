@@ -15,6 +15,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.GlobalData;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.base.MyJsonResponse;
@@ -69,7 +70,7 @@ public class MallOrderSubmitActivity extends BackActivity {
     @ViewById
     View mall_order_title_options, mall_order_divide_options;
     @ViewById
-    TextView mall_order_edit_options;
+    TextView mall_order_edit_options, mallOrderRmb;
 
     @ViewById(R.id.discountLayout)
     View discountLayout;
@@ -110,7 +111,7 @@ public class MallOrderSubmitActivity extends BackActivity {
 
             discountTextView.setText(String.format("可用 %.2f 码币抵扣 %.2f 元", pointDiscount,
                     pointDiscount.multiply(new BigDecimal(50))));
-            paymentAmountTextView.setText(String.format("￥%.2f", paymentAmout));
+            paymentAmountTextView.setText(String.format("¥%.2f", paymentAmout));
 
         } else {
             paymentAmout = mabiPrice.multiply(new BigDecimal(50));
@@ -124,7 +125,7 @@ public class MallOrderSubmitActivity extends BackActivity {
             }
             discountTextView.setText(String.format("可用 %.2f 码币抵扣 %.2f 元", pointCanDiscount,
                     pointCanDiscount.multiply(new BigDecimal(50))));
-            paymentAmountTextView.setText(String.format("￥%.2f", paymentAmout));
+            paymentAmountTextView.setText(String.format("¥%.2f", paymentAmout));
         }
     }
 
@@ -152,6 +153,7 @@ public class MallOrderSubmitActivity extends BackActivity {
         mall_order_title.setText(mallItemObject.getName());
         mall_order_point.setText(mallItemObject.getShowPoints());
         mall_order_desc.setText(mallItemObject.getDescription().replaceAll(" ?<br> ?", ""));
+        mallOrderRmb.setText(GlobalCommon.mbToRmb(mallItemObject.points_cost));
         getImageLoad().loadImage(mall_order_img, mallItemObject.getImage(), ImageLoadTool.mallOptions);
 
         mall_order_edit_username.setOnFocusChangeListener(foucusChangeListener);

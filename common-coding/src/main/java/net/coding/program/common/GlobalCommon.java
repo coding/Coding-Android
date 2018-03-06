@@ -16,6 +16,7 @@ import net.coding.program.common.htmltext.GrayQuoteSpan;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.route.URLSpanNoUnderline;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -157,5 +158,15 @@ public class GlobalCommon {
     public static void zoomDrwable(Drawable drawable, boolean isMonkey) {
         int width = isMonkey ? GlobalData.sEmojiMonkey : GlobalData.sEmojiNormal;
         drawable.setBounds(0, 0, width, width);
+    }
+
+    public static String mbToRmb(BigDecimal point) {
+        String rmbString = String.valueOf(point.multiply(new BigDecimal(50)));
+        if (rmbString.endsWith(".00")) {
+            rmbString = rmbString.substring(0, rmbString.length() - 3);
+        } else if (rmbString.endsWith(".0")) {
+            rmbString = rmbString.substring(0, rmbString.length() - 2);
+        }
+        return "¥" + rmbString;
     }
 }

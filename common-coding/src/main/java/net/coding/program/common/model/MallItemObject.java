@@ -105,7 +105,17 @@ public class MallItemObject implements Serializable {
     }
 
     public String getName() {
-        return name;
+        String nameString = name;
+        int pos = nameString.indexOf("¥");
+        if (pos > 0) {
+            nameString = nameString.substring(0, pos);
+        }
+        pos = nameString.indexOf("￥");
+        if (pos > 0) {
+            nameString = nameString.substring(0, pos);
+        }
+
+        return nameString;
     }
 
     public void setName(String name) {
