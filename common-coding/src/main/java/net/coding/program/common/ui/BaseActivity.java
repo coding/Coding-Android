@@ -400,4 +400,6 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         }
     }
 
+
+
 }

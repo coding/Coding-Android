@@ -24,7 +24,6 @@ import net.coding.program.common.CameraPhotoUtil
 import net.coding.program.common.ImageInfo
 import java.util.*
 
-
 class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
     internal val RESULT_PICK = 20
     internal val RESULT_CAMERA = 21
