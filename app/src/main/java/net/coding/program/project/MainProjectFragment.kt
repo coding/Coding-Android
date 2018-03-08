@@ -115,13 +115,13 @@ class MainProjectFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         terminalClick.setOnClickListener { terminalClick() }
-        toolbarTitle.setOnClickListener { view -> toolbarTitle(view) }
+        toolbarTitle.setOnClickListener { toolbarTitle() }
         initMainProjectFragment()
 
         checkNeedUpdate()
     }
 
-    internal fun toolbarTitle(v: View) {
+    internal fun toolbarTitle() {
         EventBus.getDefault().post(EventFilter(0))
     }
 
