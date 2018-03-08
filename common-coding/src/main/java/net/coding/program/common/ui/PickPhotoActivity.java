@@ -10,6 +10,7 @@ import net.coding.program.R;
 import net.coding.program.common.CameraPhotoUtil;
 import net.coding.program.common.Global;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.util.PermissionUtil;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -46,6 +47,10 @@ public abstract class PickPhotoActivity extends BackActivity {
                 .setCancelable(true)
                 .setItems(R.array.camera_gallery, (dialog, which) -> {
                     if (which == 0) {
+                        if (!PermissionUtil.checkCameraAndExtralStorage(PickPhotoActivity.this)) {
+                            return;
+                        }
+
                         camera();
                     } else {
                         photo();
@@ -62,7 +67,7 @@ public abstract class PickPhotoActivity extends BackActivity {
                     fileUri = data.getData();
                 }
                 fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
-                Global.cropImageUri(this, fileUri, fileCropUri, 600, 600, RESULT_REQUEST_PHOTO_CROP);
+                Global.cropImageUri(this,this, fileUri, fileCropUri, 600, 600, RESULT_REQUEST_PHOTO_CROP);
             }
 
         } else if (requestCode == RESULT_REQUEST_PHOTO_CROP) {

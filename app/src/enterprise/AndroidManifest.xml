@@ -38,6 +38,17 @@
             android:value="5881da0875ca35702c00103e" />
 
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="net.coding.program.enterprise.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/enterprise_file_path"/>
+        </provider>
+
+
         <!-- 信鸽需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver

@@ -31,6 +31,11 @@ import java.util.ArrayList;
 public class CodingCompatImp implements ClassCompatInterface {
 
     @Override
+    public String getFileAuthor() {
+        return "net.coding.program.fileprovider";
+    }
+
+    @Override
     public Class<?> getMainActivity() {
         return MainActivity_.class;
     }

@@ -122,14 +122,6 @@ public class MDEditFragment extends BaseFragment {
 
     @Click
     public void mdPhoto(View v) {
-        if (!PermissionUtil.writeExtralStorage(getActivity())) {
-            return;
-        }
-
-        if (!PermissionUtil.checkCamera(getActivity())) {
-            return;
-        }
-
         popPickDialog();
     }
 
@@ -138,6 +130,10 @@ public class MDEditFragment extends BaseFragment {
         builder.setTitle("上传图片")
                 .setItems(R.array.camera_gallery, (dialog, which) -> {
                     if (which == 0) {
+                        if (!PermissionUtil.checkCameraAndExtralStorage(getActivity())) {
+                            return;
+                        }
+
                         camera();
                     } else {
                         photo();

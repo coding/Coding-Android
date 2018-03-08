@@ -22,6 +22,15 @@
             android:name="UMENG_APPKEY"
             android:value="5435f151fd98c5751102d2d5" />
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="net.coding.program.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/person_file_path"/>
+        </provider>
 
         <activity android:name=".TestActivity">
             <!--<intent-filter>-->

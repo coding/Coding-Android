@@ -31,6 +31,11 @@ import java.util.ArrayList;
 public class EnterpriseCompatImp implements ClassCompatInterface {
 
     @Override
+    public String getFileAuthor() {
+        return "net.coding.program.enterprise.fileprovider";
+    }
+
+    @Override
     public Class<?> getMainActivity() {
         return EnterpriseMainActivity_.class;
     }

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
@@ -33,6 +34,7 @@ import net.coding.program.common.model.UserObject;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.databinding.ActivityUserDetailEditBinding;
 import net.coding.program.network.constant.VIP;
 import net.coding.program.pickphoto.ClickSmallImage;
@@ -183,6 +185,8 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     String HOST_JOB = Global.HOST_API + "/options/jobs";
     private Uri fileCropUri;
     private Uri fileUri;
+    private File tempFile;
+
     private AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -278,6 +282,10 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
+                            if (!PermissionUtil.checkCameraAndExtralStorage(UserDetailEditActivity.this)) {
+                                return;
+                            }
+
                             camera();
                         } else {
                             photo();
@@ -290,8 +298,19 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
 
     private void camera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        fileUri = CameraPhotoUtil.getOutputMediaFileUri();
+
+        tempFile = CameraPhotoUtil.getCacheFile(this);
+        fileUri = CameraPhotoUtil.fileToUri(this, tempFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+
+//        FileProviderHelp.setIntentDataAndType(this, intent, "image/*", tempFile, true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            intent.setDataAndType(getUriForFile(context, file), type);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        }
+
         startActivityForResult(intent, RESULT_REQUEST_PHOTO);
     }
 
@@ -445,12 +464,12 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_REQUEST_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
-                if (data != null) {
+                if (data != null && data.getData() != null) {
                     fileUri = data.getData();
                 }
 
                 fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
-                Global.cropImageUri(this, fileUri, fileCropUri, 640, 640, RESULT_REQUEST_PHOTO_CROP);
+                Global.cropImageUri(this, this, fileUri, fileCropUri, 640, 640, RESULT_REQUEST_PHOTO_CROP);
             }
 
         } else if (requestCode == RESULT_REQUEST_PHOTO_CROP) {

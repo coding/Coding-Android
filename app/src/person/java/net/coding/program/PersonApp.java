@@ -37,5 +37,7 @@ public class PersonApp extends MyApp {
                 });
             }
         });
+
+        Global.AUTHOR = "net.coding.program.fileprovider";
     }
 }

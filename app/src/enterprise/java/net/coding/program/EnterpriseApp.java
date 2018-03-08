@@ -29,6 +29,8 @@ public class EnterpriseApp extends MyApp {
         EnterpriseInfo.instance().init(this);
 
         CodingCompat.init(new EnterpriseCompatImp());
+
+        Global.AUTHOR = "net.coding.program.enterprise.fileprovider";
     }
 
     public static void setHost(@NonNull String enterpriseName) {

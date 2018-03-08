@@ -27,6 +27,11 @@ public class PermissionUtil {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    public static boolean checkCameraAndExtralStorage(Activity activity) {
+        return PermissionUtil.writeExtralStorage(activity) &&
+                PermissionUtil.checkCamera(activity);
+    }
+
     public static boolean writeExtralStorage(Activity activity) {
         return checkPermission(activity, RESULT_STORAGE, PERMISSION_STORAGE, "请开启 \"存储空间\" 权限");
     }

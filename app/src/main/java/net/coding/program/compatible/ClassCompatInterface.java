@@ -49,4 +49,6 @@ public interface ClassCompatInterface {
 
     void launchSetGKActivity(Context context);
 
+    String getFileAuthor();
+
 }

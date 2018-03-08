@@ -35,6 +35,8 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.orhanobut.logger.Logger;
 import com.readystatesoftware.viewbadger.BadgeView;
 
+import net.coding.program.common.widget.FileProviderHelp;
+
 import org.json.JSONObject;
 import org.xml.sax.XMLReader;
 
@@ -383,10 +385,39 @@ public class Global {
         return width;
     }
 
-    static public void cropImageUri(StartActivity activity, Uri uri, Uri outputUri, int outputX, int outputY, int requestCode) {
+    public static String AUTHOR = "";
+
+    public static Uri makeUri(Context context, File shareFile) {
+        return android.support.v4.content.FileProvider.getUriForFile(context, AUTHOR, shareFile);
+    }
+
+
+//    static public void cropImageUri(Context context, StartActivity activity, Uri uri, Uri outputUri, int outputX, int outputY, int requestCode) {
+//        try {
+//            Intent intent = new Intent("com.android.camera.action.CROP");
+//            intent.setDataAndType(uri, "image/*");
+//            intent.putExtra("crop", "true");
+//            intent.putExtra("aspectX", 1);
+//            intent.putExtra("aspectY", 1);
+//            intent.putExtra("outputX", outputX);
+//            intent.putExtra("outputY", outputY);
+//            intent.putExtra("scale", true);
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+//            intent.putExtra("return-data", false);
+//            intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+//            intent.putExtra("noFaceDetection", true);
+//            activity.startActivityForResult(intent, requestCode);
+//        } catch (Exception e) {
+//            Global.errorLog(e);
+//        }
+//    }
+//
+    static public void cropImageUri(Context context, StartActivity activity, Uri uri, Uri outputUri, int outputX, int outputY, int requestCode) {
         try {
+            File sourceFile = new File(uri.getPath());
+//            uri = FileProviderHelp.getUriForFile(context, sourceFile);
+
             Intent intent = new Intent("com.android.camera.action.CROP");
-            intent.setDataAndType(uri, "image/*");
             intent.putExtra("crop", "true");
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1);
@@ -397,6 +428,9 @@ public class Global {
             intent.putExtra("return-data", false);
             intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
             intent.putExtra("noFaceDetection", true);
+
+            FileProviderHelp.setIntentDataAndType(context, intent,"image/*", sourceFile, true);
+
             activity.startActivityForResult(intent, requestCode);
         } catch (Exception e) {
             Global.errorLog(e);

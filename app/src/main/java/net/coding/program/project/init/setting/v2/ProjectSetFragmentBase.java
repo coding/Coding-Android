@@ -15,6 +15,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.util.PermissionUtil;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -66,6 +67,10 @@ public class ProjectSetFragmentBase extends BaseFragment {
                 .setCancelable(true)
                 .setItems(R.array.camera_gallery, (dialog, which) -> {
                     if (which == 0) {
+                        if (!PermissionUtil.checkCameraAndExtralStorage(getActivity())) {
+                            return;
+                        }
+
                         camera();
                     } else {
                         photo();
@@ -82,7 +87,7 @@ public class ProjectSetFragmentBase extends BaseFragment {
                     fileUri = data.getData();
                 }
                 fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
-                Global.cropImageUri(this, fileUri, fileCropUri, 600, 600, RESULT_REQUEST_PHOTO_CROP);
+                Global.cropImageUri(getActivity(), this, fileUri, fileCropUri, 600, 600, RESULT_REQUEST_PHOTO_CROP);
             }
 
         } else if (requestCode == RESULT_REQUEST_PHOTO_CROP) {

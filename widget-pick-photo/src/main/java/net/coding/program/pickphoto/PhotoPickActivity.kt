@@ -22,6 +22,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.assist.ImageScaleType
 import net.coding.program.common.CameraPhotoUtil
 import net.coding.program.common.ImageInfo
+import net.coding.program.common.util.PermissionUtil
 import java.util.*
 
 class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
@@ -263,6 +264,10 @@ class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
     }
 
     fun camera() {
+        if (!PermissionUtil.checkCameraAndExtralStorage(this)) {
+            return
+        }
+
         if (mPickData.size >= mMaxPick) {
             val s = String.format("最多只能选择%s张", mMaxPick)
             Toast.makeText(this@PhotoPickActivity, s, Toast.LENGTH_LONG).show()

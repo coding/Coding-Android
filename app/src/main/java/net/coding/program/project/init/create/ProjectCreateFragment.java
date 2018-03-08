@@ -31,6 +31,7 @@ import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.InputCheck;
+import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.compatible.UriCompat;
 import net.coding.program.param.ProjectJumpParam;
@@ -133,6 +134,10 @@ public class ProjectCreateFragment extends BaseFragment {
                 .setCancelable(true)
                 .setItems(R.array.camera_gallery, (dialog, which) -> {
                     if (which == 0) {
+                        if (!PermissionUtil.checkCameraAndExtralStorage(getActivity())) {
+                            return;
+                        }
+
                         camera();
                     } else {
                         photo();
@@ -162,7 +167,7 @@ public class ProjectCreateFragment extends BaseFragment {
                     fileUri = data.getData();
                 }
                 fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
-                Global.cropImageUri(this, fileUri, fileCropUri, 600, 600, RESULT_REQUEST_PHOTO_CROP);
+                Global.cropImageUri(getActivity(), this, fileUri, fileCropUri, 600, 600, RESULT_REQUEST_PHOTO_CROP);
             }
 
         } else if (requestCode == RESULT_REQUEST_PHOTO_CROP) {
