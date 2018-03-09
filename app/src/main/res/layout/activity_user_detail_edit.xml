@@ -11,37 +11,6 @@
         android:layout_height="match_parent"
         android:background="@color/divide"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/topTip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFF2DEDE">
-
-            <TextView
-                android:id="@+id/topTipText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingBottom="@dimen/padding_10"
-                android:paddingLeft="@dimen/padding_15"
-                android:paddingRight="@dimen/padding_15"
-                android:paddingTop="@dimen/padding_10"
-                android:text="@string/tip_need_phone_and_email"
-                android:textColor="#FFC55351"
-                android:textSize="14sp" />
-
-            <ImageView
-                android:id="@+id/topTipFork"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:scaleType="center"
-                android:src="@drawable/ic_fork_red" />
-
-        </LinearLayout>
-
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"

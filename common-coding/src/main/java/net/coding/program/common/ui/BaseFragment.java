@@ -311,6 +311,13 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Load
                 .show();
     }
 
+    protected void showSingleDialog(@StringRes int messageId) {
+        new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
+                .setMessage(messageId)
+                .setPositiveButton("确定", null)
+                .show();
+    }
+
     protected void showDialog(String message, DialogInterface.OnClickListener clickOk) {
         new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
                 .setMessage(message)

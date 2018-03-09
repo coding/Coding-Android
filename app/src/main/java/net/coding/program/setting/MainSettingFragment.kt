@@ -75,20 +75,16 @@ open class MainSettingFragment : BaseFragment() {
         iconfromNetwork(userIcon, me.avatar)
         userIcon?.tag = me
 
-        if (GlobalData.isEnterprise() ) {
-            topTip?.visibility = View.GONE
-            return
-        }
+        topTip?.visibility = View.GONE
 
-        if (me.isFillInfo || me.isHighLevel) {
-            topTip?.visibility = View.GONE
+        if (GlobalData.isEnterprise() ) {
+            return
         }
 
         if (me.vip.isPayed && me.vipNearExpired()) {
             topTip?.visibility = View.VISIBLE
-            topTipText?.text = "会员过期将自动降级到银牌会员"
-            topTipText.setOnClickListener { showDialog(R.string.tip_vip_expired, null) }
-
+            topTipText?.text = "会员过期将自动降级"
+            topTipText.setOnClickListener { showSingleDialog(R.string.tip_vip_expired) }
         }
 
         if (!GlobalData.isEnterprise()) {

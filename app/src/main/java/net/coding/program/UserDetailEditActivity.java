@@ -39,7 +39,6 @@ import net.coding.program.common.widget.FileProviderHelp;
 import net.coding.program.databinding.ActivityUserDetailEditBinding;
 import net.coding.program.network.constant.VIP;
 import net.coding.program.pickphoto.ClickSmallImage;
-import net.coding.program.setting.AccountSetting_;
 import net.coding.program.user.ProvincesPickerDialog;
 import net.coding.program.user.SetUserInfoActivity_;
 import net.coding.program.user.SetUserInfoListActivity_;
@@ -93,8 +92,6 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     String[] user_info_list_second;
     @ViewById
     ListView listView;
-    @ViewById
-    View topTip;
 
     ActivityUserDetailEditBinding binding;
 
@@ -347,15 +344,15 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         user = AccountInfo.loadAccount(this);
         lastVIP = user.vip;
 
-        if (user.phoneAndEmailValid() || user.isHighLevel() || GlobalData.isEnterprise()) {
-            topTip.setVisibility(View.GONE);
-        } else {
-            topTip.setVisibility(View.VISIBLE);
-//            binding.topTipText.setText(Html.fromHtml("验证手机和邮箱后完善资料才能升级，<u>去验证</u>"));
-            topTip.setOnClickListener(v -> AccountSetting_.intent(UserDetailEditActivity
-                    .this).startForResult(ListModify.RESULT_EDIT_LIST));
-            binding.topTipFork.setOnClickListener(v -> topTip.setVisibility(View.GONE));
-        }
+//        if (user.phoneAndEmailValid() || user.isHighLevel() || GlobalData.isEnterprise()) {
+//            topTip.setVisibility(View.GONE);
+//        } else {
+//            topTip.setVisibility(View.VISIBLE);
+////            binding.topTipText.setText(Html.fromHtml("验证手机和邮箱后完善资料才能升级，<u>去验证</u>"));
+//            topTip.setOnClickListener(v -> AccountSetting_.intent(UserDetailEditActivity
+//                    .this).startForResult(ListModify.RESULT_EDIT_LIST));
+//            binding.topTipFork.setOnClickListener(v -> topTip.setVisibility(View.GONE));
+//        }
 
         View head = mInflater.inflate(R.layout.activity_user_info_head, listView, false);
         icon = head.findViewById(R.id.icon);
