@@ -4,10 +4,13 @@ import android.app.Activity
 import android.app.LoaderManager
 import android.content.CursorLoader
 import android.content.Intent
+import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
+import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 import android.content.Loader
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
@@ -23,6 +26,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType
 import net.coding.program.common.CameraPhotoUtil
 import net.coding.program.common.ImageInfo
 import net.coding.program.common.util.PermissionUtil
+import net.coding.program.common.widget.FileProviderHelp
 import java.util.*
 
 class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
@@ -274,10 +278,18 @@ class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
             return
         }
 
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        fileUri = CameraPhotoUtil.getOutputMediaFileUri()
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri)
-        startActivityForResult(intent, RESULT_CAMERA)
+        val tempFile = CameraPhotoUtil.getCacheFile(this)
+        fileUri = FileProviderHelp.getUriForFile(this, tempFile)
+
+        val intentFromCapture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, fileUri)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//7.0及以上
+            intentFromCapture.addFlags(FLAG_GRANT_READ_URI_PERMISSION)
+            intentFromCapture.addFlags(FLAG_GRANT_WRITE_URI_PERMISSION)
+        }
+
+        startActivityForResult(intentFromCapture, RESULT_CAMERA)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -294,10 +306,10 @@ class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == RESULT_PICK) {
             if (resultCode == Activity.RESULT_OK) {
-                mPickData = data.getSerializableExtra("data") as ArrayList<ImageInfo>
+                mPickData = data!!.getSerializableExtra("data") as ArrayList<ImageInfo>
                 photoAdapter!!.notifyDataSetChanged()
 
                 val send = data.getBooleanExtra("send", false)

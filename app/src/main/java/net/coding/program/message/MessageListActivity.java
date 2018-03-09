@@ -488,7 +488,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_REQUEST_PICK_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
-
                 try {
                     @SuppressWarnings("unchecked")
                     ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
