@@ -12,6 +12,7 @@ import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.GlobalData;
+import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
@@ -51,8 +52,8 @@ public class MyDetailActivity extends UserDetailCommonActivity {
     @Override
     public void onResume() {
         super.onResume();
-        final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
-        getNetwork(HOST_USER_INFO + GlobalData.sUserObject.global_key, TAG_HOST_USER_INFO);
+        final String HOST_USER_INFO = Global.HOST_API + "/current_user";
+        getNetwork(HOST_USER_INFO, TAG_HOST_USER_INFO);
     }
 
     @Override
@@ -60,6 +61,10 @@ public class MyDetailActivity extends UserDetailCommonActivity {
         if (tag.equals(TAG_HOST_USER_INFO)) {
             if (code == 0) {
                 mUserObject = new UserObject(respanse.getJSONObject("data"));
+
+                AccountInfo.saveAccount(this, mUserObject);
+                GlobalData.sUserObject = mUserObject;
+                AccountInfo.saveReloginInfo(this, mUserObject);
                 bindUI(mUserObject);
             } else {
                 showButtomToast("获取用户信息错误");

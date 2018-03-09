@@ -71,7 +71,7 @@ public class LoginActivity extends BaseActivity {
     private final int RESULT_CLOSE = 100;
     private final int RESULT_CLOSE_2FA = 101;
 
-    public String HOST_USER = Global.HOST_API + "/user/key/%s";
+    public String HOST_USER = Global.HOST_API + "/current_user";
     public String HOST_LOGIN_WEIXIN = Global.HOST_API + "/oauth/wechat/mobile/login";
 
     @ViewById
@@ -422,7 +422,7 @@ public class LoginActivity extends BaseActivity {
 
     private void loginSuccess(JSONObject respanse) throws JSONException {
         UserObject user = new UserObject(respanse.getJSONObject("data"));
-        getNetwork(String.format(HOST_USER, user.global_key), HOST_USER);
+        getNetwork(String.format(HOST_USER), HOST_USER);
         showProgressBar(true, R.string.logining);
     }
 

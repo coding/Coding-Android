@@ -77,7 +77,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
     public final static int USERINFO_JOB = 8;
     public final static int USERINFO_SKILL = 9;
     public final static int USERINFO_TAGS = 10;
-    final String HOST_USER = Global.HOST_API + "/user/key/%s";
+    final String HOST_CURRENT = Global.HOST_API + "/current_user";
     final String HOST_USERINFO = Global.HOST_API + "/user/updateInfo";
     private final int RESULT_REQUEST_PHOTO = 1005;
     private final int RESULT_REQUEST_PHOTO_CROP = 1006;
@@ -370,7 +370,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(itemClickListener);
 
-        getNetwork(String.format(HOST_USER, user.global_key), HOST_USER);
+        getNetwork(HOST_CURRENT, HOST_CURRENT);
 
 //        popUpgradeSuccessDialog();
     }
@@ -416,7 +416,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(HOST_USERINFO) || tag.equals(HOST_USER)) {
+        if (tag.equals(HOST_CURRENT)) {
             if (code == 0) {
                 user = new UserObject(respanse.getJSONObject("data"));
 
@@ -425,6 +425,16 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
 
                 getUserInfoRows();
                 adapter.notifyDataSetChanged();
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(HOST_USERINFO)) {
+            if (code == 0) {
+                user = new UserObject(respanse.getJSONObject("data"));
+
+                getUserInfoRows();
+                adapter.notifyDataSetChanged();
+                getNetwork(HOST_CURRENT, HOST_CURRENT);
             } else {
                 showErrorMsg(code, respanse);
             }

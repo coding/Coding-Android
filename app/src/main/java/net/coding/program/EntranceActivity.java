@@ -21,9 +21,8 @@ import net.coding.program.compatible.CodingCompat;
 import net.coding.program.login.ResetPasswordActivity_;
 import net.coding.program.login.UserActiveActivity_;
 import net.coding.program.login.ZhongQiuGuideActivity;
-import net.coding.program.network.HttpObserverRaw;
+import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
-import net.coding.program.network.model.HttpResult;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -106,14 +105,14 @@ public class EntranceActivity extends BaseActivity {
                     .getCurrentUser()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new HttpObserverRaw<HttpResult<UserObject>>(context) {
+                    .subscribe(new HttpObserver<UserObject>(context) {
+
                         @Override
-                        public void onSuccess(HttpResult<UserObject> data) {
+                        public void onSuccess(UserObject data) {
                             super.onSuccess(data);
-                            UserObject user = data.data;
-                            AccountInfo.saveAccount(context, user);
-                            GlobalData.sUserObject = user;
-                            AccountInfo.saveReloginInfo(context, user);
+                            AccountInfo.saveAccount(context, data);
+                            GlobalData.sUserObject = data;
+                            AccountInfo.saveReloginInfo(context, data);
                         }
 
                         @Override

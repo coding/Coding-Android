@@ -141,9 +141,9 @@ public class UserObject implements Serializable, Comparable {
     @Expose
     public long vipExpiredAt;
 
-
     public boolean vipNearExpired() {
-        return vipExpiredAt - System.currentTimeMillis() < 3 * 3600 * 1000 * 24;
+        // 提前 3 天通知，但因为服务器给的时间是 0 点 0 分，所以用 2
+        return vipExpiredAt - System.currentTimeMillis() < 2 * 3600 * 1000 * 24;
     }
 
     public UserObject(JSONObject json) {
@@ -188,6 +188,7 @@ public class UserObject implements Serializable, Comparable {
         phone_validation = json.optInt("phone_validation", 0);
         phone_country_code = json.optString("phone_country_code", "+86");
         vip = VIP.id2Enum(json.optInt("vip", 1));
+        vipExpiredAt = json.optLong("vip_expired_at", 0);
 
         degree = json.optInt("degree");
         school = json.optString("school", "");
