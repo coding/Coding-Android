@@ -204,17 +204,15 @@ public class AccountInfo {
     }
 
     public static boolean needDisplayGuide(Context context) {
-//        if (!ZhongQiuGuideActivity.isZhongqiu()) {
-//            return false;
-//        }
         // 4.0 特有, 下个版本删除, MARK_GUIDE_FEATURES 一定要修改
+        return false;
 
-        Boolean result = new DataCache<Boolean>().loadGlobalObject(context, MARK_GUIDE_FEATURES);
-        if (result == null) {
-            return true;
-        }
-
-        return result;
+//        Boolean result = new DataCache<Boolean>().loadGlobalObject(context, MARK_GUIDE_FEATURES);
+//        if (result == null) {
+//            return true;
+//        }
+//
+//        return result;
     }
 
     public static void markGuideReaded(Context context) {
