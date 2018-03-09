@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -32,6 +33,7 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.PermissionUtil;
+import net.coding.program.common.widget.FileProviderHelp;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.compatible.UriCompat;
 import net.coding.program.param.ProjectJumpParam;
@@ -48,6 +50,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+
+import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
+import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 
 /**
  * Created by jack wang on 2015/3/31.
@@ -147,10 +152,18 @@ public class ProjectCreateFragment extends BaseFragment {
     }
 
     private void camera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        fileUri = CameraPhotoUtil.getOutputMediaFileUri();
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        startActivityForResult(intent, RESULT_REQUEST_PHOTO);
+        File tempFile = CameraPhotoUtil.getCacheFile(getActivity());
+        fileUri = FileProviderHelp.getUriForFile(getActivity(), tempFile);
+
+        Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//7.0及以上
+            intentFromCapture.addFlags(FLAG_GRANT_READ_URI_PERMISSION);
+            intentFromCapture.addFlags(FLAG_GRANT_WRITE_URI_PERMISSION);
+        }
+
+        startActivityForResult(intentFromCapture, RESULT_REQUEST_PHOTO);
     }
 
     private void photo() {
@@ -163,11 +176,12 @@ public class ProjectCreateFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_REQUEST_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
-                if (data != null) {
+                if (data != null && data.getData() != null) {
                     fileUri = data.getData();
                 }
+
                 fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
-                Global.cropImageUri(getActivity(), this, fileUri, fileCropUri, 600, 600, RESULT_REQUEST_PHOTO_CROP);
+                Global.startPhotoZoom(getActivity(), this, fileUri, fileCropUri, 640, 640, RESULT_REQUEST_PHOTO_CROP);
             }
 
         } else if (requestCode == RESULT_REQUEST_PHOTO_CROP) {

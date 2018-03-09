@@ -8,7 +8,6 @@ import android.util.Log;
 import net.coding.program.common.widget.FileProviderHelp;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -36,13 +35,13 @@ public class CameraPhotoUtil {
 
     public static File getCacheFile(Context context) {
          String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File mediaFile = new File(context.getCacheDir(),  "IMG_" + timeStamp
+        File mediaFile = new File(context.getExternalCacheDir(),  "IMG_" + timeStamp
                 + ".jpg");
-        try {
-            mediaFile.createNewFile();
-        } catch (IOException e) {
-            Global.errorLog(e);
-        }
+//        try {
+//            mediaFile.createNewFile();
+//        } catch (IOException e) {
+//            Global.errorLog(e);
+//        }
 
         return mediaFile;
     }
