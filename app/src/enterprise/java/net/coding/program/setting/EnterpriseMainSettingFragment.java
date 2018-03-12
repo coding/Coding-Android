@@ -44,7 +44,7 @@ public class EnterpriseMainSettingFragment extends MainSettingFragment {
 
 
     @Override
-    protected void initMenuItem() {
+    public void initMenuItem() {
         // 没有菜单
     }
 

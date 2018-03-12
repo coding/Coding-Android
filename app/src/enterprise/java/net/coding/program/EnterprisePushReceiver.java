@@ -87,7 +87,7 @@ public class EnterprisePushReceiver extends XGPushBaseReceiver {
             String url = jsonCustom.optString("param_url", "");
 
             // 如果本地没有 2FA，就不显示这个推送
-            if (PushUrl.is2faLink(url)) {
+            if (PushUrl.INSTANCE.is2faLink(url)) {
                 String authUri = AccountInfo.loadAuth(context, GlobalData.sUserObject.global_key);
                 if (authUri.isEmpty()) {
                     return;

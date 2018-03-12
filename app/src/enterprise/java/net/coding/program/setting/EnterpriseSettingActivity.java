@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import net.coding.program.common.model.EnterpriseDetail;
 import net.coding.program.common.model.EnterpriseInfo;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.FileUtil;
+import net.coding.program.common.widget.FileProviderHelp;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -31,6 +33,9 @@ import org.json.JSONObject;
 import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
+import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 
 @EActivity(R.layout.activity_enterprise_setting)
 public class EnterpriseSettingActivity extends BackActivity {
@@ -107,10 +112,18 @@ public class EnterpriseSettingActivity extends BackActivity {
     private Uri fileCropUri;
 
     private void camera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        fileUri = CameraPhotoUtil.getOutputMediaFileUri();
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        startActivityForResult(intent, RESULT_REQUEST_PHOTO);
+        File tempFile = CameraPhotoUtil.getCacheFile(this);
+        fileUri = FileProviderHelp.getUriForFile(this, tempFile);
+
+        Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//7.0及以上
+            intentFromCapture.addFlags(FLAG_GRANT_READ_URI_PERMISSION);
+            intentFromCapture.addFlags(FLAG_GRANT_WRITE_URI_PERMISSION);
+        }
+
+        startActivityForResult(intentFromCapture, RESULT_REQUEST_PHOTO);
     }
 
     private void photo() {
@@ -129,12 +142,12 @@ public class EnterpriseSettingActivity extends BackActivity {
     @OnActivityResult(RESULT_REQUEST_PHOTO)
     void updateHeadResult(int result, Intent data) {
         if (result == Activity.RESULT_OK) {
-            if (data != null) {
+            if (data != null && data.getData() != null) {
                 fileUri = data.getData();
             }
 
             fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
-            Global.cropImageUri(this, fileUri, fileCropUri, 640, 640, RESULT_REQUEST_PHOTO_CROP);
+            Global.startPhotoZoom(this, this, fileUri, fileCropUri, 640, 640, RESULT_REQUEST_PHOTO_CROP);
         }
     }
 

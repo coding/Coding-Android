@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.animation.Animation;
 
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
@@ -23,7 +22,6 @@ import net.coding.program.login.UserActiveActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.res.AnimationRes;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,9 +39,6 @@ public class EnterpriseEntranceActivity extends BaseActivity implements Handler.
     }
 
     private static final int HANDLER_MESSAGE_NEXT_ACTIVITY = 1;
-
-    @AnimationRes
-    Animation entrance;
 
     Uri background = null;
     boolean mNeedUpdateUser = false;
@@ -134,10 +129,6 @@ public class EnterpriseEntranceActivity extends BaseActivity implements Handler.
             next();
         }
         return true;
-    }
-
-    private void playAnimator1() {
-//        foreMask.startAnimation(entrance);
     }
 
     @Override

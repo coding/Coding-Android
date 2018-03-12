@@ -5,7 +5,6 @@ import android.view.View;
 import net.coding.program.EnterpriseApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
 
 import org.androidannotations.annotations.AfterViews;
@@ -39,9 +38,5 @@ public class EnterpriseEmailSetPasswordActivity extends EmailSetPasswordActivity
     protected String getUrl() {
         EnterpriseApp.setHost(enterpriseEdit.getTextString());
         return String.format("%s%s", Global.HOST_API, "/account/password/forget");
-    }
-
-    protected void initViewStyle() {
-        ViewStyleUtil.editTextBindButton(loginButton, emailEdit, captchaEdit, enterpriseEdit);
     }
 }

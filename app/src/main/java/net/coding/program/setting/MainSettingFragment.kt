@@ -41,7 +41,7 @@ open class MainSettingFragment : BaseFragment() {
         bindDataUserinfo()
     }
 
-    protected fun initMenuItem() {
+    open fun initMenuItem() {
         mainSettingToolbar?.inflateMenu(R.menu.main_setting)
         mainSettingToolbar?.setOnMenuItemClickListener { item ->
             if (item.itemId == R.id.actionAddFollow) {
@@ -60,8 +60,15 @@ open class MainSettingFragment : BaseFragment() {
 
     private fun bindDataUserinfo() {
         val me = GlobalData.sUserObject
+        iconfromNetwork(userIcon, me.avatar)
+        userIcon?.tag = me
         userName.text = me.name
-        vip.text = me.vip.alias
+
+        if (GlobalData.isEnterprise() ) {
+            return
+        }
+
+        vip?.text = me.vip.alias
         if (me.vip.isPayed) {
             val time = Global.dayFromTime(me.vipExpiredAt)
             val color = if (me.vipNearExpired()) CodingColor.fontRed else CodingColor.font3
@@ -71,15 +78,9 @@ open class MainSettingFragment : BaseFragment() {
             expire.text = ""
         }
 
-        vipIcon.setImageResource(me.vip.icon)
-        iconfromNetwork(userIcon, me.avatar)
-        userIcon?.tag = me
+        vipIcon?.setImageResource(me.vip.icon)
 
         topTip?.visibility = View.GONE
-
-        if (GlobalData.isEnterprise() ) {
-            return
-        }
 
         if (me.vip.isPayed && me.vipNearExpired()) {
             topTip?.visibility = View.VISIBLE
