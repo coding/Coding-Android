@@ -58,11 +58,7 @@ open class EnterpriseMainSettingFragment : BaseFragment() {
         iconfromNetwork(userIcon, me.avatar)
         userIcon?.tag = me
         userName.text = me.name
-
-        if (GlobalData.isEnterprise()) {
-            return
-        }
-
+        userGK.text = me.global_key
     }
 
     private fun loadUser() {
