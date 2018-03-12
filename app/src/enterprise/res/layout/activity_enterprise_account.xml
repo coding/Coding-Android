@@ -16,33 +16,33 @@
         android:background="@color/font_2"
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:orientation="vertical"
+        android:background="@color/font_2"
         android:gravity="center_horizontal"
-        android:background="@color/font_2">
+        android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/companyIcon"
-            android:layout_marginTop="15dp"
             android:layout_width="75dp"
-            android:layout_height="75dp" />
+            android:layout_height="75dp"
+            android:layout_marginTop="15dp" />
 
         <TextView
             android:id="@+id/companyName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginTop="20dp"
+            android:gravity="center"
             android:text="深圳市扣钉网络科技有限公司"
-            android:textSize="17sp"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="17sp" />
 
     </LinearLayout>
 
@@ -71,11 +71,11 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/accountState"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="14dp"
-            android:id="@+id/accountState"
             android:layout_toRightOf="@id/icon"
             android:ellipsize="end"
             android:lines="1"
@@ -90,8 +90,8 @@
             android:layout_height="16dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:visibility="invisible"
-            android:layout_marginRight="15dp" />
+            android:layout_marginRight="15dp"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 
@@ -102,17 +102,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:itemIcon="@mipmap/enterprise_account_project"
+        app:itemShowArrow="false"
         app:itemShowBottomLine="true"
-        app:itemTitle="@string/title_manage_project_activity"
-        app:itemShowArrow="false" />
+        app:itemTitle="@string/title_manage_project_activity" />
 
     <net.coding.program.common.widget.ListItem1
         android:id="@+id/itemMember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:itemIcon="@mipmap/enterprise_account_member"
-        app:itemTitle="@string/title_manage_member_activity"
-        app:itemShowArrow="false" />
+        app:itemShowArrow="false"
+        app:itemTitle="@string/title_manage_member_activity" />
+
+    <include layout="@layout/divide_middle_15" />
+
+    <net.coding.program.common.widget.ListItem1
+        android:id="@+id/itemSupport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:itemIcon="@mipmap/enterprise_account_member"
+        app:itemShowArrow="false"
+        app:itemTitle="@string/title_manage_support_activity" />
+
 
     <include layout="@layout/divide_bottom_15" />
 

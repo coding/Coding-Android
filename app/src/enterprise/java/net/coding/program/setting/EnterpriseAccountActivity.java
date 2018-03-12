@@ -132,6 +132,12 @@ public class EnterpriseAccountActivity extends BackActivity {
     }
 
     @Click
+    void itemSupport() {
+        // TODO: 2018/3/12 该图标 未实现
+        EnterpriseSupportActivity_.intent(this).start();
+    }
+
+    @Click
     void itemManager() {
         OrderMainActivity_.intent(this).account(account).start();
     }

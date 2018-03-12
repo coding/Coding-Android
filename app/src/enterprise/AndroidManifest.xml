@@ -16,13 +16,12 @@
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- 信鸽需要的权限 end —————————————————————————————————————————————————————————————— -->
 
+    <!-- 信鸽需要的权限 end —————————————————————————————————————————————————————————————— -->
     <application
         android:name=".EnterpriseApp"
         android:label="@string/app_name"
         tools:replace="android:name">
-
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="kZ4gu0Xx9vlcDVPK4Gtd1V2W" />
@@ -37,7 +36,6 @@
             android:name="UMENG_APPKEY"
             android:value="5881da0875ca35702c00103e" />
 
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="net.coding.program.enterprise.fileprovider"
@@ -45,9 +43,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/enterprise_file_path"/>
+                android:resource="@xml/enterprise_file_path" />
         </provider>
-
 
         <!-- 信鸽需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
         <!-- 【必须】 信鸽receiver广播接收 -->
@@ -128,7 +125,6 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-
         <activity
             android:name=".user.EnterpriseLoginActivity_"
             android:icon="@drawable/ic_lancher"
@@ -165,9 +161,9 @@
         <activity
             android:name=".project.detail.GitTreeActivity_"
             android:icon="@drawable/ic_lancher"
-            tools:replace="android:label"
             android:label="@string/title_activity_git_tree"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:replace="android:label" />
 
         <receiver
             android:name=".EnterpriseMyPushReceiver"
@@ -256,6 +252,11 @@
             android:label="@string/empty"
             android:screenOrientation="portrait"
             android:theme="@style/ActionbarTranslate" />
+        <activity
+            android:name=".setting.EnterpriseSupportActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_manage_support_activity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
