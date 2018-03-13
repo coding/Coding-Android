@@ -19,6 +19,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,6 +125,15 @@ public class Global {
     }
 
     public static void tipCopyLink(Context context, String link) {
+        if (context == null) {
+            return;
+        }
+
+        if (TextUtils.isEmpty(link)) {
+            Toast.makeText(context, "复制链接失败", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (GlobalData.isEnterprise()) {
             Pattern pattern = Pattern.compile(Global.HOST + "/u/.*?/(.*)");
             Matcher matcher = pattern.matcher(link);

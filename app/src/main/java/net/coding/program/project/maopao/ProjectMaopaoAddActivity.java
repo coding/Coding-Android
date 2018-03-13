@@ -1,6 +1,7 @@
 package net.coding.program.project.maopao;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 
 import com.loopj.android.http.RequestParams;
 
@@ -11,6 +12,7 @@ import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.topic.TopicData;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.project.detail.EditPreviewMarkdown;
 
 import org.androidannotations.annotations.AfterViews;
@@ -23,13 +25,14 @@ public class ProjectMaopaoAddActivity extends BackActivity implements EditPrevie
 
     @Extra
     ProjectObject projectObject;
-    ProjectMaopaoEditFragment editFragment;
+
+    Fragment editFragment;
     ProjectMaopaoPreviewFragment previewFragment;
     private TopicData modifyData = new TopicData();
 
     @AfterViews
     protected final void initProjectMaopaoAddActivity() {
-        editFragment = ProjectMaopaoEditFragment_.builder().build();
+        editFragment = CodingCompat.instance().getProjectMaopaoEditFragment();
         previewFragment = ProjectMaopaoPreviewFragment_.builder().build();
 
         getSupportFragmentManager().beginTransaction()

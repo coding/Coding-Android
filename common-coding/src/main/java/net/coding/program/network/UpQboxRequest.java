@@ -27,4 +27,19 @@ public interface UpQboxRequest {
                                                   @Part("x:authToken") RequestBody authToken,
                                                   @Part("x:userId") RequestBody userId);
 
+    @Multipart
+    @POST("?")
+    Observable<HttpResult<CodingFile>> uploadFile(@Part MultipartBody.Part body,
+                                                  @Part("key") RequestBody key,
+                                                  @Part("x:dir") RequestBody xdir,
+                                                  @Part("x:projectId") RequestBody projectId,
+                                                  @Part("token") RequestBody token,
+                                                  @Part("x:time") RequestBody time,
+                                                  @Part("x:authToken") RequestBody authToken,
+                                                  @Part("x:userId") RequestBody userId,
+
+                                                  @Part("x:folderType") RequestBody xfolderType,
+                                                  @Part("folderType") RequestBody folderType,
+                                                  @Part("dir") RequestBody dir);
+
 }

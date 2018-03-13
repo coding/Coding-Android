@@ -181,6 +181,7 @@ public interface CodingRequest {
     @POST("mobile/device/unregister")
     Observable<BaseHttpResult> unRegisterPush(@FieldMap Map<String, String> map);
 
+    // 检查升级
     @GET("update/app")
     Observable<AppVersion> getAppVersion();
 

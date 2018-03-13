@@ -211,8 +211,7 @@ public class AttachmentsDetailBaseActivity extends CodingToolbarBackActivity {
         if (pos != -1) {
             preViewUrl = preViewUrl.substring(0, pos) + "download";
         }
-        Global.copy(this, preViewUrl);
-        showButtomToast("已复制 " + preViewUrl);
+        Global.tipCopyLink(this, preViewUrl);
     }
 
     @OptionsItem

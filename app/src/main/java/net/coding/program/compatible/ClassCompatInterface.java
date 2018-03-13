@@ -19,6 +19,8 @@ public interface ClassCompatInterface {
 
     Class<?> getMainActivity();
 
+    Fragment getProjectMaopaoEditFragment();
+
     Fragment getProjectHome(ProjectObject projectObject, boolean needRelaod);
 
     Class getGuideActivity();

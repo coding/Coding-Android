@@ -47,9 +47,16 @@ public class MDEditFragment extends BaseFragment {
     private Uri fileCropUri;
     private String hostUploadPhoto = "";
 
+    private EditPreviewMarkdown projectData;
+
+    // 返回的可能是 path，也可能是 projectId
+    protected String getProjectPath() {
+        return projectData.getProjectPath();
+    }
+
     @AfterViews
     protected final void initBase1() {
-        EditPreviewMarkdown projectData = (EditPreviewMarkdown) getActivity();
+        projectData = (EditPreviewMarkdown) getActivity();
         String path = projectData.getProjectPath();
         String template;
         if (projectData.isProjectPublic()) {
@@ -157,26 +164,31 @@ public class MDEditFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_REQUEST_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
-                try {
-                    showProgressBar(true, "正在上传图片...");
-                    setProgressBarProgress();
-                    if (data != null) {
-                        Uri url = data.getData();
-                        if (url != null) {
-                            fileUri = url;
-                        }
+                if (data != null) {
+                    Uri url = data.getData();
+                    if (url != null) {
+                        fileUri = url;
                     }
-
-                    File outputFile = new PhotoOperate(getActivity()).getFile(fileUri);
-                    RequestParams params = new RequestParams();
-                    params.put("dir", 0);
-                    params.put("file", outputFile);
-                    postNetwork(hostUploadPhoto, params, hostUploadPhoto);
-
-                } catch (Exception e) {
-                    showProgressBar(false);
                 }
+
+                showProgressBar(true, "正在上传图片...");
+                setProgressBarProgress();
+
+                updateImage(fileUri);
             }
+        }
+    }
+
+    protected void updateImage(Uri updateFileUri) {
+        try {
+            File outputFile = new PhotoOperate(getActivity()).getFile(updateFileUri);
+            RequestParams params = new RequestParams();
+            params.put("dir", 0);
+            params.put("file", outputFile);
+            postNetwork(hostUploadPhoto, params, hostUploadPhoto);
+
+        } catch (Exception e) {
+            showProgressBar(false);
         }
     }
 
@@ -195,12 +207,17 @@ public class MDEditFragment extends BaseFragment {
                     fileUri = respanse.optString("data", "");
                 }
 
-                String mdPhotoUri = String.format("![图片](%s)\n", fileUri);
-                insertString(mdPhotoUri, "", "");
+                uploadImageSuccess(fileUri);
+
             } else {
                 showErrorMsg(code, respanse);
             }
         }
+    }
+
+    protected void uploadImageSuccess(String fileUri) {
+        String mdPhotoUri = String.format("![图片](%s)\n", fileUri);
+        insertString(mdPhotoUri, "", "");
     }
 
     private void insertString(String begin, String middle, String end) {

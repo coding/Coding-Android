@@ -248,13 +248,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     }
 
     protected final void action_copy() {
-        String link = getLink();
-        if (link.isEmpty()) {
-            showButtomToast("复制链接失败");
-        } else {
-            Global.copy(this, link);
-            showButtomToast("已复制链接 " + link);
-        }
+        Global.tipCopyLink(this, getLink());
     }
 
     @Override

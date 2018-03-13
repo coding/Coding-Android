@@ -2,7 +2,6 @@ package net.coding.program.common.widget;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -13,21 +12,10 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.model.AttachmentFileObject;
-import net.coding.program.network.HttpObserver;
-import net.coding.program.network.Network;
-import net.coding.program.network.ProgressRequestBody;
 import net.coding.program.network.model.file.CodingFile;
-import net.coding.program.network.model.file.UploadToken;
 import net.coding.program.project.detail.file.v2.UploadCallback;
 
 import java.io.File;
-import java.util.UUID;
-
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by chenchao on 16/2/27.
@@ -41,7 +29,6 @@ public class FileListHeadItem2 extends FrameLayout {
 
     UploadCallback callback;
     Param postParam;
-    private Subscription subscription;
 
     public FileListHeadItem2(Context context) {
         super(context);
@@ -90,93 +77,39 @@ public class FileListHeadItem2 extends FrameLayout {
         progressBar.setProgress(progress);
     }
 
+    UploadHelp uploadHelp;
+
     private void upload() {
         retryUpload.setVisibility(GONE);
 
-        Network.getRetrofit(getContext())
-                .uploadFileToken(postParam.projectId, postParam.file.getName(), postParam.file.length())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpObserver<UploadToken>(getContext()) {
+        uploadHelp = new UploadHelp(getContext(), postParam.projectId, postParam.folderId, postParam.file,
+                new UploadHelp.NetworkRequest() {
                     @Override
-                    public void onSuccess(UploadToken data) {
-                        super.onSuccess(data);
-
-                        uploadFileToQbox(data);
+                    public void onProgress(int progress) {
+                        setProgress(progress);
                     }
 
                     @Override
-                    public void onFail(int errorCode, @NonNull String error) {
-                        super.onFail(errorCode, error);
-                    }
-                });
-    }
-
-    private void uploadFileToQbox(UploadToken data) {
-        File file = postParam.file;
-        ProgressRequestBody body = new ProgressRequestBody(getContext(), file, new ProgressRequestBody.UploadCallbacks() {
-            @Override
-            public void onProgressUpdate(int percentage) {
-//                Logger.d("progress " + percentage);
-                setProgress(percentage);
-            }
-
-            @Override
-            public void onError() {
-
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-        });
-
-        String fileName = file.getName();
-        MultipartBody.Part part = MultipartBody.Part.createFormData("file", fileName, body);
-
-        String suffix = "";
-        int pos;
-        if ((pos = fileName.lastIndexOf('.')) != -1) {
-            suffix = fileName.substring(pos, fileName.length());
-        }
-        RequestBody key = RequestBody.create(MultipartBody.FORM, UUID.randomUUID().toString() + suffix);
-        RequestBody dir = RequestBody.create(MultipartBody.FORM, String.valueOf(postParam.folderId));
-        RequestBody projectId = RequestBody.create(MultipartBody.FORM, String.valueOf(postParam.projectId));
-        RequestBody token = RequestBody.create(MultipartBody.FORM, data.uptoken);
-        RequestBody time = RequestBody.create(MultipartBody.FORM, data.time);
-        RequestBody authToken = RequestBody.create(MultipartBody.FORM, data.authToken);
-        RequestBody userId = RequestBody.create(MultipartBody.FORM, String.valueOf(data.userId));
-
-        subscription = Network.getRetrofitLoad(getContext())
-                .uploadFile(part, key, dir, projectId, token, time, authToken, userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpObserver<CodingFile>(getContext()) {
-                    @Override
-                    public void onSuccess(CodingFile data) {
-                        super.onSuccess(data);
-
-                        subscription = null;
+                    public void onSuccess(CodingFile codingFile) {
+                        uploadHelp = null;
                         ((ViewGroup) getParent()).removeView(FileListHeadItem2.this);
-                        callback.onSuccess(data);
+                        callback.onSuccess(codingFile);
                     }
 
                     @Override
-                    public void onFail(int errorCode, @NonNull String error) {
-                        super.onFail(errorCode, error);
-
-                        subscription = null;
+                    public void onFail() {
+                        uploadHelp = null;
                         ((ViewGroup) getParent()).removeView(FileListHeadItem2.this);
                     }
-
                 });
+
+        uploadHelp.upload();
     }
+
 
     private void stopUpload() {
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-            subscription = null;
+        if (uploadHelp != null) {
+            uploadHelp.unsubscribe();
             ((ViewGroup) getParent()).removeView(this);
         }
     }

@@ -12,9 +12,9 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.guide.EnterpriseGuideActivity_;
 import net.coding.program.param.ProjectJumpParam;
-import net.coding.program.project.EnterpriseProjectFragment_;
 import net.coding.program.project.EnterpriseProjectHomeFragment_;
 import net.coding.program.project.maopao.EnterpriseProjectMaopaoActivity_;
+import net.coding.program.project.maopao.EnterpriseProjectMaopaoEditFragment_;
 import net.coding.program.user.EnterpriseAddMemberActivity_;
 import net.coding.program.user.EnterpriseLoginActivity_;
 import net.coding.program.user.PickUserActivity_;
@@ -29,6 +29,11 @@ import java.util.ArrayList;
  */
 
 public class EnterpriseCompatImp implements ClassCompatInterface {
+
+    @Override
+    public Fragment getProjectMaopaoEditFragment() {
+        return EnterpriseProjectMaopaoEditFragment_.builder().build();
+    }
 
     @Override
     public String getFileAuthor() {
