@@ -32,6 +32,7 @@ import net.coding.program.login.auth.TotpClock;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
+import net.coding.program.project.EventProjectModify;
 import net.coding.program.project.ProjectHomeActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -360,7 +361,7 @@ public class ManageProjectListActivity extends BackActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventProjectModify() {
+    public void onEventProjectModify(EventProjectModify event) {
         onRefresh();
     }
 }
