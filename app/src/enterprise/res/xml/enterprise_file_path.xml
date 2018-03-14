@@ -6,10 +6,14 @@
     <!--name="reward"-->
     <!--path="download/rewards" />-->
     <files-path
-        name="appprivate"
+        name="ecoding-prrivate"
         path="/" />
     <cache-path
-        name="appcache"
+        name="ecoding-cache"
         path="/" />
+
+    <root-path
+        name="eroot-path"
+        path="" />
     
 </paths>

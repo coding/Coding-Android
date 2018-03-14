@@ -24,7 +24,7 @@ public class ImageInfo implements Serializable {
             path = "";
         }
 
-        if (!path.startsWith(prefix)) {
+        if (path.startsWith("/")) {
             path = prefix + path;
         }
         return path;

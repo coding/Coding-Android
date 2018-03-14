@@ -27,14 +27,16 @@ import net.coding.program.common.CameraPhotoUtil
 import net.coding.program.common.ImageInfo
 import net.coding.program.common.util.PermissionUtil
 import net.coding.program.common.widget.FileProviderHelp
+import java.io.File
 import java.util.*
 
 class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
-    internal val RESULT_PICK = 20
-    internal val RESULT_CAMERA = 21
+
+    private val RESULT_PICK = 20
+    private val RESULT_CAMERA = 21
     private val allPhotos = "所有图片"
     private val CameraItem = "CameraItem"
-    private var mMenuItem: MenuItem ?= null
+    private var mMenuItem: MenuItem? = null
     internal var mFolderId = 0
     private var mMaxPick = Config.MAX_COUNT
     private var mInflater: LayoutInflater? = null
@@ -100,6 +102,7 @@ class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
         loaderManager.initLoader(mFolderId, null, this@PhotoPickActivity)
     }
     private var fileUri: Uri? = null
+    private var fileTemp: File? = null
 
     /*
      * 选择了listview的第一个项，gridview的第一个是照相机
@@ -278,8 +281,8 @@ class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
             return
         }
 
-        val tempFile = CameraPhotoUtil.getCacheFile(this)
-        fileUri = FileProviderHelp.getUriForFile(this, tempFile)
+        fileTemp = CameraPhotoUtil.getCacheFile(this)
+        fileUri = FileProviderHelp.getUriForFile(this, fileTemp)
 
         val intentFromCapture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, fileUri)
@@ -296,13 +299,22 @@ class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
         super.onRestoreInstanceState(savedInstanceState)
 
         fileUri = savedInstanceState.getParcelable(RESTORE_FILEURI)
+
+        val filePath = savedInstanceState.getString(RESTORE_FILE_PATH)
+        if (filePath is String) {
+            fileTemp = File(filePath)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
 
-        if (fileUri != null) {
+        if (fileUri is Uri) {
             outState!!.putParcelable(RESTORE_FILEURI, fileUri)
+        }
+
+        if (fileTemp is File) {
+            outState!!.putString(RESTORE_FILE_PATH, fileTemp?.path)
         }
     }
 
@@ -319,7 +331,7 @@ class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
             }
         } else if (requestCode == RESULT_CAMERA) {
             if (resultCode == Activity.RESULT_OK) {
-                val itme = ImageInfo(fileUri!!.toString())
+                val itme = ImageInfo(fileTemp?.path)
                 mPickData.add(itme)
                 send()
             }
@@ -404,6 +416,7 @@ class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
         val EXTRA_MAX = "EXTRA_MAX"
         val EXTRA_PICKED = "EXTRA_PICKED" // mPickData
         private val RESTORE_FILEURI = "fileUri"
+        private val RESTORE_FILE_PATH = "filePath"
         var optionsImage = DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.ic_default_image)
                 .showImageForEmptyUri(R.drawable.image_not_exist)

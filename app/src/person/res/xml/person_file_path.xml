@@ -6,7 +6,7 @@
     <!--name="reward"-->
     <!--path="download/rewards" />-->
     <files-path
-        name="coding-rivate"
+        name="coding-private"
         path="/" />
     <cache-path
         name="coding-cache"
