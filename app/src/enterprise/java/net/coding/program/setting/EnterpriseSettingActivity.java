@@ -76,7 +76,8 @@ public class EnterpriseSettingActivity extends BackActivity {
     @AfterViews
     void initView() {
         setActionBarTitle(getString(R.string.enterprise_setting));
-        ImageLoader.getInstance().displayImage(EnterpriseInfo.instance().getAvatar(), enterpriseHead, ImageLoadTool.options);
+        ImageLoader.getInstance().displayImage(EnterpriseInfo.instance().getAvatar(),
+                enterpriseHead, EnterpriseAccountActivity.enterpriseIconOptions);
         enterpriseNameTv.setText(EnterpriseInfo.instance().getName());
         personIp.setText(EnterpriseInfo.instance().getGlobalkey());
     }

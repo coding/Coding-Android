@@ -6,11 +6,11 @@ import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.model.EnterpriseAccount;
 import net.coding.program.common.model.EnterpriseInfo;
@@ -35,6 +35,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class EnterpriseAccountActivity extends BackActivity {
 
     private static final int SETTING_REQUEST_CODE = 1000;
+
+    // 默认企业头像，只在企业设置界面用到
+    public static final DisplayImageOptions enterpriseIconOptions = new DisplayImageOptions
+            .Builder()
+            .showImageOnLoading(R.drawable.icon_user_monkey_circle)
+            .showImageForEmptyUri(R.drawable.icon_user_monkey_circle)
+            .showImageOnFail(R.drawable.icon_user_monkey_circle)
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .considerExifParams(true)
+            .build();
 
     @ViewById
     TextView accountState;
@@ -117,7 +128,7 @@ public class EnterpriseAccountActivity extends BackActivity {
     }
 
     private void updateUI() {
-        ImageLoader.getInstance().displayImage(EnterpriseInfo.instance().getAvatar(), companyIcon, ImageLoadTool.options);
+        ImageLoader.getInstance().displayImage(EnterpriseInfo.instance().getAvatar(), companyIcon, enterpriseIconOptions);
         companyName.setText(EnterpriseInfo.instance().getName());
     }
 
@@ -153,4 +164,5 @@ public class EnterpriseAccountActivity extends BackActivity {
             updateUI();
         }
     }
+
 }

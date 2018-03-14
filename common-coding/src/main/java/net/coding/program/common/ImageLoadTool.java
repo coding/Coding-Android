@@ -42,6 +42,8 @@ public class ImageLoadTool {
             .cacheOnDisk(true)
             .considerExifParams(true)
             .build();
+
+
     public static DisplayImageOptions bannerOptions = new DisplayImageOptions
             .Builder()
             .showImageOnLoading(R.drawable.ic_default_image)
