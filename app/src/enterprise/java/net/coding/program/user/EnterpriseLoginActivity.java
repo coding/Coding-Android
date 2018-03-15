@@ -134,7 +134,8 @@ public class EnterpriseLoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         // 调用下，防止收到上次登录帐号的通知
-        XGPushManager.registerPush(this, "*");
+//        XGPushManager.registerPush(this, "*");
+        XGPushManager.unregisterPush(this);
     }
 
     @AfterViews

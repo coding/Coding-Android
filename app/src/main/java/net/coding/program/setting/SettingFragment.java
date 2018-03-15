@@ -164,7 +164,19 @@ public class SettingFragment extends BaseFragment {
             FragmentActivity activity = getActivity();
 
             if (GlobalData.isEnterprise()) {
-                XGPushManager.registerPush(activity, "*");
+                XGPushManager.unregisterPush(activity);
+//                XGPushManager.registerPush(activity, "*", new XGIOperateCallback() {
+//                    @Override
+//                    public void onSuccess(Object o, int i) {
+//                        Logger.d("XG Suc " + o.toString() + " " + i);
+//                    }
+//
+//                    @Override
+//                    public void onFail(Object o, int i, String s) {
+//
+//                        Logger.d("XG FAI " + o.toString() + " " + i + " " + s);
+//                    }
+//                });
             } else {
                 CodingPush.INSTANCE.unbindGK(getActivity(), AccountInfo.loadAccount(getActivity()).global_key);
             }
