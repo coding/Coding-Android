@@ -57,14 +57,14 @@
             android:layout_alignBottom="@id/userName"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/padding_15"
-            tools:text="已拒绝"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:text="已拒绝" />
 
     </RelativeLayout>
 
     <include layout="@layout/divideline_15" />
 
-    <include layout="@layout/layout_merge_flowlayout" />
+    <include layout="@layout/layout_merge_flowlayout_in_listview" />
 
     <LinearLayout
         android:id="@+id/mergeTreate"
