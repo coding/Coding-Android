@@ -115,7 +115,7 @@
         <TextView
             android:id="@+id/phone"
             style="@style/aboutBottomText"
-            android:text="免费电话：400-930-9163" />
+            android:text="联系电话：400-930-9163" />
 
         <TextView
             android:id="@+id/email"
