@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
-            android:text="客服邮箱"
+            android:text="联系邮箱"
             android:textColor="@color/font_1"
             android:textSize="15sp" />
 
