@@ -35,7 +35,7 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
     ProjectObject mProjectObject;
 
     protected View.OnClickListener clickProjectSetting = v -> {
-        if (GlobalData.getEnterpriseGK().isEmpty()) {
+        if (!GlobalData.isEnterprise()) {
             ProjectSetActivity_.intent(BaseProjectHomeFragment.this)
                     .projectObject(mProjectObject)
                     .start();

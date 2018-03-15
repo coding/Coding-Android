@@ -154,7 +154,7 @@ public class ProjectSetFragment extends ProjectSetFragmentBase {
                 Global.hideSoftKeyboard(getActivity());
 
                 getActivity().setResult(Activity.RESULT_OK);
-                EventBus.getDefault().post(new EventProjectModify());
+                EventBus.getDefault().post(new EventProjectModify().setProjectUrl(mProjectObject.getHttpProjectObject()));
 
                 getActivity().finish();
 

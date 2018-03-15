@@ -139,7 +139,7 @@ public class EnterpriseProjectSetActivity extends PickPhotoActivity {
                         Global.hideSoftKeyboard(EnterpriseProjectSetActivity.this);
 
                         setResult(Activity.RESULT_OK);
-                        EventBus.getDefault().post(new EventProjectModify());
+                        EventBus.getDefault().post(new EventProjectModify().setProjectUrl(data.getHttpProjectObject()));
                         finish();
                     }
 

@@ -54,6 +54,7 @@ public class ProjectHomeActivity extends BackActivity {
         }
 
         if (mProjectObject != null) {
+            mProjectUrl = mProjectObject.getHttpProjectObject();
             initFragment(true);
         } else if (mJumpParam != null) {
             mProjectUrl = String.format(FileUrlActivity.getHostProject(), mJumpParam.user, mJumpParam.project);
@@ -77,6 +78,11 @@ public class ProjectHomeActivity extends BackActivity {
         if (event.exitProject) {
             finish();
             return;
+        }
+
+        String url = event.projectUrl;
+        if (url != null) {
+            mProjectUrl = url;
         }
 
         onRefrush();
