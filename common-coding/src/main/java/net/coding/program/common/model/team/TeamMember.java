@@ -15,14 +15,14 @@ public class TeamMember extends Member implements Serializable {
 
     private static final long serialVersionUID = 8647703879552415625L;
 
-    public int updatedat;
+    public long updatedat;
     public int teamid;
     public int role;
     public String default2faMethod = "";
 
     public TeamMember(JSONObject json) {
         super(json);
-        updatedat = json.optInt("updated_at");
+        updatedat = json.optLong("updated_at", 0);
         teamid = json.optInt("team_id");
         role = json.optInt("role");
         default2faMethod = json.optString("default2faMethod", "");
