@@ -5,8 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,9 +12,9 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
-import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.model.DynamicObject;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.network.model.user.Member;
 import net.coding.program.project.DateSectionDynamicAdapter;
 import net.coding.program.route.BlankViewDisplay;
@@ -36,7 +34,7 @@ import java.util.Calendar;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 
 @EFragment(R.layout.fragment_project_dynamic)
-public class ProjectDynamicFragment extends CustomMoreFragment implements LoadMore {
+public class ProjectDynamicFragment extends RefreshBaseFragment implements LoadMore {
 
     final String HOST = Global.HOST_API + "/project/%d/activities?last_id=%s&user_id=%s&type=%s";
     final String HOST_USER = Global.HOST_API + "/project/%d/activities/user/%s?last_id=%s";
@@ -189,15 +187,6 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements LoadMo
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (mMember != null) {
-            inflater.inflate(R.menu.common_more, menu);
-        }
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
     public void onRefresh() {
         mAdapter.resetLastId();
         mLastId = mAdapter.lastId();
@@ -261,11 +250,6 @@ public class ProjectDynamicFragment extends CustomMoreFragment implements LoadMo
 
     protected int getListSectionResourceId() {
         return R.layout.fragment_project_dynamic_list_head;
-    }
-
-    @Override
-    protected String getLink() {
-        return mProjectObject.getPath() + "/members/" + mMember.user.global_key;
     }
 
     class LoadingAnimation {
