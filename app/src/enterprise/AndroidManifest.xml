@@ -248,7 +248,7 @@
             android:theme="@style/AppThemeNoActionbar" />
         <activity
             android:name=".login.phone.Close2FAActivity_"
-            android:label="@string/empty"
+            android:label="@string/title_activity_close_2fa"
             android:screenOrientation="portrait"
             android:theme="@style/ActionbarTranslate" />
         <activity

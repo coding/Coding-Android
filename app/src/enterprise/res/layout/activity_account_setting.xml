@@ -36,7 +36,7 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/divide_middle_15" />
+    <include layout="@layout/divide_line_1" />
 
     <RelativeLayout
         android:id="@+id/emailLayout"
@@ -70,7 +70,7 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/divide_line_1" />
+    <include layout="@layout/divide_middle_15" />
 
     <RelativeLayout
         android:id="@+id/phoneSetting"
@@ -103,7 +103,7 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/divide_middle_15" />
+    <include layout="@layout/divide_line_1" />
 
     <RelativeLayout
         android:id="@+id/passwordSetting"
@@ -125,7 +125,7 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/divide_middle_15" />
+    <include layout="@layout/divide_line_1" />
 
     <RelativeLayout
         android:id="@+id/close2FA"

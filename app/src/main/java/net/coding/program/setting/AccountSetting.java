@@ -12,6 +12,7 @@ import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.login.phone.Close2FAActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -96,6 +97,11 @@ public class AccountSetting extends BackActivity {
 
     @Click
     void emailLayout() {
+        // 企业版不能修改邮箱
+        if (GlobalData.isEnterprise()) {
+            return;
+        }
+
         String emailString = GlobalData.sUserObject.email;
         boolean emailValid = GlobalData.sUserObject.isEmailValidation();
         if (!emailString.isEmpty() && !emailValid) {
@@ -110,5 +116,10 @@ public class AccountSetting extends BackActivity {
         } else {
             ModifyEmailActivity_.intent(this).start();
         }
+    }
+
+    @Click
+    void close2FA() {
+        Close2FAActivity_.intent(this).start();
     }
 }

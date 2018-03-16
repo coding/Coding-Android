@@ -1,11 +1,12 @@
 package net.coding.program.login.phone;
 
+import android.text.TextUtils;
 import android.view.View;
 
 import net.coding.program.EnterpriseApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.widget.LoginEditText;
+import net.coding.program.common.widget.LoginEditTextNew;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -22,7 +23,7 @@ public class EnterpriseEmailSetPasswordActivity extends EmailSetPasswordActivity
     String enterpriseName = "";
 
     @ViewById
-    LoginEditText enterpriseEdit;
+    LoginEditTextNew enterpriseEdit;
 
     @ViewById
     View enterpriseLine;
@@ -32,6 +33,12 @@ public class EnterpriseEmailSetPasswordActivity extends EmailSetPasswordActivity
         enterpriseEdit.setText(enterpriseName);
         hideActionbarShade();
         enterpriseEdit.setOnEditFocusChange(createEditLineFocus(enterpriseLine));
+
+        if (TextUtils.isEmpty(enterpriseName)) {
+            enterpriseEdit.requestFocus();
+        } else {
+            emailEdit.requestFocus();
+        }
     }
 
     @Override
