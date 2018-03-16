@@ -67,7 +67,7 @@ public class MemberAuthorityActivity extends BackActivity {
         projectMemberLimited.setChecked(false);
 
 
-        if (GlobalData.getEnterpriseGK().isEmpty()) {
+        if (!GlobalData.isEnterprise()) {
             projectNo.setVisibility(View.GONE);
             divideNo.setVisibility(View.GONE);
 
@@ -120,7 +120,7 @@ public class MemberAuthorityActivity extends BackActivity {
     }
 
     private void modifyAuthority(int id) {
-        if (GlobalData.getEnterpriseGK().isEmpty()) {
+        if (!GlobalData.isEnterprise()) {
             modifyCoding(id);
         } else {
             modifyEnterprise(id);
@@ -178,7 +178,7 @@ public class MemberAuthorityActivity extends BackActivity {
 
     @OptionsItem
     void action_about() {
-        if (GlobalData.getEnterpriseGK().isEmpty()) {
+        if (!GlobalData.isEnterprise()) {
             showPop("项目所有者：拥有对项目的所有权限。\n" +
                     "项目管理员：拥有对项目的部分权限。不能删除，转让项目，不能对其他管理员进行操作。\n" +
                     "普通成员：可以阅读和推送代码。\n" +

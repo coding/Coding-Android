@@ -98,9 +98,16 @@ public interface CodingRequest {
 
     @FormUrlEncoded
     @PUT("user/{user}/project/{project}/folder/{folder}")
-    Observable<HttpResult<Boolean>> renameFile(@Path("user") String user,
+    Observable<HttpResult<Boolean>> renameFold(@Path("user") String user,
                                                @Path("project") String project,
                                                @Path("folder") int folder,
+                                               @Field("name") String name);
+
+    @FormUrlEncoded
+    @PUT("user/{user}/project/{project}/files/{file}/rename")
+    Observable<BaseHttpResult> renameFile(@Path("user") String user,
+                                               @Path("project") String project,
+                                               @Path("file") int folder,
                                                @Field("name") String name);
 
     @GET("user/2fa/method")

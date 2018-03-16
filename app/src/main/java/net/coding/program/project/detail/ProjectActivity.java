@@ -104,7 +104,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             overridePendingTransition(0, 0);
             return;
         } else if (mJumpType == ProjectFunction.document) {
-            if (!GlobalData.getEnterpriseGK().isEmpty()) {
+            if (GlobalData.isEnterprise()) {
                 ProjectFileMainActivity_.intent(this).project(mProjectObject).start();
             } else {
                 AttachmentsActivity_.intent(this)

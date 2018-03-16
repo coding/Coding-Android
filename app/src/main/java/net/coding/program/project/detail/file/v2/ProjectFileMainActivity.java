@@ -663,6 +663,52 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
     }
 
     private void doRename(CodingFile folderObject) {
+        if (folderObject.isFolder()) {
+            folderRename(folderObject);
+        } else {
+            fileRename(folderObject);
+        }
+    }
+
+    private void fileRename(CodingFile folderObject) {
+                LayoutInflater li = LayoutInflater.from(this);
+        View v1 = li.inflate(R.layout.dialog_input, null);
+        final EditText input = (EditText) v1.findViewById(R.id.value);
+        input.setText(folderObject.name);
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
+                .setTitle("重命名")
+                .setView(v1)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    String newName = input.getText().toString();
+                    //从网页版扒来的正则
+                    if (newName.equals("")) {
+                        showButtomToast("名字不能为空");
+                    } else {
+                        if (!newName.equals(folderObject.name)) {
+                            Network.getRetrofit(this)
+                                    .renameFile(project.owner_user_name, project.name, folderObject.fileId, newName)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new BaseHttpObserver(this) {
+                                        @Override
+                                        public void onSuccess() {
+                                            super.onSuccess();
+                                            folderObject.name = newName;
+                                            listAdapter.notifyDataSetChanged();
+                                            showButtomToast("重命名成功");
+                                        }
+                                    });
+                        }
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .show();
+
+        input.requestFocus();
+    }
+
+
+    private void folderRename(CodingFile folderObject) {
         LayoutInflater li = LayoutInflater.from(this);
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
@@ -682,7 +728,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
                     } else {
                         if (!newName.equals(folderObject.name)) {
                             Network.getRetrofit(this)
-                                    .renameFile(project.owner_user_name, project.name, folderObject.fileId, newName)
+                                    .renameFold(project.owner_user_name, project.name, folderObject.fileId, newName)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new HttpObserver<Boolean>(this) {
@@ -704,7 +750,6 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
 
         input.requestFocus();
     }
-
 
     void deleteFiles() {
         ArrayList<Integer> fileIds = getActionItemsIds();

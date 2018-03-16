@@ -39,7 +39,7 @@ public class Close2FAActivity extends BackActivity {
 
     @AfterViews
     void initClose2FAActivity() {
-        if (!GlobalData.getEnterpriseGK().isEmpty()) { // 企业版和 coding 设计风格不一样
+        if (GlobalData.isEnterprise()) { // 企业版和 coding 设计风格不一样
             hideActionbarShade();
             getSupportActionBar().setElevation(0);
         } else {

@@ -226,7 +226,7 @@ public class FileUtil {
     }
 
     public static String getDownloadFolder() {
-        if (!GlobalData.getEnterpriseGK().isEmpty()) {
+        if (GlobalData.isEnterprise()) {
             return DOWNLOAD_FOLDER_CODING_ENTERPRISE;
         }
 
