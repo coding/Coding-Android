@@ -68,6 +68,18 @@ android {
             versionCode 270
             versionName "2.7"
             targetSdkVersion 21
+
+            // 信鸽依赖
+            ndk {
+                abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+                // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+            }
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "2100249649",
+                    XG_ACCESS_KEY: "AE6DQ4C5G35G",
+            ]
+
+
         }
 
         dev {
@@ -135,6 +147,14 @@ dependencies {
     implementation project(':common-coding')
     implementation project(':pay-coding')
     implementation project(':terminal-coding')
+
+    // 信鸽依赖
+    //信鸽jar
+    compile 'com.tencent.xinge:xinge:3.2.2-release'
+    //wup包
+    compile 'com.tencent.wup:wup:1.0.0.E-release'
+    //mid包
+    compile 'com.tencent.mid:mid:4.0.6-release'
 
     // dagger 2 依赖
     def daggerVersion = '2.10'
@@ -233,9 +253,6 @@ dependencies {
     // jar 依赖
     compile files('libs/alipaySingle-20170510.jar')
     compile files('libs/BaiduLBS_Android.jar')
-    compile files('libs/jg_filter_sdk_1.1.jar')
-    compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
-    compile files('libs/Xg_sdk_v2.47_20161026_0936.jar')
     provided files('../common-coding/libs/android-viewbadger.jar')   // 小红点
     provided files('../common-coding/libs/pinyin4j-2.5.0.jar')
     implementation project(':share-coding')

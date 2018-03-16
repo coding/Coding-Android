@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import com.tencent.android.tpush.XGPushManager;
+
 import net.coding.program.EnterpriseMainActivity_;
 import net.coding.program.EnterpriseMyPushReceiver;
 import net.coding.program.UserDetailEditActivity_;
@@ -33,6 +35,11 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
     @Override
     public Fragment getProjectMaopaoEditFragment() {
         return EnterpriseProjectMaopaoEditFragment_.builder().build();
+    }
+
+    @Override
+    public void loginOut(Context context, String gk) {
+        XGPushManager.delAccount(context, gk);
     }
 
     @Override

@@ -2,7 +2,11 @@ package net.coding.program;
 
 import android.support.v7.app.AlertDialog;
 
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
+
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.model.EnterpriseDetail;
 import net.coding.program.common.model.EnterpriseInfo;
 import net.coding.program.project.EnterpriseProjectFragment_;
@@ -61,4 +65,21 @@ public class EnterpriseMainActivity extends MainActivity {
     protected void startExtraService() {
         // 不启动服务
     }
+
+    @Override
+    protected void startPushService() {
+        runQQPushServer();
+    }
+
+    private void runQQPushServer() {
+        // 信鸽 push 服务会发 broadcast
+//        if (!MyApp.isDebug()) {
+        XGPushConfig.enableDebug(this, true);
+        String globalKey = GlobalData.sUserObject.global_key;
+        XGPushManager.bindAccount(getApplicationContext(), globalKey);
+//        pushInXiaomi();
+//        }
+    }
+
+
 }

@@ -1,7 +1,6 @@
 package net.coding.program;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,8 +17,6 @@ import android.view.ViewGroup;
 
 import com.roughike.bottombar.BottomBar;
 import com.tbruyelle.rxpermissions.RxPermissions;
-import com.tencent.android.tpush.XGPushManager;
-import com.tencent.android.tpush.service.XGPushService;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
@@ -190,22 +187,8 @@ public class MainActivity extends BaseActivity {
         startNetworkCheckService();
     }
 
-    private void startPushService() {
-        if (GlobalData.isEnterprise()) {
-            runQQPushServer();
-        } else {
-            runOtherPushServer();
-        }
-    }
-
-    private void runQQPushServer() {
-        // 信鸽 push 服务会发 broadcast
-//        if (!MyApp.isDebug()) {
-//            XGPushConfig.enableDebug(this, true);
-        String globalKey = GlobalData.sUserObject.global_key;
-        XGPushManager.registerPush(this, globalKey);
-        pushInXiaomi();
-//        }
+    protected void startPushService() {
+        runOtherPushServer();
     }
 
     private void runOtherPushServer() {
@@ -278,11 +261,11 @@ public class MainActivity extends BaseActivity {
     }
 
     // 信鸽文档推荐调用，防止在小米手机上收不到推送
-    private void pushInXiaomi() {
-        Context context = getApplicationContext();
-        Intent service = new Intent(context, XGPushService.class);
-        context.startService(service);
-    }
+//    private void pushInXiaomi() {
+//        Context context = getApplicationContext();
+//        Intent service = new Intent(context, XGPushService.class);
+//        context.startService(service);
+//    }
 
     @AfterViews
     final void initMainActivity() {

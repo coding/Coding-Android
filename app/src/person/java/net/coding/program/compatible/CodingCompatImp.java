@@ -17,6 +17,7 @@ import net.coding.program.project.PrivateProjectHomeFragment_;
 import net.coding.program.project.PublicProjectHomeFragment_;
 import net.coding.program.project.maopao.ProjectMaopaoActivity_;
 import net.coding.program.project.maopao.ProjectMaopaoEditFragment_;
+import net.coding.program.push.CodingPush;
 import net.coding.program.user.AddFollowActivity_;
 import net.coding.program.user.MyDetailActivity_;
 import net.coding.program.user.UserDetailActivity_;
@@ -34,6 +35,11 @@ public class CodingCompatImp implements ClassCompatInterface {
     @Override
     public Fragment getProjectMaopaoEditFragment() {
         return ProjectMaopaoEditFragment_.builder().build();
+    }
+
+    @Override
+    public void loginOut(Context context, String gk) {
+        CodingPush.INSTANCE.unbindGK(context, gk);
     }
 
     @Override

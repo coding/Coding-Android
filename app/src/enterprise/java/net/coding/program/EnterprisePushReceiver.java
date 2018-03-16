@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
 /**
  * Created by chaochen on 14-12-5.
  */
+
 public class EnterprisePushReceiver extends XGPushBaseReceiver {
 
     public static String sNotify[] = new String[5];
@@ -39,22 +40,27 @@ public class EnterprisePushReceiver extends XGPushBaseReceiver {
     private static long sLastNotify = 0;
     NotificationCompat.Builder builder;
 
+    @Override
     public void onRegisterResult(Context context, int i, XGPushRegisterResult xgPushRegisterResult) {
         Log.d("", "" + context);
     }
 
+    @Override
     public void onUnregisterResult(Context context, int i) {
         Log.d("", "" + context);
     }
 
+    @Override
     public void onSetTagResult(Context context, int i, String s) {
         Log.d("", "" + context);
     }
 
+    @Override
     public void onDeleteTagResult(Context context, int i, String s) {
         Log.d("", "" + context);
     }
 
+    @Override
     public void onTextMessage(Context context, XGPushTextMessage message) {
         try {
             if (!AccountInfo.isLogin(context)) {
@@ -137,11 +143,13 @@ public class EnterprisePushReceiver extends XGPushBaseReceiver {
         }
     }
 
+    @Override
     public void onNotifactionClickedResult(Context context, XGPushClickedResult xgPushClickedResult) {
         Log.d("", xgPushClickedResult + " || cccccccc || " + xgPushClickedResult.getCustomContent());
 
     }
 
+    @Override
     public void onNotifactionShowedResult(Context context, XGPushShowedResult xgPushShowedResult) {
         Log.d("", xgPushShowedResult + " || sssssssss || " + xgPushShowedResult.getCustomContent());
 

@@ -366,7 +366,7 @@ public class MyApp extends MultiDexApplication {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 }
 
-                final String uriString = uri.replace("/team/", "/user/").replace("/t/", "/u/");  // 添加 team 后导致的 api 失效问题
+                final String uriString = uri.replace("/team/", "/user/").replace("/t/", "/u/").toLowerCase();  // 添加 team 后导致的 api 失效问题
 
                 final String NAME = "([\\w.-]+)";
 

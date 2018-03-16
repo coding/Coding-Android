@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.tencent.android.tpush.XGPushManager;
-
 import net.coding.program.R;
 import net.coding.program.common.GlobalData;
 import net.coding.program.common.event.EventMessage;
@@ -21,7 +19,6 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.project.detail.file.FileSaveHelp;
-import net.coding.program.push.CodingPush;
 import net.coding.program.thirdplatform.ThirdPlatformLogin;
 
 import org.androidannotations.annotations.AfterViews;
@@ -163,23 +160,7 @@ public class SettingFragment extends BaseFragment {
             umengEvent(UmengEvent.E_USER_CENTER, "退登_确定退登");
             FragmentActivity activity = getActivity();
 
-            if (GlobalData.isEnterprise()) {
-                XGPushManager.unregisterPush(activity);
-//                XGPushManager.registerPush(activity, "*", new XGIOperateCallback() {
-//                    @Override
-//                    public void onSuccess(Object o, int i) {
-//                        Logger.d("XG Suc " + o.toString() + " " + i);
-//                    }
-//
-//                    @Override
-//                    public void onFail(Object o, int i, String s) {
-//
-//                        Logger.d("XG FAI " + o.toString() + " " + i + " " + s);
-//                    }
-//                });
-            } else {
-                CodingPush.INSTANCE.unbindGK(getActivity(), AccountInfo.loadAccount(getActivity()).global_key);
-            }
+            CodingCompat.instance().loginOut(activity, GlobalData.sUserObject.global_key);
 
             AccountInfo.loginOut(activity);
             ThirdPlatformLogin.loginOut(activity);

@@ -3,6 +3,8 @@ package net.coding.program;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.tencent.android.tpush.XGPushManager;
+
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalData;
 import net.coding.program.common.model.AccountInfo;
@@ -31,6 +33,8 @@ public class EnterpriseApp extends MyApp {
         CodingCompat.init(new EnterpriseCompatImp());
 
         Global.AUTHOR = "net.coding.program.enterprise.fileprovider";
+
+        XGPushManager.registerPush(this);
     }
 
     public static void setHost(@NonNull String enterpriseName) {

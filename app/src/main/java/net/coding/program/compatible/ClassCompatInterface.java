@@ -27,6 +27,8 @@ public interface ClassCompatInterface {
 
     Class getLoginActivity();
 
+    void loginOut(Context context, String gk);
+
     void launchMyDetailActivity(Context context);
 
     void launchUserDetailActivity(Context context, String globalKey);
