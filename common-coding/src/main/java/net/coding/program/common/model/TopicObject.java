@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -98,9 +99,15 @@ public class TopicObject extends BaseComment implements Serializable {
             this.id = id;
         }
 
+
         @Override
         public String getLabels() {
-            return String.format("%s%s/topics/labels", Global.HOST_API, projectPath);
+            if (GlobalData.isEnterprise()) {
+                return String.format("%s%s/labels", Global.HOST_API, projectPath);
+            } else {
+
+                return String.format("%s%s/topics/labels", Global.HOST_API, projectPath);
+            }
         }
 
         @Override
