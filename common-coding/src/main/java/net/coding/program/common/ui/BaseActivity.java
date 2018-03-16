@@ -66,7 +66,13 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
     }
 
     protected View.OnFocusChangeListener createEditLineFocus(View line) {
-        return (v, hasFocus) -> line.setBackgroundColor(hasFocus ? CodingColor.font1 : CodingColor.divideLine);
+        return createEditLineFocus(line, CodingColor.font1);
+    }
+
+    protected View.OnFocusChangeListener createEditLineFocus(View line, int selectColor) {
+        return (v, hasFocus) -> {
+            line.setBackgroundColor(hasFocus ? selectColor : CodingColor.divideLine);
+        };
     }
 
     protected void showProgressBar(boolean show) {

@@ -32,7 +32,7 @@ public class EnterpriseEmailSetPasswordActivity extends EmailSetPasswordActivity
     void initEnterpriseEmailSetPasswordActivity() {
         enterpriseEdit.setText(enterpriseName);
         hideActionbarShade();
-        enterpriseEdit.setOnEditFocusChange(createEditLineFocus(enterpriseLine));
+        enterpriseEdit.setOnEditFocusChange(createEditLineFocus(enterpriseLine, 0xFF0160FF));
 
         if (TextUtils.isEmpty(enterpriseName)) {
             enterpriseEdit.requestFocus();
