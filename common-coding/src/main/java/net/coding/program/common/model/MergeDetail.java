@@ -15,6 +15,7 @@ public class MergeDetail implements Serializable {
     boolean can_edit;
     boolean author_can_edit;
     Merge merge_request;
+    private boolean canMerge;
 
     public MergeDetail(JSONObject json) {
         merge_request_description = json.optString("merge_request_description", "");
@@ -25,6 +26,8 @@ public class MergeDetail implements Serializable {
         can_edit_src_branch = json.optBoolean("can_edit_src_branch");
         can_edit = json.optBoolean("can_edit");
         author_can_edit = json.optBoolean("author_can_edit");
+
+        canMerge = json.optBoolean("can_merge", false);
 
         if (json.has("pull_request")) {
             merge_request = new Merge(json.optJSONObject("pull_request"));
@@ -48,6 +51,11 @@ public class MergeDetail implements Serializable {
     public boolean isCanEdit() {
         return can_edit;
     }
+
+    public boolean isCanMerge() {
+        return canMerge;
+    }
+
 
     public String getContent() {
         String content = merge_request_description;
