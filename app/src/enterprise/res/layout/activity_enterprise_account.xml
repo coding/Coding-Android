@@ -120,7 +120,7 @@
         android:id="@+id/itemSupport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:itemIcon="@mipmap/enterprise_account_member"
+        app:itemIcon="@mipmap/enterprise_support"
         app:itemShowArrow="false"
         app:itemTitle="@string/title_manage_support_activity" />
 
