@@ -74,12 +74,11 @@ android {
                 abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
                 // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
             }
+
             manifestPlaceholders = [
                     XG_ACCESS_ID : "2100249649",
                     XG_ACCESS_KEY: "AE6DQ4C5G35G",
             ]
-
-
         }
 
         dev {
@@ -148,13 +147,15 @@ dependencies {
     implementation project(':pay-coding')
     implementation project(':terminal-coding')
 
-    // 信鸽依赖
-    //信鸽jar
-    compile 'com.tencent.xinge:xinge:3.2.2-release'
-    //wup包
-    compile 'com.tencent.wup:wup:1.0.0.E-release'
-    //mid包
-    compile 'com.tencent.mid:mid:4.0.6-release'
+    // 信鸽依赖, 只有企业版用了信鸽
+    if (DEV_ENTERPRISE.toBoolean()) {
+        //信鸽jar
+        compile 'com.tencent.xinge:xinge:3.2.2-release'
+        //wup包
+        compile 'com.tencent.wup:wup:1.0.0.E-release'
+        //mid包
+        compile 'com.tencent.mid:mid:4.0.6-release'
+    }
 
     // dagger 2 依赖
     def daggerVersion = '2.10'

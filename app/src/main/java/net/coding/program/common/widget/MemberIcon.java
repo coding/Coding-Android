@@ -52,10 +52,10 @@ public class MemberIcon extends CircleImageView {
     public void setFlagIcon(Object tag) {
         if (tag instanceof UserObject) {
             VIP vip = ((UserObject) tag).vip;
-            if (vip.icon == 0) {
+            if (vip.getIcon() == 0) {
                 flagIcon = null;
             } else {
-                flagIcon = getResources().getDrawable(vip.icon);
+                flagIcon = getResources().getDrawable(vip.getIcon());
             }
         }
     }

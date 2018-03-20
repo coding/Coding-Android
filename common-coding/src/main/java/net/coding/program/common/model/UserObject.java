@@ -187,7 +187,7 @@ public class UserObject implements Serializable, Comparable {
         email_validation = json.optInt("email_validation", 0);
         phone_validation = json.optInt("phone_validation", 0);
         phone_country_code = json.optString("phone_country_code", "+86");
-        vip = VIP.id2Enum(json.optInt("vip", 1));
+        vip = VIP.Companion.id2Enum(json.optInt("vip", 1));
         vipExpiredAt = json.optLong("vip_expired_at", 0);
 
         degree = json.optInt("degree");
@@ -322,7 +322,7 @@ public class UserObject implements Serializable, Comparable {
     }
 
     public boolean isHighLevel() {
-        return vip != null && vip.id >= VIP.silver.id;
+        return vip != null && vip.getId() >= VIP.silver.getId();
     }
 
     public boolean phoneAndEmailValid() {

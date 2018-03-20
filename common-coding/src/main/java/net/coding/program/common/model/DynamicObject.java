@@ -1471,7 +1471,7 @@ public class DynamicObject {
             path = ProjectObject.teamPath2User(json.optString("path"));
             follow = json.optInt("follow") != 0;
             followed = json.optInt("followed") != 0;
-            vip = VIP.id2Enum(json.optInt("vip", 1));
+            vip = VIP.Companion.id2Enum(json.optInt("vip", 1));
         }
 
         public User() {
