@@ -2,7 +2,6 @@ package net.coding.program.login;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,10 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.LoginActivity_;
@@ -42,7 +39,6 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONObject;
 
-import cz.msebera.android.httpclient.Header;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -55,13 +51,7 @@ public class PhoneRegisterActivity extends BackActivity {
     public static CharSequence REGIST_TIP = Global.createGreenHtml("点击注册，即同意", "《Coding 服务条款》", "");
 
     @ViewById
-    ImageView captchaImage;
-
-    @ViewById
-    View captchaEditLayout;
-
-    @ViewById
-    EditText passwordEditAgain, globalKeyEdit, phoneEdit, passwordEdit, phoneCodeEdit, captchaEdit;
+    EditText passwordEditAgain, globalKeyEdit, phoneEdit, passwordEdit, phoneCodeEdit;
 
     @ViewById
     View firstStep, loginButton;
@@ -116,8 +106,6 @@ public class PhoneRegisterActivity extends BackActivity {
         sendCode.setType(ValidePhoneView.Type.register);
 
         bindCountry();
-
-        needShowCaptch();
     }
 
     @Click
@@ -139,13 +127,9 @@ public class PhoneRegisterActivity extends BackActivity {
         firstStep.setEnabled(InputCheck.checkEditIsFill(globalKeyEdit, phoneEdit, phoneCodeEdit));
     }
 
-    @AfterTextChange({R.id.passwordEdit, R.id.passwordEditAgain, R.id.captchaEdit})
+    @AfterTextChange({R.id.passwordEdit, R.id.passwordEditAgain})
     void validRegisterButton(TextView tv, Editable text) {
-        if (captchaEditLayout.getVisibility() == View.VISIBLE) {
-            loginButton.setEnabled(InputCheck.checkEditIsFill(passwordEdit, passwordEditAgain, captchaEdit));
-        } else {
-            loginButton.setEnabled(InputCheck.checkEditIsFill(passwordEdit, passwordEditAgain));
-        }
+        loginButton.setEnabled(InputCheck.checkEditIsFill(passwordEdit, passwordEditAgain));
     }
 
     private void bindCountry() {
@@ -240,11 +224,6 @@ public class PhoneRegisterActivity extends BackActivity {
 
         params.put("phoneCountryCode", pickCountry.getCountryCode());
 
-        if (captchaEditLayout.getVisibility() == View.VISIBLE) {
-            String captcha = captchaEdit.getText().toString();
-            params.put("j_captcha", captcha);
-        }
-
         String url = Global.HOST_API + "/v2/account/register?channel=coding-android";
         MyAsyncHttpClient.post(this, url, params, new MyJsonResponse(PhoneRegisterActivity.this) {
             @Override
@@ -258,7 +237,6 @@ public class PhoneRegisterActivity extends BackActivity {
             @Override
             public void onMyFailure(JSONObject response) {
                 super.onMyFailure(response);
-                needShowCaptch();
             }
 
             @Override
@@ -270,46 +248,6 @@ public class PhoneRegisterActivity extends BackActivity {
 
 
         showProgressBar(true, "");
-    }
-
-    private void needShowCaptch() {
-        if (captchaEditLayout.getVisibility() == View.VISIBLE) {
-            requestCaptcha();
-            return;
-        }
-
-        String HOST_NEED_CAPTCHA = Global.HOST_API + "/captcha/register";
-        MyAsyncHttpClient.get(this, HOST_NEED_CAPTCHA, new MyJsonResponse(this) {
-            @Override
-            public void onMySuccess(JSONObject response) {
-                super.onMySuccess(response);
-                if (response.optBoolean("data")) {
-                    captchaEditLayout.setVisibility(View.VISIBLE);
-                    requestCaptcha();
-                }
-            }
-        });
-    }
-
-    @Click
-    void captchaImage() {
-        requestCaptcha();
-    }
-
-    private void requestCaptcha() {
-        captchaEdit.setText("");
-        String url = Global.HOST_API + "/getCaptcha";
-        MyAsyncHttpClient.get(this, url, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                captchaImage.setImageBitmap(BitmapFactory.decodeByteArray(responseBody, 0, responseBody.length));
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
-        });
     }
 
     @Click

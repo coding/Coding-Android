@@ -77,8 +77,8 @@
 
                         <TextView
                             android:id="@+id/countryCode"
-                            android:text="+86"
-                            style="@style/PhoneCountry" />
+                            style="@style/PhoneCountry"
+                            android:text="+86" />
 
                     </FrameLayout>
 
@@ -149,29 +149,6 @@
                     style="@style/EditLogin"
                     android:hint="重复密码"
                     android:inputType="textPassword" />
-
-
-                <FrameLayout
-                    android:id="@+id/captchaEditLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:visibility="gone"
-                    tools:visibility="visible">
-
-                    <net.coding.program.common.LoginEditText
-                        android:id="@+id/captchaEdit"
-                        style="@style/EditLogin"
-                        android:layout_marginTop="0dp"
-                        android:hint="验证码"
-                        tools:visibility="visible" />
-
-                    <ImageView
-                        android:id="@+id/captchaImage"
-                        style="@style/CaptchaImage"
-                        android:layout_gravity="right|center_vertical" />
-
-                </FrameLayout>
 
                 <com.flyco.roundview.RoundTextView
                     android:id="@+id/loginButton"
