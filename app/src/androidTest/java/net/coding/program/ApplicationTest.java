@@ -6,7 +6,6 @@ import android.test.ApplicationTestCase;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.UserObject;
-import net.coding.program.network.Network;
 import net.coding.program.third.EmojiFilter;
 
 import java.util.concurrent.CountDownLatch;
@@ -78,11 +77,4 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         assertEquals(UserObject.getFirstLetters("陈超").toUpperCase(), "CC");
         assertEquals(UserObject.getFirstLetters("chenchao").toUpperCase(), "CHENCHAO");
     }
-
-    public void testLogin() {
-        Network.getRetrofit(getContext())
-                .
-    }
-
-
 }
