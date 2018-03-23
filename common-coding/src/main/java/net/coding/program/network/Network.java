@@ -52,7 +52,7 @@ public class Network {
 
     public static String getCookie(Context context, String url) {
         String host;
-        if (url.startsWith(Global.HOST)) {
+        if (url.toLowerCase().startsWith(Global.HOST.toLowerCase())) {
             host = Global.HOST;
         } else {
             return "";
@@ -68,7 +68,7 @@ public class Network {
             }
             String itemName = eachCookie.getName();
             if ((itemName.equalsIgnoreCase("sid") || itemName.equalsIgnoreCase("eid"))
-                    && host.endsWith(domain)) {
+                    && host.toLowerCase().endsWith(domain.toLowerCase())) {
                 return String.format("%s=%s;", eachCookie.getName(), eachCookie.getValue());
             }
         }
@@ -95,7 +95,7 @@ public class Network {
 
             String url = request.url().toString();
             // 不是 coding 和 mart 就不添加 cookie
-            if (url.startsWith(Global.HOST)) {
+            if (url.toLowerCase().startsWith(Global.HOST.toLowerCase())) {
                 String sid = getCookie(context, url);
                 Request.Builder builder = request.newBuilder()
                         .addHeader("Cookie", sid);
@@ -118,7 +118,7 @@ public class Network {
                     }
                 }
 
-                if (url.startsWith(Global.HOST)) {
+                if (url.toLowerCase().startsWith(Global.HOST.toLowerCase())) {
                     builder.addHeader("Referer", Global.HOST);
                 }
 

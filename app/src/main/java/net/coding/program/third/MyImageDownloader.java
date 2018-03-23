@@ -23,7 +23,7 @@ public class MyImageDownloader extends BaseImageDownloader {
     protected HttpURLConnection createConnection(String url, Object extra) throws IOException {
         HttpURLConnection conn = super.createConnection(url, extra);
 
-        if (url.toLowerCase().startsWith(Global.HOST)) {
+        if (url.toLowerCase().startsWith(Global.HOST.toLowerCase())) {
             conn.setRequestProperty("Cookie", MyAsyncHttpClient.getLoginCookie(context));
         }
 

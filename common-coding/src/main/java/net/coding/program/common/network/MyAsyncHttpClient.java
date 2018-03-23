@@ -133,9 +133,8 @@ public class MyAsyncHttpClient {
 
     public static String getCookie(Context context, String url) {
         String host;
-        if (url.startsWith(Global.HOST)) {
-            host = Global.HOST;
-        } else if (url.startsWith(Global.HOST)) {
+
+        if (url.toLowerCase().startsWith(Global.HOST.toLowerCase())) {
             host = Global.HOST;
         } else {
             return "";

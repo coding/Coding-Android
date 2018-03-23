@@ -55,7 +55,7 @@ public class EnterpriseApp extends MyApp {
         }
 
         GlobalData.setEnterpriseGK(enterpriseName);
-        Global.HOST = host.toLowerCase();
+        Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
     }
 }

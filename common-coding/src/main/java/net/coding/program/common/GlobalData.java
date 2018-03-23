@@ -26,26 +26,23 @@ public class GlobalData {
 
     // 应对修改企业版路径以 /p/project 开头的问题
     public static String transformEnterpriseUri(String uri) {
-        uri = uri.toLowerCase();
         if (uri.startsWith("/p/")) {
-            uri = String.format("/u/%s%s", getEnterpriseGKLow(), uri);
-        } else if (uri.startsWith(Global.HOST + "/p/")) {
-            int pathStart = Global.HOST.length();
-            String uriPath = uri.substring(pathStart, uri.length());
-            uri = String.format("/u/%s%s", getEnterpriseGKLow(), uriPath);
+            uri = String.format("/u/%s%s", getEnterpriseGK(), uri);
+        } else {
+            final String projectUrl = (Global.HOST + "/p/").toLowerCase();
+            if (uri.startsWith(projectUrl)) {
+                int pathStart = Global.HOST.length();
+                String uriPath = uri.substring(pathStart, uri.length());
+                uri = String.format("/u/%s%s", getEnterpriseGK(), uriPath);
+            }
         }
 
-        return uri.toLowerCase();
+        return uri;
     }
 
     public static String getEnterpriseGK() {
         return enterpriseGK;
     }
-
-    public static String getEnterpriseGKLow() {
-        return getEnterpriseGK().toLowerCase();
-    }
-
 
     public static void setEnterpriseGK(String enterpriseGK) {
         GlobalData.enterpriseGK = enterpriseGK;
