@@ -1202,6 +1202,10 @@ public class DynamicObject {
                     s = watcher.getHtml();
                     break;
 
+                case "delete":
+                    s = task.title;
+                    break;
+
                 default:
                     s = task.getHtml();
                     break;

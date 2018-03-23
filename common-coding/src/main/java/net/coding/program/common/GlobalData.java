@@ -30,7 +30,7 @@ public class GlobalData {
             uri = String.format("/u/%s%s", getEnterpriseGK(), uri);
         } else {
             final String projectUrl = (Global.HOST + "/p/").toLowerCase();
-            if (uri.startsWith(projectUrl)) {
+            if (uri.toLowerCase().startsWith(projectUrl)) {
                 int pathStart = Global.HOST.length();
                 String uriPath = uri.substring(pathStart, uri.length());
                 uri = String.format("/u/%s%s", getEnterpriseGK(), uriPath);
