@@ -19,6 +19,8 @@ public enum ProjectFunction {
     readme(R.id.itemReadme, R.drawable.project_button_icon_readme, "Readme", ReadmeFragment_.class),
     merge(R.id.itemMerge, R.drawable.project_button_icon_merge, "Merge Request", ProjectMergeFragment_.class),
     pullRequest(R.id.itemMerge, R.drawable.project_button_icon_merge, "Pull Request", ProjectPullFragment_.class),
+    branchManage(R.id.itemBranch, R.drawable.project_button_icon_branch, "分支管理", ProjectPullFragment_.class),
+    releaseManage(R.id.itemRelease, R.drawable.project_button_icon_release, "发布管理", ProjectPullFragment_.class),
     wiki(R.id.itemWiki, R.drawable.project_button_icon_wiki, "Wiki", null);
 
     public int id;

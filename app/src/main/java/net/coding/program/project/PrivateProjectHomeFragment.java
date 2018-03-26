@@ -15,6 +15,7 @@ import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.detail.ProjectFunction;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
@@ -28,7 +29,7 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
 
     public static final String TAG_HOST_PROJECT = "TAG_HOST_PROJECT";
     @ViewById
-    View codeLayout0, codeLayout1;
+    View codeLayout1;
 
     protected ProjectFunction[] getItems() {
         return new ProjectFunction[]{
@@ -38,7 +39,8 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
                 ProjectFunction.document,
                 ProjectFunction.code,
                 ProjectFunction.member,
-                ProjectFunction.readme,
+                ProjectFunction.branchManage,
+                ProjectFunction.releaseManage,
                 ProjectFunction.merge
         };
     }
@@ -109,14 +111,20 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
 
     }
 
+    @Click(R.id.itemReadme)
+    void clickReadme(View v) {
+        ProjectActivity_.intent(PrivateProjectHomeFragment.this)
+                .mProjectObject(mProjectObject)
+                .mJumpType(ProjectFunction.idToEnum(v.getId()))
+                .start();
+    }
+
     protected void bindUI() {
         Global.setBadgeView(dynamicBadge, mProjectObject.unReadActivitiesCount);
 
         if (mProjectObject.canReadCode()) {
-            codeLayout0.setVisibility(View.VISIBLE);
             codeLayout1.setVisibility(View.VISIBLE);
         } else {
-            codeLayout0.setVisibility(View.GONE);
             codeLayout1.setVisibility(View.GONE);
         }
 

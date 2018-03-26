@@ -69,22 +69,6 @@
 
                 <View style="@style/DivideLineHomeList" />
 
-                <LinearLayout
-                    android:id="@+id/codeLayout0"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <include
-                        android:id="@+id/itemCode"
-                        layout="@layout/project_home_list_head_button" />
-
-                    <View
-                        style="@style/DivideLineHomeList"
-                        android:layout_marginLeft="50dp" />
-
-                </LinearLayout>
-
                 <include
                     android:id="@+id/itemMember"
                     layout="@layout/project_home_list_head_button" />
@@ -97,9 +81,38 @@
             android:id="@+id/codeLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/divide"
             android:orientation="vertical">
 
-            <include layout="@layout/divide_middle_15" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="54dp">
+
+                <View style="@style/DivideSectionBottom5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="代码"
+                    android:textColor="@color/font_1"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:id="@+id/itemReadme"
+                    android:layout_marginRight="15dp"
+                    android:gravity="center"
+                    android:text="查看 README"
+                    android:textColor="@color/font_green" />
+
+                <View
+                    style="@style/DivideSectionTop5"
+                    android:layout_gravity="bottom" />
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -107,12 +120,31 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <include
-                    android:id="@+id/itemReadme"
-                    layout="@layout/project_home_list_head_button" />
 
                 <View style="@style/DivideLineHomeList" />
 
+                <include
+                    android:id="@+id/itemCode"
+                    layout="@layout/project_home_list_head_button" />
+
+                <View
+                    style="@style/DivideLineHomeList"
+                    android:layout_marginLeft="50dp" />
+
+                <include
+                    android:id="@+id/itemBranch"
+                    layout="@layout/project_home_list_head_button" />
+
+                <View
+                    style="@style/DivideLineHomeList"
+                    android:layout_marginLeft="50dp" />
+                <include
+                    android:id="@+id/itemRelease"
+                    layout="@layout/project_home_list_head_button" />
+
+                <View
+                    style="@style/DivideLineHomeList"
+                    android:layout_marginLeft="50dp" />
                 <include
                     android:id="@+id/itemMerge"
                     layout="@layout/project_home_list_head_button" />
