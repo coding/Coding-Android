@@ -19,7 +19,7 @@ apply plugin: "kotlin-allopen"
 apply plugin: "kotlin-kapt"
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
 
     defaultConfig {
         minSdkVersion 15

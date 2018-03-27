@@ -14,8 +14,6 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.model.ProjectObject;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.EActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,11 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * todo 重构这个页面
  * Created by chenchao on 15/9/25.
  * 基本的listActivity，没有分隔条，没有分页
  */
-@EActivity
-public abstract class BaseListActivity extends BackActivity implements LoadMore {
+public class BaseListActivity extends BackActivity implements LoadMore {
 
 //    public abstract String getActionbarTitle();
 //    public abstract String getGetUrl();
@@ -40,15 +38,16 @@ public abstract class BaseListActivity extends BackActivity implements LoadMore 
     ActivityParam mActivityParam;
     private ArrayAdapter<Object> mAdapter;
 
-    public abstract ActivityParam getActivityParam();
+    public ActivityParam getActivityParam() {
+        throw new RuntimeException("need override this method");
+    }
 
     @Override
     public void loadMore() {
         getNextPageNetwork(mActivityParam.mUrl, TAG_LOAD_MORE);
     }
 
-    @AfterViews
-    protected final void BaseListActivity() {
+    protected final void initBaseListActivity() {
         mActivityParam = getActivityParam();
         getSupportActionBar().setTitle(mActivityParam.mTitle);
         showDialogLoading();

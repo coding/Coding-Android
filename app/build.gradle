@@ -134,7 +134,7 @@ kapt {
 }
 
 dependencies {
-    kapt 'com.android.databinding:compiler:3.0.1'
+    kapt 'com.android.databinding:compiler:3.1.0'
 
     kapt "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
@@ -175,7 +175,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportVersion"
     compile "com.android.support:support-annotations:$supportVersion"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:multidex:1.0.3'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
@@ -220,21 +220,21 @@ dependencies {
     compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'
 
     // 比 ultimaterecyclerview 轻量，用起来比较舒服，实现代码也好些
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.28'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.3@aar'
     compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
     compile 'com.orhanobut:logger:1.15'
     compile 'com.github.bmelnychuk:atv:1.2.9'
 
     // 网络请求
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
-    compile 'com.squareup.okhttp3:okhttp:3.5.0'
-    compile 'io.reactivex:rxjava:1.0.14'
-    compile 'io.reactivex:rxandroid:1.0.1'
-    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.9.1'
+    compile 'io.reactivex:rxjava:1.2.4'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     // 仿 apple 的 segmentied control
     compile 'info.hoang8f:android-segmented:1.0.6'

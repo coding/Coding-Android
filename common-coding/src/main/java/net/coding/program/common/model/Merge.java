@@ -1,6 +1,5 @@
 package net.coding.program.common.model;
 
-import android.databinding.BindingAdapter;
 import android.text.Spannable;
 import android.widget.ImageView;
 
@@ -89,7 +88,8 @@ public class Merge implements Serializable {
         return getTitleIId() + "  " + getAuthor().name;
     }
 
-    @BindingAdapter({"bind:imageUrl"})
+    // TODO: 2018/3/27  有 bug
+//    @BindingAdapter({"bind:imageUrl"})
     public static void loadImage(ImageView view, String imageUrl) {
         ImageLoader.getInstance().displayImage(imageUrl, view, ImageLoadTool.options);
     }

@@ -36,8 +36,8 @@ import rx.schedulers.Schedulers
 
 class MainProjectFragment : BaseFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_main_project, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_main_project, container, false)
     }
 
     internal fun initMainProjectFragment() {
@@ -64,7 +64,7 @@ class MainProjectFragment : BaseFragment() {
 
     private fun getVersion(): Int {
         try {
-            val pInfo = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0);
+            val pInfo = activity!!.getPackageManager().getPackageInfo(activity!!.getPackageName(), 0);
             return pInfo.versionCode
         } catch (e: java.lang.Exception) {
             Global.errorLog(e)
@@ -84,7 +84,7 @@ class MainProjectFragment : BaseFragment() {
                 .subscribe(object : HttpObserverRaw<AppVersion>(activity) {
                     override fun onSuccess(data: AppVersion) {
                         super.onSuccess(data)
-                        activity.getSharedPreferences("version", Context.MODE_PRIVATE)
+                        activity!!.getSharedPreferences("version", Context.MODE_PRIVATE)
                                 .edit()
                                 .putInt("NewAppVersion", data.build)
                                 .apply()
@@ -98,7 +98,7 @@ class MainProjectFragment : BaseFragment() {
 
     private fun updateTip() {
         val versionCode = getVersion()
-        val share = activity.getSharedPreferences("version", Context.MODE_PRIVATE)
+        val share = activity!!.getSharedPreferences("version", Context.MODE_PRIVATE)
         val newVersion = share.getInt("NewAppVersion", 0)
 
         if (versionCode < newVersion) {
@@ -111,7 +111,7 @@ class MainProjectFragment : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         terminalClick.setOnClickListener { terminalClick() }
@@ -185,8 +185,8 @@ class MainProjectFragment : BaseFragment() {
     }
 
     internal fun action_search() {
-        SearchProjectActivity_.intent(this).start()
-        activity.overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
+        SearchProjectActivity_.intent(this!!).start()
+        activity!!.overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
     }
 
     class FragmentBuilder_ : FragmentBuilder<MainProjectFragment.FragmentBuilder_, MainProjectFragment>() {

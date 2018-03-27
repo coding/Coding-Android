@@ -14,7 +14,7 @@ import org.androidannotations.annotations.EActivity;
  */
 
 @EActivity
-public abstract class ToolbarBackActivity extends BackActivity {
+public class ToolbarBackActivity extends BackActivity {
 
     private Toolbar toolbar;
     private TextView toolbarTitle;

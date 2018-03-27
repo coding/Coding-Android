@@ -104,7 +104,7 @@ open class ImagePagerFragment : BaseFragment() {
 
     @Click
     protected fun rootLayout() {
-        activity.onBackPressed()
+        activity?.onBackPressed()
     }
 
     override fun onDestroyView() {
@@ -150,19 +150,19 @@ open class ImagePagerFragment : BaseFragment() {
                     file = imageLoad.imageLoader.diskCache.get(imageUri)
                 }
                 if (Global.isGifByFile(file)) {
-                    image = activity.layoutInflater.inflate(R.layout.imageview_gif, rootLayout, false)
+                    image = activity!!.layoutInflater.inflate(R.layout.imageview_gif, rootLayout, false)
                     rootLayout!!.addView(image)
-                    image?.setOnClickListener { activity.onBackPressed() }
+                    image?.setOnClickListener { activity?.onBackPressed() }
                 } else {
-                    val photoView = activity.layoutInflater.inflate(R.layout.imageview_touch, rootLayout, false) as SubsamplingScaleImageView
+                    val photoView = activity!!.layoutInflater.inflate(R.layout.imageview_touch, rootLayout, false) as SubsamplingScaleImageView
                     photoView.orientation = SubsamplingScaleImageView.ORIENTATION_USE_EXIF
                     image = photoView
                     rootLayout!!.addView(image)
-                    photoView.setOnClickListener { v -> activity.onBackPressed() }
+                    photoView.setOnClickListener { v -> activity?.onBackPressed() }
                 }
 
                 image?.setOnLongClickListener { v ->
-                    AlertDialog.Builder(activity, R.style.MyAlertDialogStyle)
+                    AlertDialog.Builder(activity!!, R.style.MyAlertDialogStyle)
                             .setItems(arrayOf("保存到手机")) { dialog, which ->
                                 if (which == 0) {
                                     if (client == null) {
@@ -183,7 +183,7 @@ open class ImagePagerFragment : BaseFragment() {
                                                 }
                                                 client = null
                                                 try {
-                                                    MediaStore.Images.Media.insertImage(context.contentResolver, mFile?.path ?: "", mFile?.name ?: "", "from coding")
+                                                    MediaStore.Images.Media.insertImage(context?.contentResolver, mFile?.path ?: "", mFile?.name ?: "", "from coding")
                                                     showButtomToast("图片已保存到本机，可以在系统相册中查看")
                                                 } catch (e: Exception) {
                                                     e.printStackTrace()
@@ -222,7 +222,7 @@ open class ImagePagerFragment : BaseFragment() {
             }
         }
 
-        mFile = File(context.cacheDir, uri!!.replace(".*/(.*?)".toRegex(), "$1"))
+        mFile = File(context!!.cacheDir, uri!!.replace(".*/(.*?)".toRegex(), "$1"))
         if (mFile?.exists() == true) {
             mFile?.delete()
         }
@@ -233,7 +233,7 @@ open class ImagePagerFragment : BaseFragment() {
         if (tag == URL_FILES) {
             if (code == 0) {
                 setHasOptionsMenu(false)
-                activity.invalidateOptionsMenu()
+                activity?.invalidateOptionsMenu()
 
                 val file = response.getJSONObject("data").getJSONObject("file")
                 val mFileObject = AttachmentFileObject(file)
@@ -244,7 +244,7 @@ open class ImagePagerFragment : BaseFragment() {
                 showPhoto()
             } else {
                 setHasOptionsMenu(true)
-                activity.invalidateOptionsMenu()
+                activity!!.invalidateOptionsMenu()
                 showErrorMsg(code, response)
                 if (code == HTTP_CODE_FILE_NOT_EXIST) {
                     BlankViewDisplay.setBlank(0, this, true, blankLayout, null)

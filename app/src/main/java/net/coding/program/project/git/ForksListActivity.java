@@ -15,11 +15,17 @@ import net.coding.program.common.ui.BaseListActivity;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.ProjectHomeActivity_;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 
 @EActivity(R.layout.activity_notify_list)
 public class ForksListActivity extends BaseListActivity {
+
+    @AfterViews
+    public void initForksListActivity() {
+        initBaseListActivity();
+    }
 
     @Extra
     ProjectObject mProjectObject;

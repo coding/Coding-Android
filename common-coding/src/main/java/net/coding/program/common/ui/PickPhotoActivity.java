@@ -14,14 +14,12 @@ import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.FileProviderHelp;
 
-import org.androidannotations.annotations.EActivity;
-
 import java.io.File;
 
 import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 
-@EActivity
+//@EActivity
 public abstract class PickPhotoActivity extends BackActivity {
 
     protected abstract void pickImageCallback(Uri uri, String path);

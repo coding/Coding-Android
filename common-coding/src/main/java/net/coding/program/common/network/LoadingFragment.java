@@ -11,7 +11,7 @@ import org.androidannotations.annotations.EFragment;
  * Created by chenchao on 16/9/20.
  */
 @EFragment
-public abstract class LoadingFragment extends RefreshBaseFragment {
+public class LoadingFragment extends RefreshBaseFragment {
 
     View baseLoadinggView;
 
@@ -21,6 +21,10 @@ public abstract class LoadingFragment extends RefreshBaseFragment {
         }
 
         baseLoadinggView.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void onRefresh() {
     }
 
     @AfterViews
