@@ -1,4 +1,4 @@
-include ':app', ':widget-pick-photo', ':common-coding', ':pay-coding', ':share-coding'
+include ':app', ':widget-pick-photo', ':common-coding', ':pay-coding', ':share-coding', ':recyclerview-coding'
 include ':bottom-bar'
 include ':luban'
 
