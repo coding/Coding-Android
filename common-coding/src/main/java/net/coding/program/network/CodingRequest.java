@@ -7,6 +7,8 @@ import net.coding.program.common.model.user.ServiceInfo;
 import net.coding.program.network.model.BaseHttpResult;
 import net.coding.program.network.model.HttpPageResult;
 import net.coding.program.network.model.HttpResult;
+import net.coding.program.network.model.code.Branch;
+import net.coding.program.network.model.code.BranchMetrics;
 import net.coding.program.network.model.common.AppVersion;
 import net.coding.program.network.model.file.CodingFile;
 import net.coding.program.network.model.file.UploadToken;
@@ -80,7 +82,7 @@ public interface CodingRequest {
 
     @GET("upload_token/public/images")
     Observable<HttpResult<UploadToken>> uploadPublicFileToken(@Query("fileName") String fileName,
-                                                        @Query("fileSize") long fileSize);
+                                                              @Query("fileSize") long fileSize);
 
 
     @FormUrlEncoded
@@ -229,4 +231,22 @@ public interface CodingRequest {
     @GET("user/service_info")
     Observable<HttpResult<ServiceInfo>> serviceInfo();
 
+    // 获取默认分支
+    @GET("user/{user}/project/{project}/git/branches/default")
+    Observable<HttpResult<Branch>> getDefaultBranch(@Path("user") String user,
+                                                   @Path("project") String project);
+
+    // 获取分支列表
+    @GET("user/{user}/project/{project}/git/branches/filter")
+    Observable<HttpPageResult<Branch>> getBranches(@Path("user") String user,
+                                                   @Path("project") String project,
+                                                   @Query("page") int page,
+                                                   @Query("q") String key);
+
+    // 获取分支信息
+    @GET("user/{user}/project/{project}/git/branch_metrics?")
+    Observable<HttpResult<HashMap<String, BranchMetrics>>> getBranchMetrics(@Path("user") String user,
+                                                   @Path("project") String project,
+                                                   @Query("base") String base,
+                                                   @Query("targets") String targets);
 }

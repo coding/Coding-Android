@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@color/stand_bg">
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="@color/font_3"
+        android:textSize="12sp"
+        app:rv_backgroundColor="@color/divide_line"
+        app:rv_cornerRadius="2dp"
+        tools:text="ccccccmij" />
+
+    <ImageView
+        android:id="@+id/flagSafe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/branch_safe" />
+
+    <RelativeLayout
+        android:id="@+id/metricsLayout"
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true">
+
+        <View
+            android:id="@+id/middleLine"
+            android:layout_width="1dp"
+            android:layout_height="22dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="14dp"
+            android:layout_marginRight="55dp"
+            android:background="#FFB8C0CC" />
+
+        <TextView
+            android:id="@+id/leftText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/middleLine"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/middleLine"
+            android:textColor="@color/font_3"
+            android:textSize="12sp"
+            tools:text="1223" />
+
+        <TextView
+            android:id="@+id/rightText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/middleLine"
+            android:layout_alignTop="@id/middleLine"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/font_3"
+            android:textSize="12sp"
+            tools:text="456" />
+
+        <View
+            android:id="@+id/left"
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="16dp"
+            android:layout_toLeftOf="@id/middleLine"
+            android:background="#FFD9DDE3" />
+
+        <View
+            android:id="@+id/right"
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_alignLeft="@id/middleLine"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="16dp"
+            android:background="#FFD9DDE3" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:textColor="@color/font_3"
+        android:textSize="12sp"
+        tools:text="更新于 1 天前" />
+
+</RelativeLayout>
