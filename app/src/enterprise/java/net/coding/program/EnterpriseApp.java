@@ -55,6 +55,8 @@ public class EnterpriseApp extends MyApp {
         }
 
         GlobalData.setEnterpriseGK(enterpriseName);
+
+//        host = "http://codingcorp.coding.com";
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
     }
