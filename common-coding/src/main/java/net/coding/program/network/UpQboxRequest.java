@@ -42,4 +42,14 @@ public interface UpQboxRequest {
                                                   @Part("folderType") RequestBody folderType,
                                                   @Part("dir") RequestBody dir);
 
+    @Multipart
+    @POST("?")
+    Observable<HttpResult<String>> uploadPublicFile(@Part MultipartBody.Part body,
+                                                  @Part("key") RequestBody key,
+                                                  @Part("token") RequestBody token,
+                                                  @Part("x:time") RequestBody time,
+                                                  @Part("x:authToken") RequestBody authToken,
+                                                  @Part("x:userId") RequestBody userId);
+
+
 }

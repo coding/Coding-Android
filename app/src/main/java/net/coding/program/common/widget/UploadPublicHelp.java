@@ -8,7 +8,6 @@ import net.coding.program.network.Network;
 import net.coding.program.network.ProgressRequestBody;
 import net.coding.program.network.UpQboxRequest;
 import net.coding.program.network.model.HttpResult;
-import net.coding.program.network.model.file.CodingFile;
 import net.coding.program.network.model.file.UploadToken;
 
 import java.io.File;
@@ -24,38 +23,24 @@ import rx.schedulers.Schedulers;
 /**
  * Created by chenchao on 2018/3/13.
  */
-public class UploadHelp {
+public class UploadPublicHelp {
 
     Context context;
-    int projectId;
     File uploadFile;
-    int folderId;
     private Subscription subscription;
-    private boolean isProjectFile = true;
-
     private NetworkRequest networkRequest;
+    long updateTime; // 标记
 
-    public UploadHelp(Context context, int projectId, int folderId, File uploadFile, NetworkRequest networkRequest) {
+    public UploadPublicHelp(Context context, File uploadFile, NetworkRequest networkRequest, long updateTime) {
         this.context = context;
-        this.projectId = projectId;
         this.uploadFile = uploadFile;
-        this.folderId = folderId;
         this.networkRequest = networkRequest;
-    }
-
-
-    public UploadHelp(Context context, int projectId, int folderId, File uploadFile, NetworkRequest networkRequest, boolean isProjectFile) {
-        this.context = context;
-        this.projectId = projectId;
-        this.uploadFile = uploadFile;
-        this.folderId = folderId;
-        this.networkRequest = networkRequest;
-        this.isProjectFile = isProjectFile;
+        this.updateTime = updateTime;
     }
 
     public void upload() {
         Network.getRetrofit(context)
-                .uploadFileToken(projectId, uploadFile.getName(), uploadFile.length())
+                .uploadPublicFileToken(uploadFile.getName(), uploadFile.length())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HttpObserver<UploadToken>(context) {
@@ -69,7 +54,7 @@ public class UploadHelp {
                     @Override
                     public void onFail(int errorCode, @NonNull String error) {
                         super.onFail(errorCode, error);
-                        networkRequest.onFail();
+                        networkRequest.postImageFail(updateTime);
                     }
                 });
     }
@@ -80,7 +65,7 @@ public class UploadHelp {
         ProgressRequestBody body = new ProgressRequestBody(context, file, new ProgressRequestBody.UploadCallbacks() {
             @Override
             public void onProgressUpdate(int percentage) {
-                networkRequest.onProgress(percentage);
+                networkRequest.onProgress(updateTime, percentage);
             }
 
             @Override
@@ -103,45 +88,35 @@ public class UploadHelp {
             suffix = fileName.substring(pos, fileName.length());
         }
         RequestBody key = RequestBody.create(MultipartBody.FORM, UUID.randomUUID().toString() + suffix);
-        RequestBody dir = RequestBody.create(MultipartBody.FORM, String.valueOf(folderId));
-        RequestBody projectIdBody = RequestBody.create(MultipartBody.FORM, String.valueOf(projectId));
         RequestBody token = RequestBody.create(MultipartBody.FORM, data.uptoken);
         RequestBody time = RequestBody.create(MultipartBody.FORM, data.time);
         RequestBody authToken = RequestBody.create(MultipartBody.FORM, data.authToken);
         RequestBody userId = RequestBody.create(MultipartBody.FORM, String.valueOf(data.userId));
 
         UpQboxRequest retrofitLoad = Network.getRetrofitLoad(context);
-        Observable<HttpResult<CodingFile>> httpResultObservable;
+        Observable<HttpResult<String>> httpResultObservable;
 
-        if (isProjectFile) {
-            httpResultObservable = retrofitLoad
-                    .uploadFile(part, key, dir, projectIdBody, token, time, authToken, userId);
-        } else {
-            RequestBody xfoldType = RequestBody.create(MultipartBody.FORM, "0");
-            RequestBody foldType = RequestBody.create(MultipartBody.FORM, "0");
-            RequestBody xdir = RequestBody.create(MultipartBody.FORM, "0");
-            httpResultObservable = retrofitLoad
-                    .uploadFile(part, key, dir, projectIdBody, token, time, authToken, userId, xfoldType, foldType, xdir);
-        }
+        httpResultObservable = retrofitLoad
+                .uploadPublicFile(part, key, token, time, authToken, userId);
 
         subscription = httpResultObservable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new HttpObserver<CodingFile>(context) {
+                .subscribe(new HttpObserver<String>(context) {
                     @Override
-                    public void onSuccess(CodingFile data) {
+                    public void onSuccess(String data) {
                         super.onSuccess(data);
 
                         subscription = null;
 
-                        networkRequest.onSuccess(data);
+                        networkRequest.postImageSuccess(updateTime, data);
                     }
 
                     @Override
                     public void onFail(int errorCode, @NonNull String error) {
                         super.onFail(errorCode, error);
                         subscription = null;
-                        networkRequest.onFail();
+                        networkRequest.postImageFail(updateTime);
                     }
 
                 });
@@ -155,11 +130,11 @@ public class UploadHelp {
     }
 
     public interface NetworkRequest {
-        void onProgress(int progress);
+        void onProgress(long time, int progress);
 
-        void onSuccess(CodingFile codingFile);
+        void postImageSuccess(long time, String url);
 
-        void onFail();
+        void postImageFail(long time);
     }
 
 }

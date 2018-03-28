@@ -78,6 +78,11 @@ public interface CodingRequest {
                                                         @Query("fileName") String fileName,
                                                         @Query("fileSize") long fileSize);
 
+    @GET("upload_token/public/images")
+    Observable<HttpResult<UploadToken>> uploadPublicFileToken(@Query("fileName") String fileName,
+                                                        @Query("fileSize") long fileSize);
+
+
     @FormUrlEncoded
     @POST("user/{user}/project/{project}/folder")
     Observable<HttpResult<CodingFile>> createFolder(@Path("user") String user,
@@ -106,9 +111,9 @@ public interface CodingRequest {
     @FormUrlEncoded
     @PUT("user/{user}/project/{project}/files/{file}/rename")
     Observable<BaseHttpResult> renameFile(@Path("user") String user,
-                                               @Path("project") String project,
-                                               @Path("file") int folder,
-                                               @Field("name") String name);
+                                          @Path("project") String project,
+                                          @Path("file") int folder,
+                                          @Field("name") String name);
 
     @GET("user/2fa/method")
     Observable<HttpResult<String>> need2FA();

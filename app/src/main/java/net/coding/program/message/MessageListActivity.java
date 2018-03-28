@@ -45,6 +45,7 @@ import net.coding.program.common.param.MessageParse;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.PermissionUtil;
+import net.coding.program.common.widget.UploadPublicHelp;
 import net.coding.program.common.widget.input.CameraAndPhoto;
 import net.coding.program.common.widget.input.MainInputView;
 import net.coding.program.common.widget.input.VoiceRecordCompleteCallback;
@@ -70,7 +71,7 @@ import java.util.ArrayList;
 
 @EActivity(R.layout.activity_message_list)
 public class MessageListActivity extends BackActivity implements SwipeRefreshLayout.OnRefreshListener, LoadMore,
-        StartActivity, CameraAndPhoto, Handler.Callback, VoiceRecordCompleteCallback,
+        StartActivity, CameraAndPhoto, Handler.Callback, VoiceRecordCompleteCallback, UploadPublicHelp.NetworkRequest,
         VoicePlayCallBack {
 
     private static final int RESULT_REQUEST_FOLLOW = 1002;
@@ -81,7 +82,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
     final String hostDeleteMessage = Global.HOST_API + "/message/%s";
 
-    final String TAG_SEND_IMAGE = "TAG_SEND_IMAGE";
+//    final String TAG_SEND_IMAGE = "TAG_SEND_IMAGE";
     final String TAG_SEND_VOICE = "TAG_SEND_VOICE";
     final String TAG_MARK_VOICE_PLAYED = "TAG_MARK_VOICE_PLAYED";
     final String HOST_MESSAGE_LAST = Global.HOST_API + "/message/conversations/%s/last?id=%s";
@@ -217,7 +218,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                             if (myMessage.myRequestType == MyMessage.REQUEST_TEXT) {
                                 postNetwork(HOST_MESSAGE_SEND, myMessage.requestParams, HOST_MESSAGE_SEND + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
                             } else if (myMessage.myRequestType == MyMessage.REQUEST_IMAGE) {
-                                postNetwork(HOST_INSERT_IMAGE, myMessage.requestParams, TAG_SEND_IMAGE + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
+                                new UploadPublicHelp(MessageListActivity.this, myMessage.getFile(), MessageListActivity.this, myMessage.getCreateTime()).upload();
                             } else if (myMessage.myRequestType == MyMessage.REQUEST_VOICE) {
                                 MessageParse mp = ContentArea.parseVoice(myMessage.extra);
                                 postNetwork(HOST_SEND_VOICE, myMessage.requestParams, TAG_SEND_VOICE + mp.voiceUrl, -1, myMessage.getCreateTime());
@@ -524,14 +525,16 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
     private void sendPhotoPre(Uri uri) throws Exception {
         RequestParams params = new RequestParams();
-        params.put("tweetImg", photoOperate.scal(uri));
+        File scalFile = photoOperate.scal(uri);
+        params.put("tweetImg", scalFile);
 
         MyMessage myMessage = new MyMessage(MyMessage.REQUEST_IMAGE, params, mUserObject);
         String imageLink = "<div class='message-image-box'><a href='%s' target='_blank'><img class='message-image' src='%s'/?></a></div>";
         myMessage.content = String.format(imageLink, uri.toString(), uri.toString());
         mData.add(myMessage);
+        myMessage.setFile(scalFile);
 
-        postNetwork(HOST_INSERT_IMAGE, params, TAG_SEND_IMAGE + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
+        new UploadPublicHelp(this, myMessage.getFile(), this, myMessage.getCreateTime()).upload();
     }
 
     @Override
@@ -722,30 +725,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             adapter.notifyDataSetChanged();
             listView.setSelection(mData.size());
 
-        } else if (tag.indexOf(TAG_SEND_IMAGE) == 0) {
-            long sendId = (Long) data;
-            if (code == 0) {
-                String imageUrl = respanse.getString("data");
-                RequestParams params = new RequestParams();
-                params.put("content", String.format(" ![图片](%s) ", imageUrl));
-                params.put("receiver_global_key", mUserObject.global_key);
-                postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + sendId, -1, sendId);
-
-            } else {
-                for (int i = mData.size() - 1; i >= 0; --i) {
-                    Object singleItem = mData.get(i);
-                    if (singleItem instanceof MyMessage) {
-                        MyMessage tempMsg = (MyMessage) singleItem;
-                        if (tempMsg.getCreateTime() == sendId) {
-                            tempMsg.myStyle = MyMessage.STYLE_RESEND;
-                            break;
-                        }
-                    }
-                }
-                adapter.notifyDataSetChanged();
-
-                showErrorMsg(code, respanse);
-            }
         } else if (tag.indexOf(TAG_SEND_VOICE) == 0) {
             long sendId = (Long) data;
             if (code == 0) {
@@ -809,6 +788,34 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
             }
         }
+    }
+
+    @Override
+    public void onProgress(long time, int progress) {
+
+    }
+
+    @Override
+    public void postImageSuccess(long sendId, String imageUrl) {
+        RequestParams params = new RequestParams();
+        params.put("content", String.format(" ![图片](%s) ", imageUrl));
+        params.put("receiver_global_key", mUserObject.global_key);
+        postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + sendId, -1, sendId);
+    }
+
+    @Override
+    public void postImageFail(long sendId) {
+        for (int i = mData.size() - 1; i >= 0; --i) {
+            Object singleItem = mData.get(i);
+            if (singleItem instanceof MyMessage) {
+                MyMessage tempMsg = (MyMessage) singleItem;
+                if (tempMsg.getCreateTime() == sendId) {
+                    tempMsg.myStyle = MyMessage.STYLE_RESEND;
+                    break;
+                }
+            }
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void handleVoiceMessage(Message.MessageObject item) {

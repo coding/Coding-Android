@@ -79,6 +79,7 @@ public class Network {
     public static UpQboxRequest getRetrofitLoad(Context context) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://up.qbox.me/")
+//                .baseUrl("http://upload.qiniu.com/") // 用于测试环境，但感觉没必要
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(generateClient(context, null, null, false)) // 显示 log 会导致 RequestBody 调用 2 次 writeTo
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())

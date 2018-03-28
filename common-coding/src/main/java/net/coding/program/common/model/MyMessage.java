@@ -4,6 +4,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.GlobalData;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.Calendar;
 
@@ -23,6 +24,8 @@ public class MyMessage extends Message.MessageObject implements Serializable {
     public int myStyle = 0;
     public int myRequestType = 0;
 
+    private File file;
+
 
     public MyMessage(int requestType, RequestParams params, UserObject friendUser) {
         myStyle = STYLE_SENDING;
@@ -38,5 +41,13 @@ public class MyMessage extends Message.MessageObject implements Serializable {
 
     public long getCreateTime() {
         return created_at;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+    public File getFile() {
+        return this.file;
     }
 }
