@@ -715,6 +715,35 @@ public class Global {
         }
     }
 
+    public static String simpleDayByNow(long time) {
+        long nowMill = System.currentTimeMillis();
+
+        long minute = (nowMill - time) / 60000;
+        if (minute < 60) {
+            if (minute <= 0) {
+                return Math.max((nowMill - time) / 1000, 1) + "秒前"; // 由于手机时间的原因，有时候会为负，这时候显示1秒前
+            } else {
+                return minute + "分钟前";
+            }
+        } else {
+            long hour = minute / 60;
+            if (hour < 24) {
+                return hour + "小时前";
+            } else {
+                long day = hour / 24 + (hour % 24 > 0 ? 1 : 0);
+                if (day < 30) {
+                    return day + "天前";
+                } else {
+                    long month = day / 30;
+                    if (month < 12) {
+                        return month + "个月前";
+                    } else {
+                        return month / 12 + "年前";
+                    }
+                }
+            }
+        }
+    }
     public static String dayToNow(long time, String template) {
         return String.format(template, dayToNow(time));
     }

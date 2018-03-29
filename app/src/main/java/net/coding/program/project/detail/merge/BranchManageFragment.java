@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -14,9 +15,11 @@ import com.flyco.roundview.RoundTextView;
 
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
+import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.ui.shadow.CodingRecyclerViewSpace;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.PagerData;
@@ -53,7 +56,6 @@ public class BranchManageFragment extends BaseFragment {
 
     PagerData<Branch> listData = new PagerData<>();
 
-
     @AfterViews
     void initBranchManageFragment() {
         codingRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -62,21 +64,16 @@ public class BranchManageFragment extends BaseFragment {
 
         codingAdapter = new LoadMoreAdapter(listData.data);
         codingAdapter.setLoadMoreView(new CodingRecyclerLoadMoreView());
-        codingAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                requestPage();
-            }
-        }, codingRecyclerView);
-        codingAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Branch branch = (Branch) adapter.getItem(position);
-                BranchMainActivity_.intent(BranchManageFragment.this).mProjectPath(mProjectObject.getProjectPath()).mVersion(branch.name).start();
-            }
+        codingAdapter.setOnLoadMoreListener(() -> requestPage(), codingRecyclerView);
+        codingAdapter.setOnItemClickListener((adapter, view, position) -> {
+            Branch branch = (Branch) adapter.getItem(position);
+            BranchMainActivity_.intent(BranchManageFragment.this).mProjectPath(mProjectObject.getProjectPath()).mVersion(branch.name).start();
         });
-        codingRecyclerView.setAdapter(codingAdapter);
 
+        codingRecyclerView.setAdapter(codingAdapter);
+        codingRecyclerView.addItemDecoration(new CodingRecyclerViewSpace(getActivity()));
+
+        codingAdapter.setEmptyView(R.layout.loading_view, codingRecyclerView);
 
         onRefrush();
 
@@ -84,6 +81,7 @@ public class BranchManageFragment extends BaseFragment {
     }
 
     public void onRefrush() {
+        codingAdapter.setEnableLoadMore(false);
         listData.page = 0;
         if (defaultBranch == null) {
             requestDefault();
@@ -108,9 +106,15 @@ public class BranchManageFragment extends BaseFragment {
 
                     @Override
                     public void onFail(int errorCode, @NonNull String error) {
-                        super.onFail(errorCode, error);
 
                         codingSwipeLayout.setRefreshing(false);
+                        if (errorCode == 1204) {
+                            codingAdapter.setEmptyView(R.layout.empty_view, codingRecyclerView);
+                            ((TextView) codingAdapter.getEmptyView().findViewById(R.id.message)).setText(error);
+                        } else {
+                            super.onFail(errorCode, error);
+                        }
+
                     }
                 });
     }
@@ -158,11 +162,17 @@ public class BranchManageFragment extends BaseFragment {
                         codingSwipeLayout.setRefreshing(false);
                         codingAdapter.loadMoreEnd(listData.isLoadAll());
 
+                        codingAdapter.setEnableLoadMore(true);
+
                         if (listData.isLoadAll()) {
-                            codingAdapter.loadMoreComplete();
+                            codingAdapter.loadMoreEnd();
                         } else {
-                            codingAdapter.loadMoreEnd(true);
+                            codingAdapter.loadMoreComplete();
                         }
+
+//                        if (listData.data.isEmpty()) {
+                            codingAdapter.setEmptyView(R.layout.empty_view, codingRecyclerView);
+//                        }
                     }
 
                     @Override
@@ -188,10 +198,10 @@ public class BranchManageFragment extends BaseFragment {
             nameText.setText(item.name);
 
             helper.getView(R.id.flagSafe).setVisibility(item.isProtected ? View.VISIBLE : View.INVISIBLE);
-            helper.setText(R.id.time, String.valueOf(item.lastCommit.commitTime));
+            helper.setText(R.id.time, "更新于 " + Global.simpleDayByNow(item.lastCommit.commitTime));
 
             View metricsLayout = helper.getView(R.id.metricsLayout);
-            if (item.metrics == null) {
+            if (item.metrics == null || item.isDefaultBranch) {
                 metricsLayout.setVisibility(View.GONE);
             } else {
                 metricsLayout.setVisibility(View.VISIBLE);
