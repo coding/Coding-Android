@@ -9,6 +9,7 @@ import net.coding.program.network.model.HttpPageResult;
 import net.coding.program.network.model.HttpResult;
 import net.coding.program.network.model.code.Branch;
 import net.coding.program.network.model.code.BranchMetrics;
+import net.coding.program.network.model.code.Release;
 import net.coding.program.network.model.common.AppVersion;
 import net.coding.program.network.model.file.CodingFile;
 import net.coding.program.network.model.file.UploadToken;
@@ -256,4 +257,18 @@ public interface CodingRequest {
                                                                             @Path("project") String project,
                                                                             @Query("base") String base,
                                                                             @Query("targets") String targets);
+
+
+    // 获取发布列表
+    @GET("user/{user}/project/{project}/git/releases")
+    Observable<HttpPageResult<Release>> getReleases(@Path("user") String user,
+                                                    @Path("project") String project,
+                                                    @Query("page") int page);
+
+
+    // 删除发布
+    @POST("user/{user}/project/{project}/git/releases/delete/{release}")
+    Observable<BaseHttpResult> deleteRelease(@Path("user") String user,
+                                            @Path("project") String project,
+                                            @Path("release") String releaseName);
 }

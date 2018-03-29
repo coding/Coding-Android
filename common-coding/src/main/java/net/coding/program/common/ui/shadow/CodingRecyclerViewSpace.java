@@ -32,8 +32,6 @@ public class CodingRecyclerViewSpace extends BaseRecyclerViewSpace {
         int itemCount = parent.getAdapter().getItemCount();
         if (pos == itemCount - 1) {
             outRect.bottom = 0;
-        } else if (pos == itemCount - 2) {
-            outRect.bottom = 0;
         } else {
             outRect.bottom = lineSpace;
         }
@@ -59,8 +57,6 @@ public class CodingRecyclerViewSpace extends BaseRecyclerViewSpace {
 
             int itemCount = parent.getAdapter().getItemCount();
             if (pos == itemCount - 1) {
-
-            } else if (pos == itemCount - 2) {
 
             } else {
                 Rect rectDivideLine = new Rect(view.getLeft(), view.getBottom(), view.getLeft() + leftSapce, view.getBottom() + lineSpace);

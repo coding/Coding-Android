@@ -82,17 +82,4 @@ public class Commit implements Serializable {
         return committer.link.replace("/u/", "");
     }
 
-    public static class Committer implements Serializable {
-        String name; // "1984nn",
-        String email; // "chenchao@coding.net",
-        String avatar; // "https; ////dn-coding-net-production-static.qbox.me/8ea73108-5ead-49f2-9153-000de9b7318e.jpg",
-        String link; // "/u/1984"
-
-        public Committer(JSONObject json) {
-            name = json.optString("name");
-            email = json.optString("email");
-            avatar = Global.replaceAvatar(json);
-            link = json.optString("link");
-        }
-    }
 }

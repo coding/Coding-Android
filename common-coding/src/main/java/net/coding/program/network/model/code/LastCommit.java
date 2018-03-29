@@ -3,6 +3,8 @@ package net.coding.program.network.model.code;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import net.coding.program.common.model.Committer;
+
 import java.io.Serializable;
 
 public class LastCommit implements Serializable {
@@ -18,5 +20,8 @@ public class LastCommit implements Serializable {
     @SerializedName("commitTime")
     @Expose
     public long commitTime;
+    @SerializedName("committer")
+    @Expose
+    public Committer committer;
 
 }

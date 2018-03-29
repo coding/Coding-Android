@@ -208,9 +208,7 @@ public class BranchManageFragment extends BaseFragment {
                             codingAdapter.loadMoreComplete();
                         }
 
-//                        if (listData.data.isEmpty()) {
                         codingAdapter.setEmptyView(R.layout.empty_view, codingRecyclerView);
-//                        }
                     }
 
                     @Override

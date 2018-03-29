@@ -49,16 +49,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_toLeftOf="@+id/mall_order_count"
+                            android:singleLine="true"
                             android:ellipsize="end"
                             android:focusable="true"
                             android:focusableInTouchMode="true"
                             android:marqueeRepeatLimit="marquee_forever"
-                            android:maxLines="2"
+                            android:maxLines="1"
                             android:scrollHorizontally="true"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/font_1"
                             android:textSize="16sp"
-                            tools:text="抱枕" />
+                            tools:text="抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕抱枕" />
 
                         <TextView
                             android:id="@+id/mall_order_count"
