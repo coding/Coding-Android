@@ -161,7 +161,7 @@ public class CommitFileListActivity extends CodingToolbarBackActivity {
         if (TextUtils.isEmpty(title)) title = "未填写";
         bindData(mListHead, R.id.title, title);
         bindData(mListHead, R.id.name, mCommit.getName());
-        bindData(mListHead, R.id.time, Global.dayToNow(mCommit.getCommitTime(), "创建%s"));
+        bindData(mListHead, R.id.time, Global.dayToNow(mCommit.getCommitTime(), "创建于 %s"));
         bindData(mListHead, R.id.mergeId, mCommit.getCommitIdPrefix());
 
         String preString = "";

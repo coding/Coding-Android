@@ -64,6 +64,10 @@ public class ReleaseManageFragment extends BaseFragment {
         codingAdapter.setOnLoadMoreListener(() -> requestPage(), codingRecyclerView);
         codingAdapter.setOnItemClickListener((adapter, view, position) -> {
             Release branch = (Release) adapter.getItem(position);
+            ReleaseDetailActivity_.intent(ReleaseManageFragment.this)
+                    .projectObject(mProjectObject)
+                    .release(branch)
+                    .start();
 //            BranchMainActivity_.intent(ReleaseManageFragment.this).mProjectPath(mProjectObject.getProjectPath()).mVersion(branch.name).start();
         });
 

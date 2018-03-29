@@ -157,20 +157,20 @@
             android:name=".project.detail.AttachmentsHtmlDetailActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/empty"
-            android:theme="@style/Theme_CodingActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.detail.AttachmentsTextDetailActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/empty"
-            android:theme="@style/Theme_CodingActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.detail.AttachmentsDownloadDetailActivity_"
             android:icon="@drawable/ic_lancher"
-            android:theme="@style/Theme_CodingActionBar"
             android:label="@string/empty"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.detail.AttachmentsFolderSelectorActivity_"
             android:icon="@drawable/ic_lancher"
@@ -359,17 +359,17 @@
         <activity
             android:name=".project.detail.GitTreeActivity_"
             android:icon="@drawable/ic_lancher"
-            android:theme="@style/Theme_CodingActionBar"
             android:label="@string/empty"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".project.detail.GitViewActivity_"
             android:configChanges="orientation"
             android:icon="@drawable/ic_lancher"
-            android:theme="@style/Theme_CodingActionBar"
             android:label="@string/empty"
-            android:screenOrientation="unspecified" />
+            android:screenOrientation="unspecified"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.detail.MembersSelectActivity_"
             android:icon="@drawable/ic_lancher"
@@ -504,8 +504,8 @@
         <activity
             android:name=".project.detail.merge.MergeDetailActivity_"
             android:label="@string/empty"
-            android:theme="@style/Theme_CodingActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.git.CommitListActivity_"
             android:label="@string/title_activity_commit_list"
@@ -522,8 +522,8 @@
         <activity
             android:name=".project.detail.merge.CommitFileListActivity_"
             android:label="@string/empty"
-            android:theme="@style/Theme_CodingActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.detail.merge.MergeAcceptActivity_"
             android:label="@string/title_activity_merge_accept"
@@ -539,8 +539,8 @@
         <activity
             android:name=".project.git.BranchMainActivity_"
             android:label="@string/empty"
-            android:theme="@style/Theme_CodingActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".guide.GuideActivity"
             android:label="@string/title_activity_guide"
@@ -595,8 +595,8 @@
         <activity
             android:name=".project.detail.AttachmentsPhotoDetailActivity_"
             android:label="@string/empty"
-            android:theme="@style/Theme_CodingActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.detail.file.ShareFileLinkActivity_"
             android:label="@string/title_activity_share_file_link"
@@ -663,13 +663,13 @@
         <activity
             android:name=".login.phone.EmailSetPasswordActivity_"
             android:label="@string/title_activity_email_set_password"
-            android:theme="@style/AppThemeNoActionbar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar" />
         <activity
             android:name=".login.phone.PhoneSetPasswordActivity_"
             android:label="@string/title_activity_phone_set_password"
-            android:theme="@style/AppThemeNoActionbar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar" />
         <activity
             android:name=".project.detail.MemberAuthorityActivity_"
             android:label="@string/title_activity_member_authority"
@@ -682,8 +682,8 @@
         <activity
             android:name=".login.PhoneRegisterActivity_"
             android:label="@string/title_activity_phone_register"
-            android:theme="@style/AppThemeNoActionbar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar" />
         <activity
             android:name=".login.EmailRegisterActivity_"
             android:label="@string/title_activity_email_register"
@@ -715,8 +715,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".login.SetGlobalKeyActivity_"
-            android:launchMode="singleTask"
             android:label="@string/title_activity_set_global_key"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".setting.ModifyEmailActivity_"
@@ -813,11 +813,15 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.detail.file.v2.ProjectFileMainActivity_"
-            android:theme="@style/Theme_CodingActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.member.MemberAuthorityManualActivity_"
             android:label="@string/title_activity_member_authority_manual"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.merge.ReleaseDetailActivity_"
+            android:label="@string/title_activity_release_detail"
             android:screenOrientation="portrait" />
     </application>
 

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/divide"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/stand_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/stand_bg"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="20180323.1-hotfix 登录 push 代码送码币"
+                android:textColor="#FF272C33"
+                android:id="@+id/titleText"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/timeText"
+                android:layout_marginTop="11dp"
+                android:text="发布于 3 小时前"
+                android:textColor="#FF76808E"
+                android:textSize="12sp" />
+
+            <View
+                style="@style/DivideLine"
+                android:layout_marginTop="15dp" />
+
+
+            <WebView
+                android:layout_width="match_parent"
+                android:id="@+id/webView"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="下载"
+                android:textColor="#FF425063"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="关联资源"
+                android:textColor="#FF425063"
+                android:textSize="13sp" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

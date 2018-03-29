@@ -160,6 +160,7 @@
     <string name="title_activity_file_history">历史版本</string>
     <string name="title_activity_file_dynamic">文件动态</string>
     <string name="title_activity_member_authority_manual">成员权限说明</string>
+    <string name="title_activity_release_detail">发布详情</string>
 
     <string name="hold_to_talk">按住说话</string>
     <string name="loosen_to_cancel">松开取消</string>
