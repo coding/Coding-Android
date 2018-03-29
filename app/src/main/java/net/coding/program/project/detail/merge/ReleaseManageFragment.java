@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -174,11 +175,11 @@ public class ReleaseManageFragment extends BaseFragment {
 
         @Override
         protected void convert(BaseViewHolder helper, Release item) {
-            helper.setText(R.id.name, item.title);
+            String title = item.title;
+            if (TextUtils.isEmpty(title)) title = item.tagName;
+            helper.setText(R.id.name, title);
             helper.setText(R.id.time, "发布于 " + Global.simpleDayByNow(item.lastCommit.commitTime));
-            String commitId = item.lastCommit.commitId;
-            if (commitId.length() > 8) commitId = commitId.substring(0, 8);
-            String ownerString = String.format("%s  %s", commitId, item.lastCommit.committer.name);
+            String ownerString = String.format("%s  %s", item.tagName, item.lastCommit.committer.name);
             helper.setText(R.id.owner, ownerString);
             helper.getView(R.id.pre).setVisibility(item.pre ? View.VISIBLE : View.INVISIBLE);
         }
