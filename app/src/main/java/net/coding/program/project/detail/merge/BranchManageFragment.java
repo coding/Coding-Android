@@ -1,8 +1,10 @@
 package net.coding.program.project.detail.merge;
 
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,6 +22,7 @@ import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.ui.shadow.CodingRecyclerViewSpace;
+import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.PagerData;
@@ -68,6 +71,41 @@ public class BranchManageFragment extends BaseFragment {
         codingAdapter.setOnItemClickListener((adapter, view, position) -> {
             Branch branch = (Branch) adapter.getItem(position);
             BranchMainActivity_.intent(BranchManageFragment.this).mProjectPath(mProjectObject.getProjectPath()).mVersion(branch.name).start();
+        });
+
+
+        codingAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
+                        .setItems(new String[]{"删除"}, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Branch branch = (Branch) adapter.getItem(position);
+                                showDialog(String.format("请确认是否要删除分支 %s ？", branch.name), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Network.getRetrofit(getActivity())
+                                                .deleteBranch(mProjectObject.owner_user_name, mProjectObject.name, branch.name)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new BaseHttpObserver(getActivity()) {
+                                                    @Override
+                                                    public void onSuccess() {
+                                                        super.onSuccess();
+
+                                                        showButtomToast(String.format("分支 %s 已删除", branch.name));
+                                                        codingAdapter.remove(position);
+                                                    }
+                                                });
+                                    }
+                                });
+                            }
+                        })
+                        .show();
+
+                return true;
+            }
         });
 
         codingRecyclerView.setAdapter(codingAdapter);
@@ -171,7 +209,7 @@ public class BranchManageFragment extends BaseFragment {
                         }
 
 //                        if (listData.data.isEmpty()) {
-                            codingAdapter.setEmptyView(R.layout.empty_view, codingRecyclerView);
+                        codingAdapter.setEmptyView(R.layout.empty_view, codingRecyclerView);
 //                        }
                     }
 

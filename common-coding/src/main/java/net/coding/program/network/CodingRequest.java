@@ -234,7 +234,14 @@ public interface CodingRequest {
     // 获取默认分支
     @GET("user/{user}/project/{project}/git/branches/default")
     Observable<HttpResult<Branch>> getDefaultBranch(@Path("user") String user,
-                                                   @Path("project") String project);
+                                                    @Path("project") String project);
+
+    // 删除分支
+    @FormUrlEncoded
+    @POST("user/{user}/project/{project}/git/branches/delete")
+    Observable<BaseHttpResult> deleteBranch(@Path("user") String user,
+                                            @Path("project") String project,
+                                            @Field("branch_name") String branchName);
 
     // 获取分支列表
     @GET("user/{user}/project/{project}/git/branches/filter")
@@ -246,7 +253,7 @@ public interface CodingRequest {
     // 获取分支信息
     @GET("user/{user}/project/{project}/git/branch_metrics?")
     Observable<HttpResult<HashMap<String, BranchMetrics>>> getBranchMetrics(@Path("user") String user,
-                                                   @Path("project") String project,
-                                                   @Query("base") String base,
-                                                   @Query("targets") String targets);
+                                                                            @Path("project") String project,
+                                                                            @Query("base") String base,
+                                                                            @Query("targets") String targets);
 }
