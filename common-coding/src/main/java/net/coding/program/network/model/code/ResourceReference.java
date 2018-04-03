@@ -3,6 +3,8 @@ package net.coding.program.network.model.code;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import net.coding.program.R;
+
 import java.io.Serializable;
 
 public class ResourceReference implements Serializable {
@@ -14,7 +16,7 @@ public class ResourceReference implements Serializable {
     public int code;
     @SerializedName("target_type")
     @Expose
-    public String targetType;
+    public String targetType = "";
     @SerializedName("target_id")
     @Expose
     public int targetId;
@@ -30,5 +32,22 @@ public class ResourceReference implements Serializable {
     @SerializedName("status")
     @Expose
     public int status;
+
+    public int getTypeIcon() {
+        switch (targetType) {
+            case "Release":
+                return R.drawable.release_file;
+            case "Task":
+                return R.drawable.release_task;
+            case "ProjectFile":
+                return R.drawable.release_file;
+            case "MergeRequestBean":
+                return R.drawable.release_mr;
+            case "Wiki":
+                return R.drawable.release_file;
+            default:
+                return R.drawable.release_file;
+        }
+    }
 
 }

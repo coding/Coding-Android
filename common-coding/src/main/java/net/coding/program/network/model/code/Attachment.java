@@ -3,6 +3,8 @@ package net.coding.program.network.model.code;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import net.coding.program.common.Global;
+
 import java.io.Serializable;
 
 public class Attachment implements Serializable {
@@ -18,4 +20,8 @@ public class Attachment implements Serializable {
     @SerializedName("size")
     @Expose
     public long size;
+
+    public String getSizeString() {
+        return Global.HumanReadableFilesize(size);
+    }
 }

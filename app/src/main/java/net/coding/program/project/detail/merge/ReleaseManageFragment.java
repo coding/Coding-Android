@@ -1,5 +1,6 @@
 package net.coding.program.project.detail.merge;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +31,7 @@ import net.coding.program.network.model.code.Release;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
@@ -39,6 +41,8 @@ import rx.schedulers.Schedulers;
 
 @EFragment(R.layout.fragment_code_branch_manager)
 public class ReleaseManageFragment extends BaseFragment {
+
+    private static final int RESULT_DETAIL = 1;
 
     @FragmentArg
     ProjectObject mProjectObject;
@@ -67,7 +71,7 @@ public class ReleaseManageFragment extends BaseFragment {
             ReleaseDetailActivity_.intent(ReleaseManageFragment.this)
                     .projectObject(mProjectObject)
                     .release(branch)
-                    .start();
+                    .startForResult(RESULT_DETAIL);
 //            BranchMainActivity_.intent(ReleaseManageFragment.this).mProjectPath(mProjectObject.getProjectPath()).mVersion(branch.name).start();
         });
 
@@ -76,7 +80,7 @@ public class ReleaseManageFragment extends BaseFragment {
             @Override
             public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
                 Release branch = (Release) adapter.getItem(position);
-                if (!branch.lastCommit.committer.name.equals(GlobalData.sUserObject.name)) {
+                if (!branch.author.global_key.equals(GlobalData.sUserObject.global_key)) {
                     showMiddleToast("只能删除自己创建的版本");
                     return true;
                 }
@@ -89,7 +93,7 @@ public class ReleaseManageFragment extends BaseFragment {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         Network.getRetrofit(getActivity())
-                                                .deleteBranch(mProjectObject.owner_user_name, mProjectObject.name, branch.tagName)
+                                                .deleteRelease(mProjectObject.owner_user_name, mProjectObject.name, branch.tagName)
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
                                                 .subscribe(new BaseHttpObserver(getActivity()) {
@@ -171,6 +175,13 @@ public class ReleaseManageFragment extends BaseFragment {
                 });
     }
 
+    @OnActivityResult(RESULT_DETAIL)
+    void onResultDetail(int result) {
+        if (result == Activity.RESULT_OK) {
+            onRefrush();
+        }
+    }
+
     static class LoadMoreAdapter extends BaseQuickAdapter<Release, BaseViewHolder> {
 
         LoadMoreAdapter(@Nullable List<Release> data) {
@@ -182,10 +193,11 @@ public class ReleaseManageFragment extends BaseFragment {
             String title = item.title;
             if (TextUtils.isEmpty(title)) title = item.tagName;
             helper.setText(R.id.name, title);
-            helper.setText(R.id.time, "发布于 " + Global.simpleDayByNow(item.lastCommit.commitTime));
-            String ownerString = String.format("%s  %s", item.tagName, item.lastCommit.committer.name);
+            helper.setText(R.id.time, "发布于 " + Global.simpleDayByNow(item.createdAt));
+            String ownerString = String.format("%s  %s", item.tagName, item.author.name);
             helper.setText(R.id.owner, ownerString);
-            helper.getView(R.id.pre).setVisibility(item.pre ? View.VISIBLE : View.INVISIBLE);
+            helper.getView(R.id.pre).setVisibility(item.pre ? View.VISIBLE : View.GONE);
+            helper.getView(R.id.draft).setVisibility(View.GONE);
         }
 
     }

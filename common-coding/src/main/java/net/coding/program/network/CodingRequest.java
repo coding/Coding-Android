@@ -269,6 +269,26 @@ public interface CodingRequest {
     // 删除发布
     @POST("user/{user}/project/{project}/git/releases/delete/{release}")
     Observable<BaseHttpResult> deleteRelease(@Path("user") String user,
-                                            @Path("project") String project,
-                                            @Path("release") String releaseName);
+                                             @Path("project") String project,
+                                             @Path("release") String releaseName);
+
+
+    // 修改发布
+    @FormUrlEncoded
+    @POST("user/{user}/project/{project}/git/releases/update/{tagName}")
+    Observable<BaseHttpResult> modifyRelease(@Path("user") String user,
+                                             @Path("project") String project,
+                                             @Path("tagName") String tagName,
+                                             @Field("resource_references") ArrayList<Integer> refs,
+                                             @FieldMap Map<String, String> map);
+
+
+    // 获取单个 release
+    @GET("user/{user}/project/{project}/git/releases/tag/{tagName}")
+    Observable<HttpResult<Release>> getRelease(@Path("user") String user,
+                                             @Path("project") String project,
+                                             @Path("tagName") String tagName);
+
 }
+
+

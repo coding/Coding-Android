@@ -823,6 +823,12 @@
             android:name=".project.detail.merge.ReleaseDetailActivity_"
             android:label="@string/title_activity_release_detail"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.merge.EditReleaseDetailActivity_"
+            android:label=""
+            android:theme="@style/AppThemeNoActionbar"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
