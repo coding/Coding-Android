@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.CustomWebViewClient;
+import net.coding.program.CustomWebViewClientOpenNew;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
@@ -312,11 +312,11 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         name.setText(mMaopaoObject.owner.name);
         name.setTag(mMaopaoObject.owner.global_key);
 
-        WebView webView = (WebView) mListHead.findViewById(R.id.comment);
+        WebView webView = mListHead.findViewById(R.id.comment);
         Global.initWebView(webView);
         String replaceContent = bubble.replace("${webview_content}", mMaopaoObject.content);
         webView.loadDataWithBaseURL(null, replaceContent, "text/html", "UTF-8", null);
-        webView.setWebViewClient(new CustomWebViewClient(this, mMaopaoObject.content));
+        webView.setWebViewClient(new CustomWebViewClientOpenNew(this, mMaopaoObject.content));
 
         mListHead.setOnClickListener(v -> prepareAddComment(mMaopaoObject, true));
 

@@ -11,7 +11,7 @@ import android.webkit.WebView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.CustomWebViewClient;
+import net.coding.program.CustomWebViewClientOpenNew;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.model.ProjectObject;
@@ -110,7 +110,7 @@ public class TaskDescripHtmlFragment extends BaseFragment {
     private void displayWebView() {
         String locateHtml = ((TaskDescrip) getActivity()).createLocateHtml(contentHtml);
 
-        descWeb.setWebViewClient(new CustomWebViewClient(getActivity(), locateHtml));
+        descWeb.setWebViewClient(new CustomWebViewClientOpenNew(getActivity(), locateHtml));
         descWeb.getSettings().setJavaScriptEnabled(true);
         descWeb.setBackgroundColor(0);
         descWeb.getBackground().setAlpha(0);

@@ -26,7 +26,7 @@ public class CodingGlobal {
     static public void setWebViewContent(WebView webView, WebviewType type, String content) {
         Context context = webView.getContext();
         Global.initWebView(webView);
-        webView.setWebViewClient(new CustomWebViewClient(context, content));
+        webView.setWebViewClient(new CustomWebViewClientOpenNew(context, content));
         try {
             Global.syncCookie(webView.getContext());
             String bubble = Global.readTextFile(context.getAssets().open(type.asset));
@@ -40,7 +40,7 @@ public class CodingGlobal {
     static public void setWebViewContent(WebView webView, String tempate, String content) {
         Context context = webView.getContext();
         Global.initWebView(webView);
-        webView.setWebViewClient(new CustomWebViewClient(context, content));
+        webView.setWebViewClient(new CustomWebViewClientOpenNew(context, content));
         try {
             Global.syncCookie(webView.getContext());
             String bubble = Global.readTextFile(context.getAssets().open(tempate));
@@ -54,7 +54,7 @@ public class CodingGlobal {
                                          String content, String replaceComment, String comment) {
         Context context = webView.getContext();
         Global.initWebView(webView);
-        webView.setWebViewClient(new CustomWebViewClient(context, content));
+        webView.setWebViewClient(new CustomWebViewClientOpenNew(context, content));
         try {
             Global.syncCookie(webView.getContext());
             String bubble = Global.readTextFile(context.getAssets().open(tempate));
