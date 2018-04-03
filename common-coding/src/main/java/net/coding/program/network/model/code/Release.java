@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import net.coding.program.common.model.UserObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Release implements Serializable {
 
@@ -56,10 +57,10 @@ public class Release implements Serializable {
     public LastCommit lastCommit;
     @SerializedName("resource_references")
     @Expose
-    public java.util.List<ResourceReference> resourceReferences = null;
+    public java.util.List<ResourceReference> resourceReferences = new ArrayList<>();
     @SerializedName("attachments")
     @Expose
-    public java.util.List<Attachment> attachments = null;
+    public java.util.List<Attachment> attachments = new ArrayList<>();
     @SerializedName("pre")
     @Expose
     public boolean pre;

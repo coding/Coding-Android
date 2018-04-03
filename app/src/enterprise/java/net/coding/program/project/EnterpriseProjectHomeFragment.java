@@ -16,12 +16,13 @@ public class EnterpriseProjectHomeFragment extends PrivateProjectHomeFragment {
         return new ProjectFunction[]{
                 ProjectFunction.dynamic,
                 ProjectFunction.task,
-                ProjectFunction.document,
                 ProjectFunction.wiki,
+                ProjectFunction.document,
                 ProjectFunction.code,
                 ProjectFunction.member,
-                ProjectFunction.readme,
-                ProjectFunction.merge,
+                ProjectFunction.branchManage,
+                ProjectFunction.releaseManage,
+                ProjectFunction.merge
         };
     }
 

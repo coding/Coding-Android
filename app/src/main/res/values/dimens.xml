@@ -140,4 +140,8 @@
     <dimen name="actionbar_height">56dp</dimen>
     <dimen name="image_tab_height">71dp</dimen>
     <dimen name="main_container_merge_bottom">52dp</dimen>
+
+    <dimen name="card_z">1.8dp</dimen>
+    <dimen name="fill_width_card_merge">-2dp</dimen>
+
 </resources>
