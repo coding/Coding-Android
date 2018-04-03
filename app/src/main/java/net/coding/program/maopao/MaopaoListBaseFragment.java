@@ -1,6 +1,5 @@
 package net.coding.program.maopao;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -72,7 +71,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
-import jp.wasabeef.recyclerview.internal.ViewHelper;
 
 /**
  * Created by chenchao on 15/9/22.
@@ -444,11 +442,13 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
         initMaopaoType();
         myImageGetter = new MyImageGetter(getActivity());
 
-        mFootUpdate.initToRecycler(listView, mInflater, this);
-        mFootUpdate.showLoading();
-        listView.setLoadMoreView(mFootUpdate.getView());
-
+//        listView.setLoadMoreView(R.layout.listview_foot);
         mAdapter = new MyAdapter(mData, getShowAnimator());
+//        mFootUpdate.initToRecycler(listView, mInflater, this);
+//        listView.setLoadMoreView(mFootUpdate.getView());
+
+        mFootUpdate.showLoading();
+
         listView.setAdapter(mAdapter);
 
         ViewTreeObserver vto = listView.mRecyclerView.getViewTreeObserver();
@@ -1008,18 +1008,18 @@ public abstract class MaopaoListBaseFragment extends BaseFragment implements Sta
                 holder.divides[commentsId.length - 1].setVisibility(View.VISIBLE);
             }
 
-            if (showAnimator) {
-                if (position > mLastPosition) {
-                    Animator[] animators = getAdapterAnimations(holderLayout.getView(), AdapterAnimationType.SlideInBottom);
-                    for (Animator anim : animators) {
-                        anim.setDuration(600).start();
-                        anim.setInterpolator(interpolator);
-                    }
-                    mLastPosition = position;
-                } else {
-                    ViewHelper.clear(holderLayout.getView());
-                }
-            }
+//            if (showAnimator) {
+//                if (position > mLastPosition) {
+//                    Animator[] animators = getAdapterAnimations(holderLayout.getView(), AdapterAnimationType.SlideInBottom);
+//                    for (Animator anim : animators) {
+//                        anim.setDuration(600).start();
+//                        anim.setInterpolator(interpolator);
+//                    }
+//                    mLastPosition = position;
+//                } else {
+//                    ViewHelper.clear(holderLayout.getView());
+//                }
+//            }
         }
     }
 }

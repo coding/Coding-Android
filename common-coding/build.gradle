@@ -79,7 +79,7 @@ dependencies {
     // 方便显示 view 显示一些样式，不用写 selector
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
     // 列表控件，
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.3'
     // 文件下载
     compile 'com.liulishuo.filedownloader:library:1.4.3'
     compile 'org.greenrobot:eventbus:3.0.0'

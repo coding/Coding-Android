@@ -217,7 +217,7 @@ dependencies {
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
 
     // 列表控件，
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.3'
 
     // 比 ultimaterecyclerview 轻量，用起来比较舒服，实现代码也好些
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
