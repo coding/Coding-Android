@@ -13,7 +13,6 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
     <!-- 友盟分析需要 begin  —————————————————————————————————————————————————————————————— -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -65,13 +64,12 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <!--支付宝-->
+    <!-- 支付宝 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
 
     <application
         android:allowBackup="true"
@@ -85,13 +83,13 @@
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.alipay.sdk.app.H5AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <!-- alipay end  ———————————————————————————————————————————————————————————————————————————— -->
 
         <service
@@ -355,7 +353,6 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_user_dynamic"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".project.detail.GitTreeActivity_"
             android:icon="@drawable/ic_lancher"
@@ -790,7 +787,6 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_search_project"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".project.detail.wiki.WikiMainActivity_"
             android:label="@string/empty"
@@ -826,9 +822,16 @@
         <activity
             android:name=".project.detail.merge.EditReleaseDetailActivity_"
             android:label=""
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".project.git.local.GitMainActivity_"
+            android:label="@string/title_activity_release_detail"
             android:screenOrientation="portrait" />
+        <service
+            android:name=".project.git.local.CloneCodeService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

@@ -23,6 +23,7 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.detail.file.v2.ProjectFileMainActivity_;
 import net.coding.program.project.detail.wiki.WikiMainActivity_;
+import net.coding.program.project.git.local.GitMainActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -98,7 +99,12 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
     }
 
     private void selectFragment() {
-        if (mJumpType == ProjectFunction.wiki) {
+        if (mJumpType == ProjectFunction.git) {
+            GitMainActivity_.intent(this).project(mProjectObject).start();
+            finish();
+            overridePendingTransition(0, 0);
+            return;
+        } else if (mJumpType == ProjectFunction.wiki) {
             WikiMainActivity_.intent(this).project(mProjectObject).start();
             finish();
             overridePendingTransition(0, 0);

@@ -251,6 +251,9 @@ dependencies {
     // 常用工具类
     compile 'com.blankj:utilcode:1.9.0'
 
+    // git 库
+    compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
+
     // jar 依赖
     compile files('libs/alipaySingle-20170510.jar')
     compile files('libs/BaiduLBS_Android.jar')

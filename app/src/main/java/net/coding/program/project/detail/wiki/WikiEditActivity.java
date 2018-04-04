@@ -63,6 +63,7 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
             WikiDraft draft = drafts.get(0);
             modifyData.title = draft.title;
             modifyData.content = draft.content;
+
             wiki.updatedAt = draft.updateAt;
         } else {
             modifyData.title = wiki.title;

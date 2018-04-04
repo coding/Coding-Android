@@ -100,10 +100,10 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/itemReadme"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="right"
-                    android:id="@+id/itemReadme"
                     android:layout_marginRight="15dp"
                     android:gravity="center"
                     android:text="查看 README"
@@ -127,26 +127,28 @@
                     android:id="@+id/itemCode"
                     layout="@layout/project_home_list_head_button" />
 
-                <View
-                    style="@style/DivideLineHomeList"
-                    android:layout_marginLeft="50dp" />
+                <View style="@style/DivideLineHomeList" />
 
                 <include
                     android:id="@+id/itemBranch"
                     layout="@layout/project_home_list_head_button" />
 
-                <View
-                    style="@style/DivideLineHomeList"
-                    android:layout_marginLeft="50dp" />
+                <View style="@style/DivideLineHomeList" />
+
                 <include
                     android:id="@+id/itemRelease"
                     layout="@layout/project_home_list_head_button" />
 
-                <View
-                    style="@style/DivideLineHomeList"
-                    android:layout_marginLeft="50dp" />
+                <View style="@style/DivideLineHomeList" />
+
                 <include
                     android:id="@+id/itemMerge"
+                    layout="@layout/project_home_list_head_button" />
+
+                <View style="@style/DivideLineHomeList" />
+
+                <include
+                    android:id="@+id/itemGit"
                     layout="@layout/project_home_list_head_button" />
 
                 <!--迟早要加-->
