@@ -22,8 +22,9 @@
         android:layout_gravity="end|center_vertical"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
-        android:src="@drawable/select_reviewer_list_checked"
-        android:visibility="invisible" />
+        android:src="@drawable/ic_menu_ok"
+        android:visibility="invisible"
+        tools:visibility="visible" />
 
     <View
         style="@style/DivideLine"
