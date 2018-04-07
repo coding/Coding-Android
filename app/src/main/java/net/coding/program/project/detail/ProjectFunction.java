@@ -23,7 +23,7 @@ public enum ProjectFunction {
     pullRequest(R.id.itemMerge, R.drawable.project_button_icon_merge, "Pull Request", ProjectPullFragment_.class),
     branchManage(R.id.itemBranch, R.drawable.project_button_icon_branch, "分支管理", BranchManageFragment_.class),
     releaseManage(R.id.itemRelease, R.drawable.project_button_icon_release, "发布管理", ReleaseManageFragment_.class),
-    git(R.id.itemGit, R.drawable.project_button_icon_merge, "clone 代码", ProjectMergeFragment_.class),
+    git(R.id.itemGit, R.drawable.project_button_icon_git, "clone 代码", ProjectMergeFragment_.class),
     wiki(R.id.itemWiki, R.drawable.project_button_icon_wiki, "Wiki", null);
 
     public int id;
