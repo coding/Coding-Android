@@ -23,6 +23,7 @@ import net.coding.program.common.event.EventDownloadProgress;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.ui.shadow.CodingRecyclerViewSpace;
+import net.coding.program.git.GitCodeReadActivity;
 import net.coding.program.pickphoto.detail.ImagePagerActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -101,7 +102,10 @@ public class GitMainActivity extends BackActivity {
                     try {
                         String fileType = file.toURI().toURL().openConnection().getContentType();
                         boolean isBinary = isTextFile(file);
-                        Logger.d("file is text " + isBinary);
+//                        Logger.d("file is text " + isBinary);
+                        Intent intent = new Intent(GitMainActivity.this, GitCodeReadActivity.class);
+                        intent.putExtra(GitCodeReadActivity.PARAM, file);
+                        startActivity(intent);
                     } catch (Exception e) {
                         Logger.d(e);
                     }

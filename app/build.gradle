@@ -260,6 +260,8 @@ dependencies {
     provided files('../common-coding/libs/android-viewbadger.jar')   // 小红点
     provided files('../common-coding/libs/pinyin4j-2.5.0.jar')
     implementation project(':share-coding')
+
+    implementation project(':git-code-coding')
 }
 
 // 新功能提示，使用弹出框的样式 start ----------------------------------------------------------------

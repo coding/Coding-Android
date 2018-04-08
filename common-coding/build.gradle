@@ -87,6 +87,9 @@ dependencies {
 
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.11'
 
+    // 常用工具类
+    compile 'com.blankj:utilcode:1.9.0'
+
     implementation project(':luban')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
