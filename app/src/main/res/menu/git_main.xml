@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/actionDelete"
-        android:title="删除本地"
+        android:title="删除本地代码"
         app:showAsAction="never" />
 
 </menu>

@@ -208,6 +208,8 @@ public class CloneCodeService extends IntentService {
         private void send(StringBuilder s) {
             if (write) {
                 try {
+//                    Logger.d(TAG, s);
+                    Log.d(TAG, "jjjjjjjjj " + s);
                     EventBus.getDefault().post(new EventDownloadProgress(s.toString()));
                 } catch (Exception err) {
                     write = false;

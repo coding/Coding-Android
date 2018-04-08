@@ -1,5 +1,6 @@
 package net.coding.program.project.git.local;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.Nullable;
@@ -7,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.FileUtils;
@@ -50,6 +52,9 @@ public class GitMainActivity extends BackActivity {
     ProjectObject project;
 
     @ViewById
+    ProgressBar progressBar;
+
+    @ViewById
     View codeListLayout, codeContentLayout, codeEmptyLayout;
 
     @ViewById
@@ -72,9 +77,7 @@ public class GitMainActivity extends BackActivity {
 
         codeContentLayout.setVisibility(View.INVISIBLE);
         if (!rootDir.exists() || rootDir.list().length == 0) {
-            codeListLayout.setVisibility(View.INVISIBLE);
-            codeEmptyLayout.setVisibility(View.VISIBLE);
-            cloneButton();
+            showCodeNoClone();
         } else {
             codeListLayout.setVisibility(View.VISIBLE);
             codeEmptyLayout.setVisibility(View.INVISIBLE);
@@ -112,6 +115,11 @@ public class GitMainActivity extends BackActivity {
         codingAdapter.setEmptyView(R.layout.loading_view, codingRecyclerView);
 
         onRefrush();
+    }
+
+    private void showCodeNoClone() {
+        codeListLayout.setVisibility(View.INVISIBLE);
+        codeEmptyLayout.setVisibility(View.VISIBLE);
     }
 
     private boolean isTextFile(File f) throws Exception {
@@ -176,13 +184,22 @@ public class GitMainActivity extends BackActivity {
 
     @Click
     void cloneButton() {
-        CloneCodeService.Param param = new CloneCodeService.Param(project, GlobalData.sUserObject.global_key, "222222");
-        CloneCodeService.startActionGit(this, param);
+        showDialog("确定 clone 代码到本地？大的代码库可能需要较长时间", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                cloneCode();
+            }
+        });
     }
 
     @OptionsItem
     void actionPull() {
         cloneButton();
+    }
+
+    private void cloneCode() {
+        CloneCodeService.Param param = new CloneCodeService.Param(project, GlobalData.sUserObject.global_key, "222222");
+        CloneCodeService.startActionGit(this, param);
     }
 
     @OptionsItem
@@ -207,8 +224,10 @@ public class GitMainActivity extends BackActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EventDownloadProgress event) {
         progressText.setText(event.progress);
+        progressBar.setVisibility(View.VISIBLE);
+        if (event.progress.startsWith("Updating references:    100%")) {
+        }
     }
-
 
     static class LoadMoreAdapter extends BaseQuickAdapter<File, BaseViewHolder> {
 
