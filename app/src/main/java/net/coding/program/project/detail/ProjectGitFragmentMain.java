@@ -259,7 +259,14 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
                 } else {
                     JSONArray branchList = jsonData.optJSONArray("list");
                     if (branchList.length() > 0) {
-                        BranchItem item = new BranchItem(branchList.optJSONObject(0));
+                        JSONObject json = branchList.optJSONObject(0);
+                        BranchItem item;
+                        if (json != null) {
+                            item = new BranchItem(json);
+                        } else {
+                            item = new BranchItem(branchList.optString(0));
+                        }
+
                         if (TextUtils.isEmpty(item.name)) { //
                             branchNotExist();
                         } else {
@@ -320,7 +327,14 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
         data.clear();
         int len = jsonArray.length();
         for (int i = 0; i < len; ++i) {
-            BranchItem item = new BranchItem(jsonArray.optJSONObject(i));
+            JSONObject jsonItem = jsonArray.optJSONObject(i);
+            BranchItem item;
+            if (jsonItem != null) {
+                item = new BranchItem(jsonItem);
+            } else {
+               item = new BranchItem(jsonArray.optString(i));
+            }
+
             data.add(item);
 
             if (item.is_default_branch && (mVersion == null || mVersion.isEmpty())) {
@@ -431,13 +445,25 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
 
     public static final class BranchItem implements Serializable {
         String name = "";// "raml-doc",
-        boolean is_default_branch; // false,
-        boolean is_protected; // false
+        boolean is_default_branch;
+        boolean is_protected;
 
         BranchItem(JSONObject json) {
             name = json.optString("name", "");
             is_default_branch = json.optBoolean("is_default_branch");
             is_protected = json.optBoolean("is_protected");
+        }
+
+        BranchItem(String path) {
+            int index = path.lastIndexOf("/");
+            if (index != -1) {
+                name = path.substring(index + 1, path.length());
+            } else {
+                name = path;
+            }
+            if (name.equalsIgnoreCase("master")) {
+                is_default_branch = true;
+            }
         }
     }
 
