@@ -285,7 +285,12 @@ public class GitMainActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventError(EventDownloadError event) {
-        showMiddleToast(event.error);
+        if (event.error.contains("not authorized")) {
+            showMiddleToast("没有获取代码的权限或者密码错误");
+        } else {
+            showMiddleToast(event.error);
+        }
+
         showProgressBar(false);
     }
 
