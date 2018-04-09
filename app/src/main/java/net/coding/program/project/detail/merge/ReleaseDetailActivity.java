@@ -25,6 +25,7 @@ import net.coding.program.network.model.code.Attachment;
 import net.coding.program.network.model.code.Release;
 import net.coding.program.network.model.code.ResourceReference;
 import net.coding.program.param.ProjectJumpParam;
+import net.coding.program.project.git.BranchMainActivity_;
 import net.coding.program.route.URLSpanNoUnderline;
 
 import org.androidannotations.annotations.AfterViews;
@@ -197,6 +198,12 @@ public class ReleaseDetailActivity extends BackActivity {
 
         timeText.setText(String.format("%s %s 发布于 %s", release.tagName,
                 release.author.name, Global.simpleDayByNow(release.createdAt)));
+        timeText.setOnClickListener(v -> {
+            BranchMainActivity_.intent(this)
+                    .mProjectPath(projectObject.getProjectPath())
+                    .mVersion(release.tagName)
+                    .start();
+        });
 
         CodingGlobal.setWebViewContent(webView, CodingGlobal.WebviewType.markdown, release.markdownBody);
 
