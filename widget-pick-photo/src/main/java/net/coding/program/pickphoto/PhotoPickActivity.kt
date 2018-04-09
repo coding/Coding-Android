@@ -99,7 +99,7 @@ class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
             loaderManager.destroyLoader(mFolderId)
             mFolderId = position
         }
-        loaderManager.initLoader(mFolderId, null, this@PhotoPickActivity)
+        loaderManager.initLoader(mFolderId, Bundle.EMPTY, this@PhotoPickActivity)
     }
     private var fileUri: Uri? = null
     private var fileTemp: File? = null
@@ -376,15 +376,13 @@ class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
     }
 
     override fun onCreateLoader(id: Int, args: Bundle): Loader<Cursor> {
-        val where: String
+        var where = ""
         if (!isAllPhotoMode) {
             val select = (mListView!!.adapter as FolderAdapter).select
             where = String.format("%s='%s'",
                     MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
                     select
             )
-        } else {
-            where = ""
         }
 
         return CursorLoader(
