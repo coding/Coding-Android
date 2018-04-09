@@ -36,7 +36,8 @@
   <script type="text/javascript">
 CodeMirror.modeURL = "../mode/%N/%N.js";
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-  lineNumbers: true
+  lineNumbers: true,
+  readOnly: 'nocursor'
 });
 function setLanguage(val) {
   var m, mode, spec;
