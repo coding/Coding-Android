@@ -81,6 +81,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
 
     public void showProgressBar(boolean show, String message) {
         if (show) {
+            mProgressDialog.setCancelable(isProgressCannCancel());
             mProgressDialog.setMessage(message);
             mProgressDialog.show();
         } else {
@@ -144,6 +145,10 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         return networkImpl.isLoadingLastPage(tag);
     }
 
+    protected boolean isProgressCannCancel() {
+        return false;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,7 +159,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setCancelable(false);
+        mProgressDialog.setCancelable(isProgressCannCancel());
 
         mInflater = getLayoutInflater();
         initSetting();

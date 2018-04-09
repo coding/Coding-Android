@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.event.EventDownloadError;
 import net.coding.program.common.event.EventDownloadProgress;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
@@ -115,10 +116,9 @@ public class CloneCodeService extends IntentService {
                 deleteDirectory(file);
                 cloneSource(param);
             }
-
-
         } catch (Exception e) {
             Global.errorLog(e);
+            EventBus.getDefault().post(new EventDownloadError(e.getMessage()));
         }
     }
 
@@ -153,7 +153,7 @@ public class CloneCodeService extends IntentService {
         protected void onEndTask(String taskName, int workCurr) {
             StringBuilder s = new StringBuilder();
             format(s, taskName, workCurr);
-            s.append("\n"); //$NON-NLS-1$
+//            s.append("\n"); //$NON-NLS-1$
             send(s);
         }
 
@@ -177,7 +177,7 @@ public class CloneCodeService extends IntentService {
         protected void onEndTask(String taskName, int cmp, int totalWork, int pcnt) {
             StringBuilder s = new StringBuilder();
             format(s, taskName, cmp, totalWork, pcnt);
-            s.append("\n"); //$NON-NLS-1$
+//            s.append("\n"); //$NON-NLS-1$
             send(s);
         }
 

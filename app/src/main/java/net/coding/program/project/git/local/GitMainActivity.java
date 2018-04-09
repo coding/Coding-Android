@@ -1,15 +1,15 @@
 package net.coding.program.project.git.local;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.ImageUtils;
@@ -18,10 +18,12 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.orhanobut.logger.Logger;
 
 import net.coding.program.R;
+import net.coding.program.common.Global;
 import net.coding.program.common.GlobalData;
+import net.coding.program.common.event.EventDownloadError;
 import net.coding.program.common.event.EventDownloadProgress;
 import net.coding.program.common.model.ProjectObject;
-import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.common.ui.shadow.CodingRecyclerViewSpace;
 import net.coding.program.git.GitCodeReadActivity;
 import net.coding.program.pickphoto.detail.ImagePagerActivity_;
@@ -33,6 +35,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -44,22 +47,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 @EActivity(R.layout.activity_git_main)
 @OptionsMenu(R.menu.git_main)
-public class GitMainActivity extends BackActivity {
+public class GitMainActivity extends BaseActivity {
 
     @Extra
     ProjectObject project;
 
     @ViewById
-    ProgressBar progressBar;
-
-    @ViewById
-    View codeListLayout, codeContentLayout, codeEmptyLayout;
-
-    @ViewById
-    TextView progressText;
+    View codeListLayout, codeEmptyLayout;
 
     @ViewById(R.id.codingRecyclerView)
     RecyclerView codingRecyclerView;
@@ -69,19 +67,23 @@ public class GitMainActivity extends BackActivity {
     List<File> listData = new ArrayList<>();
     File currentDir;
     File rootDir;
+    Stack<File> stackDir = new Stack<>();
 
     @AfterViews
     void initGitMainActivity() {
-        CloneCodeService.Param param = new CloneCodeService.Param(project, GlobalData.sUserObject.global_key, "222222");
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        CloneCodeService.Param param = new CloneCodeService.Param(project, GlobalData.sUserObject.global_key, "");
         rootDir = param.getFile(this);
         currentDir = rootDir;
 
-        codeContentLayout.setVisibility(View.INVISIBLE);
         if (!rootDir.exists() || rootDir.list().length == 0) {
-            showCodeNoClone();
+            showCodeEmpty();
         } else {
-            codeListLayout.setVisibility(View.VISIBLE);
-            codeEmptyLayout.setVisibility(View.INVISIBLE);
+            showCodeList();
         }
 
         codingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -91,6 +93,7 @@ public class GitMainActivity extends BackActivity {
             if (file == null) return;
 
             if (file.isDirectory()) {
+                stackDir.push(currentDir);
                 currentDir = file;
                 onRefrush();
             } else {
@@ -116,12 +119,22 @@ public class GitMainActivity extends BackActivity {
         codingRecyclerView.setAdapter(codingAdapter);
         codingRecyclerView.addItemDecoration(new CodingRecyclerViewSpace(this));
 
-        codingAdapter.setEmptyView(R.layout.loading_view, codingRecyclerView);
+//        codingAdapter.setEmptyView(R.layout.loading_view, codingRecyclerView);
 
         onRefrush();
     }
 
-    private void showCodeNoClone() {
+    @Override
+    protected boolean isProgressCannCancel() {
+        return true;
+    }
+
+    private void showCodeList() {
+        codeListLayout.setVisibility(View.VISIBLE);
+        codeEmptyLayout.setVisibility(View.INVISIBLE);
+    }
+
+    private void showCodeEmpty() {
         codeListLayout.setVisibility(View.INVISIBLE);
         codeEmptyLayout.setVisibility(View.VISIBLE);
     }
@@ -176,34 +189,63 @@ public class GitMainActivity extends BackActivity {
             return;
         }
 
-        listData.clear();
-
         File[] files = currentDir.listFiles((dir, name) -> !name.equals(".git"));
         if (files != null) {
+            listData.clear();
             Collections.addAll(listData, files);
+            Collections.sort(listData, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+            codingAdapter.notifyDataSetChanged();
         }
-
-        codingAdapter.notifyDataSetChanged();
     }
 
     @Click
     void cloneButton() {
-        showDialog("确定 clone 代码到本地？大的代码库可能需要较长时间", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                cloneCode();
-            }
+        showDialog("确定 clone 代码到本地？", (dialog, which) -> {
+            cloneCode();
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (stackDir.isEmpty()) {
+            finish();
+        } else {
+            currentDir = stackDir.pop();
+            onRefrush();
+        }
+    }
+
+    @OptionsItem(android.R.id.home)
+    protected final void annotaionClose() {
+        finish();
     }
 
     @OptionsItem
     void actionPull() {
-        cloneButton();
+        cloneCode();
     }
 
     private void cloneCode() {
-        CloneCodeService.Param param = new CloneCodeService.Param(project, GlobalData.sUserObject.global_key, "222222");
-        CloneCodeService.startActionGit(this, param);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+        View content = getLayoutInflater().inflate(R.layout.input_password, null);
+        final EditText editText = content.findViewById(R.id.password);
+        builder.setView(content)
+                .setPositiveButton(R.string.action_ok, (dialog, which) -> {
+                    Global.hideSoftKeyboard(this);
+                    CloneCodeService.Param param = new CloneCodeService.Param(project, GlobalData.sUserObject.global_key, editText.getText().toString());
+                    CloneCodeService.startActionGit(this, param);
+                    showProgressBar(true);
+                })
+                .setNegativeButton(R.string.action_cancel, null)
+                .show();
+    }
+
+    @UiThread(delay = 2000)
+    void delyRefush() {
+        showCodeList();
+        showProgressBar(false);
+        showButtomToast("已下载最新代码");
+        onRefrush();
     }
 
     @OptionsItem
@@ -227,10 +269,21 @@ public class GitMainActivity extends BackActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EventDownloadProgress event) {
-        progressText.setText(event.progress);
-        progressBar.setVisibility(View.VISIBLE);
-        if (event.progress.startsWith("Updating references:    100%")) {
+        showProgressBar(true, event.progress);
+        if (event.progress.contains("Updating references:    100%")) {
+
+//            CloneCodeService.Param param = new CloneCodeService.Param(project, GlobalData.sUserObject.global_key, "");
+//            rootDir = param.getFile(this);
+//            currentDir = rootDir;
+//            onRefrush();
+            delyRefush();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventError(EventDownloadError event) {
+        showMiddleToast(event.error);
+        showProgressBar(false);
     }
 
     static class LoadMoreAdapter extends BaseQuickAdapter<File, BaseViewHolder> {

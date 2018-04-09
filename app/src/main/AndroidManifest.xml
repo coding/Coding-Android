@@ -827,11 +827,11 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".project.git.local.GitMainActivity_"
-            android:label="@string/title_activity_release_detail"
+            android:label="@string/title_activity_git_main"
             android:screenOrientation="portrait" />
         <service
             android:name=".project.git.local.CloneCodeService"
-            android:exported="false"></service>
+            android:exported="false" />
     </application>
 
 </manifest>

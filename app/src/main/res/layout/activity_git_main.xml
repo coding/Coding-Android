@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <FrameLayout
         android:id="@+id/codeListLayout"
         android:layout_width="match_parent"
@@ -14,19 +13,6 @@
             android:id="@+id/codingRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/codeContentLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <WebView
-            android:id="@+id/webView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
 
     </FrameLayout>
 
@@ -54,14 +40,5 @@
             tools:text="TextView" />
 
     </FrameLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:visibility="invisible"
-        android:layout_gravity="center_horizontal|top"
-        android:progressDrawable="@drawable/progressbar_bg" />
 
 </FrameLayout>
