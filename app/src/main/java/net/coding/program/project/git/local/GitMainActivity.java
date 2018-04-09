@@ -37,13 +37,14 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.eclipse.jgit.diff.RawText;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -99,16 +100,18 @@ public class GitMainActivity extends BaseActivity {
             } else {
                 if (ImageUtils.isImage(file)) {
                     Intent intent = new Intent(GitMainActivity.this, ImagePagerActivity_.class);
-                    intent.putExtra("mSingleUri", Uri.fromFile(file));
+                    intent.putExtra("mSingleUri", Uri.fromFile(file).toString());
                     startActivity(intent);
                 } else {
                     try {
-                        String fileType = file.toURI().toURL().openConnection().getContentType();
-                        boolean isBinary = isTextFile(file);
-//                        Logger.d("file is text " + isBinary);
-                        Intent intent = new Intent(GitMainActivity.this, GitCodeReadActivity.class);
-                        intent.putExtra(GitCodeReadActivity.PARAM, file);
-                        startActivity(intent);
+                        boolean isBinary = isBinaryFile(file);
+                        if (isBinary) {
+                            showMiddleToast("暂不支持打开此文件");
+                        } else {
+                            Intent intent = new Intent(GitMainActivity.this, GitCodeReadActivity.class);
+                            intent.putExtra(GitCodeReadActivity.PARAM, file);
+                            startActivity(intent);
+                        }
                     } catch (Exception e) {
                         Logger.d(e);
                     }
@@ -158,31 +161,31 @@ public class GitMainActivity extends BaseActivity {
         // percentage of text signs in the text
         return d > 0.95;
     }
-
-    public static boolean isBinaryFile(File f) throws FileNotFoundException, IOException {
-        FileInputStream in = new FileInputStream(f);
-        int size = in.available();
-        if (size > 1024) size = 1024;
-        byte[] data = new byte[size];
-        in.read(data);
-        in.close();
-
-        int ascii = 0;
-        int other = 0;
-
-        for (int i = 0; i < data.length; i++) {
-            byte b = data[i];
-            if (b < 0x09) return true;
-
-            if (b == 0x09 || b == 0x0A || b == 0x0C || b == 0x0D) ascii++;
-            else if (b >= 0x20 && b <= 0x7E) ascii++;
-            else other++;
-        }
-
-        if (other == 0) return false;
-
-        return 100 * other / (ascii + other) > 95;
-    }
+//
+//    public static boolean isBinaryFile(File f) throws FileNotFoundException, IOException {
+//        FileInputStream in = new FileInputStream(f);
+//        int size = in.available();
+//        if (size > 1024) size = 1024;
+//        byte[] data = new byte[size];
+//        in.read(data);
+//        in.close();
+//
+//        int ascii = 0;
+//        int other = 0;
+//
+//        for (int i = 0; i < data.length; i++) {
+//            byte b = data[i];
+//            if (b < 0x09) return true;
+//
+//            if (b == 0x09 || b == 0x0A || b == 0x0C || b == 0x0D) ascii++;
+//            else if (b >= 0x20 && b <= 0x7E) ascii++;
+//            else other++;
+//        }
+//
+//        if (other == 0) return false;
+//
+//        return 100 * other / (ascii + other) > 95;
+//    }
 
     public void onRefrush() {
         if (currentDir == null) {
@@ -305,4 +308,17 @@ public class GitMainActivity extends BaseActivity {
             }
         }
     }
+
+    public static boolean isBinaryFile(File file) {
+        try {
+            InputStream in = new FileInputStream(file);
+            boolean result = RawText.isBinary(in);
+            in.close();
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return true;
+        }
+    }
+
 }
