@@ -20,10 +20,12 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
+import net.coding.program.network.model.HttpResult;
 import net.coding.program.network.model.code.Attachment;
 import net.coding.program.network.model.code.Release;
 import net.coding.program.network.model.code.ResourceReference;
 import net.coding.program.param.ProjectJumpParam;
+import net.coding.program.route.URLSpanNoUnderline;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -32,6 +34,8 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
+import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -42,6 +46,9 @@ public class ReleaseDetailActivity extends BackActivity {
 
     @Extra
     ProjectObject projectObject;
+
+    @Extra
+    JumpParam param;
 
     @Extra
     Release release;
@@ -57,11 +64,59 @@ public class ReleaseDetailActivity extends BackActivity {
 
     @AfterViews
     void initReleaseDetailActivity() {
-        bindData();
+        if (param != null) {
+            onRefrush();
+        } else {
+            bindData();
+        }
+    }
+
+    public void onRefrush() {
+        Observable<HttpResult<ProjectObject>> r1 = Network.getRetrofit(this)
+                .getProject(param.user, param.project)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        Observable<HttpResult<Release>> r2 = Network.getRetrofit(this)
+                .getRelease(param.user, param.project, param.tag)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        Observable.zip(r1, r2, (p, r) -> {
+            projectObject = p.data;
+            release = r.data;
+            return true;
+        }).subscribe(new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
+                bindData();
+                invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+            }
+        });
+    }
+
+    public static class JumpParam extends ProjectJumpParam {
+        String tag;
+
+        public JumpParam(String user, String project, String tag) {
+            super(user, project);
+            this.tag = tag;
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (release == null) {
+            return true;
+        }
+
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.release_edit, menu);
         if (!release.author.global_key.equals(GlobalData.sUserObject.global_key)) {
@@ -134,56 +189,66 @@ public class ReleaseDetailActivity extends BackActivity {
     }
 
     private void bindData() {
+        findViewById(R.id.contentLayout).setVisibility(View.VISIBLE);
+
         String title = release.title;
         if (TextUtils.isEmpty(title)) title = release.tagName;
         titleText.setText(title);
 
         timeText.setText(String.format("%s %s 发布于 %s", release.tagName,
-                release.lastCommit.committer.name, Global.simpleDayByNow(release.createdAt)));
+                release.author.name, Global.simpleDayByNow(release.createdAt)));
 
         CodingGlobal.setWebViewContent(webView, CodingGlobal.WebviewType.markdown, release.markdownBody);
 
-        if (release.attachments != null && release.attachments.size() > 0) {
-            ViewGroup fileLayout = releaseFile.findViewById(R.id.fileLayout);
-            ((TextView) releaseFile.findViewById(R.id.title)).setText("下载");
-            fileLayout.removeAllViews();
-            for (Attachment item : release.attachments) {
-                View fileView = getLayoutInflater().inflate(R.layout.release_file_item, fileLayout, false);
-                TextView leftText = fileView.findViewById(R.id.fileName);
-                leftText.setText(item.name);
-                ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) leftText.getLayoutParams();
-                lp.rightMargin = GlobalCommon.dpToPx(100);
-                leftText.setLayoutParams(lp);
+        bindUIDownload();
+        bindUIRefs();
+    }
 
-                ((TextView) fileView.findViewById(R.id.fileSize)).setText(item.getSizeString());
+    private void bindUIDownload() {
+        ViewGroup fileLayout = releaseFile.findViewById(R.id.fileLayout);
+        ((TextView) releaseFile.findViewById(R.id.title)).setText("下载");
+        fileLayout.removeAllViews();
+        for (Attachment item : release.attachments) {
+            View fileView = getLayoutInflater().inflate(R.layout.release_file_item, fileLayout, false);
+            TextView leftText = fileView.findViewById(R.id.fileName);
+            leftText.setText(item.name);
+            ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) leftText.getLayoutParams();
+            lp.rightMargin = GlobalCommon.dpToPx(100);
+            leftText.setLayoutParams(lp);
 
-                fileLayout.addView(fileView);
-            }
+            ((TextView) fileView.findViewById(R.id.fileSize)).setText(item.getSizeString());
 
-            String[] items = new String[]{"源代码 (zip)", "源代码 (tar.gz)"};
+            fileView.setOnClickListener(v -> showMiddleToast("暂不支持下载"));
 
-            for (String item : items) {
-                View fileView = getLayoutInflater().inflate(R.layout.release_file_item, fileLayout, false);
-                TextView leftText = fileView.findViewById(R.id.fileName);
-                leftText.setText(item);
-                fileLayout.addView(fileView);
-            }
-        } else {
-            releaseFile.setVisibility(View.GONE);
+            fileLayout.addView(fileView);
         }
 
+        String[] items = new String[]{"源代码 (zip)", "源代码 (tar.gz)"};
+
+        for (String item : items) {
+            View fileView = getLayoutInflater().inflate(R.layout.release_file_item, fileLayout, false);
+            TextView leftText = fileView.findViewById(R.id.fileName);
+            leftText.setText(item);
+            fileLayout.addView(fileView);
+            fileView.setOnClickListener(v -> showMiddleToast("暂不支持下载"));
+        }
+    }
+
+    private void bindUIRefs() {
         if (release.resourceReferences != null && release.resourceReferences.size() > 0) {
             releaseRef.setVisibility(View.VISIBLE);
             ViewGroup fileLayout = releaseRef.findViewById(R.id.fileLayout);
-            ((TextView) releaseRef.findViewById(R.id.title)).setText("引用");
+            ((TextView) releaseRef.findViewById(R.id.title)).setText("关联资源");
             fileLayout.removeAllViews();
             for (ResourceReference item : release.resourceReferences) {
                 View fileView = getLayoutInflater().inflate(R.layout.release_file_item, fileLayout, false);
                 TextView leftText = fileView.findViewById(R.id.fileName);
                 leftText.setCompoundDrawablesRelativeWithIntrinsicBounds(item.getTypeIcon(), 0, 0, 0);
                 leftText.setText(String.format("#%s %s", item.code, item.title));
-
                 fileLayout.addView(fileView);
+                fileView.setOnClickListener(v -> {
+                    URLSpanNoUnderline.openActivityByUri(this, item.link, false);
+                });
             }
 
 
@@ -191,6 +256,5 @@ public class ReleaseDetailActivity extends BackActivity {
             releaseRef.setVisibility(View.GONE);
         }
     }
-
 
 }

@@ -73,6 +73,8 @@ import net.coding.program.project.detail.merge.CommitFileListActivity_;
 import net.coding.program.project.detail.merge.MergeDetailActivity_;
 import net.coding.program.project.detail.merge.MergeListFragment;
 import net.coding.program.project.detail.merge.MergeReviewerListFragment;
+import net.coding.program.project.detail.merge.ReleaseDetailActivity;
+import net.coding.program.project.detail.merge.ReleaseDetailActivity_;
 import net.coding.program.project.detail.topic.TopicListDetailActivity;
 import net.coding.program.project.detail.topic.TopicListDetailActivity_;
 import net.coding.program.project.detail.wiki.WikiMainActivity;
@@ -531,6 +533,19 @@ public class MyApp extends MultiDexApplication {
                     intent.putExtra("mJumpParams", new TaskJumpParams(matcher.group(1),
                             matcher.group(2), matcher.group(3)));
                     intent.putExtra("showClickTitleTip", true);
+                    context.startActivity(intent);
+                    return true;
+                }
+
+                // release 详情
+                // https://coding.net/u/wzw/p/coding/task/9220
+                final String release = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/git/releases/(\\w+)$";
+                pattern = Pattern.compile(release);
+                matcher = pattern.matcher(uriPath);
+                if (matcher.find()) {
+                    intent.setClass(context, ReleaseDetailActivity_.class);
+                    intent.putExtra("param", new ReleaseDetailActivity.JumpParam(matcher.group(1),
+                            matcher.group(2), matcher.group(3)));
                     context.startActivity(intent);
                     return true;
                 }
