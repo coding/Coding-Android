@@ -49,6 +49,10 @@ public class TopicPreviewFragment extends BaseFragment {
             @Override
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
+                if (!isResumed()) {
+                    return;
+                }
+
                 String html = response.optString("data", "");
                 CodingGlobal.setWebViewContent(content, getWebViewTempate(), html);
             }
