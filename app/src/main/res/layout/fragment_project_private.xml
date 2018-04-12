@@ -81,12 +81,12 @@
             android:id="@+id/codeLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/divide"
             android:orientation="vertical">
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="54dp">
+                android:layout_height="54dp"
+                android:background="@color/divide">
 
                 <View style="@style/DivideSectionBottom5" />
 
@@ -119,9 +119,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical">
-
-
-                <View style="@style/DivideLineHomeList" />
 
                 <include
                     android:id="@+id/itemCode"

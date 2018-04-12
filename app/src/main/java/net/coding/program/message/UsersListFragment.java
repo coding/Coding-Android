@@ -257,6 +257,8 @@ public class UsersListFragment extends RefreshBaseFragment implements LoadMore, 
 
         View footer = mInflater.inflate(R.layout.divide_bottom, listView, false);
         listView.addFooterView(footer, null, false);
+
+        updateHeader();
     }
 
     private void startNotifyListActivity(int type) {
@@ -308,16 +310,7 @@ public class UsersListFragment extends RefreshBaseFragment implements LoadMore, 
                 showErrorMsg(code, respanse);
             }
 
-            if (mData.isEmpty()) {
-                FrameLayout.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) blankLayout.getLayoutParams();
-                lp.topMargin = listHeader.getHeight();
-                blankLayout.setLayoutParams(lp);
-                listHeader.findViewById(R.id.headerBottomLine).setVisibility(View.GONE);
-                listHeader.findViewById(R.id.headerBottomLineEmpty).setVisibility(View.VISIBLE);
-            } else {
-                listHeader.findViewById(R.id.headerBottomLine).setVisibility(View.VISIBLE);
-                listHeader.findViewById(R.id.headerBottomLineEmpty).setVisibility(View.GONE);
-            }
+            updateHeader();
 
             BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, v -> loadMore());
 
@@ -355,6 +348,19 @@ public class UsersListFragment extends RefreshBaseFragment implements LoadMore, 
             } else {
                 showButtomToast("删除失败");
             }
+        }
+    }
+
+    public void updateHeader() {
+        if (mData.isEmpty()) {
+            FrameLayout.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) blankLayout.getLayoutParams();
+            lp.topMargin = listHeader.getHeight();
+            blankLayout.setLayoutParams(lp);
+            listHeader.findViewById(R.id.headerBottomLine).setVisibility(View.GONE);
+            listHeader.findViewById(R.id.headerBottomLineEmpty).setVisibility(View.VISIBLE);
+        } else {
+            listHeader.findViewById(R.id.headerBottomLine).setVisibility(View.VISIBLE);
+            listHeader.findViewById(R.id.headerBottomLineEmpty).setVisibility(View.GONE);
         }
     }
 
