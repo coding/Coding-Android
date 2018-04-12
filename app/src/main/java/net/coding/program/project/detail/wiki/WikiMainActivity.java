@@ -255,9 +255,9 @@ public class WikiMainActivity extends CodingToolbarBackActivity {
             treeView = treeViewBuilder.getView();
             drawerLayout.addView(treeView);
 
+            treeViewBuilder.expandAll();
             selectNode((NodeHolder) firstTreeNode.getViewHolder());
 
-            treeViewBuilder.expandAll();
             bottomBarLayout.setVisibility(View.VISIBLE);
             disableToolbarScroll(false);
 

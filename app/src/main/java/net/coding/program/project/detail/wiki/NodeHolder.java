@@ -108,7 +108,7 @@ public class NodeHolder extends TreeNode.BaseNodeViewHolder<Wiki> {
     public void select(boolean select) {
         if (select) {
             tView.expandNode(mNode);
-            title.setTextColor(0xFF2EBE76);
+            title.setTextColor(CodingColor.fontBlue);
         } else {
             title.setTextColor(mNode.getLevel() == 1 ? 0xFF272C33 : CodingColor.font1);
         }

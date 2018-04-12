@@ -83,19 +83,12 @@ android {
 
         dev {
             dimension "version"
-            // dev utilizes minSDKVersion = 21 to allow the Android gradle plugin
-            // to pre-dex each module and produce an APK that can be tested on
-            // Android Lollipop without time consuming dex merging processes.
-            minSdkVersion 21
-
-
             signingConfig signingConfigs.config
 
         }
 
         prod {
             dimension "version"
-            // The actual minSdkVersion for the application.
             minSdkVersion 15
         }
     }
@@ -134,7 +127,7 @@ kapt {
 }
 
 dependencies {
-    kapt 'com.android.databinding:compiler:3.1.0'
+//    kapt 'com.android.databinding:compiler:3.1.0'
 
     kapt "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
