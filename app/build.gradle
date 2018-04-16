@@ -65,8 +65,8 @@ android {
         enterprise {
             dimension "mode"
             applicationId "net.coding.program.enterprise"
-            versionCode 270
-            versionName "2.7"
+            versionCode 280
+            versionName "2.8"
             targetSdkVersion 21
 
             // 信鸽依赖
