@@ -81,11 +81,11 @@
             android:id="@+id/codeLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/divide"
             android:orientation="vertical">
 
             <FrameLayout
                 android:layout_width="match_parent"
+                android:background="@color/divide"
                 android:layout_height="54dp">
 
                 <View style="@style/DivideSectionBottom5" />
@@ -120,31 +120,24 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-
-                <View style="@style/DivideLineHomeList" />
-
                 <include
                     android:id="@+id/itemCode"
                     layout="@layout/project_home_list_head_button" />
 
-                <View
-                    style="@style/DivideLineHomeList"
-                    android:layout_marginLeft="50dp" />
+                <View style="@style/DivideLineHomeList" />
 
                 <include
                     android:id="@+id/itemBranch"
                     layout="@layout/project_home_list_head_button" />
 
-                <View
-                    style="@style/DivideLineHomeList"
-                    android:layout_marginLeft="50dp" />
+                <View style="@style/DivideLineHomeList" />
+
                 <include
                     android:id="@+id/itemRelease"
                     layout="@layout/project_home_list_head_button" />
 
-                <View
-                    style="@style/DivideLineHomeList"
-                    android:layout_marginLeft="50dp" />
+                <View style="@style/DivideLineHomeList" />
+
                 <include
                     android:id="@+id/itemMerge"
                     layout="@layout/project_home_list_head_button" />
@@ -156,6 +149,7 @@
                     layout="@layout/project_home_list_head_button" />
 
             </LinearLayout>
+
 
         </LinearLayout>
 
