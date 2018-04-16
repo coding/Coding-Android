@@ -58,7 +58,7 @@
                 <View style="@style/DivideLineHomeList" />
 
                 <include
-                    android:id="@+id/itemTopic"
+                    android:id="@+id/itemWiki"
                     layout="@layout/project_home_list_head_button" />
 
                 <View style="@style/DivideLineHomeList" />
@@ -149,11 +149,11 @@
                     android:id="@+id/itemMerge"
                     layout="@layout/project_home_list_head_button" />
 
-                <!--迟早要加-->
+                <View style="@style/DivideLineHomeList" />
+
                 <include
-                    android:id="@+id/itemWiki"
-                    layout="@layout/project_home_list_head_button"
-                    android:visibility="gone" />
+                    android:id="@+id/itemGit"
+                    layout="@layout/project_home_list_head_button" />
 
             </LinearLayout>
 

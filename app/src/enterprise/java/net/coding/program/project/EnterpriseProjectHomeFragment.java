@@ -22,7 +22,8 @@ public class EnterpriseProjectHomeFragment extends PrivateProjectHomeFragment {
                 ProjectFunction.member,
                 ProjectFunction.branchManage,
                 ProjectFunction.releaseManage,
-                ProjectFunction.merge
+                ProjectFunction.merge,
+                ProjectFunction.git
         };
     }
 

@@ -71,8 +71,8 @@ android {
 
             // 信鸽依赖
             ndk {
-                abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
-                // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+                abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86_64', 'x86'
+                // 还可以添加 , 'x86_64', 'mips', 'mips64'
             }
 
             manifestPlaceholders = [
