@@ -47,7 +47,6 @@
         android:visibility="gone"
         tools:visibility="visible">
 
-
         <com.flyco.roundview.RoundTextView
             android:id="@+id/actionCancel"
             android:layout_width="0dp"
@@ -61,7 +60,6 @@
             app:rv_backgroundColor="@color/divide_line"
             app:rv_cornerRadius="2dp" />
 
-
         <com.flyco.roundview.RoundTextView
             android:id="@+id/actionRefuse"
             android:layout_width="0dp"
@@ -74,34 +72,6 @@
             android:textSize="15sp"
             app:rv_backgroundColor="#FFF56061"
             app:rv_cornerRadius="2dp" />
-
-
-        <com.flyco.roundview.RoundTextView
-            android:id="@+id/actionAuth"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginLeft="@dimen/bottom_button_padding"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="授权"
-            android:textColor="@color/font_white"
-            android:textSize="15sp"
-            app:rv_backgroundColor="@color/font_blue"
-            app:rv_cornerRadius="2dp" />
-
-        <com.flyco.roundview.RoundTextView
-            android:id="@+id/actionCancelAuth"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginLeft="@dimen/bottom_button_padding"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="撤消授权"
-            android:textColor="@color/font_white"
-            android:textSize="15sp"
-            app:rv_backgroundColor="@color/font_green"
-            app:rv_cornerRadius="2dp" />
-
 
         <com.flyco.roundview.RoundTextView
             android:id="@+id/actionAccept"

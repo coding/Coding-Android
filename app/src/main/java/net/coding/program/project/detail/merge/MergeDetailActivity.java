@@ -2,7 +2,6 @@ package net.coding.program.project.detail.merge;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -93,7 +92,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
     @Extra
     String mMergeUrl;
     @ViewById
-    View actionLayout, actionAccept, actionRefuse, actionCancel, actionAuth, actionCancelAuth, blankLayout;
+    View actionLayout, actionAccept, actionRefuse, actionCancel, blankLayout;
     @ViewById
     ListView listView;
     DataAdapter mAdapter;
@@ -351,8 +350,6 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
             actionLayout.setVisibility(View.VISIBLE);
             actionRefuse.setVisibility(refuse ? View.VISIBLE : View.GONE);
             actionCancel.setVisibility(cancel ? View.VISIBLE : View.GONE);
-            actionAuth.setVisibility(auth ? View.VISIBLE : View.GONE);
-            actionCancelAuth.setVisibility(cancelAuth ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -381,38 +378,25 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         });
     }
 
-    @Click
     protected final void actionAuth() {
-        showDialog(mMerge.getTitle(), "确定要授权吗？", (dialog, which) -> {
-            String host = mMerge.getHttpGrant();
-//                postNetwork(host, HOST_MERGE_CANNEL);
-            MyAsyncHttpClient.post(MergeDetailActivity.this, host, new MyJsonResponse(MergeDetailActivity.this) {
-                @Override
-                public void onMySuccess(JSONObject response) {
-                    setResult(RESULT_OK);
-                    mMerge.setGranted(1);
-                    actionAuth.setVisibility(View.GONE);
-                    actionCancelAuth.setVisibility(View.VISIBLE);
-                }
-            });
-
+        String host = mMerge.getHttpGrant();
+        MyAsyncHttpClient.post(MergeDetailActivity.this, host, new MyJsonResponse(MergeDetailActivity.this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                setResult(RESULT_OK);
+                mMerge.setGranted(1);
+            }
         });
     }
 
-    @Click
     protected final void actionCancelAuth() {
-        showDialog(mMerge.getTitle(), "确定要撤消授权吗？", (dialog, which) -> {
-            String host = mMerge.getHttpGrant();
-//                postNetwork(host, HOST_MERGE_CANNEL);
-            MyAsyncHttpClient.delete(MergeDetailActivity.this, host, new MyJsonResponse(MergeDetailActivity.this) {
-                @Override
-                public void onMySuccess(JSONObject response) {
-                    setResult(RESULT_OK);
-                    mMerge.setGranted(0);
-                    actionAuth.setVisibility(View.VISIBLE);
-                    actionCancelAuth.setVisibility(View.GONE);
-                }
-            });
+        String host = mMerge.getHttpGrant();
+        MyAsyncHttpClient.delete(MergeDetailActivity.this, host, new MyJsonResponse(MergeDetailActivity.this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                setResult(RESULT_OK);
+                mMerge.setGranted(0);
+            }
         });
     }
 
@@ -795,15 +779,11 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                 tv.setCompoundDrawables(null, null, null, null);
                 arrow.setVisibility(View.VISIBLE);
             } else if (role == 3) {
-                tv.setText("撤消 +1 ");
+                tv.setText("撤销允许合并");
                 tv.setTextColor(getResources().getColor(R.color.font_green));
-                tv.setCompoundDrawables(null, null, null, null);
                 arrow.setVisibility(View.GONE);
             } else if (role == 2) {
-                tv.setText("+1  ");
-                Drawable up = getResources().getDrawable(R.drawable.thumb_up);
-                up.setBounds(0, 0, up.getMinimumWidth(), up.getMinimumHeight());
-                tv.setCompoundDrawables(up, null, null, null);
+                tv.setText("允许合并");
                 arrow.setVisibility(View.GONE);
                 tv.setTextColor(getResources().getColor(R.color.font_green));
             }
@@ -831,12 +811,17 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                     startActivityForResult(intent, MergeReviewerListFragment.RESULT_ADD_USER);
                 } else if (roleFinal == 2) {
                     postNetwork(mMerge.getHttpReviewGood(), new RequestParams(), TAG_REVIEW_GOOD);
+                    if (mMerge.getGranted() == 0) {
+                        actionAuth();
+                    }
                 } else if (roleFinal == 3) {
                     deleteNetwork(mMerge.getHttpReviewGood(), TAG_REVIEW_GOOD);
+                    if (mMerge.getGranted() == 1) {
+                        actionCancelAuth();
+                    }
                 }
             }
         });
-
 
         LinearLayout reviewersLayout = findViewById(R.id.reviewers);
         reviewersLayout.removeAllViews();
