@@ -40,13 +40,13 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.common.util.DensityUtil;
 import net.coding.program.common.widget.DataAdapter;
 import net.coding.program.common.widget.ListItem1;
 import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.project.detail.MembersSelectActivity_;
 import net.coding.program.project.git.CommitListActivity_;
-import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.route.URLSpanNoUnderline;
 import net.coding.program.task.add.CommentHolder;
 import net.coding.program.task.add.RefResourceActivity_;
@@ -95,6 +95,9 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
     View actionLayout, actionAccept, actionRefuse, actionCancel, blankLayout;
     @ViewById
     ListView listView;
+
+    BlankViewHelp blankHelp = new BlankViewHelp();
+
     DataAdapter mAdapter;
     MyImageGetter myImageGetter = new MyImageGetter(this);
 
@@ -137,6 +140,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
             }
         }
     };
+
     DataAdapter<DynamicObject.DynamicMergeRequest> commentAdpter = new DataAdapter<DynamicObject.DynamicMergeRequest>() {
         @Override
         public int getItemViewType(int position) {
@@ -221,6 +225,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
     @AfterViews
     protected final void initMergeDetailActivity() {
         String httpReviewers;
+
         if (mMerge != null) {
             initByMereData();
             getNetwork(mMerge.getHttpDetail(), HOST_MERGE_DETAIL);
@@ -565,9 +570,9 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                 showErrorMsg(code, respanse);
 
                 if (code == NetworkImpl.ERROR_PERMISSION_DENIED) {
-                    BlankViewDisplay.setBlank(0, this, true, blankLayout, null, "无权访问\n请联系项目管理员进行代码权限设置");
+                    blankHelp.setBlank(0, this, true, blankLayout, null, "无权访问\n请联系项目管理员进行代码权限设置");
                 } else {
-                    BlankViewDisplay.setBlank(0, this, true, blankLayout, null);
+                    blankHelp.setBlank(0, this, true, blankLayout, null);
                 }
             }
         } else if (tag.equals(TAG_REVIEW_GOOD)) {
@@ -609,14 +614,10 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
 
     private void updateRefResourceUI() {
         View item = findViewById(R.id.itemRefResource);
-        if (refResourceList.isEmpty()) {
-            item.setVisibility(View.GONE);
-        } else {
-            item.setVisibility(View.VISIBLE);
-
-            ((TextView) item.findViewById(R.id.text2)).setText(refResourceList.size() + "个资源");
-            item.findViewById(R.id.text2).setVisibility(View.VISIBLE);
-        }
+        item.setVisibility(View.VISIBLE);
+        int size = refResourceList.size();
+        ((TextView) item.findViewById(R.id.text2)).setText(size == 0 ? "" : size + "个资源");
+        item.findViewById(R.id.text2).setVisibility(View.VISIBLE);
     }
 
     private void refreshReviewers() {

@@ -38,6 +38,10 @@ public class RefResourceActivity extends BackActivity {
 
     @ViewById
     ListView listView;
+
+    @ViewById
+    View blankLayout;
+
     BaseAdapter adapter = new BaseAdapter() {
         @Override
         public int getCount() {
@@ -100,6 +104,7 @@ public class RefResourceActivity extends BackActivity {
     @AfterViews
     final void initRefResourceActivity() {
         listView.setAdapter(adapter);
+        listView.setEmptyView(blankLayout);
     }
 
     @ItemClick(R.id.listView)

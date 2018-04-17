@@ -19,7 +19,7 @@ public enum ProjectFunction {
     code(R.id.itemCode, R.drawable.project_button_icon_code, "代码", ProjectGitFragmentMain_.class),
     member(R.id.itemMember, R.drawable.project_button_icon_member, "成员", MembersListFragment_.class),
     readme(R.id.itemReadme, R.drawable.project_button_icon_readme, "Readme", ReadmeFragment_.class),
-    merge(R.id.itemMerge, R.drawable.project_button_icon_merge, "Merge Request", ProjectMergeFragment_.class),
+    merge(R.id.itemMerge, R.drawable.project_button_icon_merge, "合并请求", ProjectMergeFragment_.class),
     pullRequest(R.id.itemMerge, R.drawable.project_button_icon_merge, "Pull Request", ProjectPullFragment_.class),
     branchManage(R.id.itemBranch, R.drawable.project_button_icon_branch, "分支管理", BranchManageFragment_.class),
     releaseManage(R.id.itemRelease, R.drawable.project_button_icon_release, "发布管理", ReleaseManageFragment_.class),
