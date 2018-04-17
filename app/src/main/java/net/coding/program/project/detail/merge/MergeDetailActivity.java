@@ -260,17 +260,23 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         return mMerge.getProjectPath();
     }
 
+    private View listHeader, listFooter;
+
     private void initByMereData() {
         setActionBarTitle(mMerge.getTitleIId());
 
-        View mListHead = mInflater.inflate(R.layout.activity_merge_detail_head, listView, false);
-        initHead(mListHead);
-        listView.addHeaderView(mListHead, null, false);
-        View footer = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
+        if (listHeader == null) {
+            listHeader = mInflater.inflate(R.layout.activity_merge_detail_head, listView, false);
+            initHead(listHeader);
+            listView.addHeaderView(listHeader, null, false);
+        }
 
-        footer.findViewById(R.id.gap_to_list).setVisibility(View.GONE);
-        listView.addFooterView(footer, null, false);
-        initFooter(footer);
+        if (listFooter == null) {
+            listFooter = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
+            listFooter.findViewById(R.id.gap_to_list).setVisibility(View.GONE);
+            listView.addFooterView(listFooter, null, false);
+            initFooter(listFooter);
+        }
 
         BaseCommentParam param = new BaseCommentParam(new ClickSmallImage(this), mOnClickItem, myImageGetter, getImageLoad(), GlobalCommon.mOnClickUser);
         mAdapter = commentAdpter; //new MergeRequestDynamicAdapter(this, myImageGetter);

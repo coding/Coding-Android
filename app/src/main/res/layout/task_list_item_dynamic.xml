@@ -57,9 +57,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
+                android:layout_marginRight="15dp"
                 android:textColor="@color/font_3"
                 android:textSize="14sp"
-                tools:text="3分钟前" />
+                tools:text="You can find more information on Jean-François Arcand's blog. Jean-François is the original author of this library." />
         </LinearLayout>
 
         <TextView
@@ -68,13 +69,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
             android:layout_marginTop="@dimen/padding_14"
+            android:layout_marginRight="15dp"
             android:background="@color/gray_dark"
             android:lineSpacingExtra="3dp"
             android:padding="8dp"
             android:textColor="@color/font_2"
             android:textSize="14sp"
             android:visibility="gone"
-            tools:text="1111"
+            tools:text="jdaklsdj;falksdjf;al;sdlkjf"
             tools:visibility="visible" />
 
     </LinearLayout>
