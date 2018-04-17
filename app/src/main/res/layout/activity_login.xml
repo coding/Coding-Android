@@ -103,6 +103,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
+                            tools:visibility="visible"
                             android:visibility="gone">
 
                             <EditText
@@ -114,6 +115,8 @@
                                 android:id="@+id/imageValify"
                                 android:layout_width="72dp"
                                 android:layout_height="30dp"
+                                android:layout_marginTop="25dp"
+                                tools:background="@color/font_2"
                                 android:layout_alignParentRight="true"
                                 android:scaleType="fitCenter" />
 
