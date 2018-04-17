@@ -260,13 +260,6 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    // 信鸽文档推荐调用，防止在小米手机上收不到推送
-//    private void pushInXiaomi() {
-//        Context context = getApplicationContext();
-//        Intent service = new Intent(context, XGPushService.class);
-//        context.startService(service);
-//    }
-
     @AfterViews
     final void initMainActivity() {
         setActionBarTitle("");
@@ -311,10 +304,6 @@ public class MainActivity extends BaseActivity {
 
     protected void switchProject() {
         switchFragment(MainProjectFragment.FragmentBuilder_.class);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
     }
 
     final protected void switchFragment(Class<?> cls) {
