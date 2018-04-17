@@ -96,6 +96,9 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
     @ViewById
     ListView listView;
 
+    int requestCallback = 0;
+    final int REQUEST_COUNT = 3;
+
     BlankViewHelp blankHelp = new BlankViewHelp();
 
     DataAdapter mAdapter;
@@ -225,6 +228,9 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
     @AfterViews
     protected final void initMergeDetailActivity() {
         String httpReviewers;
+
+        requestCallback = 0;
+        blankHelp.setBlankLoading(blankLayout, true);
 
         if (mMerge != null) {
             initByMereData();
@@ -549,6 +555,8 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         } else if (tag.equals(HOST_MERGE_DETAIL)) {
             hideProgressDialog();
             if (code == 0) {
+                showContentView();
+
                 mMergeDetail = new MergeDetail(respanse.optJSONObject("data"));
 
                 if (mMerge == null) {
@@ -572,7 +580,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                 if (code == NetworkImpl.ERROR_PERMISSION_DENIED) {
                     blankHelp.setBlank(0, this, true, blankLayout, null, "无权访问\n请联系项目管理员进行代码权限设置");
                 } else {
-                    blankHelp.setBlank(0, this, true, blankLayout, null);
+                    showErrorBlankView();
                 }
             }
         } else if (tag.equals(TAG_REVIEW_GOOD)) {
@@ -580,6 +588,19 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                 refreshReviewers();
             }
         }
+    }
+
+    public void showErrorBlankView() {
+        blankHelp.setBlank(0, this, false, blankLayout, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRefrush();
+            }
+        });
+    }
+
+    private void onRefrush() {
+        initMergeDetailActivity();
     }
 
     private void refreshRefResource() {
@@ -607,8 +628,18 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                     }
 
                     updateRefResourceUI();
+
+                    showContentView();
+                }
+
+                @Override
+                public void onMyFailure(JSONObject response) {
+                    super.onMyFailure(response);
+                    showErrorBlankView();
                 }
             });
+        } else {
+            showContentView();
         }
     }
 
@@ -626,6 +657,8 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                 @Override
                 public void onMySuccess(JSONObject response) {
                     Log.d("reviewers", response.toString());
+
+                    showContentView();
                     JSONArray json = null;
                     try {
                         json = response.optJSONObject("data").optJSONArray("reviewers");
@@ -646,9 +679,25 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                     }
 
                 }
+
+                @Override
+                public void onMyFailure(JSONObject response) {
+                    super.onMyFailure(response);
+                    showErrorBlankView();
+                }
             });
         } else {
             updateReviewer();
+
+            showContentView();
+        }
+    }
+
+    private void showContentView() {
+        ++requestCallback;
+        if (requestCallback == REQUEST_COUNT) {
+            blankLayout.setVisibility(View.GONE);
+
         }
     }
 

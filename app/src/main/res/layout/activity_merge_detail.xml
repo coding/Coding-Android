@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,20 +10,84 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/actionbar_height">
 
-        <ListView
-            android:id="@+id/listView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/stand_bg"
-            android:clipToPadding="false"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:drawSelectorOnTop="true"
-            android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/stand_bg"
+                android:clipToPadding="false"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:drawSelectorOnTop="true"
+                android:footerDividersEnabled="false"
+                android:headerDividersEnabled="false" />
+
+            <View style="@style/DivideLine" />
+
+            <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/actionLayout"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_gravity="bottom"
+                android:background="@color/stand_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="8dp"
+                android:paddingRight="16dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/actionCancel"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_marginLeft="@dimen/bottom_button_padding"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="取消"
+                    android:textColor="@color/font_1"
+                    android:textSize="15sp"
+                    app:rv_backgroundColor="@color/divide_line"
+                    app:rv_cornerRadius="2dp" />
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/actionRefuse"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_marginLeft="@dimen/bottom_button_padding"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="拒绝"
+                    android:textColor="@color/font_white"
+                    android:textSize="15sp"
+                    app:rv_backgroundColor="#FFF56061"
+                    app:rv_cornerRadius="2dp" />
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/actionAccept"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_marginLeft="@dimen/bottom_button_padding"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="合并"
+                    android:textColor="@color/font_white"
+                    android:textSize="15sp"
+                    app:rv_backgroundColor="@color/font_2"
+                    app:rv_cornerRadius="2dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <include
             android:id="@+id/blankLayout"
@@ -32,60 +96,4 @@
             android:layout_height="match_parent" />
 
     </FrameLayout>
-
-    <include layout="@layout/divide_line_1" />
-
-    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/actionLayout"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/stand_bg"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="8dp"
-        android:paddingRight="16dp"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <com.flyco.roundview.RoundTextView
-            android:id="@+id/actionCancel"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginLeft="@dimen/bottom_button_padding"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="取消"
-            android:textColor="@color/font_1"
-            android:textSize="15sp"
-            app:rv_backgroundColor="@color/divide_line"
-            app:rv_cornerRadius="2dp" />
-
-        <com.flyco.roundview.RoundTextView
-            android:id="@+id/actionRefuse"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginLeft="@dimen/bottom_button_padding"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="拒绝"
-            android:textColor="@color/font_white"
-            android:textSize="15sp"
-            app:rv_backgroundColor="#FFF56061"
-            app:rv_cornerRadius="2dp" />
-
-        <com.flyco.roundview.RoundTextView
-            android:id="@+id/actionAccept"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginLeft="@dimen/bottom_button_padding"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="合并"
-            android:textColor="@color/font_white"
-            android:textSize="15sp"
-            app:rv_backgroundColor="@color/font_2"
-            app:rv_cornerRadius="2dp" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>
