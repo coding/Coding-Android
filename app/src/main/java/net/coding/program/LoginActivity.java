@@ -3,6 +3,7 @@ package net.coding.program;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -89,6 +90,14 @@ public class LoginActivity extends BaseActivity {
     private int clickIconCount = 0;
     private long lastClickTime = 0;
     private String globalKey = "";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // 删除 cookie，防止出现多个 cookie 导致登录bu
+        AccountInfo.clearCookie(this);
+
+        super.onCreate(savedInstanceState);
+    }
 
     @AfterViews
     void initLoginActivity() {
