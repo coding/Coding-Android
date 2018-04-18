@@ -1,6 +1,7 @@
 package net.coding.program;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -375,6 +376,7 @@ public class MainActivity extends BaseActivity {
         showBottomBar(showBottom.showBottom);
     }
 
+    @SuppressLint("MissingPermission")
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEventPushToken(EventPushToken pushToken) {
         if (TextUtils.isEmpty(pushToken.getType()) || TextUtils.isEmpty(pushToken.getToken())) {
