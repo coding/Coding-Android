@@ -19,6 +19,7 @@ import net.coding.program.common.LoginEditText;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.TermsActivity_;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.event.EventLoginSuccess;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.PhoneCountry;
 import net.coding.program.common.model.UserObject;
@@ -30,7 +31,6 @@ import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.widget.ValidePhoneView;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.compatible.CodingCompat;
-import net.coding.program.guide.GuideActivity;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 
@@ -230,7 +230,7 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
 
                 AccountInfo.saveLastLoginName(getActivity(), user.name);
 
-                getActivity().sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
+                EventLoginSuccess.Companion.sendMessage();
                 getActivity().finish();
                 startActivity(new Intent(getActivity(), CodingCompat.instance().getMainActivity()));
             }

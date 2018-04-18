@@ -26,6 +26,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.GlobalData;
 import net.coding.program.common.SimpleSHA1;
+import net.coding.program.common.event.EventLoginSuccess;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -36,7 +37,6 @@ import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.widget.LoginAutoCompleteEdit;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.compatible.CodingCompat;
-import net.coding.program.guide.GuideActivity;
 import net.coding.program.login.PhoneRegisterActivity_;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
@@ -198,8 +198,10 @@ public class LoginActivity extends BaseActivity {
 
     @OnActivityResult(RESULT_CLOSE)
     void resultRegiter(int result) {
-        if (result == Activity.RESULT_OK)
-            sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
+        if (result == Activity.RESULT_OK) {
+            EventLoginSuccess.Companion.sendMessage();
+        }
+
         finish();
     }
 
@@ -389,7 +391,7 @@ public class LoginActivity extends BaseActivity {
                 String name = editName.getText().toString();
                 AccountInfo.saveLastLoginName(this, name);
 
-                sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
+                EventLoginSuccess.Companion.sendMessage();
                 finish();
                 startActivity(new Intent(LoginActivity.this, CodingCompat.instance().getMainActivity()));
             } else {

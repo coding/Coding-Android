@@ -81,12 +81,16 @@ public class AccountInfo {
             }
         }
 
-        PersistentCookieStore cookieStore = new PersistentCookieStore(ctx);
-        cookieStore.clear();
+        clearCookie(ctx);
 
         NotificationManager notificationManager = (NotificationManager)
                 ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
+    }
+
+    public static void clearCookie(Context ctx) {
+        PersistentCookieStore cookieStore = new PersistentCookieStore(ctx);
+        cookieStore.clear();
     }
 
     public static void saveAccount(Context ctx, UserObject data) {

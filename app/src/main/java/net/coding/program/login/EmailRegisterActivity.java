@@ -16,6 +16,7 @@ import net.coding.program.common.GlobalData;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.TermsActivity_;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.event.EventLoginSuccess;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -24,7 +25,6 @@ import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
 import net.coding.program.compatible.CodingCompat;
-import net.coding.program.guide.GuideActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -59,7 +59,7 @@ public class EmailRegisterActivity extends BackActivity {
 
         activity.startActivity(new Intent(activity, CodingCompat.instance().getMainActivity()));
 
-        activity.sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
+        EventLoginSuccess.Companion.sendMessage();
         activity.setResult(Activity.RESULT_OK);
         activity.finish();
     }

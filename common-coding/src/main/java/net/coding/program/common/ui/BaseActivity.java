@@ -25,6 +25,7 @@ import net.coding.program.common.GlobalSetting;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.UnreadNotify;
+import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.RequestData;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
@@ -153,6 +154,9 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 删除 cookie，防止出现多个 cookie 导致登录不了
+        AccountInfo.clearCookie(this);
 
         mSingleToast = new SingleToast(this);
 

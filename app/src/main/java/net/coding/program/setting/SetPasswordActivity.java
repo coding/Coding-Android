@@ -105,6 +105,7 @@ public class SetPasswordActivity extends MenuButtonActivity {
             params.put("password", SimpleSHA1.sha1(newPwd));
             params.put("confirm_password", SimpleSHA1.sha1(confirmPwd));
             postNetwork(Url, params, "");
+            Global.hideSoftKeyboard(this);
         } catch (Exception e) {
             showMiddleToast(e.toString());
         }

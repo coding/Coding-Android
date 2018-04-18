@@ -1,7 +1,6 @@
 package net.coding.program.login;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +18,7 @@ import net.coding.program.common.Global;
 import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.TermsActivity_;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.event.EventLoginSuccess;
 import net.coding.program.common.model.PhoneCountry;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
@@ -26,7 +26,6 @@ import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.OnTextChange;
 import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.widget.ValidePhoneView;
-import net.coding.program.guide.GuideActivity;
 import net.coding.program.login.phone.CountryPickActivity_;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
@@ -37,6 +36,8 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -46,7 +47,6 @@ import rx.schedulers.Schedulers;
 public class PhoneRegisterActivity extends BackActivity {
 
     private static final int RESULT_PICK_COUNTRY = 10;
-    private static final int RESULT_CLOSE = 11;
 
     public static CharSequence REGIST_TIP = Global.createGreenHtml("点击注册，即同意", "《Coding 服务条款》", "");
 
@@ -106,6 +106,11 @@ public class PhoneRegisterActivity extends BackActivity {
         sendCode.setType(ValidePhoneView.Type.register);
 
         bindCountry();
+    }
+
+    @Override
+    protected boolean userEventBus() {
+        return true;
     }
 
     @Click
@@ -258,15 +263,11 @@ public class PhoneRegisterActivity extends BackActivity {
     @Click
     void login() {
         Global.popSoftkeyboard(this, phoneEdit, false);
-        LoginActivity_.intent(this)
-                .startForResult(RESULT_CLOSE);
+        LoginActivity_.intent(this).start();
     }
 
-
-    @OnActivityResult(RESULT_CLOSE)
-    void resultRegiter(int result) {
-        if (result == Activity.RESULT_OK)
-            sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventClose(EventLoginSuccess event) {
         finish();
     }
 
