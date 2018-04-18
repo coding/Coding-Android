@@ -266,16 +266,8 @@ public class CustomShareBoard extends PopupWindow implements OnClickListener {
 
             case R.id.sinaWeibo:
                 umengEvent(UmengEvent.MAOPAO, "分享到sina");
-                // TODO: 2017/12/20 有没有装客户端 未实现
-//                if (mActivity instanceof MainActivity_
-//                        && !OauthHelper.isAuthenticatedAndTokenNotExpired(mActivity, SHARE_MEDIA.SINA)) {
-//                    Intent intent = new Intent(mActivity, ShareSinaHelpActivity.class);
-//                    intent.putExtra(ShareSinaHelpActivity.EXTRA_SHARE_DATA, mShareData);
-//                    mActivity.startActivity(intent);
-//                } else {
                 addSinaWeibo();
                 performShare(SHARE_MEDIA.SINA);
-//                }
                 break;
 
             case R.id.evernote:
