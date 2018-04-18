@@ -133,18 +133,12 @@ public class CodingCompatImp implements ClassCompatInterface {
 
     @Override
     public void closeNotify(Context context, String url) {
-        // TODO: 2017/11/9  
-//        CodingMyPushReceiver.closeNotify(context, url);
+        // 企业版还是用的信鸽 push，只能先保留
     }
 
     @Override
     public void closePushReceiverActivity(Activity context, String url) {
-        // TODO: 2017/11/9  
-//        Intent resultIntent = new Intent(CodingMyPushReceiver.PushClickBroadcast);
-//        resultIntent.setPackage(context.getPackageName());
-//        resultIntent.putExtra("data", url);
-//        context.sendBroadcast(resultIntent);
-//        context.finish();
+        // 企业版还是用的信鸽 push，只能先保留
     }
 
     @Override
