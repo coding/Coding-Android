@@ -30,6 +30,7 @@
     <color name="font_dynamic_content_comment">#002000</color>
 
     <color name="select_1">#FF136BFB</color>
+    <!--链接颜色-->
     <color name="select_2">#FF2D59A2</color>
 
     <color name="font_count">#FF4F565F</color>
