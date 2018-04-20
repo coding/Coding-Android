@@ -61,6 +61,8 @@ android {
             versionCode 520
             versionName "5.2"
             targetSdkVersion 23
+
+            testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         }
         enterprise {
             dimension "mode"
@@ -255,6 +257,12 @@ dependencies {
     implementation project(':share-coding')
 
     implementation project(':git-code-coding')
+
+    // 测试框架
+    androidTestCompile "com.android.support:support-annotations:$supportVersion"
+    androidTestCompile "com.android.support.test:runner:$runnerVersion"
+    androidTestCompile "com.android.support.test:rules:$rulesVersion"
+    androidTestCompile "com.android.support.test.espresso:espresso-core:$espressoVersion"
 }
 
 // 新功能提示，使用弹出框的样式 start ----------------------------------------------------------------
