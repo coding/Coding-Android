@@ -24,7 +24,7 @@ object CodingPush {
 
     fun initApplication(context: Context, clickPushAction: CommonPushClick) {
         this.clickPush = clickPushAction
-        if (Rom.isEmui) {
+        if (Rom.isEmui()) {
             Log.d(PushAction.TAG, "use huawei push")
             HuaweiPush.initApplication(clickPushAction)
         } else {  // default device use xiaomi push
@@ -37,26 +37,26 @@ object CodingPush {
     }
 
     fun onCreate(context: Activity, gk: String) {
-        if (Rom.isEmui) {
+        if (Rom.isEmui()) {
             HuaweiPush.onCreate(context, gk)
         }
     }
 
     fun onDestroy() {
-        if (Rom.isEmui) {
+        if (Rom.isEmui()) {
             HuaweiPush.onDestroy()
         }
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
-        return if (Rom.isEmui) {
+        return if (Rom.isEmui()) {
             HuaweiPush.onActivityResult(requestCode, resultCode, data)
         } else false
 
     }
 
     fun bindGK(context: Context, gk: String) {
-        if (Rom.isEmui) {
+        if (Rom.isEmui()) {
             HuaweiPush.requestToken()
         } else {
             pushAction?.bindGK(context, gk)
@@ -64,7 +64,7 @@ object CodingPush {
     }
 
     fun unbindGK(context: Context, gk: String) {
-        if (Rom.isEmui) {
+        if (Rom.isEmui()) {
             HuaweiPush.deleteToken()
         } else {
             pushAction?.unbindGK(context, gk)
