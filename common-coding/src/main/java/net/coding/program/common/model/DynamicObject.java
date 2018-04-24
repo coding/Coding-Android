@@ -94,6 +94,88 @@ public class DynamicObject {
         }
     }
 
+    public static class BranchMember extends DynamicBaseObject implements Serializable {
+
+        private static final long serialVersionUID = -4826429913816541264L;
+
+        Owner targetUser = new Owner();
+        String refPath;
+        String refName;
+
+        public BranchMember(JSONObject json) throws JSONException {
+            super(json);
+            if (json.has("target_user")) {
+                targetUser = new Owner(json.optJSONObject("target_user"));
+            }
+            refPath = json.optString("ref_path", "");
+            refName = json.optString("ref_name", "");
+        }
+
+        @Override
+        public Spanned title() {
+            if (action.equals("deny_push") || action.equals("allow_push")) {
+                final String format = "%s %s %s 直接 Push 保护分支";
+                String title = String.format(format, user.getHtml(), action_msg, targetUser.getHtml());
+                return GlobalCommon.changeHyperlinkColor(title);
+
+            } else if (action.equals("remove") || action.equals("add")) {
+                final String format = "%s %s 分支管理员";
+                String title = String.format(format, user.getHtml(), action_msg);
+                return GlobalCommon.changeHyperlinkColor(title);
+            }
+
+            return super.title();
+        }
+
+        @Override
+        public Spanned content(MyImageGetter imageGetter) {
+            if (action.equals("deny_push") || action.equals("allow_push")) {
+//                final String format = "%s %s %s 直接 Push 保护分支";
+//                String title = String.format(format, user.getHtml(), action_msg, targetUser.getHtml());
+//                return GlobalCommon.changeHyperlinkColor(title);
+                return new SpannableString(refName);
+            } else if (action.equals("remove") || action.equals("add")) {
+                return GlobalCommon.changeHyperlinkColor(targetUser.getHtml(), BLACK_COLOR, imageGetter);
+            }
+            return super.content(imageGetter);
+        }
+
+        @Override
+        public String jump() {
+            if (action.equals("deny_push") || action.equals("allow_push")) {
+                return makeJump(refPath);
+            } else if (action.equals("remove") || action.equals("add")) {
+                return makeJump(targetUser.path);
+            }
+
+            return super.jump();
+        }
+    }
+
+    public static class ProtectedBranch extends DynamicBaseObject implements Serializable {
+
+        String refName = "";
+        String refPath = "";
+
+        private static final long serialVersionUID = -8930401317426589369L;
+
+        public ProtectedBranch(JSONObject json) throws JSONException {
+            super(json);
+            refPath = json.optString("ref_path", "");
+            refName = json.optString("ref_name", "");
+        }
+
+        @Override
+        public Spanned content(MyImageGetter imageGetter) {
+            return new SpannableString(refName);
+        }
+
+        @Override
+        public String jump() {
+            return Global.HOST + refPath;
+        }
+    }
+
     public static class Wiki extends DynamicBaseObject implements Serializable {
 
         private static final long serialVersionUID = -3237817303362954197L;

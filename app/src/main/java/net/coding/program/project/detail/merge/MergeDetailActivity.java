@@ -237,7 +237,6 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
             getNetwork(mMerge.getHttpDetail(), HOST_MERGE_DETAIL);
             httpReviewers = mMerge.getHttpReviewers();
         } else {
-            showDialogLoading();
             String baseGit = URLSpanNoUnderline.generateAbsolute(mMergeUrl);
             getNetwork(baseGit + "/base", HOST_MERGE_DETAIL);
 //            httpReviewers = baseGit + "/reviewers";
@@ -559,7 +558,6 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                 showErrorMsg(code, respanse);
             }
         } else if (tag.equals(HOST_MERGE_DETAIL)) {
-            hideProgressDialog();
             if (code == 0) {
                 showContentView();
 
