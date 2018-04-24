@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
@@ -279,7 +280,7 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements LoadM
         public void afterGetView(int position, View convertView, ViewGroup parent, DateSectionDynamicAdapter.ViewHolder holder) {
             super.afterGetView(position, convertView, parent, holder);
             if (position < mProjectObject.unReadActivitiesCount) {
-                holder.timeLinePoint.getDelegate().setBackgroundColor(0xFFF75288);
+                holder.timeLinePoint.getDelegate().setBackgroundColor(CodingColor.fontGreen);
             } else {
                 holder.timeLinePoint.getDelegate().setBackgroundColor(0xFFD8DDE4);
             }
