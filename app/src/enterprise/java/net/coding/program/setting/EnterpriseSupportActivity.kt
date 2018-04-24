@@ -21,7 +21,7 @@ open class EnterpriseSupportActivity : BackActivity() {
 
     @Click
     fun itemEmail() {
-        composeEmail(this, arrayOf("codemart@coding.net"))
+        composeEmail(this, arrayOf("enterprise@coding.net"))
     }
 
     @Click

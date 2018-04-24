@@ -1,6 +1,9 @@
 package net.coding.program.setting;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.net.Uri;
 import android.widget.TextView;
 
 import net.coding.program.R;
@@ -48,4 +51,29 @@ public class AboutActivity extends BackActivity {
         WebActivity_.intent(this).url(Global.HOST).start();
     }
 
+    @Click
+    void qq() {
+        Global.copy(this, "617404718");
+        showButtomToast("QQ 群号已复制到剪贴板");
+    }
+
+    @Click
+    void email() {
+        sendEmails(this, new String[]{"support@coding.net"});
+    }
+
+    @Click
+    void wechat() {
+        Global.copy(this, "扣钉CODING");
+        showButtomToast("微信号已复制到剪贴板");
+    }
+
+    public static void sendEmails(Context context, String[] addresses) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
+    }
 }
