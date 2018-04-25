@@ -13,6 +13,7 @@ import net.coding.program.network.model.code.Release;
 import net.coding.program.network.model.common.AppVersion;
 import net.coding.program.network.model.file.CodingFile;
 import net.coding.program.network.model.file.UploadToken;
+import net.coding.program.network.model.task.Board;
 import net.coding.program.network.model.user.ManagerUser;
 import net.coding.program.network.model.user.MemberRole;
 import net.coding.program.network.model.wiki.Wiki;
@@ -286,8 +287,13 @@ public interface CodingRequest {
     // 获取单个 release
     @GET("user/{user}/project/{project}/git/releases/tag/{tagName}")
     Observable<HttpResult<Release>> getRelease(@Path("user") String user,
-                                             @Path("project") String project,
-                                             @Path("tagName") String tagName);
+                                               @Path("project") String project,
+                                               @Path("tagName") String tagName);
+
+    // 获取单个 release
+    @GET("user/{user}/project/{project}/tasks/board")
+    Observable<HttpResult<Board>> getTaskBoard(@Path("user") String user,
+                                               @Path("project") String project);
 
 }
 

@@ -162,6 +162,7 @@
     <string name="title_activity_member_authority_manual">成员权限说明</string>
     <string name="title_activity_release_detail">发布详情</string>
     <string name="title_activity_git_main">本地代码</string>
+    <string name="title_activity_board">任务看板</string>
     <string name="title_activity_edit_release_detail">编辑发布</string>
 
     <string name="hold_to_talk">按住说话</string>
