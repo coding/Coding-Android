@@ -7,10 +7,12 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import net.coding.program.R;
+import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.task.Board;
+import net.coding.program.network.model.task.BoardList;
 import net.coding.program.param.ProjectJumpParam;
 
 import org.androidannotations.annotations.AfterViews;
@@ -49,9 +51,9 @@ public class TaskBoardActivity extends BackActivity {
                     public void onSuccess(Board data) {
                         super.onSuccess(data);
                         board = data;
+                        conversionData();
 
                         bindUI();
-
                     }
 
                     @Override
@@ -61,10 +63,32 @@ public class TaskBoardActivity extends BackActivity {
                 });
     }
 
+    private void conversionData() {
+        board.boardLists.add(BoardList.obtainAddBoard());
+
+        if (board.boardLists.size() != 3 ||
+                !board.boardLists.get(0).isPending() ||
+                !board.boardLists.get(1).isFinished()) {
+            return;
+        }
+
+        if (AccountInfo.hideInitBoard(this, board.id)) {
+            return;
+        }
+
+        board.boardLists.add(1, BoardList.obtainWelcomeBoard());
+    }
+
     private void bindUI() {
         PagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
+                BoardList boardList = board.boardLists.get(position);
+                if (boardList.isWelcome()) {
+                    return new WelcomeBoardFragment_();
+                } else if (boardList.isAdd()) {
+                    return new AddBoardFragment_();
+                }
                 return new BoardFragment_();
             }
 
@@ -75,4 +99,5 @@ public class TaskBoardActivity extends BackActivity {
         };
         container.setAdapter(adapter);
     }
+
 }

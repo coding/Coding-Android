@@ -71,6 +71,9 @@ public class AccountInfo {
     // 每添加一个
     private static final String MARK_GUIDE_FEATURES = "MARK_GUIDE_500"; // 修改这个值就可以了
 
+    // 兼容网站的偷懒逻辑
+    private static final String HIDE_BOARD_IDS = "HIDE_BOARD_IDS"; // 是否显示初始化界面由本地保存 (⊙ˍ⊙)
+
     public static void loginOut(Context ctx) {
         File dir = ctx.getFilesDir();
         String[] fileNameList = dir.list();
@@ -511,6 +514,29 @@ public class AccountInfo {
 
     public static ArrayList<ProjectObject> loadTaskProjects(Context context) {
         return new DataCache<ProjectObject>().load(context, USER_TASK_PROJECTS);
+    }
+
+    public static void saveHideInitBoard(Context context, Integer boardId) {
+        ArrayList<Integer> ids = new DataCache<Integer>().load(context, HIDE_BOARD_IDS);
+        for (Integer item : ids) {
+            if (item.equals(boardId)) {
+                return;
+            }
+        }
+
+        ids.add(boardId);
+        new DataCache<Integer>().save(context, ids, HIDE_BOARD_IDS);
+    }
+
+    public static boolean hideInitBoard(Context context, Integer boardId) {
+        ArrayList<Integer> ids = new DataCache<Integer>().load(context, HIDE_BOARD_IDS);
+        for (Integer item : ids) {
+            if (item.equals(boardId)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static void saveTasks(Context context, ArrayList<TaskObject.SingleTask> data, int projectId, int userId) {
