@@ -52,6 +52,16 @@ public class TaskBoardActivity extends BackActivity {
         pagerAdapter.addItem(event.data);
     }
 
+    public BoardList getBoardList(int listId) {
+        for (BoardList item: board.boardLists) {
+            if (item.id == listId) {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
     public void jumpAddBoardList() {
         AddBoardListActivity_.intent(this)
                 .param(param)
@@ -148,7 +158,7 @@ public class TaskBoardActivity extends BackActivity {
 
         @Override
         public int getItemPosition(@NonNull Object object) {
-            return super.getItemPosition(object);
+            return POSITION_NONE;
         }
     }
 }

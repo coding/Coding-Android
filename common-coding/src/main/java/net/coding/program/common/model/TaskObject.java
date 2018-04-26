@@ -27,6 +27,9 @@ public class TaskObject {
     public static int STATUS_FINISH = 2;
 
     public static class TaskDescription implements Serializable {
+
+        private static final long serialVersionUID = -5806507607883184719L;
+
         public String description = "";
         public String markdown = "";
 
