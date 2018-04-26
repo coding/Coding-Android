@@ -14,6 +14,7 @@ import net.coding.program.network.model.common.AppVersion;
 import net.coding.program.network.model.file.CodingFile;
 import net.coding.program.network.model.file.UploadToken;
 import net.coding.program.network.model.task.Board;
+import net.coding.program.network.model.task.BoardList;
 import net.coding.program.network.model.user.ManagerUser;
 import net.coding.program.network.model.user.MemberRole;
 import net.coding.program.network.model.wiki.Wiki;
@@ -290,10 +291,19 @@ public interface CodingRequest {
                                                @Path("project") String project,
                                                @Path("tagName") String tagName);
 
-    // 获取单个 release
+    // 获取 board
     @GET("user/{user}/project/{project}/tasks/board")
     Observable<HttpResult<Board>> getTaskBoard(@Path("user") String user,
                                                @Path("project") String project);
+
+
+    // 创建 board
+    @FormUrlEncoded
+    @POST("user/{user}/project/{project}/tasks/board/{boardId}/list")
+    Observable<HttpResult<BoardList>> addTaskBoardList(@Path("user") String user,
+                                                       @Path("project") String project,
+                                                       @Path("boardId") int boardId,
+                                                       @Field("title") String title);
 
 }
 

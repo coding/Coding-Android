@@ -2,11 +2,10 @@ package net.coding.program.task.board;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import net.coding.program.R;
+import net.coding.program.common.event.EventAddBoardList;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.network.HttpObserver;
@@ -19,6 +18,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -33,6 +34,7 @@ public class TaskBoardActivity extends BackActivity {
     ViewPager container;
 
     Board board;
+    private FragmentPagerAdapter pagerAdapter;
 
     @AfterViews
     void initTaskBoardActivity() {
@@ -40,6 +42,22 @@ public class TaskBoardActivity extends BackActivity {
         onRefresh();
     }
 
+    @Override
+    protected boolean userEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventAdd(EventAddBoardList event) {
+        pagerAdapter.addItem(event.data);
+    }
+
+    public void jumpAddBoardList() {
+        AddBoardListActivity_.intent(this)
+                .param(param)
+                .boardId(board.id)
+                .start();
+    }
 
     private void onRefresh() {
         Network.getRetrofit(this)
@@ -80,24 +98,57 @@ public class TaskBoardActivity extends BackActivity {
     }
 
     private void bindUI() {
-        PagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                BoardList boardList = board.boardLists.get(position);
-                if (boardList.isWelcome()) {
-                    return new WelcomeBoardFragment_();
-                } else if (boardList.isAdd()) {
-                    return new AddBoardFragment_();
-                }
-                return new BoardFragment_();
-            }
-
-            @Override
-            public int getCount() {
-                return board.boardLists.size();
-            }
-        };
-        container.setAdapter(adapter);
+        pagerAdapter = new FragmentPagerAdapter();
+        container.setAdapter(pagerAdapter);
     }
 
+    private class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
+        private final int FRAGMENT_ADD = 1000;
+        private final int FRAGMENT_WELCOME = 1001;
+
+        public FragmentPagerAdapter() {
+            super(TaskBoardActivity.this.getSupportFragmentManager());
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            long itemId = getItemId(position);
+            if (itemId == FRAGMENT_WELCOME) {
+                return new WelcomeBoardFragment_();
+            } else if (itemId == FRAGMENT_ADD) {
+                return new AddBoardListFragment_();
+            }
+//            BoardList boardList = board.boardLists.get(position);
+            return new BoardFragment_();
+        }
+
+        @Override
+        public int getCount() {
+            return board.boardLists.size();
+        }
+
+        public void addItem(BoardList data) {
+            int insertPos = board.boardLists.size() - 1;
+            board.boardLists.add(insertPos, data);
+            if (board.boardLists.get(1).isWelcome()) {
+                board.boardLists.remove(1);
+            }
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public long getItemId(int position) {
+            if (position == getCount() - 1) {
+                return FRAGMENT_ADD;
+            } else if (position == 1 && board.boardLists.get(1).isWelcome()) {
+                return FRAGMENT_WELCOME;
+            }
+            return super.getItemId(position);
+        }
+
+        @Override
+        public int getItemPosition(@NonNull Object object) {
+            return super.getItemPosition(object);
+        }
+    }
 }

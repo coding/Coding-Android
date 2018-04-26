@@ -843,6 +843,9 @@
             </intent-filter>
 
         </activity>
+        <activity android:name=".task.board.AddBoardListActivity_"
+            android:label="@string/title_activity_add_board"
+            android:screenOrientation="portrait"  />
     </application>
 
 </manifest>

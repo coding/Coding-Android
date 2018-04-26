@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_enterprise_name"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    android:orientation="vertical">
+
+    <include layout="@layout/divide_top_15" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:ems="10"
+            android:hint="请输入列表名称"
+            android:inputType="text"
+            android:textColor="@color/font_2"
+            android:textColorHint="#38000000"
+            android:textSize="16sp" />
+    </FrameLayout>
+
+    <include layout="@layout/divide_bottom_15" />
+
+</LinearLayout>

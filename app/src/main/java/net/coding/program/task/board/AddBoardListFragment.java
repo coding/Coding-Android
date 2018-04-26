@@ -7,12 +7,10 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 
 @EFragment(R.layout.fragment_add_board)
-public class AddBoardFragment extends BaseFragment {
-
+public class AddBoardListFragment extends BaseFragment {
 
     @Click
     void addTaskList() {
-        showButtomToast("创建任务列表");
+        ((TaskBoardActivity) getActivity()).jumpAddBoardList();
     }
-
 }
