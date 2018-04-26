@@ -1,7 +1,7 @@
 package net.coding.program.common;
 
 import net.coding.program.common.model.Maopao;
-import net.coding.program.common.model.TaskObject;
+import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.model.TopicObject;
 
 import java.util.HashMap;
@@ -77,8 +77,8 @@ public class CommentBackup {
                 }
                 return new BackupParam(Type.Topic, parentId, topicObject.owner_id);
 
-            } else if (object instanceof TaskObject.TaskComment) {
-                TaskObject.TaskComment comment = (TaskObject.TaskComment) object;
+            } else if (object instanceof SingleTask.TaskComment) {
+                SingleTask.TaskComment comment = (SingleTask.TaskComment) object;
                 return new BackupParam(Type.Task, comment.taskId, comment.owner_id);
             } else if (object instanceof BackupParam) {
                 return (BackupParam) object;

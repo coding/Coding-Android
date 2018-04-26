@@ -10,7 +10,7 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.model.RequestData;
-import net.coding.program.common.model.TaskObject;
+import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.model.topic.TopicData;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
@@ -45,7 +45,7 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, E
     @ViewById(R.id.blankLayout)
     View blankLayout;
 
-    TaskObject.TaskDescription descriptionData = new TaskObject.TaskDescription();
+    SingleTask.TaskDescription descriptionData = new SingleTask.TaskDescription();
 
     String HOST_DESCRIPTION = Global.HOST_API + "/task/%s/description";
 

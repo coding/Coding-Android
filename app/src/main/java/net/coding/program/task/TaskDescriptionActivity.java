@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.model.TaskObject;
+import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.model.topic.TopicData;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.project.detail.EditPreviewMarkdown;
@@ -21,7 +21,7 @@ import org.json.JSONObject;
 public class TaskDescriptionActivity extends BackActivity implements TaskDescrip, EditPreviewMarkdown {
 
     @Extra
-    TaskObject.TaskDescription descriptionData;
+    SingleTask.TaskDescription descriptionData;
 
     @Extra
     int taskId;

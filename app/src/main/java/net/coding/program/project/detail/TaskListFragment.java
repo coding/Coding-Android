@@ -25,7 +25,7 @@ import net.coding.program.common.event.EventFilterDetail;
 import net.coding.program.common.event.EventRefreshTask;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.ProjectObject;
-import net.coding.program.common.model.TaskObject;
+import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.network.RefreshBaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.BlankViewHelp;
@@ -106,7 +106,7 @@ public class TaskListFragment extends RefreshBaseFragment {
     @StringArrayRes
     String[] task_titles;
 
-    ArrayList<TaskObject.SingleTask> mData = new ArrayList<>();
+    ArrayList<SingleTask> mData = new ArrayList<>();
     int mSectionId;
     int mTaskCount[] = new int[2];
     boolean mUpdateAll = true;
@@ -133,7 +133,7 @@ public class TaskListFragment extends RefreshBaseFragment {
     @OptionsItem
     public void action_add() {
         Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
-        TaskObject.SingleTask task = new TaskObject.SingleTask();
+        SingleTask task = new SingleTask();
         task.project = mProjectObject;
         task.project_id = mProjectObject.getId();
         task.owner = AccountInfo.loadAccount(getActivity());
@@ -236,7 +236,7 @@ public class TaskListFragment extends RefreshBaseFragment {
         updateFootStyle();
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            TaskObject.SingleTask singleTask = (TaskObject.SingleTask) mAdapter.getItem(position);
+            SingleTask singleTask = (SingleTask) mAdapter.getItem(position);
 
             TaskAddActivity_.intent(getParentFragment())
                     .mSingleTask(singleTask)
@@ -319,7 +319,7 @@ public class TaskListFragment extends RefreshBaseFragment {
                     JSONArray array = jsonData.optJSONArray("list");
                     if (array != null) {
                         for (int i = 0; i < array.length(); ++i) {
-                            TaskObject.SingleTask task = new TaskObject.SingleTask(array.getJSONObject(i));
+                            SingleTask task = new SingleTask(array.getJSONObject(i));
                             mData.add(task);
                         }
                     }
@@ -379,7 +379,7 @@ public class TaskListFragment extends RefreshBaseFragment {
                 umengEvent(UmengEvent.E_TASK, "标记完成");
 
                 TaskParam param = (TaskParam) data;
-                TaskObject.SingleTask task = param.mTask;
+                SingleTask task = param.mTask;
                 task.status = param.mStatus;
 
             } else {
@@ -389,7 +389,7 @@ public class TaskListFragment extends RefreshBaseFragment {
     }
 
     void deleteTask(final int pos) {
-        TaskObject.SingleTask task = mData.get(pos);
+        SingleTask task = mData.get(pos);
         String url = String.format(hostTaskDelete, task.project.owner_user_name, task.project.name, task.getId());
         deleteNetwork(url, hostTaskDelete, pos, null);
     }
@@ -435,10 +435,10 @@ public class TaskListFragment extends RefreshBaseFragment {
     }
 
     static class TaskParam {
-        TaskObject.SingleTask mTask;
+        SingleTask mTask;
         int mStatus;
 
-        TaskParam(TaskObject.SingleTask mTask, int mStatus) {
+        TaskParam(SingleTask mTask, int mStatus) {
             this.mTask = mTask;
             this.mStatus = mStatus;
         }
@@ -453,8 +453,8 @@ public class TaskListFragment extends RefreshBaseFragment {
         @Override
         public void notifyDataSetChanged() {
             mSectionId = 0;
-            for (TaskObject.SingleTask item : mData) {
-                if (item.status == TaskObject.STATUS_PROGRESS) {
+            for (SingleTask item : mData) {
+                if (item.status == SingleTask.STATUS_PROGRESS) {
                     ++mSectionId;
                 } else {
                     break;
@@ -506,7 +506,7 @@ public class TaskListFragment extends RefreshBaseFragment {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            final TaskObject.SingleTask data = (TaskObject.SingleTask) getItem(position);
+            final SingleTask data = (SingleTask) getItem(position);
             holder.mTitle.setText("      " + data.content);
             holder.mTitle.setTextColor(data.isDone() ? CodingColor.font4 : CodingColor.font1);
 

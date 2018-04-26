@@ -25,7 +25,7 @@ import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.ProjectTaskCountModel;
 import net.coding.program.common.model.ProjectTaskUserCountModel;
-import net.coding.program.common.model.TaskObject;
+import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.model.TaskProjectCountModel;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.message.JSONUtils;
@@ -337,7 +337,7 @@ public class ProjectTaskFragment extends TaskFilterFragment {
         Member member = adapter.getItemData(pager.getCurrentItem());
 
 //        Intent intent = new Intent(getActivity(), TaskAddActivity_.class);
-        TaskObject.SingleTask task = new TaskObject.SingleTask();
+        SingleTask task = new SingleTask();
         task.project = mProjectObject;
         task.project_id = mProjectObject.getId();
         task.owner = AccountInfo.loadAccount(getActivity());

@@ -10,7 +10,7 @@ import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.LongClickLinkMovementMethod;
 import net.coding.program.common.model.Commit;
-import net.coding.program.common.model.TaskObject;
+import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.param.MessageParse;
 import net.coding.program.common.util.PhoneUtil;
 import net.coding.program.maopao.MaopaoListBaseFragment;
@@ -42,8 +42,8 @@ public class ContentAreaBase {
 
     public void setData(Object data) {
         String contentString = "";
-        if (data instanceof TaskObject.TaskComment) {
-            TaskObject.TaskComment comment = (TaskObject.TaskComment) data;
+        if (data instanceof SingleTask.TaskComment) {
+            SingleTask.TaskComment comment = (SingleTask.TaskComment) data;
             contentString = comment.content;
         } else if (data instanceof Commit) {
             Commit commit = (Commit) data;

@@ -42,7 +42,7 @@ import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.model.DynamicObject;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.RefResourceObject;
-import net.coding.program.common.model.TaskObject;
+import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.model.TopicLabelObject;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -113,7 +113,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
     protected View blankLayout;
     View listFooter;
     @Extra
-    TaskObject.SingleTask mSingleTask;
+    SingleTask mSingleTask;
     @Extra
     ProjectObject mProjectObject = new ProjectObject();
     @Extra
@@ -141,8 +141,8 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
     TextView description;
     ViewGroup descriptionLayout;
     TextView descriptionButton;
-    TaskObject.TaskDescription descriptionData = new TaskObject.TaskDescription();
-    TaskObject.TaskDescription descriptionDataNew = new TaskObject.TaskDescription();
+    SingleTask.TaskDescription descriptionData = new SingleTask.TaskDescription();
+    SingleTask.TaskDescription descriptionDataNew = new SingleTask.TaskDescription();
 
     TaskParams mNewParam;
     TaskParams mOldParam;
@@ -162,7 +162,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
     private View.OnClickListener mOnClickComment = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            final TaskObject.TaskComment comment = (TaskObject.TaskComment) v.getTag();
+            final SingleTask.TaskComment comment = (SingleTask.TaskComment) v.getTag();
             if (comment.isMy()) {
                 showDialog("任务", "删除评论？", (dialog, which) -> {
                     String url = String.format(hostDeleteComment, comment.taskId, comment.id);
@@ -237,7 +237,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
                     holder = (CommentHolder) convertView.getTag(R.id.layout);
                 }
 
-                TaskObject.TaskComment data = mData.get(position).getTaskComment();
+                SingleTask.TaskComment data = mData.get(position).getTaskComment();
                 holder.setContent(data);
 
                 holder.updateLine(position, count);
@@ -323,7 +323,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
         } else if (mJumpParams != null) { // 跳转过来的，要先取得任务数据
             requestTaskFromNetwork();
         } else {
-            mSingleTask = new TaskObject.SingleTask();
+            mSingleTask = new SingleTask();
 
             if (!mProjectObject.isEmpty()) {
                 mSingleTask.project = mProjectObject;
@@ -623,7 +623,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
 
     private void deleteTask() {
         showDialog("任务", "删除任务？", (dialog, which) -> {
-            TaskObject.SingleTask task = mSingleTask;
+            SingleTask task = mSingleTask;
             String url = String.format(TaskListFragment.getHostTaskDelete(), task.project.owner_user_name, task.project.name, task.getId());
             deleteNetwork(url, TaskListFragment.getHostTaskDelete());
             showProgressBar(true, "删除任务中...");
@@ -662,9 +662,9 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
         layoutPhase.setOnClickListener(v -> popListSelectDialog(mStatusAdapter,
                 (dialog, which) -> {
                     if (which == 0) {
-                        mNewParam.status = TaskObject.STATUS_PROGRESS; // "未完成"
+                        mNewParam.status = SingleTask.STATUS_PROGRESS; // "未完成"
                     } else {
-                        mNewParam.status = TaskObject.STATUS_FINISH;
+                        mNewParam.status = SingleTask.STATUS_FINISH;
                     }
 
                     setStatus();
@@ -687,7 +687,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
         layoutPriovity.setOnClickListener(v -> popListSelectDialog(
                 mPriorityAdapter,
                 (dialog, which) -> {
-                    mNewParam.priority = TaskObject.priorityDrawable.length - 1 - which;
+                    mNewParam.priority = SingleTask.priorityDrawable.length - 1 - which;
                     setPriority();
                     updateSendButton();
                 }));
@@ -917,8 +917,8 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
             showProgressBar(false);
             if (code == 0) {
                 if (mOldParam != null && mNewParam != null
-                        && mOldParam.status == TaskObject.STATUS_PROGRESS
-                        && mNewParam.status == TaskObject.STATUS_FINISH) {
+                        && mOldParam.status == SingleTask.STATUS_PROGRESS
+                        && mNewParam.status == SingleTask.STATUS_FINISH) {
                     umengEvent(UmengEvent.E_TASK, "标记完成");
                 } else {
                     umengEvent(UmengEvent.E_TASK, "修改任务");
@@ -938,7 +938,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
         } else if (tag.equals(tagTaskDetail)) {
             final View.OnClickListener onClickRetry = v -> requestTaskFromNetwork();
             if (code == 0) {
-                mSingleTask = new TaskObject.SingleTask(respanse.getJSONObject("data"));
+                mSingleTask = new SingleTask(respanse.getJSONObject("data"));
                 initData();
 
                 BlankViewDisplay.setBlank(1, this, true, blankLayout, onClickRetry);
@@ -960,8 +960,8 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
 
         } else if (tag.equals(HOST_DESCRIPTER)) {
             if (code == 0) {
-                descriptionData = new TaskObject.TaskDescription(respanse.getJSONObject("data"));
-                descriptionDataNew = new TaskObject.TaskDescription(descriptionData);
+                descriptionData = new SingleTask.TaskDescription(respanse.getJSONObject("data"));
+                descriptionDataNew = new SingleTask.TaskDescription(descriptionData);
                 setDescription();
 
                 descriptionButtonUpdate(false);
@@ -1219,8 +1219,8 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
         }
 
         Object item = mEnterLayout.content.getTag();
-        if (item != null && (item instanceof TaskObject.TaskComment)) {
-            TaskObject.TaskComment comment = (TaskObject.TaskComment) item;
+        if (item != null && (item instanceof SingleTask.TaskComment)) {
+            SingleTask.TaskComment comment = (SingleTask.TaskComment) item;
             s = Global.encodeInput(comment.owner.name, s);
         } else {
             s = Global.encodeInput("", s);

@@ -6,7 +6,7 @@ import android.widget.AbsListView;
 import net.coding.program.R;
 import net.coding.program.adapter.SearchReslutAdapter;
 import net.coding.program.common.Global;
-import net.coding.program.common.model.TaskObject;
+import net.coding.program.common.model.SingleTask;
 import net.coding.program.task.add.TaskAddActivity_;
 import net.coding.program.task.add.TaskJumpParams;
 
@@ -28,7 +28,7 @@ public class SearchTaskFragment extends SearchBaseFragment {
     private static final String TAG = SearchTaskFragment.class.getSimpleName();
     final String url = Global.HOST_API + "/esearch/all?q=%s";
     final String tmp = "&types=%s&pageSize=10";
-    ArrayList<TaskObject.SingleTask> mData = new ArrayList<>();
+    ArrayList<SingleTask> mData = new ArrayList<>();
     String page = "&page=%s";
     int pos = 1;
     SearchReslutAdapter adapter;
@@ -65,7 +65,7 @@ public class SearchTaskFragment extends SearchBaseFragment {
     }
 
     @ItemClick
-    final void listView(TaskObject.SingleTask itemData) {
+    final void listView(SingleTask itemData) {
         TaskJumpParams params = new TaskJumpParams(itemData.project.project_path, itemData.getId());
         TaskAddActivity_.intent(this).mJumpParams(params).start();
     }
@@ -116,7 +116,7 @@ public class SearchTaskFragment extends SearchBaseFragment {
                 JSONArray array = respanse.getJSONObject("data").getJSONObject("tasks").getJSONArray("list");
                 for (int i = 0; i < array.length(); ++i) {
                     JSONObject item = array.getJSONObject(i);
-                    TaskObject.SingleTask oneData = new TaskObject.SingleTask(item, true);
+                    SingleTask oneData = new SingleTask(item, true);
                     mData.add(oneData);
                 }
                 emptyView.setVisibility(mData.size() == 0 ? View.VISIBLE : View.GONE);

@@ -1097,7 +1097,7 @@ public class DynamicObject {
         Origin_task origin_task;
         Project project;
         Task task;
-        TaskObject.TaskComment taskComment;
+        SingleTask.TaskComment taskComment;
         Owner watcher;
 
         MergeRequestBaseDelegate mergeRequest;
@@ -1136,7 +1136,7 @@ public class DynamicObject {
             }
 
             if (json.has("taskComment")) {
-                taskComment = new TaskObject.TaskComment(json.optJSONObject("taskComment"));
+                taskComment = new SingleTask.TaskComment(json.optJSONObject("taskComment"));
                 taskComment.created_at = created_at;
                 if (task != null) {
                     taskComment.taskId = task.id;
@@ -1148,7 +1148,7 @@ public class DynamicObject {
             }
         }
 
-        public TaskObject.TaskComment getTaskComment() {
+        public SingleTask.TaskComment getTaskComment() {
             return taskComment;
         }
 

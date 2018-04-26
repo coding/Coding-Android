@@ -1,8 +1,9 @@
 package net.coding.program.network.model.task;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import net.coding.program.common.model.TaskObject;
+import net.coding.program.common.model.SingleTask;
 import net.coding.program.network.model.Pager;
 
 import java.io.Serializable;
@@ -60,7 +61,7 @@ public class BoardList implements Serializable {
     public long updatedAt;
     @SerializedName("tasks")
     @Expose
-    public Pager<TaskObject> tasks;
+    public Pager<SingleTask> tasks;
 
     public boolean isPending() {
         return type == PENDING;

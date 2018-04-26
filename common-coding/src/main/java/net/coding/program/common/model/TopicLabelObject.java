@@ -2,6 +2,9 @@ package net.coding.program.common.model;
 
 import android.graphics.Color;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import net.coding.program.common.CodingColor;
 
 import org.json.JSONException;
@@ -17,9 +20,17 @@ public class TopicLabelObject implements Serializable {
 
     private static final long serialVersionUID = 3388609672024998882L;
 
+    @SerializedName("id")
+    @Expose
     public int id;
+    @SerializedName("count")
+    @Expose
     public int count;
+    @SerializedName("name")
+    @Expose
     public String name;
+    @SerializedName("color")
+    @Expose
     public int color;
 
     public TopicLabelObject(JSONObject json) throws JSONException {

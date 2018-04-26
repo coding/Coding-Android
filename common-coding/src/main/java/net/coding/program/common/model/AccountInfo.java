@@ -357,14 +357,6 @@ public class AccountInfo {
         return "";
     }
 
-//    public static void saveProjectMembers(Context ctx, ArrayList<TaskObject.Members> data, int projectId) {
-//        new DataCache<TaskObject.Members>().save(ctx, data, PROJECT_MEMBER + projectId);
-//    }
-
-//    public static ArrayList<TaskObject.Members> loadProjectMembers(Context ctx, int projectId) {
-//        return new DataCache<TaskObject.Members>().load(ctx, PROJECT_MEMBER + projectId);
-//    }
-
     // input 为 "" 时，删除上次的输入
     public static void saveMessageDraft(Context ctx, String input, String globalkey) {
         if (input.isEmpty()) { //
@@ -539,12 +531,12 @@ public class AccountInfo {
         return false;
     }
 
-    public static void saveTasks(Context context, ArrayList<TaskObject.SingleTask> data, int projectId, int userId) {
-        new DataCache<TaskObject.SingleTask>().save(context, data, String.format(USER_TASKS, projectId, userId));
+    public static void saveTasks(Context context, ArrayList<SingleTask> data, int projectId, int userId) {
+        new DataCache<SingleTask>().save(context, data, String.format(USER_TASKS, projectId, userId));
     }
 
-    public static ArrayList<TaskObject.SingleTask> loadTasks(Context context, int projectId, int userId) {
-        return new DataCache<TaskObject.SingleTask>().load(context, String.format(USER_TASKS, projectId, userId));
+    public static ArrayList<SingleTask> loadTasks(Context context, int projectId, int userId) {
+        return new DataCache<SingleTask>().load(context, String.format(USER_TASKS, projectId, userId));
     }
 
     public static void saveNoSendMessage(Context context, MyMessage message) {

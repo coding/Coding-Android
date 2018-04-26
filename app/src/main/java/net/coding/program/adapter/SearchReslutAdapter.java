@@ -11,7 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.model.TaskObject;
+import net.coding.program.common.model.SingleTask;
 import net.coding.program.search.HoloUtils;
 
 import java.text.SimpleDateFormat;
@@ -21,12 +21,12 @@ import java.util.List;
  * Created by Vernon on 15/11/26.
  */
 public class SearchReslutAdapter extends BaseAdapter {
-    private List<TaskObject.SingleTask> mData;
+    private List<SingleTask> mData;
     private Context context;
     private String key;
 
 
-    public SearchReslutAdapter(List<TaskObject.SingleTask> mData, Context context, String key) {
+    public SearchReslutAdapter(List<SingleTask> mData, Context context, String key) {
         this.mData = mData;
         this.context = context;
         this.key = key;
@@ -65,7 +65,7 @@ public class SearchReslutAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        TaskObject.SingleTask bean = mData.get(position);
+        SingleTask bean = mData.get(position);
         HoloUtils.setHoloText(holder.nameTask, bean.content);
         holder.bottomName.setText(bean.creator.name);
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");

@@ -1,6 +1,6 @@
 package net.coding.program.task.add;
 
-import net.coding.program.common.model.TaskObject;
+import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.model.UserObject;
 
 /**
@@ -16,7 +16,7 @@ class TaskParams {
 
     UserObject owner;
 
-    public TaskParams(TaskObject.SingleTask singleTask) {
+    public TaskParams(SingleTask singleTask) {
         content = singleTask.content;
         status = singleTask.status;
         ownerId = singleTask.owner_id;
