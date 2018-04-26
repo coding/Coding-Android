@@ -1,6 +1,9 @@
 package net.coding.program.common.model;
 
+import android.graphics.PorterDuff;
 import android.text.Html;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -12,10 +15,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class SingleTask implements Serializable {
 
+    public static final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private static final long serialVersionUID = 1792599466384619184L;
 
     public static final int[] priorityDrawable = new int[]{
@@ -27,7 +33,17 @@ public class SingleTask implements Serializable {
     public static final int STATUS_PROGRESS = 1;
     public static final int STATUS_FINISH = 2;
 
-    @SerializedName("")
+    private static String mToday = "";
+    private static String mTomorrow = "";
+
+    // 日期要显示是否今天，在这里初始化一次
+    public static void initDate() {
+        Calendar calendar = Calendar.getInstance();
+        SingleTask.mToday = SingleTask.mDateFormat.format(calendar.getTimeInMillis());
+        SingleTask.mTomorrow = SingleTask.mDateFormat.format(calendar.getTimeInMillis() + 1000 * 60 * 60 * 24);
+    }
+
+    @SerializedName("content")
     @Expose
     public String content = "";
     @SerializedName("created_at")
@@ -173,6 +189,48 @@ public class SingleTask implements Serializable {
                 return;
             }
         }
+    }
+
+    public static void setDeadline(TextView textView, SingleTask data) {
+        if (data.deadline.isEmpty()) {
+            textView.setVisibility(View.GONE);
+        } else {
+            textView.setVisibility(View.VISIBLE);
+
+            final int[] taskColors = new int[]{
+                    0xFFF68435,
+                    0xFFA1CF64,
+                    0xFFF56061,
+                    0xFF59A2FF,
+                    0xFFA9B3BE
+            };
+
+            if (data.deadline.equals(SingleTask.mToday)) {
+                textView.setText("今天");
+                setDeadlineColor(textView, taskColors[0]);
+            } else if (data.deadline.equals(SingleTask.mTomorrow)) {
+                textView.setText("明天");
+                setDeadlineColor(textView, taskColors[1]);
+            } else {
+                if (data.deadline.compareTo(SingleTask.mToday) < 0) {
+                    setDeadlineColor(textView, taskColors[2]);
+                } else {
+                    setDeadlineColor(textView, taskColors[3]);
+                }
+                String num[] = data.deadline.split("-");
+                textView.setText(String.format("%s/%s", num[1], num[2]));
+            }
+
+            if (data.isDone()) {
+                setDeadlineColor(textView, taskColors[4]);
+            }
+        }
+
+    }
+
+    private static void setDeadlineColor(TextView mDeadline, int color) {
+        mDeadline.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        mDeadline.setTextColor(color);
     }
 
     public String getHttpRemoveLabal(int labelId) {

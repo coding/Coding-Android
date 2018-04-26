@@ -129,7 +129,7 @@ public class TaskBoardActivity extends BackActivity {
                 return new AddBoardListFragment_();
             }
 //            BoardList boardList = board.boardLists.get(position);
-            return new BoardFragment_();
+            return BoardFragment_.builder().boardListId(board.boardLists.get(position).id).build();
         }
 
         @Override

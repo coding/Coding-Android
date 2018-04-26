@@ -11,6 +11,7 @@
         android:layout_marginTop="15dp"
         android:id="@+id/boardListTitle"
         android:textColor="#FF717F8F"
+        android:layout_marginLeft="15dp"
         android:textSize="15sp"
         tools:text="待处理 · 5" />
 

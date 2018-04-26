@@ -2,7 +2,6 @@ package net.coding.program.project.detail;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,9 +47,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -59,7 +56,6 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public class TaskListFragment extends RefreshBaseFragment {
 
     public final String hostTaskDelete = getHostTaskDelete();
-    final SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     //统计，已完成，进行中数量
     final String urlTaskCountProject = Global.HOST_API + "/project/%d/task/user/count";
     final String urlTaskCountMy = Global.HOST_API + "/tasks/projects/count";
@@ -113,8 +109,6 @@ public class TaskListFragment extends RefreshBaseFragment {
     String urlAll = "";
     View.OnClickListener onClickRetry = v -> onRefresh();
     TestBaseAdapter mAdapter;
-    String mToday = "";
-    String mTomorrow = "";
 
     private View listFooter;
 
@@ -220,9 +214,7 @@ public class TaskListFragment extends RefreshBaseFragment {
     protected void initTaskListFragment() {
         initRefreshLayout();
 
-        Calendar calendar = Calendar.getInstance();
-        mToday = mDateFormat.format(calendar.getTimeInMillis());
-        mTomorrow = mDateFormat.format(calendar.getTimeInMillis() + 1000 * 60 * 60 * 24);
+        SingleTask.initDate();
 
         mAdapter = new TestBaseAdapter();
 
@@ -537,39 +529,8 @@ public class TaskListFragment extends RefreshBaseFragment {
                 holder.mLayoutDeadline.setVisibility(View.VISIBLE);
             }
 
-            int[] taskColors = new int[]{
-                    0xFFF68435,
-                    0xFFA1CF64,
-                    0xFFF56061,
-                    0xFF59A2FF,
-                    0xFFA9B3BE
-            };
 
-            if (data.deadline.isEmpty()) {
-                holder.mDeadline.setVisibility(View.GONE);
-            } else {
-                holder.mDeadline.setVisibility(View.VISIBLE);
-
-                if (data.deadline.equals(mToday)) {
-                    holder.mDeadline.setText("今天");
-                    holder.setDeadlineColor(taskColors[0]);
-                } else if (data.deadline.equals(mTomorrow)) {
-                    holder.mDeadline.setText("明天");
-                    holder.setDeadlineColor(taskColors[1]);
-                } else {
-                    if (data.deadline.compareTo(mToday) < 0) {
-                        holder.setDeadlineColor(taskColors[2]);
-                    } else {
-                        holder.setDeadlineColor(taskColors[3]);
-                    }
-                    String num[] = data.deadline.split("-");
-                    holder.mDeadline.setText(String.format("%s/%s", num[1], num[2]));
-                }
-
-                if (data.isDone()) {
-                    holder.setDeadlineColor(taskColors[4]);
-                }
-            }
+            SingleTask.setDeadline(holder.mDeadline, data);
 
             holder.mCheckBox.setOnCheckedChangeListener((buttonView, isChecked) ->
                     statusTask(pos, data.getId(), isChecked));
@@ -613,11 +574,6 @@ public class TaskListFragment extends RefreshBaseFragment {
             FlowLabelLayout flowLabelLayout;
             TextView mRefId;
             View bottomLine;
-
-            public void setDeadlineColor(int color) {
-                mDeadline.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                mDeadline.setTextColor(color);
-            }
-        }
+       }
     }
 }
