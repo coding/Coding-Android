@@ -1,11 +1,14 @@
 package net.coding.program.task.board;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -13,10 +16,13 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.flyco.roundview.RoundTextView;
 
 import net.coding.program.R;
+import net.coding.program.common.event.EventBoardFinish;
 import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.model.TopicLabelObject;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.ui.shadow.CodingRecyclerViewSpace;
+import net.coding.program.network.BaseHttpObserver;
+import net.coding.program.network.Network;
 import net.coding.program.network.PagerData;
 import net.coding.program.network.model.task.BoardList;
 import net.coding.program.project.detail.merge.CodingRecyclerLoadMoreView;
@@ -26,8 +32,14 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 @EFragment(R.layout.fragment_board_list)
 public class BoardFragment extends BaseFragment {
@@ -77,6 +89,16 @@ public class BoardFragment extends BaseFragment {
         codingSwipeLayout.setOnRefreshListener(this::onRefrush);
     }
 
+    @Override
+    protected boolean useEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventBoardFinish(EventBoardFinish event) {
+        onRefrush();
+    }
+
     public void onRefrush() {
 
     }
@@ -109,6 +131,61 @@ public class BoardFragment extends BaseFragment {
                     labelView.getDelegate().setBackgroundColor(label.getColor());
                 }
             }
+
+            CheckBox checkBox = helper.getView(R.id.checkbox);
+            checkBox.setOnCheckedChangeListener(null);
+            checkBox.setChecked(item.isDone());
+            if (!item.isDone()) {
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        Network.getRetrofit(mContext)
+                                .modifyTaskStatus(item.getId(),  2)   // 2 完成，1 未完成
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new BaseHttpObserver(mContext) {
+                                    @Override
+                                    public void onSuccess() {
+                                        super.onSuccess();
+                                        remove(helper.getAdapterPosition());
+                                        EventBus.getDefault().post(new EventBoardFinish());
+                                    }
+
+                                    @Override
+                                    public void onFail(int errorCode, @NonNull String error) {
+                                        super.onFail(errorCode, error);
+                                    }
+                                });
+                    }
+                });
+            } else {
+                // 已完成列表
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        Network.getRetrofit(mContext)
+                                .modifyTaskStatus(item.getId(),  1)   // 2 完成，1 未完成
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new BaseHttpObserver(mContext) {
+                                    @Override
+                                    public void onSuccess() {
+                                        super.onSuccess();
+                                        remove(helper.getAdapterPosition());
+                                    }
+
+                                    @Override
+                                    public void onFail(int errorCode, @NonNull String error) {
+                                        super.onFail(errorCode, error);
+                                    }
+                                });
+                    }
+                });
+            }
+        }
+
+        private void modifyTask(SingleTask task, boolean done) {
+
         }
     }
 

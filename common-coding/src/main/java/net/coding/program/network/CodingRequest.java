@@ -305,6 +305,13 @@ public interface CodingRequest {
                                                        @Path("boardId") int boardId,
                                                        @Field("title") String title);
 
+    // 修改任务完成状态
+    @FormUrlEncoded
+    @PUT("task/{id}/status")
+    Observable<BaseHttpResult> modifyTaskStatus(@Path("id") int id,
+                                                @Field("status") int status);
+
+
 }
 
 
