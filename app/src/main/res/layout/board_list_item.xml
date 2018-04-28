@@ -61,8 +61,8 @@
             android:layout_width="0dp"
             android:layout_height="10dp" />
 
-        <LinearLayout
-            android:id="@+id/tagLayout"
+        <net.coding.program.common.widget.BoardLabelLayout
+            android:id="@+id/labelLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" />

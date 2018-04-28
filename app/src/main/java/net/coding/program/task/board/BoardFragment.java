@@ -7,7 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -15,16 +14,17 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.flyco.roundview.RoundTextView;
 
 import net.coding.program.R;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.event.EventBoardRefresh;
 import net.coding.program.common.event.EventBoardRefreshRequest;
 import net.coding.program.common.event.EventBoardUpdate;
 import net.coding.program.common.model.SingleTask;
-import net.coding.program.common.model.TopicLabelObject;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.ui.shadow.TaskBoardItemSpace;
+import net.coding.program.common.widget.BoardLabelLayout;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.Pager;
@@ -218,8 +218,11 @@ public class BoardFragment extends BaseFragment {
 
     static class LoadMoreAdapter extends BaseQuickAdapter<SingleTask, BaseViewHolder> {
 
+        private final int labelLayoutWidth;
+
         public LoadMoreAdapter(@Nullable List<SingleTask> data) {
             super(R.layout.board_list_item, data);
+            labelLayoutWidth = GlobalData.sWidthPix - GlobalCommon.dpToPx(15 + 62 + 15 + 15);
         }
 
         @Override
@@ -229,16 +232,12 @@ public class BoardFragment extends BaseFragment {
             TextView deadline = helper.getView(R.id.deadline);
             SingleTask.setBoardDeadline(deadline, item);
 
-            ViewGroup tagLayout = helper.getView(R.id.tagLayout);
+            BoardLabelLayout labelLayout = helper.getView(R.id.labelLayout);
             if (item.labels == null || item.labels.isEmpty()) {
-                tagLayout.setVisibility(View.GONE);
+                labelLayout.setVisibility(View.GONE);
             } else {
-                tagLayout.setVisibility(View.VISIBLE);
-                tagLayout.removeAllViews();
-                for (TopicLabelObject label : item.labels) {
-                    RoundTextView labelView = (RoundTextView) mLayoutInflater.inflate(R.layout.board_list_item_tag, tagLayout, false);
-                    labelView.getDelegate().setBackgroundColor(label.getColorValue());
-                }
+                labelLayout.setVisibility(View.VISIBLE);
+                labelLayout.setLabels(item.labels, labelLayoutWidth);
             }
 
             CheckBox checkBox = helper.getView(R.id.checkbox);
