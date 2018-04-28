@@ -7,9 +7,21 @@ import net.coding.program.R;
 
 public final class CodingRecyclerLoadMoreView extends LoadMoreView {
 
+    boolean showShadow = true;
+
+    public CodingRecyclerLoadMoreView() {
+        this(true);
+    }
+
+    public CodingRecyclerLoadMoreView(boolean showShadow) {
+        this.showShadow = showShadow;
+    }
+
     @Override
     public int getLayoutId() {
-        return R.layout.view_load_more;
+        return showShadow ?
+                R.layout.view_load_more :
+                R.layout.view_load_more_no_shadow;
     }
 
     @Override

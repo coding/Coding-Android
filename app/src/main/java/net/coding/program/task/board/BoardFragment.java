@@ -22,7 +22,7 @@ import net.coding.program.common.event.EventBoardUpdate;
 import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.model.TopicLabelObject;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.common.ui.shadow.CodingRecyclerViewSpace;
+import net.coding.program.common.ui.shadow.TaskBoardItemSpace;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.Pager;
@@ -77,7 +77,7 @@ public class BoardFragment extends BaseFragment {
         codingSwipeLayout.setOnRefreshListener(this::onRefrush);
 
         codingAdapter = new LoadMoreAdapter(listData.list);
-        codingAdapter.setLoadMoreView(new CodingRecyclerLoadMoreView());
+        codingAdapter.setLoadMoreView(new CodingRecyclerLoadMoreView(false));
         codingAdapter.setOnLoadMoreListener(() -> requestPage(), codingRecyclerView);
         codingAdapter.setOnItemClickListener((adapter, view, position) -> {
             SingleTask task = (SingleTask) adapter.getItem(position);
@@ -89,7 +89,7 @@ public class BoardFragment extends BaseFragment {
         codingAdapter.setOnLoadMoreListener(() -> loadMore(), codingRecyclerView);
 
         codingRecyclerView.setAdapter(codingAdapter);
-        codingRecyclerView.addItemDecoration(new CodingRecyclerViewSpace(getActivity()));
+        codingRecyclerView.addItemDecoration(new TaskBoardItemSpace(getActivity()));
         codingSwipeLayout.setOnRefreshListener(this::onRefrush);
 
         codingAdapter.setEnableLoadMore(true);
