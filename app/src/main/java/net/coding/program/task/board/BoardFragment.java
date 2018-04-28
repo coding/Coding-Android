@@ -1,5 +1,6 @@
 package net.coding.program.task.board;
 
+import android.app.AlertDialog;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -31,6 +33,7 @@ import net.coding.program.project.detail.merge.CodingRecyclerLoadMoreView;
 import net.coding.program.task.add.TaskAddActivity_;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
@@ -60,6 +63,9 @@ public class BoardFragment extends BaseFragment {
     @ViewById
     TextView boardListTitle;
 
+    @ViewById
+            View modifyList;
+
     BoardList boardList;
 
     Pager<SingleTask> listData;
@@ -68,6 +74,12 @@ public class BoardFragment extends BaseFragment {
     void initBoardFragment() {
         boardList = ((TaskBoardActivity) getActivity()).getBoardList(boardListId);
         listData = boardList.tasks;
+
+        if (boardList.isPending() || boardList.isFinished()) {
+            modifyList.setVisibility(View.GONE);
+        } else {
+            modifyList.setVisibility(View.VISIBLE);
+        }
 
         boardListTitle.setText(boardList.title);
 
@@ -94,6 +106,60 @@ public class BoardFragment extends BaseFragment {
 
         codingAdapter.setEnableLoadMore(true);
         updateLoadMoreUI();
+    }
+
+    @Click
+    void modifyList() {
+        new AlertDialog.Builder(getActivity())
+                .setItems(R.array.modify_board_list, ((dialog, which) -> {
+                    if (which == 1) {
+                        popDeleteDialog();
+                    } else {
+                        popModifyNameDialog();
+                    }
+                }))
+                .show();
+    }
+
+    private void popDeleteDialog() {
+        if (!listData.list.isEmpty()) {
+            showButtomToast("请先清空此列表上的任务，然后再删除这个列表。");
+            return;
+        }
+
+        showDialog("你确定永远删除这个列表吗？",
+                (dialog, which) ->
+                        ((TaskBoardActivity) getActivity()).delteTaskList(boardListId));
+    }
+
+    private void popModifyNameDialog() {
+        View v1 = getLayoutInflater().inflate(R.layout.dialog_input, null);
+        final EditText input = v1.findViewById(R.id.value);
+        input.setText(boardList.title);
+        new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
+                .setTitle("重命名")
+                .setView(v1)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    String newName = input.getText().toString();
+                        if (newName.isEmpty()) {
+                            showButtomToast("名字不能为空");
+                        } else {
+                            if (!newName.equals(boardList.title)) {
+                                ((TaskBoardActivity) getActivity())
+                                        .renameTaskList(boardListId,
+                                                newName,
+                                                BoardFragment.this);
+                            }
+                        }
+                })
+                .setNegativeButton("取消", null)
+                .show();
+
+        input.requestFocus();
+    }
+
+    public void renameTitle(String title) {
+        boardListTitle.setText(title);
     }
 
     private void updateLoadMoreUI() {

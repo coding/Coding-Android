@@ -11,6 +11,7 @@ import net.coding.program.common.event.EventBoardRefreshRequest;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.Pager;
@@ -85,7 +86,7 @@ public class TaskBoardActivity extends BackActivity {
     }
 
     public BoardList getBoardList(int listId) {
-        for (BoardList item: board.boardLists) {
+        for (BoardList item : board.boardLists) {
             if (item.id == listId) {
                 return item;
             }
@@ -99,6 +100,51 @@ public class TaskBoardActivity extends BackActivity {
                 .param(param)
                 .boardId(board.id)
                 .start();
+    }
+
+    public void renameTaskList(int listId, String title, BoardFragment fragment) {
+         Network.getRetrofit(this)
+                .renameTaskBoardList(param.user, param.project, board.id, listId, title)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseHttpObserver(this) {
+                    @Override
+                    public void onSuccess() {
+                        super.onSuccess();
+
+                        for (BoardList item : board.boardLists) {
+                            if (item.id == listId) {
+                                item.title = title;
+                                break;
+                            }
+                        }
+
+                        fragment.renameTitle(title);
+
+                    }
+                });
+    }
+
+    public void delteTaskList(int listId) {
+        Network.getRetrofit(this)
+                .deleteTaskBoardList(param.user, param.project, board.id, listId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseHttpObserver(this) {
+                    @Override
+                    public void onSuccess() {
+                        super.onSuccess();
+
+                        for (BoardList item : board.boardLists) {
+                            if (item.id == listId) {
+                                board.boardLists.remove(item);
+                                pagerAdapter.notifyDataSetChanged();
+                                break;
+                            }
+                        }
+
+                    }
+                });
     }
 
     private void onRefresh() {

@@ -321,6 +321,21 @@ public interface CodingRequest {
                                                                @Path("listId") int listId,
                                                                @Query("page") int page,
                                                                @Query("pageSize") int pageSize);
+    // 删除 boardlist
+    @DELETE("user/{user}/project/{project}/tasks/board/{boardId}/list/{listId}")
+    Observable<BaseHttpResult> deleteTaskBoardList(@Path("user") String user,
+                                                               @Path("project") String project,
+                                                               @Path("boardId") int boardId,
+                                                               @Path("listId") int listId);
+    // 重命名 boardlist
+    @FormUrlEncoded
+    @PUT("user/{user}/project/{project}/tasks/board/{boardId}/list/{listId}")
+    Observable<BaseHttpResult> renameTaskBoardList(@Path("user") String user,
+                                                   @Path("project") String project,
+                                                   @Path("boardId") int boardId,
+                                                   @Path("listId") int listId,
+                                                   @Field("title") String title);
+
 }
 
 

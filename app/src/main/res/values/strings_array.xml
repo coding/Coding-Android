@@ -274,6 +274,12 @@
         <item>扫描二维码</item>
         <item>手动添加帐号</item>
     </string-array>
+
+
+    <string-array name="modify_board_list">
+        <item>重命名</item>
+        <item>删除</item>
+    </string-array>
     <!--<string-array name="commnet_my">-->
     <!--<item>复制</item>-->
     <!--<item>回复</item>-->

@@ -681,7 +681,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
                 .setPositiveButton("确定", (dialog, which) -> {
                     String newName = input.getText().toString();
                     //从网页版扒来的正则
-                    if (newName.equals("")) {
+                    if (newName.isEmpty()) {
                         showButtomToast("名字不能为空");
                     } else {
                         if (!newName.equals(folderObject.name)) {
