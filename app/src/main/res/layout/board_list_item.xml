@@ -33,6 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="61dp"
+        tools:visibility="visible"
         android:orientation="vertical"
         android:paddingTop="10dp">
 
@@ -64,6 +65,7 @@
         <net.coding.program.common.widget.BoardLabelLayout
             android:id="@+id/labelLayout"
             android:layout_width="match_parent"
+            tools:visibility="visible"
             android:layout_height="wrap_content"
             android:orientation="horizontal" />
     </LinearLayout>

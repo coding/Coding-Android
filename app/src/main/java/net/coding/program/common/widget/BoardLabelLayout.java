@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import com.flyco.roundview.RoundTextView;
 
 import net.coding.program.R;
-import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.model.TopicLabelObject;
 
 import org.apmem.tools.layouts.FlowLayout;
@@ -35,26 +34,12 @@ public class BoardLabelLayout extends FlowLayout {
     }
 
     private void setLabelViews(List<TopicLabelObject> list, int flowWidth) {
-        setVisibility(VISIBLE);
         removeAllViews();
-
-        int realWidth = 0;
-
-        float endWidth = 0;
         for (TopicLabelObject item : list) {
-            float itemWidth = GlobalCommon.dpToPx(30 + 5);
-            if (realWidth + itemWidth + endWidth < flowWidth) {
-                realWidth += itemWidth;
-                RoundTextView label = (RoundTextView) LayoutInflater.from(getContext()).inflate(R.layout.board_list_item_tag, this, false);
-                label.setText(item.name);
-                label.getDelegate().setBackgroundColor(item.getColorValue());
-                addView(label);
-            } else {
-
-//                View end = LayoutInflater.from(getContext()).inflate(R.layout.project_topic_list_item_label_more, this, false);
-//                addView(end);
-                break;
-            }
+            RoundTextView label = (RoundTextView) LayoutInflater.from(getContext()).inflate(R.layout.board_list_item_tag, this, false);
+            label.setText(item.name);
+            label.getDelegate().setBackgroundColor(item.getColorValue());
+            addView(label);
         }
     }
 }
