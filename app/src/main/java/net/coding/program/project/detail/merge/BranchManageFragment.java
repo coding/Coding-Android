@@ -20,6 +20,7 @@ import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.ui.shadow.CodingRecyclerViewSpace;
 import net.coding.program.network.BaseHttpObserver;
@@ -224,6 +225,7 @@ public class BranchManageFragment extends BaseFragment {
 
         public LoadMoreAdapter(@Nullable List<Branch> data) {
             super(R.layout.branch_list_item, data);
+            SingleTask.initDate();
         }
 
         @Override

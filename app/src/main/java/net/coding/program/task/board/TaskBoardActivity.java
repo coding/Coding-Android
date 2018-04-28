@@ -6,10 +6,14 @@ import android.support.v4.view.ViewPager;
 
 import net.coding.program.R;
 import net.coding.program.common.event.EventAddBoardList;
+import net.coding.program.common.event.EventBoardRefresh;
+import net.coding.program.common.event.EventBoardRefreshRequest;
 import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
+import net.coding.program.network.model.Pager;
 import net.coding.program.network.model.task.Board;
 import net.coding.program.network.model.task.BoardList;
 import net.coding.program.param.ProjectJumpParam;
@@ -18,6 +22,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -38,7 +43,8 @@ public class TaskBoardActivity extends BackActivity {
 
     @AfterViews
     void initTaskBoardActivity() {
-        param = new ProjectJumpParam("/user/1984/project/ccc");
+//        param = new ProjectJumpParam("/user/1984/project/ccc");
+        param = new ProjectJumpParam("/user/ease/project/CodingTest");
         onRefresh();
     }
 
@@ -50,6 +56,32 @@ public class TaskBoardActivity extends BackActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventAdd(EventAddBoardList event) {
         pagerAdapter.addItem(event.data);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventTaskListRequest(EventBoardRefreshRequest event) {
+        Network.getRetrofit(this)
+                .getTaskBoardList(param.user, param.project, board.id, event.listId, event.page, 10)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpObserver<Pager<SingleTask>>(this) {
+                    @Override
+                    public void onSuccess(Pager<SingleTask> data) {
+                        super.onSuccess(data);
+                        for (BoardList item : board.boardLists) {
+                            if (item.id == event.listId) {
+                                item.tasks.add(data);
+                            }
+                        }
+                        EventBus.getDefault().post(new EventBoardRefresh(event.listId, event.page, true));
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, @NonNull String error) {
+                        super.onFail(errorCode, error);
+                        EventBus.getDefault().post(new EventBoardRefresh(event.listId, event.page, false));
+                    }
+                });
     }
 
     public BoardList getBoardList(int listId) {

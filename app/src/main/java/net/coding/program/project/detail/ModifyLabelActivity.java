@@ -44,7 +44,7 @@ public class ModifyLabelActivity extends BackActivity {
 
     @AfterViews
     final void initModifyLabelActivity() {
-        labelObject.color = 0xFF000000 | labelObject.color;
+        labelObject.setColorValue(0xFF000000 | labelObject.getColorValue());
         editText.setText(labelObject.name);
         editText.setSelection(labelObject.name.length());
 
@@ -54,14 +54,14 @@ public class ModifyLabelActivity extends BackActivity {
     @Click
     void colorPreview() {
         PickLabelColorActivity_.intent(this)
-                .generateColor(labelObject.getColor())
+                .generateColor(labelObject.getColorValue())
                 .startForResult(RESULT_PICK_COLOR);
     }
 
     @OnActivityResult(RESULT_PICK_COLOR)
     void onResultPickColor(int result, @OnActivityResult.Extra int resultData) {
         if (result == RESULT_OK) {
-            labelObject.color = resultData;
+            labelObject.setColorValue(resultData);
             updateColorPreview();
         }
     }
@@ -69,7 +69,7 @@ public class ModifyLabelActivity extends BackActivity {
     private void updateColorPreview() {
         GradientDrawable bgDrawable = (GradientDrawable) colorPreview.getBackground();
         if (bgDrawable != null) {
-            bgDrawable.setColor(labelObject.getColor());
+            bgDrawable.setColor(labelObject.getColorValue());
         }
     }
 
@@ -86,7 +86,7 @@ public class ModifyLabelActivity extends BackActivity {
         String url = Global.HOST_API + projectPath + "/topics/label/" + labelObject.id;
         RequestParams params = new RequestParams();
         params.put("name", labelObject.name);
-        String colorStringr = String.format("#%06X", labelObject.getColor() & 0x00FFFFFF);
+        String colorStringr = String.format("#%06X", labelObject.getColorValue() & 0x00FFFFFF);
         params.put("color", colorStringr);
         MyAsyncHttpClient.put(this, url, params, new MyJsonResponse(this) {
             @Override

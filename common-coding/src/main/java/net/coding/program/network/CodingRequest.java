@@ -1,6 +1,7 @@
 package net.coding.program.network;
 
 import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.common.model.user.IntKeyMapHttpResult;
 import net.coding.program.common.model.user.ServiceInfo;
@@ -312,6 +313,14 @@ public interface CodingRequest {
                                                 @Field("status") int status);
 
 
+    // 获取 board
+    @GET("user/{user}/project/{project}/tasks/board/{boardId}/list/{listId}/tasks")
+    Observable<HttpPageResult<SingleTask>> getTaskBoardList(@Path("user") String user,
+                                                               @Path("project") String project,
+                                                               @Path("boardId") int boardId,
+                                                               @Path("listId") int listId,
+                                                               @Query("page") int page,
+                                                               @Query("pageSize") int pageSize);
 }
 
 

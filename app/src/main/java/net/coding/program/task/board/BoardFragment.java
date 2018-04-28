@@ -16,14 +16,16 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.flyco.roundview.RoundTextView;
 
 import net.coding.program.R;
-import net.coding.program.common.event.EventBoardFinish;
+import net.coding.program.common.event.EventBoardRefresh;
+import net.coding.program.common.event.EventBoardRefreshRequest;
+import net.coding.program.common.event.EventBoardUpdate;
 import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.model.TopicLabelObject;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.ui.shadow.CodingRecyclerViewSpace;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.Network;
-import net.coding.program.network.PagerData;
+import net.coding.program.network.model.Pager;
 import net.coding.program.network.model.task.BoardList;
 import net.coding.program.project.detail.merge.CodingRecyclerLoadMoreView;
 import net.coding.program.task.add.TaskAddActivity_;
@@ -60,19 +62,21 @@ public class BoardFragment extends BaseFragment {
 
     BoardList boardList;
 
-    PagerData<SingleTask> listData = new PagerData<>();
+    Pager<SingleTask> listData;
 
     @AfterViews
     void initBoardFragment() {
         boardList = ((TaskBoardActivity) getActivity()).getBoardList(boardListId);
-        listData.addData(boardList.tasks);
+        listData = boardList.tasks;
+
         boardListTitle.setText(boardList.title);
 
         codingRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         codingSwipeLayout.setColorSchemeResources(R.color.font_green);
+        codingSwipeLayout.setOnRefreshListener(this::onRefrush);
 
-        codingAdapter = new LoadMoreAdapter(listData.data);
+        codingAdapter = new LoadMoreAdapter(listData.list);
         codingAdapter.setLoadMoreView(new CodingRecyclerLoadMoreView());
         codingAdapter.setOnLoadMoreListener(() -> requestPage(), codingRecyclerView);
         codingAdapter.setOnItemClickListener((adapter, view, position) -> {
@@ -81,12 +85,28 @@ public class BoardFragment extends BaseFragment {
                     .mSingleTask(task)
                     .start();
         });
+        codingAdapter.setLoadMoreView(new CodingRecyclerLoadMoreView());
+        codingAdapter.setOnLoadMoreListener(() -> loadMore(), codingRecyclerView);
 
         codingRecyclerView.setAdapter(codingAdapter);
         codingRecyclerView.addItemDecoration(new CodingRecyclerViewSpace(getActivity()));
-        onRefrush();
-
         codingSwipeLayout.setOnRefreshListener(this::onRefrush);
+
+        codingAdapter.setEnableLoadMore(true);
+        updateLoadMoreUI();
+    }
+
+    private void updateLoadMoreUI() {
+        if (listData.isLoadAll()) {
+            codingAdapter.loadMoreEnd();
+        } else {
+            codingAdapter.loadMoreComplete();
+        }
+    }
+
+    @Override
+    public void loadMore() {
+        requestPage();
     }
 
     @Override
@@ -95,16 +115,39 @@ public class BoardFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventBoardFinish(EventBoardFinish event) {
-        onRefrush();
+    public void onEventBoardFinish(EventBoardUpdate event) {
+        if (boardList.isFinished() && event == EventBoardUpdate.finished) {
+            onRefrush();
+        } else if (boardList.isPending() && event == EventBoardUpdate.pending) {
+            onRefrush();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventRefresh(EventBoardRefresh event) {
+        if (event.listId != boardListId) {
+            return;
+        }
+
+        codingSwipeLayout.setRefreshing(false);
+        codingAdapter.setEnableLoadMore(false);
+
+        if (event.result) {
+            codingAdapter.notifyDataSetChanged();
+            updateLoadMoreUI();
+
+        } else {
+            codingAdapter.loadMoreFail();
+        }
     }
 
     public void onRefrush() {
-
+        codingAdapter.setEnableLoadMore(false);
+        EventBus.getDefault().post(new EventBoardRefreshRequest(boardListId, 1));
     }
 
     private void requestPage() {
-
+        EventBus.getDefault().post(new EventBoardRefreshRequest(boardListId, listData.page + 1));
     }
 
     static class LoadMoreAdapter extends BaseQuickAdapter<SingleTask, BaseViewHolder> {
@@ -118,7 +161,7 @@ public class BoardFragment extends BaseFragment {
             helper.getView(R.id.taskPriority).setBackgroundResource(item.getPriorityIcon());
             helper.setText(R.id.title, item.content);
             TextView deadline = helper.getView(R.id.deadline);
-            SingleTask.setDeadline(deadline, item);
+            SingleTask.setBoardDeadline(deadline, item);
 
             ViewGroup tagLayout = helper.getView(R.id.tagLayout);
             if (item.labels == null || item.labels.isEmpty()) {
@@ -128,7 +171,7 @@ public class BoardFragment extends BaseFragment {
                 tagLayout.removeAllViews();
                 for (TopicLabelObject label : item.labels) {
                     RoundTextView labelView = (RoundTextView) mLayoutInflater.inflate(R.layout.board_list_item_tag, tagLayout, false);
-                    labelView.getDelegate().setBackgroundColor(label.getColor());
+                    labelView.getDelegate().setBackgroundColor(label.getColorValue());
                 }
             }
 
@@ -140,7 +183,7 @@ public class BoardFragment extends BaseFragment {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         Network.getRetrofit(mContext)
-                                .modifyTaskStatus(item.getId(),  2)   // 2 完成，1 未完成
+                                .modifyTaskStatus(item.getId(), 2)   // 2 完成，1 未完成
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new BaseHttpObserver(mContext) {
@@ -148,7 +191,7 @@ public class BoardFragment extends BaseFragment {
                                     public void onSuccess() {
                                         super.onSuccess();
                                         remove(helper.getAdapterPosition());
-                                        EventBus.getDefault().post(new EventBoardFinish());
+                                        EventBus.getDefault().post(EventBoardUpdate.finished);
                                     }
 
                                     @Override
@@ -164,7 +207,7 @@ public class BoardFragment extends BaseFragment {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         Network.getRetrofit(mContext)
-                                .modifyTaskStatus(item.getId(),  1)   // 2 完成，1 未完成
+                                .modifyTaskStatus(item.getId(), 1)   // 2 完成，1 未完成
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new BaseHttpObserver(mContext) {
@@ -172,6 +215,7 @@ public class BoardFragment extends BaseFragment {
                                     public void onSuccess() {
                                         super.onSuccess();
                                         remove(helper.getAdapterPosition());
+                                        EventBus.getDefault().post(EventBoardUpdate.pending);
                                     }
 
                                     @Override

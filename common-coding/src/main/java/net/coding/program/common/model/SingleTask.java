@@ -192,6 +192,7 @@ public class SingleTask implements Serializable {
     }
 
     public static void setDeadline(TextView textView, SingleTask data) {
+        boolean displayBG = true;
         if (data.deadline.isEmpty()) {
             textView.setVisibility(View.GONE);
         } else {
@@ -207,29 +208,69 @@ public class SingleTask implements Serializable {
 
             if (data.deadline.equals(SingleTask.mToday)) {
                 textView.setText("今天");
-                setDeadlineColor(textView, taskColors[0]);
+                setDeadlineColor(textView, taskColors[0], displayBG);
             } else if (data.deadline.equals(SingleTask.mTomorrow)) {
                 textView.setText("明天");
-                setDeadlineColor(textView, taskColors[1]);
+                setDeadlineColor(textView, taskColors[1], displayBG);
             } else {
                 if (data.deadline.compareTo(SingleTask.mToday) < 0) {
-                    setDeadlineColor(textView, taskColors[2]);
+                    setDeadlineColor(textView, taskColors[2], displayBG);
                 } else {
-                    setDeadlineColor(textView, taskColors[3]);
+                    setDeadlineColor(textView, taskColors[3], displayBG);
                 }
                 String num[] = data.deadline.split("-");
                 textView.setText(String.format("%s/%s", num[1], num[2]));
             }
 
             if (data.isDone()) {
-                setDeadlineColor(textView, taskColors[4]);
+                setDeadlineColor(textView, taskColors[4], displayBG);
             }
         }
-
     }
 
-    private static void setDeadlineColor(TextView mDeadline, int color) {
-        mDeadline.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+    // 应该和 setDeadline 一样，然而设计又不统一了
+    public static void setBoardDeadline(TextView textView, SingleTask data) {
+        boolean displayBG = false;
+
+        if (data.deadline.isEmpty()) {
+            textView.setVisibility(View.GONE);
+        } else {
+            textView.setVisibility(View.VISIBLE);
+
+            final int[] taskColors = new int[]{
+                    0xFFF78636,
+                    0xFF93A7BF,
+                    0xFFFF0000,
+                    0xFF93A7BF,
+                    0xFFA9B3BE
+            };
+
+            if (data.deadline.equals(SingleTask.mToday)) {
+                textView.setText("今天");
+                setDeadlineColor(textView, taskColors[0], displayBG);
+            } else if (data.deadline.equals(SingleTask.mTomorrow)) {
+                textView.setText("明天");
+                setDeadlineColor(textView, taskColors[1], displayBG);
+            } else {
+                if (data.deadline.compareTo(SingleTask.mToday) < 0) {
+                    setDeadlineColor(textView, taskColors[2], displayBG);
+                } else {
+                    setDeadlineColor(textView, taskColors[3], displayBG);
+                }
+                String num[] = data.deadline.split("-");
+                textView.setText(String.format("%s/%s", num[1], num[2]));
+            }
+
+            if (data.isDone()) {
+                setDeadlineColor(textView, taskColors[4], displayBG);
+            }
+        }
+    }
+
+    private static void setDeadlineColor(TextView mDeadline, int color, boolean desplayBG) {
+        if (desplayBG) {
+            mDeadline.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        }
         mDeadline.setTextColor(color);
     }
 

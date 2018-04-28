@@ -66,6 +66,6 @@ public class TopicLabelItemView extends RelativeLayout implements Checkable {
 
     public void bind(TopicLabelObject data) {
         this.data = data;
-        textView.setText(data.name, data.getColor());
+        textView.setText(data.name, data.getColorValue());
     }
 }

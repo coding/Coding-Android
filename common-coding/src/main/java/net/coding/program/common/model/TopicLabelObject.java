@@ -1,6 +1,7 @@
 package net.coding.program.common.model;
 
 import android.graphics.Color;
+import android.text.TextUtils;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -31,13 +32,15 @@ public class TopicLabelObject implements Serializable {
     public String name;
     @SerializedName("color")
     @Expose
-    public int color;
+    public String colorString = "";
+
+    private transient int color;
 
     public TopicLabelObject(JSONObject json) throws JSONException {
         id = json.optInt("id");
         name = json.optString("name", "");
         count = json.optInt("count", 0);
-        String colorString = json.optString("color", "");
+        colorString = json.optString("color", "");
         try {
             color = Color.parseColor(colorString);
         } catch (Exception e) {
@@ -55,11 +58,30 @@ public class TopicLabelObject implements Serializable {
         id = src.id;
         name = src.name;
         count = src.count;
-        color = src.getColor();
+        color = src.getColorValue();
     }
 
-    public int getColor() {
+    public int getColorValue() {
+        if (color == 0 && !TextUtils.isEmpty(colorString)) {
+            try {
+                color = Color.parseColor(colorString);
+            } catch (Exception e) {
+                color = CodingColor.font1;
+            }
+        }
         return color;
+    }
+
+    public void setColorValue(int color) {
+        this.color = color;
+    }
+
+    public void setColorValue(String colorString) {
+        try {
+            color = Color.parseColor(colorString);
+        } catch (Exception e) {
+            color = CodingColor.font1;
+        }
     }
 
     public boolean isEmpty() {

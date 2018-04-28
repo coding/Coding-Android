@@ -159,7 +159,7 @@ public class TopicLabelActivity extends BackActivity {
             if (allLabels.containsKey(currentLabelId)) {
                 TopicLabelObject topicLabelObject = allLabels.get(currentLabelId);
                 topicLabelObject.name = resultData.name;
-                topicLabelObject.color = resultData.color;
+                topicLabelObject.setColorValue(resultData.getColorValue());
             }
             updateList();
         }
