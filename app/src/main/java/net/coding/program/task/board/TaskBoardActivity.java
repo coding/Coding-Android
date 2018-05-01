@@ -39,6 +39,9 @@ public class TaskBoardActivity extends BackActivity {
     @ViewById
     ViewPager container;
 
+    @ViewById
+    BoardIndicatorView indicatorView;
+
     Board board;
     private FragmentPagerAdapter pagerAdapter;
 
@@ -103,7 +106,7 @@ public class TaskBoardActivity extends BackActivity {
     }
 
     public void renameTaskList(int listId, String title, BoardFragment fragment) {
-         Network.getRetrofit(this)
+        Network.getRetrofit(this)
                 .renameTaskBoardList(param.user, param.project, board.id, listId, title)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -139,6 +142,7 @@ public class TaskBoardActivity extends BackActivity {
                             if (item.id == listId) {
                                 board.boardLists.remove(item);
                                 pagerAdapter.notifyDataSetChanged();
+                                indicatorView.setCount(pagerAdapter.getCount(), container.getCurrentItem());
                                 break;
                             }
                         }
@@ -188,6 +192,28 @@ public class TaskBoardActivity extends BackActivity {
     private void bindUI() {
         pagerAdapter = new FragmentPagerAdapter();
         container.setAdapter(pagerAdapter);
+        indicatorView.setCount(pagerAdapter.getCount(), 0);
+
+        container.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (positionOffset > 0.5) {
+                    indicatorView.setSelect(position + 1);
+                } else {
+                    indicatorView.setSelect(position);
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
