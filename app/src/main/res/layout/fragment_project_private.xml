@@ -58,6 +58,12 @@
                 <View style="@style/DivideLineHomeList" />
 
                 <include
+                    android:id="@+id/itemTaskBoard"
+                    layout="@layout/project_home_list_head_button" />
+
+                <View style="@style/DivideLineHomeList" />
+
+                <include
                     android:id="@+id/itemTopic"
                     layout="@layout/project_home_list_head_button" />
 

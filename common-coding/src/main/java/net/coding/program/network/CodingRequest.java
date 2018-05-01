@@ -16,6 +16,7 @@ import net.coding.program.network.model.file.CodingFile;
 import net.coding.program.network.model.file.UploadToken;
 import net.coding.program.network.model.task.Board;
 import net.coding.program.network.model.task.BoardList;
+import net.coding.program.network.model.task.TaskCreating;
 import net.coding.program.network.model.user.ManagerUser;
 import net.coding.program.network.model.user.MemberRole;
 import net.coding.program.network.model.wiki.Wiki;
@@ -316,17 +317,19 @@ public interface CodingRequest {
     // 获取 board
     @GET("user/{user}/project/{project}/tasks/board/{boardId}/list/{listId}/tasks")
     Observable<HttpPageResult<SingleTask>> getTaskBoardList(@Path("user") String user,
-                                                               @Path("project") String project,
-                                                               @Path("boardId") int boardId,
-                                                               @Path("listId") int listId,
-                                                               @Query("page") int page,
-                                                               @Query("pageSize") int pageSize);
+                                                            @Path("project") String project,
+                                                            @Path("boardId") int boardId,
+                                                            @Path("listId") int listId,
+                                                            @Query("page") int page,
+                                                            @Query("pageSize") int pageSize);
+
     // 删除 boardlist
     @DELETE("user/{user}/project/{project}/tasks/board/{boardId}/list/{listId}")
     Observable<BaseHttpResult> deleteTaskBoardList(@Path("user") String user,
-                                                               @Path("project") String project,
-                                                               @Path("boardId") int boardId,
-                                                               @Path("listId") int listId);
+                                                   @Path("project") String project,
+                                                   @Path("boardId") int boardId,
+                                                   @Path("listId") int listId);
+
     // 重命名 boardlist
     @FormUrlEncoded
     @PUT("user/{user}/project/{project}/tasks/board/{boardId}/list/{listId}")
@@ -336,6 +339,16 @@ public interface CodingRequest {
                                                    @Path("listId") int listId,
                                                    @Field("title") String title);
 
+    @GET("task/creating")
+    Observable<HttpResult<TaskCreating>> taskCreateParam();
+
+    // 修改任务到 boardlist
+    @PUT("user/{user}/project/{project}/tasks/board/{boardId}/list/{listId}/task/{taskId}")
+    Observable<BaseHttpResult> moveTaskToBoard(@Path("user") String user,
+                                               @Path("project") String project,
+                                               @Path("boardId") int boardId,
+                                               @Path("listId") int listId,
+                                               @Path("taskId") int taskId);
 }
 
 

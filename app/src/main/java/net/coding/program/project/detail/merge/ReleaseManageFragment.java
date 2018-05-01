@@ -199,6 +199,5 @@ public class ReleaseManageFragment extends BaseFragment {
             helper.getView(R.id.pre).setVisibility(item.pre ? View.VISIBLE : View.GONE);
             helper.getView(R.id.draft).setVisibility(View.GONE);
         }
-
     }
 }

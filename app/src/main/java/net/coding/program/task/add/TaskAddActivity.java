@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -36,6 +37,7 @@ import net.coding.program.common.StartActivity;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
+import net.coding.program.common.event.EventBoardRefreshRequest;
 import net.coding.program.common.event.EventRefreshTask;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.AttachmentFileObject;
@@ -50,6 +52,11 @@ import net.coding.program.common.param.MessageParse;
 import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
+import net.coding.program.network.BaseHttpObserver;
+import net.coding.program.network.HttpObserver;
+import net.coding.program.network.Network;
+import net.coding.program.network.model.task.BoardList;
+import net.coding.program.network.model.task.TaskCreating;
 import net.coding.program.network.model.user.Member;
 import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.project.detail.MembersActivity_;
@@ -60,6 +67,7 @@ import net.coding.program.project.detail.TopicLabelActivity_;
 import net.coding.program.project.detail.TopicLabelBar;
 import net.coding.program.route.BlankViewDisplay;
 import net.coding.program.task.TaskDescriptionActivity_;
+import net.coding.program.task.board.PickTaskBoardActivity_;
 import net.coding.program.third.EmojiFilter;
 import net.coding.program.util.TextWatcherAt;
 
@@ -82,6 +90,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 import static net.coding.program.common.util.LogUtils.makeLogTag;
 
 @EActivity(R.layout.activity_task_add)
@@ -96,6 +107,8 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
     public static final int RESULT_LABEL = 7;
     public static final int RESULT_REQUEST_PICK_WATCH_USER = 8;
     public static final int RESULT_RESUSE_REFRESOURCE = 9;
+    public static final int RESULT_PICK_BOARD_LIST = 10;
+
     private static final String TAG = makeLogTag(TaskAddActivity.class);
     private static final String TAG_HTTP_REMOVE_LABEL = "TAG_HTTP_REMOVE_LABEL";
     final String HOST_COMMENT_ADD = Global.HOST_API + "/task/%s/comment";
@@ -132,6 +145,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
 
     TaskAttrItem layoutProjectName;
     TaskAttrItem layoutName;
+    TaskAttrItem layoutBoard;
     TaskAttrItem layoutPriovity;
     TaskAttrItem layoutDeadline;
     TaskAttrItem layoutPhase;
@@ -333,6 +347,8 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
 
             initData();
         }
+
+        requestTaskCreating();
     }
 
     private void requestTaskFromNetwork() {
@@ -354,18 +370,19 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
 
         mHeadView = mInflater.inflate(R.layout.activity_task_add_head, listView, false);
 
-        layoutProjectName = (TaskAttrItem) mHeadView.findViewById(R.id.layoutProjectName);
-        layoutName = (TaskAttrItem) mHeadView.findViewById(R.id.layoutName);
-        layoutPriovity = (TaskAttrItem) mHeadView.findViewById(R.id.layoutPriovity);
-        layoutDeadline = (TaskAttrItem) mHeadView.findViewById(R.id.layoutDeadline);
-        layoutPhase = (TaskAttrItem) mHeadView.findViewById(R.id.layoutPhase);
-        layoutWatch = (TaskAttrItem) mHeadView.findViewById(R.id.layoutWatch);
-        layoutRefResourceParent = (ViewGroup) mHeadView.findViewById(R.id.layoutRefResourceParent);
+        layoutProjectName = mHeadView.findViewById(R.id.layoutProjectName);
+        layoutName = mHeadView.findViewById(R.id.layoutName);
+        layoutBoard = mHeadView.findViewById(R.id.layoutBoard);
+        layoutPriovity = mHeadView.findViewById(R.id.layoutPriovity);
+        layoutDeadline = mHeadView.findViewById(R.id.layoutDeadline);
+        layoutPhase = mHeadView.findViewById(R.id.layoutPhase);
+        layoutWatch = mHeadView.findViewById(R.id.layoutWatch);
+        layoutRefResourceParent = mHeadView.findViewById(R.id.layoutRefResourceParent);
         layoutRefResourceParent.setOnClickListener(clickRefResource);
 
-        descriptionLayout = (ViewGroup) mHeadView.findViewById(R.id.descriptionLayout);
-        description = (TextView) mHeadView.findViewById(R.id.description);
-        descriptionButton = (TextView) mHeadView.findViewById(R.id.descriptionButton);
+        descriptionLayout = mHeadView.findViewById(R.id.descriptionLayout);
+        description = mHeadView.findViewById(R.id.description);
+        descriptionButton = mHeadView.findViewById(R.id.descriptionButton);
         listView.addHeaderView(mHeadView, null, false);
         listFooter = mInflater.inflate(R.layout.task_add_footer, listView, false);
         listView.addFooterView(listFooter);
@@ -630,6 +647,44 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
         });
     }
 
+    private TaskCreating taskCreating;
+
+    private void requestTaskCreating() {
+        Network.getRetrofit(this)
+                .taskCreateParam()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpObserver<TaskCreating>(this) {
+                    @Override
+                    public void onSuccess(TaskCreating data) {
+                        super.onSuccess(data);
+                        taskCreating = data;
+                    }
+
+                    @Override
+                    public void onFail(int errorCode, @NonNull String error) {
+                        super.onFail(errorCode, error);
+                    }
+                });
+    }
+
+    private void jumpPickBoard() {
+        int projectId = mSingleTask.project.id;
+        ArrayList<BoardList> list = new ArrayList<>();
+        for (BoardList item : taskCreating.taskBoardList) {
+            if (item.projectId == projectId) {
+                list.add(item);
+            }
+        }
+
+        if (list.isEmpty()) {
+            showButtomToast(R.string.project_no_board);
+            return;
+        }
+
+        PickTaskBoardActivity_.intent(this).boardLists(list).startForResult(RESULT_PICK_BOARD_LIST);
+    }
+
     private void setHeadData() {
         title.addTextChangedListener(new SimpleTextWatcher() {
             @Override
@@ -657,6 +712,36 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
                     .intent(TaskAddActivity.this)
                     .mProjectObjectId(mSingleTask.project_id)
                     .startForResult(RESULT_REQUEST_SELECT_USER);
+        });
+
+        layoutBoard.setOnClickListener(v -> {
+            if (noSelectProject()) {
+                showMiddleToast(R.string.pick_project_first);
+                return;
+            }
+
+            if (taskCreating == null) {
+                Network.getRetrofit(this)
+                        .taskCreateParam()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new HttpObserver<TaskCreating>(this) {
+                            @Override
+                            public void onSuccess(TaskCreating data) {
+                                super.onSuccess(data);
+                                taskCreating = data;
+
+                                jumpPickBoard();
+                            }
+
+                            @Override
+                            public void onFail(int errorCode, @NonNull String error) {
+                                super.onFail(errorCode, error);
+                            }
+                        });
+            } else {
+                jumpPickBoard();
+            }
         });
 
         layoutPhase.setOnClickListener(v -> popListSelectDialog(mStatusAdapter,
@@ -766,6 +851,10 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
             params.put("priority", mNewParam.priority);
             params.put("owner_id", mNewParam.ownerId);
             params.put("deadline", mNewParam.deadline);
+            if (mNewParam.taskBoard != null) {
+                params.put("task_board_list", mNewParam.taskBoard.id);
+            }
+
             if (!descriptionDataNew.markdown.isEmpty()) {
                 params.put("description", descriptionDataNew.markdown);
             }
@@ -797,6 +886,12 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
                 params.put("deadline", mNewParam.deadline);
             }
 
+//            if (mNewParam.taskBoard != null) {
+//                params.put("task_board_list", mNewParam.taskBoard.id);
+//            } else {
+//                params.put("task_board_list", 0);
+//            }
+
             String oldData = descriptionData.markdown;
             if (oldData != null && !oldData.equals(descriptionDataNew.markdown)) {
                 params.put("description", descriptionDataNew.markdown);
@@ -824,9 +919,15 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
             layoutName.setText2(R.string.no_pick);
             layoutName.getImage().setImageResource(R.drawable.ic_task_user);
 
+            layoutBoard.setText2("无");
+
         } else {
             layoutName.setText2(mNewParam.owner.name);
             ImageLoader.getInstance().displayImage(Global.makeSmallUrlSquare(mNewParam.owner.avatar, getResources().getDimensionPixelSize(R.dimen.task_add_user_icon_width)), layoutName.getImage());
+
+            if (mNewParam.taskBoard != null) {
+                layoutBoard.setText2(mNewParam.taskBoard.title);
+            }
         }
     }
 
@@ -855,6 +956,11 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
                 umengEvent(UmengEvent.TASK, "新建任务");
                 umengEvent(UmengEvent.E_TASK, "创建");
                 closeActivity(MSG_ADD_TASK_SUCCESS);
+
+                if (mSingleTask.taskBoardList != null) {
+                    EventBus.getDefault().post(new EventBoardRefreshRequest(mSingleTask.taskBoardList.id, 1));
+                }
+
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -1044,6 +1150,8 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
         layoutProjectName.setText2(mSingleTask.project.name);
 
         updateLabels(mSingleTask.labels);
+
+
     }
 
     @OnActivityResult(ImageCommentLayout.RESULT_REQUEST_COMMENT_IMAGE)
@@ -1071,6 +1179,36 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
             updateSendButton();
 
             updateRefResourceNetwork();
+        }
+    }
+
+    @OnActivityResult(RESULT_PICK_BOARD_LIST)
+    void resultPickBoard(int result, @OnActivityResult.Extra BoardList intentData) {
+        if (result == RESULT_OK) {
+            if (!mSingleTask.isEmpty()) {
+                ProjectObject project = mSingleTask.project;
+                Network.getRetrofit(this)
+                        .moveTaskToBoard(project.owner_user_name, project.name, intentData.boardId, intentData.id, mSingleTask.getId())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseHttpObserver(this) {
+                            @Override
+                            public void onSuccess() {
+                                super.onSuccess();
+                                int oldBoardListId = 0;
+                                if (mNewParam.taskBoard != null) {
+                                    oldBoardListId = mNewParam.taskBoard.id;
+                                }
+                                setPickBoardList(intentData.id);
+
+                                showButtomToast(String.format("已移动到 %s", intentData.title));
+                                EventBus.getDefault().post(new EventBoardRefreshRequest(intentData.id, 1));
+                                if (oldBoardListId != 0) {
+                                    EventBus.getDefault().post(new EventBoardRefreshRequest(oldBoardListId, 1));
+                                }
+                            }
+                        });
+            }
         }
     }
 
@@ -1185,6 +1323,17 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
         mNewParam.owner = member.user;
         selectMember();
         updateSendButton();
+    }
+
+    private void setPickBoardList(int id) {
+        for (BoardList item : taskCreating.taskBoardList) {
+            if (item.id == id) {
+                mNewParam.taskBoard = item;
+                selectMember();
+                updateSendButton();
+                break;
+            }
+        }
     }
 
     @Override

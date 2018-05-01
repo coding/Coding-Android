@@ -155,6 +155,7 @@
     <string name="title_activity_pick_project">选择项目</string>
     <string name="no_pick">未指定</string>
     <string name="pick_project_first">请先选择一个项目</string>
+    <string name="project_no_board">这个项目没有任务看板</string>
     <string name="title_activity_user_point">我的码币</string>
     <string name="title_activity_feature">FeatureActivity</string>
     <string name="title_activity_file_history">历史版本</string>
@@ -164,6 +165,7 @@
     <string name="title_activity_git_main">本地代码</string>
     <string name="title_activity_board">任务看板</string>
     <string name="title_activity_add_board">创建任务列表</string>
+    <string name="title_activity_pick_board_task_list">选择任务列表</string>
     <string name="title_activity_edit_release_detail">编辑发布</string>
 
     <string name="hold_to_talk">按住说话</string>

@@ -94,6 +94,14 @@
         app:taskText2="cc" />
 
     <net.coding.program.task.add.TaskAttrItem
+        android:id="@+id/layoutBoard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:taskIcon="@drawable/project_button_icon_task_board"
+        app:taskText1="看板列表"
+        app:taskText2="无" />
+
+    <net.coding.program.task.add.TaskAttrItem
         android:id="@+id/layoutPriovity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

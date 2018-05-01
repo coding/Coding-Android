@@ -175,6 +175,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
         if (userEventBus()) {
             EventBus.getDefault().register(this);
         }
+
     }
 
     protected boolean userEventBus() {

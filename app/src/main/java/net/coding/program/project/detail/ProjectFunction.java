@@ -14,6 +14,7 @@ public enum ProjectFunction {
 
     dynamic(R.id.itemDynamic, R.drawable.project_button_icon_dynamic, "动态", ProjectDynamicParentFragment_.class),
     task(R.id.itemTask, R.drawable.project_button_icon_task, "任务", ProjectTaskFragment_.class),
+    taskBoard(R.id.itemTaskBoard, R.drawable.project_button_icon_task_board, "任务看板", null),
     topic(R.id.itemTopic, R.drawable.project_button_icon_topic, "讨论", TopicFragment_.class),
     document(R.id.itemDocment, R.drawable.project_button_icon_docment, "文件", null),
     code(R.id.itemCode, R.drawable.project_button_icon_code, "代码", ProjectGitFragmentMain_.class),

@@ -9,6 +9,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import net.coding.program.R;
+import net.coding.program.network.model.task.BoardList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -100,6 +101,9 @@ public class SingleTask implements Serializable {
     @SerializedName("id")
     @Expose
     private int id;
+    @SerializedName("task_board_list")
+    @Expose
+    public BoardList taskBoardList;
 
     public SingleTask(JSONObject json) throws JSONException {
         this(json, false);
