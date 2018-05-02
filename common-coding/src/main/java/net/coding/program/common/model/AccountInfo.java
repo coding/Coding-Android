@@ -531,6 +531,18 @@ public class AccountInfo {
         return false;
     }
 
+    public static void removehideInitBoard(Context context, Integer boardId) {
+        ArrayList<Integer> ids = new DataCache<Integer>().load(context, HIDE_BOARD_IDS);
+        for (Integer item : ids) {
+            if (item.equals(boardId)) {
+                ids.remove(item);
+            }
+        }
+
+        new DataCache<Integer>().save(context, ids, HIDE_BOARD_IDS);
+    }
+
+
     public static void saveTasks(Context context, ArrayList<SingleTask> data, int projectId, int userId) {
         new DataCache<SingleTask>().save(context, data, String.format(USER_TASKS, projectId, userId));
     }

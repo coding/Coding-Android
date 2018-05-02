@@ -52,10 +52,6 @@ public class BoardIndicatorView extends FrameLayout {
     }
 
     public void setSelect(int pos) {
-        if (pos == mSelect) {
-            return;
-        }
-
         int count = layout.getChildCount();
         if (pos >= count) {
             return;

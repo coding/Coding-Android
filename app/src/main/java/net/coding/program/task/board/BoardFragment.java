@@ -49,7 +49,11 @@ import rx.schedulers.Schedulers;
 @EFragment(R.layout.fragment_board_list)
 public class BoardFragment extends BaseFragment {
 
+//    @FragmentArg
+
     @FragmentArg
+    int boardPos;
+
     int boardListId;
 
     @ViewById(R.id.listView)
@@ -72,7 +76,8 @@ public class BoardFragment extends BaseFragment {
 
     @AfterViews
     void initBoardFragment() {
-        boardList = ((TaskBoardActivity) getActivity()).getBoardList(boardListId);
+        boardList = ((TaskBoardActivity) getActivity()).getBoardListFromPos(boardPos);
+        boardListId = boardList.id;
         listData = boardList.tasks;
 
         if (boardList.isPending() || boardList.isFinished()) {

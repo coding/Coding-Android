@@ -14,6 +14,7 @@ import net.coding.program.common.ui.BackActivity;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
+import net.coding.program.network.model.HttpResult;
 import net.coding.program.network.model.Pager;
 import net.coding.program.network.model.task.Board;
 import net.coding.program.network.model.task.BoardList;
@@ -27,6 +28,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import rx.Observable;
+import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -49,6 +52,7 @@ public class TaskBoardActivity extends BackActivity {
     void initTaskBoardActivity() {
 //        param = new ProjectJumpParam("/user/1984/project/ccc");
         param = new ProjectJumpParam("/user/ease/project/CodingTest");
+        param = new ProjectJumpParam("/user/1984/project/jj");
         onRefresh();
     }
 
@@ -86,6 +90,14 @@ public class TaskBoardActivity extends BackActivity {
                         EventBus.getDefault().post(new EventBoardRefresh(event.listId, event.page, false));
                     }
                 });
+    }
+
+    public BoardList getBoardListFromPos(int pos) {
+        if (pos >= board.boardLists.size()) {
+            return null;
+        }
+
+        return board.boardLists.get(pos);
     }
 
     public BoardList getBoardList(int listId) {
@@ -161,8 +173,9 @@ public class TaskBoardActivity extends BackActivity {
                     public void onSuccess(Board data) {
                         super.onSuccess(data);
                         board = data;
-                        conversionData();
 
+                        AccountInfo.removehideInitBoard(TaskBoardActivity.this, board.id);
+                        conversionData();
                         bindUI();
                     }
 
@@ -188,6 +201,76 @@ public class TaskBoardActivity extends BackActivity {
 
         board.boardLists.add(1, BoardList.obtainWelcomeBoard());
     }
+
+    public void hideInitBoard() {
+        AccountInfo.saveHideInitBoard(this, board.id);
+
+        for (BoardList item : board.boardLists) {
+            if (item.isWelcome()) {
+                board.boardLists.remove(item);
+                pagerAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
+    public void createDefaultList() {
+        Observable<HttpResult<BoardList>> r0 = Network.getRetrofit(this)
+                .addTaskBoardList(param.user, param.project, board.id, "需求分析")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        Observable<HttpResult<BoardList>> r1 = Network.getRetrofit(this)
+                .addTaskBoardList(param.user, param.project, board.id, "产品分析")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        Observable<HttpResult<BoardList>> r2 = Network.getRetrofit(this)
+                .addTaskBoardList(param.user, param.project, board.id, "开发中")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        Observable<HttpResult<BoardList>> r3 = Network.getRetrofit(this)
+                .addTaskBoardList(param.user, param.project, board.id, "产品测试")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        Observable<HttpResult<BoardList>> r4 = Network.getRetrofit(this)
+                .addTaskBoardList(param.user, param.project, board.id, "产品上线")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        Observable.zip(r0, r1, r2, r3, r4, (z0, z1, z2, z3, z4) -> {
+            pagerAdapter.addItem(z0.data);
+            pagerAdapter.addItem(z1.data);
+            pagerAdapter.addItem(z2.data);
+            pagerAdapter.addItem(z3.data);
+            pagerAdapter.addItem(z4.data);
+            return true;
+        }).subscribe(new Observer<Boolean>() {
+            @Override
+            public void onCompleted() {
+                showProgressBar(false);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                showProgressBar(false);
+                if (e != null && e.getMessage() != null) {
+                    showButtomToast(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+
+            }
+        });
+
+        showProgressBar(true);
+    }
+
+
 
     private void bindUI() {
         pagerAdapter = new FragmentPagerAdapter();
@@ -233,7 +316,7 @@ public class TaskBoardActivity extends BackActivity {
                 return new AddBoardListFragment_();
             }
 //            BoardList boardList = board.boardLists.get(position);
-            return BoardFragment_.builder().boardListId(board.boardLists.get(position).id).build();
+            return BoardFragment_.builder().boardPos(position).build();
         }
 
         @Override
@@ -263,6 +346,12 @@ public class TaskBoardActivity extends BackActivity {
         @Override
         public int getItemPosition(@NonNull Object object) {
             return POSITION_NONE;
+        }
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            indicatorView.setCount(getCount(), container.getCurrentItem());
         }
     }
 }
