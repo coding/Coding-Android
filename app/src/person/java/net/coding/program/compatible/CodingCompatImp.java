@@ -123,6 +123,13 @@ public class CodingCompatImp implements ClassCompatInterface {
     }
 
     @Override
+    public void launchProjectMaopao(Activity fragment, ProjectObject projectObject) {
+        ProjectMaopaoActivity_.intent(fragment)
+                .projectObject(projectObject)
+                .start();
+    }
+
+    @Override
     public void launchPickUser(Activity activity, String relayString) {
         UsersListActivity_.intent(activity)
                 .type(Friend.Follow)

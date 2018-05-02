@@ -14,7 +14,7 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.project.init.setting.ProjectSetActivity_;
+import net.coding.program.project.init.setting.ProjectSettingMainActivity_;
 import net.coding.program.project.init.setting.v2.EnterpriseProjectSetActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -36,7 +36,7 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
 
     protected View.OnClickListener clickProjectSetting = v -> {
         if (!GlobalData.isEnterprise()) {
-            ProjectSetActivity_.intent(BaseProjectHomeFragment.this)
+            ProjectSettingMainActivity_.intent(BaseProjectHomeFragment.this)
                     .projectObject(mProjectObject)
                     .start();
         } else {
@@ -81,11 +81,7 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
     }
 
     protected void initProjectSettingEntrance(View view) {
-        if (mProjectObject.isMy()) {
-            view.findViewById(R.id.projectHeaderLayout).setOnClickListener(clickProjectSetting);
-        } else {
-            view.findViewById(R.id.iconRight).setVisibility(View.INVISIBLE);
-        }
+        view.findViewById(R.id.projectHeaderLayout).setOnClickListener(clickProjectSetting);
     }
 
     private void initHeadHead() {

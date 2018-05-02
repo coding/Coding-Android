@@ -484,6 +484,10 @@
             android:label="@string/title_activity_project_type"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".project.init.setting.ProjectSettingMainActivity_"
+            android:label="@string/title_activity_setting"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".project.init.setting.ProjectSetActivity_"
             android:label="@string/title_activity_project_set"
             android:screenOrientation="portrait" />

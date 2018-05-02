@@ -43,6 +43,8 @@ public interface ClassCompatInterface {
 
     void launchProjectMaopao(Fragment fragment, ProjectObject projectObject);
 
+    void launchProjectMaopao(Activity fragment, ProjectObject projectObject);
+
     void launchPickUser(Activity activity, String relayString);
 
     void closeNotify(Context context, String url);

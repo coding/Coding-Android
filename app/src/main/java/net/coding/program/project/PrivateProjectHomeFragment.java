@@ -39,7 +39,6 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
                 ProjectFunction.topic,
                 ProjectFunction.document,
                 ProjectFunction.code,
-                ProjectFunction.member,
                 ProjectFunction.branchManage,
                 ProjectFunction.releaseManage,
                 ProjectFunction.merge,
