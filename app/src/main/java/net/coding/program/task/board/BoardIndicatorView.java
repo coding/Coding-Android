@@ -39,7 +39,7 @@ public class BoardIndicatorView extends FrameLayout {
             LayoutInflater inflater = LayoutInflater.from(layout.getContext());
             for (int i = 0; i < count; ++i) {
                 View point = inflater.inflate(R.layout.board_point, layout, false);
-                if (i == count -1) {
+                if (i == count - 1) {
                     point.setBackgroundResource(R.drawable.point_add_normal);
                 } else {
                     point.setBackgroundResource(R.drawable.point_normal);
@@ -62,17 +62,17 @@ public class BoardIndicatorView extends FrameLayout {
         }
 
         if (0 <= mSelect && mSelect < count) {
-            if (mSelect == count -1) {
+            if (mSelect == count - 1) {
                 layout.getChildAt(mSelect).setBackgroundResource(R.drawable.point_add_normal);
             } else {
                 layout.getChildAt(mSelect).setBackgroundResource(R.drawable.point_normal);
             }
         }
 
-        if (pos == count -1) {
-            layout.getChildAt(mSelect).setBackgroundResource(R.drawable.point_add_pick);
+        if (pos == count - 1) {
+            layout.getChildAt(pos).setBackgroundResource(R.drawable.point_add_pick);
         } else {
-            layout.getChildAt(mSelect).setBackgroundResource(R.drawable.point_pick);
+            layout.getChildAt(pos).setBackgroundResource(R.drawable.point_pick);
         }
 
         mSelect = pos;
