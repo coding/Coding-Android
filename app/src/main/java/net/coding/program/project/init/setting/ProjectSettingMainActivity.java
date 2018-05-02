@@ -6,6 +6,7 @@ import net.coding.program.R;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.compatible.CodingCompat;
+import net.coding.program.project.EventProjectModify;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.detail.ProjectFunction;
 
@@ -14,6 +15,8 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by jack wang on 2015/3/31.
@@ -36,6 +39,16 @@ public class ProjectSettingMainActivity extends BackActivity {
         }
     }
 
+    @Override
+    protected boolean userEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventProjectModify(EventProjectModify event) {
+        finish();
+    }
+
     @Click
     void maopaoList() {
         CodingCompat.instance().launchProjectMaopao(this, projectObject);
@@ -51,6 +64,7 @@ public class ProjectSettingMainActivity extends BackActivity {
 
     @Click
     void projectSetting() {
+        ProjectSetActivity_.intent(this).projectObject(projectObject).start();
     }
 
 }

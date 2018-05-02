@@ -36,6 +36,7 @@ public class ProjectSetActivity extends BackActivity {
         return true;
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventProjectModify(EventProjectModify event) {
         finish();

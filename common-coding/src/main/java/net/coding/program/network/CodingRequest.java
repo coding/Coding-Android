@@ -130,6 +130,10 @@ public interface CodingRequest {
     Observable<BaseHttpResult> deleteProject(@Path("projectPath") String projectPath,
                                              @Field("two_factor_code") String twoFA);
 
+    @POST("user/{user}/project/{project}/quit")
+    Observable<BaseHttpResult> quitProject(@Path("user") String user,
+                                           @Path("project") String project);
+
     // 我参与的项目，取不到项目的成员人数
     @GET("projects?pageSize=1000")
     Observable<HttpPageResult<ProjectObject>> getProjects();

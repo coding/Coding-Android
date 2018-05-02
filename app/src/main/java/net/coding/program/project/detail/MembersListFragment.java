@@ -155,8 +155,10 @@ public class MembersListFragment extends CustomMoreFragment implements LoadMore 
 
             if (type == Type.Pick) {
                 holder.btn.setVisibility(View.GONE);
-            } else if (user.name.equals(GlobalData.sUserObject.name) && !GlobalData.isEnterprise()) {
-                // 企业版中去除 退出 按钮
+            } else if (user.name.equals(GlobalData.sUserObject.name) &&
+                    !GlobalData.isEnterprise() &&
+                    (mProjectObject != null && mProjectObject.isPublic())) {
+                // 只有公开项目还有退出按钮
                 holder.btn.setImageResource(R.drawable.ic_member_list_quit);
                 holder.btn.setOnClickListener(quitProject);
                 if (object instanceof Member) {

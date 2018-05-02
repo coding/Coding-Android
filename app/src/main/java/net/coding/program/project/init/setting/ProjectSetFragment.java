@@ -1,6 +1,7 @@
 package net.coding.program.project.init.setting;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +18,8 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
+import net.coding.program.network.BaseHttpObserver;
+import net.coding.program.network.Network;
 import net.coding.program.project.EventProjectModify;
 import net.coding.program.project.init.setting.v2.ProjectSetFragmentBase;
 
@@ -28,6 +31,9 @@ import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by jack wang on 2015/3/31.
@@ -50,6 +56,8 @@ public class ProjectSetFragment extends ProjectSetFragmentBase {
     @ViewById
     View item, itemTransfer, iconPrivate;
 
+    @ViewById
+    View layoutManager, layoutOwner, layoutQuit;
 
     @AfterViews
     protected void init() {
@@ -70,8 +78,27 @@ public class ProjectSetFragment extends ProjectSetFragmentBase {
             }
         });
         Global.popSoftkeyboard(getActivity(), description, false);
-    }
 
+        if (!mProjectObject.isPublic) {
+            if (mProjectObject.isMy()) {
+                layoutManager.setVisibility(View.VISIBLE);
+                layoutOwner.setVisibility(View.VISIBLE);
+                layoutQuit.setVisibility(View.GONE);
+            } else if (mProjectObject.isManagerLevel()) {
+                layoutManager.setVisibility(View.VISIBLE);
+                layoutOwner.setVisibility(View.GONE);
+                layoutQuit.setVisibility(View.VISIBLE);
+            } else {
+                layoutManager.setVisibility(View.GONE);
+                layoutOwner.setVisibility(View.GONE);
+                layoutQuit.setVisibility(View.VISIBLE);
+            }
+        } else {
+            layoutManager.setVisibility(View.VISIBLE);
+            layoutOwner.setVisibility(View.VISIBLE);
+            layoutQuit.setVisibility(View.GONE);
+        }
+    }
 
     @Click
     public void item() {
@@ -89,10 +116,45 @@ public class ProjectSetFragment extends ProjectSetFragmentBase {
                 .start();
     }
 
+    @Click
+    public void layoutQuit() {
+        String message = String.format("您确定要退出 %s 项目吗？", mProjectObject.name);
+        showDialog("退出项目", message, (dialog1, which) -> {
+            Network.getRetrofit(getActivity())
+                    .quitProject(mProjectObject.owner_user_name, mProjectObject.name)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseHttpObserver(getActivity()) {
+                        @Override
+                        public void onSuccess() {
+                            super.onSuccess();
+                            showProgressBar(false);
+
+                            umengEvent(UmengEvent.PROJECT, "退出项目");
+                            showButtomToast("已退出项目");
+                            EventBus.getDefault().post(new EventProjectModify().setExit());
+                            getActivity().onBackPressed();
+                        }
+
+                        @Override
+                        public void onFail(int errorCode, @NonNull String error) {
+                            super.onFail(errorCode, error);
+                            showProgressBar(false);
+                        }
+                    });
+            showProgressBar(true);
+        });
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         mMenuSave = menu.findItem(R.id.action_finish);
         updateSendButton();
+
+        if (mProjectObject != null && !mProjectObject.isPublic && !mProjectObject.isManagerLevel()) {
+            mMenuSave.setVisible(false);
+        }
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
