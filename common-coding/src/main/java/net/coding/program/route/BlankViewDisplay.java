@@ -19,6 +19,14 @@ public class BlankViewDisplay {
     public static final String OTHER_MALL_ORDER_BLANK_ALREADYSEND = "没有已发货的订单记录~";
     public static final String OTHER_MALL_EXCHANGE_BLANK = "还没有可兑换的商品呢~";
 
+    public static void setErrorBlank(View v, View.OnClickListener onClick) {
+        View btn = v.findViewById(R.id.btnRetry);
+        btn.setVisibility(View.VISIBLE);
+        btn.setOnClickListener(onClick);
+
+        callback.setBlank(0, null, false, v, "", 0);
+    }
+
     public static void setBlank(int itemSize, Object fragment, boolean request, View v, View.OnClickListener onClick) {
         setBlank(itemSize, fragment, request, v, onClick, "");
     }

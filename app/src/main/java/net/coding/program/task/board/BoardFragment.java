@@ -49,8 +49,6 @@ import rx.schedulers.Schedulers;
 @EFragment(R.layout.fragment_board_list)
 public class BoardFragment extends BaseFragment {
 
-//    @FragmentArg
-
     @FragmentArg
     int boardPos;
 
@@ -102,7 +100,6 @@ public class BoardFragment extends BaseFragment {
                     .mSingleTask(task)
                     .start();
         });
-        codingAdapter.setLoadMoreView(new CodingRecyclerLoadMoreView());
         codingAdapter.setOnLoadMoreListener(() -> loadMore(), codingRecyclerView);
 
         codingRecyclerView.setAdapter(codingAdapter);

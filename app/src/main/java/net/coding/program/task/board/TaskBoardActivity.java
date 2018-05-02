@@ -3,14 +3,20 @@ package net.coding.program.task.board;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 import net.coding.program.R;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.event.EventAddBoardList;
 import net.coding.program.common.event.EventBoardRefresh;
 import net.coding.program.common.event.EventBoardRefreshRequest;
 import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
@@ -19,10 +25,12 @@ import net.coding.program.network.model.Pager;
 import net.coding.program.network.model.task.Board;
 import net.coding.program.network.model.task.BoardList;
 import net.coding.program.param.ProjectJumpParam;
+import net.coding.program.task.add.TaskAddActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -39,21 +47,50 @@ public class TaskBoardActivity extends BackActivity {
     @Extra
     ProjectJumpParam param;
 
+    @Extra
+    ProjectObject projectObject;
+
     @ViewById
     ViewPager container;
 
     @ViewById
     BoardIndicatorView indicatorView;
 
+    @ViewById
+    View blankLayout;
+
+    BlankViewHelp blankViewHelp = new BlankViewHelp();
+
     Board board;
     private FragmentPagerAdapter pagerAdapter;
+
+    MenuItem actionAdd;
 
     @AfterViews
     void initTaskBoardActivity() {
 //        param = new ProjectJumpParam("/user/1984/project/ccc");
-        param = new ProjectJumpParam("/user/ease/project/CodingTest");
-        param = new ProjectJumpParam("/user/1984/project/jj");
+//        param = new ProjectJumpParam("/user/ease/project/CodingTest");
+//        param = new ProjectJumpParam("/user/1984/project/jj");
+        blankViewHelp.setBlankLoading(blankLayout, true);
         onRefresh();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_board_list, menu);
+        actionAdd = menu.findItem(R.id.actionAdd);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @OptionsItem
+    void actionAdd() {
+        BoardList boardParam = board.boardLists.get(container.getCurrentItem());
+        TaskAddActivity_.intent(this)
+                .mUserOwner(GlobalData.sUserObject)
+                .mProjectObject(projectObject)
+                .boardParam(boardParam)
+                .start();
     }
 
     @Override
@@ -172,6 +209,9 @@ public class TaskBoardActivity extends BackActivity {
                     @Override
                     public void onSuccess(Board data) {
                         super.onSuccess(data);
+
+                        blankLayout.setVisibility(View.GONE);
+
                         board = data;
 
                         AccountInfo.removehideInitBoard(TaskBoardActivity.this, board.id);
@@ -182,6 +222,7 @@ public class TaskBoardActivity extends BackActivity {
                     @Override
                     public void onFail(int errorCode, @NonNull String error) {
                         super.onFail(errorCode, error);
+                        BlankViewHelp.setErrorBlank(blankLayout, v -> onRefresh());
                     }
                 });
     }
@@ -280,22 +321,24 @@ public class TaskBoardActivity extends BackActivity {
         container.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                int newPos = position;
                 if (positionOffset > 0.5) {
-                    indicatorView.setSelect(position + 1);
+                    newPos = position + 1;
+                    indicatorView.setSelect(newPos);
                 } else {
-                    indicatorView.setSelect(position);
+                    indicatorView.setSelect(newPos);
                 }
+
+                BoardList select = board.boardLists.get(newPos);
+                actionAdd.setVisible(!select.isWelcome() && !select.isFinished() && !select.isAdd());
             }
 
             @Override
-            public void onPageSelected(int position) {
-
-            }
+            public void onPageSelected(int position) {}
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
     }
 

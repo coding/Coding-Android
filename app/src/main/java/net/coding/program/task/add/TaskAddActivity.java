@@ -134,6 +134,9 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
     @Extra
     TaskJumpParams mJumpParams;
     @Extra
+    BoardList boardParam;
+
+    @Extra
     boolean canPickProject = true;
 
     @ViewById
@@ -343,6 +346,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
                 mSingleTask.project = mProjectObject;
                 mSingleTask.project_id = mProjectObject.getId();
                 mSingleTask.priority = mProjectObject.getId();
+                mSingleTask.taskBoardList = boardParam;
             }
 
             initData();

@@ -24,6 +24,7 @@ import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.detail.file.v2.ProjectFileMainActivity_;
 import net.coding.program.project.detail.wiki.WikiMainActivity_;
 import net.coding.program.project.git.local.GitMainActivity_;
+import net.coding.program.task.board.TaskBoardActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -99,7 +100,13 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
     }
 
     private void selectFragment() {
-        if (mJumpType == ProjectFunction.git) {
+        if (mJumpType == ProjectFunction.taskBoard) {
+            TaskBoardActivity_.intent(this).projectObject(mProjectObject)
+                    .param(new ProjectJumpParam(mProjectObject)).start();
+            finish();
+            overridePendingTransition(0, 0);
+            return;
+        } else if (mJumpType == ProjectFunction.git) {
             GitMainActivity_.intent(this).project(mProjectObject).start();
             finish();
             overridePendingTransition(0, 0);

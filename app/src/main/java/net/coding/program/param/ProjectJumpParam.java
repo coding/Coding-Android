@@ -1,6 +1,7 @@
 package net.coding.program.param;
 
 import net.coding.program.common.GlobalData;
+import net.coding.program.common.model.ProjectObject;
 
 import java.io.Serializable;
 import java.util.regex.Matcher;
@@ -31,6 +32,11 @@ public class ProjectJumpParam implements Serializable {
                 return;
             }
         }
+    }
+
+    public ProjectJumpParam(ProjectObject projectObject) {
+        project = projectObject.name;
+        user = projectObject.owner_user_name;
     }
 
     private boolean isMatch(String path, String regex) {

@@ -21,6 +21,11 @@ public class BlankViewHelp extends BlankViewDisplay {
         }
     }
 
+    public static void setErrorBlank(View v, View.OnClickListener onClick) {
+        showLoading(v, false);
+        BlankViewDisplay.setErrorBlank(v, onClick);
+    }
+
     public static void setBlank(int itemSize, Object fragment, boolean request, View v, View.OnClickListener onClick) {
         showLoading(v, false);
         BlankViewDisplay.setBlank(itemSize, fragment, request, v, onClick);
