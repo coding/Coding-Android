@@ -54,7 +54,7 @@ public class ProjectSetFragment extends ProjectSetFragmentBase {
     EditText description;
 
     @ViewById
-    View item, itemTransfer, iconPrivate;
+    View item, itemTransfer, iconPrivate, itemArchive;
 
     @ViewById
     View layoutManager, layoutOwner, layoutQuit;
@@ -62,6 +62,7 @@ public class ProjectSetFragment extends ProjectSetFragmentBase {
     @AfterViews
     protected void init() {
         ((TextView) itemTransfer.findViewById(R.id.title)).setText("项目转让");
+        ((TextView) itemArchive.findViewById(R.id.title)).setText("项目归档");
         ((TextView) item.findViewById(R.id.title)).setText("删除项目");
 
         iconfromNetwork(projectIcon, mProjectObject.icon, ImageLoadTool.optionsRounded2);
@@ -112,6 +113,13 @@ public class ProjectSetFragment extends ProjectSetFragmentBase {
     public void itemTransfer() {
         ProjectTransferActivity_
                 .intent(this)
+                .mProjectObject(mProjectObject)
+                .start();
+    }
+
+    @Click
+    public void itemArchive() {
+        ProjectArchiveActivity_.intent(this)
                 .mProjectObject(mProjectObject)
                 .start();
     }

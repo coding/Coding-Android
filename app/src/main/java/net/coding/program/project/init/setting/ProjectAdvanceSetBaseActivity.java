@@ -6,8 +6,8 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.R;
@@ -41,11 +41,13 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
 
     protected final String TAG_DELETE_PROJECT_2FA = "TAG_DELETE_PROJECT_2FA";
     protected final String TAG_TRANSFER_PROJECT = "TAG_TRANSFER_PROJECT";
+    protected final String TAG_ARCHIVE_PROJECT = "TAG_ARCHIVE_PROJECT";
     private final String HOST_NEED_2FA = Global.HOST_API + "/user/2fa/method";
     @Extra
     protected ProjectObject mProjectObject;
     @ViewById
-    Button deleteBut;
+    TextView deleteBut;
+
     Handler hander2fa;
     private EditText edit2fa;
 
@@ -139,6 +141,18 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
                 } else { //  password
                     showDeleteDialog();
                 }
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(TAG_ARCHIVE_PROJECT)) {
+             showProgressBar(false);
+            if (code == 0) {
+                umengEvent(UmengEvent.PROJECT, "项目归档");
+                showButtomToast("归档成功");
+
+                EventBus.getDefault().post(new EventProjectModify().setExit());
+                setResult(RESULT_OK);
+                finish();
             } else {
                 showErrorMsg(code, respanse);
             }

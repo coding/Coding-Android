@@ -15,17 +15,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="删除项目将会连同其相关的所有数据（包括 issues ,pull requests, 动态等在内）一起删除"
+            android:text="项目归档后，该项目将会移到“项目所有者”的归档项目中，并且不能对该项目做任何操作，直到解除归档。同时该项目将从所有项目成员的项目列表中移除。“项目所有者”可以在项目->归档项目中进行解除归档操作，解除归档后，项目成员仍保留。"
             android:textColor="@color/font_2"
             android:textSize="14sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="此操作无法恢复！"
-            android:textColor="@color/font_red"
-            android:textSize="14sp" />
     </LinearLayout>
 
     <include layout="@layout/divide_middle_15" />
@@ -35,9 +28,9 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@color/stand_bg"
-        android:text="删除项目"
+        android:text="项目归档"
         android:gravity="center"
-        android:textColor="@color/font_red"
+        android:textColor="@color/font_1"
         android:textSize="15sp" />
 
     <include layout="@layout/divide_bottom_5" />

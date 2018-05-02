@@ -374,6 +374,10 @@ public class ProjectObject implements Serializable {
         return Global.HOST_API + getBackendProjectPath() + params;
     }
 
+    public String getHttpArchiveProject2fa(String code) {
+        return String.format("%s/project/%s/archive?two_factor_code=%s", Global.HOST_API, id, code);
+    }
+
     public String getHttpTransferProject(String globalKey) {
         return Global.HOST_API + getBackendProjectPath() + "/transfer_to/" + globalKey;
     }

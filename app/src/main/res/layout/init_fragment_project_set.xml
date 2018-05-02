@@ -88,6 +88,12 @@
         <include layout="@layout/divideline_15" />
 
         <include
+            android:id="@+id/itemArchive"
+            layout="@layout/init_common_item" />
+
+        <include layout="@layout/divideline_15" />
+
+        <include
             android:id="@+id/item"
             layout="@layout/init_common_item" />
 

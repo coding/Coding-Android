@@ -22,7 +22,6 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.activity_project_transfer)
 public class ProjectTransferActivity extends ProjectAdvanceSetBaseActivity {
 
-
     public static final int RESULT_REQUEST_SELECT_USER = 3;
 
     @ViewById
