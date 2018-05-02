@@ -14,6 +14,7 @@ import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.project.init.setting.ProjectSetActivity_;
 import net.coding.program.project.init.setting.ProjectSettingMainActivity_;
 import net.coding.program.project.init.setting.v2.EnterpriseProjectSetActivity_;
 
@@ -36,9 +37,13 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
 
     protected View.OnClickListener clickProjectSetting = v -> {
         if (!GlobalData.isEnterprise()) {
-            ProjectSettingMainActivity_.intent(BaseProjectHomeFragment.this)
-                    .projectObject(mProjectObject)
-                    .start();
+            if (!mProjectObject.isPublic) {
+                ProjectSettingMainActivity_.intent(BaseProjectHomeFragment.this)
+                        .projectObject(mProjectObject)
+                        .start();
+            } else {
+                ProjectSetActivity_.intent(this).projectObject(mProjectObject).start();
+            }
         } else {
             EnterpriseProjectSetActivity_.intent(BaseProjectHomeFragment.this)
                     .project(mProjectObject)
