@@ -86,6 +86,61 @@ public class PopCaptchaDialog {
         captchaImage.performClick();
     }
 
+    public static void popMessageValid(Context context, String gk, Callback callback) {
+        View layout = LayoutInflater.from(context).inflate(R.layout.dialog_captcha, null);
+        EditText captchaEdit = layout.findViewById(R.id.captchaEdit);
+        ImageView captchaImage = layout.findViewById(R.id.imageValify);
+
+        final int TYPE = 2;
+
+        captchaImage.setOnClickListener(v -> {
+            String url = Global.HOST_API + "/getCaptcha?type=" + TYPE;
+
+            MyAsyncHttpClient.get(context, url, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    captchaImage.setImageBitmap(BitmapFactory.decodeByteArray(responseBody, 0, responseBody.length));
+                    captchaEdit.setText("");
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    SingleToast.showMiddleToast(context, "获取验证码失败");
+                }
+            });
+        });
+
+        AlertDialog dialog = new AlertDialog.Builder(context, R.style.MyAlertDialogStyle)
+                .setView(layout)
+                .setPositiveButton("确定", null)
+                .setNegativeButton("取消", null)
+                .show();
+
+        Button b = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        b.setOnClickListener(view -> {
+            String input = captchaEdit.getText().toString();
+            if (input.isEmpty()) {
+                return;
+            }
+
+            String url = Global.HOST_API + "/request_valid?type=" + TYPE;
+            RequestParams params = new RequestParams();
+            params.put("j_captcha", input);
+            params.put("receiver_global_key", gk);
+
+            MyAsyncHttpClient.post(context, url, params, new MyJsonResponse(context) {
+                @Override
+                public void onMySuccess(JSONObject response) {
+                    dialog.dismiss();
+                    callback.callback(input, dialog);
+                }
+            });
+
+        });
+
+        captchaImage.performClick();
+    }
+
     public interface Callback {
         void callback(String captcha, AlertDialog dialog);
     }

@@ -43,6 +43,7 @@ import net.coding.program.common.model.MyMessage;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.common.param.MessageParse;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.PopCaptchaDialog;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.UploadPublicHelp;
@@ -89,6 +90,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
     final String HOST_MARK_VOICE_PLAYED = Global.HOST_API + "/message/conversations/%s/play";
     private final int REFRUSH_TIME = 3 * 1000;
+    private final int NEED_VALID = 3302;
     @Extra
     UserObject mUserObject;
 
@@ -718,6 +720,36 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                             break;
                         }
                     }
+                }
+
+                if (code == NEED_VALID) {
+                    PopCaptchaDialog.popMessageValid(this, mGlobalKey, new PopCaptchaDialog.Callback() {
+                        @Override
+                        public void callback(String captcha, AlertDialog dialog) {
+                            for (int i = mData.size() - 1; i >= 0; --i) {
+                                Object singleItem = mData.get(i);
+                                if (singleItem instanceof MyMessage) {
+                                    MyMessage myMessage = (MyMessage) singleItem;
+                                    if (myMessage.getCreateTime() == sendId) {
+
+                                        if (myMessage.myRequestType == MyMessage.REQUEST_TEXT) {
+                                            postNetwork(HOST_MESSAGE_SEND, myMessage.requestParams, HOST_MESSAGE_SEND + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
+                                        } else if (myMessage.myRequestType == MyMessage.REQUEST_IMAGE) {
+                                            new UploadPublicHelp(MessageListActivity.this, myMessage.getFile(), MessageListActivity.this, myMessage.getCreateTime()).upload();
+                                        } else if (myMessage.myRequestType == MyMessage.REQUEST_VOICE) {
+                                            MessageParse mp = ContentArea.parseVoice(myMessage.extra);
+                                            postNetwork(HOST_SEND_VOICE, myMessage.requestParams, TAG_SEND_VOICE + mp.voiceUrl, -1, myMessage.getCreateTime());
+                                        }
+                                        myMessage.myStyle = MyMessage.STYLE_SENDING;
+                                        adapter.notifyDataSetChanged();
+
+
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    });
                 }
                 showErrorMsg(code, respanse);
             }

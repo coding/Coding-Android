@@ -82,7 +82,7 @@ public class MyAsyncHttpClient {
         }
 
         String userAgentValue = String.format("coding_android/%s (%s)", versionName, Build.VERSION.SDK_INT);
-
+        userAgentValue = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36";
         mapHeaders.put("User-Agent", userAgentValue);
         mapHeaders.put("Accept", "*/*");
     }
