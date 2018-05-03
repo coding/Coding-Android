@@ -84,7 +84,7 @@ public class BoardFragment extends BaseFragment {
             modifyList.setVisibility(View.VISIBLE);
         }
 
-        boardListTitle.setText(boardList.title);
+        updateTaskListTitle();
 
         codingRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -108,6 +108,10 @@ public class BoardFragment extends BaseFragment {
 
         codingAdapter.setEnableLoadMore(true);
         updateLoadMoreUI();
+    }
+
+    private void updateTaskListTitle() {
+        boardListTitle.setText(String.format("%s · %s",boardList.title, boardList.tasks.totalRow));
     }
 
     @Click
@@ -161,7 +165,7 @@ public class BoardFragment extends BaseFragment {
     }
 
     public void renameTitle(String title) {
-        boardListTitle.setText(title);
+        boardListTitle.setText(String.format("%s · %s", title, boardList.tasks.totalRow));
     }
 
     private void updateLoadMoreUI() {
@@ -203,7 +207,7 @@ public class BoardFragment extends BaseFragment {
         if (event.result) {
             codingAdapter.notifyDataSetChanged();
             updateLoadMoreUI();
-
+            updateTaskListTitle();
         } else {
             codingAdapter.loadMoreFail();
         }
@@ -218,7 +222,7 @@ public class BoardFragment extends BaseFragment {
         EventBus.getDefault().post(new EventBoardRefreshRequest(boardListId, listData.page + 1));
     }
 
-    static class LoadMoreAdapter extends BaseQuickAdapter<SingleTask, BaseViewHolder> {
+    private class LoadMoreAdapter extends BaseQuickAdapter<SingleTask, BaseViewHolder> {
 
         private final int labelLayoutWidth;
 
@@ -258,6 +262,8 @@ public class BoardFragment extends BaseFragment {
                                     public void onSuccess() {
                                         super.onSuccess();
                                         remove(helper.getAdapterPosition());
+                                        boardList.tasks.totalRow--;
+                                        updateTaskListTitle();
                                         EventBus.getDefault().post(EventBoardUpdate.finished);
                                     }
 
@@ -282,6 +288,8 @@ public class BoardFragment extends BaseFragment {
                                     public void onSuccess() {
                                         super.onSuccess();
                                         remove(helper.getAdapterPosition());
+                                        boardList.tasks.totalRow--;
+                                        updateTaskListTitle();
                                         EventBus.getDefault().post(EventBoardUpdate.pending);
                                     }
 
@@ -293,10 +301,6 @@ public class BoardFragment extends BaseFragment {
                     }
                 });
             }
-        }
-
-        private void modifyTask(SingleTask task, boolean done) {
-
         }
     }
 

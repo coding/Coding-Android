@@ -11,9 +11,12 @@
         android:layout_marginTop="15dp"
         android:id="@+id/boardListTitle"
         android:textColor="#FF717F8F"
+        android:singleLine="true"
         android:layout_marginLeft="15dp"
         android:textSize="15sp"
-        tools:text="待处理 · 5" />
+        android:ellipsize="middle"
+        android:layout_marginRight="80dp"
+        tools:text="待待处理待处理待处理待处理待处理待处理待待处理待处理待处理处理 · 5" />
 
     <TextView
         android:id="@+id/modifyList"

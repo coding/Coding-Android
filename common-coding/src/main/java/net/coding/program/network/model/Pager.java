@@ -26,6 +26,8 @@ public class Pager<T> extends PageInfo implements Serializable {
         list.addAll(result.list);
         page = result.page;
         totalPage = result.totalPage;
+        totalRow = result.totalRow;
+        pageSize = result.pageSize;
     }
 
     public void add(List<T> dataList, PageInfo pageInfo) {
@@ -36,6 +38,8 @@ public class Pager<T> extends PageInfo implements Serializable {
         list.addAll(dataList);
         page = pageInfo.page;
         totalPage = pageInfo.totalPage;
+        totalRow = pageInfo.totalRow;
+        pageSize = pageInfo.pageSize;
     }
 
     public void clear() {

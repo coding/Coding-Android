@@ -214,7 +214,8 @@ public class TaskBoardActivity extends BackActivity {
 
                         board = data;
 
-                        AccountInfo.removehideInitBoard(TaskBoardActivity.this, board.id);
+                        // 测试用
+                        // AccountInfo.removehideInitBoard(TaskBoardActivity.this, board.id);
                         conversionData();
                         bindUI();
                     }
@@ -312,7 +313,6 @@ public class TaskBoardActivity extends BackActivity {
     }
 
 
-
     private void bindUI() {
         pagerAdapter = new FragmentPagerAdapter();
         container.setAdapter(pagerAdapter);
@@ -335,10 +335,12 @@ public class TaskBoardActivity extends BackActivity {
             }
 
             @Override
-            public void onPageSelected(int position) {}
+            public void onPageSelected(int position) {
+            }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
     }
 
