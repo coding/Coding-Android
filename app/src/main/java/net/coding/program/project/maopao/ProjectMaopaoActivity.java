@@ -70,7 +70,7 @@ public class ProjectMaopaoActivity extends BackActivity implements LoadMore {
         @Override
         public void onClick(View v) {
             new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle)
-                    .setMessage(R.string.delete_maopao)
+                    .setMessage("确定删除？")
                     .setPositiveButton("确定", (dialog, which) -> deleteMaopao(v))
                     .setNegativeButton("取消", null)
                     .show();
@@ -103,6 +103,17 @@ public class ProjectMaopaoActivity extends BackActivity implements LoadMore {
         }
     };
 
+    View.OnClickListener clickEdit = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Maopao.MaopaoObject maopao = (Maopao.MaopaoObject) v.getTag();
+            ProjectMaopaoAddActivity_.intent(ProjectMaopaoActivity.this)
+                    .projectObject(projectObject)
+                    .maopao(maopao)
+                    .startForResult(RESULT_EDIT);
+        }
+    };
+
     @AfterViews
     void initProjectMaopaoActivity() {
         if (projectObject != null) {
@@ -127,7 +138,7 @@ public class ProjectMaopaoActivity extends BackActivity implements LoadMore {
     }
 
     protected void initAdapter() {
-        projectMaopaoAdapter = new ProjectMaopaoAdapter(listData, this, clickDelete, clickListItem);
+        projectMaopaoAdapter = new ProjectMaopaoAdapter(listData, this, clickDelete, clickEdit, clickListItem, projectObject.isManagerLevel());
     }
 
     protected void initListItemClick() {
@@ -147,7 +158,7 @@ public class ProjectMaopaoActivity extends BackActivity implements LoadMore {
             return;
         }
 
-        projectMaopaoUrl = String.format(Global.HOST_API + "/project/%s/tweet?last_id=%d", projectObject.getId(), lastId);
+        projectMaopaoUrl = String.format(Global.HOST_API + "/project/%s/tweet?last_id=%d&withRaw=true", projectObject.getId(), lastId);
         getNetwork(projectMaopaoUrl, projectMaopaoUrl);
     }
 

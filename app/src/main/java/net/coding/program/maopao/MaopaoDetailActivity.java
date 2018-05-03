@@ -37,6 +37,7 @@ import net.coding.program.common.widget.input.MainInputView;
 import net.coding.program.maopao.item.HtmlCommentHolder;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
+import net.coding.program.project.maopao.ProjectMaopaoAddActivity_;
 import net.coding.program.third.EmojiFilter;
 import net.coding.program.util.TextWatcherAt;
 
@@ -60,6 +61,8 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     private static final String TAG_PROJECT = "TAG_PROJECT";
     final String HOST_GOOD = Global.HOST_API + "/tweet/%s/%s";
     final int RESULT_REQUEST_AT = 1;
+    private static final int RESULT_EDIT = 2;
+
     private final String TAG_LIKE_USERS = "TAG_LIKE_USERS";
     String URI_COMMENT_DELETE = Global.HOST_API + "/tweet/%s/comment/%s";
     String URI_COMMENT = Global.HOST_API + "/tweet/%s/comments?pageSize=500";
@@ -122,11 +125,13 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     TextView reward;
 
     View.OnClickListener onClickDeleteMaopao = v -> actionDeleteMaopao();
+    View.OnClickListener onClickEditMaopao = v -> actionEditMaopao();
+
     boolean mModifyComment = false;
     View.OnClickListener onClickComment = v -> {
         final Maopao.Comment comment = (Maopao.Comment) v.getTag();
         if (comment.isMy()) {
-            showDialog("冒泡", "删除评论？", (dialog, which) -> {
+            showDialog("删除评论？", (dialog, which) -> {
                 String url = String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id);
                 deleteNetwork(url, URI_COMMENT_DELETE);
             });
@@ -170,9 +175,20 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         }
     };
 
+    private void actionEditMaopao() {
+        if (mClickParam == null || !mClickParam.isProjectMaopao()) {
+            return;
+        }
+
+        ProjectMaopaoAddActivity_.intent(this)
+                .projectObject(mProjectObject)
+                .maopao(mMaopaoObject)
+                .startForResult(RESULT_EDIT);
+    }
+
     private void actionDeleteMaopao() {
         final int maopaoId = mMaopaoObject.id;
-        showDialog(R.string.delete_maopao, (dialog, which) -> {
+        showDialog("确定删除？", (dialog, which) -> {
             final String url;
             if (mClickParam != null && mClickParam.isProjectMaopao()) {
                 if (mProjectObject != null) {
@@ -293,7 +309,12 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
     void initHead() {
         if (mListHead == null) {
-            mListHead = mInflater.inflate(R.layout.activity_maopao_detail_head, listView, false);
+            int maopaoHeaderId = R.layout.activity_maopao_detail_head;
+            if (mClickParam != null && mClickParam.isProjectMaopao()) {
+                maopaoHeaderId = R.layout.activity_project_maopao_detail_head;
+            }
+
+            mListHead = mInflater.inflate(maopaoHeaderId, listView, false);
             listView.addHeaderView(mListHead, null, false);
         }
 
@@ -389,14 +410,37 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         } else {
             deleteButton.setVisibility(View.INVISIBLE);
         }
-    }
 
+        View editButton = mListHead.findViewById(R.id.editButton);
+        if (editButton != null) {
+            if (mMaopaoObject.owner.isMe()) {
+                editButton.setVisibility(View.VISIBLE);
+                editButton.setOnClickListener(onClickEditMaopao);
+            } else {
+                editButton.setVisibility(View.INVISIBLE);
+            }
+
+            // 项目管理员可以编辑删除冒泡
+            if (mProjectObject != null && mProjectObject.isManagerLevel()) {
+                deleteButton.setVisibility(View.VISIBLE);
+                editButton.setVisibility(View.VISIBLE);
+            }
+        }
+    }
 
     @OnActivityResult(RESULT_REQUEST_AT)
     void onResultAt(int requestCode, Intent data) {
         if (requestCode == Activity.RESULT_OK) {
             String name = data.getStringExtra("name");
             mEnterLayout.insertText(name);
+        }
+    }
+
+    @OnActivityResult(RESULT_EDIT)
+    void onResult(int requestCode) {
+        if (requestCode == RESULT_OK) {
+            onRefresh();
+            setResult(RESULT_OK);
         }
     }
 

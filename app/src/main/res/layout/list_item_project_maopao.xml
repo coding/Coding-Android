@@ -167,6 +167,14 @@
                     tools:text="3 条评论" />
 
                 <TextView
+                    android:id="@+id/edit"
+                    style="@style/MaopaoDelete"
+                    android:text="编辑"
+                    android:layout_marginRight="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true" />
+
+                <TextView
                     android:id="@+id/delete"
                     style="@style/MaopaoDelete"
                     android:layout_height="wrap_content"

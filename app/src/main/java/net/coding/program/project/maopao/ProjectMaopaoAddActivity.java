@@ -2,12 +2,14 @@ package net.coding.program.project.maopao;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.Maopao;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.topic.TopicData;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -26,12 +28,19 @@ public class ProjectMaopaoAddActivity extends BackActivity implements EditPrevie
     @Extra
     ProjectObject projectObject;
 
+    @Extra
+    Maopao.MaopaoObject maopao;
+
     Fragment editFragment;
     ProjectMaopaoPreviewFragment previewFragment;
     private TopicData modifyData = new TopicData();
 
     @AfterViews
     protected final void initProjectMaopaoAddActivity() {
+        if (maopao != null && !TextUtils.isEmpty(maopao.raw)) {
+            modifyData.content = maopao.raw;
+        }
+
         editFragment = CodingCompat.instance().getProjectMaopaoEditFragment();
         previewFragment = ProjectMaopaoPreviewFragment_.builder().build();
 
@@ -42,29 +51,55 @@ public class ProjectMaopaoAddActivity extends BackActivity implements EditPrevie
 
     @Override
     public void exit() {
-        String url = String.format(Global.HOST_API + "/project/%s/tweet", projectObject.getId());
-        RequestParams params = new RequestParams();
-        params.put("content", modifyData.content);
-        MyAsyncHttpClient.post(this, url, params, new MyJsonResponse(this) {
+        if (maopao == null) {
+            String url = String.format(Global.HOST_API + "/project/%s/tweet", projectObject.getId());
+            RequestParams params = new RequestParams();
+            params.put("content", modifyData.content);
+            MyAsyncHttpClient.post(this, url, params, new MyJsonResponse(this) {
 
-            @Override
-            public void onMySuccess(JSONObject response) {
-                super.onMySuccess(response);
-                showProgressBar(false);
+                @Override
+                public void onMySuccess(JSONObject response) {
+                    super.onMySuccess(response);
+                    showProgressBar(false);
 
-                Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
-                finish();
-            }
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
 
-            @Override
-            public void onMyFailure(JSONObject response) {
-                super.onMyFailure(response);
-                showProgressBar(false);
-            }
-        });
+                @Override
+                public void onMyFailure(JSONObject response) {
+                    super.onMyFailure(response);
+                    showProgressBar(false);
+                }
+            });
 
-        showProgressBar(true);
+            showProgressBar(true);
+        } else {
+            String url = String.format(Global.HOST_API + "/project/%s/tweet/%s", projectObject.getId(), maopao.id);
+            RequestParams params = new RequestParams();
+            params.put("raw", modifyData.content);
+            MyAsyncHttpClient.put(this, url, params, new MyJsonResponse(this) {
+
+                @Override
+                public void onMySuccess(JSONObject response) {
+                    super.onMySuccess(response);
+                    showProgressBar(false);
+
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+
+                @Override
+                public void onMyFailure(JSONObject response) {
+                    super.onMyFailure(response);
+                    showProgressBar(false);
+                }
+            });
+
+            showProgressBar(true);
+        }
     }
 
     @Override

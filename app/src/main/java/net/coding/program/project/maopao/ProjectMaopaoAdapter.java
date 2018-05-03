@@ -29,6 +29,7 @@ class ProjectMaopaoAdapter extends BaseAdapter {
     List<Maopao.MaopaoObject> listData;
     LoadMore loadMore;
     View.OnClickListener clickDelete;
+    View.OnClickListener clickEdit;
     View.OnClickListener clickListItem;
 
     ClickSmallImage onClickImage;
@@ -37,17 +38,23 @@ class ProjectMaopaoAdapter extends BaseAdapter {
 
     int mPxImageWidth;
 
+    boolean isManager;
+
     public ProjectMaopaoAdapter(List<Maopao.MaopaoObject> listData, ProjectMaopaoActivity activity,
-                                View.OnClickListener clickDelete, View.OnClickListener clickListItem) {
+                                View.OnClickListener clickDelete, View.OnClickListener clickEdit,
+                                View.OnClickListener clickListItem,
+                                boolean isManager) {
         this.listData = listData;
         this.loadMore = activity;
         this.clickDelete = clickDelete;
+        this.clickEdit = clickEdit;
         this.clickListItem = clickListItem;
 
         onClickImage = new ClickSmallImage(activity);
         myImageGetter = new MyImageGetter(activity);
         imageLoadTool = activity.getImageLoad();
         mPxImageWidth = GlobalCommon.dpToPx(GlobalData.sWidthDp - 12 - 40 - 10 - 10 - 3 * 2) / 3;
+        this.isManager = isManager;
     }
 
     @Override
@@ -83,10 +90,13 @@ class ProjectMaopaoAdapter extends BaseAdapter {
         holder.content.setText(GlobalCommon.changeHyperlinkColor(data.content.replace("<p>", "").replace("</p>", "").replace("</blockquote>", "").replace("<blockquote>", "")));
         holder.comment.setText(String.format("%s条评论", data.comments));
         holder.delete.setTag(data);
-        if (data.owner_id == GlobalData.sUserObject.id) {
+        holder.edit.setTag(data);
+        if (data.owner_id == GlobalData.sUserObject.id || isManager) {
             holder.delete.setVisibility(View.VISIBLE);
+            holder.edit.setVisibility(View.VISIBLE);
         } else {
             holder.delete.setVisibility(View.INVISIBLE);
+            holder.edit.setVisibility(View.INVISIBLE);
         }
 
         holder.contentArea.setData(data);
@@ -106,6 +116,7 @@ class ProjectMaopaoAdapter extends BaseAdapter {
         TextView content;
         TextView comment;
         View delete;
+        View edit;
         ContentArea contentArea;
 
         public ViewHolder(View v) {
@@ -116,6 +127,8 @@ class ProjectMaopaoAdapter extends BaseAdapter {
             comment = (TextView) v.findViewById(R.id.comment);
             delete = v.findViewById(R.id.delete);
             delete.setOnClickListener(clickDelete);
+            edit = v.findViewById(R.id.edit);
+            edit.setOnClickListener(clickEdit);
             contentArea = new ContentArea(v, clickListItem, onClickImage, myImageGetter, imageLoadTool, mPxImageWidth);
         }
     }
