@@ -474,7 +474,7 @@ public class MyApp extends MultiDexApplication {
                     return true;
                 }
 
-                // 项目内冒泡
+                // 项目公告
                 // https://coding.net/t/superrocket/p/TestPrivate?pp=2417
                 final String projectMaopao = String.format("^%s\\?pp=([\\d]+)", ProjectPath);
                 pattern = Pattern.compile(projectMaopao);

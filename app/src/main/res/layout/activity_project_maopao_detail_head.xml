@@ -183,6 +183,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/commentBtn"
                 android:gravity="center"
+                android:layout_marginRight="10dp"
                 android:text="删除"
                 android:textColor="@color/font_green" />
 

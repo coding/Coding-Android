@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * Created by chenchao on 16/7/21.
- * 项目内冒泡的 adapter
+ * 项目公告的 adapter
  */
 class ProjectMaopaoAdapter extends BaseAdapter {
 

@@ -125,7 +125,7 @@ public class ProjectMaopaoActivity extends BackActivity implements LoadMore {
     }
 
     private void initList() {
-        setActionBarTitle(projectObject.name);
+        setActionBarTitle("项目公告");
 
         initAdapter();
 
