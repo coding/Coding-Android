@@ -262,6 +262,7 @@ public class PhoneRegisterActivity extends BackActivity {
 
     @Click
     void login() {
+        finish();
         Global.popSoftkeyboard(this, phoneEdit, false);
         LoginActivity_.intent(this).start();
     }
@@ -273,7 +274,7 @@ public class PhoneRegisterActivity extends BackActivity {
 
     @Click
     void backImage() {
-        onBackPressed();
+        login();
     }
 
     @OnActivityResult(EmailRegisterActivity.RESULT_REGISTER_EMAIL)

@@ -114,7 +114,7 @@
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:theme="@style/AppThemeNoActionbar"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
