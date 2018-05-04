@@ -32,11 +32,7 @@ public class ProjectSettingMainActivity extends BackActivity {
 
     @AfterViews
     void initProjectSettingMainActivity() {
-        if (projectObject.isManagerLevel()) {
-            memberList.setText("成员管理");
-        } else {
-            memberList.setText("成员列表");
-        }
+        memberList.setText("成员管理");
     }
 
     @Override
