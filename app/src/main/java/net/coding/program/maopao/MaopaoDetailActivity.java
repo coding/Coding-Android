@@ -423,7 +423,10 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
             // 项目管理员可以编辑删除冒泡
             if (mProjectObject != null && mProjectObject.isManagerLevel()) {
                 deleteButton.setVisibility(View.VISIBLE);
+                deleteButton.setOnClickListener(onClickDeleteMaopao);
+
                 editButton.setVisibility(View.VISIBLE);
+                editButton.setOnClickListener(onClickEditMaopao);
             }
         }
     }
@@ -617,7 +620,11 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
             content.setTag(comment);
         } else if (data instanceof Maopao.MaopaoObject) {
             comment = new Maopao.Comment((Maopao.MaopaoObject) data);
-            content.setHint("评论冒泡");
+            if (mClickParam != null && mClickParam.isProjectMaopao()) {
+                content.setHint("评论公告");
+            } else {
+                content.setHint("评论冒泡");
+            }
             content.setTag(comment);
         }
 

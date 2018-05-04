@@ -221,7 +221,7 @@
     <string name="title_activity_project_maopao">项目公告</string>
     <string name="title_activity_project_maopao_add">创建项目公告</string>
     <string name="project_maopao_list_empty">暂时没有项目公告哦～</string>
-    <string name="input_project_maopao_content">输入冒泡内容</string>
+    <string name="input_project_maopao_content">输入公告内容</string>
     <string name="title_activity_topic_comment_detail">讨论详情</string>
     <string name="title_activity_team_list">团队</string>
     <string name="title_activity_team_list_detail">团队首页</string>

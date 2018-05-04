@@ -39,6 +39,7 @@ public class ProjectMaopaoAddActivity extends BackActivity implements EditPrevie
     protected final void initProjectMaopaoAddActivity() {
         if (maopao != null && !TextUtils.isEmpty(maopao.raw)) {
             modifyData.content = maopao.raw;
+            setActionBarTitle("修改项目公告");
         }
 
         editFragment = CodingCompat.instance().getProjectMaopaoEditFragment();
@@ -51,6 +52,11 @@ public class ProjectMaopaoAddActivity extends BackActivity implements EditPrevie
 
     @Override
     public void exit() {
+        if (TextUtils.isEmpty(modifyData.content)) {
+            showButtomToast("内容不能为空");
+            return;
+        }
+
         if (maopao == null) {
             String url = String.format(Global.HOST_API + "/project/%s/tweet", projectObject.getId());
             RequestParams params = new RequestParams();
