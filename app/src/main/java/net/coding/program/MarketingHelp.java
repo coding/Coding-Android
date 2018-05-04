@@ -9,6 +9,7 @@ import net.coding.program.common.model.MarkedMarketingData;
 /**
  * Created by chenchao on 16/1/18.
  * 打开市场活动的链接
+ * todo delete
  */
 public class MarketingHelp {
 

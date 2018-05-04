@@ -291,7 +291,7 @@ public class PhoneRegisterActivity extends BackActivity {
             firstLayout.setVisibility(View.VISIBLE);
             secondLayout.setVisibility(View.GONE);
         } else {
-            super.onBackPressed();
+            login();
         }
     }
 }

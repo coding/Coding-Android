@@ -265,7 +265,7 @@ public class TopicLabelActivity extends BackActivity {
         if (code == 0) {
             currentLabelId = json.getInt("data");
             editText.setText("");
-            allLabels.put(currentLabelId, new TopicLabelObject(currentLabelId, currentLabelName, Color.parseColor(COLOR)));
+            allLabels.put(currentLabelId, new TopicLabelObject(currentLabelId, currentLabelName, Color.parseColor(COLOR), COLOR));
             updateList();
             showButtomToast("添加标签成功^^");
 

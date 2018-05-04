@@ -196,8 +196,7 @@ public class LoginActivity extends BaseActivity {
     @Click
     void register() {
         Global.popSoftkeyboard(this, editName, false);
-        PhoneRegisterActivity_.intent(this)
-                .startForResult(RESULT_CLOSE);
+        PhoneRegisterActivity_.intent(this).start();
     }
 
     @OnActivityResult(RESULT_CLOSE_2FA)
@@ -316,8 +315,6 @@ public class LoginActivity extends BaseActivity {
                     .account(account)
                     .start();
         }
-
-        finish();
     }
 
     @Click

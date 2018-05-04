@@ -45,6 +45,7 @@ public class EntranceActivity extends BaseActivity {
     private static final String TAG = Global.makeLogTag(EntranceActivity.class);
 
     private String jumpLink = "";
+    private String imageJumpLink = "";
 
     @ViewById
     ImageView image;
@@ -80,9 +81,10 @@ public class EntranceActivity extends BaseActivity {
                                     .start();
                             break;
                         default:
-                            WebActivity_.intent(this)
-                                    .url(link)
-                                    .start();
+//                            WebActivity_.intent(this)
+//                                    .url(link)
+//                                    .start();
+                            // do nothings
                             break;
                     }
                     break;
@@ -127,7 +129,8 @@ public class EntranceActivity extends BaseActivity {
 
     @Click
     void image() {
-        if (!TextUtils.isEmpty(jumpLink)) {
+        if (!TextUtils.isEmpty(imageJumpLink)) {
+            jumpLink = imageJumpLink;
             realNext(true);
         }
     }
@@ -149,10 +152,10 @@ public class EntranceActivity extends BaseActivity {
         if (file.exists()) {
             background = Uri.fromFile(file);
             image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("file://" + file.getPath(), ImageLoadTool.enterOptions));
-            jumpLink = photoItem.getGroup().getLink();
+            imageJumpLink = photoItem.getGroup().getLink();
         }
 
-        MarketingHelp.setUrl(photoItem.getGroup().getLink());
+//        MarketingHelp.setUrl(photoItem.getGroup().getLink());
     }
 
     @UiThread(delay = 2000)

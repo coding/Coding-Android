@@ -48,10 +48,11 @@ public class TopicLabelObject implements Serializable {
         }
     }
 
-    public TopicLabelObject(int id, String name, int color) {
+    public TopicLabelObject(int id, String name, int color, String colorString) {
         this.id = id;
         this.name = name;
         this.color = color;
+        this.colorString = colorString;
     }
 
     public TopicLabelObject(TopicLabelObject src) {
@@ -59,6 +60,7 @@ public class TopicLabelObject implements Serializable {
         name = src.name;
         count = src.count;
         color = src.getColorValue();
+        colorString = src.colorString;
     }
 
     public int getColorValue() {
