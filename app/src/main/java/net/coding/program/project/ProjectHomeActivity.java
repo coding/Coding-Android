@@ -99,6 +99,7 @@ public class ProjectHomeActivity extends BackActivity {
             }
         } else if (tag.equals(PrivateProjectHomeFragment.getHostVisit())) {
             if (code == 0) {
+                mNeedUpdateList = false;
                 EventBus.getDefault().post(new EventProjectModify());
             } else {
                 showErrorMsg(code, respanse);
