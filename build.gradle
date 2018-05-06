@@ -2,13 +2,15 @@
 
 buildscript {
     ext.kotlinVersion = '1.2.30'
-    ext.supportVersion = '27.1.0'
+    ext.supportVersion = '27.1.1'
     ext.AAVersion = '4.4.0'
     ext.compileSdkVersionValue = 27
     ext.buildToolsVersionValue = '27.0.3'
-    ext.runnerVersion = '1.0.0'
-    ext.rulesVersion = '1.0.0'
-    ext.espressoVersion = '3.0.0'
+
+    // 测试框架版本号
+    ext.runnerVersion = '1.0.2'
+    ext.rulesVersion = '1.0.2'
+    ext.espressoVersion = '3.0.2'
 
     repositories {
         jcenter()
