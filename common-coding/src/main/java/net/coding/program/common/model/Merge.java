@@ -1,16 +1,12 @@
 package net.coding.program.common.model;
 
-import android.databinding.BindingAdapter;
 import android.text.Spannable;
-import android.widget.ImageView;
 
 import com.loopj.android.http.RequestParams;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
-import net.coding.program.common.ImageLoadTool;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,11 +83,6 @@ public class Merge implements Serializable {
 
     public String getBottomName() {
         return getTitleIId() + "  " + getAuthor().name;
-    }
-
-    @BindingAdapter({"imageUrl"})
-    public static void loadImage(ImageView view, String imageUrl) {
-        ImageLoader.getInstance().displayImage(imageUrl, view, ImageLoadTool.options);
     }
 
     public String getDesBranch() {

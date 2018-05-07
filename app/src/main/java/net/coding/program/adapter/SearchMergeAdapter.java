@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.model.Merge;
 import net.coding.program.databinding.SearchMergeListBinding;
 
@@ -46,7 +49,11 @@ public class SearchMergeAdapter extends BaseAdapter {
         } else {
             binding = (SearchMergeListBinding) convertView.getTag();
         }
-        binding.setData(mData.get(position));
+        Merge data = mData.get(position);
+        binding.setData(data);
+
+        ImageLoader.getInstance().displayImage(data.getAuthor().avatar, binding.personImg, ImageLoadTool.options);
+
         return convertView;
     }
 }
