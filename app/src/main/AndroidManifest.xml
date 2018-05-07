@@ -74,6 +74,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
+        android:resizeableActivity="true"
         android:largeHeap="true"
         android:theme="@style/ActionbarNoIcon">
 

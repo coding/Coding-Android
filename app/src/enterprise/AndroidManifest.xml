@@ -21,6 +21,7 @@
     <application
         android:name=".EnterpriseApp"
         android:label="@string/app_name"
+        android:resizeableActivity="true"
         tools:replace="android:name">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

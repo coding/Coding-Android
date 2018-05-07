@@ -4,6 +4,7 @@
     package="net.coding.program">
 
     <application
+        android:resizeableActivity="true"
         android:name=".PersonApp"
         android:label="@string/app_name"
         tools:replace="android:name">
