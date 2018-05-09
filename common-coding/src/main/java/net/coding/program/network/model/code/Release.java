@@ -30,25 +30,25 @@ public class Release implements Serializable {
     public int iid;
     @SerializedName("tag_name")
     @Expose
-    public String tagName;
+    public String tagName = "";
     @SerializedName("commit_sha")
     @Expose
-    public String commitSha;
+    public String commitSha = "";
     @SerializedName("target_commitish")
     @Expose
-    public String targetCommitish;
+    public String targetCommitish = "";
     @SerializedName("title")
     @Expose
-    public String title;
+    public String title = "";
     @SerializedName("body")
     @Expose
-    public String body;
+    public String body = "";
     @SerializedName("markdownBody")
     @Expose
-    public String markdownBody;
+    public String markdownBody = "";
     @SerializedName("compare_tag_name")
     @Expose
-    public String compareTagName;
+    public String compareTagName = "";
     @SerializedName("author")
     @Expose
     public UserObject author;
