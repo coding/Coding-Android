@@ -30,9 +30,9 @@ public class TaskFilterFragment extends LoadingFragment {
     //项目外
     protected final String urlTaskCountAll = Global.HOST_API + "/tasks/count";
     protected final String urlTaskLabel = Global.HOST_API + "/projects/tasks/labels?role=";
-    protected final String urlTaskSomeCount_owner = Global.HOST_API + "/tasks/search?project_id=%s&owner=%s";
-    protected final String urlTaskSomeCount_watcher = Global.HOST_API + "/tasks/search?project_id=%s&watcher=%s";
-    protected final String urlTaskSomeCount_creator = Global.HOST_API + "/tasks/search?project_id=%s&creator=%s";
+    protected final String urlTaskSomeCount_owner = Global.HOST_API + "/tasks/list?project_id=%s&owner=%s";
+    protected final String urlTaskSomeCount_watcher = Global.HOST_API + "/tasks/list?project_id=%s&watcher=%s";
+    protected final String urlTaskSomeCount_creator = Global.HOST_API + "/tasks/list?project_id=%s&creator=%s";
     protected final String urlTaskSomeOther = Global.HOST_API + "/project/%s/tasks/counts";
 
     //项目外特定项目
@@ -47,7 +47,7 @@ public class TaskFilterFragment extends LoadingFragment {
      * 进行中已完成的数量也有了
      */
     protected final String urlALL_Count = Global.HOST_API + "/project/%s/task/count";
-    protected final String urlALL_WATCH_Count = Global.HOST_API + "/tasks/search?project_id=%s&watcher=%s";
+    protected final String urlALL_WATCH_Count = Global.HOST_API + "/tasks/list?project_id=%s&watcher=%s";
     //全部任务」的标签
     protected final String urlALL_Label = Global.HOST_API + "/user/%s/project/%s/task/label?withCount=true";
 

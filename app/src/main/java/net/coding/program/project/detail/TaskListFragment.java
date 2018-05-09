@@ -62,6 +62,7 @@ public class TaskListFragment extends RefreshBaseFragment {
     final String URL_TASK_SATUS = Global.HOST_API + "/task/%s/status";
     //筛选
     final String URL_TASK_FILTER = Global.HOST_API + "/tasks/search?";
+    final String URL_TASK_FILTER_BLANK_KEYWORD = Global.HOST_API + "/tasks/list?";
     @FragmentArg
     boolean mShowAdd = false;
     // 4.关键字筛选
@@ -190,6 +191,11 @@ public class TaskListFragment extends RefreshBaseFragment {
     String createHost(String userId, String type) {
         //检查是否有筛选条件
         String searchUrl = checkHostFilter();
+
+        if (!searchUrl.contains("keyword=")) {
+            return URL_TASK_FILTER_BLANK_KEYWORD + searchUrl;
+        }
+
         if (!TextUtils.isEmpty(searchUrl)) {
             return URL_TASK_FILTER + searchUrl;
         }
