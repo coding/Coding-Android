@@ -22,10 +22,10 @@ public class Board implements Serializable {
     public int projectId;
     @SerializedName("title")
     @Expose
-    public String title;
+    public String title = "";
     @SerializedName("remark")
     @Expose
-    public String remark;
+    public String remark = "";
     @SerializedName("created_at")
     @Expose
     public long createdAt;

@@ -35,10 +35,10 @@ public class AppVersion extends BaseHttpResult implements Serializable {
     public String version = "";
     @SerializedName("url")
     @Expose
-    public String url;
+    public String url = "";
     @SerializedName("message")
     @Expose
-    public String message;
+    public String message = "";
     @SerializedName("status")
     @Expose
     public int status;

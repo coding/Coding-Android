@@ -13,10 +13,10 @@ public class LastCommit implements Serializable {
 
     @SerializedName("shortMessage")
     @Expose
-    public String shortMessage;
+    public String shortMessage = "";
     @SerializedName("commitId")
     @Expose
-    public String commitId;
+    public String commitId = "";
     @SerializedName("commitTime")
     @Expose
     public long commitTime;

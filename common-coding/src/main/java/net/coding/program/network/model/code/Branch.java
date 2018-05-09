@@ -11,7 +11,7 @@ public class Branch implements Serializable {
 
     @SerializedName("name")
     @Expose
-    public String name;
+    public String name = "";
     @SerializedName("last_commit")
     @Expose
     public LastCommit lastCommit;

@@ -22,13 +22,13 @@ public class ResourceReference implements Serializable {
     public int targetId;
     @SerializedName("title")
     @Expose
-    public String title;
+    public String title = "";
     @SerializedName("link")
     @Expose
-    public String link;
+    public String link = "";
     @SerializedName("img")
     @Expose
-    public String img;
+    public String img = "";
     @SerializedName("status")
     @Expose
     public int status;

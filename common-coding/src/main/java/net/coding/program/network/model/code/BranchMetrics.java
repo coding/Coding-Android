@@ -11,7 +11,7 @@ public class BranchMetrics implements Serializable {
 
     @SerializedName("base")
     @Expose
-    public String base;
+    public String base = "";
     @SerializedName("ahead")
     @Expose
     public int ahead;

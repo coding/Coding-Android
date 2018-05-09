@@ -38,13 +38,13 @@ public class Wiki implements Serializable, ShareParam {
     public UserObject editor;
     @SerializedName("title")
     @Expose
-    public String title;
+    public String title = "";
     @SerializedName("content")
     @Expose
-    public String content;
+    public String content = "";
     @SerializedName("msg")
     @Expose
-    public String msg;
+    public String msg = "";
     @SerializedName("historyId")
     @Expose
     public int historyId;
@@ -56,7 +56,7 @@ public class Wiki implements Serializable, ShareParam {
     public int iid;
     @SerializedName("html")
     @Expose
-    public String html;
+    public String html = "";
     @SerializedName("createdAt")
     @Expose
     public long createdAt;
@@ -80,7 +80,7 @@ public class Wiki implements Serializable, ShareParam {
     public int parentIid;
     @SerializedName("path")
     @Expose
-    public String path;
+    public String path = "";
     @SerializedName("order")
     @Expose
     public float order;

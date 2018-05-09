@@ -32,9 +32,9 @@ public class Share implements Serializable {
     public long createdAt;
     @SerializedName("hash")
     @Expose
-    public String hash;
+    public String hash = "";
     @SerializedName("url")
     @Expose
-    public String url;
+    public String url = "";
 
 }

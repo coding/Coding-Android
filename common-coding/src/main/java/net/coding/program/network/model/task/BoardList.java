@@ -43,10 +43,10 @@ public class BoardList implements Serializable {
     public int boardId;
     @SerializedName("title")
     @Expose
-    public String title;
+    public String title = "";
     @SerializedName("remark")
     @Expose
-    public String remark;
+    public String remark = "";
     @SerializedName("order")
     @Expose
     public int order;

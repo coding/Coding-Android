@@ -29,7 +29,7 @@ public class MemberRole implements Serializable {
     public int type;
     @SerializedName("alias")
     @Expose
-    public String alias;
+    public String alias = "";
     @SerializedName("created_at")
     @Expose
     public long createdAt;

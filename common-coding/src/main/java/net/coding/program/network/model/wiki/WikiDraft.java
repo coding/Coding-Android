@@ -12,8 +12,8 @@ public class WikiDraft implements Serializable {
 
     private static final long serialVersionUID = -3651464885499545651L;
 
-    public String content;
-    public String title;
+    public String content = "";
+    public String title = "";
     public long updateAt; // 保存 wiki 的 updateAt
 //    public int version;
 

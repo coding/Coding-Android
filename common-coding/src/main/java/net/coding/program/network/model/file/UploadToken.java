@@ -14,13 +14,13 @@ public class UploadToken implements Serializable {
 
     @SerializedName("uptoken")
     @Expose
-    public String uptoken;
+    public String uptoken = "";
     @SerializedName("authToken")
     @Expose
-    public String authToken;
+    public String authToken = "";
     @SerializedName("time")
     @Expose
-    public String time;
+    public String time = "";
     @SerializedName("userId")
     @Expose
     public int userId;

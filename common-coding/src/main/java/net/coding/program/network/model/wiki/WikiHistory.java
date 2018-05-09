@@ -21,19 +21,19 @@ public class WikiHistory implements Serializable {
     public long historyId;
     @SerializedName("content")
     @Expose
-    public String content;
+    public String content = "";
     @SerializedName("html")
     @Expose
-    public String html;
+    public String html = "";
     @SerializedName("title")
     @Expose
-    public String title;
+    public String title = "";
     @SerializedName("msg")
     @Expose
-    public String msg;
+    public String msg = "";
     @SerializedName("type")
     @Expose
-    public String type;
+    public String type = "";
     @SerializedName("wikiId")
     @Expose
     public int wikiId;

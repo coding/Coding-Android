@@ -15,32 +15,32 @@ public class WeixinOrder implements Serializable {
 
     @SerializedName("package")
     @Expose
-    public String _package;
+    public String _package = "";
     @SerializedName("orderId")
     @Expose
-    public String orderId;
+    public String orderId = "";
     @SerializedName("paymentId")
     @Expose
-    public String paymentId;
+    public String paymentId = "";
     @SerializedName("payMethod")
     @Expose
-    public String payMethod;
+    public String payMethod = "";
     @SerializedName("appId")
     @Expose
-    public String appId;
+    public String appId = "";
     @SerializedName("sign")
     @Expose
-    public String sign;
+    public String sign = "";
     @SerializedName("partnerId")
     @Expose
-    public String partnerId;
+    public String partnerId = "";
     @SerializedName("prepayId")
     @Expose
-    public String prepayId;
+    public String prepayId = "";
     @SerializedName("nonceStr")
     @Expose
-    public String nonceStr;
+    public String nonceStr = "";
     @SerializedName("timestamp")
     @Expose
-    public String timestamp;
+    public String timestamp = "";
 }

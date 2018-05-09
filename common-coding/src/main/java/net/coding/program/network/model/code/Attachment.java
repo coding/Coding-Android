@@ -16,7 +16,7 @@ public class Attachment implements Serializable {
     public int id;
     @SerializedName("name")
     @Expose
-    public String name;
+    public String name = "";
     @SerializedName("size")
     @Expose
     public long size;

@@ -36,8 +36,8 @@ public class ManagerUser implements Serializable {
     public int role;
     @SerializedName("alias")
     @Expose
-    public String alias;
+    public String alias = "";
     @SerializedName("default2faMethod")
     @Expose
-    public String default2faMethod;
+    public String default2faMethod = "";
 }
