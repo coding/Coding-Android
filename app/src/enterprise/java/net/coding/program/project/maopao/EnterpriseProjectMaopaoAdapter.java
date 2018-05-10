@@ -81,12 +81,7 @@ class EnterpriseProjectMaopaoAdapter extends BaseAdapter {
         holder.name.setText(data.owner.name);
         holder.time.setText(Global.getTimeDetail(data.created_at));
         holder.content.setText(GlobalCommon.changeHyperlinkColor(data.content.replace("<p>", "").replace("</p>", "").replace("</blockquote>", "").replace("<blockquote>", "")));
-        holder.delete.setTag(data);
-        if (data.owner_id == GlobalData.sUserObject.id) {
-            holder.delete.setVisibility(View.VISIBLE);
-        } else {
-            holder.delete.setVisibility(View.INVISIBLE);
-        }
+
 
         holder.contentArea.setData(data);
 
@@ -104,8 +99,6 @@ class EnterpriseProjectMaopaoAdapter extends BaseAdapter {
             name = (TextView) v.findViewById(R.id.name);
             time = (TextView) v.findViewById(R.id.time);
             content = (TextView) v.findViewById(R.id.content);
-            delete = v.findViewById(R.id.delete);
-            delete.setOnClickListener(clickDelete);
             contentArea = new ContentArea(v, clickListItem, onClickImage, myImageGetter, imageLoadTool, mPxImageWidth);
         }
 
@@ -113,7 +106,6 @@ class EnterpriseProjectMaopaoAdapter extends BaseAdapter {
         TextView name;
         TextView time;
         TextView content;
-        View delete;
 
         ContentArea contentArea;
     }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.WebActivity_;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ui.BackActivity;
 
 import org.androidannotations.annotations.AfterViews;
@@ -37,6 +38,15 @@ public class AboutActivity extends BackActivity {
     }
 
     @Click
+    void phone() {
+        if (GlobalData.isEnterprise()) {
+            Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:4009309163"));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    }
+
+    @Click
     void markCoding() {
         Global.updateByMarket(this);
     }
@@ -53,13 +63,22 @@ public class AboutActivity extends BackActivity {
 
     @Click
     void qq() {
-        Global.copy(this, "617404718");
-        showButtomToast("QQ 群号已复制到剪贴板");
+        if (GlobalData.isEnterprise()) {
+            Global.copy(this, "2847276903");
+            showButtomToast("QQ 号已复制到剪贴板");
+        } else {
+            Global.copy(this, "617404718");
+            showButtomToast("QQ 群号已复制到剪贴板");
+        }
     }
 
     @Click
     void email() {
-        sendEmails(this, new String[]{"support@coding.net"});
+        if (GlobalData.isEnterprise()) {
+            sendEmails(this, new String[]{"enterprise@coding.net"});
+        } else {
+            sendEmails(this, new String[]{"support@coding.net"});
+        }
     }
 
     @Click

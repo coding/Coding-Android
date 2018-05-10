@@ -118,6 +118,11 @@
             android:text="联系电话：400-930-9163" />
 
         <TextView
+            android:id="@+id/qq"
+            style="@style/aboutBottomText"
+            android:text="QQ：2847276903" />
+
+        <TextView
             android:id="@+id/email"
             style="@style/aboutBottomText"
             android:text="E-mail：enterprise@coding.net" />

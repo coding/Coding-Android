@@ -152,15 +152,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-
-            <TextView
-                android:id="@+id/delete"
-                style="@style/MaopaoDelete"
-                android:layout_gravity="right"
-                android:layout_marginTop="12dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true" />
-
         </LinearLayout>
 
     </RelativeLayout>

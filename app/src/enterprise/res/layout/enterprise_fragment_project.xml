@@ -38,7 +38,6 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/buttonsRoot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -47,6 +46,41 @@
                 <include
                     android:id="@+id/itemDynamic"
                     layout="@layout/project_home_list_head_button1" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@color/divide">
+
+                <View style="@style/DivideSectionBottom5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="任务"
+                    android:textColor="@color/font_1"
+                    android:textSize="15sp" />
+
+                <View
+                    style="@style/DivideSectionTop5"
+                    android:layout_gravity="bottom" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
 
 
                 <View style="@style/DivideLineHomeList" />
@@ -58,6 +92,18 @@
                 <View style="@style/DivideLineHomeList" />
 
                 <include
+                    android:id="@+id/itemTaskBoard"
+                    layout="@layout/project_home_list_head_button" />
+
+
+                <include layout="@layout/divide_middle_15" />
+
+                <include
+                    android:id="@+id/itemTopic"
+                    layout="@layout/project_home_list_head_button"
+                    android:visibility="gone" />
+
+                <include
                     android:id="@+id/itemWiki"
                     layout="@layout/project_home_list_head_button" />
 
@@ -67,11 +113,6 @@
                     android:id="@+id/itemDocment"
                     layout="@layout/project_home_list_head_button" />
 
-                <View style="@style/DivideLineHomeList" />
-
-                <include
-                    android:id="@+id/itemMember"
-                    layout="@layout/project_home_list_head_button" />
 
             </LinearLayout>
 
@@ -85,8 +126,8 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:background="@color/divide"
-                android:layout_height="54dp">
+                android:layout_height="54dp"
+                android:background="@color/divide">
 
                 <View style="@style/DivideSectionBottom5" />
 
@@ -100,10 +141,10 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/itemReadme"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="right"
-                    android:id="@+id/itemReadme"
                     android:layout_marginRight="15dp"
                     android:gravity="center"
                     android:text="查看 README"
@@ -142,14 +183,14 @@
                     android:id="@+id/itemMerge"
                     layout="@layout/project_home_list_head_button" />
 
-                <View style="@style/DivideLineHomeList" />
+                <include layout="@layout/divide_middle_15" />
 
                 <include
                     android:id="@+id/itemGit"
                     layout="@layout/project_home_list_head_button" />
 
-            </LinearLayout>
 
+            </LinearLayout>
 
         </LinearLayout>
 

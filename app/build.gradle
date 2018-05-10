@@ -51,7 +51,7 @@ android {
             abortOnError false
         }
     }
-    flavorDimensions "mode", "version"
+    flavorDimensions "mode"
     productFlavors {
 
         // 版本号不能放在
@@ -63,12 +63,13 @@ android {
             targetSdkVersion 23
 
             testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+            signingConfig signingConfigs.config
         }
         enterprise {
             dimension "mode"
             applicationId "net.coding.program.enterprise"
-            versionCode 280
-            versionName "2.8"
+            versionCode 290
+            versionName "2.9"
             targetSdkVersion 21
 
             // 信鸽依赖
@@ -81,17 +82,6 @@ android {
                     XG_ACCESS_ID : "2100249649",
                     XG_ACCESS_KEY: "AE6DQ4C5G35G",
             ]
-        }
-
-        dev {
-            dimension "version"
-            signingConfig signingConfigs.config
-
-        }
-
-        prod {
-            dimension "version"
-            minSdkVersion 15
             signingConfig signingConfigs.config
         }
     }

@@ -801,7 +801,11 @@ public class Global {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(context, "软件市场里暂时没有找到Coding", Toast.LENGTH_SHORT).show();
+            if (GlobalData.isEnterprise()) {
+                Toast.makeText(context, "软件市场里暂时没有找到 Coding 企业版", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "软件市场里暂时没有找到Coding", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

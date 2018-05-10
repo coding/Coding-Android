@@ -16,7 +16,6 @@ import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.project.init.setting.ProjectSetActivity_;
 import net.coding.program.project.init.setting.ProjectSettingMainActivity_;
-import net.coding.program.project.init.setting.v2.EnterpriseProjectSetActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -36,18 +35,12 @@ public abstract class BaseProjectHomeFragment extends BaseFragment {
     ProjectObject mProjectObject;
 
     protected View.OnClickListener clickProjectSetting = v -> {
-        if (!GlobalData.isEnterprise()) {
-            if (!mProjectObject.isPublic) {
-                ProjectSettingMainActivity_.intent(BaseProjectHomeFragment.this)
-                        .projectObject(mProjectObject)
-                        .start();
-            } else {
-                ProjectSetActivity_.intent(this).projectObject(mProjectObject).start();
-            }
-        } else {
-            EnterpriseProjectSetActivity_.intent(BaseProjectHomeFragment.this)
-                    .project(mProjectObject)
+        if (GlobalData.isEnterprise() || !mProjectObject.isPublic) {
+            ProjectSettingMainActivity_.intent(BaseProjectHomeFragment.this)
+                    .projectObject(mProjectObject)
                     .start();
+        } else {
+            ProjectSetActivity_.intent(this).projectObject(mProjectObject).start();
         }
     };
 

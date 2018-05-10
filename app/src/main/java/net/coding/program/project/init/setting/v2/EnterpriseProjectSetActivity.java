@@ -42,6 +42,7 @@ import rx.schedulers.Schedulers;
  * Created by chenchao on 2017/5/23.
  * 企业版设置项目
  */
+
 @EActivity(R.layout.activity_enterprise_project_set)
 public class EnterpriseProjectSetActivity extends PickPhotoActivity {
 

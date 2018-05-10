@@ -84,6 +84,7 @@ public class NetworkImpl {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     if (BuildConfig.DEBUG && response != null) {
+                        Logger.d(finalUrl);
                         Logger.d(response);
                     }
                     int code = response.getInt("code");

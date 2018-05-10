@@ -112,6 +112,13 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
     }
 
     @Override
+    public void launchProjectMaopao(Activity fragment, ProjectObject projectObject) {
+        EnterpriseProjectMaopaoActivity_.intent(fragment)
+                .projectObject(projectObject)
+                .start();
+    }
+
+    @Override
     public void launchPickUser(Activity activity, String relayString) {
         PickUserRelayMessageActivity_.intent(activity)
                 .relayString(relayString)
@@ -143,4 +150,5 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
     public void launchSetGKActivity(Context context) {
         // 跳转到设置 GK 界面，企业版没有这个界面
     }
+
 }

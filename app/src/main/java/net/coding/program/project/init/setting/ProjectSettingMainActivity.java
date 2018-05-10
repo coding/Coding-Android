@@ -3,12 +3,14 @@ package net.coding.program.project.init.setting;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.project.EventProjectModify;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.detail.ProjectFunction;
+import net.coding.program.project.init.setting.v2.EnterpriseProjectSetActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -60,7 +62,11 @@ public class ProjectSettingMainActivity extends BackActivity {
 
     @Click
     void projectSetting() {
-        ProjectSetActivity_.intent(this).projectObject(projectObject).start();
+        if (GlobalData.isEnterprise()) {
+            EnterpriseProjectSetActivity_.intent(this).project(projectObject).start();
+        } else {
+            ProjectSetActivity_.intent(this).projectObject(projectObject).start();
+        }
     }
 
 }
