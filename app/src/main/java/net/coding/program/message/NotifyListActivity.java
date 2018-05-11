@@ -29,6 +29,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -389,15 +390,21 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
                     }
                 }
 
+                if (mData.isEmpty()) {
+                    loadMoreDelay();
+                }
+
                 baseAdapter.notifyDataSetChanged();
 
-                String blankTip;
-                if (isShowNoRead) {
-                    blankTip = "没有未读的消息~";
-                } else {
-                    blankTip = "您没有收到通知噢~";
+                if (!mData.isEmpty() || isLoadingLastPage(tag)) {
+                    String blankTip;
+                    if (isShowNoRead) {
+                        blankTip = "没有未读的消息~";
+                    } else {
+                        blankTip = "您没有收到通知噢~";
+                    }
+                    BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, blankTip, R.drawable.ic_exception_blank_notify);
                 }
-                BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry, blankTip, R.drawable.ic_exception_blank_notify);
             } else {
                 showErrorMsg(code, respanse);
                 BlankViewDisplay.setBlank(mData.size(), this, false, blankLayout, onClickRetry);
@@ -424,6 +431,11 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
             }
 
         }
+    }
+
+    @UiThread(delay = 1)
+    void loadMoreDelay() {
+        loadMore();
     }
 
     private void markAllRead() {
