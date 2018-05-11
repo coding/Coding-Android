@@ -100,7 +100,12 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
     }
 
     private void selectFragment() {
-        if (mJumpType == ProjectFunction.taskBoard) {
+        if (mJumpType == ProjectFunction.member) {
+            ProjectMembersActivity_.intent(this).projectObject(mProjectObject).start();
+            finish();
+            overridePendingTransition(0, 0);
+            return;
+        } else if (mJumpType == ProjectFunction.taskBoard) {
             TaskBoardActivity_.intent(this).projectObject(mProjectObject)
                     .param(new ProjectJumpParam(mProjectObject)).start();
             finish();

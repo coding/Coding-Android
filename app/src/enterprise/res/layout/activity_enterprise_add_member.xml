@@ -7,28 +7,13 @@
     android:orientation="vertical"
     tools:context="net.coding.program.user.EnterpriseAddMemberActivity">
 
-    <TextView
-        android:id="@+id/maxUserCount"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/divide"
-        android:gravity="center"
-        android:textColor="@color/font_3"
-        android:textSize="14sp"
-        tools:text="你还可以添加 4 个项目成员" />
-
-    <View
-        android:id="@+id/userCountLine"
-        style="@style/DivideLine"
-        android:layout_below="@id/maxUserCount" />
-
     <ListView
         android:id="@+id/listView"
-        android:dividerHeight="0dp"
-        android:divider="@null"
-        android:footerDividersEnabled="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/userCountLine" />
+        android:layout_below="@id/userCountLine"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:footerDividersEnabled="false" />
 
 </RelativeLayout>

@@ -139,6 +139,11 @@
             android:label="@string/title_activity_members"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".project.detail.ProjectMembersActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_members"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".task.add.WatcherListActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_members"

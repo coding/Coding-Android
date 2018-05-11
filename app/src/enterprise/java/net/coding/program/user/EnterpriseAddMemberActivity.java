@@ -40,9 +40,6 @@ public class EnterpriseAddMemberActivity extends BaseEnterpriseUserListActivity 
     ArrayList<String> pickedGlobalKeys;
 
     @ViewById
-    TextView maxUserCount;
-
-    @ViewById
     protected ListView listView;
 
     @AfterViews
