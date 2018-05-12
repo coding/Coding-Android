@@ -157,7 +157,7 @@ public class EnterprisePushReceiver extends XGPushBaseReceiver {
 
     private void showNotify(Context context, String title, String msg, String id, String url) {
         builder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.app_icon)
+                .setSmallIcon(R.drawable.push_icon)
                 .setContentTitle(title)
                 .setContentText(msg);
 
