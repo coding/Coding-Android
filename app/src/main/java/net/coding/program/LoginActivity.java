@@ -398,8 +398,11 @@ public class LoginActivity extends BaseActivity {
                 AccountInfo.saveLastLoginName(this, name);
 
                 EventLoginSuccess.Companion.sendMessage();
-                finish();
                 startActivity(new Intent(LoginActivity.this, CodingCompat.instance().getMainActivity()));
+                finish();
+
+                overridePendingTransition(R.anim.entrance_fade_in, R.anim.entrance_fade_out);
+
             } else {
                 showProgressBar(false);
                 showErrorMsg(code, respanse);
