@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 @EActivity(R.layout.activity_enterprise_add_member)
 public class EnterpriseAddMemberActivity extends BaseEnterpriseUserListActivity {
@@ -59,6 +60,23 @@ public class EnterpriseAddMemberActivity extends BaseEnterpriseUserListActivity 
                 }
             }
         }
+
+        Collections.sort(allListData, (o1, o2) -> {
+            if (pickedData.contains(o1)) {
+                if (pickedData.contains(o2)) {
+                    return o1.compareTo(o2);
+                } else {
+                    return -1;
+                }
+            } else if (pickedData.contains(o2)) {
+                return 1;
+            } else {
+                return o1.compareTo(o2);
+            }
+        });
+
+        listData.clear();
+        listData.addAll(allListData);
 
         adapter.notifyDataSetChanged();
     }
