@@ -81,21 +81,24 @@ public class EnterpriseLoginActivity extends BaseActivity {
     @Extra
     Uri background;
 
+    @Extra
+    boolean isPrivate = false;
+
     @ViewById
     ImageView backButton;
 
     @ViewById
-    TextView login2faMenu;
+    TextView login2faMenu, toolbarTitle;
 
     @ViewById
-    LoginEditTextNew enterpriseEdit;
+    LoginEditTextNew enterpriseEdit, privateHost;
 
     ImageView imageValifyMain;
     @ViewById
     LoginEditTextNew editName, editPassword, editValifyMain, edit2FA;
 
     @ViewById
-    View enterpriseLine, valifyLineMain;
+    View enterpriseLine, valifyLineMain, privateHostLayout, hostLayout, normalHostLayout;
 
     @ViewById
     View captchaLayout, loginButton, layout2fa, loginLayout, layoutRoot;
@@ -157,6 +160,27 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
         enterpriseEdit.setOnEditFocusChange(createEditLineFocus(enterpriseLine));
         editValifyMain.setOnFocusChangeListener(createEditLineFocus(valifyLineMain));
+
+        hostLayout.setVisibility(View.VISIBLE);
+        if (isPrivate) {
+            normalHostLayout.setVisibility(View.GONE);
+            privateHostLayout.setVisibility(View.VISIBLE);
+        } else {
+            normalHostLayout.setVisibility(View.VISIBLE);
+            privateHostLayout.setVisibility(View.GONE);
+        }
+    }
+
+    @Click
+    void clickNext() {
+        hostLayout.setVisibility(View.GONE);
+        toolbarTitle.setText(String.format("登录到\n%s", enterpriseEdit.getTextString()));
+    }
+
+    @Click
+    void clickPrivateNext() {
+        hostLayout.setVisibility(View.GONE);
+        toolbarTitle.setText(String.format("登录到\n%s", privateHost.getTextString()));
     }
 
     @Click
@@ -348,7 +372,6 @@ public class EnterpriseLoginActivity extends BaseActivity {
             }
 
             loginFail.setVisibility(View.GONE);
-            backButton.setVisibility(View.VISIBLE);
 
             login2faMenu.setText(CLOSE_2FA_TIP);
 
@@ -358,7 +381,6 @@ public class EnterpriseLoginActivity extends BaseActivity {
             loginLayout.setVisibility(View.VISIBLE);
 
             loginFail.setVisibility(View.VISIBLE);
-            backButton.setVisibility(View.INVISIBLE);
 
             login2faMenu.setText("两步验证");
         }
@@ -484,7 +506,11 @@ public class EnterpriseLoginActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if (layout2fa.getVisibility() == View.GONE) {
-            finish();
+            if (hostLayout.getVisibility() != View.VISIBLE) {
+                hostLayout.setVisibility(View.VISIBLE);
+            } else {
+                finish();
+            }
         } else {
             show2FA(false);
         }

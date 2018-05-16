@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -19,7 +21,7 @@ import com.fivehundredpx.android.blur.BlurringView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalData;
-import net.coding.program.guide.IndicatorView;
+import net.coding.program.common.event.EventLoginSuccess;
 import net.coding.program.user.EnterpriseLoginActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -27,6 +29,9 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -91,6 +96,25 @@ public class EnterpriseGuideActivity extends AppCompatActivity {
     int textOutTime = 300;
 
     boolean isGifPlaying = false;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginEvent(EventLoginSuccess event) {
+        if (!isFinishing()) {
+            finish();
+        }
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -176,7 +200,11 @@ public class EnterpriseGuideActivity extends AppCompatActivity {
     @Click
     void sendButton() {
         EnterpriseLoginActivity_.intent(this).start();
-        finish();
+    }
+
+    @Click
+    void sendButtonPrivate() {
+        EnterpriseLoginActivity_.intent(this).isPrivate(true).start();
     }
 
     private void playGif() {

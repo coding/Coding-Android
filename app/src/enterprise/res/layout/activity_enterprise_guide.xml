@@ -158,4 +158,20 @@
         app:rv_backgroundColor="@color/font_2"
         app:rv_cornerRadius="4dp" />
 
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/sendButtonPrivate"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_above="@id/pageIndicate"
+        android:layout_marginBottom="34dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:gravity="center"
+        android:text="私有云账号登录"
+        android:textColor="@color/font_2"
+        app:rv_strokeWidth="1dp"
+        app:rv_strokeColor="@color/font_2"
+        android:textSize="17sp"
+        app:rv_cornerRadius="4dp" />
+
 </RelativeLayout>
