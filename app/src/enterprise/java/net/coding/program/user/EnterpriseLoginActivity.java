@@ -457,8 +457,9 @@ public class EnterpriseLoginActivity extends BaseActivity {
         AccountInfo.saveLastCompanyName(this, companyName);
 
         EventLoginSuccess.Companion.sendMessage();
-        finish();
         startActivity(new Intent(this, CodingCompat.instance().getMainActivity()));
+        finish();
+        overridePendingTransition(R.anim.entrance_fade_in, R.anim.entrance_fade_out);
     }
 
     private void loginFail(int code, JSONObject respanse, boolean needCaptcha) {

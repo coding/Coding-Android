@@ -2,7 +2,6 @@ package net.coding.program;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
@@ -95,12 +94,6 @@ public class EnterpriseEntranceActivity extends BaseActivity implements Handler.
             getNetwork(HOST_CURRENT, HOST_CURRENT);
             mNeedUpdateUser = true;
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
     }
 
     @Override
