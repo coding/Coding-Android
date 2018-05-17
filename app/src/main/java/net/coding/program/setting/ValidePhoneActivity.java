@@ -151,6 +151,14 @@ public class ValidePhoneActivity extends MenuButtonActivity {
 
     @Override
     protected void afterMenuInit(MenuItem actionSend) {
+        if (!GlobalData.sUserObject.isEmailValidation() &&
+                !GlobalData.sUserObject.isPhoneValidation()) {
+            passwordEdit.setVisibility(View.GONE);
+            twoFAEdit.setVisibility(View.GONE);
+            ViewStyleUtil.editTextBindButton(actionSend, editPhone, editCode);
+            return;
+        }
+
         ViewStyleUtil.editTextBindButton(actionSend, editPhone, editCode);
         final String url = Global.HOST_API + "/user/2fa/method";
         MyAsyncHttpClient.get(this, url, new MyJsonResponse(this) {
@@ -180,11 +188,17 @@ public class ValidePhoneActivity extends MenuButtonActivity {
         String phoneCountryCode = pickCountry.getCountryCode();
         String country = pickCountry.iso_code;
         String two_factor_code;
+
         if (twoFAEdit.getVisibility() == View.VISIBLE) {
             two_factor_code = SimpleSHA1.sha1(twoFAEdit.getTextString());
         } else {
             two_factor_code = SimpleSHA1.sha1(passwordEdit.getTextString());
         }
+        // 手机和邮箱都没有绑定时
+        if (twoFAEdit.getVisibility() != View.VISIBLE && passwordEdit.getVisibility() != View.VISIBLE) {
+            two_factor_code = "";
+        }
+
         RequestParams params = new RequestParams();
         params.put("phone", phone);
         params.put("code", code);
