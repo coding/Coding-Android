@@ -1,5 +1,6 @@
 package net.coding.program;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -26,7 +27,11 @@ public class EnterpriseApp extends MyApp {
         EnterpriseInfo.instance().init(this);
 
         String enterpriseName = EnterpriseInfo.instance().getGlobalkey();
-        setHost(enterpriseName);
+        if (enterpriseName.equalsIgnoreCase(PRIVATE_GK)) {
+            initPrivateHost(this);
+        } else {
+            setHost(enterpriseName);
+        }
 
         EnterpriseInfo.instance().init(this);
 
@@ -55,9 +60,56 @@ public class EnterpriseApp extends MyApp {
         }
 
         GlobalData.setEnterpriseGK(enterpriseName);
+        GlobalData.setIsPrivateEnterprise(false);
 
 //        host = "http://codingcorp.coding.com";
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
     }
+
+    private static void initPrivateHost(Context context) {
+        String host = AccountInfo.loadLastPrivateHost(context);
+        Global.HOST = host;
+        Global.HOST_API = Global.HOST + "/api";
+    }
+
+    public static void setPrivateHost(@NonNull String host) {
+        String enterpriseGK = "";
+
+        String lowerHost = host.toLowerCase();
+        if (!lowerHost.startsWith("http://") && !lowerHost.startsWith("https://")) {
+            host = String.format("http://%s", host);
+        }
+
+        int start = host.indexOf("//");
+        int end = host.indexOf(".");
+        if (start != -1 && end != -1) {
+            enterpriseGK = host.substring(start + "//".length(), end);
+        }
+
+        GlobalData.setEnterpriseGK(enterpriseGK);
+        GlobalData.setIsPrivateEnterprise(true);
+        Global.HOST = host;
+        Global.HOST_API = Global.HOST + "/api";
+    }
+
+    public static String getEnterpriseGK(@NonNull String input) {
+        String enterpriseGK = "";
+
+        String lowerHost = input.toLowerCase();
+        if (!lowerHost.startsWith("http://") && !lowerHost.startsWith("https://")) {
+            input = String.format("http://%s", input);
+        }
+
+        int start = input.indexOf("//");
+        int end = input.indexOf(".");
+        if (start != -1 && end != -1) {
+            enterpriseGK = input.substring(start + "//".length(), end);
+        }
+
+        return enterpriseGK;
+    }
+
+
+    public static final String PRIVATE_GK = "ce";
 }

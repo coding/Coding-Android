@@ -68,6 +68,8 @@ public class AccountInfo {
 
     private static final String KEY_CACHE_GET_REQUEST = "KEY_CACHE_GET_REQUEST";
 
+    private static final String GLOBAL_LAST_PRIVATE_HOST = "GLOBAL_LAST_PRIVATE_HOST";
+
     // 每添加一个
     private static final String MARK_GUIDE_FEATURES = "MARK_GUIDE_500"; // 修改这个值就可以了
 
@@ -497,6 +499,20 @@ public class AccountInfo {
 
     public static String loadLastCompanyName(Context context) {
         String s = new DataCache<String>().loadGlobalObject(context, GLOBAL_LAST_COMPANY_NAME);
+        if (s == null) {
+            return "";
+        }
+
+        return s;
+    }
+
+
+    public static void saveLastPrivateHost(Context context, String host) {
+        new DataCache<String>().saveGlobal(context, host, GLOBAL_LAST_PRIVATE_HOST);
+    }
+
+    public static String loadLastPrivateHost(Context context) {
+        String s = new DataCache<String>().loadGlobalObject(context, GLOBAL_LAST_PRIVATE_HOST);
         if (s == null) {
             return "";
         }

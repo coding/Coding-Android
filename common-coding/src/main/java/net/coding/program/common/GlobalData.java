@@ -21,6 +21,7 @@ public class GlobalData {
     public static int sEmojiMonkey;
     public static Unread sUnread;
     public static String enterpriseGK = "";
+    public static boolean isPrivateEnterprise = false;
     public static Application app;
     private static int sMainCreate = 0;
 
@@ -46,6 +47,14 @@ public class GlobalData {
 
     public static void setEnterpriseGK(String enterpriseGK) {
         GlobalData.enterpriseGK = enterpriseGK;
+    }
+
+    public static void setIsPrivateEnterprise(boolean isPrivateEnterprise) {
+        GlobalData.isPrivateEnterprise = isPrivateEnterprise;
+    }
+
+    public static boolean isPrivateEnterprise() {
+        return isPrivateEnterprise;
     }
 
     public static boolean isEnterprise() {

@@ -164,7 +164,11 @@ public class SettingFragment extends BaseFragment {
 
             AccountInfo.loginOut(activity);
             ThirdPlatformLogin.loginOut(activity);
-            startActivity(new Intent(activity, CodingCompat.instance().getLoginActivity()));
+            if (GlobalData.isEnterprise()) {
+                startActivity(new Intent(activity, CodingCompat.instance().getGuideActivity()));
+            } else {
+                startActivity(new Intent(activity, CodingCompat.instance().getLoginActivity()));
+            }
             EventBus.getDefault().post(new EventMessage(EventMessage.Type.loginOut));
             activity.finish();
         });

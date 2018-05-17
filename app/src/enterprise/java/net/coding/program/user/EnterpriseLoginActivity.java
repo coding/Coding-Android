@@ -110,6 +110,9 @@ public class EnterpriseLoginActivity extends BaseActivity {
     private int clickIconCount = 0;
     private long lastClickTime = 0;
 
+    private String enterpriseGK = "";
+
+
     DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.icon_user_monkey)
             .showImageOnFail(R.drawable.icon_user_monkey)
@@ -136,6 +139,13 @@ public class EnterpriseLoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         XGPushManager.registerPush(this);
+
+        if (AccountInfo.isLogin(this)) {
+            String gk = GlobalData.getEnterpriseGK();
+            if (gk.equalsIgnoreCase(EnterpriseApp.PRIVATE_GK)) {
+                isPrivate = true;
+            }
+        }
     }
 
     @AfterViews
@@ -158,6 +168,15 @@ public class EnterpriseLoginActivity extends BaseActivity {
             enterpriseEdit.setText(lastCompanyName);
         }
 
+        if (isPrivate) {
+            String lastHost = AccountInfo.loadLastPrivateHost(this);
+            final String PRE = "http://";
+            if (lastHost.startsWith(PRE)) {
+                lastHost = lastHost.substring(PRE.length());
+            }
+            privateHost.setText(lastHost);
+        }
+
         enterpriseEdit.setOnEditFocusChange(createEditLineFocus(enterpriseLine));
         editValifyMain.setOnFocusChangeListener(createEditLineFocus(valifyLineMain));
 
@@ -174,12 +193,14 @@ public class EnterpriseLoginActivity extends BaseActivity {
     @Click
     void clickNext() {
         hostLayout.setVisibility(View.GONE);
-        toolbarTitle.setText(String.format("登录到\n%s", enterpriseEdit.getTextString()));
+        enterpriseGK = enterpriseEdit.getTextString();
+        toolbarTitle.setText(String.format("登录到\n%s", enterpriseGK));
     }
 
     @Click
     void clickPrivateNext() {
         hostLayout.setVisibility(View.GONE);
+        enterpriseGK = EnterpriseApp.PRIVATE_GK;
         toolbarTitle.setText(String.format("登录到\n%s", privateHost.getTextString()));
     }
 
@@ -318,7 +339,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
             }
             params.put("remember_me", true);
 
-            EnterpriseApp.setHost(enterpriseEdit.getTextString());
+            updateGlobalHost();
             String HOST_LOGIN = String.format("%s/v2/account/login", Global.HOST_API);
 
             postNetwork(HOST_LOGIN, params, TAG_LOGIN);
@@ -331,6 +352,14 @@ public class EnterpriseLoginActivity extends BaseActivity {
         }
     }
 
+    private void updateGlobalHost() {
+        if (isPrivate) {
+            EnterpriseApp.setPrivateHost(privateHost.getTextString());
+        } else {
+            EnterpriseApp.setHost(enterpriseEdit.getTextString());
+        }
+    }
+
     @Click
     protected final void loginFail() {
         String account = editName.getText().toString();
@@ -339,7 +368,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
         }
 
         EnterpriseEmailSetPasswordActivity_.intent(this)
-                .enterpriseName(enterpriseEdit.getTextString())
+                .enterpriseName(enterpriseGK)
                 .account(account)
                 .start();
     }
@@ -393,12 +422,15 @@ public class EnterpriseLoginActivity extends BaseActivity {
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(TAG_LOGIN)) {
             if (code == 0) {
-                EnterpriseApp.setHost(enterpriseEdit.getTextString());
+                updateGlobalHost();
                 EnterpriseMainActivity_.setNeedWarnEmailNoValidLogin();
                 loginSuccess(respanse);
                 umengEvent(UmengEvent.USER, "普通登录");
+                if (isPrivate) {
+                    AccountInfo.saveLastPrivateHost(this, Global.HOST);
+                }
             } else if (code == 3205) {
-                EnterpriseApp.setHost(enterpriseEdit.getTextString());
+                updateGlobalHost();
                 EnterpriseMainActivity_.setNeedWarnEmailNoValidLogin();
                 umengEvent(UmengEvent.USER, "2fa登录");
                 globalKey = respanse.optJSONObject("msg").optString("two_factor_auth_code_not_empty", "");
@@ -412,6 +444,9 @@ public class EnterpriseLoginActivity extends BaseActivity {
         } else if (tag.equals(TAG_HOST_USER_NEED_2FA)) {
             if (code == 0) {
                 loginSuccess(respanse);
+                if (isPrivate) {
+                    AccountInfo.saveLastPrivateHost(this, Global.HOST);
+                }
             } else {
                 loginFail(code, respanse, false);
             }
@@ -419,8 +454,13 @@ public class EnterpriseLoginActivity extends BaseActivity {
             if (code == 0) {
                 currentUserInfo = new UserObject(respanse.getJSONObject("data"));
 
-                String url = String.format("%s/team/%s/get", Global.HOST_API, enterpriseEdit.getTextString());
-                getNetwork(url, TAG_HOST_ENTERPRISE_DETAIL);
+                if (isPrivate) {
+                    String url = String.format("%s/team/%s/get", Global.HOST_API, EnterpriseApp.PRIVATE_GK);
+                    getNetwork(url, TAG_HOST_ENTERPRISE_DETAIL);
+                } else {
+                    String url = String.format("%s/team/%s/get", Global.HOST_API, enterpriseGK);
+                    getNetwork(url, TAG_HOST_ENTERPRISE_DETAIL);
+                }
             } else {
                 showProgressBar(false);
                 showErrorMsg(code, respanse);
@@ -429,7 +469,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
             if (code == 0) {
                 enterpriseDetail = new EnterpriseDetail(respanse.optJSONObject("data"));
 
-                String url = String.format("%s/team/%s/is_admin", Global.HOST_API, enterpriseEdit.getTextString());
+                String url = String.format("%s/team/%s/is_admin", Global.HOST_API, enterpriseGK);
                 getNetwork(url, TAG_HOST_IS_ADMIN);
             } else {
                 showProgressBar(false);
@@ -475,7 +515,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
         String name = editName.getText().toString();
         AccountInfo.saveLastLoginName(this, name);
 
-        String companyName = enterpriseEdit.getText().toString();
+        String companyName = enterpriseGK;
         AccountInfo.saveLastCompanyName(this, companyName);
 
         EventLoginSuccess.Companion.sendMessage();
