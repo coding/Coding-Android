@@ -66,6 +66,14 @@ public class ModifyEmailActivity extends MenuButtonActivity {
 
     @Override
     protected void afterMenuInit(MenuItem actionSend) {
+        if (!GlobalData.sUserObject.isEmailValidation() &&
+                !GlobalData.sUserObject.isPhoneValidation()) {
+            passwordEdit.setVisibility(View.GONE);
+            twoFAEdit.setVisibility(View.GONE);
+            ViewStyleUtil.editTextBindButton(actionSend, emailEdit, captchaEdit);
+            return;
+        }
+
         final String url = Global.HOST_API + "/user/2fa/method";
         MyAsyncHttpClient.get(this, url, new MyJsonResponse(this) {
             @Override
@@ -99,6 +107,8 @@ public class ModifyEmailActivity extends MenuButtonActivity {
         }
         param.put("email", email);
         param.put("j_captcha", captch);
+
+
         param.put("two_factor_code", twoFA);
 
         MyAsyncHttpClient.post(this, url, param, new MyJsonResponse(this) {

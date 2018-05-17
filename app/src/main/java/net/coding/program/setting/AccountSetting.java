@@ -105,17 +105,29 @@ public class AccountSetting extends BackActivity {
         String emailString = GlobalData.sUserObject.email;
         boolean emailValid = GlobalData.sUserObject.isEmailValidation();
         if (!emailString.isEmpty() && !emailValid) {
-            new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
-                    .setTitle("激活邮件")
-                    .setMessage(R.string.alert_activity_email2)
-                    .setPositiveButton("重发激活邮件", (dialog, which) -> {
-                        Login.resendActivityEmail(AccountSetting.this);
-                    })
-                    .setNegativeButton("取消", null)
+            new AlertDialog.Builder(this)
+                    .setItems(new String[]{"修改邮箱", "重发激活邮件"}, ((dialog, which) -> {
+                        if (which == 1) {
+                            popResendEmailDialog();
+                        } else {
+                            ModifyEmailActivity_.intent(this).start();
+                        }
+                    }))
                     .show();
         } else {
             ModifyEmailActivity_.intent(this).start();
         }
+    }
+
+    private void popResendEmailDialog() {
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
+                .setTitle("激活邮件")
+                .setMessage(R.string.alert_activity_email2)
+                .setPositiveButton("重发激活邮件", (dialog, which) -> {
+                    Login.resendActivityEmail(AccountSetting.this);
+                })
+                .setNegativeButton("取消", null)
+                .show();
     }
 
     @Click

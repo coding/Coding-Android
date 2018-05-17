@@ -306,6 +306,10 @@ public class UserObject implements Serializable, Comparable {
         return email_validation != 0;
     }
 
+    public boolean isPhoneValidation() {
+        return phone_validation != 0;
+    }
+
     public boolean isFillInfo() {
         if (TextUtils.isEmpty(birthday) ||
                 TextUtils.isEmpty(location) ||
