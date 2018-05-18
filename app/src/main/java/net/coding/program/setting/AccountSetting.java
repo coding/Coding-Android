@@ -13,6 +13,7 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.login.phone.Close2FAActivity_;
+import net.coding.program.login.phone.PhoneSetPasswordActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -60,6 +61,30 @@ public class AccountSetting extends BackActivity {
     @Click
     void phoneSetting() {
         ValidePhoneActivity_.intent(this).startForResult(RESULT_PHONE_SETTING);
+    }
+
+    @Click
+    void forgetPassword() {
+        if (GlobalData.sUserObject.isPhoneValidation()) {
+            PhoneSetPasswordActivity_.intent(this)
+                    .account(GlobalData.sUserObject.phone)
+                    .start();
+        } else if (GlobalData.sUserObject.isEmailValidation()) {
+            PhoneSetPasswordActivity_.intent(this)
+                    .account(GlobalData.sUserObject.email)
+                    .start();
+        } else {
+            new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
+                    .setMessage("绑定手机或邮箱后才能找回密码")
+                    .setPositiveButton("绑定手机", (dialog, which) -> {
+                        phoneSetting();
+                    })
+                    .setNegativeButton("绑定邮箱", ((dialog, which) -> {
+                        emailLayout();
+                    }))
+                    .show();
+            return;
+        }
     }
 
     @OnActivityResult(RESULT_PHONE_SETTING)
