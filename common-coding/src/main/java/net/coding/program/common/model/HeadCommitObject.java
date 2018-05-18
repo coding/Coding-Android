@@ -11,9 +11,11 @@ public class HeadCommitObject implements Serializable {
 
     private static final long serialVersionUID = 5619679447106969383L;
 
-    public String commitId;
+    public String commitId = "";
 
     public HeadCommitObject(JSONObject json) {
+        if (json == null) return;
+
         commitId = json.optString("commitId", "");
     }
 }

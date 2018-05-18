@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -75,8 +76,6 @@ public class GitViewActivity extends CodingToolbarBackActivity {
 
     GitFileBlobObject mFile;
 
-    private MenuItem menuItemEdit;
-
     @AfterViews
     protected final void initGitViewActivity() {
         setActionBarTitle(mGitFileInfoObject.name);
@@ -108,9 +107,21 @@ public class GitViewActivity extends CodingToolbarBackActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.git_view, menu);
-        menuItemEdit = menu.findItem(R.id.action_edit);
+        if (mFile != null) {
+            MenuInflater menuInflater = getMenuInflater();
+            menuInflater.inflate(R.menu.git_view, menu);
+
+            MenuItem menuItemEdit = menu.findItem(R.id.action_edit);
+            MenuItem menuItemDelete = menu.findItem(R.id.actionDelete);
+
+            if (TextUtils.isEmpty(mFile.getCommitId())) {
+                menuItemEdit.setVisible(false);
+                menuItemDelete.setVisible(false);
+            } else if (mFile.getGitFileObject().mode.equals("image")) {
+                menuItemEdit.setVisible(false);
+            }
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -206,12 +217,9 @@ public class GitViewActivity extends CodingToolbarBackActivity {
     }
 
 
-
     public void bindUIByData() {
         if (mFile.getGitFileObject().mode.equals("image")) {
             try {
-                menuItemEdit.setVisible(false);
-
                 mTempPicFile = File.createTempFile("Coding_", ".tmp", getCacheDir());
                 mTempPicFile.deleteOnExit();
                 String s = ProjectObject.translatePathToOld(mProjectPath);
@@ -224,6 +232,8 @@ public class GitViewActivity extends CodingToolbarBackActivity {
             pager.setVisibility(View.GONE);
             CodingGlobal.setWebViewContent(webview, mFile.getGitFileObject());
         }
+
+        invalidateOptionsMenu();
     }
 
 
