@@ -176,6 +176,89 @@ public class DynamicObject {
         }
     }
 
+    public static class Release extends DynamicBaseObject implements Serializable {
+
+        private static final long serialVersionUID = 7557962756095745154L;
+
+        int release_iid;
+        String release_title;
+        String release_path;
+        String release_tag_name;
+
+        public Release(JSONObject json) throws JSONException {
+            super(json);
+            release_iid = json.optInt("release_iid", 0);
+            release_title = json.optString("release_title", "");
+            release_path = json.optString("release_path", "");
+            release_tag_name = json.optString("release_tag_name", "");
+        }
+
+        @Override
+        public Spanned title() {
+            final String format = "%s %s版本";
+            String title = String.format(format, user.getHtml(), action_msg);
+            return GlobalCommon.changeHyperlinkColor(title);
+        }
+
+        @Override
+        public String jump() {
+            if (action.equals("delete")) {
+                return "";
+            }
+
+            return Global.HOST + release_path;
+        }
+
+        @Override
+        public Spanned content(MyImageGetter imageGetter) {
+            return new SpannableString(release_tag_name);
+        }
+    }
+
+
+    public static class Milestone extends DynamicBaseObject implements Serializable {
+
+        private static final long serialVersionUID = 7557962756095745154L;
+
+        private String milePath = "";
+        private String mileName = "";
+
+        public Milestone(JSONObject json) throws JSONException {
+            super(json);
+
+           JSONObject projectJson = json.optJSONObject("project");
+           String projectPath = projectJson.optString("path", "");
+
+           JSONObject milestoneJson = json.optJSONObject("milestone");
+           int id = milestoneJson.optInt("id", 0);
+
+           milePath = String.format("%s/milestone/%s", projectPath, id);
+           mileName = milestoneJson.optString("name", "");
+        }
+
+        @Override
+        public Spanned title() {
+            final String format = "%s %s";
+            String title = String.format(format, user.getHtml(), action_msg);
+            return GlobalCommon.changeHyperlinkColor(title);
+        }
+
+        @Override
+        public String jump() {
+            if (action.equals("delete")) {
+                return "";
+            }
+
+            return Global.HOST + milePath;
+        }
+
+        @Override
+        public Spanned content(MyImageGetter imageGetter) {
+            return new SpannableString(mileName);
+        }
+    }
+
+
     public static class Wiki extends DynamicBaseObject implements Serializable {
 
         private static final long serialVersionUID = -3237817303362954197L;

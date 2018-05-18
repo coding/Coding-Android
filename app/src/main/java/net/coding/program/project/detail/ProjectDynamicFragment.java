@@ -133,6 +133,12 @@ public class ProjectDynamicFragment extends RefreshBaseFragment implements LoadM
         } else if (itemType.equals("BranchMember")) {
             baseObject = new DynamicObject.BranchMember(json);
 
+        } else if (itemType.equals("Release")) {
+            baseObject = new DynamicObject.Release(json);
+
+        } else if (itemType.equals("Milestone")) {
+            baseObject = new DynamicObject.Milestone(json);
+
         } else {
             Log.e("", "新的动态类型 " + itemType);
             baseObject = new DynamicObject.DynamicBaseObject(json);
