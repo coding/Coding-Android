@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         app:taskIcon="@drawable/ic_task_project"
         app:taskIconUser="true"
-        app:taskText1="项目名"
+        app:taskText1="所属项目"
         app:taskText2="未指定"
         app:taskTopLine="false" />
 
