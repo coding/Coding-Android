@@ -103,23 +103,19 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         if (mJumpType == ProjectFunction.member) {
             ProjectMembersActivity_.intent(this).projectObject(mProjectObject).start();
             finish();
-            overridePendingTransition(0, 0);
             return;
         } else if (mJumpType == ProjectFunction.taskBoard) {
             TaskBoardActivity_.intent(this).projectObject(mProjectObject)
                     .param(new ProjectJumpParam(mProjectObject)).start();
             finish();
-            overridePendingTransition(0, 0);
             return;
         } else if (mJumpType == ProjectFunction.git) {
             GitMainActivity_.intent(this).project(mProjectObject).start();
             finish();
-            overridePendingTransition(0, 0);
             return;
         } else if (mJumpType == ProjectFunction.wiki) {
             WikiMainActivity_.intent(this).project(mProjectObject).start();
             finish();
-            overridePendingTransition(0, 0);
             return;
         } else if (mJumpType == ProjectFunction.document) {
             if (GlobalData.isEnterprise()) {
@@ -132,7 +128,6 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
                         .start();
             }
             finish();
-            overridePendingTransition(0, 0);
             return;
         }
 
