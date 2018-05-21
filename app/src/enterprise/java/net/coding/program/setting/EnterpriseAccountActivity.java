@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Build;
 import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
+import android.view.View;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -11,6 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.model.EnterpriseAccount;
 import net.coding.program.common.model.EnterpriseInfo;
@@ -75,6 +77,10 @@ public class EnterpriseAccountActivity extends BackActivity {
         updateUI();
 
         loadDataFromNetwork();
+
+        if (GlobalData.isPrivateEnterprise()) {
+            findViewById(R.id.itemManagerLayout).setVisibility(View.GONE);
+        }
     }
 
     @Override

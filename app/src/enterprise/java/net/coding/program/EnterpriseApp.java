@@ -60,7 +60,6 @@ public class EnterpriseApp extends MyApp {
         }
 
         GlobalData.setEnterpriseGK(enterpriseName);
-        GlobalData.setIsPrivateEnterprise(false);
 
 //        host = "http://codingcorp.coding.com";
         Global.HOST = host;
@@ -68,6 +67,7 @@ public class EnterpriseApp extends MyApp {
     }
 
     private static void initPrivateHost(Context context) {
+        GlobalData.setEnterpriseGK(PRIVATE_GK);
         String host = AccountInfo.loadLastPrivateHost(context);
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
@@ -88,7 +88,6 @@ public class EnterpriseApp extends MyApp {
         }
 
         GlobalData.setEnterpriseGK(enterpriseGK);
-        GlobalData.setIsPrivateEnterprise(true);
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
     }

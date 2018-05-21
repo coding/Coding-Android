@@ -21,9 +21,10 @@ public class GlobalData {
     public static int sEmojiMonkey;
     public static Unread sUnread;
     public static String enterpriseGK = "";
-    public static boolean isPrivateEnterprise = false;
     public static Application app;
     private static int sMainCreate = 0;
+
+    public static final String PRIVATE_GK = "ce";
 
     // 应对修改企业版路径以 /p/project 开头的问题
     public static String transformEnterpriseUri(String uri) {
@@ -49,12 +50,9 @@ public class GlobalData {
         GlobalData.enterpriseGK = enterpriseGK;
     }
 
-    public static void setIsPrivateEnterprise(boolean isPrivateEnterprise) {
-        GlobalData.isPrivateEnterprise = isPrivateEnterprise;
-    }
 
     public static boolean isPrivateEnterprise() {
-        return isPrivateEnterprise;
+        return isEnterprise() && enterpriseGK.equals(PRIVATE_GK);
     }
 
     public static boolean isEnterprise() {

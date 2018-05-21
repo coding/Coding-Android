@@ -128,6 +128,28 @@
     <include layout="@layout/divide_line_1" />
 
     <RelativeLayout
+        android:id="@+id/forgetPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_item_selector"
+        android:gravity="center_vertical"
+        android:minHeight="50dp"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:text="忘记密码"
+            android:textColor="@color/font_1"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/divide_line_1" />
+
+    <RelativeLayout
         android:id="@+id/close2FA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

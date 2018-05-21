@@ -46,56 +46,64 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/itemManager"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="73dp"
-        android:background="@drawable/list_item_selector">
+        android:layout_height="wrap_content"
+        android:id="@+id/itemManagerLayout"
+        android:orientation="vertical">
 
-        <View
-            android:id="@+id/icon"
-            android:layout_width="@dimen/project_icon_width"
-            android:layout_height="@dimen/project_icon_width"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:background="@mipmap/ic_setting_order" />
+        <RelativeLayout
+            android:id="@+id/itemManager"
+            android:layout_width="match_parent"
+            android:layout_height="73dp"
+            android:background="@drawable/list_item_selector">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_toRightOf="@id/icon"
-            android:text="订单状态"
-            android:textColor="@color/font_1"
-            android:textSize="15sp" />
+            <View
+                android:id="@+id/icon"
+                android:layout_width="@dimen/project_icon_width"
+                android:layout_height="@dimen/project_icon_width"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@mipmap/ic_setting_order" />
 
-        <TextView
-            android:id="@+id/accountState"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="14dp"
-            android:layout_toRightOf="@id/icon"
-            android:ellipsize="end"
-            android:lines="1"
-            android:textColor="@color/font_3"
-            android:textSize="13sp"
-            tools:text="15天" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/icon"
+                android:text="订单状态"
+                android:textColor="@color/font_1"
+                android:textSize="15sp" />
 
-        <include
-            android:id="@+id/arrow"
-            layout="@layout/list_item_common_arrow"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:visibility="invisible" />
+            <TextView
+                android:id="@+id/accountState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="14dp"
+                android:layout_toRightOf="@id/icon"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/font_3"
+                android:textSize="13sp"
+                tools:text="15天" />
 
-    </RelativeLayout>
+            <include
+                android:id="@+id/arrow"
+                layout="@layout/list_item_common_arrow"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:visibility="invisible" />
 
-    <include layout="@layout/divide_middle_15" />
+        </RelativeLayout>
+
+        <include layout="@layout/divide_middle_15" />
+
+    </LinearLayout>
 
     <net.coding.program.common.widget.ListItem1
         android:id="@+id/itemProject"
