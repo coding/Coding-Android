@@ -118,7 +118,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             finish();
             return;
         } else if (mJumpType == ProjectFunction.document) {
-            if (GlobalData.isEnterprise()) {
+            if (GlobalData.isEnterprise() && !GlobalData.isPrivateEnterprise()) {
                 ProjectFileMainActivity_.intent(this).project(mProjectObject).start();
             } else {
                 AttachmentsActivity_.intent(this)

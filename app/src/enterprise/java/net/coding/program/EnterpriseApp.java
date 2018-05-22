@@ -87,7 +87,7 @@ public class EnterpriseApp extends MyApp {
             enterpriseGK = host.substring(start + "//".length(), end);
         }
 
-        GlobalData.setEnterpriseGK(enterpriseGK);
+        GlobalData.setEnterpriseGK(PRIVATE_GK);
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
     }

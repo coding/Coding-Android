@@ -284,9 +284,20 @@ public class Global {
         CookieManager cookieManager = CookieManager.getInstance();
         for (int i = 0; i < cookies.size(); i++) {
             Cookie eachCookie = cookies.get(i);
+            String domain = eachCookie.getDomain();
+            if (TextUtils.isEmpty(domain)) {
+                final String div = "://";
+                int start = Global.HOST.indexOf(div);
+                domain = Global.HOST.substring(start + div.length());
+            }
+            String path = eachCookie.getPath();
+            if (TextUtils.isEmpty(path)) {
+                path = "/";
+            }
+
             cookieManager.setCookie(Global.HOST, String.format("%s=%s; Domain=%s; Path=%s; Secure; HttpOnly",
-                    eachCookie.getName(), eachCookie.getValue(), eachCookie.getDomain(),
-                    eachCookie.getPath()));
+                    eachCookie.getName(), eachCookie.getValue(), domain,
+                    path));
         }
 
         CookieSyncManager.getInstance().sync();
