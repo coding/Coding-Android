@@ -67,7 +67,6 @@ public class EnterpriseProjectMaopaoEditFragment extends TaskDespEditFragment {
                 showButtomToast("项目路径错误 " + path);
             }
         }
-
     }
 
     private void realUpdateImage(Uri updateFileUri, int projectId) {

@@ -5,6 +5,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -78,6 +81,8 @@ public class MainActivity extends BaseActivity {
     int bottomMerge;
     @Pref
     GlobalVar_ globalVar;
+
+    private Handler handerNotify = null;
 
     private long exitTime = 0;
     private boolean mKeyboardUp;
@@ -155,6 +160,34 @@ public class MainActivity extends BaseActivity {
         }
 
         startExtraService();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        handerNotify = new Handler(getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                Log.d(TAG, "receiver handler message");
+                super.handleMessage(msg);
+                updateNotifyFromService();
+
+                handerNotify.sendEmptyMessageDelayed(0, 5 * 1000);
+            }
+        };
+
+        handerNotify.sendEmptyMessage(0);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (handerNotify != null) {
+            handerNotify.removeMessages(0);
+            handerNotify = null;
+        }
     }
 
     private void requestPermissionReal() {
