@@ -142,9 +142,9 @@ public class OrderMainActivity extends BackActivity {
             if (account.payed) { // 试用期且付过费
                 balanceTitleString = new SpannedString("账户余额（元）");
                 balanceContentString = Global.createColorHtml(account.balance, fontOragne);
-                showOrderAndRecord(true, false);
+                showOrderAndRecord(true);
             } else {
-                showOrderAndRecord(false, false);
+                showOrderAndRecord(false);
             }
 
         } else {
@@ -160,7 +160,7 @@ public class OrderMainActivity extends BackActivity {
                     balanceContentString = Global.createColorHtml(account.balance, fontOragne);
                     balanceTipString = String.format("余额预计可使用至 %s，剩余 %s 天", df.format(account.estimateDate), account.remaindays);
 
-                    showOrderAndRecord(true, true);
+                    showOrderAndRecord(true);
 
                 } else { // 付费期已到期
                     showTip = true;
@@ -170,10 +170,10 @@ public class OrderMainActivity extends BackActivity {
 
                     if (account.suspendedAt > 0) { // 已暂停
                         balanceTipString = String.format("服务已暂停 %s 天", account.suspendedToToday());
-                        showOrderAndRecord(false, false);
+                        showOrderAndRecord(false);
                     } else { // 处于超时使用阶段
                         balanceTipString = String.format("过期时间为 %s，已超时使用 %s 天", df.format(account.estimateDate), account.estimateDate());
-                        showOrderAndRecord(true, true);
+                        showOrderAndRecord(true);
                     }
                 }
             } else { // 未付费而且试用期已过
@@ -182,25 +182,17 @@ public class OrderMainActivity extends BackActivity {
                 int suspand = account.suspendedToToday();
                 balanceTipString = String.format("服务已暂停 %s 天", suspand);
 
-                showOrderAndRecord(false, false);
+                showOrderAndRecord(false);
             }
         }
 
         setHeader(showTip, warnString, balanceTitleString, balanceContentString, new SpannedString(balanceTipString));
     }
 
-    private void showOrderAndRecord(boolean showOrder, boolean showBilling) {
+    private void showOrderAndRecord(boolean showOrder) {
         String[] titles;
         if (showOrder) {
-            if (showBilling) {
-                titles = new String[]{
-                        MyDetailPagerAdapter.TITLE_ORDER,
-                        MyDetailPagerAdapter.TITLE_BILLING
-                };
-            } else {
-                titles = new String[]{MyDetailPagerAdapter.TITLE_ORDER};
-
-            }
+            titles = new String[]{MyDetailPagerAdapter.TITLE_ORDER};
         } else {
             titles = new String[]{MyDetailPagerAdapter.TITLE_EMPTY};
         }
@@ -227,9 +219,6 @@ public class OrderMainActivity extends BackActivity {
             loadOrderData();
         }
 
-        if (showBilling) {
-            loadBillings();
-        }
     }
 
     private void setHeader(boolean show, Spanned... spanneds) {

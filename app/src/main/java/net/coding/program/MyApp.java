@@ -96,12 +96,16 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static net.coding.program.common.Global.makeLogTag;
+
 /**
  * Created by cc191954 on 14-8-9.
  * 用来做一些初始化工作，比如设置 host，
  * 初始化图片库配置
  */
 public class MyApp extends MultiDexApplication {
+
+    private static final String TAG = makeLogTag(MyApp.class);
 
     public static void initImageLoader(Context context) {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
@@ -374,6 +378,8 @@ public class MyApp extends MultiDexApplication {
 
                 final String uriPath = uriString.replace(Global.HOST, "");
 
+                Log.d(TAG, uri);
+
                 final String projectPattern = String.format("^/u/%s/p/%s(.*)", NAME, NAME);
                 Pattern pattern = Pattern.compile(projectPattern);
                 Matcher matcher = pattern.matcher(uriPath);
@@ -478,6 +484,20 @@ public class MyApp extends MultiDexApplication {
                 // https://coding.net/t/superrocket/p/TestPrivate?pp=2417
                 final String projectMaopao = String.format("^%s\\?pp=([\\d]+)", ProjectPath);
                 pattern = Pattern.compile(projectMaopao);
+                matcher = pattern.matcher(uriPath);
+                if (matcher.find()) {
+                    intent.setClass(context, MaopaoDetailActivity_.class);
+                    MaopaoDetailActivity.ClickParam param = new MaopaoDetailActivity.ClickParam(
+                            matcher.group(1), matcher.group(2), matcher.group(3));
+                    intent.putExtra("mClickParam", param);
+                    context.startActivity(intent);
+                    return true;
+                }
+
+                // 项目公告
+                // /u/codingcorp/p/0320/setting/notice/32
+                final String projectMaopaoDetail = String.format("^%s/setting/notice/([\\d]+)", ProjectPath);
+                pattern = Pattern.compile(projectMaopaoDetail);
                 matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     intent.setClass(context, MaopaoDetailActivity_.class);
