@@ -372,7 +372,8 @@ public class AttachmentsDownloadDetailActivity extends CodingToolbarBackActivity
         content.setText(Global.HumanReadableFilesize(mFileObject.getSize()));
 
         tvDownload.setText(String.format(downloadFormat, Global.HumanReadableFilesize(0.0), Global.HumanReadableFilesize(mFileObject.getSize())));
-        progressBar.setMax(mFileObject.getSize());
+        long size = mFileObject.getSize();
+        progressBar.setMax(size > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) size);
         mainLayout.setVisibility(View.VISIBLE);
 
         mFile = FileUtil.getDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName(mProjectObjectId));

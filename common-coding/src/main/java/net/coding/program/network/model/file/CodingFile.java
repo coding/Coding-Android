@@ -75,7 +75,7 @@ public class CodingFile implements Serializable {
     public int type; // 0 文件夹 2 png 文件
     @SerializedName("size")
     @Expose
-    public int size;
+    public long size;
     @SerializedName("name")
     @Expose
     public String name = "";
@@ -267,7 +267,7 @@ public class CodingFile implements Serializable {
         name = s;
     }
 
-    public int getSize() {
+    public long getSize() {
         return size;
     }
 

@@ -87,7 +87,7 @@ public class AttachmentFileObject implements Serializable, ShareParam {
     public int[] bytesAndStatus;
     public AttachmentFolderObject folderObject;
     private String name = "";
-    private int size = 0;
+    private long size = 0;
     private int history_id;
     private String share_url = ""; // 早期的版本是使用 share_url，现在的版本改成了 share
     private Share share;
@@ -362,7 +362,7 @@ public class AttachmentFileObject implements Serializable, ShareParam {
         name = s;
     }
 
-    public int getSize() {
+    public long getSize() {
         return size;
     }
 
