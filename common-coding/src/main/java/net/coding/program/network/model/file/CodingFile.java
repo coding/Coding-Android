@@ -236,7 +236,7 @@ public class CodingFile implements Serializable {
     }
 
     public boolean isShared() {
-        return false;
+        return share != null;
     }
 
 

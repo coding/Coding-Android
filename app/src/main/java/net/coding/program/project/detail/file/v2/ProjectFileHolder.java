@@ -82,7 +82,7 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
                 folder_name.setText(data.getName());
             } else {
                 icon.setImageResource(R.drawable.ic_project_git_folder2);
-                folder_name.setText(String.format("%s (%s)", data.getName(), data.count));
+                folder_name.setText(String.format("%s", data.getName()));
             }
             icon.setVisibility(View.VISIBLE);
             icon.setBackgroundResource(android.R.color.transparent);
