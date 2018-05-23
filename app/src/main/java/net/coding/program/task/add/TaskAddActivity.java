@@ -347,6 +347,11 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
                 mSingleTask.project_id = mProjectObject.getId();
                 mSingleTask.priority = mProjectObject.getId();
                 mSingleTask.taskBoardList = boardParam;
+            } else {
+                if (canPickProject) {
+                    PickProjectActivity_.intent(TaskAddActivity.this)
+                            .startForResult(RESULT_REQUEST_PICK_PROJECT);
+                }
             }
 
             initData();
