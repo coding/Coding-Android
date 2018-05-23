@@ -825,6 +825,7 @@
         <activity
             android:name=".project.detail.file.v2.ProjectFileMainActivity_"
             android:screenOrientation="portrait"
+            android:label="@string/empty"
             android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.member.MemberAuthorityManualActivity_"

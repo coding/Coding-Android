@@ -114,7 +114,10 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
     void initProjectFileMainActivity() {
         if (!TextUtils.isEmpty(parentFolder.name)) {
             setActionBarTitle(parentFolder.name);
+        } else {
+            setActionBarTitle("文件");
         }
+
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.addItemDecoration(new RecyclerViewSpace(this));
 
