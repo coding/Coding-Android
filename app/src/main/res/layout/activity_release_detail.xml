@@ -19,7 +19,6 @@
             android:orientation="vertical"
             android:padding="15dp">
 
-
             <TextView
                 android:id="@+id/titleText"
                 android:layout_width="match_parent"
@@ -42,7 +41,6 @@
             <View
                 style="@style/DivideLine"
                 android:layout_marginTop="15dp" />
-
 
             <WebView
                 android:id="@+id/webView"
