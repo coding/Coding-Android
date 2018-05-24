@@ -805,7 +805,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         } else {
             findViewById(R.id.reviewer_layout).setVisibility(View.VISIBLE);
         }
-        ListItem1 reviewers = (ListItem1) findViewById(R.id.itemReviewer);
+        ListItem1 reviewers = findViewById(R.id.itemReviewer);
         int role = 0;
         if (mMerge.isMergeTreate() || mMerge.isCanceled()) {
             role = 0;
@@ -823,33 +823,26 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                 }
             }
         }
+
+        TextView tv = reviewers.findViewById(R.id.text2);
         if (role > 0) {
-            TextView tv = (TextView) reviewers.findViewById(R.id.text2);
             tv.setVisibility(View.VISIBLE);
-            View arrow = reviewers.findViewById(R.id.arrow);
             if (role == 1) {
                 tv.setText("添加");
                 tv.setTextColor(getResources().getColor(R.color.font_3));
                 tv.setCompoundDrawables(null, null, null, null);
-                arrow.setVisibility(View.VISIBLE);
             } else if (role == 3) {
                 tv.setText("撤销允许合并");
                 tv.setTextColor(getResources().getColor(R.color.font_green));
-                arrow.setVisibility(View.GONE);
             } else if (role == 2) {
                 tv.setText("允许合并");
-                arrow.setVisibility(View.GONE);
                 tv.setTextColor(getResources().getColor(R.color.font_green));
             }
             tv.setGravity(Gravity.CENTER);
         } else {
-            TextView tv = (TextView) reviewers.findViewById(R.id.text2);
             tv.setVisibility(View.GONE);
-            View arrow = reviewers.findViewById(R.id.arrow);
-            if (arrow != null) {
-                arrow.setVisibility(View.VISIBLE);
-            }
         }
+
         final int roleFinal = role;
         reviewers.findViewById(R.id.text2).setOnClickListener(new View.OnClickListener() {
             @Override
