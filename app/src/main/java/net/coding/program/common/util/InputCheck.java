@@ -19,7 +19,7 @@ public class InputCheck {
     }
 
     public static boolean isPhone(String s) {
-        String regExp = "^[0-9]{11}$";
+        String regExp = "^[0-9]{5,14}$";
         Pattern p = Pattern.compile(regExp);
         Matcher m = p.matcher(s);
         return m.find();
