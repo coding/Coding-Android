@@ -10,11 +10,13 @@ import com.tencent.android.tpush.XGPushManager;
 import net.coding.program.EnterpriseMainActivity_;
 import net.coding.program.EnterpriseMyPushReceiver;
 import net.coding.program.UserDetailEditActivity_;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.guide.EnterpriseGuideActivity_;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.EnterpriseProjectHomeFragment_;
+import net.coding.program.project.maopao.EnterprisePrivateProjectMaopaoEditFragment_;
 import net.coding.program.project.maopao.EnterpriseProjectMaopaoActivity_;
 import net.coding.program.project.maopao.EnterpriseProjectMaopaoEditFragment_;
 import net.coding.program.user.EnterpriseAddMemberActivity_;
@@ -28,13 +30,18 @@ import java.util.ArrayList;
 /**
  * Created by chenchao on 2016/12/28.
  * 企业版与平台板不同的跳转页面
+ * 私有云的文件相关部分还是使用个人版 api
  */
 
 public class EnterpriseCompatImp implements ClassCompatInterface {
 
     @Override
     public Fragment getProjectMaopaoEditFragment() {
-        return EnterpriseProjectMaopaoEditFragment_.builder().build();
+        if (GlobalData.isPrivateEnterprise()) {
+            return EnterprisePrivateProjectMaopaoEditFragment_.builder().build();
+        } else {
+            return EnterpriseProjectMaopaoEditFragment_.builder().build();
+        }
     }
 
     @Override

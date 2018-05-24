@@ -16,6 +16,7 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.compatible.CodingCompat;
 import net.coding.program.project.detail.EditPreviewMarkdown;
+import net.coding.program.project.detail.ProjectCampt;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -23,7 +24,7 @@ import org.androidannotations.annotations.Extra;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_project_maopao_add)
-public class ProjectMaopaoAddActivity extends BackActivity implements EditPreviewMarkdown {
+public class ProjectMaopaoAddActivity extends BackActivity implements EditPreviewMarkdown, ProjectCampt {
 
     @Extra
     ProjectObject projectObject;
@@ -140,5 +141,10 @@ public class ProjectMaopaoAddActivity extends BackActivity implements EditPrevie
     @Override
     public boolean isProjectPublic() {
         return false;
+    }
+
+    @Override
+    public int getProjectId() {
+        return projectObject.id;
     }
 }
