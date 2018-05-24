@@ -544,7 +544,7 @@ public class MyApp extends MultiDexApplication {
 
                 // 任务详情
                 // https://coding.net/u/wzw/p/coding/task/9220
-                final String task = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/task/(\\w+)(#comment-\\w*)?$";
+                final String task = "^/u/([\\w.-]+)/p/([\\w.-]+)/task/(\\w+)(#comment-\\w*)?$";
                 pattern = Pattern.compile(task);
                 matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
@@ -559,7 +559,7 @@ public class MyApp extends MultiDexApplication {
 
                 // release 详情
                 // https://coding.net/u/wzw/p/coding/task/9220
-                final String release = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/git/releases/(\\w+)$";
+                final String release = "^/u/([\\w.-]+)/p/([\\w.-]+)/git/releases/([\\w.-]+)$";
                 pattern = Pattern.compile(release);
                 matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
@@ -716,7 +716,7 @@ public class MyApp extends MultiDexApplication {
                 }
 
                 // 跳转到 wiki
-                final String wikiUrl = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/wiki/(\\d+)";
+                final String wikiUrl = "^/u/([\\w.-]+)/p/([\\w.-]+)/wiki/(\\d+)";
                 pattern = Pattern.compile(wikiUrl);
                 matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
@@ -731,7 +731,7 @@ public class MyApp extends MultiDexApplication {
                 }
 
                 // 跳转到merge或pull
-                final String mergeString = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/git/(merge)?(pull)?/(\\d+)";
+                final String mergeString = "^/u/([\\w.-]+)/p/([\\w.-]+)/git/(merge)?(pull)?/(\\d+)";
                 pattern = Pattern.compile(mergeString);
                 matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
@@ -743,7 +743,7 @@ public class MyApp extends MultiDexApplication {
                 }
 
                 // 跳转到commit
-                final String commitString = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/git/commit/.+$";
+                final String commitString = "^/u/([\\w.-]+)/p/([\\w.-]+)/git/commit/.+$";
                 pattern = Pattern.compile(commitString);
                 matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
@@ -755,7 +755,7 @@ public class MyApp extends MultiDexApplication {
                 }
 
                 // 跳转到branch
-                final String branchString = "^/u/([\\w.-]+)/p/([\\w\\.-]+)/git/tree/(.+)$";
+                final String branchString = "^/u/([\\w.-]+)/p/([\\w.-]+)/git/tree/(.+)$";
                 pattern = Pattern.compile(branchString);
                 matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
