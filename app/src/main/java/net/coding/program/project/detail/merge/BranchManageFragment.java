@@ -78,11 +78,16 @@ public class BranchManageFragment extends BaseFragment {
         codingAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                Branch branch = (Branch) adapter.getItem(position);
+                if (branch.isDefaultBranch) {
+                    showButtomToast("不能删除默认分支");
+                    return true;
+                }
+
                 new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
                         .setItems(new String[]{"删除"}, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Branch branch = (Branch) adapter.getItem(position);
                                 showDialog(String.format("请确认是否要删除分支 %s ？", branch.name), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
