@@ -62,6 +62,13 @@ public class MainInputView extends FrameLayout implements KeyboardControl, Input
         showSystemInput(false);
     }
 
+    public void setShowEmojiOnly(boolean only) {
+        if (only) {
+            emojiKeyboard.showEmojiOnly();
+            topBar.setShowSendVoice(false);
+        }
+    }
+
     @Override
     public void showSystemInput(boolean show) {
         Global.popSoftkeyboard(activity, topBar.getEditText(), show);

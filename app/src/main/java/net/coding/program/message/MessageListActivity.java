@@ -333,6 +333,11 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     protected final void initMessageListActivity() {
         mEnterLayout.setClickSend(mOnClickSendText);
 
+        // 私有版发不了语音
+        if (GlobalData.isPrivateEnterprise()) {
+            mEnterLayout.setShowEmojiOnly(true);
+        }
+
         // 图片显示，单位为 dp
         // 72 photo 3 photo 3 photo 72
         final int divide = 3;

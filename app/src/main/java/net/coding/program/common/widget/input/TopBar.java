@@ -53,6 +53,9 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
     View send;
     @ViewById
     TextView sendText;
+
+    boolean showSendVoice = true;
+
     private boolean disableCheckedChange = false;
     private TextWatcher restoreWatcher = new SimpleTextWatcher() {
         @Override
@@ -102,7 +105,7 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
             send.setVisibility(INVISIBLE);
         }
 
-        if (mActivity instanceof VoiceRecordCompleteCallback) {
+        if (mActivity instanceof VoiceRecordCompleteCallback && showSendVoice) {
             popVoice.setVisibility(VISIBLE);
         } else {
             popVoice.setVisibility(View.GONE);
@@ -129,7 +132,7 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
                     }
                 }
 
-                if (mActivity instanceof VoiceRecordCompleteCallback) {
+                if (mActivity instanceof VoiceRecordCompleteCallback && showSendVoice) {
                     popVoice.setVisibility(VISIBLE);
                 } else {
                     popVoice.setVisibility(View.GONE);
@@ -202,6 +205,11 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
                 keyboardControl.showSystemInput(true);
             }
         }
+    }
+
+    public void setShowSendVoice(boolean show) {
+        showSendVoice = show;
+        popVoice.setVisibility(show ? VISIBLE : GONE);
     }
 
     @Override
