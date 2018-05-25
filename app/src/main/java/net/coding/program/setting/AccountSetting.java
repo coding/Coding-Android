@@ -69,6 +69,10 @@ public class AccountSetting extends BackActivity {
 
     @Click
     void phoneSetting() {
+        if (GlobalData.isPrivateEnterprise()) {
+            showButtomToast("App 暂不支持设置手机号码");
+            return;
+        }
         ValidePhoneActivity_.intent(this).startForResult(RESULT_PHONE_SETTING);
     }
 

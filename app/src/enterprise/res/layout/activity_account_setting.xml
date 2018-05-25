@@ -101,11 +101,11 @@
             android:textColor="@color/font_3"
             android:textSize="15sp" />
 
-        <View
-            style="@style/DivideLine_15"
-            android:layout_alignParentBottom="true" />
-
     </RelativeLayout>
+
+    <View
+        style="@style/DivideLine_15"
+        android:layout_alignParentBottom="true" />
 
     <RelativeLayout
         android:id="@+id/passwordSetting"
