@@ -83,7 +83,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
     final String hostDeleteMessage = Global.HOST_API + "/message/%s";
 
-//    final String TAG_SEND_IMAGE = "TAG_SEND_IMAGE";
+    final String TAG_SEND_IMAGE = "TAG_SEND_IMAGE";
     final String TAG_SEND_VOICE = "TAG_SEND_VOICE";
     final String TAG_MARK_VOICE_PLAYED = "TAG_MARK_VOICE_PLAYED";
     final String HOST_MESSAGE_LAST = Global.HOST_API + "/message/conversations/%s/last?id=%s";
@@ -122,7 +122,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             onRefresh();
         }
     };
-    String HOST_INSERT_IMAGE = Global.HOST_API + "/tweet/insert_image";
+    String HOST_INSERT_IMAGE = Global.HOST_API + "/message/send_image";
     String HOST_SEND_VOICE = Global.HOST_API + "/message/send_voice";
     MyImageGetter myImageGetter = new MyImageGetter(this);
     private PhotoOperate photoOperate = new PhotoOperate(this);
@@ -220,7 +220,11 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                             if (myMessage.myRequestType == MyMessage.REQUEST_TEXT) {
                                 postNetwork(HOST_MESSAGE_SEND, myMessage.requestParams, HOST_MESSAGE_SEND + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
                             } else if (myMessage.myRequestType == MyMessage.REQUEST_IMAGE) {
-                                new UploadPublicHelp(MessageListActivity.this, myMessage.getFile(), MessageListActivity.this, myMessage.getCreateTime()).upload();
+                                if (GlobalData.isPrivateEnterprise()) {
+                                    postNetwork(HOST_INSERT_IMAGE, myMessage.requestParams, TAG_SEND_IMAGE + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
+                                } else {
+                                    new UploadPublicHelp(MessageListActivity.this, myMessage.getFile(), MessageListActivity.this, myMessage.getCreateTime()).upload();
+                                }
                             } else if (myMessage.myRequestType == MyMessage.REQUEST_VOICE) {
                                 MessageParse mp = ContentArea.parseVoice(myMessage.extra);
                                 postNetwork(HOST_SEND_VOICE, myMessage.requestParams, TAG_SEND_VOICE + mp.voiceUrl, -1, myMessage.getCreateTime());
@@ -531,6 +535,11 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     }
 
     private void sendPhotoPre(Uri uri) throws Exception {
+        if (GlobalData.isPrivateEnterprise()) {
+            sendPhotoPrivateEnterprise(uri);
+            return;
+        }
+
         RequestParams params = new RequestParams();
         File scalFile = photoOperate.scal(uri);
         params.put("tweetImg", scalFile);
@@ -542,6 +551,18 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         myMessage.setFile(scalFile);
 
         new UploadPublicHelp(this, myMessage.getFile(), this, myMessage.getCreateTime()).upload();
+    }
+
+    private void sendPhotoPrivateEnterprise(Uri uri) throws Exception {
+        RequestParams params = new RequestParams();
+        params.put("file", photoOperate.scal(uri));
+
+        MyMessage myMessage = new MyMessage(MyMessage.REQUEST_IMAGE, params, mUserObject);
+        String imageLink = "<div class='message-image-box'><a href='%s' target='_blank'><img class='message-image' src='%s'/?></a></div>";
+        myMessage.content = String.format(imageLink, uri.toString(), uri.toString());
+        mData.add(myMessage);
+
+        postNetwork(HOST_INSERT_IMAGE, params, TAG_SEND_IMAGE + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
     }
 
     @Override
@@ -593,6 +614,31 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             } else {
                 hideProgressDialog();
                 showProgressBar(false);
+                showErrorMsg(code, respanse);
+            }
+
+        } else if (tag.indexOf(TAG_SEND_IMAGE) == 0) {
+            long sendId = (Long) data;
+            if (code == 0) {
+                String imageUrl = respanse.getString("data");
+                RequestParams params = new RequestParams();
+                params.put("content", String.format(" ![图片](%s) ", imageUrl));
+                params.put("receiver_global_key", mUserObject.global_key);
+                postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + sendId, -1, sendId);
+
+            } else {
+                for (int i = mData.size() - 1; i >= 0; --i) {
+                    Object singleItem = mData.get(i);
+                    if (singleItem instanceof MyMessage) {
+                        MyMessage tempMsg = (MyMessage) singleItem;
+                        if (tempMsg.getCreateTime() == sendId) {
+                            tempMsg.myStyle = MyMessage.STYLE_RESEND;
+                            break;
+                        }
+                    }
+                }
+                adapter.notifyDataSetChanged();
+
                 showErrorMsg(code, respanse);
             }
 
@@ -740,7 +786,11 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                                         if (myMessage.myRequestType == MyMessage.REQUEST_TEXT) {
                                             postNetwork(HOST_MESSAGE_SEND, myMessage.requestParams, HOST_MESSAGE_SEND + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
                                         } else if (myMessage.myRequestType == MyMessage.REQUEST_IMAGE) {
-                                            new UploadPublicHelp(MessageListActivity.this, myMessage.getFile(), MessageListActivity.this, myMessage.getCreateTime()).upload();
+                                            if (GlobalData.isPrivateEnterprise()) {
+                                                postNetwork(HOST_INSERT_IMAGE, myMessage.requestParams, TAG_SEND_IMAGE + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
+                                            } else {
+                                                new UploadPublicHelp(MessageListActivity.this, myMessage.getFile(), MessageListActivity.this, myMessage.getCreateTime()).upload();
+                                            }
                                         } else if (myMessage.myRequestType == MyMessage.REQUEST_VOICE) {
                                             MessageParse mp = ContentArea.parseVoice(myMessage.extra);
                                             postNetwork(HOST_SEND_VOICE, myMessage.requestParams, TAG_SEND_VOICE + mp.voiceUrl, -1, myMessage.getCreateTime());

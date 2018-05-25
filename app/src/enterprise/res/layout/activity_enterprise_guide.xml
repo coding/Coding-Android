@@ -167,7 +167,7 @@
         android:layout_marginLeft="45dp"
         android:layout_marginRight="45dp"
         android:gravity="center"
-        android:text="私有云账号登录"
+        android:text="私有部署账号登录"
         android:textColor="@color/font_2"
         app:rv_strokeWidth="1dp"
         app:rv_strokeColor="@color/font_2"

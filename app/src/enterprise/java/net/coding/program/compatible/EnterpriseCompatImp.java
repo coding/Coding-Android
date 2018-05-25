@@ -30,7 +30,7 @@ import java.util.ArrayList;
 /**
  * Created by chenchao on 2016/12/28.
  * 企业版与平台板不同的跳转页面
- * 私有云的文件相关部分还是使用个人版 api
+ * 私有部署的文件相关部分还是使用个人版 api
  */
 
 public class EnterpriseCompatImp implements ClassCompatInterface {

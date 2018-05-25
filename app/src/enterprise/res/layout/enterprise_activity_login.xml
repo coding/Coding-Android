@@ -92,7 +92,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="28dp"
                 android:gravity="center_vertical"
-                android:text="私有云账号登录"
+                android:text="私有部署账号登录"
                 android:textColor="#272C33"
                 android:textSize="28sp" />
 
