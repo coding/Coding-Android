@@ -409,6 +409,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
             String uri = AccountInfo.loadAuth(this, globalKey);
             if (!uri.isEmpty()) {
                 String code2FA = new AuthInfo(uri, new TotpClock(this)).getCode();
+                edit2FA.getText().clear();
                 edit2FA.getText().insert(0, code2FA);
                 loginButton();
             }
