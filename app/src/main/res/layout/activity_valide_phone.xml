@@ -63,12 +63,13 @@
 
                     </LinearLayout>
 
-                    <View style="@style/DivideLine_15" />
+                    <View style="@style/DivideLine_15" android:id="@+id/codeLine" />
 
                     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:layout_width="match_parent"
                         android:layout_height="53dp"
+                        android:id="@+id/codeLayout1"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 

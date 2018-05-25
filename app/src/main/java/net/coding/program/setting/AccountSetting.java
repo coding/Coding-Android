@@ -38,7 +38,6 @@ public class AccountSetting extends BackActivity {
     @AfterViews
     final void initAccountSetting() {
         if (GlobalData.isPrivateEnterprise()) {
-            phoneSetting.setVisibility(View.GONE);
             close2FA.setVisibility(View.GONE);
         }
 

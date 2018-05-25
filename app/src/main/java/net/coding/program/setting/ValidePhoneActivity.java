@@ -88,6 +88,11 @@ public class ValidePhoneActivity extends MenuButtonActivity {
         }, 100);
 
         bindCountry();
+
+        if (GlobalData.isPrivateEnterprise()) {
+            findViewById(R.id.codeLayout1).setVisibility(View.GONE);
+            findViewById(R.id.codeLine).setVisibility(View.GONE);
+        }
     }
 
     @Click
@@ -201,7 +206,11 @@ public class ValidePhoneActivity extends MenuButtonActivity {
 
         RequestParams params = new RequestParams();
         params.put("phone", phone);
-        params.put("code", code);
+
+        if (!GlobalData.isPrivateEnterprise()) {
+            params.put("code", code);
+        }
+
         params.put("phoneCountryCode", phoneCountryCode);
         params.put("country", country);
         params.put("two_factor_code", two_factor_code);
