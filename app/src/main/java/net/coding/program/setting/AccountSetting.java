@@ -1,6 +1,7 @@
 package net.coding.program.setting;
 
 import android.support.v7.app.AlertDialog;
+import android.view.View;
 import android.widget.TextView;
 
 import net.coding.program.R;
@@ -30,8 +31,15 @@ public class AccountSetting extends BackActivity {
     @ViewById
     TextView email, suffix, phone;
 
+    @ViewById
+    View phoneSetting;
+
     @AfterViews
     final void initAccountSetting() {
+        if (GlobalData.isPrivateEnterprise()) {
+            phoneSetting.setVisibility(View.GONE);
+        }
+
         UserObject userObject = GlobalData.sUserObject;
         email.setText(userObject.email);
         suffix.setText(userObject.global_key);
@@ -65,6 +73,13 @@ public class AccountSetting extends BackActivity {
 
     @Click
     void forgetPassword() {
+        if (GlobalData.isPrivateEnterprise()) {
+            PhoneSetPasswordActivity_.intent(this)
+                    .account(GlobalData.sUserObject.email)
+                    .start();
+            return;
+        }
+
         if (GlobalData.sUserObject.isPhoneValidation()) {
             PhoneSetPasswordActivity_.intent(this)
                     .account(GlobalData.sUserObject.phone)
