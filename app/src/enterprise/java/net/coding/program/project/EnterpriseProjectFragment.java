@@ -146,6 +146,12 @@ public class EnterpriseProjectFragment extends BaseFragment {
 
     private void initActionBar() {
         enterpriseProjectToolbar.inflateMenu(R.menu.enterprise_main_project);
+        if (GlobalData.isPrivateEnterprise()) {
+            MenuItem item2FA = enterpriseProjectToolbar.getMenu().findItem(R.id.action2fa);
+            if (item2FA != null) {
+                item2FA.setVisible(false);
+            }
+        }
         enterpriseProjectToolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.actionCreateProject:

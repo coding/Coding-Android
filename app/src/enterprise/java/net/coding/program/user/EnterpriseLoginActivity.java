@@ -150,6 +150,10 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
     @AfterViews
     void initEnterpriseLoginActivity() {
+        if (isPrivate) {
+            login2faMenu.setVisibility(View.INVISIBLE);
+        }
+
         editName.addTextChangedListener(textWatcher);
         editPassword.addTextChangedListener(textWatcher);
         editValifyMain.addTextChangedListener(textWatcher);
