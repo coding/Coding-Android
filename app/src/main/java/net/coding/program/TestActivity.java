@@ -1,6 +1,7 @@
 package net.coding.program;
 
 import android.os.Bundle;
+import android.webkit.WebView;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
@@ -22,10 +23,20 @@ public class TestActivity extends BackActivity {
         findViewById(R.id.button).setOnClickListener(v -> click());
 
         click();
+
     }
 
     private void click() {
-        openGuide();
+        WebView webView = findViewById(R.id.webView);
+
+        WebView.setWebContentsDebuggingEnabled(true);
+        Global.initWebView(webView);
+        webView.setWebViewClient(new CustomWebViewClient(this));
+        Global.syncCookie(this);
+
+//        webView.loadUrl("http://www.baidu.com");
+        webView.loadUrl("http://pd.codingprod.net/p/ww/setting/notice/4");
+
     }
 
     private void openGuide() {

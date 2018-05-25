@@ -335,6 +335,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
         WebView webView = mListHead.findViewById(R.id.comment);
         Global.initWebView(webView);
+        Global.syncCookie(this);
         String replaceContent = bubble.replace("${webview_content}", mMaopaoObject.content);
         webView.loadDataWithBaseURL(null, replaceContent, "text/html", "UTF-8", null);
         webView.setWebViewClient(new CustomWebViewClientOpenNew(this, mMaopaoObject.content));
