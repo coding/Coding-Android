@@ -506,23 +506,25 @@ public class AccountInfo {
         return s;
     }
 
-
     public static void saveLastPrivateHost(Context context, String host) {
-        String divide = "://";
-        int pos = host.indexOf(divide);
-        if (pos != -1) {
-            host = host.substring(pos + divide.length());
+        if (!host.startsWith("http://") && !host.startsWith("https://")) {
+            host = "http://" + host;
         }
+
         new DataCache<String>().saveGlobal(context, host, GLOBAL_LAST_PRIVATE_HOST);
     }
 
     public static String loadLastPrivateHost(Context context) {
-        String s = new DataCache<String>().loadGlobalObject(context, GLOBAL_LAST_PRIVATE_HOST);
-        if (s == null) {
+        String host = new DataCache<String>().loadGlobalObject(context, GLOBAL_LAST_PRIVATE_HOST);
+        if (host == null) {
             return "";
         }
 
-        return s;
+        if (!host.startsWith("http://") && !host.startsWith("https://")) {
+            host = "http://" + host;
+        }
+
+        return host;
     }
 
     public static ArrayList<ProjectObject> loadTaskProjects(Context context) {

@@ -68,8 +68,7 @@ public class EnterpriseApp extends MyApp {
 
     private static void initPrivateHost(Context context) {
         GlobalData.setEnterpriseGK(PRIVATE_GK);
-        String host = "http://" + AccountInfo.loadLastPrivateHost(context);
-        Global.HOST = host;
+        Global.HOST = AccountInfo.loadLastPrivateHost(context);
         Global.HOST_API = Global.HOST + "/api";
     }
 

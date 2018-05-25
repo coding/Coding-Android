@@ -202,7 +202,15 @@ public class EnterpriseLoginActivity extends BaseActivity {
     void clickPrivateNext() {
         hostLayout.setVisibility(View.GONE);
         enterpriseGK = EnterpriseApp.PRIVATE_GK;
-        toolbarTitle.setText(String.format("登录到\n%s", privateHost.getTextString()));
+
+        String input = privateHost.getTextString();
+        String divide = "://";
+        int pos = input.indexOf(divide);
+        if (pos != -1) {
+            input = input.substring(pos + divide.length());
+        }
+
+        toolbarTitle.setText(String.format("登录到\n%s", input));
     }
 
     @Click
