@@ -94,7 +94,9 @@ public class EnterpriseLoginActivity extends BaseActivity {
     @ViewById
     LoginEditTextNew enterpriseEdit, privateHost;
 
+    @ViewById
     ImageView imageValifyMain;
+
     @ViewById
     LoginEditTextNew editName, editPassword, editValifyMain, edit2FA;
 

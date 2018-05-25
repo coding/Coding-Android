@@ -276,7 +276,39 @@ public class Global {
                 || s1.endsWith(".gif");
     }
 
+    public static void syncCookie(Context context, int iii) {
+        CookieSyncManager.createInstance(context);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        PersistentCookieStore cookieStore = new PersistentCookieStore(context);
+        List<Cookie> cookies = cookieStore.getCookies();
+        for (int i = 0; i < cookies.size(); i++) {
+            Cookie cookie = cookies.get(i);
+            String value = cookie.getName() + "=" + cookie.getValue();
+            cookieManager.setCookie(Global.HOST, value);
+        }
+
+        CookieSyncManager.getInstance().sync();// To get instant sync instead of waiting for the timer to trigger, the host can call this.
+    }
+
+
     public static void syncCookie(Context context) {
+        PersistentCookieStore cookieStore = new PersistentCookieStore(context);
+        List<Cookie> cookies = cookieStore.getCookies();
+
+        CookieSyncManager.createInstance(context);
+        CookieManager cookieManager = CookieManager.getInstance();
+        for (int i = 0; i < cookies.size(); i++) {
+            Cookie eachCookie = cookies.get(i);
+            cookieManager.setCookie(Global.HOST, String.format("%s=%s; Domain=%s; Path=%s; Secure; HttpOnly",
+                    eachCookie.getName(), eachCookie.getValue(), eachCookie.getDomain(),
+                    eachCookie.getPath()));
+        }
+
+        CookieSyncManager.getInstance().sync();
+    }
+
+    public static void syncCookie(Context context, boolean bbb) {
         PersistentCookieStore cookieStore = new PersistentCookieStore(context);
         List<Cookie> cookies = cookieStore.getCookies();
 
