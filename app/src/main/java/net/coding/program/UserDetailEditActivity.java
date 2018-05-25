@@ -196,7 +196,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                 case USERINFO_NAME:
                     //昵称
                     SetUserInfoActivity_.intent(UserDetailEditActivity.this)
-                            .title(GlobalData.isEnterprise() ? "姓名" : "昵称")
+                            .title(GlobalData.isEnterprise() ? "名字" : "昵称")
                             .row(USERINFO_NAME).startForResult(ListModify.RESULT_EDIT_LIST);
                     break;
 

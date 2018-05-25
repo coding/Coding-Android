@@ -2,7 +2,6 @@ package net.coding.program;
 
 import android.support.v7.app.AlertDialog;
 
-import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 
 import net.coding.program.common.Global;
@@ -68,13 +67,19 @@ public class EnterpriseMainActivity extends MainActivity {
 
     @Override
     protected void startPushService() {
+        // 私有版没有推送
+        if (GlobalData.isPrivateEnterprise()) {
+            return;
+        }
+
         runQQPushServer();
     }
 
     private void runQQPushServer() {
         // 信鸽 push 服务会发 broadcast
 //        if (!MyApp.isDebug()) {
-        XGPushConfig.enableDebug(this, true);
+
+//        XGPushConfig.enableDebug(this, true);
         String globalKey = GlobalData.sUserObject.global_key;
         XGPushManager.bindAccount(getApplicationContext(), globalKey);
 //        pushInXiaomi();

@@ -87,6 +87,11 @@
         <item name="android:searchIcon">@drawable/ic_menu_search</item>
     </style>
 
+    <style name="Toolbar.MyStyle" parent="Base.Widget.AppCompat.Toolbar">
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+    </style>
+
     <style name="AppThemeNoActionbar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:textColorPrimary">@color/text_color_primary</item>

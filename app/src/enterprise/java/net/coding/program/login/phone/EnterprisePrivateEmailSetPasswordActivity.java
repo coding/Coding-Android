@@ -1,12 +1,11 @@
 package net.coding.program.login.phone;
 
-import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import net.coding.program.EnterpriseApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.widget.LoginEditTextNew;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -22,27 +21,32 @@ public class EnterprisePrivateEmailSetPasswordActivity extends EmailSetPasswordA
     @Extra
     String enterpriseName = "";
 
-    @ViewById
-    LoginEditTextNew privateHost;
+//    @ViewById
+//    LoginEditTextNew privateHost;
 
     @ViewById
     View enterpriseLine;
 
+    @ViewById
+    TextView toolbarTitle;
+
     @AfterViews
     void initEnterpriseEmailSetPasswordActivity() {
-        privateHost.setText(enterpriseName);
+        String host = enterpriseName;
+        int start = host.indexOf("://");
+        if (start != -1) {
+            host = host.substring(start + "://".length());
+        }
+
+        toolbarTitle.setText(String.format("找回密码\n%s", host));
         hideActionbarShade();
 
-        if (TextUtils.isEmpty(enterpriseName)) {
-            privateHost.requestFocus();
-        } else {
-            emailEdit.requestFocus();
-        }
+        emailEdit.requestFocus();
     }
 
     @Override
     protected String getUrl() {
-        EnterpriseApp.setPrivateHost(privateHost.getTextString());
+        EnterpriseApp.setPrivateHost(enterpriseName);
         return String.format("%s%s", Global.HOST_API, "/account/password/forget");
     }
 }
