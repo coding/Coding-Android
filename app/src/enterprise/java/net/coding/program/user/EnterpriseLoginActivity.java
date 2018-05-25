@@ -47,6 +47,7 @@ import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.login.phone.Close2FAActivity_;
 import net.coding.program.login.phone.EnterpriseEmailSetPasswordActivity_;
+import net.coding.program.login.phone.EnterprisePrivateEmailSetPasswordActivity_;
 import net.coding.program.network.constant.MemberAuthority;
 
 import org.androidannotations.annotations.AfterViews;
@@ -174,10 +175,6 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
         if (isPrivate) {
             String lastHost = AccountInfo.loadLastPrivateHost(this);
-            final String PRE = "http://";
-            if (lastHost.startsWith(PRE)) {
-                lastHost = lastHost.substring(PRE.length());
-            }
             privateHost.setText(lastHost);
         }
 
@@ -371,10 +368,16 @@ public class EnterpriseLoginActivity extends BaseActivity {
             account = "";
         }
 
-        EnterpriseEmailSetPasswordActivity_.intent(this)
-                .enterpriseName(enterpriseGK)
-                .account(account)
-                .start();
+        if (isPrivate) {
+            EnterprisePrivateEmailSetPasswordActivity_.intent(this)
+                    .enterpriseName(privateHost.getTextString())
+                    .start();
+        } else {
+            EnterpriseEmailSetPasswordActivity_.intent(this)
+                    .enterpriseName(enterpriseGK)
+                    .account(account)
+                    .start();
+        }
     }
 
     @Click

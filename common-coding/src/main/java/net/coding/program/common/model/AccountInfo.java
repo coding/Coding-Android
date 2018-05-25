@@ -508,6 +508,11 @@ public class AccountInfo {
 
 
     public static void saveLastPrivateHost(Context context, String host) {
+        String divide = "://";
+        int pos = host.indexOf(divide);
+        if (pos != -1) {
+            host = host.substring(pos + divide.length());
+        }
         new DataCache<String>().saveGlobal(context, host, GLOBAL_LAST_PRIVATE_HOST);
     }
 

@@ -17,6 +17,7 @@ import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.GlobalData;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
@@ -63,9 +64,13 @@ public class ReleaseDetailActivity extends BackActivity {
     @ViewById
     ViewGroup releaseFile, releaseRef;
 
+    @ViewById
+    View blankLayout;
+
     @AfterViews
     void initReleaseDetailActivity() {
         if (param != null) {
+            BlankViewHelp.setBlankLoading(blankLayout, true);
             onRefrush();
         } else {
             bindData();
@@ -84,10 +89,23 @@ public class ReleaseDetailActivity extends BackActivity {
         Observable.zip(r1, r2, (p, r) -> {
             projectObject = p.data;
             release = r.data;
+
+            if (release == null) {
+                if (r.code == 3900) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
             return true;
         }).subscribe(new Subscriber<Boolean>() {
             @Override
             public void onCompleted() {
+                if (release == null) {
+                    return;
+                }
+
                 bindData();
                 invalidateOptionsMenu();
             }
@@ -99,6 +117,11 @@ public class ReleaseDetailActivity extends BackActivity {
 
             @Override
             public void onNext(Boolean aBoolean) {
+                if (release == null) {
+                    if (aBoolean) {
+                        BlankViewHelp.setBlank(0, ReleaseDetailActivity.this, true, blankLayout, null);
+                    }
+                }
             }
         });
     }
@@ -190,6 +213,8 @@ public class ReleaseDetailActivity extends BackActivity {
     }
 
     private void bindData() {
+        if (release == null) return;
+
         findViewById(R.id.contentLayout).setVisibility(View.VISIBLE);
 
         String title = release.title;

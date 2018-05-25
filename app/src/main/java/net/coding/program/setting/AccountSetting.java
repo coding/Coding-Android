@@ -14,6 +14,7 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.login.phone.Close2FAActivity_;
+import net.coding.program.login.phone.EnterprisePrivateEmailSetPasswordActivity_;
 import net.coding.program.login.phone.PhoneSetPasswordActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -32,12 +33,13 @@ public class AccountSetting extends BackActivity {
     TextView email, suffix, phone;
 
     @ViewById
-    View phoneSetting;
+    View phoneSetting, close2FA;
 
     @AfterViews
     final void initAccountSetting() {
         if (GlobalData.isPrivateEnterprise()) {
             phoneSetting.setVisibility(View.GONE);
+            close2FA.setVisibility(View.GONE);
         }
 
         UserObject userObject = GlobalData.sUserObject;
@@ -74,8 +76,8 @@ public class AccountSetting extends BackActivity {
     @Click
     void forgetPassword() {
         if (GlobalData.isPrivateEnterprise()) {
-            PhoneSetPasswordActivity_.intent(this)
-                    .account(GlobalData.sUserObject.email)
+            EnterprisePrivateEmailSetPasswordActivity_.intent(this)
+                    .enterpriseName(AccountInfo.loadLastPrivateHost(this))
                     .start();
             return;
         }

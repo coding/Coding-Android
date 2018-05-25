@@ -44,50 +44,50 @@
         <!-- 信鸽需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
         <!-- 【必须】 信鸽receiver广播接收 -->
         <!--<receiver-->
-            <!--android:name="com.tencent.android.tpush.XGPushReceiver"-->
-            <!--android:process=":xg_service_v2">-->
-            <!--<intent-filter android:priority="0x7fffffff">-->
+        <!--android:name="com.tencent.android.tpush.XGPushReceiver"-->
+        <!--android:process=":xg_service_v2">-->
+        <!--<intent-filter android:priority="0x7fffffff">-->
 
-                <!--&lt;!&ndash; 【必须】 信鸽SDK的内部广播 &ndash;&gt;-->
-                <!--<action android:name="com.tencent.android.tpush.action.SDK" />-->
-                <!--<action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE" />-->
-                <!--&lt;!&ndash; 【必须】 系统广播：网络切换 &ndash;&gt;-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+        <!--&lt;!&ndash; 【必须】 信鸽SDK的内部广播 &ndash;&gt;-->
+        <!--<action android:name="com.tencent.android.tpush.action.SDK" />-->
+        <!--<action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE" />-->
+        <!--&lt;!&ndash; 【必须】 系统广播：网络切换 &ndash;&gt;-->
+        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
 
-                <!--&lt;!&ndash; 【可选】 系统广播：开屏 &ndash;&gt;-->
-                <!--<action android:name="android.intent.action.USER_PRESENT" />-->
+        <!--&lt;!&ndash; 【可选】 系统广播：开屏 &ndash;&gt;-->
+        <!--<action android:name="android.intent.action.USER_PRESENT" />-->
 
-                <!--&lt;!&ndash; 【可选】 一些常用的系统广播，增强信鸽service的复活机会，请根据需要选择。当然，你也可以添加APP自定义的一些广播让启动service &ndash;&gt;-->
-                <!--<action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />-->
-                <!--<action android:name="android.intent.action.ACTION_POWER_CONNECTED" />-->
-                <!--<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />-->
-            <!--</intent-filter>-->
-            <!--&lt;!&ndash; 【可选】 usb相关的系统广播，增强信鸽service的复活机会，请根据需要添加 &ndash;&gt;-->
-            <!--<intent-filter android:priority="0x7fffffff">-->
-                <!--<action android:name="android.intent.action.MEDIA_UNMOUNTED" />-->
-                <!--<action android:name="android.intent.action.MEDIA_REMOVED" />-->
-                <!--<action android:name="android.intent.action.MEDIA_CHECKING" />-->
-                <!--<action android:name="android.intent.action.MEDIA_EJECT" />-->
+        <!--&lt;!&ndash; 【可选】 一些常用的系统广播，增强信鸽service的复活机会，请根据需要选择。当然，你也可以添加APP自定义的一些广播让启动service &ndash;&gt;-->
+        <!--<action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />-->
+        <!--<action android:name="android.intent.action.ACTION_POWER_CONNECTED" />-->
+        <!--<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />-->
+        <!--</intent-filter>-->
+        <!--&lt;!&ndash; 【可选】 usb相关的系统广播，增强信鸽service的复活机会，请根据需要添加 &ndash;&gt;-->
+        <!--<intent-filter android:priority="0x7fffffff">-->
+        <!--<action android:name="android.intent.action.MEDIA_UNMOUNTED" />-->
+        <!--<action android:name="android.intent.action.MEDIA_REMOVED" />-->
+        <!--<action android:name="android.intent.action.MEDIA_CHECKING" />-->
+        <!--<action android:name="android.intent.action.MEDIA_EJECT" />-->
 
-                <!--<data android:scheme="file" />-->
-            <!--</intent-filter>-->
+        <!--<data android:scheme="file" />-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
         <!--&lt;!&ndash; 【必须】 (2.30及以上版新增)展示通知的activity &ndash;&gt;-->
         <!--&lt;!&ndash; 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理 &ndash;&gt;-->
         <!--<activity-->
-            <!--android:name="com.tencent.android.tpush.XGPushActivity"-->
-            <!--android:exported="true">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action" />-->
-            <!--</intent-filter>-->
+        <!--android:name="com.tencent.android.tpush.XGPushActivity"-->
+        <!--android:exported="true">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action" />-->
+        <!--</intent-filter>-->
         <!--</activity>-->
 
         <!-- 【必须】 信鸽service -->
         <!--<service-->
-            <!--android:name="com.tencent.android.tpush.service.XGPushService"-->
-            <!--android:exported="true"-->
-            <!--android:persistent="true"-->
-            <!--android:process=":xg_service_v2" />-->
+        <!--android:name="com.tencent.android.tpush.service.XGPushService"-->
+        <!--android:exported="true"-->
+        <!--android:persistent="true"-->
+        <!--android:process=":xg_service_v2" />-->
 
         <receiver android:name=".EnterprisePushReceiver">
             <intent-filter>
@@ -100,11 +100,11 @@
 
         <!--&lt;!&ndash; 【必须】 通知service，此选项有助于提高抵达率 &ndash;&gt;-->
         <!--<service-->
-            <!--android:name="com.tencent.android.tpush.rpc.XGRemoteService"-->
-            <!--android:exported="true">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="net.coding.program.enterprise.PUSH_ACTION" />-->
-            <!--</intent-filter>-->
+        <!--android:name="com.tencent.android.tpush.rpc.XGRemoteService"-->
+        <!--android:exported="true">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="net.coding.program.enterprise.PUSH_ACTION" />-->
+        <!--</intent-filter>-->
         <!--</service>-->
         <!-- 信鸽需要的组件 end ———————————————————————————————————————————————————————————————————————————— -->
 
@@ -168,6 +168,11 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".login.phone.EnterprisePrivateEmailSetPasswordActivity_"
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionbarTranslate" />
         <activity
             android:name=".login.phone.EnterpriseEmailSetPasswordActivity_"
             android:label="@string/empty"

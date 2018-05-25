@@ -318,6 +318,9 @@ public class MyApp extends MultiDexApplication {
                         } else if (fragment instanceof ProjectDynamicFragment) {
                             iconId = R.drawable.ic_exception_blank_dynamic;
                             text = "当前项目暂无相关动态~";
+                        } else if (fragment instanceof ReleaseDetailActivity) {
+                            iconId = R.drawable.ic_exception_blank_task;
+                            text = "Release 不存在";
                         } else if (fragment instanceof TeamListActivity) {
                             iconId = R.drawable.ic_exception_blank_team;
                             text = "还没有创建团队~";

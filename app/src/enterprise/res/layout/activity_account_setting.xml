@@ -101,7 +101,9 @@
             android:textColor="@color/font_3"
             android:textSize="15sp" />
 
-        <View style="@style/DivideLine_15" android:layout_alignParentBottom="true"/>
+        <View
+            style="@style/DivideLine_15"
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 
@@ -147,7 +149,6 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/divide_line_1" />
 
     <RelativeLayout
         android:id="@+id/close2FA"
@@ -167,6 +168,7 @@
             android:textColor="@color/font_1"
             android:textSize="15sp" />
 
+        <include layout="@layout/divide_line_1" />
     </RelativeLayout>
 
     <include layout="@layout/divide_bottom_15" />
