@@ -2,6 +2,7 @@ package net.coding.program.project.detail;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,8 @@ import java.util.ArrayList;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
+import static android.view.View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS;
 
 @EFragment(R.layout.fragment_task_list)
 public class TaskListFragment extends RefreshBaseFragment {
@@ -230,6 +233,9 @@ public class TaskListFragment extends RefreshBaseFragment {
         listView.setAreHeadersSticky(false);
         listView.addFooterView(listFooter, null, false);
         listView.setAdapter(mAdapter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            listView.setImportantForAutofill(IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
+        }
 
         updateFootStyle();
 
