@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.CodingGlobal;
 import net.coding.program.CustomWebViewClientOpenNew;
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -85,7 +86,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
     ArrayList<Maopao.Comment> mData = new ArrayList<>();
     MyImageGetter myImageGetter = new MyImageGetter(this);
-    String bubble;
+
     View.OnClickListener onClickSend = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -210,12 +211,6 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         mEnterLayout.setClickSend(onClickSend);
         mEnterLayout.addTextWatcher(new TextWatcherAt(this, this, RESULT_REQUEST_AT));
 
-        try {
-            bubble = Global.readTextFile(getAssets().open("markdown.html"));
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
-
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.font_green);
         loadDataFromNetwork();
@@ -334,11 +329,8 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         name.setTag(mMaopaoObject.owner.global_key);
 
         WebView webView = mListHead.findViewById(R.id.comment);
-        Global.initWebView(webView);
-        Global.syncCookie(this);
-        String replaceContent = bubble.replace("${webview_content}", mMaopaoObject.content);
         webView.setWebViewClient(new CustomWebViewClientOpenNew(this, mMaopaoObject.content));
-        webView.loadDataWithBaseURL(null, replaceContent, "text/html", "UTF-8", null);
+        CodingGlobal.setWebViewContent(webView, CodingGlobal.WebviewType.markdown, mMaopaoObject.content);
 
         mListHead.setOnClickListener(v -> prepareAddComment(mMaopaoObject, true));
 
