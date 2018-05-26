@@ -298,9 +298,10 @@ public class Global {
 
         CookieSyncManager.createInstance(context);
         CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.removeAllCookie();
         for (int i = 0; i < cookies.size(); i++) {
             Cookie eachCookie = cookies.get(i);
-            cookieManager.setCookie(Global.HOST, String.format("%s=%s; Domain=%s; Path=%s; Secure; HttpOnly",
+            cookieManager.setCookie(Global.HOST, String.format("%s=%s; Domain=%s; Path=%s",
                     eachCookie.getName(), eachCookie.getValue(), eachCookie.getDomain(),
                     eachCookie.getPath()));
         }
@@ -327,7 +328,7 @@ public class Global {
                 path = "/";
             }
 
-            cookieManager.setCookie(Global.HOST, String.format("%s=%s; Domain=%s; Path=%s; Secure; HttpOnly",
+            cookieManager.setCookie(Global.HOST, String.format("%s=%s; Domain=%s; Path=%s",
                     eachCookie.getName(), eachCookie.getValue(), domain,
                     path));
         }

@@ -211,7 +211,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         mEnterLayout.addTextWatcher(new TextWatcherAt(this, this, RESULT_REQUEST_AT));
 
         try {
-            bubble = Global.readTextFile(getAssets().open("bubble.html"));
+            bubble = Global.readTextFile(getAssets().open("markdown.html"));
         } catch (Exception e) {
             Global.errorLog(e);
         }
@@ -337,8 +337,8 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         Global.initWebView(webView);
         Global.syncCookie(this);
         String replaceContent = bubble.replace("${webview_content}", mMaopaoObject.content);
-        webView.loadDataWithBaseURL(null, replaceContent, "text/html", "UTF-8", null);
         webView.setWebViewClient(new CustomWebViewClientOpenNew(this, mMaopaoObject.content));
+        webView.loadDataWithBaseURL(null, replaceContent, "text/html", "UTF-8", null);
 
         mListHead.setOnClickListener(v -> prepareAddComment(mMaopaoObject, true));
 
