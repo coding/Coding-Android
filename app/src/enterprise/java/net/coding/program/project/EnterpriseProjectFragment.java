@@ -182,6 +182,12 @@ public class EnterpriseProjectFragment extends BaseFragment {
                 return true;
             }
         });
+
+        searchView.setOnCloseListener(() -> {
+            toolbarTitle.setVisibility(View.VISIBLE);
+            return false;
+        });
+        searchView.setOnSearchClickListener(v -> toolbarTitle.setVisibility(View.GONE));
     }
 
     void actionCreateProject() {

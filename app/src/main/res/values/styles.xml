@@ -80,11 +80,16 @@
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
 
         <item name="searchViewStyle">@style/MySearchViewStyle</item>
+        <item name="autoCompleteTextViewStyle">@style/cursorColor</item>
     </style>
 
     <style name="MySearchViewStyle" parent="Widget.AppCompat.Light.SearchView">
         <item name="searchIcon">@drawable/ic_menu_search</item>
         <item name="android:searchIcon">@drawable/ic_menu_search</item>
+    </style>
+
+    <style name="cursorColor" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:textCursorDrawable">@drawable/cursor</item>
     </style>
 
     <style name="Toolbar.MyStyle" parent="Base.Widget.AppCompat.Toolbar">
