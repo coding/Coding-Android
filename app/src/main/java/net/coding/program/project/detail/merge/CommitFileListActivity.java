@@ -1,6 +1,5 @@
 package net.coding.program.project.detail.merge;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.text.Spanned;
@@ -65,21 +64,15 @@ public class CommitFileListActivity extends CodingToolbarBackActivity {
     CommitFileAdapter mAdapter;
     private View mListHead;
 
-    private View.OnClickListener mOnClickItem = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            final BaseComment item = (BaseComment) v.getTag();
-            if (item.isMy()) {
-                showDialog("merge", "删除评论?", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String url = Commit.getHttpDeleteComment(mProjectPath, item.id);
-                        deleteNetwork(url, HOST_DELETE_COMMENT, item);
-                    }
-                });
-            } else {
-                startSendCommentActivity();
-            }
+    private View.OnClickListener mOnClickItem = v -> {
+        final BaseComment item = (BaseComment) v.getTag();
+        if (item.isMy()) {
+            showDialog("删除评论?", (dialog, which) -> {
+                String url = Commit.getHttpDeleteComment(mProjectPath, item.id);
+                deleteNetwork(url, HOST_DELETE_COMMENT, item);
+            });
+        } else {
+            startSendCommentActivity();
         }
     };
 

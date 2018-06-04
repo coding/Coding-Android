@@ -109,7 +109,7 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         public void onClick(View v) {
             final BaseComment item = (BaseComment) v.getTag();
             if (item.isMy()) {
-                showDialog("merge", "删除评论?", (dialog, which) -> {
+                showDialog("删除评论?", (dialog, which) -> {
                     String url = mMerge.getHttpDeleteComment(item.id);
                     deleteNetwork(url, HOST_DELETE_COMMENT, item);
                 });
