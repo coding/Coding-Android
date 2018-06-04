@@ -272,7 +272,7 @@
 
     <string-array name="add_qcode">
         <item>扫描二维码</item>
-        <item>手动添加帐号</item>
+        <item>手动添加账号</item>
     </string-array>
 
 

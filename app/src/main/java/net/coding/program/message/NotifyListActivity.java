@@ -248,9 +248,9 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
                         holder.detail.setText(GlobalCommon.changeHyperlinkColor(firstLink, CodingColor.font1));
                     }
                 }
-            } else if (data.target_type.equals("User") && titleString.endsWith("重置了你的帐号密码。")) {
+            } else if (data.target_type.equals("User") && titleString.endsWith("重置了你的账号密码。")) {
                 holder.name.setVisibility(View.VISIBLE);
-                holder.name.setText("帐号提醒");
+                holder.name.setText("账号提醒");
             }
 
             if (position == (mData.size() - 1)) {

@@ -144,7 +144,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="您的帐户开启了两步验证，请输入动态验证码登录"
+                            android:text="您的账户开启了两步验证，请输入动态验证码登录"
                             android:textColor="@color/font_1"
                             android:textSize="14sp" />
 
@@ -213,7 +213,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
                             android:gravity="center"
-                            android:text="注册新帐号"
+                            android:text="注册新账号"
                             android:textColor="@color/font_1"
                             android:textSize="14sp" />
 
