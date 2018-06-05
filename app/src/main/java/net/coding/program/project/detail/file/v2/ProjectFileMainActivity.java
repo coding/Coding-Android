@@ -38,6 +38,7 @@ import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.BottomToolBar;
 import net.coding.program.common.widget.CommonListView;
 import net.coding.program.common.widget.FileListHeadItem2;
+import net.coding.program.common.widget.FileListHeadItem3;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.CodingRequest;
 import net.coding.program.network.FileDownloadCallback;
@@ -687,7 +688,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
     }
 
     private void fileRename(CodingFile folderObject) {
-                LayoutInflater li = LayoutInflater.from(this);
+        LayoutInflater li = LayoutInflater.from(this);
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
         input.setText(folderObject.name);
@@ -856,11 +857,20 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
     }
 
     private void uploadFileInfo(File file) {
-        FileListHeadItem2 uploadItem = new FileListHeadItem2(this);
-        listHead.addView(uploadItem);
+        if (GlobalData.isPrivateEnterprise()) {
+            FileListHeadItem3 uploadItemView = new FileListHeadItem3(this);
+            listHead.addView(uploadItemView);
 
-        FileListHeadItem2.Param param = new FileListHeadItem2.Param(project.getId(), parentFolder.fileId, file);
-        uploadItem.setData(param, this, getImageLoad());
+            FileListHeadItem3.Param param = new FileListHeadItem3.Param(project.getId(),
+                    parentFolder.fileId, file);
+            uploadItemView.setData(param, this, getImageLoad());
+        } else {
+            FileListHeadItem2 uploadItem = new FileListHeadItem2(this);
+            listHead.addView(uploadItem);
+
+            FileListHeadItem2.Param param = new FileListHeadItem2.Param(project.getId(), parentFolder.fileId, file);
+            uploadItem.setData(param, this, getImageLoad());
+        }
 
         updateBlank();
     }

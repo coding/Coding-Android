@@ -14,8 +14,6 @@ import android.widget.Toast;
 import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.GlobalData;
-import net.coding.program.common.model.AttachmentFolderObject;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
@@ -118,15 +116,15 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
             finish();
             return;
         } else if (mJumpType == ProjectFunction.document) {
-            if (!GlobalData.isPrivateEnterprise()) {
-                ProjectFileMainActivity_.intent(this).project(mProjectObject).start();
-            } else {
-                AttachmentsActivity_.intent(this)
-                        .mAttachmentFolderObject(AttachmentFolderObject.create(AttachmentFolderObject.ROOT_FOLDER_ID))
-                        .mProjectObjectId(mProjectObject.id)
-                        .mProject(mProjectObject)
-                        .start();
-            }
+//            if (!GlobalData.isPrivateEnterprise()) {
+            ProjectFileMainActivity_.intent(this).project(mProjectObject).start();
+//            } else {
+//                AttachmentsActivity_.intent(this)
+//                        .mAttachmentFolderObject(AttachmentFolderObject.create(AttachmentFolderObject.ROOT_FOLDER_ID))
+//                        .mProjectObjectId(mProjectObject.id)
+//                        .mProject(mProjectObject)
+//                        .start();
+//            }
             finish();
             return;
         }

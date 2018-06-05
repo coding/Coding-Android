@@ -12,8 +12,10 @@ import net.coding.program.EnterpriseMyPushReceiver;
 import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.GlobalData;
 import net.coding.program.common.StartActivity;
+import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.guide.EnterpriseGuideActivity_;
+import net.coding.program.login.phone.EnterprisePrivateEmailSetPasswordActivity_;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.EnterpriseProjectHomeFragment_;
 import net.coding.program.project.maopao.EnterprisePrivateProjectMaopaoEditFragment_;
@@ -24,7 +26,6 @@ import net.coding.program.user.EnterpriseLoginActivity_;
 import net.coding.program.user.PickUserActivity_;
 import net.coding.program.user.PickUserRelayMessageActivity_;
 import net.coding.program.user.UserDetailMoreActivity_;
-import net.coding.program.login.phone.EnterprisePrivateEmailSetPasswordActivity_;
 
 import java.util.ArrayList;
 
@@ -70,8 +71,8 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
 
     @Override
     public void launchEnterprisePrivateEmailSetPasswordActivity(Context context) {
-        EnterprisePrivateEmailSetPasswordActivity_.intent(this)
-                .enterpriseName(AccountInfo.loadLastPrivateHost(this))
+        EnterprisePrivateEmailSetPasswordActivity_.intent(context)
+                .enterpriseName(AccountInfo.loadLastPrivateHost(context))
                 .start();
     }
 

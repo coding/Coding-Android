@@ -1247,7 +1247,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
         }
         String messageFormat = "确定要删除%s个文件么？";
         new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
-                .setTitle("删除文件")
                 .setMessage(String.format(messageFormat, selectFile.size()))
                 .setPositiveButton("确定", (dialog, which) -> deleteFiles())
                 .setNegativeButton("取消", null)
@@ -1269,7 +1268,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
 
         final String messageFormat = "确定要删除文件 \"%s\" 么？";
         new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
-                .setTitle("删除文件")
                 .setMessage(String.format(messageFormat, selectedFile.getName()))
                 .setPositiveButton("确定", (dialog, which) -> deleteFiles())
                 .setNegativeButton("取消", null)

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
@@ -20,7 +21,8 @@ import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.project.detail.UploadStyle;
+import net.coding.program.network.model.file.CodingFile;
+import net.coding.program.project.detail.file.v2.UploadCallback;
 
 import org.json.JSONObject;
 
@@ -32,17 +34,17 @@ import cz.msebera.android.httpclient.Header;
  * Created by chenchao on 16/2/27.
  */
 @Deprecated
-public class FileListHeadItem extends FrameLayout {
+public class FileListHeadItem3 extends FrameLayout {
 
     View retryUpload;
     View stopUpload;
     ProgressBar progressBar;
 
-    UploadStyle uploadStyle;
+    UploadCallback callback;
     Param postParam;
     private RequestHandle requestHandle;
 
-    public FileListHeadItem(Context context) {
+    public FileListHeadItem3(Context context) {
         super(context);
 
         inflate(context, R.layout.project_attachment_file_list_item_upload, this);
@@ -55,9 +57,9 @@ public class FileListHeadItem extends FrameLayout {
         stopUpload.setOnClickListener(v -> stopUpload());
     }
 
-    public void setData(Param param, UploadStyle uploadStyle, ImageLoadTool imageLoadTool) {
+    public void setData(Param param, UploadCallback uploadStyle, ImageLoadTool imageLoadTool) {
         postParam = param;
-        this.uploadStyle = uploadStyle;
+        this.callback = uploadStyle;
 
         String fileName = param.file.getName();
 
@@ -79,10 +81,6 @@ public class FileListHeadItem extends FrameLayout {
 
         ((TextView) findViewById(R.id.file_name)).setText(fileName);
         upload();
-    }
-
-    public void setError() {
-        retryUpload.setVisibility(VISIBLE);
     }
 
     public void setProgress(int progress) { // max = 100
@@ -107,15 +105,15 @@ public class FileListHeadItem extends FrameLayout {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 int code = response.optInt("code");
                 if (code == 0) {
-                    ((ViewGroup) getParent()).removeView(FileListHeadItem.this);
+                    CodingFile codingFile = new Gson().fromJson(response.optString("data"), CodingFile.class);
+                    callback.onSuccess(codingFile);
                 }
-                uploadStyle.onSuccess(statusCode, headers, response);
+                ((ViewGroup) getParent()).removeView(FileListHeadItem3.this);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                setError();
-                uploadStyle.onFailure(statusCode, headers, throwable, errorResponse);
+                ((ViewGroup) getParent()).removeView(FileListHeadItem3.this);
             }
 
             @Override
@@ -131,7 +129,7 @@ public class FileListHeadItem extends FrameLayout {
     private void stopUpload() {
         if (requestHandle != null) {
             AsyncTask.execute(() -> requestHandle.cancel(true));
-            ((ViewGroup) getParent()).removeView(FileListHeadItem.this);
+            ((ViewGroup) getParent()).removeView(FileListHeadItem3.this);
         }
     }
 
