@@ -17,7 +17,7 @@ public enum ProjectFunction {
     taskBoard(R.id.itemTaskBoard, R.drawable.project_button_icon_task_board, "任务看板", null),
     topic(R.id.itemTopic, R.drawable.project_button_icon_topic, "讨论", TopicFragment_.class),
     document(R.id.itemDocment, R.drawable.project_button_icon_docment, "文件", null),
-    code(R.id.itemCode, R.drawable.project_button_icon_code, "代码", ProjectGitFragmentMain_.class),
+    code(R.id.itemCode, R.drawable.project_button_icon_code, "代码浏览", ProjectGitFragmentMain_.class),
     member(R.id.itemMember, R.drawable.project_button_icon_member, "成员", MembersListFragment_.class),
     readme(R.id.itemReadme, R.drawable.project_button_icon_readme, "Readme", ReadmeFragment_.class),
     merge(R.id.itemMerge, R.drawable.project_button_icon_merge, "合并请求", ProjectMergeFragment_.class),

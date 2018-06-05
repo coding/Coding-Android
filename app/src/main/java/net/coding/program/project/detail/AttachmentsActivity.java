@@ -81,7 +81,8 @@ import static net.coding.program.common.Global.PHOTO_MAX_COUNT;
 
 /**
  * Created by yangzhen
- * 本来应该统一用 ProjectFileMainActivity_，然而服务端一直没改，企业版和平台板文件使用两套 api
+ * 本来应该统一用 ProjectFileMainActivity_，然而服务端一直没改，企业版和平台板文件使用两套 api,
+ * api终于统一了，然而私有部署不支持七牛，所以依然保留
  */
 @EActivity(R.layout.activity_attachments)
 public class AttachmentsActivity extends FileDownloadBaseActivity implements LoadMore, UploadStyle {
@@ -324,6 +325,12 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
 
             return convertView;
         }
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            invalidateOptionsMenu();
+        }
     };
 
     /**
@@ -541,7 +548,7 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
 
-        if (!mAttachmentFolderObject.isRoot()) {
+        if (!mAttachmentFolderObject.isRoot() && !mFilesArray.isEmpty()) {
             inflater.inflate(R.menu.attachment_list, menu);
         }
 

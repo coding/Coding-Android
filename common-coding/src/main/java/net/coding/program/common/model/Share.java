@@ -43,7 +43,7 @@ public class Share implements Serializable {
     public int project_id;
     @SerializedName("overdue")
     @Expose
-    public int overdue;
+    public long overdue;
     @SerializedName("created_at")
     @Expose
     public long created_at;
@@ -63,7 +63,7 @@ public class Share implements Serializable {
         user_id = json.optInt("user_id");
         access_type = json.optInt("access_type");
         project_id = json.optInt("project_id");
-        overdue = json.optInt("overdue");
+        overdue = json.optLong("overdue");
         created_at = json.optLong("created_at");
         hash = json.optString("hash");
         url = json.optString("url");

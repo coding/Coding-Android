@@ -13,8 +13,8 @@ import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.network.util.Login;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.login.phone.Close2FAActivity_;
-import net.coding.program.login.phone.EnterprisePrivateEmailSetPasswordActivity_;
 import net.coding.program.login.phone.PhoneSetPasswordActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -79,9 +79,7 @@ public class AccountSetting extends BackActivity {
     @Click
     void forgetPassword() {
         if (GlobalData.isPrivateEnterprise()) {
-            EnterprisePrivateEmailSetPasswordActivity_.intent(this)
-                    .enterpriseName(AccountInfo.loadLastPrivateHost(this))
-                    .start();
+            CodingCompat.instance().launchEnterprisePrivateEmailSetPasswordActivity(this);
             return;
         }
 

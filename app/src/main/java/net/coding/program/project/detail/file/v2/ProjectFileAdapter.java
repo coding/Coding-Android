@@ -8,6 +8,7 @@ import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import net.coding.program.R;
 import net.coding.program.network.model.file.CodingFile;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Set;
 
@@ -18,6 +19,8 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
 
     private boolean editMode = false;
     private Set<CodingFile> selectFiles;
+    private WeakReference<UpdateMenu> updateMenu;
+
     private CompoundButton.OnCheckedChangeListener checkListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -37,7 +40,7 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
     public void setEditMode(boolean editMode) {
         if (this.editMode != editMode) {
             this.editMode = editMode;
-            notifyDataSetChanged();
+            notifyDataSetChangedCustom();
         }
     }
 
@@ -47,6 +50,13 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
         } else {
             selectFiles.add(codingFile);
         }
+        notifyDataSetChangedCustom();
+    }
+
+    public void notifyDataSetChangedCustom() {
+        UpdateMenu updateMenu = this.updateMenu.get();
+        if (updateMenu != null) updateMenu.update();
+
         notifyDataSetChanged();
     }
 
@@ -54,9 +64,10 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
         return editMode;
     }
 
-    public ProjectFileAdapter(List<CodingFile> list, Set<CodingFile> selectFiles) {
+    public ProjectFileAdapter(List<CodingFile> list, Set<CodingFile> selectFiles, UpdateMenu updateMenu) {
         super(list);
         this.selectFiles = selectFiles;
+        this.updateMenu = new WeakReference<>(updateMenu);
     }
 
     public ProjectFileAdapter setClickMore(View.OnClickListener click) {
@@ -113,4 +124,8 @@ public class ProjectFileAdapter extends easyRegularAdapter<CodingFile, ProjectFi
 //    public UltimateRecyclerviewViewHolder onCreateViewHolder(ViewGroup parent) {
 //        return super.onCreateViewHolder(parent);
 //    }
+
+    interface UpdateMenu {
+        void update();
+    }
 }

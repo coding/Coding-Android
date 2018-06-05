@@ -55,6 +55,8 @@ public interface ClassCompatInterface {
 
     void launchSetGKActivity(Context context);
 
+    void launchEnterprisePrivateEmailSetPasswordActivity(Context context);
+
     String getFileAuthor();
 
 }

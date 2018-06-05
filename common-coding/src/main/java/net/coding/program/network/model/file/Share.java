@@ -26,7 +26,7 @@ public class Share implements Serializable {
     public int projectId;
     @SerializedName("overdue")
     @Expose
-    public int overdue;
+    public long overdue;
     @SerializedName("created_at")
     @Expose
     public long createdAt;

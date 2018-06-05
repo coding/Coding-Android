@@ -24,6 +24,7 @@ import net.coding.program.user.EnterpriseLoginActivity_;
 import net.coding.program.user.PickUserActivity_;
 import net.coding.program.user.PickUserRelayMessageActivity_;
 import net.coding.program.user.UserDetailMoreActivity_;
+import net.coding.program.login.phone.EnterprisePrivateEmailSetPasswordActivity_;
 
 import java.util.ArrayList;
 
@@ -66,6 +67,14 @@ public class EnterpriseCompatImp implements ClassCompatInterface {
                 .needReload(needReload)
                 .build();
     }
+
+    @Override
+    public void launchEnterprisePrivateEmailSetPasswordActivity(Context context) {
+        EnterprisePrivateEmailSetPasswordActivity_.intent(this)
+                .enterpriseName(AccountInfo.loadLastPrivateHost(this))
+                .start();
+    }
+
 
     @Override
     public Class getGuideActivity() {

@@ -68,6 +68,12 @@ public class CodingCompatImp implements ClassCompatInterface {
     }
 
     @Override
+    public void launchEnterprisePrivateEmailSetPasswordActivity(Context context) {
+
+    }
+
+
+    @Override
     public Class getGuideActivity() {
         return GuideActivity.class;
     }

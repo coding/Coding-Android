@@ -59,7 +59,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.File;
@@ -80,8 +79,8 @@ import static net.coding.program.common.Global.PHOTO_MAX_COUNT;
  * 新的项目文件列表
  */
 @EActivity(R.layout.project_file_listview)
-@OptionsMenu(R.menu.project_file_listview)
-public class ProjectFileMainActivity extends CodingToolbarBackActivity implements UploadCallback, FileDownloadCallback {
+public class ProjectFileMainActivity extends CodingToolbarBackActivity implements UploadCallback,
+        FileDownloadCallback, ProjectFileAdapter.UpdateMenu {
 
     public static final int RESULT_REQUEST_PICK_PHOTO = 8;
     public static final int RESULT_MOVE_FOLDER = 9;
@@ -124,7 +123,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
         listHead = (ViewGroup) getLayoutInflater().inflate(R.layout.upload_file_layout, listView, false);
         listView.setNormalHeader(listHead);
 
-        listAdapter = new ProjectFileAdapter(listData, selectFiles)
+        listAdapter = new ProjectFileAdapter(listData, selectFiles, this)
                 .setClickMore(v -> {
                     CodingFile codingFile = (CodingFile) v.getTag();
                     if (codingFile.isDownloaded()) {
@@ -155,10 +154,24 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
         bottomLayoutBatch.setClick(clickBottom);
     }
 
+    @Override
+    public void update() {
+        invalidateOptionsMenu();
+        updateBlank();
+    }
+
     @Nullable
     @Override
     protected ProjectObject getProject() {
         return project;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (!listData.isEmpty()) {
+            getMenuInflater().inflate(R.menu.project_file_listview, menu);
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     protected void onRefresh() {
@@ -194,7 +207,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
                             setDownloadStatus(item, downloadPath, project.getId());
                         }
 
-                        listAdapter.notifyDataSetChanged();
+                        listAdapter.notifyDataSetChangedCustom();
                     }
 
                     @Override
@@ -390,7 +403,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
                                             insertPos = 1;
                                         }
                                         listData.add(insertPos, data);
-                                        listAdapter.notifyDataSetChanged();
+                                        listAdapter.notifyDataSetChangedCustom();
                                         setResult(Activity.RESULT_OK);
                                     }
                                 });
@@ -566,7 +579,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
                         listData.removeAll(actionFiles);
                         actionFiles.clear();
 
-                        listAdapter.notifyDataSetChanged();
+                        listAdapter.notifyDataSetChangedCustom();
                         showButtomToast("移动成功");
 
                         setResult(RESULT_OK);
@@ -697,7 +710,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
                                         public void onSuccess() {
                                             super.onSuccess();
                                             folderObject.name = newName;
-                                            listAdapter.notifyDataSetChanged();
+                                            listAdapter.notifyDataSetChangedCustom();
                                             showButtomToast("重命名成功");
                                         }
                                     });
@@ -740,7 +753,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
                                             super.onSuccess(data);
 
                                             folderObject.name = newName;
-                                            listAdapter.notifyDataSetChanged();
+                                            listAdapter.notifyDataSetChangedCustom();
 
                                             showButtomToast("重命名成功");
                                         }
@@ -768,7 +781,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
                         listData.removeAll(actionFiles);
                         actionFiles.clear();
 
-                        listAdapter.notifyDataSetChanged();
+                        listAdapter.notifyDataSetChangedCustom();
                         showButtomToast("删除成功");
 
                         updateBlank();
@@ -856,7 +869,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
         for (CodingFile item : listData) {
             selectFiles.add(item);
         }
-        listAdapter.notifyDataSetChanged();
+        listAdapter.notifyDataSetChangedCustom();
     }
 
     private void actionInverse() {
@@ -867,7 +880,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
                 selectFiles.add(item);
             }
         }
-        listAdapter.notifyDataSetChanged();
+        listAdapter.notifyDataSetChangedCustom();
     }
 
     @Override
@@ -901,7 +914,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
             listData.add(firstFilePos, codingFile);
         }
 
-        listAdapter.notifyDataSetChanged();
+        listAdapter.notifyDataSetChangedCustom();
         setResult(Activity.RESULT_OK);
 
 //        BlankViewDisplay.setBlank(listData.size(), this, true, blankLayout, mClickReload);

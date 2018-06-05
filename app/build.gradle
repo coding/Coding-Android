@@ -17,7 +17,6 @@ android {
     buildToolsVersion buildToolsVersionValue
 
     dexOptions {
-        incremental true
         javaMaxHeapSize "4g"
     }
 
