@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.LoadMore;
@@ -119,7 +118,7 @@ public class ProjectMaopaoActivity extends BackActivity implements LoadMore {
         if (projectObject != null) {
             initList();
         } else {
-            String mProjectUrl = String.format(FileUrlActivity.getHostProject(), jumpParam.user, jumpParam.project);
+            String mProjectUrl = ProjectObject.getHttpProject(jumpParam.user, jumpParam.project);
             getNetwork(mProjectUrl, TAG_PROJECT);
         }
     }

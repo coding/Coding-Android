@@ -169,7 +169,6 @@ public class LocalFileListActivity extends BackActivity {
                 if (extension.matches(imageType)) {
                     AttachmentsPhotoDetailActivity_.intent(LocalFileListActivity.this)
                             .mProjectObjectId(projectId)
-                            .mAttachmentFolderObject(folder)
                             .mAttachmentFileObject(folderFile)
                             .mExtraFile(fileData)
                             .start();
@@ -177,7 +176,6 @@ public class LocalFileListActivity extends BackActivity {
                 } else if (extension.matches(htmlMdType)) {
                     AttachmentsHtmlDetailActivity_.intent(LocalFileListActivity.this)
                             .mProjectObjectId(projectId)
-                            .mAttachmentFolderObject(folder)
                             .mAttachmentFileObject(folderFile)
                             .mExtraFile(fileData)
                             .start();
@@ -186,7 +184,6 @@ public class LocalFileListActivity extends BackActivity {
                     AttachmentsTextDetailActivity_.intent(LocalFileListActivity.this)
                             .mProjectObjectId(projectId)
                             .mExtraFile(fileData)
-                            .mAttachmentFolderObject(folder)
                             .mAttachmentFileObject(folderFile)
                             .start();
                 } else {

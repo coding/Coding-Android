@@ -15,7 +15,6 @@ import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.model.AttachmentFileObject;
-import net.coding.program.common.model.AttachmentFolderObject;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.Share;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -61,8 +60,6 @@ public class AttachmentsDetailBaseActivity extends CodingToolbarBackActivity {
     ProjectObject mProject;
     @Extra
     AttachmentFileObject mAttachmentFileObject;
-    @Extra
-    AttachmentFolderObject mAttachmentFolderObject;
 
     String urlDownload = "";
     AsyncHttpClient client;

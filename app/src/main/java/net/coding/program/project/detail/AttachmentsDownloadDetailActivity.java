@@ -32,7 +32,6 @@ import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.model.AttachmentFileObject;
-import net.coding.program.common.model.AttachmentFolderObject;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.Share;
 import net.coding.program.common.network.DownloadManagerPro;
@@ -79,8 +78,6 @@ public class AttachmentsDownloadDetailActivity extends CodingToolbarBackActivity
     int mProjectObjectId;
     @Extra
     AttachmentFileObject mAttachmentFileObject;
-    @Extra
-    AttachmentFolderObject mAttachmentFolderObject;
     @Extra
     ProjectObject mProject;
 
@@ -338,7 +335,6 @@ public class AttachmentsDownloadDetailActivity extends CodingToolbarBackActivity
             AttachmentsHtmlDetailActivity_
                     .intent(this)
                     .mProjectObjectId(mProjectObjectId)
-                    .mAttachmentFolderObject(mAttachmentFolderObject)
                     .mAttachmentFileObject(mAttachmentFileObject)
                     .mHideHistory(mHideHistoryLayout)
                     .mProject(mProject)
@@ -347,7 +343,6 @@ public class AttachmentsDownloadDetailActivity extends CodingToolbarBackActivity
             AttachmentsTextDetailActivity_
                     .intent(this)
                     .mProjectObjectId(mProjectObjectId)
-                    .mAttachmentFolderObject(mAttachmentFolderObject)
                     .mProject(mProject)
                     .mAttachmentFileObject(mAttachmentFileObject)
                     .mHideHistory(mHideHistoryLayout)

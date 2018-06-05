@@ -678,14 +678,12 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
                     AttachmentsPhotoDetailActivity_
                             .intent(this)
                             .mProjectObjectId(mProjectObjectId)
-                            .mAttachmentFolderObject(mAttachmentFolderObject)
                             .mAttachmentFileObject(data)
                             .mProject(mProject)
                             .startForResult(FILE_DELETE_CODE);
                 } else {
                     AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this)
                             .mProjectObjectId(mProjectObjectId)
-                            .mAttachmentFolderObject(mAttachmentFolderObject)
                             .mAttachmentFileObject(data)
                             .mProject(mProject)
                             .startForResult(FILE_DELETE_CODE);
@@ -699,7 +697,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
             AttachmentsTextDetailActivity_
                     .intent(this)
                     .mProjectObjectId(mProjectObjectId)
-                    .mAttachmentFolderObject(mAttachmentFolderObject)
                     .mAttachmentFileObject(data)
                     .mProject(mProject)
                     .startForResult(FILE_DELETE_CODE);
@@ -708,7 +705,6 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
             AttachmentsHtmlDetailActivity_
                     .intent(this)
                     .mProjectObjectId(mProjectObjectId)
-                    .mAttachmentFolderObject(mAttachmentFolderObject)
                     .mAttachmentFileObject(data)
                     .mProject(mProject)
                     .startForResult(FILE_DELETE_CODE);
@@ -717,14 +713,12 @@ public class AttachmentsActivity extends FileDownloadBaseActivity implements Loa
             AttachmentsPhotoDetailActivity_
                     .intent(this)
                     .mProjectObjectId(mProjectObjectId)
-                    .mAttachmentFolderObject(mAttachmentFolderObject)
                     .mAttachmentFileObject(data)
                     .mProject(mProject)
                     .startForResult(FILE_DELETE_CODE);
         } else {
             AttachmentsDownloadDetailActivity_.intent(AttachmentsActivity.this)
                     .mProjectObjectId(mProjectObjectId)
-                    .mAttachmentFolderObject(mAttachmentFolderObject)
                     .mAttachmentFileObject(data)
                     .mProject(mProject)
                     .startForResult(FILE_DELETE_CODE);

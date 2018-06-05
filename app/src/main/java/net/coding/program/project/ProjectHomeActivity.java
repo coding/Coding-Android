@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.widget.FrameLayout;
 
-import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BackActivity;
@@ -57,7 +56,7 @@ public class ProjectHomeActivity extends BackActivity {
             mProjectUrl = mProjectObject.getHttpProjectObject();
             initFragment(true);
         } else if (mJumpParam != null) {
-            mProjectUrl = String.format(FileUrlActivity.getHostProject(), mJumpParam.user, mJumpParam.project);
+            mProjectUrl = ProjectObject.getHttpProject(mJumpParam.user, mJumpParam.project);
             onRefrush();
         } else {
             finish();

@@ -76,7 +76,8 @@ public interface CodingRequest {
     Observable<HttpPageResult<CodingFile>> getShareFileList(@Path("user") String user, @Path("project") String project);
 
     @GET("user/{user}/project/{project}/folder/{folder}/all?height=90&width=90&page=1&pageSize=500")
-    Observable<HttpPageResult<CodingFile>> getFileList(@Path("user") String user, @Path("project") String project,
+    Observable<HttpPageResult<CodingFile>> getFileList(@Path("user") String user,
+                                                       @Path("project") String project,
                                                        @Path("folder") int folder);
 
 
@@ -96,6 +97,20 @@ public interface CodingRequest {
                                                     @Path("project") String project,
                                                     @Field("name") String name,
                                                     @Field("parentId") int parent);
+
+    // https://coding.net/api/user/ease/project/CodingTest/files/3769487/view
+    // 文件详情
+    @GET("user/{user}/project/{project}/files/{fileId}/view")
+    Observable<HttpResult<CodingFile>> getFileDetail(@Path("user") String user,
+                                                     @Path("project") String project,
+                                                     @Path("fileId") int fileId);
+
+    // https://coding.net/api/user/ease/project/CodingTest/folder/3813418/fullpath
+    // 文件夹详情
+    @GET("user/{user}/project/{project}/folder/{folder}/fullpath")
+    Observable<HttpResult<CodingFile>> getDirDetail(@Path("user") String user,
+                                                    @Path("project") String project,
+                                                    @Path("folder") int folder);
 
     @DELETE("project/{projectId}/file/delete")
     Observable<HttpResult<Integer>> deleteFiles(@Path("projectId") int projectId,

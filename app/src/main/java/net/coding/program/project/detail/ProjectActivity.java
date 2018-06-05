@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.model.ProjectObject;
@@ -66,7 +65,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         }
 
         if (mJumpParam != null) {
-            urlProject = String.format(FileUrlActivity.getHostProject(), mJumpParam.user, mJumpParam.project);
+            urlProject = ProjectObject.getHttpProject(mJumpParam.user, mJumpParam.project);
             networkImpl = new NetworkImpl(this, this);
             networkImpl.initSetting();
 

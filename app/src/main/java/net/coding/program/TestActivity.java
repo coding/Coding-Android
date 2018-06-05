@@ -48,7 +48,7 @@ public class TestActivity extends BackActivity {
     }
 
     private void click2() {
-        String urlProject = String.format(FileUrlActivity.getHostProject(), "codingcorp", "TestWiki");
+        String urlProject = ProjectObject.getHttpProject("codingcorp", "TestWiki");
 
         getNetwork(urlProject, urlProject);
         MyAsyncHttpClient.get(this, urlProject, new MyJsonResponse(this) {

@@ -233,7 +233,6 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
             AttachmentsTextDetailActivity_
                     .intent(context)
                     .mProjectObjectId(project.getId())
-                    .mAttachmentFolderObject(folder)
                     .mAttachmentFileObject(attachmentFile)
                     .mProject(project)
                     .startForResult(RESULT_FILE_DETAIL);
@@ -242,7 +241,6 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
             AttachmentsHtmlDetailActivity_
                     .intent(context)
                     .mProjectObjectId(project.getId())
-                    .mAttachmentFolderObject(folder)
                     .mAttachmentFileObject(attachmentFile)
                     .mProject(project)
                     .startForResult(RESULT_FILE_DETAIL);
@@ -251,7 +249,6 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
             AttachmentsPhotoDetailActivity_
                     .intent(context)
                     .mProjectObjectId(project.getId())
-                    .mAttachmentFolderObject(folder)
                     .mAttachmentFileObject(attachmentFile)
                     .mProject(project)
                     .startForResult(RESULT_FILE_DETAIL);
@@ -259,7 +256,6 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
         } else {
             AttachmentsDownloadDetailActivity_.intent(context)
                     .mProjectObjectId(project.getId())
-                    .mAttachmentFolderObject(folder)
                     .mAttachmentFileObject(attachmentFile)
                     .mProject(project)
                     .startForResult(RESULT_FILE_DETAIL);
