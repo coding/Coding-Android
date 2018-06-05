@@ -84,6 +84,7 @@ import static net.coding.program.common.Global.PHOTO_MAX_COUNT;
  * 本来应该统一用 ProjectFileMainActivity_，然而服务端一直没改，企业版和平台板文件使用两套 api,
  * api终于统一了，然而私有部署不支持七牛，所以依然保留
  */
+// TODO: 2018/6/5  删除
 @EActivity(R.layout.activity_attachments)
 public class AttachmentsActivity extends FileDownloadBaseActivity implements LoadMore, UploadStyle {
 
