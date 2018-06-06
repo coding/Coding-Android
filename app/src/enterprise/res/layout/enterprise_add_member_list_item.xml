@@ -25,7 +25,7 @@
 
     <CheckBox
         android:id="@+id/followed"
-        android:layout_width="71dp"
+        android:layout_width="50dp"
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"

@@ -169,7 +169,7 @@ public class EnterpriseAddMemberActivity extends BaseEnterpriseUserListActivity 
             holder.name.setText(data.name);
 
             boolean isPicked = pickedData.contains(data);
-            int drawableId = isPicked ? R.mipmap.member_list_item_picked : R.mipmap.member_list_item_no_pick;
+            int drawableId = isPicked ? R.drawable.checkbox_follow_follow : R.drawable.checkbox_follow_fans;
             holder.mutual.setButtonDrawable(drawableId);
             holder.mutual.setChecked(isPicked);
             holder.mutual.setTag(R.id.followed, data);
