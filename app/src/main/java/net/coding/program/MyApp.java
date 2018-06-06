@@ -50,7 +50,6 @@ import net.coding.program.pickphoto.detail.ImagePagerActivity_;
 import net.coding.program.pickphoto.detail.ImagePagerFragment;
 import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.ProjectListFragment;
-import net.coding.program.project.detail.AttachmentsActivity;
 import net.coding.program.project.detail.AttachmentsDownloadDetailActivity;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity;
 import net.coding.program.project.detail.AttachmentsTextDetailActivity;
@@ -286,8 +285,7 @@ public class MyApp extends MultiDexApplication {
                         } else if (fragment instanceof ProjectGitFragment) {
                             iconId = R.drawable.ic_exception_blank_task;
                             text = "此项目的 Git 仓库为空";
-                        } else if (fragment instanceof AttachmentsActivity
-                                || fragment instanceof ProjectFileMainActivity) {
+                        } else if (fragment instanceof ProjectFileMainActivity) {
                             iconId = R.drawable.ic_exception_blank_dir;
                             text = "这里还没有任何文件~";
                         } else if (fragment instanceof UserProjectListFragment) {

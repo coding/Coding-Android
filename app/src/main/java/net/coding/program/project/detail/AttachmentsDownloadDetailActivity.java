@@ -42,6 +42,7 @@ import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.BottomToolBar;
 import net.coding.program.pickphoto.detail.ImagePagerFragment;
+import net.coding.program.project.detail.file.FileDownloadBaseActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity_;
 import net.coding.program.project.detail.file.FileSaveHelp;
@@ -664,13 +665,13 @@ public class AttachmentsDownloadDetailActivity extends CodingToolbarBackActivity
                             mAttachmentFileObject.isDownload = true;
                             intent.putExtra(AttachmentFileObject.RESULT, mAttachmentFileObject);
                             if (mAttachmentFileObject.needJump()) {
-                                intent.putExtra(AttachmentsActivity.FileActions.ACTION_NAME,
-                                        AttachmentsActivity.FileActions.ACTION_DOWNLOAD_OPEN);
+                                intent.putExtra(FileDownloadBaseActivity.FileActions.ACTION_NAME,
+                                        FileDownloadBaseActivity.FileActions.ACTION_DOWNLOAD_OPEN);
                                 setResult(RESULT_OK, intent);
                                 finish();
                             } else {
-                                intent.putExtra(AttachmentsActivity.FileActions.ACTION_NAME,
-                                        AttachmentsActivity.FileActions.ACTION_DOWNLOAD_OPEN);
+                                intent.putExtra(FileDownloadBaseActivity.FileActions.ACTION_NAME,
+                                        FileDownloadBaseActivity.FileActions.ACTION_DOWNLOAD_OPEN);
                                 setResult(RESULT_OK, intent);
                             }
 

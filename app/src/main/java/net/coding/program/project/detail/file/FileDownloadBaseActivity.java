@@ -21,7 +21,6 @@ import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
-import net.coding.program.project.detail.AttachmentsActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ import java.util.ArrayList;
  */
 public abstract class FileDownloadBaseActivity extends BackActivity {
 
-    private static String TAG = AttachmentsActivity.class.getSimpleName();
+    private static String TAG = FileDownloadBaseActivity.class.getSimpleName();
 
     private SharedPreferences share;
     private String defaultPath;
@@ -208,6 +207,11 @@ public abstract class FileDownloadBaseActivity extends BackActivity {
 
     protected long getDownloadId(AttachmentFileObject projectFile) {
         return downloadList.getLong(projectFile.file_id + projectFile.getHistory_id(), 0);
+    }
+
+    public static class FileActions {
+        public static final String ACTION_NAME = "ACTION_NAME";
+        public static final int ACTION_DOWNLOAD_OPEN = 4;
     }
 
     class DownloadChangeObserver extends ContentObserver {
