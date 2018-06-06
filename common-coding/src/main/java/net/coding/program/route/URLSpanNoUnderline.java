@@ -13,6 +13,7 @@ import net.coding.program.common.Global;
  */
 public class URLSpanNoUnderline extends URLSpan {
 
+    // TODO: 2018/6/6  需要修改
     public static final String PATTERN_URL_MESSAGE = "^(?:https?://[\\w.]*)?/user/messages/history/([\\w.-]+)$";
     private int color;
 

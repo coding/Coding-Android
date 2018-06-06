@@ -13,6 +13,7 @@ import net.coding.program.network.model.code.BranchMetrics;
 import net.coding.program.network.model.code.Release;
 import net.coding.program.network.model.common.AppVersion;
 import net.coding.program.network.model.file.CodingFile;
+import net.coding.program.network.model.file.CodingFileView;
 import net.coding.program.network.model.file.UploadToken;
 import net.coding.program.network.model.task.Board;
 import net.coding.program.network.model.task.BoardList;
@@ -101,16 +102,16 @@ public interface CodingRequest {
     // https://coding.net/api/user/ease/project/CodingTest/files/3769487/view
     // 文件详情
     @GET("user/{user}/project/{project}/files/{fileId}/view")
-    Observable<HttpResult<CodingFile>> getFileDetail(@Path("user") String user,
-                                                     @Path("project") String project,
-                                                     @Path("fileId") int fileId);
+    Observable<HttpResult<CodingFileView>> getFileDetail(@Path("user") String user,
+                                                         @Path("project") String project,
+                                                         @Path("fileId") int fileId);
 
     // https://coding.net/api/user/ease/project/CodingTest/folder/3813418/fullpath
     // 文件夹详情
     @GET("user/{user}/project/{project}/folder/{folder}/fullpath")
-    Observable<HttpResult<CodingFile>> getDirDetail(@Path("user") String user,
-                                                    @Path("project") String project,
-                                                    @Path("folder") int folder);
+    Observable<HttpResult<ArrayList<CodingFile>>> getDirDetail(@Path("user") String user,
+                                                               @Path("project") String project,
+                                                               @Path("folder") int folder);
 
     @DELETE("project/{projectId}/file/delete")
     Observable<HttpResult<Integer>> deleteFiles(@Path("projectId") int projectId,

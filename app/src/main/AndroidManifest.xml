@@ -163,11 +163,6 @@
             android:label="@string/title_activity_watcher_list"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".project.detail.AttachmentsActivity_"
-            android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_attachment"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".project.detail.AttachmentsHtmlDetailActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/empty"

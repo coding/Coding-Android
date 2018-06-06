@@ -30,6 +30,7 @@ import net.coding.program.common.ui.holder.FileHistoryHolder;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.project.detail.file.FileDownloadBaseActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity;
+import net.coding.program.project.detail.file.v2.ProjectFileMainActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -164,25 +165,10 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
     protected void listViewItemClicked(int position) {
         AttachmentFileObject data = mData.get(position);
 
-        if (data.isFolder) {
-            AttachmentsActivity_.intent(this)
-                    .mAttachmentFolderObject(data.folderObject)
-                    .mProjectObjectId(mProjectFileParam.getProjectId())
-                    .mProject(mProjectFileParam.getProject())
-                    .startForResult(AttachmentsActivity.RESULT_REQUEST_FILES);
-        } else if (data.isImage()) {
-            AttachmentsPhotoDetailActivity_.intent(this)
-                    .mProjectObjectId(mProjectFileParam.getProjectId())
-                    .mAttachmentFileObject(data)
-                    .startForResult(FILE_DELETE_CODE);
-        } else {
-            AttachmentsDownloadDetailActivity_.intent(this)
-                    .mProjectObjectId(mProjectFileParam.getProjectId())
-                    .mHideHistoryLayout(true)
-                    .mAttachmentFileObject(data)
-                    .mProject(mProjectFileParam.getProject())
-                    .startForResult(FILE_DELETE_CODE);
-        }
+        ProjectFileMainActivity.fileItemJump(data,
+                data.folderObject,
+                mProjectFileParam.getProject(),
+                this);
     }
 
     @OnActivityResult(FILE_DELETE_CODE)

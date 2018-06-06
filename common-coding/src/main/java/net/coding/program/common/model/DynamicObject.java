@@ -861,7 +861,8 @@ public class DynamicObject {
 
             // 文件夹 /u/8206503/p/TestIt2/attachment/65138             /projectid/5741/name/aa
             // 文件 //u/8206503/p/TestIt2/attachment/65683/preview/66171      /projectid/5741/name/aa.jpg
-            return makeJump(file.path + "/projectid/" + mProjectId + "/name/" + file.name);
+            return makeJump(file.path);
+//            + "/projectid/" + mProjectId + "/name/" + file.name);
         }
 
         public DynamicProjectFile projectId(int id) {

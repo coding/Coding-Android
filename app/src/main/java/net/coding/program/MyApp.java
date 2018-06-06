@@ -29,8 +29,6 @@ import net.coding.program.common.RedPointTip;
 import net.coding.program.common.Unread;
 import net.coding.program.common.activity.WebviewDetailActivity_;
 import net.coding.program.common.model.AccountInfo;
-import net.coding.program.common.model.AttachmentFileObject;
-import net.coding.program.common.model.AttachmentFolderObject;
 import net.coding.program.common.model.GitFileInfoObject;
 import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
@@ -53,14 +51,9 @@ import net.coding.program.pickphoto.detail.ImagePagerFragment;
 import net.coding.program.project.ProjectHomeActivity_;
 import net.coding.program.project.ProjectListFragment;
 import net.coding.program.project.detail.AttachmentsActivity;
-import net.coding.program.project.detail.AttachmentsActivity_;
 import net.coding.program.project.detail.AttachmentsDownloadDetailActivity;
-import net.coding.program.project.detail.AttachmentsDownloadDetailActivity_;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity;
-import net.coding.program.project.detail.AttachmentsHtmlDetailActivity_;
-import net.coding.program.project.detail.AttachmentsPhotoDetailActivity_;
 import net.coding.program.project.detail.AttachmentsTextDetailActivity;
-import net.coding.program.project.detail.AttachmentsTextDetailActivity_;
 import net.coding.program.project.detail.GitViewActivity_;
 import net.coding.program.project.detail.ProjectActivity_;
 import net.coding.program.project.detail.ProjectDynamicFragment;
@@ -599,7 +592,7 @@ public class MyApp extends MultiDexApplication {
 
                 // 跳转到文件夹，与服务器相同
                 pattern = Pattern.compile("^/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)$");
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     FileUrlActivity_.IntentBuilder_ build = FileUrlActivity_.intent(context);
                     if (newTask) build.flags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -616,7 +609,7 @@ public class MyApp extends MultiDexApplication {
                 // 文件，文件评论
                 // https://coding.net/u/8206503/p/TestIt2/attachment/65138/preview/66171
                 pattern = Pattern.compile("^/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/preview/([\\d]+)$");
-                matcher = pattern.matcher(uriString);
+                matcher = pattern.matcher(uriPath);
                 if (matcher.find()) {
                     FileUrlActivity_.IntentBuilder_ builder = FileUrlActivity_.intent(context);
                     if (newTask) builder.flags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -629,74 +622,6 @@ public class MyApp extends MultiDexApplication {
                             Integer.valueOf(matcher.group(4)),
                             true);
                     builder.param(param).start();
-                    return true;
-                }
-
-                // 文件夹，这个url后面的字段是添加上去的
-                // https://coding.net/u/8206503/p/TestIt2/attachment/65138/projectid/5741/name/aa.jpg
-                final String dir = "^/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/projectid/([\\d]+)/name/(.*+)$";
-                pattern = Pattern.compile(dir);
-                matcher = pattern.matcher(uriPath);
-                if (matcher.find()) {
-                    AttachmentFolderObject folder = new AttachmentFolderObject();
-                    folder.file_id = matcher.group(3);
-                    folder.name = matcher.group(5);
-                    AttachmentsActivity_.IntentBuilder_ builder = AttachmentsActivity_.intent(context);
-                    if (newTask) builder.flags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    builder.mAttachmentFolderObject(folder)
-                            .mProjectObjectId(Integer.valueOf(matcher.group(4)))
-                            .start();
-                    return true;
-                }
-
-                // 文件，这个url后面的字段是添加上去的
-                // https://coding.net/u/8206503/p/TestIt2/attachment/65138/preview/66171/projectid/5741/name/aa.jpg
-                final String dirFile = "^/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/preview/([\\d]+)/projectid/([\\d]+)/name/(.*+)$";
-                pattern = Pattern.compile(dirFile);
-                matcher = pattern.matcher(uriPath);
-                if (matcher.find()) {
-                    AttachmentFileObject folderFile = new AttachmentFileObject();
-                    folderFile.file_id = matcher.group(4);
-                    folderFile.setName(matcher.group(6));
-
-                    int projectId = Integer.valueOf(matcher.group(5));
-
-                    String extension = folderFile.getName().toLowerCase();
-                    final String imageType = ".*\\.(gif|png|jpeg|jpg)$";
-                    final String htmlMdType = ".*\\.(html|htm|markd|markdown|md|mdown)$";
-                    final String txtType = ".*\\.(sh|txt)$";
-                    if (extension.matches(imageType)) {
-                        AttachmentsPhotoDetailActivity_.IntentBuilder_ builder = AttachmentsPhotoDetailActivity_.intent(context);
-                        if (newTask) builder.flags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        builder.mProjectObjectId(projectId)
-                                .mAttachmentFileObject(folderFile)
-                                .showClickTitleTip(true)
-                                .start();
-
-                    } else if (extension.matches(htmlMdType)) {
-                        AttachmentsHtmlDetailActivity_.IntentBuilder_ builder = AttachmentsHtmlDetailActivity_.intent(context);
-                        if (newTask) builder.flags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        builder.mProjectObjectId(projectId)
-                                .mAttachmentFileObject(folderFile)
-                                .showClickTitleTip(true)
-                                .start();
-
-                    } else if (extension.matches(txtType)) {
-                        AttachmentsTextDetailActivity_.IntentBuilder_ builder = AttachmentsTextDetailActivity_.intent(context);
-                        if (newTask) builder.flags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        builder.mProjectObjectId(projectId)
-                                .showClickTitleTip(true)
-                                .mAttachmentFileObject(folderFile)
-                                .start();
-                    } else {
-                        AttachmentsDownloadDetailActivity_.IntentBuilder_ builder = AttachmentsDownloadDetailActivity_.intent(context);
-                        if (newTask) builder.flags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        builder.mProjectObjectId(projectId)
-                                .mAttachmentFileObject(folderFile)
-                                .showClickTitleTip(true)
-                                .start();
-                    }
-
                     return true;
                 }
 
