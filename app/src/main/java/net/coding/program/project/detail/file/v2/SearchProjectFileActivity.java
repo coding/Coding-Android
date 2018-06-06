@@ -150,7 +150,7 @@ public class SearchProjectFileActivity extends BackActivity implements TextWatch
 //                        .mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
 //                finish();
                 CodingFile codingFile = (CodingFile) parent.getAdapter().getItem(position);
-                ProjectFileMainActivity.fileItemJump(codingFile, folder, project, SearchProjectFileActivity.this);
+                ProjectFileMainActivity.fileItemJump(codingFile, project, SearchProjectFileActivity.this);
 
             }
         });

@@ -142,7 +142,7 @@ public class AttachmentFileObject implements Serializable, ShareParam {
         created_at = file.createdAt;
         current_user_role_id = file.currentUserRoleId;
         fileType = file.fileType;
-        file_id = String.valueOf(file.fileId);
+        file_id = String.valueOf(file.id);
         name = file.name;
         owner = file.owner;
         owner_id = String.valueOf(file.ownerId);

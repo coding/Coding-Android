@@ -182,7 +182,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
             if (parentFolder.isShareFolder()) {
                 fileList = retrofit.getShareFileList(project.owner_user_name, project.name);
             } else {
-                fileList = retrofit.getFileList(project.owner_user_name, project.name, parentFolder.fileId);
+                fileList = retrofit.getFileList(project.owner_user_name, project.name, parentFolder.id);
             }
         } else {
             fileList = retrofit.getFileList(project.owner_user_name, project.name, 0);
@@ -197,7 +197,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
 
                         listData.clear();
 
-                        if (parentFolder.fileId == 0) {
+                        if (parentFolder.id == 0) {
                             CodingFile shareFolder = CodingFile.craeteShareFolder();
                             listData.add(shareFolder);
                         }
@@ -224,17 +224,22 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
                 listAdapter.invert(fileObject);
             }
         } else {
-            fileItemJump(fileObject, parentFolder, project, this);
+            fileItemJump(fileObject, project, this);
         }
     }
 
-    public static void fileItemJump(AttachmentFileObject attachmentFile, AttachmentFolderObject folder, ProjectObject project, Context context) {
+    public static void fileItemJump(AttachmentFileObject attachmentFile, ProjectObject project, Context context) {
+        fileItemJump(attachmentFile, project, context, false, 0);
+    }
+
+    public static void fileItemJump(AttachmentFileObject attachmentFile, ProjectObject project, Context context, boolean hideHistory, int result) {
         if (AttachmentFileObject.isTxt(attachmentFile.fileType)) {
             AttachmentsTextDetailActivity_
                     .intent(context)
                     .mProjectObjectId(project.getId())
                     .mAttachmentFileObject(attachmentFile)
                     .mProject(project)
+                    .mHideHistory(hideHistory)
                     .startForResult(RESULT_FILE_DETAIL);
 
         } else if (AttachmentFileObject.isMd(attachmentFile.fileType)) {
@@ -243,6 +248,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
                     .mProjectObjectId(project.getId())
                     .mAttachmentFileObject(attachmentFile)
                     .mProject(project)
+                    .mHideHistory(hideHistory)
                     .startForResult(RESULT_FILE_DETAIL);
 
         } else if (attachmentFile.isImage()) {
@@ -251,27 +257,28 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
                     .mProjectObjectId(project.getId())
                     .mAttachmentFileObject(attachmentFile)
                     .mProject(project)
+                    .mHideHistory(hideHistory)
                     .startForResult(RESULT_FILE_DETAIL);
 
         } else {
             AttachmentsDownloadDetailActivity_.intent(context)
                     .mProjectObjectId(project.getId())
                     .mAttachmentFileObject(attachmentFile)
+                    .mHideHistoryLayout(hideHistory)
                     .mProject(project)
                     .startForResult(RESULT_FILE_DETAIL);
         }
     }
 
-    public static void fileItemJump(CodingFile fileObject, CodingFile parentFolder, ProjectObject project, Context context) {
+    public static void fileItemJump(CodingFile fileObject, ProjectObject project, Context context) {
         if (fileObject.isFolder()) {
             ProjectFileMainActivity_.intent(context)
                     .project(project)
                     .parentFolder(fileObject)
                     .startForResult(RESULT_FILE_DETAIL);
         } else {
-            AttachmentFolderObject folder = new AttachmentFolderObject(parentFolder);
             AttachmentFileObject attachmentFile = new AttachmentFileObject(fileObject);
-            fileItemJump(attachmentFile, folder, project, context);
+            fileItemJump(attachmentFile, project, context);
         }
     }
 
@@ -383,7 +390,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
                         showButtomToast("文件夹名：" + newName + " 不能采用");
                     } else {
                         Network.getRetrofit(this)
-                                .createFolder(project.owner_user_name, project.name, newName, parentFolder.fileId)
+                                .createFolder(project.owner_user_name, project.name, newName, parentFolder.id)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new HttpObserver<CodingFile>(this) {
@@ -558,7 +565,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
         }
 
         AttachmentFolderObject selectedFolder = (AttachmentFolderObject) data.getSerializableExtra("mAttachmentFolderObject");
-        if (selectedFolder.file_id.equals(String.valueOf(parentFolder.fileId))) {
+        if (selectedFolder.file_id.equals(String.valueOf(parentFolder.id))) {
             return;
         }
 
@@ -625,7 +632,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
             CodingFile selectedFolderObject = codingFile;
 
             String[] itemNames;
-            if (selectedFolderObject.fileId == 0) {
+            if (selectedFolderObject.id == 0) {
                 itemNames = new String[]{};
             } else if (selectedFolderObject.count != 0) {
                 itemNames = new String[]{"重命名", "移动到"};
@@ -699,7 +706,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
                     } else {
                         if (!newName.equals(folderObject.name)) {
                             Network.getRetrofit(this)
-                                    .renameFile(project.owner_user_name, project.name, folderObject.fileId, newName)
+                                    .renameFile(project.owner_user_name, project.name, folderObject.id, newName)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new BaseHttpObserver(this) {
@@ -741,7 +748,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
                     } else {
                         if (!newName.equals(folderObject.name)) {
                             Network.getRetrofit(this)
-                                    .renameFold(project.owner_user_name, project.name, folderObject.fileId, newName)
+                                    .renameFold(project.owner_user_name, project.name, folderObject.id, newName)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new HttpObserver<Boolean>(this) {
@@ -801,7 +808,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
     private ArrayList<Integer> getActionItemsIds() {
         ArrayList<Integer> fileIds = new ArrayList<>();
         for (CodingFile item : actionFiles) {
-            fileIds.add(item.fileId);
+            fileIds.add(item.id);
         }
         return fileIds;
     }
@@ -847,7 +854,7 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
         return Global.HOST_API +
                 project.getProjectPath() +
                 "/dir/" +
-                folder.fileId +
+                folder.id +
                 "/files/existed?names=" +
                 encodeName;
     }
@@ -858,13 +865,13 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
             listHead.addView(uploadItemView);
 
             FileListHeadItem3.Param param = new FileListHeadItem3.Param(project.getId(),
-                    parentFolder.fileId, file);
+                    parentFolder.id, file);
             uploadItemView.setData(param, this, getImageLoad());
         } else {
             FileListHeadItem2 uploadItem = new FileListHeadItem2(this);
             listHead.addView(uploadItem);
 
-            FileListHeadItem2.Param param = new FileListHeadItem2.Param(project.getId(), parentFolder.fileId, file);
+            FileListHeadItem2.Param param = new FileListHeadItem2.Param(project.getId(), parentFolder.id, file);
             uploadItem.setData(param, this, getImageLoad());
         }
 

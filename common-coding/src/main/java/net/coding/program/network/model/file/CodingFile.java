@@ -25,9 +25,6 @@ public class CodingFile implements Serializable {
     public static final int ROLE_TYPE_OWNER = 100;
     public static final int SHARE_FOLDER = -1;
 
-    @SerializedName("file_id")
-    @Expose
-    public int fileId;
     @SerializedName("preview")
     @Expose
     public String preview = "";
@@ -108,13 +105,13 @@ public class CodingFile implements Serializable {
 
     public static CodingFile craeteShareFolder() {
         CodingFile codingFile = new CodingFile();
-        codingFile.fileId = SHARE_FOLDER;
+        codingFile.id = SHARE_FOLDER;
         codingFile.name = "分享中";
         return codingFile;
     }
 
     public boolean isShareFolder() {
-        return fileId == SHARE_FOLDER;
+        return id == SHARE_FOLDER;
     }
 
     private static final String SAVE_NAME_SPLIT = "|||";
@@ -243,7 +240,7 @@ public class CodingFile implements Serializable {
     public String getSaveName(int projectId) {
 //        修改字段要记得修改 INFO_COUNT
         return projectId + SAVE_NAME_SPLIT +
-                fileId + SAVE_NAME_SPLIT +
+                id + SAVE_NAME_SPLIT +
                 historyId + SAVE_NAME_SPLIT +
                 name;
     }
@@ -251,7 +248,7 @@ public class CodingFile implements Serializable {
     public RequestData getHttpShareLinkOn(ProjectObject projectObject) {
         String url = Global.HOST_API + "/share/create";
         RequestParams params = new RequestParams();
-        params.put("resourceId", fileId);
+        params.put("resourceId", id);
         params.put("resourceType", 0);
         params.put("projectId", projectObject.getId());
         params.put("accessType", 0);

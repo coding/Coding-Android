@@ -1,17 +1,12 @@
 package net.coding.program;
 
-import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.HttpResult;
 import net.coding.program.network.model.file.CodingFile;
 import net.coding.program.network.model.file.CodingFileView;
-import net.coding.program.project.detail.AttachmentsDownloadDetailActivity_;
-import net.coding.program.project.detail.AttachmentsHtmlDetailActivity_;
-import net.coding.program.project.detail.AttachmentsPhotoDetailActivity_;
-import net.coding.program.project.detail.AttachmentsTextDetailActivity_;
-import net.coding.program.project.detail.file.v2.ProjectFileMainActivity_;
+import net.coding.program.project.detail.file.v2.ProjectFileMainActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -32,8 +27,28 @@ public class FileUrlActivity extends BaseActivity {
     Param param;
 
     ProjectObject projectResult;
-    CodingFile codingDirResult;
     CodingFile codingFileResult;
+
+    private Subscriber<Boolean> subscriber = new Subscriber<Boolean>() {
+        @Override
+        public void onCompleted() {
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            finish();
+        }
+
+        @Override
+        public void onNext(Boolean aBoolean) {
+            if (aBoolean) {
+                ProjectFileMainActivity.fileItemJump(codingFileResult, projectResult, FileUrlActivity.this);
+            }
+
+            finish();
+            overridePendingTransition(0, 0);
+        }
+    };
 
     @AfterViews
     public void parseUrl() {
@@ -63,37 +78,16 @@ public class FileUrlActivity extends BaseActivity {
                 projectResult = rp.data;
 
                 if (rd.data == null || rd.data.isEmpty()) {
-                    showButtomToast("未找到文件夹，可能已被删除");
+                    showButtomToast("文件夹不存在");
                     return false;
                 } else {
-                    codingDirResult = rd.data.get(rd.data.size() - 1);
+                    codingFileResult = rd.data.get(rd.data.size() - 1);
                 }
                 return true;
             }
+
             return false;
-        }).subscribe(new Subscriber<Boolean>() {
-            @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                finish();
-            }
-
-            @Override
-            public void onNext(Boolean aBoolean) {
-                if (aBoolean) {
-                    ProjectFileMainActivity_.intent(FileUrlActivity.this)
-                            .project(projectResult)
-                            .parentFolder(codingDirResult)
-                            .start();
-                }
-
-                finish();
-                overridePendingTransition(0, 0);
-            }
-        });
+        }).subscribe(subscriber);
     }
 
     private void jumpToFileDetail() {
@@ -117,56 +111,18 @@ public class FileUrlActivity extends BaseActivity {
                 projectResult = p1.data;
 
                 if (codingFileResult == null) {
-                    showButtomToast("未找到文件，可能已被删除");
+                    showButtomToast("文件不存在");
                     return false;
                 }
                 return true;
             }
 
+            if (f1.code == 1304) {
+                showButtomToast("文件不存在");
+            }
+
             return false;
-        }).subscribe(new Subscriber<Boolean>() {
-            @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                finish();
-            }
-
-            @Override
-            public void onNext(Boolean aBoolean) {
-                if (aBoolean) {
-                    AttachmentFileObject folderFile = new AttachmentFileObject(codingFileResult);
-                    int projectId = projectResult.id;
-
-                    if (codingFileResult.isImage() || codingFileResult.isGif()) {
-                        AttachmentsPhotoDetailActivity_.intent(FileUrlActivity.this)
-                                .mProjectObjectId(projectId)
-                                .mAttachmentFileObject(folderFile)
-                                .start();
-                    } else if (AttachmentFileObject.isMd(folderFile.fileType)) {
-                        AttachmentsHtmlDetailActivity_.intent(FileUrlActivity.this)
-                                .mProjectObjectId(projectId)
-                                .mAttachmentFileObject(folderFile)
-                                .start();
-                    } else if (AttachmentFileObject.isTxt(folderFile.fileType)) {
-                        AttachmentsTextDetailActivity_.intent(FileUrlActivity.this)
-                                .mProjectObjectId(projectId)
-                                .mAttachmentFileObject(folderFile)
-                                .start();
-                    } else {
-                        AttachmentsDownloadDetailActivity_.intent(FileUrlActivity.this)
-                                .mProjectObjectId(projectId)
-                                .mAttachmentFileObject(folderFile)
-                                .start();
-                    }
-                }
-
-                finish();
-                overridePendingTransition(0, 0);
-            }
-        });
+        }).subscribe(subscriber);
     }
 
     public static final class Param implements Serializable {

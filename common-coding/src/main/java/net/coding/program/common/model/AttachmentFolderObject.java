@@ -79,7 +79,7 @@ public class AttachmentFolderObject implements Serializable {
 
     public AttachmentFolderObject(CodingFile file) {
         created_at = file.createdAt;
-        file_id = String.valueOf(file.fileId);
+        file_id = String.valueOf(file.id);
         name = file.name;
         owner_id = String.valueOf(file.ownerId);
         parent_id = String.valueOf(file.parentId);

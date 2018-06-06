@@ -166,9 +166,8 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
         AttachmentFileObject data = mData.get(position);
 
         ProjectFileMainActivity.fileItemJump(data,
-                data.folderObject,
                 mProjectFileParam.getProject(),
-                this);
+                this, true, FILE_DELETE_CODE);
     }
 
     @OnActivityResult(FILE_DELETE_CODE)

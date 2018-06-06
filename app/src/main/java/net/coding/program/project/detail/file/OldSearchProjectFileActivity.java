@@ -152,7 +152,7 @@ public class OldSearchProjectFileActivity extends BackActivity implements TextWa
 //                        .mVersion(mVersion).mGitFileInfoObject(selectedFile).start();
 //                finish();
                 AttachmentFileObject codingFile = (AttachmentFileObject) parent.getAdapter().getItem(position);
-                ProjectFileMainActivity.fileItemJump(codingFile, folder, project, OldSearchProjectFileActivity.this);
+                ProjectFileMainActivity.fileItemJump(codingFile, project, OldSearchProjectFileActivity.this);
 
             }
         });
