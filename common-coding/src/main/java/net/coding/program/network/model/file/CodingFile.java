@@ -85,7 +85,7 @@ public class CodingFile implements Serializable {
     @SerializedName("history_id")
     @Expose
     public int historyId;
-    @SerializedName("id")
+    @SerializedName(value = "id", alternate = "file_id")
     @Expose
     public int id;
     @SerializedName("owner")
