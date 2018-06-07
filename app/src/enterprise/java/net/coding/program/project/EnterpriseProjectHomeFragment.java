@@ -5,32 +5,8 @@ import net.coding.program.project.detail.ProjectFunction;
 
 import org.androidannotations.annotations.EFragment;
 
-@EFragment(R.layout.enterprise_fragment_project)
+@EFragment(R.layout.fragment_project_private)
 public class EnterpriseProjectHomeFragment extends PrivateProjectHomeFragment {
 
-    @Override
-    protected ProjectFunction[] getItems() {
-        return new ProjectFunction[]{
-                ProjectFunction.dynamic,
-                ProjectFunction.task,
-                ProjectFunction.taskBoard,
-                ProjectFunction.wiki,
-                ProjectFunction.document,
-                ProjectFunction.code,
-                ProjectFunction.branchManage,
-                ProjectFunction.releaseManage,
-                ProjectFunction.merge,
-                ProjectFunction.git,
-        };
-    }
-
-//    @Override
-//    protected void initProjectSettingEntrance(View view) {
-//        if (EnterpriseInfo.instance().canManagerEnterprise() || mProjectObject.canManagerMember()) { // 所有者可以直接修改项目
-//            view.findViewById(R.id.projectHeaderLayout).setOnClickListener(clickProjectSetting);
-//        } else {
-//            super.initProjectSettingEntrance(view);
-//        }
-//    }
 
 }

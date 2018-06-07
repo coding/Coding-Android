@@ -99,7 +99,7 @@
                 <include layout="@layout/divide_middle_15" />
 
                 <include
-                    android:id="@+id/itemTopic"
+                    android:id="@+id/itemWiki"
                     layout="@layout/project_home_list_head_button" />
 
                 <View style="@style/DivideLineHomeList" />
@@ -184,11 +184,6 @@
                     android:id="@+id/itemGit"
                     layout="@layout/project_home_list_head_button" />
 
-                <!--迟早要加-->
-                <include
-                    android:id="@+id/itemWiki"
-                    layout="@layout/project_home_list_head_button"
-                    android:visibility="gone" />
 
             </LinearLayout>
 

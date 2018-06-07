@@ -36,7 +36,7 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
                 ProjectFunction.dynamic,
                 ProjectFunction.task,
                 ProjectFunction.taskBoard,
-                ProjectFunction.topic,
+                ProjectFunction.wiki,
                 ProjectFunction.document,
                 ProjectFunction.code,
                 ProjectFunction.branchManage,
