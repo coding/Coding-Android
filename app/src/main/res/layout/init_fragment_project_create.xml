@@ -59,12 +59,6 @@
 
     <include layout="@layout/divide_middle_15" />
 
-    <include
-        android:id="@+id/item"
-        layout="@layout/init_common_item" />
-
-    <include layout="@layout/divide_line_1" />
-
     <RelativeLayout
         android:id="@+id/pushSetting"
         android:layout_width="match_parent"

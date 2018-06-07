@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -63,11 +62,10 @@ import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 public class ProjectCreateFragment extends BaseFragment {
 
     public static final int RESULT_REQUEST_PHOTO = 2003;
-    public static final int RESULT_REQUEST_PICK_TYPE = 2004;
     private static final String TAG_CREATE_PROJECT = "TAG_CREATE_PROJECT";
     private static final String TAG = "ProjectCreateFragment";
     private final int RESULT_REQUEST_PHOTO_CROP = 2006;
-    String currentType = ProjectTypeActivity.TYPE_PRIVATE;
+    String currentType = "私有";
 
     ProjectInfo projectInfo;
     MenuItem mMenuSave;
@@ -78,10 +76,6 @@ public class ProjectCreateFragment extends BaseFragment {
     EditText projectName, description;
     @ViewById
     CheckBox generateReadme;
-    @ViewById
-    View item;
-    @ViewById
-    TextView projectTypeText;
 
     private Uri fileUri;
     private Uri fileCropUri;
@@ -91,7 +85,6 @@ public class ProjectCreateFragment extends BaseFragment {
     @AfterViews
     protected void init() {
         projectInfo = new ProjectInfo();
-        projectTypeText.setText(currentType);
         imageLoadTool.loadImage(projectIcon, IconRandom.getRandomUrl(), ImageLoadTool.optionsRounded2, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -123,13 +116,6 @@ public class ProjectCreateFragment extends BaseFragment {
             }
         });
         Global.popSoftkeyboard(getActivity(), description, false);
-    }
-
-    @Click
-    void item() {
-        Intent intent = new Intent(getActivity(), ProjectTypeActivity_.class);
-        intent.putExtra("type", currentType);
-        startActivityForResult(intent, RESULT_REQUEST_PICK_TYPE);
     }
 
     @Click
@@ -195,15 +181,7 @@ public class ProjectCreateFragment extends BaseFragment {
                     Global.errorLog(e);
                 }
             }
-        } else if (requestCode == RESULT_REQUEST_PICK_TYPE) {
-            if (resultCode == Activity.RESULT_OK) {
-                String type = data.getStringExtra("type");
-                if (TextUtils.isEmpty(type)) {
-                    return;
-                }
-                currentType = type;
-                projectTypeText.setText(currentType);
-            }
+
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -269,9 +247,6 @@ public class ProjectCreateFragment extends BaseFragment {
             return;
         }
         projectInfo.description = description.getText().toString().trim();
-        if (currentType.equals(ProjectTypeActivity.TYPE_PUBLIC)) {
-            projectInfo.type = 1;
-        }
         /*projectInfo.icon="";*/
         showProgressBar(true, "正在创建项目...");
         createProject();
