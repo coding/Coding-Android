@@ -1,6 +1,5 @@
 package net.coding.program.project;
 
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
 import net.coding.program.R;
@@ -36,9 +35,6 @@ public class MenuProjectFragment extends BaseFragment {
     RadioButton rb_my_intrest;
     @ViewById
     RadioButton rb_my_collected;
-
-    @ViewById
-    LinearLayout ll_square;
 
     public MenuProjectFragment() {
     }
@@ -77,11 +73,6 @@ public class MenuProjectFragment extends BaseFragment {
     @Click
     void rb_my_build() {//我创建的
         EventBus.getDefault().post(new EventPosition(POS_MY_CREATE, "我创建的"));
-    }
-
-    @Click
-    void ll_square() {//项目广场
-        ProjectSquareActivity_.intent(this).start();
     }
 
     @Override

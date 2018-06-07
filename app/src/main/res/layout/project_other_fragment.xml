@@ -9,53 +9,52 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <se.emilsjolander.stickylistheaders.StickyListHeadersListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/divide"
             android:clipToPadding="false"
+            android:divider="@drawable/divide_line_project_item"
             android:dividerHeight="0.5dp"
-            android:drawSelectorOnTop="true"
             android:overScrollMode="never"
             android:scrollbarStyle="outsideOverlay" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/project_create_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/color_F6F6F6"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible">
 
         <ImageView
+            android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="80dp"
             android:scaleType="center"
             android:src="@drawable/ic_exception_blank_project" />
 
         <TextView
+            android:id="@+id/tv_none"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/icon"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="22dp"
-            android:text="这里一个项目都没有赶快行动起来"
+            android:lineSpacingMultiplier="1.5"
+            android:text="这里一个项目都没有"
             android:textColor="@color/font_3"
-            android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/btn_action"
-            android:layout_width="140dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="251dp"
-            android:background="@color/font_2"
-            android:text="+  创建项目"
-            android:textColor="@color/white"
             android:textSize="15sp" />
-    </LinearLayout>
+
+
+    </RelativeLayout>
 
     <include
         android:id="@+id/blankLayout"

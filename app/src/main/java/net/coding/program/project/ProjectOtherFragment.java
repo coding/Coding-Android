@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -39,8 +38,8 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 /**
  * Created by Vernon on 15/11/15.
  */
-@EFragment(R.layout.project_list_fragment)
-public class ProjectOtherFragment extends RefreshBaseFragment implements View.OnClickListener {
+@EFragment(R.layout.project_other_fragment)
+public class ProjectOtherFragment extends RefreshBaseFragment {
 
     final String hostWatched = Global.HOST_API + "/projects?page=1&pageSize=200&type=watched";
     final String hostStared = Global.HOST_API + "/projects?page=1&pageSize=200&type=stared";
@@ -59,8 +58,7 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements View.On
     View blankLayout;
     @ViewById
     RelativeLayout project_create_layout;
-    @ViewById
-    Button btn_action;
+
     boolean mRequestOk;
     private int postion = 0;
     private String title;
@@ -78,7 +76,6 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements View.On
         setHasOptionsMenu(true);
         initRefreshLayout();
         setRefreshing(true);
-        btn_action.setOnClickListener(this);
 
         listView.setAreHeadersSticky(false);
         View listViewFooter = getActivity().getLayoutInflater().inflate(R.layout.divide_bottom_15, listView.getWrappedList(), false);
@@ -142,7 +139,7 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements View.On
                         mData.add(oneData);
                     }
                 }
-//                AccountInfo.saveProjects(getActivity(), mData);
+
                 if (adapter == null) {
                     adapter = new MyAdapter();
                     listView.setAdapter(adapter);
@@ -153,11 +150,6 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements View.On
                 }
                 if (!(mData.size() > 0)) {
                     project_create_layout.setVisibility(View.VISIBLE);
-                    if (tag.equals(hostStared)) {
-                        btn_action.setText("+  去收藏");
-                    } else if (tag.equals(hostWatched)) {
-                        btn_action.setText("+  去关注");
-                    }
                 } else {
                     project_create_layout.setVisibility(View.GONE);
                 }
@@ -176,15 +168,6 @@ public class ProjectOtherFragment extends RefreshBaseFragment implements View.On
 
     public String getTitle() {
         return title;
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_action:
-                ProjectSquareActivity_.intent(this).start();
-                break;
-        }
     }
 
     private static class ViewHolder {

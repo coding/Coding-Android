@@ -400,11 +400,6 @@
             android:label="@string/title_activity_account_setting"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".project.ProjectSquareActivity_"
-            android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_project_sqaure"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".WebActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/empty"
