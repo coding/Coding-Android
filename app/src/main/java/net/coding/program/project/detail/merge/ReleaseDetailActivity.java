@@ -121,6 +121,8 @@ public class ReleaseDetailActivity extends BackActivity {
                     if (aBoolean) {
                         BlankViewHelp.setBlank(0, ReleaseDetailActivity.this, true, blankLayout, null);
                     }
+                } else {
+                    BlankViewHelp.setBlank(1, ReleaseDetailActivity.this, true, blankLayout, null);
                 }
             }
         });
