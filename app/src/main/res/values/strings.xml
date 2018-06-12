@@ -134,7 +134,7 @@
     <string name="logining">登录中...</string>
     <string name="no_system_download_service">"下载失败，你可能关闭了系统的\"下载管理器\"，请到设置里面开启"</string>
     <string name="title_activity_merge">MergeActivity</string>
-    <string name="recommend_create_readme">我们推荐每个项目都新建一个README文件</string>
+    <string name="recommend_create_readme">该项目暂无 README.md ，我们推荐每个项目都新建一个 README.md 文件。（客户端暂不支持创建和编辑，请前往 coding.net 创建）</string>
     <string name="title_activity_merge_detail">Merge详情</string>
     <string name="title_activity_commit_list">提交记录</string>
     <string name="title_activity_comment">评论</string>
@@ -168,7 +168,7 @@
     <string name="title_activity_git_main">本地阅读</string>
     <string name="title_activity_board">任务看板</string>
     <string name="title_activity_add_board">创建任务列表</string>
-    <string name="title_activity_pick_board_task_list">选择任务列表</string>
+    <string name="title_activity_pick_board_task_list">看板列表</string>
     <string name="title_activity_edit_release_detail">编辑发布</string>
 
     <string name="hold_to_talk">按住说话</string>

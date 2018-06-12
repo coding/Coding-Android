@@ -14,6 +14,7 @@ import net.coding.program.R;
 import net.coding.program.common.model.Depot;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.widget.LoadingView;
 import net.coding.program.project.detail.merge.ReadmeEditActivity;
 import net.coding.program.project.detail.merge.ReadmeEditActivity_;
 
@@ -43,6 +44,9 @@ public class ReadmeFragment extends BaseFragment {
     @ViewById
     TextView readme;
 
+    @ViewById
+    LoadingView loadingView;
+
     private String hostGitTree;
     private String hostProjectGit;
     private ReadmeEditActivity.PostParam mPostParam;
@@ -60,6 +64,7 @@ public class ReadmeFragment extends BaseFragment {
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(hostGitTree)) {
+            loadingView.setVisibility(View.GONE);
             if (code == 0) {
                 JSONObject jsonData = respanse.optJSONObject("data");
                 JSONObject readmeJson = jsonData.optJSONObject("readme");
@@ -103,7 +108,7 @@ public class ReadmeFragment extends BaseFragment {
     }
 
     private void showEmptyReadme() {
-        readme.setText(R.string.readme_file_name);
+        readme.setVisibility(View.GONE);
         needReadme.setVisibility(View.VISIBLE);
         webView.setVisibility(View.GONE);
     }

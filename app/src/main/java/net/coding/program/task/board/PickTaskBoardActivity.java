@@ -27,6 +27,9 @@ public class PickTaskBoardActivity extends BackActivity {
     @Extra
     ArrayList<BoardList> boardLists;
 
+    @Extra
+    int pickBoardId;
+
     @ViewById(R.id.codingRecyclerView)
     RecyclerView codingRecyclerView;
 
@@ -35,7 +38,7 @@ public class PickTaskBoardActivity extends BackActivity {
     @AfterViews
     void initPickTaskBoardActivity() {
         codingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        codingAdapter = new LoadMoreAdapter(boardLists);
+        codingAdapter = new LoadMoreAdapter(boardLists, pickBoardId);
         codingAdapter.setOnItemClickListener((adapter, view, position) -> {
             BoardList data = (BoardList) adapter.getItem(position);
             Intent intent = new Intent();
@@ -52,13 +55,17 @@ public class PickTaskBoardActivity extends BackActivity {
 
     static class LoadMoreAdapter extends BaseQuickAdapter<BoardList, BaseViewHolder> {
 
-        LoadMoreAdapter(@Nullable List<BoardList> data) {
+        int pick;
+
+        LoadMoreAdapter(@Nullable List<BoardList> data, int pick) {
             super(R.layout.pick_board_list_item, data);
+            this.pick = pick;
         }
 
         @Override
         protected void convert(BaseViewHolder helper, BoardList item) {
             helper.setText(R.id.name, item.title);
+            helper.setVisible(R.id.check, item.id == pick);
         }
 
     }

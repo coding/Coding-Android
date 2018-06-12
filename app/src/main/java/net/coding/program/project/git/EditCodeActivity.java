@@ -132,4 +132,14 @@ public class EditCodeActivity extends BackActivity {
         setResult(RESULT_OK, intent);
         finish();
     }
+
+    @Override
+    public void onBackPressed() {
+        if (editFragment.isModify()) {
+            String msg = "如果不保存，更改将丢失，是否确认返回？";
+            showDialog("", msg, (dialog, which) -> super.onBackPressed(), null, "确认返回", "取消");
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

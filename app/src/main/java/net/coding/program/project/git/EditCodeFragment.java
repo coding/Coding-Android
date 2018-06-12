@@ -28,4 +28,9 @@ public class EditCodeFragment extends Fragment {
     public String getInput() {
         return editText.getText().toString();
     }
+
+    public boolean isModify() {
+        GitFileObject file = ((EditCodeActivity) getActivity()).getFile().getGitFileObject();
+        return !editText.getText().toString().equals(file.data);
+    }
 }

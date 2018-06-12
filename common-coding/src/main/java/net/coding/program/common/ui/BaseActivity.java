@@ -325,8 +325,7 @@ public class BaseActivity extends UmengActivity implements NetworkCallback, Star
 
     private void showDialog(String title, String msg, DialogInterface.OnClickListener clickOk, DialogInterface.OnClickListener clickCancel, DialogInterface.OnClickListener clickNeutral, CharSequence okButton, CharSequence cancelButton, CharSequence neutralButton, int style) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, style);
-        builder.setTitle(title)
-                .setMessage(msg);
+        builder.setMessage(msg);
 
         if (!TextUtils.isEmpty(title)) {
             builder.setTitle(title);

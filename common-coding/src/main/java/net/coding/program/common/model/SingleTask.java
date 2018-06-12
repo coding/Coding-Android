@@ -5,6 +5,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -160,6 +161,10 @@ public class SingleTask implements Serializable {
                     labels.add(label);
                 }
             }
+        }
+
+        if (json.has("task_board_list")) {
+            taskBoardList = new Gson().fromJson(json.optString("task_board_list", ""), BoardList.class);
         }
     }
 

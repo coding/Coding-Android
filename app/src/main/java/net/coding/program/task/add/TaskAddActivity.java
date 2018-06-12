@@ -691,7 +691,11 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
             return;
         }
 
-        PickTaskBoardActivity_.intent(this).boardLists(list).startForResult(RESULT_PICK_BOARD_LIST);
+        PickTaskBoardActivity_.IntentBuilder_ builder = PickTaskBoardActivity_.intent(this).boardLists(list);
+        if (mNewParam.taskBoard != null) {
+            builder.pickBoardId(mNewParam.taskBoard.id);
+        }
+        builder.startForResult(RESULT_PICK_BOARD_LIST);
     }
 
     private void setHeadData() {
@@ -1338,6 +1342,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
         for (BoardList item : taskCreating.taskBoardList) {
             if (item.id == id) {
                 mNewParam.taskBoard = item;
+                mSingleTask.taskBoardList = item;
                 selectMember();
                 updateSendButton();
                 break;
