@@ -378,7 +378,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
             final UserObject data = getItem(position);
 
             iconfromNetwork(holder.icon, data.avatar);
-            holder.name.setText(String.format("%s - %s", data.name, data.global_key));
+            holder.name.setText(String.format("%s", data.name));
 
             if (mShowFollowButton) {
                 int drawableId = data.follow ? R.drawable.checkbox_fans : R.drawable.checkbox_follow;
