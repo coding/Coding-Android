@@ -42,7 +42,6 @@ import net.coding.program.login.PhoneRegisterActivity_;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.login.phone.Close2FAActivity_;
-import net.coding.program.login.phone.EmailSetPasswordActivity_;
 import net.coding.program.login.phone.PhoneSetPasswordActivity_;
 import net.coding.program.maopao.share.CustomShareBoard;
 import net.coding.program.thirdplatform.ThirdPlatformLogin;
@@ -302,19 +301,13 @@ public class LoginActivity extends BaseActivity {
     @Click
     protected final void loginFail() {
         String account = editName.getText().toString();
-        if (!InputCheck.isPhone(account) && !InputCheck.isEmail(account)) {
+        if (!InputCheck.isPhone(account)) {
             account = "";
         }
 
-        if (InputCheck.isEmail(account)) {
-            EmailSetPasswordActivity_.intent(this)
-                    .account(account)
-                    .start();
-        } else {
-            PhoneSetPasswordActivity_.intent(this)
-                    .account(account)
-                    .start();
-        }
+        PhoneSetPasswordActivity_.intent(this)
+                .account(account)
+                .start();
     }
 
     @Click

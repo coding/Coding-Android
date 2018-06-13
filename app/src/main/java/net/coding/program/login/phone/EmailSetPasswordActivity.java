@@ -72,8 +72,6 @@ public class EmailSetPasswordActivity extends BackActivity {
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
                 setResult(RESULT_OK);
-                showMiddleToast("邮件已发送");
-
                 showMiddleToastLong("重置密码邮件已经发送，请尽快去邮箱查看");
                 finish();
             }

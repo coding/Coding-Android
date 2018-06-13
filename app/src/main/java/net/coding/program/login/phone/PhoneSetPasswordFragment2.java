@@ -50,6 +50,8 @@ import rx.schedulers.Schedulers;
 public class PhoneSetPasswordFragment2 extends BaseFragment {
 
     private static final int RESULT_PICK_COUNTRY = 10;
+    private static final int RESULT_RESET_BY_EMAIL = 11;
+
 
     @FragmentArg
     String account = "";
@@ -192,10 +194,9 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
 
     @Click
     void emailResetPassword() {
-        getActivity().finish();
         EmailSetPasswordActivity_.intent(this)
                 .account("")
-                .start();
+                .startForResult(RESULT_RESET_BY_EMAIL);
     }
 
     @Click
@@ -209,6 +210,13 @@ public class PhoneSetPasswordFragment2 extends BaseFragment {
         if (resultCode == Activity.RESULT_OK && resultData != null) {
             pickCountry = resultData;
             bindCountry();
+        }
+    }
+
+    @OnActivityResult(RESULT_RESET_BY_EMAIL)
+    void onResultResetByEmail(int resultCode) {
+        if (resultCode == Activity.RESULT_OK) {
+            getActivity().finish();
         }
     }
 
