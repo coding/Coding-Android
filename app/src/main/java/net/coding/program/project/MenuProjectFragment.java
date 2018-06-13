@@ -31,10 +31,6 @@ public class MenuProjectFragment extends BaseFragment {
     RadioButton rb_my_build;
     @ViewById
     RadioButton rb_join_project;
-    @ViewById
-    RadioButton rb_my_intrest;
-    @ViewById
-    RadioButton rb_my_collected;
 
     public MenuProjectFragment() {
     }
@@ -53,16 +49,6 @@ public class MenuProjectFragment extends BaseFragment {
     @Click
     void rb_join_project() {//我参与的项目
         EventBus.getDefault().post(new EventPosition(1, "我参与的"));
-    }
-
-    @Click
-    void rb_my_intrest() {//我关注的
-        EventBus.getDefault().post(new EventPosition(3, "我关注的"));
-    }
-
-    @Click
-    void rb_my_collected() {//我收藏的
-        EventBus.getDefault().post(new EventPosition(4, "我收藏的"));
     }
 
     @Click
@@ -91,9 +77,7 @@ public class MenuProjectFragment extends BaseFragment {
 
     private void setData(MenuCount bean) {
         rb_all_project.setText("全部项目 (" + bean.getAll() + ")");
-        rb_my_intrest.setText("我关注的 (" + bean.getWatched() + ")");
         rb_my_build.setText("我创建的 (" + bean.getCreated() + ")");
-        rb_my_collected.setText("我收藏的 (" + bean.getStared() + ")");
         rb_join_project.setText("我参与的 (" + bean.getJoined() + ")");
     }
 }

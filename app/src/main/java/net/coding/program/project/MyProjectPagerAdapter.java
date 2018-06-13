@@ -42,16 +42,7 @@ class MyProjectPagerAdapter extends FragmentStatePagerAdapter {
         if (position == projectFragment.program_title.length) {
             return new MenuProjectFragment_();
         }
-        if (position == 3) {
-            ProjectOtherFragment projectOtherFragment = new ProjectOtherFragment_();
-            projectOtherFragment.setTitleAndPostion(projectFragment.program_title[position], 0);
-            return projectOtherFragment;
-        }
-        if (position == 4) {
-            ProjectOtherFragment projectOtherFragment = new ProjectOtherFragment_();
-            projectOtherFragment.setTitleAndPostion(projectFragment.program_title[position], 1);
-            return projectOtherFragment;
-        }
+
         ProjectListFragment fragment = new ProjectListFragment_();
         fragment.setPos(position);
         fragment.setTitle(projectFragment.program_title[position]);

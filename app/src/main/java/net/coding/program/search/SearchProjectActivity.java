@@ -137,7 +137,7 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
 
     private void initSearchFooterView() {
         View footerView = LayoutInflater.from(this).inflate(R.layout.subject_search_history_list_footer, null);
-        mSearchFooterClearAllView = (TextView) footerView.findViewById(R.id.subject_search_hot_footer_clear);
+        mSearchFooterClearAllView = footerView.findViewById(R.id.subject_search_hot_footer_clear);
         mSearchFooterClearAllView.setOnClickListener(v -> {
             SearchProjectCache.getInstance(SearchProjectActivity.this).clearCache();
             loadSearchCache();
