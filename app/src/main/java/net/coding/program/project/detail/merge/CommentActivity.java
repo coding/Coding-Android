@@ -1,15 +1,13 @@
 package net.coding.program.project.detail.merge;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 
 import net.coding.program.R;
+import net.coding.program.common.base.MDEditPreviewActivity;
 import net.coding.program.common.model.BaseComment;
 import net.coding.program.common.model.RequestData;
 import net.coding.program.common.model.topic.TopicData;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.project.detail.file.FileDynamicActivity;
 import net.coding.program.task.TaskDespPreviewFragment_;
 import net.coding.program.third.EmojiFilter;
@@ -23,15 +21,13 @@ import org.json.JSONObject;
 import java.io.Serializable;
 
 @EActivity(R.layout.activity_comment)
-public class CommentActivity extends BackActivity implements EditPreviewMarkdown {
+public class CommentActivity extends MDEditPreviewActivity {
 
     private static final String HOST_SEND_COMMENT = "HOST_SEND_COMMENT";
 
     @Extra
     CommentParam mParam;
 
-    CommentEditFragment editFragment;
-    Fragment previewFragment;
     private TopicData modifyData = new TopicData();
 
     @AfterViews
@@ -45,14 +41,15 @@ public class CommentActivity extends BackActivity implements EditPreviewMarkdown
 
         editFragment = CommentEditFragment_.builder().mMergeUrl(mParam.getAtSomeUrl()).build();
         previewFragment = TaskDespPreviewFragment_.builder().build();
+        initEditPreviewFragment();
 
         switchEdit();
     }
 
     @Override
     public void onBackPressed() {
-        if (!editFragment.isEmpty()) {
-            showDialog("发表评论", "确定放弃已写的评论？", (dialog, which) -> finish());
+        if (editFragment.isContentModify()) {
+            showDialog("确定放弃已写的评论？", (dialog, which) -> finish());
         } else {
             finish();
         }
@@ -66,16 +63,6 @@ public class CommentActivity extends BackActivity implements EditPreviewMarkdown
     @Override
     public TopicData loadData() {
         return modifyData;
-    }
-
-    @Override
-    public void switchPreview() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment, "previewFragment").commit();
-    }
-
-    @Override
-    public void switchEdit() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment, "editFragment").commit();
     }
 
     @Override

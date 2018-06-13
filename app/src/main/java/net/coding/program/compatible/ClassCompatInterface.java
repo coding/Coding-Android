@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.param.ProjectJumpParam;
+import net.coding.program.project.detail.TopicEditFragment;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public interface ClassCompatInterface {
 
     Class<?> getMainActivity();
 
-    Fragment getProjectMaopaoEditFragment();
+    TopicEditFragment getProjectMaopaoEditFragment();
 
     Fragment getProjectHome(ProjectObject projectObject, boolean needRelaod);
 

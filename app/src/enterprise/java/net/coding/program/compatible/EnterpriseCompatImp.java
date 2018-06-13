@@ -18,6 +18,7 @@ import net.coding.program.guide.EnterpriseGuideActivity_;
 import net.coding.program.login.phone.EnterprisePrivateEmailSetPasswordActivity_;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.EnterpriseProjectHomeFragment_;
+import net.coding.program.project.detail.TopicEditFragment;
 import net.coding.program.project.maopao.EnterprisePrivateProjectMaopaoEditFragment_;
 import net.coding.program.project.maopao.EnterpriseProjectMaopaoActivity_;
 import net.coding.program.project.maopao.EnterpriseProjectMaopaoEditFragment_;
@@ -38,7 +39,7 @@ import java.util.ArrayList;
 public class EnterpriseCompatImp implements ClassCompatInterface {
 
     @Override
-    public Fragment getProjectMaopaoEditFragment() {
+    public TopicEditFragment getProjectMaopaoEditFragment() {
         if (GlobalData.isPrivateEnterprise()) {
             return EnterprisePrivateProjectMaopaoEditFragment_.builder().build();
         } else {

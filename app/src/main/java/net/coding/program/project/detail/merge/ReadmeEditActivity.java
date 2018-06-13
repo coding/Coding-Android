@@ -1,19 +1,15 @@
 package net.coding.program.project.detail.merge;
 
-import android.support.v4.app.Fragment;
-
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.MDEditPreviewActivity;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.topic.TopicData;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.ui.BackActivity;
-import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.task.TaskDescrip;
-import net.coding.program.task.TaskDespEditFragment;
 import net.coding.program.task.TaskDespEditFragment_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -24,7 +20,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 
 @EActivity(R.layout.activity_readme_edit)
-public class ReadmeEditActivity extends BackActivity implements TaskDescrip, EditPreviewMarkdown {
+public class ReadmeEditActivity extends MDEditPreviewActivity implements TaskDescrip {
 
     @Extra
     ProjectObject mProjectObject;
@@ -32,8 +28,6 @@ public class ReadmeEditActivity extends BackActivity implements TaskDescrip, Edi
     @Extra
     PostParam mPostParam;
 
-    TaskDespEditFragment editFragment;
-    Fragment previewFragment;
     private TopicData modifyData = new TopicData();
 
     @AfterViews
@@ -47,7 +41,9 @@ public class ReadmeEditActivity extends BackActivity implements TaskDescrip, Edi
 //            getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
 //        } else {
         modifyData.content = mPostParam.data;
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
+
+        initEditPreviewFragment();
+        switchEdit();
 //        }
     }
 
@@ -59,17 +55,6 @@ public class ReadmeEditActivity extends BackActivity implements TaskDescrip, Edi
     @Override
     public TopicData loadData() {
         return modifyData;
-    }
-
-    @Override
-    public void switchPreview() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
-    }
-
-    @Override
-    public void switchEdit() {
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
     }
 
     @Override

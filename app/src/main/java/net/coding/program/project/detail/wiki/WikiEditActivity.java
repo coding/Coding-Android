@@ -5,19 +5,16 @@ import android.support.annotation.NonNull;
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.MDEditPreviewActivity;
 import net.coding.program.common.event.EventRefresh;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.topic.TopicData;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.wiki.Wiki;
 import net.coding.program.network.model.wiki.WikiDraft;
 import net.coding.program.param.ProjectJumpParam;
-import net.coding.program.project.detail.EditPreviewMarkdown;
-import net.coding.program.project.detail.TopicEditFragment;
-import net.coding.program.project.detail.TopicPreviewFragment;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -34,7 +31,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 @EActivity(R.layout.activity_wiki_edit)
-public class WikiEditActivity extends BackActivity implements EditPreviewMarkdown {
+public class WikiEditActivity extends MDEditPreviewActivity {
 
     @Extra
     ProjectJumpParam projectParam;
@@ -47,8 +44,6 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
 
     private boolean saveDraft = true;
 
-    TopicEditFragment editFragment;
-    TopicPreviewFragment previewFragment;
     private TopicData modifyData = new TopicData();
 
     @AfterViews
@@ -72,7 +67,7 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
 
         editFragment = WikiEditFragment_.builder().build();
         previewFragment = WikiPreviewFragment_.builder().build();
-
+        initEditPreviewFragment();
         switchEdit();
     }
 
@@ -116,7 +111,7 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
             return;
         }
 
-        super.onBackPressed();
+        finish();
     }
 
     @Override
@@ -129,16 +124,6 @@ public class WikiEditActivity extends BackActivity implements EditPreviewMarkdow
             draft.updateAt = wiki.updatedAt;
             AccountInfo.saveWikiDraft(this, draft, projectParam.toPath(), wiki.id);
         }
-    }
-
-    @Override
-    public void switchPreview() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
-    }
-
-    @Override
-    public void switchEdit() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
     }
 
     @Override

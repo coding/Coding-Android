@@ -278,7 +278,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
 
     @OptionsItem
     void action_delete() {
-        showDialog("讨论", "删除讨论?", (dialog, which) -> deleteNetwork(String.format(Global.HOST_API + "/topic/%s", topicObject.id), TAG_DELETE_TOPIC));
+        showDialog("删除讨论?", (dialog, which) -> deleteNetwork(String.format(Global.HOST_API + "/topic/%s", topicObject.id), TAG_DELETE_TOPIC));
     }
 
     @OptionsItem

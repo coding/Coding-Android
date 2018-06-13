@@ -5,17 +5,14 @@ import android.support.annotation.NonNull;
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.MDEditPreviewActivity;
 import net.coding.program.common.model.topic.TopicData;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.network.BaseHttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.model.code.Release;
 import net.coding.program.network.model.code.ResourceReference;
 import net.coding.program.network.model.wiki.WikiDraft;
 import net.coding.program.param.ProjectJumpParam;
-import net.coding.program.project.detail.EditPreviewMarkdown;
-import net.coding.program.project.detail.TopicEditFragment;
-import net.coding.program.project.detail.TopicPreviewFragment;
 import net.coding.program.project.detail.wiki.WikiEditFragment_;
 import net.coding.program.project.detail.wiki.WikiPreviewFragment_;
 import net.coding.program.third.EmojiFilter;
@@ -34,7 +31,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 @EActivity(R.layout.activity_edit_release_detail)
-public class EditReleaseDetailActivity extends BackActivity implements EditPreviewMarkdown {
+public class EditReleaseDetailActivity extends MDEditPreviewActivity {
 
     @Extra
     ProjectJumpParam projectParam;
@@ -42,15 +39,13 @@ public class EditReleaseDetailActivity extends BackActivity implements EditPrevi
     @Extra
     Release release;
 
-    TopicEditFragment editFragment;
-    TopicPreviewFragment previewFragment;
     private TopicData modifyData = new TopicData();
 
     @AfterViews
     void initWikiEditActivity() {
         useToolbar();
 
-        SegmentedGroup segmented = (SegmentedGroup) findViewById(R.id.segmented);
+        SegmentedGroup segmented = findViewById(R.id.segmented);
         segmented.setTintColor(CodingColor.font2);
 
         modifyData.title = release.title;
@@ -58,6 +53,7 @@ public class EditReleaseDetailActivity extends BackActivity implements EditPrevi
 
         editFragment = WikiEditFragment_.builder().build();
         previewFragment = WikiPreviewFragment_.builder().build();
+        initEditPreviewFragment();
 
         switchEdit();
     }
@@ -99,17 +95,7 @@ public class EditReleaseDetailActivity extends BackActivity implements EditPrevi
             return;
         }
 
-        super.onBackPressed();
-    }
-
-    @Override
-    public void switchPreview() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
-    }
-
-    @Override
-    public void switchEdit() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
+        finish();
     }
 
     @Override

@@ -93,7 +93,7 @@ public class WikiHistoryDetailActivity extends BackActivity {
     @Click(R.id.rollbackLayout)
     void onClickRollback() {
         String msg = "请问是否要恢复到当前版本？";
-        showDialog("", msg, (dialog, which) -> rollbackWiki());
+        showDialog(msg, (dialog, which) -> rollbackWiki());
     }
 
     private void rollbackWiki() {

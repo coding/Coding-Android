@@ -1,21 +1,19 @@
 package net.coding.program.project.maopao;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.MDEditPreviewActivity;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.model.Maopao;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.topic.TopicData;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.compatible.CodingCompat;
-import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.project.detail.ProjectCampt;
 
 import org.androidannotations.annotations.AfterViews;
@@ -24,7 +22,7 @@ import org.androidannotations.annotations.Extra;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_project_maopao_add)
-public class ProjectMaopaoAddActivity extends BackActivity implements EditPreviewMarkdown, ProjectCampt {
+public class ProjectMaopaoAddActivity extends MDEditPreviewActivity implements ProjectCampt {
 
     @Extra
     ProjectObject projectObject;
@@ -32,8 +30,6 @@ public class ProjectMaopaoAddActivity extends BackActivity implements EditPrevie
     @Extra
     Maopao.MaopaoObject maopao;
 
-    Fragment editFragment;
-    ProjectMaopaoPreviewFragment previewFragment;
     private TopicData modifyData = new TopicData();
 
     @AfterViews
@@ -45,10 +41,8 @@ public class ProjectMaopaoAddActivity extends BackActivity implements EditPrevie
 
         editFragment = CodingCompat.instance().getProjectMaopaoEditFragment();
         previewFragment = ProjectMaopaoPreviewFragment_.builder().build();
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, editFragment)
-                .commit();
+        initEditPreviewFragment();
+        switchEdit();
     }
 
     @Override
@@ -117,20 +111,6 @@ public class ProjectMaopaoAddActivity extends BackActivity implements EditPrevie
     @Override
     public TopicData loadData() {
         return modifyData;
-    }
-
-    @Override
-    public void switchPreview() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, previewFragment)
-                .commit();
-    }
-
-    @Override
-    public void switchEdit() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, editFragment)
-                .commit();
     }
 
     @Override

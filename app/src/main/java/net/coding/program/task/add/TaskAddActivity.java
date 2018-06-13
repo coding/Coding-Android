@@ -181,7 +181,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
         public void onClick(View v) {
             final SingleTask.TaskComment comment = (SingleTask.TaskComment) v.getTag();
             if (comment.isMy()) {
-                showDialog("任务", "删除评论？", (dialog, which) -> {
+                showDialog("删除评论？", (dialog, which) -> {
                     String url = String.format(hostDeleteComment, comment.taskId, comment.id);
                     deleteNetwork(url, hostDeleteComment, comment.id);
                 });
@@ -648,7 +648,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
     }
 
     private void deleteTask() {
-        showDialog("任务", "删除任务？", (dialog, which) -> {
+        showDialog("删除任务？", (dialog, which) -> {
             SingleTask task = mSingleTask;
             String url = String.format(TaskListFragment.getHostTaskDelete(), task.project.owner_user_name, task.project.name, task.getId());
             deleteNetwork(url, TaskListFragment.getHostTaskDelete());
@@ -1353,7 +1353,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
     @Override
     public void onBackPressed() {
         if (!isContentUnmodify()) {
-            showDialog("任务", "确定放弃此次编辑？", (dialog, which) -> closeActivity(""));
+            showDialog("确定放弃此次编辑？", (dialog, which) -> closeActivity(""));
         } else {
             closeActivity("");
         }

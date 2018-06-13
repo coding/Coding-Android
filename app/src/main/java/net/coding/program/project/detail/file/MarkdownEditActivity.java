@@ -1,23 +1,20 @@
 package net.coding.program.project.detail.file;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.MDEditPreviewActivity;
 import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.model.RequestData;
 import net.coding.program.common.model.SingleTask;
 import net.coding.program.common.model.topic.TopicData;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.BlankViewHelp;
-import net.coding.program.project.detail.EditPreviewMarkdown;
 import net.coding.program.task.TaskDescrip;
-import net.coding.program.task.TaskDespEditFragment;
 import net.coding.program.task.TaskDespEditFragment_;
 import net.coding.program.task.TaskDespPreviewFragment_;
 
@@ -34,7 +31,7 @@ import java.io.File;
 import cz.msebera.android.httpclient.Header;
 
 @EActivity(R.layout.activity_markdown_edit)
-public class MarkdownEditActivity extends BackActivity implements TaskDescrip, EditPreviewMarkdown {
+public class MarkdownEditActivity extends MDEditPreviewActivity implements TaskDescrip {
 
     private static final String TAG_SAVE_CONTENT = "TAG_SAVE_CONTENT";
     private static final String TAG_HTTP_FILE_VIEW = "TAG_HTTP_FILE_VIEW";
@@ -49,8 +46,6 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, E
 
     String HOST_DESCRIPTION = Global.HOST_API + "/task/%s/description";
 
-    TaskDespEditFragment editFragment;
-    Fragment previewFragment;
     private TopicData modifyData = new TopicData();
 
     @AfterViews
@@ -58,6 +53,7 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, E
         BlankViewHelp.setBlankLoading(blankLayout, true);
         editFragment = TaskDespEditFragment_.builder().build();
         previewFragment = TaskDespPreviewFragment_.builder().build();
+        initEditPreviewFragment();
 
         FileSaveHelp mFileSaveHelp = new FileSaveHelp(this);
         File file = mParam.getLocalFile(mFileSaveHelp.getFileDownloadPath());
@@ -90,9 +86,9 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, E
         descriptionData.markdown = Global.readTextFile(file);
         modifyData.content = descriptionData.markdown;
         if (modifyData.content.isEmpty() || mParam.openByEditor) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
+            switchEdit();
         } else {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
+            switchPreview();
         }
     }
 
@@ -175,16 +171,6 @@ public class MarkdownEditActivity extends BackActivity implements TaskDescrip, E
     @Override
     public TopicData loadData() {
         return modifyData;
-    }
-
-    @Override
-    public void switchPreview() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
-    }
-
-    @Override
-    public void switchEdit() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package net.coding.program.project.detail;
 
-import android.util.Log;
 import android.widget.EditText;
 
 import net.coding.program.R;
@@ -28,12 +27,11 @@ public class TopicEditFragment extends MDEditFragment {
     protected TopicLabelBar labelBar;
 
     private TopicData mOldData;
+    private TopicData newData = new TopicData();
 
     @AfterViews
-    protected void init() {
-        hasOptionsMenu();
+    protected void initTopicEditFragment() {
         mOldData = ((EditPreviewMarkdown) getActivity()).loadData();
-        Log.e("TopicLabel", String.format("labels %s", mOldData.labels == null ? "null" : String.valueOf(mOldData.labels.size())));
         title.setText(mOldData.title);
         String content = mOldData.content;
         edit.setText(content);
@@ -54,7 +52,10 @@ public class TopicEditFragment extends MDEditFragment {
     @OptionsItem(R.id.action_preview)
     protected void actionPreview() {
         EditPreviewMarkdown editPreviewMarkdown = (EditPreviewMarkdown) getActivity();
-        editPreviewMarkdown.saveData(new TopicData(title.getText().toString(), edit.getText().toString(), mOldData.labels));
+        newData.title = title.getText().toString();
+        newData.content = edit.getText().toString();
+        newData.labels = mOldData.labels;
+        editPreviewMarkdown.saveData(newData);
         editPreviewMarkdown.switchPreview();
         Global.popSoftkeyboard(getActivity(), edit, false);
     }
@@ -62,18 +63,27 @@ public class TopicEditFragment extends MDEditFragment {
     @OptionsItem(R.id.action_save)
     protected void actionSave() {
         EditPreviewMarkdown editPreviewMarkdown = (EditPreviewMarkdown) getActivity();
-        editPreviewMarkdown.saveData(new TopicData(title.getText().toString(), edit.getText().toString(), mOldData.labels));
+        newData.title = title.getText().toString();
+        newData.content = edit.getText().toString();
+        newData.labels = mOldData.labels;
+        editPreviewMarkdown.saveData(newData);
         editPreviewMarkdown.exit();
     }
 
     public boolean isContentModify() {
+        String titleString = "";
+        String contentString = "";
         // title 有可能为空，因为用户可能根本没有进入编辑界面
         if (title == null) {
-            return false;
+            titleString = newData.title;
+            contentString = newData.content;
+        } else {
+            titleString = title.getText().toString();
+            contentString = edit.getText().toString();
         }
 
-        return !title.getText().toString().equals(mOldData.title) ||
-                !edit.getText().toString().equals(mOldData.content);
+        return !titleString.equals(mOldData.title) ||
+                !contentString.equals(mOldData.content);
     }
 
     public TopicData generalDraft() {

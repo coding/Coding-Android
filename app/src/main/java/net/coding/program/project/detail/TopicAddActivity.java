@@ -8,12 +8,12 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.base.MDEditPreviewActivity;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.TopicLabelObject;
 import net.coding.program.common.model.TopicObject;
 import net.coding.program.common.model.topic.TopicData;
-import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.third.EmojiFilter;
 
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.activity_topic_add)
-public class TopicAddActivity extends BackActivity implements EditPreviewMarkdown, TopicLabelBar.Controller {
+public class TopicAddActivity extends MDEditPreviewActivity implements TopicLabelBar.Controller {
 
     final String HOST_TOPIC_NEW = Global.HOST_API + "/project/%s/topic?parent=0";
     final String HOST_TOPIC_EDIT = Global.HOST_API + "/topic/%d";
@@ -46,8 +46,6 @@ public class TopicAddActivity extends BackActivity implements EditPreviewMarkdow
     String url = "";
     String HOST_TOPIC_DETAIL_CONTENT = Global.HOST_API + "/topic/%d?type=1";
 
-    TopicEditFragment editFragment;
-    TopicPreviewFragment previewFragment;
 
     private TopicData modifyData = new TopicData();
 
@@ -78,11 +76,12 @@ public class TopicAddActivity extends BackActivity implements EditPreviewMarkdow
 
         editFragment = TopicEditFragment_.builder().build();
         previewFragment = TopicPreviewFragment_.builder().build();
+        initEditPreviewFragment();
 
         if (isNewTopic()) {
             actionBar.setTitle(R.string.topic_create);
             url = String.format(HOST_TOPIC_NEW, getTopicId());
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
+            switchEdit();
         } else {
             actionBar.setTitle(R.string.topic_edit);
             url = String.format(HOST_TOPIC_EDIT, topicObject.id);
@@ -148,7 +147,7 @@ public class TopicAddActivity extends BackActivity implements EditPreviewMarkdow
                 topicObject = new TopicObject(respanse.optJSONObject("data"));
                 modifyData = new TopicData(topicObject);
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
+                switchEdit();
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -219,15 +218,6 @@ public class TopicAddActivity extends BackActivity implements EditPreviewMarkdow
         return modifyData;
     }
 
-    @Override
-    public void switchPreview() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
-    }
-
-    @Override
-    public void switchEdit() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
-    }
 
     @Override
     public void exit() {

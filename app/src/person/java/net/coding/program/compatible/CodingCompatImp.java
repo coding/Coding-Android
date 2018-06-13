@@ -15,6 +15,7 @@ import net.coding.program.network.constant.Friend;
 import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.PrivateProjectHomeFragment_;
 import net.coding.program.project.PublicProjectHomeFragment_;
+import net.coding.program.project.detail.TopicEditFragment;
 import net.coding.program.project.maopao.ProjectMaopaoActivity_;
 import net.coding.program.project.maopao.ProjectMaopaoEditFragment_;
 import net.coding.program.push.CodingPush;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 public class CodingCompatImp implements ClassCompatInterface {
 
     @Override
-    public Fragment getProjectMaopaoEditFragment() {
+    public TopicEditFragment getProjectMaopaoEditFragment() {
         return ProjectMaopaoEditFragment_.builder().build();
     }
 

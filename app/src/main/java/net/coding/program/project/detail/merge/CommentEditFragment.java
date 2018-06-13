@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.common.StartActivity;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.project.detail.TopicEditFragment;
@@ -24,10 +23,6 @@ public class CommentEditFragment extends TopicEditFragment implements StartActiv
     @FragmentArg
     String mMergeUrl;
     private TextWatcherAt watcher;
-
-    public boolean isEmpty() {
-        return Global.isEmptyContainSpace(title);
-    }
 
     @AfterViews
     protected final void initCommentEditFragment() {

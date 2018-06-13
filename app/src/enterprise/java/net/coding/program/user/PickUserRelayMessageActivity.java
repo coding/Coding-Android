@@ -28,7 +28,7 @@ public class PickUserRelayMessageActivity extends PickUserActivity {
     protected void initListItemClick() {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             UserObject user = (UserObject) parent.getItemAtPosition(position);
-            showDialog("转发", "转发给" + user.name, (dialog, which) -> {
+            showDialog("转发给" + user.name, (dialog, which) -> {
                 MessageParse messageParse = HtmlContent.parseMessage(relayString);
                 RequestParams params = new RequestParams();
                 String text = messageParse.text;

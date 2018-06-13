@@ -38,9 +38,19 @@ public class TopicPreviewFragment extends BaseFragment {
     private EditPreviewMarkdown editPreviewMarkdown;
 
     @AfterViews
-    protected void init() {
+    protected void initTopicPreviewFragment() {
         editPreviewMarkdown = ((EditPreviewMarkdown) getActivity());
+        updatePreview();
+    }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden) {
+            updatePreview();
+        }
+    }
+
+    private void updatePreview() {
         TopicData data = editPreviewMarkdown.loadData();
         title.setText(data.title);
         updateLabels(data.labels);
@@ -59,7 +69,6 @@ public class TopicPreviewFragment extends BaseFragment {
         };
 
         mdToHtml(data.content);
-
     }
 
     @NonNull
