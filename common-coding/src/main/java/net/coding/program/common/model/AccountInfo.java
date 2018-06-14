@@ -66,6 +66,8 @@ public class AccountInfo {
     private static final String KEY_MAOPAO_BANNER = "KEY_MAOPAO_BANNER";
     private static final String KEY_MALL_BANNER = "KEY_MALL_BANNER";
 
+    private static final String KEY_SEARCH_PROJECT_HISTORY = "KEY_SEARCH_PROJECT_HISTORY";
+
     private static final String KEY_CACHE_GET_REQUEST = "KEY_CACHE_GET_REQUEST";
 
     private static final String GLOBAL_LAST_PRIVATE_HOST = "GLOBAL_LAST_PRIVATE_HOST";
@@ -337,6 +339,15 @@ public class AccountInfo {
 
     public static ArrayList<String> loadAuthDatas(Context context) {
         return new DataCache<String>().loadGlobal(context, AUTH_URI_DATAS);
+    }
+
+
+    public static void saveSearchProjectHistory(Context context, ArrayList<String> data) {
+        new DataCache<String>().saveGlobal(context, data, KEY_SEARCH_PROJECT_HISTORY);
+    }
+
+    public static ArrayList<String> loadSearchProjectHistory(Context context) {
+        return new DataCache<String>().loadGlobal(context, KEY_SEARCH_PROJECT_HISTORY);
     }
 
     public static String loadAuth(Context context, String globalKey) {

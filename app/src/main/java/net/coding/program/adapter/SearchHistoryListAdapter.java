@@ -9,15 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.SearchCache;
+import net.coding.program.common.model.AccountInfo;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Vernon on 15/12/1.
  */
 public class SearchHistoryListAdapter extends BaseAdapter {
-    private List<String> historyItems;
+    private ArrayList<String> historyItems;
     private Context mContext;
     private View.OnClickListener mDelHistoryItemClickListener = new View.OnClickListener() {
         @Override
@@ -26,14 +26,14 @@ public class SearchHistoryListAdapter extends BaseAdapter {
             if (historyItems != null && position >= 0 && position < historyItems.size()) {
                 String history = historyItems.get(position);
                 historyItems.remove(history);
-                SearchCache.getInstance(mContext).remove(history);
+                AccountInfo.saveSearchProjectHistory(v.getContext(), historyItems);
                 notifyDataSetChanged();
             }
         }
     };
 
 
-    public SearchHistoryListAdapter(Context context, List<String> items) {
+    public SearchHistoryListAdapter(Context context, ArrayList<String> items) {
         this.mContext = context;
         this.historyItems = items;
     }
@@ -62,8 +62,8 @@ public class SearchHistoryListAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.search_history_list_item, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.desc = (TextView) convertView.findViewById(R.id.subject_search_list_item_name);
-            viewHolder.delImage = (ImageView) convertView.findViewById(R.id.subject_search_list_item_del);
+            viewHolder.desc = convertView.findViewById(R.id.subject_search_list_item_name);
+            viewHolder.delImage = convertView.findViewById(R.id.subject_search_list_item_del);
             convertView.setTag(viewHolder);
 
         } else {

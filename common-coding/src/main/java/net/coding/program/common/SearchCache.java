@@ -59,6 +59,7 @@ public class SearchCache {
     }
 
     public void remove(String searchKey) {
+        loadCache();
         if (searchCacheList != null && !TextUtils.isEmpty(searchKey)) {
             searchCacheList.remove(searchKey);
             saveCache();
@@ -80,12 +81,12 @@ public class SearchCache {
         for (int i = 0; i < searchCacheList.size(); i++) {
             edit.putString(SEARCH_CACHE_KEY + "_" + i, searchCacheList.get(i));
         }
-        edit.commit();
+        edit.apply();
     }
 
     private void loadCache() {
         if (searchCacheList == null)
-            searchCacheList = new ArrayList<String>();
+            searchCacheList = new ArrayList<>();
         searchCacheList.clear();
         SharedPreferences preferences = mContext.getSharedPreferences(SEARCH_CACHE, Context.MODE_PRIVATE);
         int size = preferences.getInt(SEARCH_CACHE_SIZE, 0);

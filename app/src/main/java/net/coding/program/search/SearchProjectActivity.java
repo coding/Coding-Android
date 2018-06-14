@@ -21,7 +21,7 @@ import net.coding.program.R;
 import net.coding.program.adapter.SearchHistoryListAdapter;
 import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
-import net.coding.program.common.SearchProjectCache;
+import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.DensityUtil;
 import net.coding.program.common.widget.input.SimpleTextWatcher;
@@ -32,7 +32,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 @EActivity(R.layout.activity_search_project)
 public class SearchProjectActivity extends BackActivity implements TextView.OnEditorActionListener, AdapterView.OnItemClickListener {
@@ -56,7 +56,8 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
     private View mSearchFooterDivider;
     private InputMethodManager imm;
     // 历史搜索的记录
-    private List<String> mSearchHistoryList = new ArrayList<String>();
+    private ArrayList<String> mSearchHistoryList = new ArrayList<>();
+
     private String mSearchData = "";
     private EditText editText;
     private View btnCancel;
@@ -139,7 +140,7 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
         View footerView = LayoutInflater.from(this).inflate(R.layout.subject_search_history_list_footer, null);
         mSearchFooterClearAllView = footerView.findViewById(R.id.subject_search_hot_footer_clear);
         mSearchFooterClearAllView.setOnClickListener(v -> {
-            SearchProjectCache.getInstance(SearchProjectActivity.this).clearCache();
+            AccountInfo.saveSearchProjectHistory(v.getContext(), new ArrayList<String>());
             loadSearchCache();
         });
 
@@ -150,7 +151,7 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
 
     private void loadSearchCache() {
         mSearchHistoryList.clear();
-        mSearchHistoryList.addAll(SearchProjectCache.getInstance(this).getSearchCacheList());
+        mSearchHistoryList.addAll(AccountInfo.loadSearchProjectHistory(this));
         notifySearchHistoryDataChanged();
     }
 
@@ -186,7 +187,21 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
         tabs.notifyDataSetChanged();
         editText.setText(condition);
         editText.setSelection(condition.length());
-        SearchProjectCache.getInstance(SearchProjectActivity.this).add(mSearchData);
+
+        int pos = mSearchHistoryList.indexOf(mSearchData);
+        if (pos == -1) {
+
+            if (mSearchHistoryList.size() >= 8) {
+                mSearchHistoryList.remove(7);
+            }
+            mSearchHistoryList.add(0, mSearchData);
+            AccountInfo.saveSearchProjectHistory(this, mSearchHistoryList);
+        } else {
+            if (pos > 0) {
+                Collections.swap(mSearchHistoryList, 0, pos);
+                AccountInfo.saveSearchProjectHistory(this, mSearchHistoryList);
+            }
+        }
     }
 
     @Override
