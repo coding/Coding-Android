@@ -154,6 +154,7 @@
                     android:id="@+id/loginButton"
                     style="@style/sendRoundButton"
                     android:layout_marginTop="25dp"
+                    android:enabled="false"
                     android:text="注册"
                     app:rv_backgroundColor="@color/font_green" />
 

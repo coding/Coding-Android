@@ -26,6 +26,7 @@ import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.OnTextChange;
 import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.widget.ValidePhoneView;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
 import net.coding.program.login.phone.CountryPickActivity_;
 import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
@@ -67,8 +68,22 @@ public class PhoneRegisterActivity extends BackActivity {
 
     private PhoneCountry pickCountry = PhoneCountry.getChina();
 
+
+    SimpleTextWatcher stepButtonEnable = new SimpleTextWatcher() {
+        @Override
+        public void afterTextChanged(Editable s) {
+            firstStep.setEnabled(globalKeyEdit.getText().length() > 0 &&
+                    phoneEdit.getText().length() > 0 &&
+                    phoneCodeEdit.getText().length() > 0);
+        }
+    };
+
     @AfterViews
     void initPhoneVerifyFragment() {
+        globalKeyEdit.addTextChangedListener(stepButtonEnable);
+        phoneEdit.addTextChangedListener(stepButtonEnable);
+        phoneCodeEdit.addTextChangedListener(stepButtonEnable);
+
         View androidContent = findViewById(android.R.id.content);
         androidContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
