@@ -95,7 +95,16 @@ dependencies {
 
     implementation project(':luban')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
 }
+
 repositories {
-    mavenCentral()
+    jcenter()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+
+    // 图片裁剪，系统的坑太多
+    api 'com.github.yalantis:ucrop:2.2.2'
 }

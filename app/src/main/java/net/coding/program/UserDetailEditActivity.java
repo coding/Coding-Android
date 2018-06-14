@@ -494,7 +494,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                 }
 
                 fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
-                Global.startPhotoZoom(this, this, fileUri, fileCropUri, 640, 640, RESULT_REQUEST_PHOTO_CROP);
+                Global.startPhotoZoom(this, fileUri, fileCropUri, RESULT_REQUEST_PHOTO_CROP);
             }
 
         } else if (requestCode == RESULT_REQUEST_PHOTO_CROP) {

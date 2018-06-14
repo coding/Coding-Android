@@ -262,6 +262,7 @@ dependencies {
 
 // 新功能提示，使用弹出框的样式 start ----------------------------------------------------------------
 repositories {
+    jcenter()
     maven {
         url "https://jitpack.io"
     }
@@ -269,9 +270,12 @@ repositories {
 
 dependencies {
     compile 'com.github.cpiz:BubbleView:1.0.2'
-}
-// 新功能提示，使用弹出框的样式 end ----------------------------------------------------------------
 
+    // 图片裁剪，系统的坑太多
+    implementation 'com.github.yalantis:ucrop:2.2.2'
+}
+
+// 新功能提示，使用弹出框的样式 end ----------------------------------------------------------------
 repositories {
     flatDir {
         dirs 'libs'

@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.loopj.android.http.PersistentCookieStore;
 import com.orhanobut.logger.Logger;
 import com.readystatesoftware.viewbadger.BadgeView;
+import com.yalantis.ucrop.UCrop;
 
 import org.json.JSONObject;
 import org.xml.sax.XMLReader;
@@ -465,6 +466,24 @@ public class Global {
         } catch (Exception e) {
             Global.errorLog(e);
         }
+    }
+
+
+    public static void startPhotoZoom(Activity activity, Uri uri, Uri outputUri, int requestCode) {
+        final UCrop.Options options = new UCrop.Options();
+        options.setCompressionQuality(100);
+        int blue = 0xFF0060FF;
+        options.setToolbarColor(blue);
+        int white = 0xFFFFFFFF;
+        options.setToolbarColor(white);
+        options.setActiveWidgetColor(blue);
+        options.setToolbarWidgetColor(blue);
+
+        UCrop.of(uri, outputUri)
+                .withAspectRatio(1, 1)
+                .withMaxResultSize(1024, 1024)
+                .withOptions(options)
+                .start(activity, requestCode);
     }
 
     public static void startPhotoZoom(Context context, StartActivity activity, Uri uri, Uri outputUri, int outputX, int outputY, int requestCode) {

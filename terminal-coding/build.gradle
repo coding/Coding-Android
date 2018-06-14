@@ -62,5 +62,12 @@ dependencies {
 }
 
 repositories {
-    mavenCentral()
+    jcenter()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+
+    // 图片裁剪，系统的坑太多
+    implementation 'com.github.yalantis:ucrop:2.2.2'
 }
