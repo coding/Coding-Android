@@ -18,9 +18,10 @@
         android:hint="@string/search_hint"
         android:imeOptions="actionSearch"
         android:inputType="text"
-        android:lines="1"
+        android:singleLine="true"
         android:textColor="@color/font_1"
         android:textColorHint="@color/color_hint"
+        android:textCursorDrawable="@drawable/edittext_cursor"
         android:textSize="15sp" />
 
     <ImageView

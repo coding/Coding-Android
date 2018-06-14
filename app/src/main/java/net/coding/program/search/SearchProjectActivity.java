@@ -75,7 +75,9 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
             Global.popSoftkeyboard(this, editText, true);
         });
 
-        editText = (EditText) actionBar.findViewById(R.id.editText);
+        editText = actionBar.findViewById(R.id.editText);
+        editText.requestFocus();
+
         final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
                 .getDisplayMetrics());
         pager.setPageMargin(pageMargin);

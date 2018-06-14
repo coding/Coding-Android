@@ -414,6 +414,7 @@
             android:name=".search.SearchProjectActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_search_project"
+            android:windowSoftInputMode="adjustResize|stateVisible"
             android:screenOrientation="portrait" />
         <activity
             android:name=".UpdateDialogActivity"
