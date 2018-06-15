@@ -21,6 +21,8 @@
     <color name="transparent">@android:color/transparent</color>
     <color name="stand_bg">@color/white</color>
 
+    <color name="mask">#33000000</color>
+
     <color name="font_black">@color/black</color>
     <color name="font_1">#323A45</color>
     <color name="font_2">#425063</color>
