@@ -34,7 +34,7 @@ public class GitFileObject implements Serializable {
         mode = json.optString("mode");
         path = json.optString("path");
         name = json.optString("name");
-        preview = json.optString("preview");
+        preview = json.optString("preview").replace("{{CodingUrl}}", "");
         previewed = json.optBoolean("previewed");
         size = json.optInt("size");
     }

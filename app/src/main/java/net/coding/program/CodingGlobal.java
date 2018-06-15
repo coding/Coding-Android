@@ -26,6 +26,7 @@ public class CodingGlobal {
     static public void setWebViewContent(WebView webView, WebviewType type, String content) {
         Context context = webView.getContext();
         Global.initWebView(webView);
+        content = content.replace("{{CodingUrl}}", "");
         webView.setWebViewClient(new CustomWebViewClientOpenNew(context, content));
         try {
             Global.syncCookie(webView.getContext());
@@ -39,6 +40,7 @@ public class CodingGlobal {
 
     static public void setWebViewContent(WebView webView, String tempate, String content) {
         Context context = webView.getContext();
+        content = content.replace("{{CodingUrl}}", "");
         Global.initWebView(webView);
         webView.setWebViewClient(new CustomWebViewClientOpenNew(context, content));
         try {
