@@ -89,6 +89,8 @@ public class ProjectGitFragment extends CustomMoreFragment implements LoadMore {
     @ViewById
     View blankLayout;
 
+    boolean canEdit;
+
     private ArrayList<GitFileInfoObject> mData = new ArrayList<>();
     BaseAdapter adapter = new BaseAdapter() {
         @Override
@@ -189,12 +191,16 @@ public class ProjectGitFragment extends CustomMoreFragment implements LoadMore {
             ((BaseActivity) getActivity()).setActionBarTitle(mGitFileInfoObject.name);
         }
 
+        loadGitTree();
+
+        setHasOptionsMenu(true);
+    }
+
+    protected void loadGitTree() {
         if (!mVersion.isEmpty()) {
             host_git_tree_url = UrlCreate.gitTree(mProjectPath, mVersion, pathStack.peek());
             getNetwork(host_git_tree_url, HOST_GIT_TREE);
         }
-
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -213,6 +219,14 @@ public class ProjectGitFragment extends CustomMoreFragment implements LoadMore {
 
         if (!(getActivity() instanceof GitTreeActivity)) {
             menu.findItem(R.id.action_exit_code).setVisible(false);
+        }
+
+        if (canEdit) {
+            menu.findItem(R.id.action_create_file).setVisible(true);
+            menu.findItem(R.id.action_upload_picture).setVisible(true);
+        } else {
+            menu.findItem(R.id.action_create_file).setVisible(false);
+            menu.findItem(R.id.action_upload_picture).setVisible(false);
         }
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -341,6 +355,11 @@ public class ProjectGitFragment extends CustomMoreFragment implements LoadMore {
                     updateListview();
                     switchVersionSuccess();
                     return;
+                }
+
+                if (jsonData.has("can_edit")) {
+                    canEdit = jsonData.optBoolean("can_edit", false);
+                    getActivity().invalidateOptionsMenu();
                 }
 
                 host_git_treeinfo_url = UrlCreate.gitTreeinfo(mProjectPath, mVersion, pathStack.peek());

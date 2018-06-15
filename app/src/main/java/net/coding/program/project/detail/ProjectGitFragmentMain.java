@@ -315,7 +315,7 @@ public class ProjectGitFragmentMain extends ProjectGitFragment {
     private void switchVersion(String name) {
         mVersion = name;
         adapter.notifyDataSetChanged();
-        onRefresh();
+        loadGitTree();
     }
 
     @Override

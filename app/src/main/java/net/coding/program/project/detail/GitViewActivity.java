@@ -114,7 +114,7 @@ public class GitViewActivity extends CodingToolbarBackActivity {
             MenuItem menuItemEdit = menu.findItem(R.id.action_edit);
             MenuItem menuItemDelete = menu.findItem(R.id.actionDelete);
 
-            if (TextUtils.isEmpty(mFile.getCommitId())) {
+            if (TextUtils.isEmpty(mFile.getCommitId()) || !mFile.canEdit) {
                 menuItemEdit.setVisible(false);
                 menuItemDelete.setVisible(false);
             } else if (mFile.getGitFileObject().mode.equals("image")) {

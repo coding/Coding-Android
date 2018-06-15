@@ -22,6 +22,7 @@ public class GitFileInfoObject implements Serializable {
     public String mode = "";
     public String path = "";
     public String name = "";
+    public boolean canEdit = false;
 
     public HeadCommitObject headCommit;
 
@@ -36,6 +37,7 @@ public class GitFileInfoObject implements Serializable {
         mode = json.optString("mode");
         path = json.optString("path");
         name = json.optString("name");
+        canEdit = json.optBoolean("can_edit", false);
 
         if (json.has("headCommit")) {
             headCommit = new HeadCommitObject(json.optJSONObject("headCommit"));

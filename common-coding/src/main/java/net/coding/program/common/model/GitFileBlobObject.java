@@ -12,11 +12,13 @@ public class GitFileBlobObject implements Serializable {
     GitFileObject gitFileObject;
     HeadCommitObject headCommitObject;
     String ref;
+    public boolean canEdit;
 
     public GitFileBlobObject(JSONObject json) {
         ref = json.optString("ref", "");
         gitFileObject = new GitFileObject(json.optJSONObject("file"));
         headCommitObject = new HeadCommitObject(json.optJSONObject("headCommit"));
+        canEdit = json.optBoolean("can_edit", false);
     }
 
     public GitFileObject getGitFileObject() {
