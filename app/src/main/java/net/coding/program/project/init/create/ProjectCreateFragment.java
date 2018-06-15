@@ -167,7 +167,7 @@ public class ProjectCreateFragment extends BaseFragment {
                 }
 
                 fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
-                Global.startPhotoZoom(getActivity(), this, fileUri, fileCropUri, 640, 640, RESULT_REQUEST_PHOTO_CROP);
+                Global.startPhotoZoom(this, getActivity(), fileUri, fileCropUri,  RESULT_REQUEST_PHOTO_CROP);
             }
 
         } else if (requestCode == RESULT_REQUEST_PHOTO_CROP) {

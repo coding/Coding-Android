@@ -7,14 +7,13 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.Editable;
 import android.text.Html;
@@ -57,9 +56,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.cookie.Cookie;
-
-import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
-import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 
 /**
  * Created by cc191954 on 14-8-23.
@@ -447,28 +443,6 @@ public class Global {
         return android.support.v4.content.FileProvider.getUriForFile(context, AUTHOR, shareFile);
     }
 
-
-    static public void cropImageUri(Context context, StartActivity activity, Uri uri, Uri outputUri, int outputX, int outputY, int requestCode) {
-        try {
-            Intent intent = new Intent("com.android.camera.action.CROP");
-            intent.setDataAndType(uri, "image/*");
-            intent.putExtra("crop", "true");
-            intent.putExtra("aspectX", 1);
-            intent.putExtra("aspectY", 1);
-            intent.putExtra("outputX", outputX);
-            intent.putExtra("outputY", outputY);
-            intent.putExtra("scale", true);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
-            intent.putExtra("return-data", false);
-            intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-            intent.putExtra("noFaceDetection", true);
-            activity.startActivityForResult(intent, requestCode);
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
-    }
-
-
     public static void startPhotoZoom(Activity activity, Uri uri, Uri outputUri, int requestCode) {
         final UCrop.Options options = new UCrop.Options();
         options.setCompressionQuality(100);
@@ -478,6 +452,7 @@ public class Global {
         options.setToolbarColor(white);
         options.setActiveWidgetColor(blue);
         options.setToolbarWidgetColor(blue);
+        options.setStatusBarColor(0xFF757575);
 
         UCrop.of(uri, outputUri)
                 .withAspectRatio(1, 1)
@@ -486,66 +461,24 @@ public class Global {
                 .start(activity, requestCode);
     }
 
-    public static void startPhotoZoom(Context context, StartActivity activity, Uri uri, Uri outputUri, int outputX, int outputY, int requestCode) {
-        Uri inputUri = uri;
 
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        //sdk>=24
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Uri outPutUri = outputUri;
-// outPutUri -> file:///storage/emulated/0/Android/data/com.wenjiehe.android_study/files/PHOTO_FILE_NAME.jpg
-            intent.setDataAndType(inputUri, "image/*");
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, outPutUri);
-            intent.addFlags(FLAG_GRANT_READ_URI_PERMISSION);
-            intent.addFlags(FLAG_GRANT_WRITE_URI_PERMISSION);
-        } else {
-//            if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-//                String url = GetImagePath.getPath(context, inputUri);//这个方法是处理4.4以上图片返回的Uri对象不同的处理方法
-//                intent.setDataAndType(Uri.fromFile(new File(url)), "image/*");
-//            } else {
-                intent.setDataAndType(inputUri, "image/*");
-//            }
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
-        }
+    public static void startPhotoZoom(Fragment fragment, Activity activity, Uri uri, Uri outputUri, int requestCode) {
+        final UCrop.Options options = new UCrop.Options();
+        options.setCompressionQuality(100);
+        int blue = 0xFF0060FF;
+        options.setToolbarColor(blue);
+        int white = 0xFFFFFFFF;
+        options.setToolbarColor(white);
+        options.setActiveWidgetColor(blue);
+        options.setToolbarWidgetColor(blue);
+        options.setStatusBarColor(0xFF757575);
 
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", outputX);
-        intent.putExtra("outputY", outputY);
-        intent.putExtra("scale", true);
-
-       intent.putExtra("return-data", false);
-        intent.putExtra("noFaceDetection", false);//去除默认的人脸识别，否则和剪裁匡重叠
-        intent.putExtra("outputFormat", "JPEG");
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());// 图片格式
-        activity.startActivityForResult(intent, requestCode);//这里就将裁剪后的图片的Uri返回了
+        UCrop.of(uri, outputUri)
+                .withAspectRatio(1, 1)
+                .withMaxResultSize(1024, 1024)
+                .withOptions(options)
+                .start(activity, fragment, requestCode);
     }
-//
-//    static public void cropImageUri(Context context, StartActivity activity, Uri uri, Uri outputUri, int outputX, int outputY, int requestCode) {
-//        try {
-//            File sourceFile = new File(uri.getPath());
-////            uri = FileProviderHelp.getUriForFile(context, sourceFile);
-//
-//            Intent intent = new Intent("com.android.camera.action.CROP");
-//            intent.putExtra("crop", "true");
-//            intent.putExtra("aspectX", 1);
-//            intent.putExtra("aspectY", 1);
-//            intent.putExtra("outputX", outputX);
-//            intent.putExtra("outputY", outputY);
-//            intent.putExtra("scale", true);
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
-//            intent.putExtra("return-data", false);
-//            intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-//            intent.putExtra("noFaceDetection", true);
-//
-//            FileProviderHelp.setIntentDataAndType(context, intent, "image/*", sourceFile, true);
-//
-//            activity.startActivityForResult(intent, requestCode);
-//        } catch (Exception e) {
-//            Global.errorLog(e);
-//        }
-//    }
 
     static public String readTextFile(Context context, String assetFile) throws IOException {
         InputStream inputStream = context.getAssets().open(assetFile);
