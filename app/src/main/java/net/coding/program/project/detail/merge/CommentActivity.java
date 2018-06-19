@@ -47,15 +47,6 @@ public class CommentActivity extends MDEditPreviewActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        if (editFragment.isContentModify()) {
-            showDialog("确定放弃已写的评论？", (dialog, which) -> finish());
-        } else {
-            finish();
-        }
-    }
-
-    @Override
     public void saveData(TopicData data) {
         modifyData = data;
     }

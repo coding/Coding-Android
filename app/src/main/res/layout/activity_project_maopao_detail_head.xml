@@ -78,7 +78,6 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
         android:clipChildren="false"
         android:gravity="bottom"
         android:orientation="vertical">
@@ -118,7 +117,6 @@
             android:layout_height="30dp"
             android:layout_marginLeft="@dimen/padding_15"
             android:layout_marginRight="@dimen/padding_15"
-            android:layout_marginTop="14dp"
             android:clipChildren="false"
             android:minHeight="30dp"
             android:orientation="horizontal">
@@ -145,11 +143,12 @@
                 android:src="@drawable/checkbox_comment"
                 android:textColor="@color/font_3"
                 android:textSize="14sp"
+                android:visibility="gone"
                 tools:text="17" />
 
             <CheckBox
                 android:id="@+id/likeBtn"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="8dp"
@@ -157,9 +156,9 @@
                 android:button="@drawable/checkbox_good"
                 android:paddingLeft="9dp"
                 android:text="0"
-                android:visibility="gone"
                 android:textColor="@color/font_3"
                 android:textSize="14sp"
+                android:visibility="gone"
                 tools:text="55" />
 
             <TextView
@@ -172,18 +171,17 @@
                 android:drawablePadding="5dp"
                 android:gravity="center"
                 android:textColor="@color/font_3"
-                android:visibility="gone"
                 android:textSize="14sp"
+                android:visibility="gone"
                 tools:text="2" />
 
             <TextView
                 android:id="@+id/deleteButton"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/commentBtn"
                 android:gravity="center"
-                android:layout_marginRight="10dp"
                 android:text="删除"
                 android:textColor="@color/font_green" />
 
@@ -201,10 +199,10 @@
                 android:id="@+id/maopaoGood"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_centerVertical="true"
                 android:alpha="0.0"
-                android:src="@drawable/maopao_extra_liked" />
+                android:src="@drawable/maopao_extra_liked"
+                android:visibility="gone" />
 
         </RelativeLayout>
     </LinearLayout>
@@ -226,7 +224,5 @@
             android:paddingRight="8dp" />
 
     </LinearLayout>
-
-    <View style="@style/DivideLine_15" />
 
 </LinearLayout>

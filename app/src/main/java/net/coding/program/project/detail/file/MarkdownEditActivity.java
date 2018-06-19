@@ -92,14 +92,6 @@ public class MarkdownEditActivity extends MDEditPreviewActivity implements TaskD
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        if (editFragment.isContentModify()) {
-            showDialog(mParam.getFileObject().getName(), "确定放弃此次编辑？", (dialog, which) -> finish());
-        } else {
-            finish();
-        }
-    }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {

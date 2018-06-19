@@ -108,7 +108,7 @@ class ProjectMaopaoAdapter extends BaseAdapter {
         return convertView;
     }
 
-    class ViewHolder {
+    private class ViewHolder {
 
         ImageView icon;
         TextView name;

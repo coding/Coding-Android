@@ -1,6 +1,5 @@
 package net.coding.program.task;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 
 import net.coding.program.R;
@@ -44,20 +43,6 @@ public class TaskDescriptionActivity extends MDEditPreviewActivity implements Ta
         } else {
             modifyData.content = markdown;
             switchPreview();
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (editFragment.isContentModify()) {
-            showDialog("确定放弃此次编辑？", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-        } else {
-            finish();
         }
     }
 

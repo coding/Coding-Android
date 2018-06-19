@@ -29,4 +29,13 @@ public abstract class MDEditPreviewActivity extends BackActivity implements Edit
     public void switchEdit() {
         getSupportFragmentManager().beginTransaction().show(editFragment).hide(previewFragment).commit();
     }
+
+    @Override
+    public void onBackPressed() {
+        if (editFragment.isContentModify()) {
+            showDialog("确定放弃此次编辑？", (dialog, which) -> finish());
+        } else {
+            finish();
+        }
+    }
 }

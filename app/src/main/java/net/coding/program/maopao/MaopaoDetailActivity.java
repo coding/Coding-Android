@@ -284,6 +284,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
                 String projectUrl = mClickParam.getHttpProject();
                 setActionBarTitle(mClickParam.projectName);
                 getNetwork(projectUrl, TAG_PROJECT);
+                mEnterLayout.setVisibility(View.GONE);
             }
         } else {
             initData();
@@ -296,9 +297,12 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         initHead();
         listView.setAdapter(adapter);
 
+        // 项目公告不显示评论
+        if (mProjectObject != null) {
+            return;
+        }
 
         getNetwork(URI_COMMENT, URI_COMMENT);
-
         prepareAddComment(mMaopaoObject, false);
     }
 

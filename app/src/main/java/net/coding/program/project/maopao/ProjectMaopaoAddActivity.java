@@ -47,6 +47,7 @@ public class ProjectMaopaoAddActivity extends MDEditPreviewActivity implements P
 
     @Override
     public void exit() {
+        Global.hideSoftKeyboard(this);
         if (TextUtils.isEmpty(modifyData.content)) {
             showButtomToast("内容不能为空");
             return;
