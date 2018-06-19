@@ -1151,6 +1151,10 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
             setPickUser(member);
 
             uiBindDataProject();
+        } else {
+            if (mSingleTask.project == null || mSingleTask.project.id == 0) {
+                finish();
+            }
         }
     }
 
