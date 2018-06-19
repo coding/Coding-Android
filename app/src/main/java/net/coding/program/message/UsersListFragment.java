@@ -49,11 +49,15 @@ public class UsersListFragment extends RefreshBaseFragment implements LoadMore, 
     static WeakReference<UsersListFragment> mInstance = new WeakReference<>(null);
     public final String HOST_MARK_MESSAGE = getHostMarkMessage();
     final String HOST_MESSAGE_USERS = Global.HOST_API + "/message/conversations?pageSize=10";
-    final String HOST_UNREAD_AT = Global.HOST_API + "/notification/unread-count?type=0";
-    final String HOST_UNREAD_COMMENT = Global.HOST_API + "/notification/unread-count?type=1&type=2";
-    final String HOST_UNREAD_SYSTEM = Global.HOST_API + "/notification/unread-count?type=4&type=6";
+
+    final String HOST_UNREAD_SYSTEM = Global.HOST_API + "/notification/unread-count";
+
+
     final String TAG_DELETE_MESSAGE = "TAG_DELETE_MESSAGE";
+
     private final int RESULT_SELECT_USER = 2001;
+    private static final int RESULT_NOTIFY = 2002;
+
     @ViewById
     ListView listView;
 
@@ -63,8 +67,6 @@ public class UsersListFragment extends RefreshBaseFragment implements LoadMore, 
     View blankLayout;
 
     ArrayList<Message.MessageObject> mData = new ArrayList<>();
-    BadgeView badgeAt;
-    BadgeView badgeComment;
     BadgeView badgeSystem;
     boolean mUpdateAll = false;
     MyImageGetter myImageGetter;
@@ -210,8 +212,6 @@ public class UsersListFragment extends RefreshBaseFragment implements LoadMore, 
     public void onStart() {
         super.onStart();
 
-        getNetwork(HOST_UNREAD_AT, HOST_UNREAD_AT);
-        getNetwork(HOST_UNREAD_COMMENT, HOST_UNREAD_COMMENT);
         getNetwork(HOST_UNREAD_SYSTEM, HOST_UNREAD_SYSTEM);
 
         mInstance = new WeakReference<>(this);
@@ -242,16 +242,8 @@ public class UsersListFragment extends RefreshBaseFragment implements LoadMore, 
 
     private void initHead() {
         listHeader = mInflater.inflate(R.layout.fragment_message_user_list_head, listView, false);
-
-        listHeader.findViewById(R.id.atLayout).setOnClickListener(v1 -> startNotifyListActivity(0));
-        listHeader.findViewById(R.id.commentLayout).setOnClickListener(v1 -> startNotifyListActivity(1));
-        listHeader.findViewById(R.id.systemLayout).setOnClickListener(v1 -> startNotifyListActivity(4));
-
-        badgeAt = (BadgeView) listHeader.findViewById(R.id.badgeAt);
-        badgeAt.setVisibility(View.INVISIBLE);
-        badgeComment = (BadgeView) listHeader.findViewById(R.id.badgeComment);
-        badgeComment.setVisibility(View.INVISIBLE);
-        badgeSystem = (BadgeView) listHeader.findViewById(R.id.badgeSystem);
+        listHeader.findViewById(R.id.systemLayout).setOnClickListener(v1 -> startNotifyListActivity());
+        badgeSystem = listHeader.findViewById(R.id.badgeSystem);
         badgeSystem.setVisibility(View.INVISIBLE);
         listView.addHeaderView(listHeader, null, false);
 
@@ -261,10 +253,8 @@ public class UsersListFragment extends RefreshBaseFragment implements LoadMore, 
         updateHeader();
     }
 
-    private void startNotifyListActivity(int type) {
-        NotifyListActivity_.intent(UsersListFragment.this)
-                .type(type)
-                .startForResult(type);
+    private void startNotifyListActivity() {
+        NotifyListActivity_.intent(UsersListFragment.this).startForResult(RESULT_NOTIFY);
     }
 
     @OnActivityResult(RESULT_SELECT_USER)
@@ -317,18 +307,6 @@ public class UsersListFragment extends RefreshBaseFragment implements LoadMore, 
             mFootUpdate.updateState(code, isLoadingLastPage(tag), mData.size());
 
             mUpdateAll = false;
-
-        } else if (tag.equals(HOST_UNREAD_AT)) {
-            if (code == 0) {
-                int count = respanse.getInt("data");
-                UnreadNotify.displayNotify(badgeAt, Unread.countToString(count));
-            }
-
-        } else if (tag.equals(HOST_UNREAD_COMMENT)) {
-            if (code == 0) {
-                int count = respanse.getInt("data");
-                UnreadNotify.displayNotify(badgeComment, Unread.countToString(count));
-            }
 
         } else if (tag.equals(HOST_UNREAD_SYSTEM)) {
             if (code == 0) {
@@ -397,19 +375,9 @@ public class UsersListFragment extends RefreshBaseFragment implements LoadMore, 
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case 0:
-                getNetwork(HOST_UNREAD_AT, HOST_UNREAD_AT);
-                break;
-            case 1:
-                getNetwork(HOST_UNREAD_COMMENT, HOST_UNREAD_COMMENT);
-                break;
-            case 4:
-                getNetwork(HOST_UNREAD_SYSTEM, HOST_UNREAD_SYSTEM);
-                break;
-        }
+    @OnActivityResult(RESULT_NOTIFY)
+    void onResultNotify() {
+        getNetwork(HOST_UNREAD_SYSTEM, HOST_UNREAD_SYSTEM);
     }
 
     static class ViewHolder {

@@ -27,7 +27,6 @@ import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -91,13 +90,10 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
 
     }
 
-    final String HOST_MARK_AT = Global.HOST_API + "/notification/mark-read?all=1&type=0";
-    final String HOST_MARK_COMMENT = Global.HOST_API + "/notification/mark-read?all=1&type=1&type=2";
-    final String HOST_MARK_SYSTEM = Global.HOST_API + "/notification/mark-read?all=1&type=4&type=6";
+    final String HOST_MARK_SYSTEM = Global.HOST_API + "/notification/mark-read";
     final String TAG_NOTIFY = "TAG_NOTIFY";
     private final String HOST_MARK_READ = Global.HOST_API + "/notification/mark-read";
-    @Extra
-    int type; // 1 和 2 为一类, 4 和 6 为一类
+
     @ViewById
     ListView listView;
     @ViewById
@@ -268,19 +264,12 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
     private void setUrl(boolean showNoRead) {
         isShowNoRead = showNoRead;
 
-        String type = "/notification?type=";
+        String type = "/notification?";
         if (showNoRead) {
-            type = "/notification/unread-list?type=";
+            type = "/notification/unread-list?";
         }
 
-        URI_NOTIFY = Global.HOST_API + type + this.type;
-        if (this.type == 1) {
-            URI_NOTIFY += "&type=2";
-        }
-
-        if (this.type == 4) {
-            URI_NOTIFY += "&type=6";
-        }
+        URI_NOTIFY = Global.HOST_API + type;
     }
 
     @AfterViews
@@ -334,13 +323,7 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
 
     @OptionsItem
     protected void markRead() {
-        if (type == 0) {
-            postNetwork(HOST_MARK_AT, HOST_MARK_AT);
-        } else if (type == 1) {
-            postNetwork(HOST_MARK_COMMENT, HOST_MARK_COMMENT);
-        } else {
-            postNetwork(HOST_MARK_SYSTEM, HOST_MARK_SYSTEM);
-        }
+        postNetwork(HOST_MARK_SYSTEM, HOST_MARK_SYSTEM);
     }
 
     @Override
@@ -349,16 +332,8 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
     }
 
     private void setDefaultByType() {
-        if (type == 0) {
-            setActionBarTitle("@我的");
-            defaultIcon = R.drawable.ic_notify_at;
-        } else if (type == 1) {
-            setActionBarTitle("评论");
-            defaultIcon = R.drawable.ic_notify_comment;
-        } else {
-            setActionBarTitle("系统通知");
-            defaultIcon = R.drawable.ic_notify_comment;
-        }
+        setActionBarTitle("通知");
+        defaultIcon = R.drawable.ic_notify_comment;
     }
 
     @Override
@@ -373,21 +348,7 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
                 JSONArray jsonArray = respanse.getJSONObject("data").getJSONArray("list");
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     NotifyObject notifyObject = new NotifyObject(jsonArray.getJSONObject(i));
-                    if (isShowNoRead) {
-                        if (type == 1 || type == 2) {
-                            if (notifyObject.type == 1 || notifyObject.type == 2) {
-                                mData.add(notifyObject);
-                            }
-                        } else if (type == 4 || type == 6) {
-                            if (notifyObject.type == 4 || notifyObject.type == 6) {
-                                mData.add(notifyObject);
-                            }
-                        } else if (notifyObject.type == type) {
-                            mData.add(notifyObject);
-                        }
-                    } else {
-                        mData.add(notifyObject);
-                    }
+                    mData.add(notifyObject);
                 }
 
                 if (mData.isEmpty()) {
@@ -419,12 +380,9 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
                     break;
                 }
             }
-        } else if (tag.equals(HOST_MARK_AT)
-                || tag.equals(HOST_MARK_COMMENT)
-                || tag.equals(HOST_MARK_SYSTEM)) {
+        } else if (tag.equals(HOST_MARK_SYSTEM)) {
             if (code == 0) {
                 umengEvent(UmengEvent.NOTIFY, "标记全部已读");
-
                 markAllRead();
             } else {
                 showErrorMsg(code, respanse);
