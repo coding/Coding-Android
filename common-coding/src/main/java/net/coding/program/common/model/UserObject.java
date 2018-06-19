@@ -26,6 +26,8 @@ import java.util.ArrayList;
  */
 public class UserObject implements Serializable, Comparable {
 
+    private static final long serialVersionUID = 399378582466355030L;
+
     @SerializedName("degree")
     @Expose
     public int degree;
@@ -140,6 +142,9 @@ public class UserObject implements Serializable, Comparable {
     @SerializedName("vip_expired_at")
     @Expose
     public long vipExpiredAt;
+    @SerializedName("twofa_enabled")
+    @Expose
+    public int twofaEnabled;
 
     public boolean vipNearExpired() {
         // 提前 3 天通知，但因为服务器给的时间是 0 点 0 分，所以用 2
@@ -198,6 +203,12 @@ public class UserObject implements Serializable, Comparable {
                 skills.add(new Skill(jsonSkills.optJSONObject(i)));
             }
         }
+
+        twofaEnabled = json.optInt("twofa_enabled" , 0);
+    }
+
+    public boolean getTwofaEnabled() {
+        return twofaEnabled == 1;
     }
 
     public UserObject() {

@@ -147,7 +147,9 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/divide_middle_15" />
+    <include
+        android:id="@+id/close2FALine"
+        layout="@layout/divide_middle_15" />
 
     <RelativeLayout
         android:id="@+id/close2FA"

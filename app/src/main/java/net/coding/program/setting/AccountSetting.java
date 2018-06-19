@@ -28,17 +28,19 @@ import org.json.JSONObject;
 public class AccountSetting extends BackActivity {
 
     private static final int RESULT_PHONE_SETTING = 1;
+    private static final int RESULT_CLOZE_2FA = 2;
 
     @ViewById
     TextView email, suffix, phone;
 
     @ViewById
-    View phoneSetting, close2FA;
+    View phoneSetting, close2FA, close2FALine;
 
     @AfterViews
     final void initAccountSetting() {
         if (GlobalData.isPrivateEnterprise()) {
             close2FA.setVisibility(View.GONE);
+            close2FALine.setVisibility(View.GONE);
         }
 
         UserObject userObject = GlobalData.sUserObject;
@@ -119,6 +121,11 @@ public class AccountSetting extends BackActivity {
             phone.setText("未绑定");
         }
 
+        if (!GlobalData.sUserObject.getTwofaEnabled()) {
+            close2FA.setVisibility(View.GONE);
+            close2FALine.setVisibility(View.GONE);
+        }
+
         String emailString = GlobalData.sUserObject.email;
         if (!emailString.isEmpty()) {
             boolean emailValid = GlobalData.sUserObject.isEmailValidation();
@@ -175,6 +182,13 @@ public class AccountSetting extends BackActivity {
 
     @Click
     void close2FA() {
-        Close2FAActivity_.intent(this).start();
+        Close2FAActivity_.intent(this).startForResult(RESULT_CLOZE_2FA);
     }
+
+
+    @OnActivityResult(RESULT_CLOZE_2FA)
+    void onResultClose2FA() {
+        updatePhoneDisplay();
+    }
+
 }

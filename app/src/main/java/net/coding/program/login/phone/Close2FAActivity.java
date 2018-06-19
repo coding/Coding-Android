@@ -8,6 +8,7 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalData;
+import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditTextNew;
@@ -78,6 +79,8 @@ public class Close2FAActivity extends BackActivity {
             showProgressBar(false);
             if (code == 0) {
                 showMiddleToast("已关闭两步验证");
+                GlobalData.sUserObject.twofaEnabled = 0;
+                AccountInfo.saveAccount(this, GlobalData.sUserObject);
                 setResult(RESULT_OK);
                 finish();
             } else {
