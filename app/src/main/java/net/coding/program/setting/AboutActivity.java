@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.WebActivity_;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalData;
 import net.coding.program.common.ui.BackActivity;
@@ -58,7 +57,7 @@ public class AboutActivity extends BackActivity {
 
     @Click
     void codingWebsite() {
-        WebActivity_.intent(this).url(Global.HOST).start();
+//        WebActivity_.intent(this).url(Global.HOST).start();
     }
 
     @Click

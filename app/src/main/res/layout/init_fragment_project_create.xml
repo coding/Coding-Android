@@ -44,7 +44,7 @@
             android:layout_marginLeft="14dp"
             android:background="@null"
             android:hint="项目名称"
-            android:lines="1"
+            android:singleLine="true"
             android:textColor="@color/font_1"
             android:textSize="20sp" />
 

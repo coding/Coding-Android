@@ -145,7 +145,7 @@
     <string-array name="user_detail_more_list_first">
         <item>加入时间</item>
         <item>最后活动</item>
-        <item>名字</item>
+        <item>用户名</item>
         <item>性别</item>
         <item>生日</item>
         <item>所在地</item>

@@ -75,7 +75,7 @@ open class EnterpriseMainSettingFragment : BaseFragment() {
 
     @Click
     fun itemHelp() {
-        val url = "https://coding.net/help/doc/mobile"
+        val url = "https://e.coding.net/help"
         val title = getString(R.string.title_activity_help)
         HelpActivity_.intent(this).url(url).title(title).start()
     }
