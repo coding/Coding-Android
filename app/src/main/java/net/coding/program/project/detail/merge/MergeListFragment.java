@@ -1,14 +1,12 @@
 package net.coding.program.project.detail.merge;
 
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import net.coding.program.R;
 import net.coding.program.common.base.BaseLoadMoreFragment;
+import net.coding.program.common.event.EventRefreshMerge;
 import net.coding.program.common.model.Merge;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.route.BlankViewDisplay;
@@ -18,7 +16,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
@@ -69,24 +66,15 @@ public class MergeListFragment extends BaseLoadMoreFragment {
         loadMore();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        EventBus.getDefault().unregister(this);
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(String s) {
-        if (s.equals(EVENT_UPDATE)) {
-            initSetting();
-            loadMore();
-        }
+    public void onEvent(EventRefreshMerge event) {
+        initSetting();
+        loadMore();
+    }
+
+    @Override
+    protected boolean useEventBus() {
+        return true;
     }
 
     @Override

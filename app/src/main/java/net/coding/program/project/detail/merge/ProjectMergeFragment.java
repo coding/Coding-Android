@@ -11,6 +11,7 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.base.BaseLoadMoreFragment;
+import net.coding.program.common.event.EventRefreshMerge;
 import net.coding.program.common.model.Merge;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.route.BlankViewDisplay;
@@ -22,6 +23,8 @@ import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -108,6 +111,17 @@ public class ProjectMergeFragment extends BaseLoadMoreFragment {
 
         loadMore();
         showDialogLoading();
+    }
+
+    @Override
+    protected boolean useEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EventRefreshMerge event) {
+        initSetting();
+        loadMore();
     }
 
     @Click

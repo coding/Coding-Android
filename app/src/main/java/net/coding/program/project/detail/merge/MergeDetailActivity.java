@@ -3,6 +3,7 @@ package net.coding.program.project.detail.merge;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,6 +29,7 @@ import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.RedPointTip;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.comment.BaseCommentParam;
+import net.coding.program.common.event.EventRefreshMerge;
 import net.coding.program.common.model.BaseComment;
 import net.coding.program.common.model.DiffFile;
 import net.coding.program.common.model.DynamicObject;
@@ -95,6 +97,9 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
     View actionLayout, actionAccept, actionRefuse, actionCancel, blankLayout;
     @ViewById
     ListView listView;
+
+    @ViewById
+    SwipeRefreshLayout swipeRefreshLayout;
 
     int requestCallback = 0;
     final int REQUEST_COUNT = 3;
@@ -227,20 +232,11 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
 
     @AfterViews
     protected final void initMergeDetailActivity() {
-        String httpReviewers;
-
-        requestCallback = 0;
         blankHelp.setBlankLoading(blankLayout, true);
+        swipeRefreshLayout.setOnRefreshListener(this::onRefrush);
+        swipeRefreshLayout.setColorSchemeResources(R.color.font_green);
 
-        if (mMerge != null) {
-            initByMereData();
-            getNetwork(mMerge.getHttpDetail(), HOST_MERGE_DETAIL);
-            httpReviewers = mMerge.getHttpReviewers();
-        } else {
-            String baseGit = URLSpanNoUnderline.generateAbsolute(mMergeUrl);
-            getNetwork(baseGit + "/base", HOST_MERGE_DETAIL);
-//            httpReviewers = baseGit + "/reviewers";
-        }
+        onRefrush();
     }
 
     @Override
@@ -264,14 +260,16 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
     private void initByMereData() {
         setActionBarTitle(mMerge.getTitleIId());
 
-        if (listHeader == null) {
-            listHeader = mInflater.inflate(R.layout.activity_merge_detail_head, listView, false);
-            initHead(listHeader);
-            listView.addHeaderView(listHeader, null, false);
+        if (listHeader != null) {
+            listView.removeHeaderView(listHeader);
+            listHeader = null;
         }
+        listHeader = mInflater.inflate(R.layout.activity_merge_detail_head, listView, false);
+        initHead(listHeader);
+        listView.addHeaderView(listHeader, null, false);
 
         if (listFooter == null) {
-            listFooter = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
+            listFooter = mInflater.inflate(R.layout.activity_merge_detail_footer, listView, false);
             listFooter.findViewById(R.id.gap_to_list).setVisibility(View.GONE);
             listView.addFooterView(listFooter, null, false);
             initFooter(listFooter);
@@ -553,7 +551,9 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
         } else if (tag.equals(HOST_MERGE_CANNEL)) {
             umengEvent(UmengEvent.CODE, "取消mrpr");
             if (code == 0) {
-                finishAndUpdateList();
+                setResult(RESULT_OK);
+                EventBus.getDefault().post(new EventRefreshMerge());
+                finish();
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -562,13 +562,8 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
                 showContentView();
 
                 mMergeDetail = new MergeDetail(respanse.optJSONObject("data"));
-
-                if (mMerge == null) {
-                    mMerge = mMergeDetail.getMerge();
-                    initByMereData();
-                } else {
-                    mMerge = mMergeDetail.getMerge();
-                }
+                mMerge = mMergeDetail.getMerge();
+                initByMereData();
 
                 updateBottomBarStyle();
                 if (!TextUtils.isEmpty(mMergeDetail.getBody())) {
@@ -604,7 +599,16 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
     }
 
     private void onRefrush() {
-        initMergeDetailActivity();
+        String httpReviewers;
+        requestCallback = 0;
+        if (mMerge != null) {
+            getNetwork(mMerge.getHttpDetail(), HOST_MERGE_DETAIL);
+            httpReviewers = mMerge.getHttpReviewers();
+        } else {
+            String baseGit = URLSpanNoUnderline.generateAbsolute(mMergeUrl);
+            getNetwork(baseGit + "/base", HOST_MERGE_DETAIL);
+//            httpReviewers = baseGit + "/reviewers";
+        }
     }
 
     private void refreshRefResource() {
@@ -703,6 +707,8 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
             blankLayout.setVisibility(View.GONE);
 
         }
+
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     private void refreshActivities() {
@@ -792,10 +798,9 @@ public class MergeDetailActivity extends CodingToolbarBackActivity {
 
     private void finishAndUpdateList() {
         setResult(RESULT_OK);
+        EventBus.getDefault().post(new EventRefreshMerge());
 
-        EventBus.getDefault().post(MergeListFragment.EVENT_UPDATE);
-
-        finish();
+        onRefrush();
     }
 
     private void updateReviewer() {
