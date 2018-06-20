@@ -1,6 +1,5 @@
 package net.coding.program.user;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -17,15 +16,6 @@ import org.androidannotations.annotations.EFragment;
 public class UserProvincesDialogFragment extends DialogFragment implements ProvincesPickerDialog.OnDateSetListener {
 
     private ProvincesPickerDialog.OnDateSetListener mCallBack;
-
-    @Override
-    public void onAttach(Activity activity) {
-        /*if (activity instanceof UserInfoActivity)
-        {
-            mActivity = (UserInfoActivity) activity;
-        }*/
-        super.onAttach(activity);
-    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

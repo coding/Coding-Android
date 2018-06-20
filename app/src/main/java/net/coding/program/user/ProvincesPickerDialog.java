@@ -9,10 +9,15 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.NumberPicker;
 
-import net.coding.program.R;
+import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import net.coding.program.R;
+import net.coding.program.common.Global;
+
+import java.util.ArrayList;
 
 /**
  * Created by yangzhen on 2014/10/13.
@@ -30,7 +35,26 @@ public class ProvincesPickerDialog extends AlertDialog implements DialogInterfac
     private final NumberPicker mCityPicker;
     String[] provincesString;
     String[] cityString;
-    private JSONArray provincesArray;
+//    private JSONArray provincesArray;
+
+    public static class City {
+        @SerializedName("n")
+        @Expose
+        public String name = "";
+    }
+
+    public static class Provinces {
+        @SerializedName("p")
+        @Expose
+        public String provincesName = "";
+
+        @SerializedName("c")
+        @Expose
+        public ArrayList<City> citys = new ArrayList<>();
+    }
+
+    private ArrayList<Provinces> provincesData = new ArrayList<>();
+
     private int pIndex = 0;
     private int cIndex = 0;
     private NumberPicker.OnValueChangeListener onProvinceChangeListener = new NumberPicker.OnValueChangeListener() {
@@ -129,43 +153,27 @@ public class ProvincesPickerDialog extends AlertDialog implements DialogInterfac
     }
 
     private void setProvince(int pIndex) {
-
         mProvincesPicker.setDisplayedValues(null);
         mProvincesPicker.setMinValue(0);
         mProvincesPicker.setMaxValue(provincesString.length - 1);
         mProvincesPicker.setDisplayedValues(provincesString);
 
-        /*mProvincesPicker.setFormatter(new NumberPicker.Formatter() {
-            @Override
-            public String format(int value) {
-                return mProvincesPicker.getDisplayedValues()[value];
-            }
-        });*/
         mProvincesPicker.setValue(pIndex);
 
         mProvincesPicker.clearFocus();
-
-        //mProvincesPicker.setWrapSelectorWheel(false);
     }
 
     private void setCity(int pIndex, String cityName) {
-        JSONArray cityJSONArray;
         cIndex = 0;
-        try {
-            cityJSONArray = provincesArray.getJSONObject(pIndex).optJSONArray("c");
-            cityString = new String[cityJSONArray.length()];
-            for (int i = 0; i < cityJSONArray.length(); i++) {
-                JSONObject jsonObject = cityJSONArray.getJSONObject(i);
-                cityString[i] = jsonObject.optString("n");
-                if (cityName.equals(cityString[i])) {
-                    cIndex = i;
-                }
+        ArrayList<City> citys = provincesData.get(pIndex).citys;
+        cityString = new String[citys.size()];
+        for (int i = 0; i < cityString.length; ++i) {
+            cityString[i] = citys.get(i).name;
+            if (cityName.equals(cityString[i])) {
+                cIndex = i;
             }
-
-        } catch (Exception e) {
-            cityJSONArray = new JSONArray();
-            cityString = new String[0];
         }
+
         mCityPicker.setDisplayedValues(null);
         mCityPicker.setMinValue(0);
         mCityPicker.setMaxValue(cityString.length - 1);
@@ -189,19 +197,19 @@ public class ProvincesPickerDialog extends AlertDialog implements DialogInterfac
     private int getPIndex(String provinceName) {
         pIndex = 0;
         try {
-            provincesArray = new JSONArray(provinces);
+            provincesData = new Gson().fromJson(provinces, new TypeToken<ArrayList<Provinces>>() {
+            }.getType());
 
-            provincesString = new String[provincesArray.length()];
-            for (int i = 0; i < provincesArray.length(); i++) {
-                JSONObject jsonObject = provincesArray.getJSONObject(i);
-                provincesString[i] = jsonObject.optString("p");
+            provincesString = new String[provincesData.size()];
+            for (int i = 0; i < provincesData.size(); i++) {
+                Provinces provinces = provincesData.get(i);
+                provincesString[i] = provinces.provincesName;
                 if (provincesString[i].equals(provinceName)) {
                     pIndex = i;
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            provincesArray = new JSONArray();
+            Global.errorLog(e);
             provincesString = new String[0];
         }
 
