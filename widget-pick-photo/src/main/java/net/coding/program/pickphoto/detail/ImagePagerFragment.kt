@@ -169,7 +169,7 @@ open class ImagePagerFragment : BaseFragment() {
                                         client = MyAsyncHttpClient.createClient(activity)
                                         client!!.get(activity, imageUri, object : FileAsyncHttpResponseHandler(mFile) {
 
-                                            override fun onFailure(statusCode: Int, headers: Array<Header>, throwable: Throwable, file1: File) {
+                                            override fun onFailure(statusCode: Int, headers: Array<Header>?, throwable: Throwable?, file1: File?) {
                                                 if (!isResumed) {
                                                     return
                                                 }
@@ -177,7 +177,7 @@ open class ImagePagerFragment : BaseFragment() {
                                                 showButtomToast("保存失败")
                                             }
 
-                                            override fun onSuccess(statusCode: Int, headers: Array<Header>, file1: File) {
+                                            override fun onSuccess(statusCode: Int, headers: Array<Header>?, file1: File?) {
                                                 if (!isResumed) {
                                                     return
                                                 }

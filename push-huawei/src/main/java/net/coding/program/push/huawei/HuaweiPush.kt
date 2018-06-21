@@ -65,7 +65,7 @@ object HuaweiPush : HuaweiApiClient.ConnectionCallbacks, HuaweiApiClient.OnConne
 
         //建议在oncreate的时候连接华为移动服务
         //业务可以根据自己业务的形态来确定client的连接和断开的时机，但是确保connect和disconnect必须成对出现
-        client!!.connect()
+        client?.connect()
 
         //        try {
         //            TelephonyManager tm = (TelephonyManager) activity.getSystemService(TELEPHONY_SERVICE);
@@ -78,7 +78,7 @@ object HuaweiPush : HuaweiApiClient.ConnectionCallbacks, HuaweiApiClient.OnConne
     }
 
     fun onDestroy() {
-        client!!.disconnect()
+        client?.disconnect()
     }
 
     /**

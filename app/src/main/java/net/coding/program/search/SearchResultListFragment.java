@@ -109,10 +109,16 @@ public class SearchResultListFragment extends SearchBaseFragment {
 
     @ItemClick
     final void listView(ProjectObject itemData) {
-        itemData.isPublic = itemData.getType() == 1 ? true : false;
+        itemData.isPublic = itemData.getType() == 1;
         itemData.description = itemData.description.replace("<em>", "").replace("</em>", "");
         itemData.name = itemData.name.replace("<em>", "").replace("</em>", "");
-        itemData.getOwner().global_key = itemData.project_path.substring(0, itemData.project_path.indexOf("/p/")).replace("/u/", "");
+
+        int endIndex = itemData.project_path.indexOf("/p/");
+        if (endIndex == -1) {
+            showButtomToast("找不到所选项目");
+            return;
+        }
+        itemData.getOwner().global_key = itemData.project_path.substring(0, endIndex).replace("/u/", "");
         ProjectJumpParam param = new ProjectJumpParam(itemData.getOwner().global_key,
                 itemData.name);
         ProjectHomeActivity_.intent(this).mJumpParam(param).start();
