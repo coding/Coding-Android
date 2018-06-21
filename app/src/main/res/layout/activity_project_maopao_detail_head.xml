@@ -37,7 +37,8 @@
                 android:layout_marginTop="2dp"
                 android:layout_toRightOf="@id/icon"
                 android:layout_weight="1"
-                android:text="wwww"
+                android:text="wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+                android:singleLine="true"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/font_1"
                 android:textSize="16sp" />
