@@ -4,6 +4,7 @@
     <string-array name="dynamic_type">
         <item>全部</item>
         <item>任务</item>
+        <item>Wiki</item>
         <item>文件</item>
         <item>代码</item>
         <item>其它</item>
@@ -12,6 +13,7 @@
     <string-array name="dynamic_type_params">
         <item>all</item>
         <item>task</item>
+        <item>wiki</item>
         <item>file</item>
         <item>code</item>
         <item>other</item>

@@ -27,7 +27,9 @@
         android:layout_marginLeft="15dp"
         android:drawableLeft="@drawable/release_tag"
         android:drawablePadding="8dp"
-        android:text=" 20180323.1-hotfix"
+        android:text="  20180323.1-hotfix 20180323.1-hotfix 20180323.1-hotfix20180323.1-hotfix"
+        android:singleLine="true"
+        android:maxWidth="140dp"
         android:textColor="#FF76808E"
         android:textSize="12sp" />
 
@@ -41,7 +43,7 @@
         android:layout_toRightOf="@+id/owner"
         android:drawableLeft="@drawable/ic_clock"
         android:drawablePadding="8dp"
-        android:text=" 20180323.1-hotfix"
+        tools:text="3天前"
         android:textColor="#FF76808E"
         android:textSize="12sp" />
 

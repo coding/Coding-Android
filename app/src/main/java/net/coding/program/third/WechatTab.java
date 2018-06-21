@@ -69,7 +69,7 @@ public class WechatTab extends HorizontalScrollView {
     private int underlineColor = 0x1A000000;
     private int dividerColor = 0x1A000000;
     private boolean shouldExpand = false;
-    private boolean textAllCaps = true;
+    private boolean textAllCaps = false;
     private int scrollOffset = 52;
     private int indicatorHeight = 2;
     private int underlineHeight = 2;
