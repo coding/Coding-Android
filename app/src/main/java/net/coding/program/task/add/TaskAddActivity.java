@@ -1225,6 +1225,9 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
                                 }
                             }
                         });
+            } else {
+                mNewParam.taskBoard = intentData;
+                setPickBoardList(intentData.id);
             }
         }
     }
