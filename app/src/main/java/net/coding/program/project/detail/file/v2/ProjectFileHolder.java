@@ -120,12 +120,16 @@ public class ProjectFileHolder extends UltimateRecyclerviewViewHolder {
 
         checkBox.setTag(data);
         if (isEditMode) {
-            checkBox.setVisibility(View.VISIBLE);
-
-            if (selectFiles.contains(data)) {
-                checkBox.setChecked(true);
+            if (data.isShareFolder()) {
+                checkBox.setVisibility(View.GONE);
             } else {
-                checkBox.setChecked(false);
+                checkBox.setVisibility(View.VISIBLE);
+
+                if (selectFiles.contains(data)) {
+                    checkBox.setChecked(true);
+                } else {
+                    checkBox.setChecked(false);
+                }
             }
         } else {
             checkBox.setVisibility(View.GONE);

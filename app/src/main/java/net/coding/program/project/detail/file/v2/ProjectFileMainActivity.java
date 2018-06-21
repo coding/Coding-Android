@@ -628,6 +628,10 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
 
     private void showPop(CodingFile codingFile) {
         CodingFile selectedFileObject = codingFile;
+        if (selectedFileObject.isShareFolder()) {
+            return;
+        }
+
         if (selectedFileObject.isFolder()) {
             CodingFile selectedFolderObject = codingFile;
 
@@ -880,6 +884,10 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
 
     private void actionAll() {
         for (CodingFile item : listData) {
+            if (item.isShareFolder()) {
+                continue;
+            }
+
             selectFiles.add(item);
         }
         listAdapter.notifyDataSetChangedCustom();
@@ -887,6 +895,10 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
 
     private void actionInverse() {
         for (CodingFile item : listData) {
+            if (item.isShareFolder()) {
+                continue;
+            }
+
             if (selectFiles.contains(item)) {
                 selectFiles.remove(item);
             } else {
