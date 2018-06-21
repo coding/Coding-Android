@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- 背景设为透明，用于启动和登录页面-->
     <!--<style name="TranslateThemeFull" parent="android:style/Theme.Holo.Light.NoActionBar">-->
     <style name="TranslateThemeFull" parent="Theme.AppCompat.Light.NoActionBar">
@@ -131,7 +131,7 @@
         <item name="android:windowBackground">@color/windowBackground</item>
 
         <item name="android:textColorPrimary">@color/font_green</item>
-        <item name="android:colorControlNormal">@color/font_green</item>
+        <item name="android:colorControlNormal" tools:ignore="NewApi">@color/font_green</item>
 
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
         <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
@@ -271,6 +271,11 @@
         <item name="android:layout_marginTop">0dp</item>
         <item name="android:layout_marginBottom">0dp</item>
         <item name="android:layout_marginLeft">@dimen/padding_15</item>
+    </style>
+
+    <style name="EmailEdit.MarginLeftRight" parent="EmailEdit">
+        <item name="android:layout_marginLeft">@dimen/padding_15</item>
+        <item name="android:layout_marginRight">@dimen/padding_15</item>
     </style>
 
     <style name="CountryPick" parent="AppTheme">

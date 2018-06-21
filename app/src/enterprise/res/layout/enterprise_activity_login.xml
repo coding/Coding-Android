@@ -98,7 +98,7 @@
 
             <net.coding.program.common.widget.LoginEditTextNew
                 android:id="@+id/privateHost"
-                style="@style/EmailEdit"
+                style="@style/EmailEdit.MarginLeftRight"
                 app:hint="请输入企业域名" />
 
             <com.flyco.roundview.RoundTextView
@@ -170,12 +170,12 @@
 
                             <net.coding.program.common.widget.LoginEditTextNew
                                 android:id="@+id/editName"
-                                style="@style/EmailEdit"
+                                style="@style/EmailEdit.MarginLeftRight"
                                 app:hint="用户名/手机/邮箱" />
 
                             <net.coding.program.common.widget.LoginEditTextNew
                                 android:id="@+id/editPassword"
-                                style="@style/EmailEdit"
+                                style="@style/EmailEdit.MarginLeftRight"
                                 app:hint="密码"
                                 app:loginInput="password"
                                 app:showPassword="true" />
@@ -199,7 +199,7 @@
 
                                 <net.coding.program.common.widget.LoginEditTextNew
                                     android:id="@+id/editValifyMain"
-                                    style="@style/EmailEdit"
+                                    style="@style/EmailEdit.MarginLeftRight"
                                     android:layout_marginRight="15dp"
                                     android:layout_toLeftOf="@id/imageValify"
                                     app:hint="验证码"
@@ -233,7 +233,7 @@
 
                             <net.coding.program.common.widget.LoginEditTextNew
                                 android:id="@+id/edit2FA"
-                                style="@style/EmailEdit"
+                                style="@style/EmailEdit.MarginLeftRight"
                                 app:hint="两步验证码"
                                 app:loginInput="number" />
 
