@@ -32,10 +32,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
-                android:drawableLeft="@drawable/release_tag"
+                android:drawableLeft="@drawable/release_tag_blue"
                 android:drawablePadding="4dp"
                 android:text="发布于 3 小时前"
-                android:textColor="#FF76808E"
+                android:textColor="@color/font_green"
                 android:textSize="12sp" />
 
             <View
