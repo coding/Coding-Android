@@ -3,7 +3,9 @@
     android:id="@+id/name"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="蝈蝈"
+    android:text="蝈蝈蝈蝈蝈蝈蝈蝈蝈蝈蝈蝈蝈蝈蝈蝈蝈蝈蝈蝈蝈蝈"
+    android:maxWidth="100dp"
     android:textColor="@color/font_3"
+    android:singleLine="true"
     android:textSize="12sp" />
 

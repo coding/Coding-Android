@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/padding_15"
             android:ellipsize="end"
-            android:lines="1"
+            android:singleLine="true"
             android:text="Medium Text"
             android:textColor="@color/font_1"
             android:textSize="15sp" />
@@ -58,11 +58,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
                 android:ellipsize="end"
-                android:lines="1"
+                android:singleLine="true"
+                android:maxWidth="150dp"
                 android:text="Medium Text"
                 android:textColor="@color/font_3"
                 android:textSize="12sp"
-                tools:text="#2245" />
+                tools:text="#7 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww" />
 
             <include layout="@layout/common_ref_id" />
 
