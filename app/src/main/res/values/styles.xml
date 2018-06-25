@@ -540,6 +540,9 @@
         <item name="android:stateListAnimator">@animator/appbar_elevation</item>
     </style>
 
+    <style name="MySearchView" parent="@style/Widget.AppCompat.SearchView.ActionBar">
+    </style>
+
     <style name="RedPointTxt">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

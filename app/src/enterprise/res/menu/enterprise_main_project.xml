@@ -5,20 +5,6 @@
     tools:context="net.coding.program.user.UsersListActivity">
 
     <item
-        android:id="@+id/action_search"
-        android:title="搜索"
-        android:theme="@style/MySearchViewStyle"
-        app:theme="@style/MySearchViewStyle"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="always" />
-
-    <!--<item android:id="@+id/action_search"-->
-    <!--android:title="搜索"-->
-    <!--android:icon="@drawable/ic_menu_search"-->
-    <!--app:showAsAction="ifRoom|collapseActionView"-->
-    <!--app:actionViewClass="android.support.v7.widget.SearchView" />-->
-
-    <item
         android:id="@+id/actionMore"
         android:icon="@drawable/ic_menu_add"
         android:title="@string/action_more"
