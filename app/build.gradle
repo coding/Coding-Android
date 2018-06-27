@@ -298,6 +298,3 @@ dependencies {
     compile 'com.fivehundredpx:blurringview:1.0.0'
 }
 // 高斯模糊 end   --------------------------------------------------------------------------
-dependencies {
-    implementation 'com.android.support.constraint:constraint-layout:+'
-}
