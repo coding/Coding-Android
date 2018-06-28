@@ -65,22 +65,7 @@ dependencies {
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
 
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-
-    // 图片显示
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    // gif 显示
-    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.11'
-
-    compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.5.0'
-
-    compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
-
-    // google 兼容库
-//    implementation "com.android.support:design:$supportVersion"
-    implementation "com.android.support:appcompat-v7:$supportVersion"
-    implementation "com.android.support:support-v4:$supportVersion"
-
+    implementation project(':common-third-library')
     implementation project(':common-coding')
 }
 

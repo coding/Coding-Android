@@ -58,6 +58,8 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$supportVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
+
+    implementation project(':common-third-library')
     implementation project(':common-coding')
 }
 

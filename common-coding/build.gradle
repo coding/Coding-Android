@@ -37,47 +37,18 @@ android {
     }
 }
 
-def AAVersion = '4.4.0'
-
 dependencies {
+
+    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
+    api "org.androidannotations:androidannotations-api:$AAVersion"
+
     configurations {
         all*.exclude group: 'com.android.support', module: 'support-v13'
     }
 
-    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
-    api "org.androidannotations:androidannotations-api:$AAVersion"
-    api 'com.loopj.android:android-async-http:1.4.9'
-
-    // 测试框架
-    implementation "com.android.support:support-annotations:$supportVersion"
-    androidTestImplementation "com.android.support.test:runner:$runnerVersion"
-    androidTestImplementation "com.android.support.test:rules:$rulesVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
-
     api files('libs/android-viewbadger.jar')
     api files('libs/pinyin4j-2.5.0.jar')
 
-    // google 兼容库
-    def supportVersion = '27.1.1'
-    api "com.android.support:support-v4:$supportVersion"
-//    api "com.android.support:support-v13:$supportVersion"
-    api "com.android.support:design:$supportVersion"
-    api "com.android.support:percent:$supportVersion"
-    api "com.android.support:cardview-v7:$supportVersion"
-    api "com.android.support:appcompat-v7:$supportVersion"
-//    api "com.android.support:support-annotations:$supportVersion"
-    api 'com.android.support.constraint:constraint-layout:1.0.2'
-    // umeng 统计
-    api 'com.umeng.analytics:analytics:latest.integration'
-    // 网络请求
-    api 'com.squareup.retrofit2:retrofit:2.1.0'
-    api 'com.squareup.okhttp3:logging-interceptor:3.5.0'
-    api 'com.google.code.gson:gson:2.8.0'
-    api 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
-    api 'com.squareup.okhttp3:okhttp:3.5.0'
-    api 'io.reactivex:rxjava:1.0.14'
-    api 'io.reactivex:rxandroid:1.0.1'
-    api 'com.squareup.retrofit2:converter-gson:2.2.0'
     // 方便显示 view 显示一些样式，不用写 selector
     api 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
     // 列表控件，
@@ -89,16 +60,13 @@ dependencies {
 
     api 'pl.droidsonroids.gif:android-gif-drawable:1.1.11'
 
-    api project(':luban')
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation project(':luban')
 
     /*
      * 提供给子模块公用
      */
-    // 常用工具类
-    api 'com.blankj:utilcode:1.9.0'
-    // 打印 log
-    api 'com.orhanobut:logger:1.15'
+
+    implementation project(':common-third-library')
 
 }
 

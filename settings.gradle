@@ -1,4 +1,4 @@
-include ':app', ':widget-pick-photo', ':common-coding', ':pay-coding', ':share-coding', ':recyclerview-coding', ':git-code-coding'
+include ':app', ':widget-pick-photo', ':common-coding', ':pay-coding', ':share-coding', ':recyclerview-coding', ':git-code-coding', ':common-third-library'
 include ':bottom-bar'
 include ':luban'
 
