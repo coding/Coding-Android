@@ -38,9 +38,9 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 // coding 和 coding 企业版 必须使用相同的包名，否则 androidannotations 生成代码会失败
-                arguments = [resourcePackageName : "net.coding.program",
-                             "logLevel"          : "TRACE", // 打印更多 log，AA 生成错误会导致几百个编译错误
-                             "logAppenderConsole": "true"]
+                arguments = [resourcePackageName : "net.coding.program"]
+//                             "logLevel"          : "TRACE", // 打印更多 log，AA 生成错误会导致几百个编译错误
+//                             "logAppenderConsole": "true"]
             }
         }
     }
@@ -105,19 +105,19 @@ android {
     }
 }
 
-gradle.projectsEvaluated {
-    tasks.withType(JavaCompile) {
-        options.compilerArgs << "-Xmaxerrs" << "99999" // 显示更多的编译错误，默认只显示 100 个
-    }
-}
+//gradle.projectsEvaluated {
+//    tasks.withType(JavaCompile) {
+//        options.compilerArgs << "-Xmaxerrs" << "99999" // 显示更多的编译错误，默认只显示 100 个
+//    }
+//}
 
-kapt {
-    correctErrorTypes = true
+//kapt {
+//    correctErrorTypes = true
 
-    javacOptions {
-        option("-Xmaxerrs", 500)
-    }
-}
+//    javacOptions {
+//        option("-Xmaxerrs", 500)
+//    }
+//}
 
 dependencies {
     kapt "org.androidannotations:androidannotations:$AAVersion"
