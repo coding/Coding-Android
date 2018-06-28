@@ -135,117 +135,117 @@ dependencies {
     // 信鸽依赖, 只有企业版用了信鸽
     if (DEV_ENTERPRISE.toBoolean()) {
         //信鸽jar
-        compile 'com.tencent.xinge:xinge:3.2.2-release'
+        implementation 'com.tencent.xinge:xinge:3.2.2-release'
         //wup包
-        compile 'com.tencent.wup:wup:1.0.0.E-release'
+        implementation 'com.tencent.wup:wup:1.0.0.E-release'
         //mid包
-        compile 'com.tencent.mid:mid:4.0.6-release'
+        implementation 'com.tencent.mid:mid:4.0.6-release'
     }
 
     // dagger 2 依赖
     def daggerVersion = '2.10'
-    compile "com.google.dagger:dagger:$daggerVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-    compile "com.google.dagger:dagger-android:$daggerVersion"
-    compile "com.google.dagger:dagger-android-support:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
 
     // if you use the support libraries
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     // google 兼容库
-    compile "com.android.support:support-v4:$supportVersion"
+    implementation "com.android.support:support-v4:$supportVersion"
     implementation "com.android.support:design:$supportVersion"
-    compile "com.android.support:percent:$supportVersion"
-    compile "com.android.support:cardview-v7:$supportVersion"
-    compile "com.android.support:appcompat-v7:$supportVersion"
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:multidex:1.0.3'
-    compile 'com.skyfishjy.ripplebackground:library:1.0.1'
-    compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    compile 'se.emilsjolander:stickylistheaders:2.7.0'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.github.rampo.updatechecker:library:2.1.4'
-    compile 'com.daimajia.swipelayout:library:1.1.7@aar'
-    compile 'com.melnykov:floatingactionbutton:1.3.0'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.11'
-    compile 'com.ms-square:etsyblur:0.1.0'
-    compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
-    compile 'it.neokree:MaterialNavigationDrawer:1.3.2'
-    compile 'com.prolificinteractive:parallaxpager:2.2.1'
-    compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.5.0'
+    implementation "com.android.support:percent:$supportVersion"
+    implementation "com.android.support:cardview-v7:$supportVersion"
+    implementation "com.android.support:appcompat-v7:$supportVersion"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
+    implementation 'com.loopj.android:android-async-http:1.4.9'
+    implementation 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    implementation 'se.emilsjolander:stickylistheaders:2.7.0'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'com.github.rampo.updatechecker:library:2.1.4'
+    implementation 'com.daimajia.swipelayout:library:1.1.7@aar'
+    implementation 'com.melnykov:floatingactionbutton:1.3.0'
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.1.11'
+    implementation 'com.ms-square:etsyblur:0.1.0'
+    implementation 'com.github.lzyzsd:circleprogress:1.1.0@aar'
+    implementation 'it.neokree:MaterialNavigationDrawer:1.3.2'
+    implementation 'com.prolificinteractive:parallaxpager:2.2.1'
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.5.0'
     configurations {
         all*.exclude group: 'com.android.support', module: 'support-v13'
     }
 
     // umeng 统计
-    compile 'com.umeng.analytics:analytics:6.1.2'
+    implementation 'com.umeng.analytics:analytics:6.1.2'
 
     // 高版本fix使用support库crash
-    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-    compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
-    compile 'org.apmem.tools:layouts:1.9@aar'
+    implementation 'uk.co.chrisjenx:calligraphy:2.1.0'
+    implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
+    implementation 'org.apmem.tools:layouts:1.9@aar'
 
     //flow_layout
     compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
         exclude module: 'support-v4'
     }
 
-    //    compile 'com.twotoasters.jazzylistview:library:1.2.1'
+    //    implementation 'com.twotoasters.jazzylistview:library:1.2.1'
 
     // 删除旧版 umeng
 
     //    implementation project(':social_sdk_library_project')
     implementation project(':bottom-bar')
     implementation project(':luban')
-    compile 'com.bigkoo:convenientbanner:1.0.8'
+    implementation 'com.bigkoo:convenientbanner:1.0.8'
 
     // 方便显示 view 显示一些样式，不用写 selector
-    compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
+    implementation 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
 
     // 列表控件，
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.3'
+    implementation 'com.marshalchen.ultimaterecyclerview:library:0.7.3'
 
     // 比 ultimaterecyclerview 轻量，用起来比较舒服，实现代码也好些
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
-    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.3@aar'
-    compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
-    compile 'com.orhanobut:logger:1.15'
-    compile 'com.github.bmelnychuk:atv:1.2.9'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+    implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.9.3@aar'
+    implementation 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
+    implementation 'com.orhanobut:logger:1.15'
+    implementation 'com.github.bmelnychuk:atv:1.2.9'
 
     // 网络请求
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
-    compile 'com.google.code.gson:gson:2.8.2'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-    compile 'com.squareup.okhttp3:okhttp:3.9.1'
-    compile 'io.reactivex:rxjava:1.2.4'
-    compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'io.reactivex:rxjava:1.2.4'
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     // 仿 apple 的 segmentied control
-    compile 'info.hoang8f:android-segmented:1.0.6'
+    implementation 'info.hoang8f:android-segmented:1.0.6'
 
     // 圆形头像
-    compile 'com.mikhaellopez:circularimageview:3.0.2'
+    implementation 'com.mikhaellopez:circularimageview:3.0.2'
 
     // 文件下载
-    compile 'com.liulishuo.filedownloader:library:1.4.3'
+    implementation 'com.liulishuo.filedownloader:library:1.4.3'
 
     // xml 解析
-    compile 'org.jsoup:jsoup:1.10.3'
+    implementation 'org.jsoup:jsoup:1.10.3'
 
     // 常用工具类
-    compile 'com.blankj:utilcode:1.9.0'
+    implementation 'com.blankj:utilcode:1.9.0'
 
     // git 库
-    compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
+    implementation 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
 
     // jar 依赖
-    compile files('libs/alipaySingle-20170510.jar')
-    compile files('libs/BaiduLBS_Android.jar')
+    implementation files('libs/alipaySingle-20170510.jar')
+    implementation files('libs/BaiduLBS_Android.jar')
     provided files('../common-coding/libs/android-viewbadger.jar')
 
     // 小红点
@@ -269,7 +269,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.cpiz:BubbleView:1.0.2'
+    implementation 'com.github.cpiz:BubbleView:1.0.2'
 
     // 图片裁剪，系统的坑太多
     implementation 'com.github.yalantis:ucrop:2.2.2'
@@ -295,6 +295,6 @@ repositories {
 }
 
 dependencies {
-    compile 'com.fivehundredpx:blurringview:1.0.0'
+    implementation 'com.fivehundredpx:blurringview:1.0.0'
 }
 // 高斯模糊 end   --------------------------------------------------------------------------

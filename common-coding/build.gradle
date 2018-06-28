@@ -45,8 +45,8 @@ dependencies {
     }
 
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
-    compile "org.androidannotations:androidannotations-api:$AAVersion"
-    compile 'com.loopj.android:android-async-http:1.4.9'
+    api "org.androidannotations:androidannotations-api:$AAVersion"
+    api 'com.loopj.android:android-async-http:1.4.9'
 
     // 测试框架
     implementation "com.android.support:support-annotations:$supportVersion"
@@ -54,47 +54,51 @@ dependencies {
     androidTestImplementation "com.android.support.test:rules:$rulesVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
 
-    compile files('libs/android-viewbadger.jar')
-    compile files('libs/pinyin4j-2.5.0.jar')
+    api files('libs/android-viewbadger.jar')
+    api files('libs/pinyin4j-2.5.0.jar')
 
     // google 兼容库
     def supportVersion = '27.1.1'
-    implementation "com.android.support:support-v4:$supportVersion"
-//    implementation "com.android.support:support-v13:$supportVersion"
-    implementation "com.android.support:design:$supportVersion"
-    implementation "com.android.support:percent:$supportVersion"
-    implementation "com.android.support:cardview-v7:$supportVersion"
-    implementation "com.android.support:appcompat-v7:$supportVersion"
-//    compile "com.android.support:support-annotations:$supportVersion"
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    api "com.android.support:support-v4:$supportVersion"
+//    api "com.android.support:support-v13:$supportVersion"
+    api "com.android.support:design:$supportVersion"
+    api "com.android.support:percent:$supportVersion"
+    api "com.android.support:cardview-v7:$supportVersion"
+    api "com.android.support:appcompat-v7:$supportVersion"
+//    api "com.android.support:support-annotations:$supportVersion"
+    api 'com.android.support.constraint:constraint-layout:1.0.2'
     // umeng 统计
-    compile 'com.umeng.analytics:analytics:latest.integration'
+    api 'com.umeng.analytics:analytics:latest.integration'
     // 网络请求
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
-    compile 'com.squareup.okhttp3:okhttp:3.5.0'
-    compile 'io.reactivex:rxjava:1.0.14'
-    compile 'io.reactivex:rxandroid:1.0.1'
-    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
-    compile 'com.orhanobut:logger:1.15'
+    api 'com.squareup.retrofit2:retrofit:2.1.0'
+    api 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+    api 'com.google.code.gson:gson:2.8.0'
+    api 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    api 'com.squareup.okhttp3:okhttp:3.5.0'
+    api 'io.reactivex:rxjava:1.0.14'
+    api 'io.reactivex:rxandroid:1.0.1'
+    api 'com.squareup.retrofit2:converter-gson:2.2.0'
     // 方便显示 view 显示一些样式，不用写 selector
-    compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
+    api 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
     // 列表控件，
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.3'
+    api 'com.marshalchen.ultimaterecyclerview:library:0.7.3'
     // 文件下载
-    compile 'com.liulishuo.filedownloader:library:1.4.3'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    api 'com.liulishuo.filedownloader:library:1.4.3'
+    api 'org.greenrobot:eventbus:3.0.0'
+    api 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
-    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.11'
+    api 'pl.droidsonroids.gif:android-gif-drawable:1.1.11'
 
+    api project(':luban')
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+    /*
+     * 提供给子模块公用
+     */
     // 常用工具类
-    compile 'com.blankj:utilcode:1.9.0'
-
-    implementation project(':luban')
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    api 'com.blankj:utilcode:1.9.0'
+    // 打印 log
+    api 'com.orhanobut:logger:1.15'
 
 }
 
