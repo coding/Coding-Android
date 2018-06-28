@@ -58,12 +58,10 @@ allOpen {
 
 dependencies {
     // 生成 R2
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     kapt "org.androidannotations:androidannotations:$AAVersion"
-    implementation "org.androidannotations:androidannotations-api:$AAVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
 
     implementation project(':common-third-library')
     implementation project(':common-coding')
@@ -75,7 +73,6 @@ repositories {
 }
 
 dependencies {
-
-    // 图片裁剪，系统的坑太多
+    // 图片裁剪，系统的坑太多，还是使用第三方的
     implementation 'com.github.yalantis:ucrop:2.2.2'
 }

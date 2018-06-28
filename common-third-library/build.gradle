@@ -1,5 +1,10 @@
 apply plugin: 'com.android.library'
 
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-allopen"
+apply plugin: "kotlin-kapt"
+
 android {
     compileSdkVersion 27
 
@@ -24,10 +29,9 @@ android {
 def AAVersion = '4.4.0'
 
 dependencies {
-
-
-    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
+    kapt "org.androidannotations:androidannotations:$AAVersion"
     api "org.androidannotations:androidannotations-api:$AAVersion"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
 
     // 测试框架
     implementation "com.android.support:support-annotations:$supportVersion"
@@ -46,6 +50,8 @@ dependencies {
     api 'pl.droidsonroids.gif:android-gif-drawable:1.1.11'
     api 'com.davemorrissey.labs:subsampling-scale-image-view:3.5.0'
     api 'com.github.lzyzsd:circleprogress:1.1.0@aar'
+    // 方便显示 view 显示一些样式，不用写 selector
+    api 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
 
     // google 兼容库
     def supportVersion = '27.1.1'
@@ -77,4 +83,13 @@ dependencies {
     api 'com.blankj:utilcode:1.9.0'
     // 打印 log
     api 'com.orhanobut:logger:1.15'
+
+    api 'org.greenrobot:eventbus:3.0.0'
+
+    // 列表控件，
+    api 'com.marshalchen.ultimaterecyclerview:library:0.7.3'
+    // 文件下载
+    api 'com.liulishuo.filedownloader:library:1.4.3'
+
+
 }

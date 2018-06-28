@@ -25,12 +25,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation "com.android.support:appcompat-v7:$supportVersion"
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
     // 微信支付
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:1.4.0'
+    api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:1.4.0'
 }
