@@ -46,7 +46,5 @@ app/src/main/java/net/coding/program/network/model/baidumap/
 /.gradle/
 /gradle
 
-!/coding.jks
-!/local.properties
-/gradle.properties
-/coding.jks
+coding.jks
+
