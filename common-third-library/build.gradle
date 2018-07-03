@@ -34,10 +34,10 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
 
     // 测试框架
-    implementation "com.android.support:support-annotations:$supportVersion"
-    androidTestImplementation "com.android.support.test:runner:$runnerVersion"
-    androidTestImplementation "com.android.support.test:rules:$rulesVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    api "com.android.support:support-annotations:$supportVersion"
+    api "com.android.support.test:runner:$runnerVersion"
+    api "com.android.support.test:rules:$rulesVersion"
+    api "com.android.support.test.espresso:espresso-core:$espressoVersion"
 
 
     api "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
