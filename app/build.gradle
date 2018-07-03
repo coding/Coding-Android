@@ -61,7 +61,10 @@ android {
             versionName "5.4"
             targetSdkVersion 23
 
-            testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "0",
+                    XG_ACCESS_KEY: "0",
+            ]
             signingConfig signingConfigs.config
         }
         enterprise {
