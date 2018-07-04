@@ -1,5 +1,8 @@
 ### Coding Android客户端代码说明
 
+
+
+
 ##编译环境
 Android Studio 2.2.3，用gradle引用的许多第三方库，第一次加载会有点慢，加载完毕后要build一下，这些待下划线的类（比如 MainActivity_）会在build之后自动生成。
 
