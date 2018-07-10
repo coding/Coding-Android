@@ -172,7 +172,7 @@ class MainProjectFragment : BaseFragment() {
         }
 
         val intent = Intent(activity, QRScanActivity::class.java)
-        intent.putExtra(QRScanActivity.EXTRA_OPEN_AUTH_LIST, false)
+        intent.putExtra(QRScanActivity.EXTRA_OPEN_AUTH_LIST, true)
         startActivity(intent)
     }
 
@@ -180,6 +180,7 @@ class MainProjectFragment : BaseFragment() {
         if (!PermissionUtil.checkCamera(activity)) {
             return
         }
+
 
         GlobalCommon.start2FAActivity(activity)
     }
