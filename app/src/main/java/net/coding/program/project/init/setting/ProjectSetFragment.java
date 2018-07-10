@@ -3,6 +3,7 @@ package net.coding.program.project.init.setting;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,7 +49,7 @@ public class ProjectSetFragment extends ProjectSetFragmentBase {
     MenuItem mMenuSave;
 
     @ViewById
-    TextView projectName;
+    EditText projectName;
 
     @ViewById
     EditText description;
@@ -70,13 +71,15 @@ public class ProjectSetFragment extends ProjectSetFragmentBase {
         description.setText(mProjectObject.description);
         iconPrivate.setVisibility(mProjectObject.isShared() ? View.VISIBLE : View.GONE);
 
-        description.addTextChangedListener(new SimpleTextWatcher() {
-
+        SimpleTextWatcher watcher = new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
                 updateSendButton();
             }
-        });
+        };
+        description.addTextChangedListener(watcher);
+        projectName.addTextChangedListener(watcher);
+
         Global.popSoftkeyboard(getActivity(), description, false);
 
         if (!mProjectObject.isPublic) {
@@ -166,11 +169,14 @@ public class ProjectSetFragment extends ProjectSetFragmentBase {
     }
 
     private void updateSendButton() {
-        String text = description.getText().toString().trim();
-        if (text.isEmpty() || text.equals(mProjectObject.description)) {
-            enableSendButton(false);
+        String inputName = projectName.getText().toString().trim();
+        String inputDes = description.getText().toString().trim();
+
+        if (mProjectObject == null) {
+            enableSendButton(!TextUtils.isEmpty(inputName));
         } else {
-            enableSendButton(true);
+            enableSendButton(!TextUtils.isEmpty(inputName) &&
+                    (!inputName.equals(mProjectObject.name) || !inputDes.equals(mProjectObject.description)));
         }
     }
 
@@ -205,7 +211,7 @@ public class ProjectSetFragment extends ProjectSetFragmentBase {
 
     private void action_done() {
         RequestParams params = new RequestParams();
-        params.put("name", mProjectObject.name);
+        params.put("name", projectName.getText().toString());
         params.put("description", description.getText().toString().trim());
         params.put("id", mProjectObject.getId());
         params.put("default_branch", "master");

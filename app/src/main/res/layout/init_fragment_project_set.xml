@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/divide"
+              xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
@@ -49,18 +50,20 @@
                 android:layout_height="18dp"
                 android:layout_marginLeft="14dp"
                 android:background="@drawable/ic_share_project1"
+                android:layout_marginRight="-4dp"
+                tools:visibility="visible"
                 android:visibility="gone" />
 
-            <TextView
+            <EditText
                 android:id="@+id/projectName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:lines="1"
+                android:singleLine="true"
                 android:text="Medium Text"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:background="@null"
                 android:textColor="@color/font_1"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
