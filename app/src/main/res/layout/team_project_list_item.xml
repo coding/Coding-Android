@@ -26,7 +26,7 @@
         android:layout_alignTop="@id/icon"
         android:layout_marginTop="6dp"
         android:layout_toRightOf="@id/icon"
-        android:background="@drawable/ic_project_private1"
+        android:background="@drawable/ic_share_project1"
         android:visibility="visible" />
 
     <TextView

@@ -38,13 +38,13 @@
 
     <View
         android:id="@+id/privateIcon"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_alignTop="@id/icon"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="6dp"
         android:layout_toRightOf="@id/icon"
-        android:background="@drawable/ic_project_private1"
+        android:background="@drawable/ic_share_project1"
         android:visibility="visible" />
 
     <TextView

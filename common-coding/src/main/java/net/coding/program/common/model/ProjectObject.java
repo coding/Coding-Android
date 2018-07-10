@@ -115,6 +115,10 @@ public class ProjectObject implements Serializable {
     @SerializedName("type")
     @Expose
     public int type;
+    @SerializedName("shared")
+    @Expose
+    public boolean shared;
+
     private String fork_path = "";
     private DynamicObject.Owner owner;
 
@@ -146,6 +150,7 @@ public class ProjectObject implements Serializable {
         watched = json.optBoolean("watched");
         forked = json.optBoolean("forked");
         isPublic = json.optBoolean("is_public");
+        shared = json.optBoolean("shared");
         stared = json.optBoolean("stared");
         pin = json.optBoolean("pin");
         fork_path = json.optString("path", "");
@@ -252,6 +257,10 @@ public class ProjectObject implements Serializable {
 
     public boolean isPublic() {
         return isPublic;
+    }
+
+    public boolean isShared() {
+        return shared;
     }
 
     public String getHttpGitTree(String version) {

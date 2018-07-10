@@ -310,10 +310,10 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
             ProjectObject item = (ProjectObject) getItem(position);
 
             holder.privatePin.setVisibility(item.isPin() ? View.VISIBLE : View.INVISIBLE);
-            holder.privateIcon.setVisibility(item.isPublic() ? View.INVISIBLE : View.VISIBLE);
+            holder.privateIcon.setVisibility(!item.isShared() ? View.INVISIBLE : View.VISIBLE);
             String ownerName = item.owner_user_name;
             holder.content.setText(ownerName);
-            if (!item.isPublic()) {
+            if (item.isShared()) {
                 holder.name.setVisibility(View.VISIBLE);
                 holder.name.setText(item.name);
                 holder.name2.setVisibility(View.INVISIBLE);

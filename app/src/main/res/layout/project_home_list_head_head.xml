@@ -69,7 +69,7 @@
             android:layout_alignStart="@+id/projectAuthor"
             android:layout_alignTop="@+id/projectAuthor"
             android:layout_marginTop="4.5dp"
-            android:background="@drawable/ic_project_private1"
+            android:background="@drawable/ic_share_project1"
             android:visibility="gone" />
 
         <ImageView

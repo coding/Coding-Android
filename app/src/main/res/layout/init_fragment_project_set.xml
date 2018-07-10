@@ -48,7 +48,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_marginLeft="14dp"
-                android:background="@drawable/ic_project_private1"
+                android:background="@drawable/ic_share_project1"
                 android:visibility="gone" />
 
             <TextView

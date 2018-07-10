@@ -174,7 +174,7 @@ public class TeamProjectListActivity extends BackActivity {
             }
 
             ProjectObject data = getItem(position);
-            holder.privateIcon.setVisibility(data.isPublic() ? View.GONE : View.VISIBLE);
+            holder.privateIcon.setVisibility(!data.isShared() ? View.GONE : View.VISIBLE);
             holder.name.setText(data.name);
             holder.txtDesc.setText(data.owner_user_name);
             imagefromNetwork(holder.icon, data.icon, ImageLoadTool.optionsRounded2);

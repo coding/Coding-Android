@@ -221,8 +221,7 @@ public class SearchResultListFragment extends SearchBaseFragment {
 
             ProjectObject item = (ProjectObject) getItem(position);
 
-            holder.privateIcon.setVisibility(item.getType() == 1 ? View.INVISIBLE : View.VISIBLE);
-
+            holder.privateIcon.setVisibility(item.getType() == 1 ? View.VISIBLE : View.INVISIBLE);
 
             String name = "";
             try {
@@ -237,15 +236,15 @@ public class SearchResultListFragment extends SearchBaseFragment {
             holder.tv_fork_count.setText(item.getForkCountString());
             holder.badge.setVisibility(View.INVISIBLE);
             if (item.getType() == 1) {
-                holder.name2.setVisibility(View.VISIBLE);
-                HoloUtils.setHoloText(holder.name2, item.name);
-                holder.name.setVisibility(View.INVISIBLE);
-                holder.content.setVisibility(View.GONE);
-            } else {
                 holder.name.setVisibility(View.VISIBLE);
                 HoloUtils.setHoloText(holder.name, item.name);
                 holder.name2.setVisibility(View.INVISIBLE);
                 holder.content.setVisibility(View.VISIBLE);
+            } else {
+                holder.name2.setVisibility(View.VISIBLE);
+                HoloUtils.setHoloText(holder.name2, item.name);
+                holder.name.setVisibility(View.INVISIBLE);
+                holder.content.setVisibility(View.GONE);
             }
             holder.ll_bottom_menu.setVisibility(item.getType() == 1 ? View.VISIBLE : View.GONE);
             iconfromNetwork(holder.image, item.icon, ImageLoadTool.optionsRounded2);

@@ -68,9 +68,8 @@ public class ProjectSetFragment extends ProjectSetFragmentBase {
         iconfromNetwork(projectIcon, mProjectObject.icon, ImageLoadTool.optionsRounded2);
         projectName.setText(mProjectObject.name);
         description.setText(mProjectObject.description);
-        if (!mProjectObject.isPublic()) {
-            iconPrivate.setVisibility(View.VISIBLE);
-        }
+        iconPrivate.setVisibility(mProjectObject.isShared() ? View.VISIBLE : View.GONE);
+
         description.addTextChangedListener(new SimpleTextWatcher() {
 
             @Override
