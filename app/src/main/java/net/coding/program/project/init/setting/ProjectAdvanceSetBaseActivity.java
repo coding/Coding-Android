@@ -108,7 +108,7 @@ public abstract class ProjectAdvanceSetBaseActivity extends BackActivity impleme
         hander2fa.sendEmptyMessage(0);
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.dialog_delete_project_2fa, null);
-        edit2fa = (EditText) textEntryView.findViewById(R.id.edit1);
+        edit2fa = textEntryView.findViewById(R.id.edit1);
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         AlertDialog dialog = builder
                 .setView(textEntryView)

@@ -40,8 +40,9 @@
         android:autoText="false"
         android:background="@drawable/edit"
         android:capitalize="none"
+        android:singleLine="true"
         android:gravity="fill_horizontal"
-        android:hint="请输入动态验证码"
+        android:hint="输入两步验证码"
         android:scrollHorizontally="true"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 </LinearLayout>

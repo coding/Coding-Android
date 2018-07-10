@@ -152,7 +152,7 @@
                             android:id="@+id/edit2FA"
                             style="@style/EditLogin"
                             android:layout_marginTop="25dp"
-                            android:hint="动态验证码"
+                            android:hint="两步验证码"
                             android:imeOptions="actionUnspecified"
                             android:inputType="number"
                             app:dark="true" />

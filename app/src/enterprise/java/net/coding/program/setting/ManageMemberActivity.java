@@ -30,6 +30,7 @@ import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.login.auth.AuthInfo;
 import net.coding.program.login.auth.TotpClock;
 import net.coding.program.network.BaseHttpObserver;
+import net.coding.program.network.HttpObserver;
 import net.coding.program.network.Network;
 import net.coding.program.network.constant.MemberAuthority;
 
@@ -213,10 +214,51 @@ public class ManageMemberActivity extends BackActivity implements Handler.Callba
     private EditText edit2fa;
 
     private void actionRemove(TeamMember user) {
+        Network.getRetrofit(this)
+                .need2FA()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpObserver<String>(ManageMemberActivity.this) {
+                    @Override
+                    public void onSuccess(String data) {
+                        if (data.equals("totp")) {
+                            actionRemove2FA(user);
+                        } else { //  password
+                            actionRemoveNormal(user);
+                        }
+                    }
+                });
+    }
+
+    private void actionRemove2FA(TeamMember user) {
         hander2fa.sendEmptyMessage(0);
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.dialog_delete_project_2fa, null);
         edit2fa = (EditText) textEntryView.findViewById(R.id.edit1);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+        AlertDialog dialog = builder
+                .setView(textEntryView)
+                .setPositiveButton("确定", (dialog1, whichButton) -> {
+                    String editStr1 = edit2fa.getText().toString().trim();
+                    if (TextUtils.isEmpty(editStr1)) {
+                        Toast.makeText(ManageMemberActivity.this, "密码不能为空", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    actionDelete2FA(user, editStr1);
+                })
+                .setNegativeButton("取消", null)
+                .show();
+
+        dialog.setOnDismissListener(dialog1 -> {
+            hander2fa.removeMessages(0);
+            edit2fa = null;
+        });
+    }
+
+    private void actionRemoveNormal(TeamMember user) {
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View textEntryView = factory.inflate(R.layout.dialog_delete_project, null);
+        edit2fa = textEntryView.findViewById(R.id.edit1);
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         AlertDialog dialog = builder
                 .setView(textEntryView)

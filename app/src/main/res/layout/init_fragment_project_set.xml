@@ -24,6 +24,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/round_icon_path"
+                android:layout_marginRight="8dp"
                 android:src="@color/font_black">
 
                 <ImageView
@@ -46,9 +47,10 @@
 
             <View
                 android:id="@+id/iconPrivate"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginLeft="14dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="8dp"
                 android:background="@drawable/ic_share_project1"
                 android:layout_marginRight="-4dp"
                 tools:visibility="visible"
@@ -60,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:singleLine="true"
-                android:text="Medium Text"
+                android:text="这是 Coding 的客户端"
                 android:background="@null"
                 android:textColor="@color/font_1"
                 android:textSize="16sp" />

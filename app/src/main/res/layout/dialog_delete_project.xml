@@ -40,6 +40,7 @@
         android:autoText="false"
         android:background="@drawable/edit"
         android:capitalize="none"
+        android:hint="输入登录密码"
         android:gravity="fill_horizontal"
         android:inputType="textPassword"
         android:scrollHorizontally="true"
