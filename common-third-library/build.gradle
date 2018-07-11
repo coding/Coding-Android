@@ -67,7 +67,7 @@ dependencies {
     api 'com.loopj.android:android-async-http:1.4.9'
     api 'com.astuetz:pagerslidingtabstrip:1.0.1'
     api 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    api 'se.emilsjolander:stickylistheaders:2.7.0'
+    api 'com.github.mtotschnig:StickyListHeaders:2.7.1'
     api 'de.hdodenhof:circleimageview:2.1.0'
     api 'com.github.rampo.updatechecker:library:2.1.4'
     api 'com.daimajia.swipelayout:library:1.1.7@aar'
