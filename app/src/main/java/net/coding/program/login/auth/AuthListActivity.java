@@ -1,5 +1,6 @@
 package net.coding.program.login.auth;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import net.coding.program.R;
 import net.coding.program.common.CodingColor;

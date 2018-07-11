@@ -1,16 +1,15 @@
 package net.coding.program.setting
 
 
+import android.Manifest
 import android.content.Intent
 import android.view.View
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.fragment_main_setting.*
 import kotlinx.android.synthetic.main.top_tip.*
 import net.coding.program.R
 import net.coding.program.UserDetailEditActivity_
-import net.coding.program.common.CodingColor
-import net.coding.program.common.Global
-import net.coding.program.common.GlobalData
-import net.coding.program.common.RedPointTip
+import net.coding.program.common.*
 import net.coding.program.common.model.user.ServiceInfo
 import net.coding.program.common.ui.BaseFragment
 import net.coding.program.common.util.PermissionUtil
@@ -151,11 +150,13 @@ open class MainSettingFragment : BaseFragment() {
 
     @Click
     fun itemLocalFile() {
-        if (!PermissionUtil.writeExtralStorage(activity)) {
-            return
-        }
-
-        LocalProjectFileActivity_.intent(this).start()
+        RxPermissions(activity!!)
+                .request(*PermissionUtil.STORAGE)
+                .subscribe { granted ->
+                    if (granted!!) {
+                        LocalProjectFileActivity_.intent(this).start()
+                    }
+                }
     }
 
     @Click

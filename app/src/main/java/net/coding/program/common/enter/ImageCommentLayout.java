@@ -1,11 +1,15 @@
 package net.coding.program.common.enter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -63,15 +67,18 @@ public class ImageCommentLayout {
         View v = activity.findViewById(R.id.commonEnterRoot);
         mRootLayout = v;
         v.findViewById(R.id.commentImageButton).setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("CheckResult")
             @Override
             public void onClick(View v) {
-                if (!PermissionUtil.writeExtralStorage(activity)) {
-                    return;
-                }
-
-                Intent intent = new Intent(mActivity, PhotoPickActivity.class);
-                intent.putExtra(PhotoPickActivity.Companion.getEXTRA_PICKED(), mArrayImages);
-                mActivity.startActivityForResult(intent, RESULT_REQUEST_COMMENT_IMAGE);
+                new RxPermissions((FragmentActivity) activity)
+                        .request(PermissionUtil.STORAGE)
+                        .subscribe(granted -> {
+                            if (granted) {
+                                Intent intent = new Intent(mActivity, PhotoPickActivity.class);
+                                intent.putExtra(PhotoPickActivity.Companion.getEXTRA_PICKED(), mArrayImages);
+                                mActivity.startActivityForResult(intent, RESULT_REQUEST_COMMENT_IMAGE);
+                            }
+                        });
             }
         });
 

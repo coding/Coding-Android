@@ -111,5 +111,8 @@ dependencies {
     // 文件下载
     api 'com.liulishuo.filedownloader:library:1.4.3'
 
-
+    // rx 方式请求权限
+    api 'com.github.tbruyelle:rxpermissions:0.10.1'
 }
+
+

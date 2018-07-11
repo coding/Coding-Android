@@ -1,5 +1,6 @@
 package net.coding.program.project.init.create;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import net.coding.program.R;
 import net.coding.program.common.CameraPhotoUtil;
@@ -118,6 +120,7 @@ public class ProjectCreateFragment extends BaseFragment {
         Global.popSoftkeyboard(getActivity(), description, false);
     }
 
+    @SuppressLint("CheckResult")
     @Click
     void projectIcon() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle);
@@ -125,11 +128,13 @@ public class ProjectCreateFragment extends BaseFragment {
                 .setCancelable(true)
                 .setItems(R.array.camera_gallery, (dialog, which) -> {
                     if (which == 0) {
-                        if (!PermissionUtil.checkCameraAndExtralStorage(getActivity())) {
-                            return;
-                        }
-
-                        camera();
+                        new RxPermissions(getActivity())
+                                .request(PermissionUtil.CAMERA_STORAGE)
+                                .subscribe(granted -> {
+                                    if (granted) {
+                                        camera();
+                                    }
+                                });
                     } else {
                         photo();
                     }

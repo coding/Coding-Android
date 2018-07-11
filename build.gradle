@@ -38,10 +38,9 @@ allprojects {
         }
         google()
 
+        maven { url "https://jitpack.io" }
         // huawei push need
-        maven {url 'http://developer.huawei.com/repo/'}
-//        maven {url 'https://mvnrepository.com/artifact/eu.medsea.mimeutil/mime-util'}
+        maven { url 'http://developer.huawei.com/repo/' }
     }
-
 }
 

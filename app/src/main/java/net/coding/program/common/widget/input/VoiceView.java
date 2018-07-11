@@ -1,5 +1,6 @@
 package net.coding.program.common.widget.input;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -20,6 +22,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -180,19 +184,23 @@ public class VoiceView extends FrameLayout {
         }
     }
 
+    @SuppressLint("CheckResult")
     @LongClick
     boolean voiceRecordButton() {
-        if (!PermissionUtil.checkMicrophone(Global.getActivityFromView(this))) {
-            return true;
-        }
+        new RxPermissions((FragmentActivity) Global.getActivityFromView(this))
+                .request(PermissionUtil.AUDIO)
+                .subscribe(granted -> {
+                    if (granted) {
+                        if (activity instanceof VoicePlayCallBack) {
+                            VoicePlayCallBack voicePlayCallBack = (VoicePlayCallBack) activity;
+                            voicePlayCallBack.onStopPlay();
+                        }
 
-        if (activity instanceof VoicePlayCallBack) {
-            VoicePlayCallBack voicePlayCallBack = (VoicePlayCallBack) activity;
-            voicePlayCallBack.onStopPlay();
-        }
+                        //开始录音...
+                        startRecord();
+                    }
+                });
 
-        //开始录音...
-        startRecord();
         return true;
     }
 

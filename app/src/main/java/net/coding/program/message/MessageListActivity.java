@@ -1,5 +1,6 @@
 package net.coding.program.message;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -462,13 +464,16 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         }
     }
 
+    @SuppressLint("CheckResult")
     public void photo() {
-        if (!PermissionUtil.writeExtralStorage(this)) {
-            return;
-        }
-
-        Intent intent = new Intent(this, PhotoPickActivity.class);
-        startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
+        new RxPermissions(this)
+                .request(PermissionUtil.STORAGE)
+                .subscribe(granted -> {
+                    if (granted) {
+                        Intent intent = new Intent(this, PhotoPickActivity.class);
+                        startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
+                    }
+                });
     }
 
     @Override

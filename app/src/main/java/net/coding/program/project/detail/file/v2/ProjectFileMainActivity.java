@@ -1,5 +1,6 @@
 package net.coding.program.project.detail.file.v2;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.widget.EditText;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.orhanobut.logger.Logger;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -817,14 +819,18 @@ public class ProjectFileMainActivity extends CodingToolbarBackActivity implement
         return fileIds;
     }
 
+    @SuppressLint("CheckResult")
     private void startPhotoPickActivity() {
-        if (!PermissionUtil.writeExtralStorage(this)) {
-            return;
-        }
+        new RxPermissions(this)
+                .request(PermissionUtil.STORAGE)
+                .subscribe(granted -> {
+                    if (granted) {
 
-        Intent intent = new Intent(this, PhotoPickActivity.class);
-        intent.putExtra(PhotoPickActivity.Companion.getEXTRA_MAX(), PHOTO_MAX_COUNT);
-        startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
+                        Intent intent = new Intent(this, PhotoPickActivity.class);
+                        intent.putExtra(PhotoPickActivity.Companion.getEXTRA_MAX(), PHOTO_MAX_COUNT);
+                        startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
+                    }
+                });
     }
 
     @OnActivityResult(FILE_SELECT_FILE)

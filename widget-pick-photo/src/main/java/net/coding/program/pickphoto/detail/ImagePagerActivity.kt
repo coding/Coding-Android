@@ -80,10 +80,6 @@ open class ImagePagerActivity : BackActivity() {
         if (savedInstanceState != null) {
             mPagerPosition = savedInstanceState.getInt(SAVE_INSTANCE_INDEX, mPagerPosition)
         }
-
-        if (!PermissionUtil.writeExtralStorage(this)) {
-            finish()
-        }
     }
 
     @AfterViews

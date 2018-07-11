@@ -1,5 +1,6 @@
 package net.coding.program.project.detail.file;
 
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +13,8 @@ import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -163,32 +166,35 @@ public abstract class FileDownloadBaseActivity extends BackActivity {
         }
     }
 
+    @SuppressLint("CheckResult")
     private void download(ArrayList<AttachmentFileObject> mFileObjects) {
-        try {
-            if (!PermissionUtil.writeExtralStorage(this)) {
-                return;
-            }
+        new RxPermissions(this)
+                .request(PermissionUtil.STORAGE)
+                .subscribe(granted -> {
+                    if (granted) {
+                        try {
+                            for (AttachmentFileObject mFileObject : mFileObjects) {
+                                final String urlDownload = Global.HOST_API + "%s/files/%s/download";
+                                String url = String.format(urlDownload, getProjectPath(), mFileObject.file_id);
 
-            for (AttachmentFileObject mFileObject : mFileObjects) {
-                final String urlDownload = Global.HOST_API + "%s/files/%s/download";
-                String url = String.format(urlDownload, getProjectPath(), mFileObject.file_id);
-
-                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-                request.addRequestHeader("Cookie", MyAsyncHttpClient.getLoginCookie(this));
-                request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName(getProjectId()));
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
-                request.setTitle(mFileObject.getName());
-                request.setVisibleInDownloadsUi(false);
+                                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+                                request.addRequestHeader("Cookie", MyAsyncHttpClient.getLoginCookie(this));
+                                request.setDestinationInExternalPublicDir(getFileDownloadPath(), mFileObject.getSaveName(getProjectId()));
+                                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
+                                request.setTitle(mFileObject.getName());
+                                request.setVisibleInDownloadsUi(false);
 
 
-                long downloadId = downloadManager.enqueue(request);
-                downloadListEditor.putLong(mFileObject.file_id + mFileObject.getHistory_id(), downloadId);
-            }
-            downloadListEditor.commit();
-            checkFileDownloadStatus();
-        } catch (Exception e) {
-            Toast.makeText(this, R.string.no_system_download_service, Toast.LENGTH_LONG).show();
-        }
+                                long downloadId = downloadManager.enqueue(request);
+                                downloadListEditor.putLong(mFileObject.file_id + mFileObject.getHistory_id(), downloadId);
+                            }
+                            downloadListEditor.commit();
+                            checkFileDownloadStatus();
+                        } catch (Exception e) {
+                            Toast.makeText(this, R.string.no_system_download_service, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 
     public String getFileDownloadPath() {

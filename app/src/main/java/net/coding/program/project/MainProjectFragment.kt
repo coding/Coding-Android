@@ -1,11 +1,13 @@
 package net.coding.program.project
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.fragment_main_project.*
 import kotlinx.android.synthetic.main.top_tip.*
 import net.coding.program.R
@@ -167,22 +169,25 @@ class MainProjectFragment : BaseFragment() {
     }
 
     internal fun action_scan() {
-        if (!PermissionUtil.checkCamera(activity)) {
-            return
-        }
-
-        val intent = Intent(activity, QRScanActivity::class.java)
-        intent.putExtra(QRScanActivity.EXTRA_OPEN_AUTH_LIST, true)
-        startActivity(intent)
+        RxPermissions(activity!!)
+                .request(Manifest.permission.CAMERA)
+                .subscribe { granted ->
+                    if (granted!!) {
+                        val intent = Intent(activity, QRScanActivity::class.java)
+                        intent.putExtra(QRScanActivity.EXTRA_OPEN_AUTH_LIST, true)
+                        startActivity(intent)
+                    }
+                }
     }
 
     internal fun action_2fa() {
-        if (!PermissionUtil.checkCamera(activity)) {
-            return
-        }
-
-
-        GlobalCommon.start2FAActivity(activity)
+        RxPermissions(activity!!)
+                .request(*PermissionUtil.CAMERA)
+                .subscribe { granted ->
+                    if (granted!!) {
+                        GlobalCommon.start2FAActivity(activity)
+                    }
+                }
     }
 
     internal fun action_search() {

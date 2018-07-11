@@ -1,5 +1,6 @@
 package net.coding.program.maopao;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,6 +26,7 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -276,26 +278,28 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
         ((ImageView) findViewById(R.id.popTopic)).setImageResource(icon);
     }
 
+    @SuppressLint("CheckResult")
     private void startPhotoPickActivity() {
-        if (!PermissionUtil.writeExtralStorage(this)) {
-            return;
-        }
+        new RxPermissions(this)
+                .request(PermissionUtil.STORAGE)
+                .subscribe(granted -> {
+                    if (granted) {
+                        int count = Global.PHOTO_MAX_COUNT - mData.size();
+                        if (count <= 0) {
+                            showButtomToast(String.format("最多能添加%s张图片", Global.PHOTO_MAX_COUNT));
+                        } else {
+                            Intent intent = new Intent(MaopaoAddActivity.this, PhotoPickActivity.class);
+                            intent.putExtra(PhotoPickActivity.Companion.getEXTRA_MAX(), Global.PHOTO_MAX_COUNT);
 
-        int count = Global.PHOTO_MAX_COUNT - mData.size();
-        if (count <= 0) {
-            showButtomToast(String.format("最多能添加%s张图片", Global.PHOTO_MAX_COUNT));
-            return;
-        }
-
-        Intent intent = new Intent(MaopaoAddActivity.this, PhotoPickActivity.class);
-        intent.putExtra(PhotoPickActivity.Companion.getEXTRA_MAX(), Global.PHOTO_MAX_COUNT);
-
-        ArrayList<ImageInfo> pickImages = new ArrayList<>();
-        for (PhotoData item : mData) {
-            pickImages.add(item.mImageinfo);
-        }
-        intent.putExtra(PhotoPickActivity.Companion.getEXTRA_PICKED(), pickImages);
-        startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
+                            ArrayList<ImageInfo> pickImages = new ArrayList<>();
+                            for (PhotoData item : mData) {
+                                pickImages.add(item.mImageinfo);
+                            }
+                            intent.putExtra(PhotoPickActivity.Companion.getEXTRA_PICKED(), pickImages);
+                            startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
+                        }
+                    }
+                });
     }
 
     private void updateAddButton() {
@@ -653,6 +657,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
         }
     }
 
+    @SuppressLint("CheckResult")
     @Click(R.id.locationText)
     void chooseLocation() {
         if (PhoneType.isX86or64()) {
@@ -660,11 +665,14 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity {
             return;
         }
 
-        if (!PermissionUtil.checkLocation(this)) {
-            return;
-        }
+        new RxPermissions(this)
+                .request(PermissionUtil.LOCATION)
+                .subscribe(granted -> {
+                    if (granted) {
+                        LocationSearchActivity_.intent(this).selectedLocation(currentLocation).startForResult(RESULT_REQUEST_LOCATION);
+                    }
+                });
 
-        LocationSearchActivity_.intent(this).selectedLocation(currentLocation).startForResult(RESULT_REQUEST_LOCATION);
     }
 
     @OnActivityResult(RESULT_REQUEST_LOCATION)

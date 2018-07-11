@@ -20,7 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.roughike.bottombar.BottomBar;
-import com.tbruyelle.rxpermissions.RxPermissions;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalCommon;
@@ -190,6 +190,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @SuppressLint("CheckResult")
     private void requestPermissionReal() {
         RxPermissions permissions = new RxPermissions(this);
         permissions.requestEach(Manifest.permission.READ_PHONE_STATE,
@@ -198,22 +199,8 @@ public class MainActivity extends BaseActivity {
                 .subscribe(permission -> {
                     if (permission.granted) {
                         startPushService();
-                    } else if (permission.shouldShowRequestPermissionRationale) {
-                        showDialog("", "开启 \"电话\" 权限后才能收到推送\n开启\"存储空间\"权限是为了能下载文件到外部存储",
-                                (dialog, which) -> requestPermissionReal(), null);
-                    } else {
                     }
                 });
-//                .subscribe(granted -> {
-//                    if (granted) {
-//                        startPushService();
-//                        LoginBackground loginBackground = new LoginBackground(this);
-//                        loginBackground.update();
-//                    } else {
-//                        showDialog("", "开启 \"电话\" 权限后才能收到推送\n开启\"存储空间\"权限是为了能下载文件到外部存储",
-//                                (dialog, which) -> requestPermissionReal(), null);
-//                    }
-//                });
     }
 
     protected void startExtraService() {

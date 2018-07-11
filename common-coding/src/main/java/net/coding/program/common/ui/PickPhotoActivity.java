@@ -1,11 +1,14 @@
 package net.coding.program.common.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
+
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import net.coding.program.R;
 import net.coding.program.common.CameraPhotoUtil;
@@ -55,16 +58,19 @@ public abstract class PickPhotoActivity extends BackActivity {
         startActivityForResult(i, RESULT_REQUEST_PHOTO);
     }
 
+    @SuppressLint("CheckResult")
     protected void pickPhoto() {
         new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setCancelable(true)
                 .setItems(R.array.camera_gallery, (dialog, which) -> {
                     if (which == 0) {
-                        if (!PermissionUtil.checkCameraAndExtralStorage(PickPhotoActivity.this)) {
-                            return;
-                        }
-
-                        camera();
+                        new RxPermissions(this)
+                                .request(PermissionUtil.CAMERA_STORAGE)
+                                .subscribe(granted -> {
+                                    if (granted) {
+                                        camera();
+                                    }
+                                });
                     } else {
                         photo();
                     }

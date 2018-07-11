@@ -23,6 +23,7 @@ import android.view.animation.AnimationUtils
 import android.widget.*
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.assist.ImageScaleType
+import com.tbruyelle.rxpermissions2.RxPermissions
 import net.coding.program.common.CameraPhotoUtil
 import net.coding.program.common.ImageInfo
 import net.coding.program.common.util.PermissionUtil
@@ -271,28 +272,29 @@ class PhotoPickActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cur
     }
 
     fun camera() {
-        if (!PermissionUtil.checkCameraAndExtralStorage(this)) {
-            return
-        }
+        RxPermissions(this)
+                .request(*PermissionUtil.CAMERA_STORAGE)
+                .subscribe { granted ->
+                    if (granted!!) {
+                        if (mPickData.size >= mMaxPick) {
+                            val s = String.format("最多只能选择%s张", mMaxPick)
+                            Toast.makeText(this@PhotoPickActivity, s, Toast.LENGTH_LONG).show()
+                        } else {
+                            fileTemp = CameraPhotoUtil.getCacheFile(this)
+                            fileUri = FileProviderHelp.getUriForFile(this, fileTemp)
 
-        if (mPickData.size >= mMaxPick) {
-            val s = String.format("最多只能选择%s张", mMaxPick)
-            Toast.makeText(this@PhotoPickActivity, s, Toast.LENGTH_LONG).show()
-            return
-        }
+                            val intentFromCapture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                            intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, fileUri)
 
-        fileTemp = CameraPhotoUtil.getCacheFile(this)
-        fileUri = FileProviderHelp.getUriForFile(this, fileTemp)
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//7.0及以上
+                                intentFromCapture.addFlags(FLAG_GRANT_READ_URI_PERMISSION)
+                                intentFromCapture.addFlags(FLAG_GRANT_WRITE_URI_PERMISSION)
+                            }
 
-        val intentFromCapture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, fileUri)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//7.0及以上
-            intentFromCapture.addFlags(FLAG_GRANT_READ_URI_PERMISSION)
-            intentFromCapture.addFlags(FLAG_GRANT_WRITE_URI_PERMISSION)
-        }
-
-        startActivityForResult(intentFromCapture, RESULT_CAMERA)
+                            startActivityForResult(intentFromCapture, RESULT_CAMERA)
+                        }
+                    }
+                }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {

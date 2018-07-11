@@ -1,9 +1,11 @@
 package net.coding.program.project;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.TextView;
 
 import com.readystatesoftware.viewbadger.BadgeView;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -46,6 +48,7 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
         };
     }
 
+    @SuppressLint("CheckResult")
     @AfterViews
     protected void initPrivateProjectHomeFragment() {
 //        final String buttonTitle[] = getItemsTitle();
@@ -81,10 +84,6 @@ public class PrivateProjectHomeFragment extends BaseProjectHomeFragment {
                     case R.id.itemDocment:
                         markUsed(RedPointTip.Type.File320);
                         break;
-                }
-
-                if (!PermissionUtil.writeExtralStorage(getActivity())) {
-                    return;
                 }
 
                 ProjectActivity_.intent(PrivateProjectHomeFragment.this)

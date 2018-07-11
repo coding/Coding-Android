@@ -185,7 +185,6 @@ dependencies {
 
     // 比 ultimaterecyclerview 轻量，用起来比较舒服，实现代码也好些
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
-    implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.9.3@aar'
     implementation 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
     implementation 'com.orhanobut:logger:1.15'
     implementation 'com.github.bmelnychuk:atv:1.2.9'

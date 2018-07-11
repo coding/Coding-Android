@@ -461,6 +461,24 @@ public class Global {
                 .start(activity, requestCode);
     }
 
+    public static void startPhotoZoom(Activity activity, Uri uri, Uri outputUri, int width, int height, int requestCode) {
+        final UCrop.Options options = new UCrop.Options();
+        options.setCompressionQuality(100);
+        int blue = 0xFF0060FF;
+        options.setToolbarColor(blue);
+        int white = 0xFFFFFFFF;
+        options.setToolbarColor(white);
+        options.setActiveWidgetColor(blue);
+        options.setToolbarWidgetColor(blue);
+        options.setStatusBarColor(0xFF757575);
+
+        UCrop.of(uri, outputUri)
+                .withAspectRatio(1, 1)
+                .withMaxResultSize(width, height)
+                .withOptions(options)
+                .start(activity, requestCode);
+    }
+
 
     public static void startPhotoZoom(Fragment fragment, Activity activity, Uri uri, Uri outputUri, int requestCode) {
         final UCrop.Options options = new UCrop.Options();

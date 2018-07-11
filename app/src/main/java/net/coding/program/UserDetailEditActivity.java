@@ -1,5 +1,6 @@
 package net.coding.program;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import net.coding.program.common.CameraPhotoUtil;
 import net.coding.program.common.DatePickerFragment;
@@ -275,25 +277,24 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
         }
     };
 
+    @SuppressLint("CheckResult")
     void setIcon() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         builder.setTitle("更换头像")
-                .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            if (!PermissionUtil.checkCameraAndExtralStorage(UserDetailEditActivity.this)) {
-                                return;
-                            }
-
-                            camera();
-                        } else {
-                            photo();
-                        }
+                .setItems(R.array.camera_gallery, (dialog, which) -> {
+                    if (which == 0) {
+                        new RxPermissions(UserDetailEditActivity.this)
+                                .request(PermissionUtil.CAMERA_STORAGE)
+                                .subscribe(granted -> {
+                                    if (granted) {
+                                        camera();
+                                    }
+                                });
+                    } else {
+                        photo();
                     }
                 });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        builder.show();
     }
 
 //    private void camera() {
@@ -494,7 +495,7 @@ public class UserDetailEditActivity extends BackActivity implements DatePickerFr
                 }
 
                 fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
-                Global.startPhotoZoom(this, fileUri, fileCropUri, RESULT_REQUEST_PHOTO_CROP);
+                Global.startPhotoZoom(this, fileUri, fileCropUri, 512, 512, RESULT_REQUEST_PHOTO_CROP);
             }
 
         } else if (requestCode == RESULT_REQUEST_PHOTO_CROP) {

@@ -1,5 +1,6 @@
 package net.coding.program.project.detail;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -445,14 +447,17 @@ public class ProjectGitFragment extends CustomMoreFragment implements LoadMore {
         startPhotoPickActivity();
     }
 
+    @SuppressLint("CheckResult")
     private void startPhotoPickActivity() {
-        if (!PermissionUtil.writeExtralStorage(getActivity())) {
-            return;
-        }
-
-        Intent intent = new Intent(getActivity(), PhotoPickActivity.class);
-        intent.putExtra(PhotoPickActivity.Companion.getEXTRA_MAX(), PHOTO_MAX_COUNT);
-        startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
+        new RxPermissions(getActivity())
+                .request(PermissionUtil.STORAGE)
+                .subscribe(granted -> {
+                    if (granted) {
+                        Intent intent = new Intent(getActivity(), PhotoPickActivity.class);
+                        intent.putExtra(PhotoPickActivity.Companion.getEXTRA_MAX(), PHOTO_MAX_COUNT);
+                        startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
+                    }
+                });
     }
 
     @OnActivityResult(RESULT_REQUEST_DETAIL)

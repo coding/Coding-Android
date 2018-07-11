@@ -199,11 +199,13 @@ public class EnterpriseProjectFragment extends BaseFragment {
     }
 
     void action2fa() {
-        if (!PermissionUtil.checkCamera(getActivity())) {
-            return;
-        }
-
-        GlobalCommon.start2FAActivity(getActivity());
+        new RxPermissions(getActivity())
+                .request(PermissionUtil.CAMERA_STORAGE)
+                .subscribe(granted -> {
+                    if (granted) {
+                        GlobalCommon.start2FAActivity(getActivity());
+                    }
+                });
     }
 
     private void onRefresh() {

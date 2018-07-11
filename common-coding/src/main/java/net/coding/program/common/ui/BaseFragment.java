@@ -219,18 +219,6 @@ public class BaseFragment extends UmengFragment implements NetworkCallback, Load
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    protected boolean writeExtralStorage() {
-        final String[] PERMISSION_STORAGE = new String[]{
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA
-        };
-        return checkPermission(PermissionUtil.RESULT_CAMERA_STORAGE, PERMISSION_STORAGE);
-    }
-
-    protected boolean checkPermission(int result, String[] permission) {
-        return checkPermission(result, permission, "");
-    }
 
     protected boolean checkPermission(int result, String[] permission, String tipString) {
         List<String> needApply = new ArrayList<>();
