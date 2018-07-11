@@ -1,6 +1,7 @@
 package net.coding.program.setting
 
 import android.view.View
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.enterprise.enterprise_fragment_main_setting.*
 import net.coding.program.R
 import net.coding.program.common.GlobalData
@@ -66,11 +67,13 @@ open class EnterpriseMainSettingFragment : BaseFragment() {
 
     @Click
     fun itemLocalFile() {
-        if (!PermissionUtil.writeExtralStorage(activity)) {
-            return
-        }
-
-        LocalProjectFileActivity_.intent(this).start()
+        RxPermissions(activity!!)
+                .request(*PermissionUtil.STORAGE)
+                .subscribe { granted ->
+                    if (granted!!) {
+                        LocalProjectFileActivity_.intent(this).start()
+                    }
+                }
     }
 
     @Click

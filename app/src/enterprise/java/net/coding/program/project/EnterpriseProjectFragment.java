@@ -1,5 +1,6 @@
 package net.coding.program.project;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import com.readystatesoftware.viewbadger.BadgeView;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
@@ -198,6 +200,7 @@ public class EnterpriseProjectFragment extends BaseFragment {
         TextWatcherAt.startActivityAt(getActivity(), this, RESULT_SELECT_USER);
     }
 
+    @SuppressLint("CheckResult")
     void action2fa() {
         new RxPermissions(getActivity())
                 .request(PermissionUtil.CAMERA_STORAGE)

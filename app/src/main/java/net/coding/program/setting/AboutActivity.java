@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.widget.TextView;
 
 import net.coding.program.R;
@@ -15,6 +16,9 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @EActivity(R.layout.activity_about)
 public class AboutActivity extends BackActivity {
@@ -28,7 +32,14 @@ public class AboutActivity extends BackActivity {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             String versionName = pInfo.versionName;
 
-            String versionString = String.format("版本：%s", versionName);
+            Pattern pattern = Pattern.compile("^(.*)\\.\\d{8}\\.\\d+$");
+            Matcher matcher = pattern.matcher(versionName);
+            String versionSplite = versionName;
+            if (matcher.find()) {
+                versionSplite = matcher.group(1);
+            }
+
+            String versionString = String.format("版本：%s", versionSplite);
             version.setText(versionString);
 
         } catch (Exception e) {
@@ -84,6 +95,24 @@ public class AboutActivity extends BackActivity {
     void wechat() {
         Global.copy(this, "扣钉CODING");
         showButtomToast("微信号已复制到剪贴板");
+    }
+
+    @Click
+    void icon() {
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            String versionName = pInfo.versionName;
+
+            String versionString = String.format("%s", versionName);
+
+            String msg = versionString;
+            new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
+                    .setMessage(msg)
+                    .show();
+
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
     }
 
     public static void sendEmails(Context context, String[] addresses) {
