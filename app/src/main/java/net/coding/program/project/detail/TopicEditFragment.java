@@ -31,6 +31,10 @@ public class TopicEditFragment extends MDEditFragment {
 
     @AfterViews
     protected void initTopicEditFragment() {
+        reloadData();
+    }
+
+    public void reloadData() {
         mOldData = ((EditPreviewMarkdown) getActivity()).loadData();
         title.setText(mOldData.title);
         String content = mOldData.content;

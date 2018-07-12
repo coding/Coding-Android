@@ -58,7 +58,7 @@ android {
             dimension "mode"
             applicationId "net.coding.program"
             versionCode 541
-            versionName "5.4.1.20180711.1"
+            versionName "5.4.1.20180712.1"
             targetSdkVersion 23
 
             manifestPlaceholders = [
@@ -71,7 +71,7 @@ android {
             dimension "mode"
             applicationId "net.coding.program.enterprise"
             versionCode 296
-            versionName "2.9.6.20180711.1"
+            versionName "2.9.6.20180712.1"
             targetSdkVersion 21
 
             // 信鸽依赖

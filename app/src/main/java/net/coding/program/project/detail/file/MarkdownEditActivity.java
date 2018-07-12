@@ -71,6 +71,7 @@ public class MarkdownEditActivity extends MDEditPreviewActivity implements TaskD
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, File file) {
                     initData(file);
+                    reloadData();
                 }
 
                 @Override

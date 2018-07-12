@@ -49,6 +49,8 @@ public class TxtEditActivity extends BackActivity {
 
     private FileSaveHelp mFileSaveHelp;
 
+    String oldContent = "";
+
     public static void writeFile(File srcFile, String content) {
         try {
             FileOutputStream fos = new FileOutputStream(srcFile);
@@ -101,7 +103,17 @@ public class TxtEditActivity extends BackActivity {
         } catch (Exception e) {
             Global.errorLog(e);
         }
-        editText.setText(content);
+        oldContent = content;
+        editText.setText(oldContent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!editText.getText().toString().equals(oldContent)) {
+            showDialog("确定放弃此次编辑？", (dialog, which) -> finish());
+        } else {
+            finish();
+        }
     }
 
     @OptionsItem

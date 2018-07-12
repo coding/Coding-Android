@@ -146,7 +146,7 @@ public class TopicAddActivity extends MDEditPreviewActivity implements TopicLabe
             if (code == 0) {
                 topicObject = new TopicObject(respanse.optJSONObject("data"));
                 modifyData = new TopicData(topicObject);
-
+                reloadData();
                 switchEdit();
             } else {
                 showErrorMsg(code, respanse);

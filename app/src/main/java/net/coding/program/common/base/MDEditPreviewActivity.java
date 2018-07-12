@@ -30,6 +30,10 @@ public abstract class MDEditPreviewActivity extends BackActivity implements Edit
         getSupportFragmentManager().beginTransaction().show(editFragment).hide(previewFragment).commit();
     }
 
+    public void reloadData() {
+        editFragment.reloadData();
+    }
+
     @Override
     public void onBackPressed() {
         if (editFragment.isContentModify()) {
