@@ -94,6 +94,9 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
     final String TAG_NOTIFY = "TAG_NOTIFY";
     private final String HOST_MARK_READ = Global.HOST_API + "/notification/mark-read";
 
+    private static final String TAG_MARK_READ = "TAG_MARK_READ";
+    private static final String TAG_MARK_READ_ALL = "TAG_MARK_READ_ALL";
+
     @ViewById
     ListView listView;
     @ViewById
@@ -108,7 +111,7 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
 
             RequestParams params = new RequestParams();
             params.put("id", notifyObject.id);
-            postNetwork(HOST_MARK_READ, params, HOST_MARK_READ, 0, notifyObject.id);
+            postNetwork(HOST_MARK_READ, params, TAG_MARK_READ, 0, notifyObject.id);
         }
     };
     BaseAdapter baseAdapter = new BaseAdapter() {
@@ -323,7 +326,7 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
 
     @OptionsItem
     protected void markRead() {
-        postNetwork(HOST_MARK_SYSTEM, HOST_MARK_SYSTEM);
+        postNetwork(HOST_MARK_SYSTEM, new RequestParams("all", true), TAG_MARK_READ_ALL);
     }
 
     @Override
@@ -370,7 +373,7 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
                 showErrorMsg(code, respanse);
                 BlankViewDisplay.setBlank(mData.size(), this, false, blankLayout, onClickRetry);
             }
-        } else if (tag.equals(HOST_MARK_READ)) {
+        } else if (tag.equals(TAG_MARK_READ)) {
             umengEvent(UmengEvent.NOTIFY, "标记已读");
             int id = (int) data;
             for (NotifyObject item : mData) {
@@ -380,7 +383,7 @@ public class NotifyListActivity extends BackActivity implements LoadMore {
                     break;
                 }
             }
-        } else if (tag.equals(HOST_MARK_SYSTEM)) {
+        } else if (tag.equals(TAG_MARK_READ_ALL)) {
             if (code == 0) {
                 umengEvent(UmengEvent.NOTIFY, "标记全部已读");
                 markAllRead();
