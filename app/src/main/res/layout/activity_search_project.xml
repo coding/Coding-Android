@@ -61,11 +61,6 @@
 
             <TextView
                 style="@style/searchEmptyIcon"
-                android:drawableTop="@mipmap/ic_search_topic"
-                android:text="讨论" />
-
-            <TextView
-                style="@style/searchEmptyIcon"
                 android:layout_marginRight="0dp"
                 android:drawableTop="@mipmap/ic_search_maopao"
                 android:text="冒泡" />
@@ -93,11 +88,6 @@
                 android:drawableTop="@mipmap/ic_search_mr"
                 android:text="合并请求" />
 
-            <TextView
-                style="@style/searchEmptyIcon"
-                android:layout_marginRight="0dp"
-                android:drawableTop="@mipmap/ic_search_pr"
-                android:text="Pull 请求" />
         </LinearLayout>
 
     </LinearLayout>

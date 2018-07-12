@@ -37,6 +37,7 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:paddingLeft="15dp"
+                    android:visibility="gone"
                     android:paddingRight="15dp"
                     android:text="反馈"
                     android:textColor="@color/font_green" />

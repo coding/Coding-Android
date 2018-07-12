@@ -245,7 +245,7 @@
                 app:itemIcon="@mipmap/ic_setting_help"
                 app:itemShowArrow="false"
                 app:itemShowBottomLine="true"
-                app:itemTitle="帮助与反馈" />
+                app:itemTitle="帮助" />
 
             <net.coding.program.common.widget.ListItem1
                 android:id="@+id/itemSetting"

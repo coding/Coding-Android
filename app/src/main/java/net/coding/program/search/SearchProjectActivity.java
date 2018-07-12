@@ -111,7 +111,6 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
             }
         });
         editText.setOnEditorActionListener(this);
-
     }
 
     private void setTabsValue() {
