@@ -20,6 +20,7 @@ import com.marshalchen.ultimaterecyclerview.quickAdapter.easyRegularAdapter;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalData;
+import net.coding.program.common.SimpleSHA1;
 import net.coding.program.common.WeakRefHander;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.EnterpriseInfo;
@@ -268,7 +269,7 @@ public class ManageMemberActivity extends BackActivity implements Handler.Callba
                         Toast.makeText(ManageMemberActivity.this, "密码不能为空", Toast.LENGTH_LONG).show();
                         return;
                     }
-                    actionDelete2FA(user, editStr1);
+                    actionDelete2FA(user, SimpleSHA1.sha1(editStr1));
                 })
                 .setNegativeButton("取消", null)
                 .show();
