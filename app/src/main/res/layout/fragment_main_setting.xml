@@ -127,11 +127,10 @@
 
             </FrameLayout>
 
-            <View style="@style/DivideLine" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
+                android:visibility="gone"
                 android:background="@color/stand_bg">
 
                 <FrameLayout

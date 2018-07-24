@@ -86,6 +86,7 @@ public class MainActivity extends BaseActivity {
 
     private long exitTime = 0;
     private boolean mKeyboardUp;
+    private boolean isResume = false;
 
     public static void setNeedWarnEmailNoValidLogin() {
         sNeedWarnEmailNoValidLogin = true;
@@ -140,13 +141,12 @@ public class MainActivity extends BaseActivity {
 
         requestPermission();
 
-
         WXPay.getInstance().regToWeixin(this);
     }
 
     @UiThread(delay = 2000)
     void requestPermission() {
-        if (MainActivity.this.isFinishing()) {
+        if (!isResume) {
             return;
         }
 
@@ -165,6 +165,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
+        isResume = true;
 
         handerNotify = new Handler(getMainLooper()) {
             @Override
@@ -183,6 +184,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onPause() {
         super.onPause();
+        isResume = false;
 
         if (handerNotify != null) {
             handerNotify.removeMessages(0);
