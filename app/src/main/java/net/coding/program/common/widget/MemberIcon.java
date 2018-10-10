@@ -37,13 +37,6 @@ public class MemberIcon extends CircleImageView {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-
-    }
-
-    @Override
     public void setTag(Object tag) {
         super.setTag(tag);
         setFlagIcon(tag);
@@ -52,7 +45,7 @@ public class MemberIcon extends CircleImageView {
     public void setFlagIcon(Object tag) {
         if (tag instanceof UserObject) {
             VIP vip = ((UserObject) tag).vip;
-            if (vip.getIcon() == 0) {
+            if (vip == null || vip.getIcon() == 0) {
                 flagIcon = null;
             } else {
                 flagIcon = getResources().getDrawable(vip.getIcon());

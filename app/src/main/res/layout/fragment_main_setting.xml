@@ -94,27 +94,12 @@
                         android:layout_marginLeft="80dp"
                         android:orientation="horizontal">
 
-                        <com.flyco.roundview.RoundTextView
-                            android:id="@+id/vip"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="2dp"
-                            android:paddingLeft="6dp"
-                            android:paddingRight="6dp"
-                            android:paddingTop="2dp"
-                            android:text="普通会员"
-                            android:textColor="@color/font_3"
-                            android:textSize="12sp"
-                            app:rv_backgroundColor="#FFD8DDE4"
-                            app:rv_cornerRadius="2dp" />
-
                         <TextView
-                            android:id="@+id/expire"
+                            android:id="@+id/globalKey"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignBottom="@id/userIcon"
                             android:layout_marginBottom="3dp"
-                            android:layout_marginLeft="8dp"
                             android:layout_toRightOf="@id/userIcon"
                             android:textColor="@color/font_3"
                             android:textSize="13sp"

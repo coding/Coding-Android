@@ -18,7 +18,9 @@ enum class VIP constructor(var id: Int, var alias: String, var icon: Int) : Seri
     @SerializedName("3")
     gold(3, "黄金会员", R.drawable.member_gold),
     @SerializedName("4")
-    diamond(4, "钻石会员", R.drawable.member_diamond);
+    diamond(4, "钻石会员", R.drawable.member_diamond),
+    @SerializedName("5")
+    tencent(5, "", 0);
 
     val isPayed: Boolean
         get() = id >= 3

@@ -67,32 +67,13 @@ open class MainSettingFragment : BaseFragment() {
             return
         }
 
-        vip?.text = me.vip.alias
-        if (me.vip.isPayed) {
-            val time = Global.dayFromTime(me.vipExpiredAt)
-            val color = if (me.vipNearExpired()) CodingColor.fontRed else CodingColor.font3
-            expire.text = Global.createColorHtml("到期时间：", time, "", color)
-
-        } else {
-            expire.text = ""
-        }
-
-        vipIcon?.setImageResource(me.vip.icon)
-
         topTip?.visibility = View.GONE
 
-        if (me.vip.isPayed && me.vipNearExpired()) {
-            topTip?.visibility = View.VISIBLE
-            topTipText?.text = "会员过期将自动降级"
-            topTipText.setOnClickListener { showSingleDialog(R.string.tip_vip_expired) }
-        }
-
-        if (!GlobalData.isEnterprise()) {
-            itemAccount.text2.visibility = View.VISIBLE
-            itemAccount.text2.text = "${me.points_left} 码币"
-            itemAccount.text2.setTextColor(CodingColor.fontBlue)
-            itemAccount.text2.textSize = 13f
-        }
+        globalKey.text = me.global_key
+        itemAccount.text2.visibility = View.VISIBLE
+        itemAccount.text2.text = "${me.points_left} 码币"
+        itemAccount.text2.setTextColor(CodingColor.fontBlue)
+        itemAccount.text2.textSize = 13f
     }
 
     private fun bindData(serviceInfo: ServiceInfo) {
