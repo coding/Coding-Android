@@ -26,6 +26,7 @@
         android:background="@null"
         android:gravity="top"
         android:minLines="3"
+        android:hint="请输入任务标题"
         android:textColor="@color/font_1"
         android:textSize="17sp" />
 

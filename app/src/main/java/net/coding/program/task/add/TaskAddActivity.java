@@ -39,6 +39,7 @@ import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
 import net.coding.program.common.event.EventBoardRefreshRequest;
 import net.coding.program.common.event.EventRefreshTask;
+import net.coding.program.common.event.EventRequestTaskCount;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.model.DynamicObject;
@@ -955,6 +956,7 @@ public class TaskAddActivity extends CodingToolbarBackActivity implements StartA
             showButtomToast(msg);
             if (msg.equals(MSG_ADD_TASK_SUCCESS)) {
                 EventBus.getDefault().post(new EventRefreshTask());
+                EventBus.getDefault().post(new EventRequestTaskCount());
             }
         }
 

@@ -21,6 +21,8 @@ import net.coding.program.common.GlobalData;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PinyinComparator;
 import net.coding.program.common.event.EventRefreshTask;
+import net.coding.program.common.event.EventRequestTaskCount;
+import net.coding.program.common.event.EventUpdateTaskCount;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.ProjectTaskCountModel;
@@ -43,6 +45,8 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +59,12 @@ import java.util.Collections;
 public class ProjectTaskFragment extends TaskFilterFragment {
 
     final String HOST_MEMBERS = Global.HOST_API + "/project/%d/members?pageSize=1000";
+
+    private static final String TAG_PROJECT_TASK_COUNT = "TAG_PROJECT_TASK_COUNT";
+    private static final String TAG_ALL_COUNT = "TAG_ALL_COUNT";
+    private static final String TAG_WATCH_COUNT = "TAG_WATCH_COUNT";
+    private static final String TAG_SOME_COUNT = "TAG_SOME_COUNT";
+    private static final String TAG_SOME_LABEL = "TAG_SOME_LABEL";
 
     @FragmentArg
     ProjectObject mProjectObject;
@@ -112,6 +122,7 @@ public class ProjectTaskFragment extends TaskFilterFragment {
         if (toolBarTitle != null) {
             toolBarTitle.setOnClickListener(v -> {
                 meActionFilter();
+                loadDataCount();
             });
             toolBarTitle.setBackgroundResource(0);
             Drawable drawable = getResources().getDrawable(R.drawable.arrow_drop_down_green);
@@ -120,7 +131,6 @@ public class ProjectTaskFragment extends TaskFilterFragment {
             toolBarTitle.setCompoundDrawablePadding(GlobalCommon.dpToPx(10));
             toolBarTitle.setText("全部任务");
         }
-
 
         loadData(0);
     }
@@ -148,6 +158,31 @@ public class ProjectTaskFragment extends TaskFilterFragment {
             //某个成员
             getNetwork(String.format(urlSome_Count, mProjectObject.getId(), members.user_id), urlSome_Count);
             getNetwork(String.format(urlSome_Label, mProjectObject.getId(), members.user_id), urlSome_Label);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventRequestTaskCount(EventRequestTaskCount event) {
+        if (getActivity() == null) return;
+
+        loadDataCount();
+    }
+
+    private void loadDataCount() {
+        mTaskProjectCountModel = new TaskProjectCountModel();
+        int index = pager.getCurrentItem();
+        if (index == 0) {
+            //全部成员
+            //「全部任务」数量 - 进行中，已完成的 「我创建的」数量 = create
+            getNetwork(String.format(urlProjectTaskCount, mProjectObject.getId()), TAG_PROJECT_TASK_COUNT);
+            getNetwork(String.format(urlALL_Count, mProjectObject.getId()), TAG_ALL_COUNT);
+            getNetwork(String.format(urlALL_WATCH_Count, mProjectObject.getId(), account.id), TAG_WATCH_COUNT);
+
+        } else {
+            Member members = mMembersAll.get(index);
+
+            //某个成员
+            getNetwork(String.format(urlSome_Count, mProjectObject.getId(), members.user_id), TAG_SOME_COUNT);
         }
     }
 
@@ -296,9 +331,62 @@ public class ProjectTaskFragment extends TaskFilterFragment {
             } else {
                 showErrorMsg(code, respanse);
             }
+        } else if (tag.equals(TAG_PROJECT_TASK_COUNT)) {
+            if (code == 0) {
+                TaskProjectCountModel projectTaskCountModel = JSONUtils.getData(respanse.getString("data"), TaskProjectCountModel.class);
+                mTaskProjectCountModel.creatorDone = projectTaskCountModel.creatorDone;
+                mTaskProjectCountModel.creatorProcessing = projectTaskCountModel.creatorProcessing;
+                mTaskProjectCountModel.watcherDone = projectTaskCountModel.watcherDone;
+                mTaskProjectCountModel.watcherProcessing = projectTaskCountModel.watcherProcessing;
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(TAG_ALL_COUNT)) {
+            if (code == 0) {
+                ProjectTaskCountModel projectTaskCountModel = JSONUtils.getData(respanse.getString("data"), ProjectTaskCountModel.class);
+                mTaskProjectCountModel.owner = projectTaskCountModel.done + projectTaskCountModel.processing;
+                mTaskProjectCountModel.ownerDone = projectTaskCountModel.done;
+                mTaskProjectCountModel.ownerProcessing = projectTaskCountModel.processing;
+                mTaskProjectCountModel.creator = projectTaskCountModel.create;
+                postEventUpdateCount();
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(TAG_WATCH_COUNT)) {
+            if (code == 0) {
+                mTaskProjectCountModel.watcher = JSONUtils.getJSONLong("totalRow", respanse.getString("data"));
+                postEventUpdateCount();
+            } else {
+                showErrorMsg(code, respanse);
+            }
+        } else if (tag.equals(TAG_SOME_COUNT)) {
+            if (code == 0) {
+                ProjectTaskUserCountModel item = JSONUtils.getData(respanse.getString("data"), ProjectTaskUserCountModel.class);
+
+                mTaskProjectCountModel.owner = item.memberDone + item.memberProcessing;
+                mTaskProjectCountModel.ownerDone = item.memberDone;
+                mTaskProjectCountModel.ownerProcessing = item.memberProcessing;
+
+                mTaskProjectCountModel.creatorDone = item.creatorDone;
+                mTaskProjectCountModel.creator = item.creatorDone + item.creatorProcessing;
+                mTaskProjectCountModel.creatorProcessing = item.creatorProcessing;
+
+                mTaskProjectCountModel.watcher = item.watcherDone + item.watcherProcessing;
+                mTaskProjectCountModel.watcherDone = item.watcherDone;
+                mTaskProjectCountModel.watcherProcessing = item.watcherProcessing;
+
+                postEventUpdateCount();
+            } else {
+                showErrorMsg(code, respanse);
+            }
         }
+
         //设置DrawerLayout的数据
         setDrawerData();
+    }
+
+    private void postEventUpdateCount() {
+        EventBus.getDefault().post(new EventUpdateTaskCount());
     }
 
     @OnActivityResult(ListModify.RESULT_EDIT_LIST)

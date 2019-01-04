@@ -11,12 +11,15 @@ import net.coding.program.common.DrawerLayoutHelper;
 import net.coding.program.common.FilterListener;
 import net.coding.program.common.Global;
 import net.coding.program.common.event.EventFilterDetail;
+import net.coding.program.common.event.EventUpdateTaskCount;
 import net.coding.program.common.model.FilterModel;
 import net.coding.program.common.model.TaskLabelModel;
 import net.coding.program.common.model.TaskProjectCountModel;
 import net.coding.program.common.network.LoadingFragment;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +90,8 @@ public class TaskFilterFragment extends LoadingFragment {
         if (getActivity() == null) return;
 
         View viewById = getActivity().findViewById(R.id.ll_task_filter);
-        viewById.setVisibility(viewById.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+        boolean needHide = viewById.getVisibility() == View.VISIBLE;
+        viewById.setVisibility(needHide ? View.GONE : View.VISIBLE);
     }
 
     private void iniTaskStatus() {
@@ -100,14 +104,6 @@ public class TaskFilterFragment extends LoadingFragment {
                 "我关注的",
                 "我创建的"
         };
-//
-//        if (mTaskCountModel != null) {
-//            filterTxtCount = new String[]{
-//                    String.format(" (%s)", mTaskCountModel.processing + mTaskCountModel.done),
-//                    String.format(" (%s)", mTaskCountModel.watchAll),
-//                    String.format(" (%s)", mTaskCountModel.create)
-//            };
-//        }
 
         if (mTaskProjectCountModel != null) {
             filterTxtCount = new String[]{
@@ -208,6 +204,41 @@ public class TaskFilterFragment extends LoadingFragment {
     @Override
     public void onRefresh() {
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventUpdateCount(EventUpdateTaskCount event) {
+        if (getActivity() == null) return;
+
+        int[] filterItem = {R.id.tv_status1, R.id.tv_status2, R.id.tv_status3};
+        String[] filterTxtCount = new String[0];
+        String[] filterTxt = new String[]{
+                isProjectInner() ? "全部任务" : "我的任务",
+                "我关注的",
+                "我创建的"
+        };
+
+        if (mTaskProjectCountModel != null) {
+            filterTxtCount = new String[]{
+                    String.format(" (%s)", mTaskProjectCountModel.owner),
+                    String.format(" (%s)", mTaskProjectCountModel.watcher),
+                    String.format(" (%s)", mTaskProjectCountModel.creator)
+            };
+        }
+
+        for (int i = 0; i < filterItem.length; i++) {
+            TextView status = getActivity().findViewById(filterItem[i]);
+            if (filterTxtCount.length == 3) {
+                status.setText(filterTxt[i] + filterTxtCount[i]);
+            } else {
+                status.setText(filterTxt[i]);
+            }
+        }
+    }
+
+    @Override
+    protected boolean useEventBus() {
+        return true;
     }
 
     protected boolean isProjectInner() {

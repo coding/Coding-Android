@@ -133,14 +133,14 @@ public class ProjectFragment extends BaseFragment implements ViewPager.OnPageCha
         getNetwork(host, host);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (type != Type.Main && type != Type.Create) {
-            inflater.inflate(R.menu.menu_project_pick_search, menu);
-        }
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        if (type != Type.Main && type != Type.Create) {
+//            inflater.inflate(R.menu.menu_project_pick_search, menu);
+//        }
+//
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 
     void action_filter() {
         if (pageIndex != program_title.length) {

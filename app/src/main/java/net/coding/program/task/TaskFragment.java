@@ -1,6 +1,7 @@
 package net.coding.program.task;
 
 import android.app.Activity;
+import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,8 @@ import net.coding.program.common.ListModify;
 import net.coding.program.common.PinyinComparator;
 import net.coding.program.common.event.EventFilter;
 import net.coding.program.common.event.EventRefreshTask;
+import net.coding.program.common.event.EventRequestTaskCount;
+import net.coding.program.common.event.EventUpdateTaskCount;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.model.TaskCountModel;
@@ -51,6 +54,12 @@ public class TaskFragment extends TaskFilterFragment {
 
     final String host = Global.HOST_API + "/projects?pageSize=100&type=all";
     final String urlTaskCount = Global.HOST_API + "/tasks/projects/count";
+
+    static final String TAG_TASK_COUNT_OWNER = "TAG_TASK_COUNT_OWNER";
+    static final String TAG_TASK_COUNT_WATCHER = "TAG_TASK_COUNT_WATCHER";
+    static final String TAG_TASK_COUNT_CREATOR = "TAG_TASK_COUNT_CREATOR";
+    static final String TAG_TASK_COUNT_OTHER = "TAG_TASK_COUNT_OTHER";
+    static final String TAG_TASK_COUNT_ALL = "TAG_TASK_COUNT_ALL";
 
     @ViewById
     protected MyPagerSlidingTabStrip tabs;
@@ -112,6 +121,21 @@ public class TaskFragment extends TaskFilterFragment {
         loadLabels();
     }
 
+    private void loadTaskCount() {
+        int pos = pager.getCurrentItem();
+        if (pos == 0) {
+            getNetwork(urlTaskCountAll, TAG_TASK_COUNT_ALL);
+        } else {
+            ProjectObject mProjectObject = mData.get(pos);
+            int userid = GlobalData.sUserObject.id;
+            //某个项目
+            getNetwork(String.format(urlTaskSomeCount_owner, mProjectObject.getId(), userid), TAG_TASK_COUNT_OWNER);
+            getNetwork(String.format(urlTaskSomeCount_watcher, mProjectObject.getId(), userid), TAG_TASK_COUNT_WATCHER);
+            getNetwork(String.format(urlTaskSomeCount_creator, mProjectObject.getId(), userid), TAG_TASK_COUNT_CREATOR);
+            getNetwork(String.format(urlTaskSomeOther, mProjectObject.getId()), TAG_TASK_COUNT_OTHER);
+        }
+    }
+
     private void loadLabels() {
 //        int cur = tabs.getCurrentPosition();
         int cur = pager.getCurrentItem();
@@ -122,7 +146,6 @@ public class TaskFragment extends TaskFilterFragment {
             getNetwork(urlTaskLabel + getRole(), urlTaskLabel);
         }
     }
-
 
     @Override
     public void onRefresh() {
@@ -206,6 +229,7 @@ public class TaskFragment extends TaskFilterFragment {
             } else {
                 showErrorMsg(code, response);
             }
+
         } else if (tag.equals(urlTaskSomeCount_owner)) {
             showLoading(false);
             if (code == 0) {
@@ -240,9 +264,67 @@ public class TaskFragment extends TaskFilterFragment {
             } else {
                 showErrorMsg(code, response);
             }
+        } else if (tag.equals(TAG_TASK_COUNT_OWNER)) {
+            if (code == 0) {
+                mTaskProjectCountModel.owner = JSONUtils.getJSONLong("totalRow", response.getString("data"));
+                postUpdateEvent();
+            } else {
+                showErrorMsg(code, response);
+            }
+        } else if (tag.equals(TAG_TASK_COUNT_WATCHER)) {
+            if (code == 0) {
+                mTaskProjectCountModel.watcher = JSONUtils.getJSONLong("totalRow", response.getString("data"));
+                postUpdateEvent();
+            } else {
+                showErrorMsg(code, response);
+            }
+        } else if (tag.equals(TAG_TASK_COUNT_CREATOR)) {
+            if (code == 0) {
+                mTaskProjectCountModel.creator = JSONUtils.getJSONLong("totalRow", response.getString("data"));
+                postUpdateEvent();
+            } else {
+                showErrorMsg(code, response);
+            }
+        } else if (tag.equals(TAG_TASK_COUNT_OTHER)) {
+            if (code == 0) {
+                TaskProjectCountModel item = JSONUtils.getData(response.getString("data"), TaskProjectCountModel.class);
+                mTaskProjectCountModel.ownerDone = item.ownerDone;
+                mTaskProjectCountModel.ownerProcessing = item.ownerProcessing;
+                mTaskProjectCountModel.creatorDone = item.creatorDone;
+                mTaskProjectCountModel.creatorProcessing = item.creatorProcessing;
+                mTaskProjectCountModel.watcherDone = item.watcherDone;
+                mTaskProjectCountModel.watcherProcessing = item.watcherProcessing;
+                postUpdateEvent();
+            } else {
+                showErrorMsg(code, response);
+            }
+        } else if (tag.equals(TAG_TASK_COUNT_ALL)) {
+            if (code == 0) {
+                TaskCountModel mTaskCountModel = JSONUtils.getData(response.getString("data"), TaskCountModel.class);
+                mTaskProjectCountModel.owner = mTaskCountModel.processing + mTaskCountModel.done;
+                mTaskProjectCountModel.ownerDone = mTaskCountModel.done;
+                mTaskProjectCountModel.ownerProcessing = mTaskCountModel.processing;
+
+                mTaskProjectCountModel.watcher = mTaskCountModel.watchAll;
+                mTaskProjectCountModel.watcherDone = mTaskCountModel.watchAll - mTaskCountModel.watchAllProcessing;
+                mTaskProjectCountModel.watcherProcessing = mTaskCountModel.watchAllProcessing;
+
+                mTaskProjectCountModel.creator = mTaskCountModel.create;
+                mTaskProjectCountModel.creatorDone = mTaskCountModel.create - mTaskCountModel.createProcessing;
+                mTaskProjectCountModel.creatorProcessing = mTaskCountModel.createProcessing;
+
+                postUpdateEvent();
+            } else {
+                showErrorMsg(code, response);
+            }
         }
+
         //设置DrawerLayout的数据
         setDrawerData();
+    }
+
+    private void postUpdateEvent() {
+        EventBus.getDefault().post(new EventUpdateTaskCount());
     }
 
     private void jsonToAllData(JSONArray jsonArray) throws JSONException {
@@ -286,25 +368,21 @@ public class TaskFragment extends TaskFilterFragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        EventBus.getDefault().unregister(this);
-    }
-
     // 用于处理推送
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(EventFilter eventFilter) {
         //确定是我的任务筛选
         if (eventFilter.index == 1) {
             meActionFilter();
+            loadTaskCount();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventRequestTaskCount(EventRequestTaskCount event) {
+        if (getActivity() == null) return;
+
+        loadTaskCount();
     }
 
     // 用于处理推送
