@@ -16,17 +16,21 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="10dp"
         android:scaleType="center"
+        android:visibility="gone"
         android:src="@drawable/top_tip_icon" />
 
     <TextView
         android:id="@+id/topTipText"
         android:layout_width="0dp"
+        android:layout_marginLeft="@dimen/padding_15"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:paddingBottom="@dimen/padding_10"
         android:paddingRight="@dimen/padding_15"
         android:paddingTop="@dimen/padding_10"
         android:text="@string/tip_need_userinfo"
+        tools:text="@string/sold_out_app"
+        android:lineSpacingExtra="5dp"
         android:textColor="@color/layout_yellow_font"
         android:textSize="14sp" />
 

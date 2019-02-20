@@ -264,6 +264,10 @@ public class Global {
         }
     }
 
+    public static String decodeUtf8Double(String s) {
+        return decodeUtf8(decodeUtf8(s));
+    }
+
     public static boolean isImageUri(String s1) {
         s1 = s1.toLowerCase();
         return s1.endsWith(".png")

@@ -49,6 +49,7 @@
     <string name="title_activity_friend">选择好友</string>
     <string name="tip_vip_expired">请到网站续费</string>
     <string name="tip_update_app">立即升级最新 Coding 客户端</string>
+    <string name="sold_out_app">温馨提示：出于实际使用场景限制的考虑，该 App 不再进行更多新功能开发，建议您前往 PC 端网页版体验更完整的产品功能。</string>
     <string name="empty" />
     <string name="title_activity_manually_qcode">手动添加账号</string>
     <string name="title_activity_like_users_list">打赏和点赞的用户</string>

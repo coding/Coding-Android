@@ -695,6 +695,9 @@ public class MyApp extends MultiDexApplication {
                     String projectString = matcher.group(2);
                     String version = matcher.group(3);
                     String projectPath = String.format("/user/%s/project/%s", userString, projectString);
+                    if (!TextUtils.isEmpty(version)) {
+                        version = Global.decodeUtf8(version);
+                    }
 
                     intent.putExtra("mProjectPath", projectPath);
                     intent.putExtra("mVersion", version);

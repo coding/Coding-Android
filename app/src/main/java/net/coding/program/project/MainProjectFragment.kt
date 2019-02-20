@@ -113,6 +113,13 @@ class MainProjectFragment : BaseFragment() {
         }
     }
 
+    private fun soldOutTip() {
+        topTip.visibility = View.VISIBLE
+        closeTipButton.setOnClickListener { topTip.visibility = View.GONE }
+        topTipText.setText(R.string.sold_out_app)
+        topTip.setOnClickListener { Global.updateByMarket(activity) }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -120,7 +127,7 @@ class MainProjectFragment : BaseFragment() {
         toolbarTitle.setOnClickListener { toolbarTitle() }
         initMainProjectFragment()
 
-        checkNeedUpdate()
+        soldOutTip()
     }
 
     internal fun toolbarTitle() {
