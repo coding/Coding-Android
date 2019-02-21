@@ -84,6 +84,12 @@ public class EnterpriseProjectFragment extends BaseFragment {
     @ViewById
     View toolbarTitle;
 
+    @ViewById
+    View topTip, closeTipButton;
+
+    @ViewById
+    TextView topTipText;
+
     ArrayList<ProjectObject> listData = new ArrayList<>();
     ArrayList<ProjectObject> allListData = new ArrayList<>();
 
@@ -145,6 +151,18 @@ public class EnterpriseProjectFragment extends BaseFragment {
         onRefresh();
 
         setHasOptionsMenu(true);
+
+        if (GlobalData.isPrivateEnterprise()) {
+            topTip.setVisibility(View.GONE);
+        } else {
+            soldOutTip();
+        }
+    }
+
+    private void soldOutTip() {
+        topTip.setVisibility(View.VISIBLE);
+        closeTipButton.setOnClickListener(v -> topTip.setVisibility(View.GONE));
+        topTipText.setText(R.string.sold_out_app);
     }
 
     private void initActionBar() {

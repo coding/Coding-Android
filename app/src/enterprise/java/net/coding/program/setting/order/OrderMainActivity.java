@@ -131,13 +131,9 @@ public class OrderMainActivity extends BackActivity {
         Spanned balanceContentString = empty;
         String balanceTipString = "";
 
-        if (account.trial) { // 处于试用期
-            if (account.remaindays > 5) {
-                warnString = Global.createColorHtml("您正在试用 Coding 企业版，试用期剩余 ", String.valueOf(account.remaindays), " 天", fontOragne);
-            } else {
-                warnString = Global.createColorHtml("您正在试用 Coding 企业版，试用期剩余 ", String.valueOf(account.remaindays), " 天", fontRed);
-            }
-            balanceTipString = String.format("试用期至 %s，剩余 %s 天", timeString, account.remaindays);
+        if (account.trial && !account.payed) { // 处于试用期
+            warnString = Global.createColorHtml("您正在免费试用 CODING 企业服务", fontOragne);
+            balanceTipString = String.format("预计可使用至 %s，剩余 %s 天", timeString, account.remaindays);
 
             if (account.payed) { // 试用期且付过费
                 balanceTitleString = new SpannedString("账户余额（元）");
@@ -158,7 +154,7 @@ public class OrderMainActivity extends BackActivity {
 
                     balanceTitleString = new SpannedString("账户余额（元）");
                     balanceContentString = Global.createColorHtml(account.balance, fontOragne);
-                    balanceTipString = String.format("余额预计可使用至 %s，剩余 %s 天", df.format(account.estimateDate), account.remaindays);
+                    balanceTipString = String.format("预计可使用至 %s，剩余 %s 天", df.format(account.estimateDate), account.remaindays);
 
                     showOrderAndRecord(true);
 

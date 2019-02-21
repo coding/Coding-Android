@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.GlobalData;
@@ -29,8 +31,6 @@ import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.ColorRes;
 import org.json.JSONObject;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 @EActivity(R.layout.activity_enterprise_account)
 @OptionsMenu(R.menu.enterprise_account_menu)
@@ -100,7 +100,7 @@ public class EnterpriseAccountActivity extends BackActivity {
                 account = new EnterpriseAccount(response.optJSONObject("data"));
                 Spanned countString;
 
-                if (account.trial) { // 处于试用期
+                if (account.trial && !account.payed) { // 处于试用期
                     int fontColor = account.remaindays > 5 ? fontOragne : fontRed;
                     countString = Global.createColorHtml("试用期剩余 ", String.valueOf(account.remaindays), " 天", fontColor);
                 } else {

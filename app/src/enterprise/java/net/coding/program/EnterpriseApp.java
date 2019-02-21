@@ -47,9 +47,9 @@ public class EnterpriseApp extends MyApp {
         AccountInfo.CustomHost customHost = AccountInfo.getCustomHost(GlobalData.getInstance());
         if (customHost.getHost().equalsIgnoreCase("s")) {
             if (TextUtils.isEmpty(enterpriseName)) {
-                host = "http://e.coding.codingprod.net";
+                host = "http://e.coding.e.codingprod.net";
             } else {
-                host = String.format("http://%s.coding.codingprod.net", enterpriseName);
+                host = String.format("http://%s.coding.e.codingprod.net", enterpriseName);
             }
         } else {
             if (enterpriseName.isEmpty()) {

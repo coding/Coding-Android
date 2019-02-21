@@ -58,13 +58,13 @@ public class UrlCreate {
     }
 
     // 重编码2次，git服务器那边要求的
-    private static String encode2Pager(String path) {
+    public static String encode2Pager(String path) {
         if (path == null || path.isEmpty()) {
             path = "";
         }
 
         String dest = Global.encodeUtf8("/" + path);
-        dest = Global.encodeUtf8(dest);
+//        dest = Global.encodeUtf8(dest);
         return dest + "?";
     }
 
@@ -75,7 +75,7 @@ public class UrlCreate {
         }
 
         String dest = Global.encodeUtf8("/" + path);
-        dest = Global.encodeUtf8(dest);
+//        dest = Global.encodeUtf8(dest);
         return dest;
     }
 
@@ -87,7 +87,7 @@ public class UrlCreate {
         }
 
         String dest = Global.encodeUtf8(path);
-        dest = Global.encodeUtf8(dest);
+//        dest = Global.encodeUtf8(dest);
         return dest;
     }
 }
