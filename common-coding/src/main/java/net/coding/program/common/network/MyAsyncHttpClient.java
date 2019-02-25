@@ -11,6 +11,7 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.ResponseHandlerInterface;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.model.RequestData;
 import net.coding.program.common.util.LogUtils;
@@ -116,6 +117,11 @@ public class MyAsyncHttpClient {
 
         for (String item : mapHeaders.keySet()) {
             client.addHeader(item, mapHeaders.get(item));
+        }
+
+        String enterpriseGK = GlobalData.getEnterpriseGK();
+        if (enterpriseGK.contains("_")) {
+            client.addHeader("Wxapp-Enterprise", enterpriseGK);
         }
 
         // 防止 CSRF

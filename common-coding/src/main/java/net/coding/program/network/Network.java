@@ -5,6 +5,7 @@ import android.content.Context;
 import com.loopj.android.http.PersistentCookieStore;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.widget.CommonListView;
 
@@ -121,6 +122,11 @@ public class Network {
 
                 if (url.toLowerCase().startsWith(Global.HOST.toLowerCase())) {
                     builder.addHeader("Referer", Global.HOST);
+                }
+
+                String enterpriseGK = GlobalData.getEnterpriseGK();
+                if (enterpriseGK.contains("_")) {
+                    builder.addHeader("Wxapp-Enterprise", enterpriseGK);
                 }
 
                 request = builder.build();

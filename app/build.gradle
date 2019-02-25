@@ -71,7 +71,7 @@ android {
             dimension "mode"
             applicationId "net.coding.program.enterprise"
             versionCode 298
-            versionName "2.9.8.20190221.1"
+            versionName "2.9.9.20190225.1"
             targetSdkVersion 21
 
             // 信鸽依赖

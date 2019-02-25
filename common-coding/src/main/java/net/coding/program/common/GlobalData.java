@@ -31,11 +31,24 @@ public class GlobalData {
         if (uri.startsWith("/p/")) {
             uri = String.format("/u/%s%s", getEnterpriseGK(), uri);
         } else {
-            final String projectUrl = (Global.HOST + "/p/").toLowerCase();
-            if (uri.toLowerCase().startsWith(projectUrl)) {
-                int pathStart = Global.HOST.length();
-                String uriPath = uri.substring(pathStart, uri.length());
-                uri = String.format("/u/%s%s", getEnterpriseGK(), uriPath);
+            String enterpriseGK = GlobalData.getEnterpriseGK();
+            if (enterpriseGK.contains("_")) {
+                int start = Global.HOST.indexOf("://") + "://".length();
+                int end = Global.HOST.indexOf(".");
+                final String underlineHost = Global.HOST.substring(0, start)
+                        + GlobalData.getEnterpriseGK()
+                        + Global.HOST.substring(end, Global.HOST.length());
+                final String projectUrl = (underlineHost + "/p/").toLowerCase();
+                if (uri.toLowerCase().startsWith(projectUrl)) {
+                    String uriPath = uri.substring(underlineHost.length(), uri.length());
+                    uri = String.format("/u/%s%s", getEnterpriseGK(), uriPath);
+                }
+            } else {
+                final String projectUrl = (Global.HOST + "/p/").toLowerCase();
+                if (uri.toLowerCase().startsWith(projectUrl)) {
+                    String uriPath = uri.substring(Global.HOST.length(), uri.length());
+                    uri = String.format("/u/%s%s", getEnterpriseGK(), uriPath);
+                }
             }
         }
 

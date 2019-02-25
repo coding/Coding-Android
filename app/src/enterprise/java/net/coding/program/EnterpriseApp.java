@@ -47,9 +47,9 @@ public class EnterpriseApp extends MyApp {
         AccountInfo.CustomHost customHost = AccountInfo.getCustomHost(GlobalData.getInstance());
         if (customHost.getHost().equalsIgnoreCase("s")) {
             if (TextUtils.isEmpty(enterpriseName)) {
-                host = "http://e.coding.e.codingprod.net";
+                host = "http://e.coding.codingprod.net";
             } else {
-                host = String.format("http://%s.coding.e.codingprod.net", enterpriseName);
+                host = String.format("http://%s.coding.codingprod.net", enterpriseName);
             }
         } else {
             if (enterpriseName.isEmpty()) {
@@ -64,6 +64,13 @@ public class EnterpriseApp extends MyApp {
 //        host = "http://codingcorp.coding.com";
         Global.HOST = host;
         Global.HOST_API = Global.HOST + "/api";
+
+        if (enterpriseName.contains("_")) {
+            int start = host.indexOf("://") + "://".length();
+            int end = host.indexOf(".");
+            Global.HOST = Global.HOST.substring(0, start) + "e" + Global.HOST.substring(end, Global.HOST.length());
+            Global.HOST_API = Global.HOST + "/api";
+        }
     }
 
     private static void initPrivateHost(Context context) {
