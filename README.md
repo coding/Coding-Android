@@ -4,7 +4,7 @@
 
 
 ##编译环境
-Android Studio 2.2.3，用gradle引用的许多第三方库，第一次加载会有点慢，加载完毕后要build一下，这些待下划线的类（比如 MainActivity_）会在build之后自动生成。
+Android Studio 3.1.3，根据 `variants` 选择编译企业版或个人版。修改 `gradle.properties.sample` 为 `gradle.properties` 并修改文件中 `keystore` 相关的环境变量，编译企业版的时候，`DEV_ENTERPRISE` 设置为 `true` ,因为用 `gradle` 引用的许多第三方库，所以第一次加载会有点慢，加载完毕后要 `build` 一下，这些待下划线的类（比如 `MainActivity_`）会在build之后自动生成。
 
 ##包说明
 >common 基类和工具类  
