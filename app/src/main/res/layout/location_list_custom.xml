@@ -21,9 +21,9 @@
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:maxLines="1"
-            android:singleLine="true"
+            android:lines="1"
             android:text="没有找到你的位置?"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="14sp" />
 
         <TextView
@@ -34,9 +34,9 @@
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:maxLines="1"
-            android:singleLine="true"
+            android:lines="1"
             android:text="创建新的位置: "
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

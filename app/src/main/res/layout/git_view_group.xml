@@ -25,6 +25,6 @@
 
     <View
         style="@style/DivideLine"
-        android:layout_marginLeft="15dp"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="15dp" />
 </FrameLayout>

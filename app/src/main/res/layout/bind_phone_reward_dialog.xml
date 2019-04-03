@@ -13,8 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:scaleType="centerCrop"
         android:layout_marginTop="10dp"
+        android:scaleType="centerCrop"
         android:src="@mipmap/ic_porint" />
 
     <TextView
@@ -26,7 +26,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:text="成功完成手机验证 !"
-        android:textColor="@color/font_black_0"
+        android:textColor="@color/font_black"
         android:textSize="18sp" />
 
     <TextView
@@ -34,9 +34,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
-        android:textColor="@color/font_6"
-        android:visibility="visible"
         android:text="获得 0.1 MB 的奖励"
+        android:textColor="@color/font_2"
+        android:visibility="visible"
         tools:visibility="visible" />
 
     <LinearLayout
@@ -65,11 +65,10 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="知道了"
-            android:textColor="#76808E"
+            android:textColor="@color/font_2"
             android:textSize="18sp"
             app:rv_cornerRadius="4dp"
-            app:rv_strokeColor="#D8DDE4"
-
+            app:rv_strokeColor="@color/divide_line"
             app:rv_strokeWidth="1dp" />
 
 

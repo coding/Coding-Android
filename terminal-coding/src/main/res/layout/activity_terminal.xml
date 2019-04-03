@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="net.coding.program.terminal.TerminalActivity">
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="48dp" />
+
+    <net.coding.program.terminal.TerminalEdit
+        android:layout_width="match_parent"
+        android:id="@+id/edit"
+        android:visibility="gone"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/maskView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/keyboard"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:background="@color/stand_bg"
+        android:layout_height="48dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/keyEsc"
+            style="@style/KeyItem" />
+
+        <TextView
+            android:id="@+id/keyCtrl"
+            style="@style/KeyItem" />
+
+        <TextView
+            android:id="@+id/keyAlt"
+            style="@style/KeyItem" />
+
+        <ImageView
+            android:id="@+id/keyTab"
+            style="@style/KeyItem" />
+
+        <LinearLayout
+            android:id="@+id/layoutSwitch"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:orientation="horizontal"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/keyMore"
+            android:layout_marginRight="0dp"
+            style="@style/KeyItem" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutExt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/divide"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="48dp"
+        android:paddingBottom="2dp"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+
+</FrameLayout>

@@ -7,8 +7,8 @@ import android.support.v7.app.ActionBar;
 import android.util.TypedValue;
 
 import net.coding.program.R;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.model.ProjectObject;
 import net.coding.program.third.WechatTab;
 
 import org.androidannotations.annotations.AfterViews;

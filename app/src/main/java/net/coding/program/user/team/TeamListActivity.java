@@ -8,8 +8,9 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.model.team.TeamListObject;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.team.TeamListObject;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -31,12 +32,34 @@ public class TeamListActivity extends BackActivity {
     @ViewById
     ListView listView;
 
+    @ViewById
+    View blankLayout;
+
     ArrayList<TeamListObject> listData = new ArrayList<>();
+    View.OnClickListener onClickRetry = v -> loadData();
+    SimpleAdapter baseAdapter = new SimpleAdapter<TeamListObject, ViewHolder>() {
+        @Override
+        public void bindData(ViewHolder holder, TeamListObject data, int position) {
+            imagefromNetwork(holder.icon, data.avatar, ImageLoadTool.optionsRounded2);
+            holder.name.setText(data.name);
+            holder.projectCount.setText(String.valueOf(data.projectcount));
+            holder.memberCount.setText(String.valueOf(data.membercount));
+            holder.bottomLine.setVisibility(position == getCount() - 1 ? View.INVISIBLE : View.VISIBLE);
+        }
+
+        @Override
+        public int getItemlayoutId() {
+            return R.layout.activity_team_list_item;
+        }
+
+        @Override
+        public ViewHolder createViewHolder(View v) {
+            return new ViewHolder(v);
+        }
+    };
 
     @AfterViews
     void initTeamListActivity() {
-        View listViewHeader = getLayoutInflater().inflate(R.layout.divide_top_15, listView, false);
-        listView.addHeaderView(listViewHeader, null, false);
         View listViewFooter = getLayoutInflater().inflate(R.layout.divide_bottom_15, listView, false);
         listView.addFooterView(listViewFooter, null, false);
         baseAdapter.init(listData);
@@ -69,6 +92,8 @@ public class TeamListActivity extends BackActivity {
             } else {
                 showErrorMsg(code, respanse);
             }
+
+            BlankViewDisplay.setBlank(listData.size(), this, code == 0, blankLayout, onClickRetry);
         }
     }
 
@@ -81,27 +106,6 @@ public class TeamListActivity extends BackActivity {
     void onResultDetail(int resultCode) {
         loadData();
     }
-
-    SimpleAdapter baseAdapter = new SimpleAdapter<TeamListObject, ViewHolder>() {
-        @Override
-        public void bindData(ViewHolder holder, TeamListObject data, int position) {
-            imagefromNetwork(holder.icon, data.avatar, ImageLoadTool.optionsRounded2);
-            holder.name.setText(data.name);
-            holder.projectCount.setText(String.valueOf(data.projectcount));
-            holder.memberCount.setText(String.valueOf(data.membercount));
-            holder.bottomLine.setVisibility(position == getCount() - 1 ? View.INVISIBLE : View.VISIBLE);
-        }
-
-        @Override
-        public int getItemlayoutId() {
-            return R.layout.activity_team_list_item;
-        }
-
-        @Override
-        public ViewHolder createViewHolder(View v) {
-            return new ViewHolder(v);
-        }
-    };
 
 //    BaseAdapter baseAdapter = new SimpleAdapter<TeamListObject, ViewHolder>() {} {
 //        @Override
@@ -140,7 +144,6 @@ public class TeamListActivity extends BackActivity {
 //            return convertView;
 //        }
 //    };
-
 
     class ViewHolder {
         ImageView icon;

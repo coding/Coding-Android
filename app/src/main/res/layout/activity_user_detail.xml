@@ -1,5 +1,4 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,8 +11,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/view_user_info"/>
+        <include layout="@layout/view_user_info" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,9 +25,10 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 app:itemIcon="@drawable/user_home_project"
-                app:itemTitle="TA的项目"/>
+                app:itemShowArrow="false"
+                app:itemTitle="TA的项目" />
 
-            <include layout="@layout/divideline_15"/>
+            <include layout="@layout/divideline_15" />
 
             <net.coding.program.common.widget.ListItem1
                 android:id="@+id/clickMaopao"
@@ -37,9 +36,10 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 app:itemIcon="@drawable/user_home_maopao"
-                app:itemTitle="TA的冒泡"/>
+                app:itemShowArrow="false"
+                app:itemTitle="TA的冒泡" />
 
-            <include layout="@layout/divideline_15"/>
+            <include layout="@layout/divideline_15" />
 
             <net.coding.program.common.widget.ListItem1
                 android:id="@+id/clickTopic"
@@ -47,11 +47,12 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 app:itemIcon="@drawable/user_home_topic"
-                app:itemTitle="TA的话题"/>
+                app:itemShowArrow="false"
+                app:itemTitle="TA的话题" />
 
             <include
                 android:id="@+id/divideLocal"
-                layout="@layout/divideline_15"/>
+                layout="@layout/divideline_15" />
 
             <net.coding.program.common.widget.ListItem1
                 android:id="@+id/clickLocal"
@@ -59,12 +60,12 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 app:itemIcon="@drawable/user_home_local"
-                app:itemTitle="本地文件"/>
+                app:itemTitle="本地文件" />
 
             <include
                 android:id="@+id/pointDivide"
                 layout="@layout/divide_bottom_15"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <net.coding.program.common.widget.ListItem1
                 android:id="@+id/clickPointRecord"
@@ -73,11 +74,11 @@
                 android:focusable="false"
                 android:visibility="gone"
                 app:itemIcon="@drawable/user_home_points"
-                app:itemTitle="我的码币"/>
+                app:itemTitle="我的码币" />
 
         </LinearLayout>
 
-        <include layout="@layout/divide_bottom_15"/>
+        <include layout="@layout/divide_bottom_15" />
 
         <RelativeLayout
             android:id="@+id/sendMessageLayout"
@@ -97,7 +98,7 @@
                 android:gravity="center"
                 android:text="发消息"
                 android:textColor="@color/white"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
         </RelativeLayout>
 

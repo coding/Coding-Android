@@ -23,16 +23,6 @@ public class TaskDescripMdFragment extends MDEditFragment {
     String contentMd;
 
     ActionMode mActionMode;
-
-    @AfterViews
-    void init() {
-        setHasOptionsMenu(true);
-        if (contentMd != null) {
-            edit.setText(contentMd);
-            mActionMode = getActivity().startActionMode(mActionModeCallback);
-        }
-    }
-
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
         int id = 0;
@@ -93,6 +83,15 @@ public class TaskDescripMdFragment extends MDEditFragment {
             }
         }
     };
+
+    @AfterViews
+    void init() {
+        setHasOptionsMenu(true);
+        if (contentMd != null) {
+            edit.setText(contentMd);
+            mActionMode = getActivity().startActionMode(mActionModeCallback);
+        }
+    }
 
     @OptionsItem
     void action_save() {

@@ -7,13 +7,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.maopao.MaopaoListFragment;
 import net.coding.program.maopao.MaopaoListFragment_;
-import net.coding.program.model.UserObject;
 import net.coding.program.subject.SubjectListFragment;
 import net.coding.program.subject.SubjectListFragment_;
 import net.coding.program.third.WechatTab;
@@ -28,7 +30,7 @@ import org.json.JSONObject;
 public class MyDetailActivity extends UserDetailCommonActivity {
 
     public final int RESULT_EDIT = 0;
-    private final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
+    private final String TAG_HOST_USER_INFO = "TAG_HOST_USER_INFO";
 
     @ViewById
     WechatTab tabs;
@@ -38,7 +40,7 @@ public class MyDetailActivity extends UserDetailCommonActivity {
 
     @AfterViews
     void initMyDetailActivity() {
-        bindUI(MyApp.sUserObject);
+        bindUI(GlobalData.sUserObject);
         tv_follow_state.setText("编辑资料");
         rl_follow_state.setOnClickListener(v -> {
             UserDetailEditActivity_
@@ -50,21 +52,25 @@ public class MyDetailActivity extends UserDetailCommonActivity {
     @Override
     public void onResume() {
         super.onResume();
-        final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
-        getNetwork(HOST_USER_INFO + MyApp.sUserObject.global_key, HOST_USER_INFO);
+        final String HOST_USER_INFO = Global.HOST_API + "/current_user";
+        getNetwork(HOST_USER_INFO, TAG_HOST_USER_INFO);
     }
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(HOST_USER_INFO)) {
+        if (tag.equals(TAG_HOST_USER_INFO)) {
             if (code == 0) {
                 mUserObject = new UserObject(respanse.getJSONObject("data"));
+
+                AccountInfo.saveAccount(this, mUserObject);
+                GlobalData.sUserObject = mUserObject;
+                AccountInfo.saveReloginInfo(this, mUserObject);
                 bindUI(mUserObject);
             } else {
                 showButtomToast("获取用户信息错误");
             }
         }
-        operActivenessResult(code, respanse, tag);
+        openActivenessResult(code, respanse, tag);
     }
 
 
@@ -78,7 +84,7 @@ public class MyDetailActivity extends UserDetailCommonActivity {
     }
 
     public int getActionBarSize() {
-        return Global.dpToPx(48);
+        return GlobalCommon.dpToPx(48);
     }
 
     private static class MyDetailPagerAdapter extends FragmentPagerAdapter {
@@ -100,11 +106,11 @@ public class MyDetailActivity extends UserDetailCommonActivity {
             if (position == 0) {
                 return MaopaoListFragment_.builder()
                         .mType(MaopaoListFragment.Type.user)
-                        .userId(MyApp.sUserObject.id)
+                        .userId(GlobalData.sUserObject.id)
                         .build();
             } else {
                 return SubjectListFragment_.builder()
-                        .userKey(MyApp.sUserObject.global_key)
+                        .userKey(GlobalData.sUserObject.global_key)
                         .mType(SubjectListFragment.Type.join)
                         .build();
             }

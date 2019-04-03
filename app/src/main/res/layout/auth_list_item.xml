@@ -1,46 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="110dp"
+    android:background="@color/stand_bg"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
     android:padding="@dimen/padding_15">
 
     <TextView
-        android:id="@+id/company"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Coding"
-        android:textColor="@color/font_6"
-        android:textSize="15sp" />
-
-    <TextView
         android:id="@+id/code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/company"
         android:inputType="number"
         android:text="234123"
         android:textColor="@color/font_green"
-        android:textSize="40sp"
-        android:textStyle="bold" />
+        android:textSize="40sp" />
 
     <net.coding.program.login.auth.CountdownIndicator
         android:id="@+id/indicator"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true" />
+
+    <TextView
+        android:id="@+id/company"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/code"
+        android:layout_marginTop="5dp"
+        tools:text="Coding"
+        android:textColor="@color/font_3"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/divideSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/company"
+        android:layout_toRightOf="@id/company"
+        android:text=" / "
+        android:textColor="@color/font_3"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/code"
+        android:layout_alignTop="@id/company"
         android:layout_toLeftOf="@id/indicator"
-        android:text="guog@coding"
-        android:textColor="@color/font_9" />
+        android:layout_toRightOf="@id/divideSymbol"
+        android:textColor="@color/font_3"
+        tools:text="guog@coding" />
 
 </RelativeLayout>

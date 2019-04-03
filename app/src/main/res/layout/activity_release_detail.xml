@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/stand_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:id="@+id/contentLayout"
+            android:background="@color/stand_bg"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="20180323.1-hotfix 登录 push 代码送码币"
+                android:textColor="#FF272C33"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/timeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:drawableLeft="@drawable/release_tag_blue"
+                android:drawablePadding="4dp"
+                android:text="发布于 3 小时前"
+                android:textColor="@color/font_green"
+                android:textSize="12sp" />
+
+            <View
+                style="@style/DivideLine"
+                android:layout_marginTop="15dp" />
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="-10dp"
+                android:layout_marginRight="-10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp" />
+
+            <include layout="@layout/release_file_layout" android:id="@+id/releaseFile" />
+
+            <include layout="@layout/release_file_layout" android:id="@+id/releaseRef" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/blankLayout"
+        layout="@layout/view_exception"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

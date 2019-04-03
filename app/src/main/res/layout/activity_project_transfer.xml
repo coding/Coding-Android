@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="net.coding.program.project.init.setting.ProjectTransferActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/init_common_bg"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="net.coding.program.project.init.setting.ProjectTransferActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/init_advance_header_bg"
+        android:background="@color/stand_bg"
         android:orientation="vertical"
         android:padding="14dp">
 
@@ -18,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="注意： 项目转让后，你将不再是“项目所有者”，你将失去某些管理权限（如添加成员、开启演示、删除项目等）。同时，项目转让后，项目的git 仓库访问路径会发生变化，例如：用户 Coding 将项目转给用户 Demo 后， git 仓库访问路径将由 https://git.coding.net/coding/test.git 变成 https://git.coding.net/demo/test.git"
-            android:textColor="@color/font_6"
-            android:textSize="16sp" />
+            android:textColor="@color/font_2"
+            android:textSize="14sp" />
 
     </LinearLayout>
 
@@ -59,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="chenchao陈超"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="16sp" />
 
         <ImageView
@@ -72,18 +71,16 @@
 
     <include layout="@layout/divide_middle_15" />
 
-    <Button
+    <TextView
         android:id="@+id/deleteBut"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textSize="18sp"
-        android:layout_marginLeft="@dimen/padding_14"
-        android:layout_marginRight="@dimen/padding_14"
-        android:background="@drawable/login_button"
-        android:text="转让项目"
+        android:layout_height="45dp"
+        android:background="@color/stand_bg"
         android:gravity="center"
-        android:textColor="@drawable/font_login_button"
-        android:textStyle="bold"
-        />
+        android:text="转让项目"
+        android:textColor="@color/font_1"
+        android:textSize="16sp" />
+
+    <include layout="@layout/divide_bottom_5" />
 
 </LinearLayout>

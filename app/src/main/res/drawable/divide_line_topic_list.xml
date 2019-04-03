@@ -12,5 +12,5 @@
             <solid android:color="@color/divide_line" />
         </shape>
     </item>
-    
+
 </layer-list>

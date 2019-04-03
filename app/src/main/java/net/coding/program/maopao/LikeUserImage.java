@@ -5,8 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
 import net.coding.program.R;
-import net.coding.program.common.Global;
-import net.coding.program.model.Maopao;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.model.Maopao;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -35,7 +35,7 @@ public class LikeUserImage extends CircleImageView {
         setBorderColor(0xFFFFAE03);
         setBorderWidth(0);
 
-        mWidth = Global.dpToPx(1);
+        mWidth = GlobalCommon.dpToPx(1);
     }
 
     @Override

@@ -10,10 +10,10 @@
         android:id="@+id/icon"
         android:layout_width="37dp"
         android:layout_height="37dp"
-        android:layout_marginLeft="@dimen/padding_15"
-        android:layout_marginTop="@dimen/padding_12"
         android:layout_marginBottom="@dimen/padding_12"
+        android:layout_marginLeft="@dimen/padding_15"
         android:layout_marginRight="@dimen/padding_12"
+        android:layout_marginTop="@dimen/padding_12"
         android:focusable="false"
         android:src="@drawable/ic_default_user" />
 
@@ -42,7 +42,7 @@
                 android:lineSpacingExtra="1dp"
                 android:lineSpacingMultiplier="1.1"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="15sp" />
         </LinearLayout>
 
@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="超级小胖纸"
-                android:textColor="@color/font_6"
+                android:textColor="@color/font_3"
                 android:textSize="12sp" />
 
             <TextView
@@ -78,22 +78,16 @@
                 android:drawableLeft="@drawable/ic_clock"
                 android:drawablePadding="5dp"
                 android:text="3分钟前"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/commentWebviewDetail"
-                android:text="查看详情"
-                style="@style/commentWebviewDetail" />
+                style="@style/commentWebviewDetail"
+                android:visibility="invisible"
+                android:text="查看详情" />
 
         </RelativeLayout>
     </LinearLayout>
-
-    <!--<include-->
-    <!--layout="@layout/divide_1"-->
-    <!--android:layout_below="@id/layout_1"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="1dp"-->
-    <!--android:layout_marginTop="10dp" />-->
 
 </RelativeLayout>

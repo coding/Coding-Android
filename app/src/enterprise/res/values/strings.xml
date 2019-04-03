@@ -1,0 +1,28 @@
+<resources>
+
+    <string name="app_name">Coding 企业版</string>
+    <string name="exit_app">再按一次退出Coding企业版</string>
+    <string name="title_pick_user_activity">企业成员</string>
+    <string name="title_enterprise_account_activity">企业账户</string>
+    <string name="title_manage_project_activity">项目管理</string>
+    <string name="title_manage_member_activity">成员管理</string>
+    <string name="title_manage_support_activity">售后支持</string>
+    <string name="title_manage_order_activity">订购状态</string>
+    <string name="title_common_pick_project">选择项目</string>
+    <string name="title_set_enterprise_authority"> 设置企业角色</string>
+    <string name="title_activity_help">帮助中心</string>
+    <string name="add_project_maopao">创建公告</string>
+    <string name="title_activity_project_maopao">公告</string>
+    <string name="title_activity_project_maopao_add">创建公告</string>
+
+    <string name="project_maopao_list_empty">暂时没有项目公告哦～</string>
+    <string name="input_project_maopao_content">输入公告内容</string>
+    <string name="delete_maopao">删除公告</string>
+    <string name="enterprise_setting">企业设置</string>
+    <string name="enterprise_name">企业名称</string>
+    <string name="enterprise_head">企业头像</string>
+    <string name="person_address">个性域名</string>
+
+    <string name="guide_0_content">Coding Enterprise 是 CODING 专为企业打造的软件开发协作平台，让企业更好地管理项目成员，便捷而深入地把握开发进度，让开发流程更高效。</string>
+
+</resources>

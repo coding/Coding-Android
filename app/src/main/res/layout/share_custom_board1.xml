@@ -23,8 +23,8 @@
             android:text="冒泡分享到" />
 
         <org.apmem.tools.layouts.FlowLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
             android:id="@+id/allButtonsLayout"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"></org.apmem.tools.layouts.FlowLayout>
 
         <LinearLayout

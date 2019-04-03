@@ -4,11 +4,11 @@
     android:gravity="center_vertical">
 
     <android.support.v7.widget.SearchView
-        android:layout_marginRight="@dimen/padding_15"
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/padding_15"
         android:layout_weight="1"
-        android:singleLine="true" />
+        android:lines="1" />
 
 </LinearLayout>

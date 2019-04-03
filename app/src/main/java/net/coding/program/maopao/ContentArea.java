@@ -5,6 +5,7 @@ import android.view.View;
 
 import net.coding.program.R;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.maopao.ClickImageParam;
 import net.coding.program.common.widget.GifMarkImageView;
 import net.coding.program.maopao.item.ContentAreaImages;
 
@@ -52,7 +53,7 @@ public class ContentArea extends ContentAreaImages {
         if (uris.size() == 1) {
             imageLoad.loadImage(imageSingle, uris.get(0), imageOptions);
             imageSingle.showGifFlag(uris.get(0));
-            imageSingle.setTag(new MaopaoListFragment.ClickImageParam(uris, 0, false));
+            imageSingle.setTag(new ClickImageParam(uris, 0, false));
         } else {
             super.setImageUrl(uris);
         }

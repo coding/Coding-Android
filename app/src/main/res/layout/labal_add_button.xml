@@ -2,9 +2,9 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="@dimen/labal_detail_height"
+    android:layout_marginBottom="@dimen/label_list_item_merge_bottom"
     android:background="@drawable/round_rect_edge"
     android:gravity="center"
-    android:layout_marginBottom="@dimen/label_list_item_merge_bottom"
     android:text="添加标签"
-    android:textColor="@color/font_6"
+    android:textColor="@color/font_2"
     android:textSize="@dimen/labal_detail_font" />

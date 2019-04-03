@@ -3,13 +3,14 @@ package net.coding.program.project.git;
 import android.view.View;
 import android.widget.AbsListView;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
-import net.coding.program.common.ClickSmallImage;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.comment.BaseCommentParam;
+import net.coding.program.common.model.Commit;
 import net.coding.program.common.widget.RefreshBaseActivity;
-import net.coding.program.model.Commit;
+import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.project.detail.merge.CommitFileListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -23,7 +24,7 @@ import org.json.JSONObject;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 
 @EActivity(R.layout.fragment_project_dynamic)
-public class BranchCommitListActivity extends RefreshBaseActivity implements FootUpdate.LoadMore {
+public class BranchCommitListActivity extends RefreshBaseActivity implements LoadMore {
 
     private static final String HOST_COMMITS_PAGER = "HOST_COMMITS_PAGER";
     @ViewById
@@ -51,7 +52,7 @@ public class BranchCommitListActivity extends RefreshBaseActivity implements Foo
         mCommitPage = new CommitPage(mCommitsUrl);
 
         BaseCommentParam param = new BaseCommentParam(new ClickSmallImage(this), mOnClickListItem,
-                new MyImageGetter(this), getImageLoad(), mOnClickUser);
+                new MyImageGetter(this), getImageLoad(), GlobalCommon.mOnClickUser);
         mAdapter = new CommitsAdapter(param);
         listView.setAdapter(mAdapter);
         mFootUpdate.init(listView, mInflater, this);
@@ -164,7 +165,7 @@ public class BranchCommitListActivity extends RefreshBaseActivity implements Foo
         }
 
         public String getNextPageUrl() {
-            return String.format("%spage=%d", mCommitsUrl, mNextPage);
+            return String.format("%spage=%s", mCommitsUrl, mNextPage);
         }
     }
 

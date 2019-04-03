@@ -10,10 +10,15 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:divider="@color/divide_line"
         android:dividerHeight="@dimen/divide_height"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false" />
+
+    <include
+        android:id="@+id/blankLayout"
+        layout="@layout/view_exception"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

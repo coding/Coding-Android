@@ -1,8 +1,5 @@
 package net.coding.program.login.phone;
 
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-
 import net.coding.program.R;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.login.EmailRegisterActivity;
@@ -21,9 +18,10 @@ public class PhoneSetPasswordActivity extends BackActivity {
     @Extra
     String account;
 
+    PhoneSetPasswordFragment2 fragment;
+
     @AfterViews
     final void initPhoneSetPasswordActivity() {
-        Fragment fragment;
         fragment = PhoneSetPasswordFragment2_.builder().account(account).build();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, fragment)
@@ -33,16 +31,10 @@ public class PhoneSetPasswordActivity extends BackActivity {
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 2) {
-            new AlertDialog.Builder(this)
-                    .setTitle("不激活就无法使用 Coding，确定放弃?")
-                    .setPositiveButton("确定", (dialog, which) -> finish())
-                    .setNegativeButton("取消", null)
-                    .show();
-        } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            getSupportFragmentManager().popBackStackImmediate();
+        if (fragment != null) {
+            fragment.onBackPressed();
         } else {
-            finish();
+            super.onBackPressed();
         }
     }
 

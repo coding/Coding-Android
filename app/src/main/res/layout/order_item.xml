@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/stand_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/OrderLeft"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:textColor="#FF272C33"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/style"
+        style="@style/OrderRight"
+        android:layout_alignBaseline="@id/title" />
+
+    <View
+        android:id="@+id/divideLine"
+        style="@style/DivideLine_15"
+        android:layout_below="@id/title" />
+
+    <TextView
+        android:id="@+id/orderId"
+        style="@style/OrderLeft"
+        android:layout_below="@id/divideLine"
+        android:text="订单编号" />
+
+    <TextView
+        android:id="@+id/orderUser"
+        style="@style/OrderLeft"
+        android:layout_below="@id/orderId"
+        android:text="创建者" />
+
+    <TextView
+        android:id="@+id/orderTime"
+        style="@style/OrderLeft"
+        android:layout_below="@+id/orderUser"
+        android:layout_marginBottom="10dp"
+        android:text="创建时间" />
+
+    <View
+        android:id="@+id/bottomDivide"
+        style="@style/DivideSectionBottom5"
+        android:layout_below="@id/orderTime"
+        android:layout_marginLeft="-15dp"
+        android:layout_marginRight="-15dp" />
+
+    <View
+        android:id="@+id/nextTopDivide"
+        style="@style/DivideSectionTop5"
+        android:layout_below="@id/bottomDivide"
+        android:layout_marginLeft="-15dp"
+        android:layout_marginRight="-15dp" />
+
+    <TextView
+        android:id="@+id/id"
+        style="@style/OrderRight"
+        android:layout_alignBaseline="@id/orderId" />
+
+    <TextView
+        android:id="@+id/user"
+        style="@style/OrderRight"
+        android:layout_alignBaseline="@id/orderUser" />
+
+    <TextView
+        android:id="@+id/time"
+        style="@style/OrderRight"
+        android:layout_alignBaseline="@id/orderTime" />
+
+
+</RelativeLayout>

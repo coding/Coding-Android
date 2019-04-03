@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/mergefile_list_item_height"
+    android:background="@color/stand_bg"
+    android:foreground="?attr/selectableItemBackground"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
@@ -10,7 +12,7 @@
         android:layout_width="@dimen/mergefile_list_item_icon_width"
         android:layout_height="@dimen/mergefile_list_item_icon_width"
         android:layout_marginLeft="@dimen/padding_15"
-        android:background="@color/font_9" />
+        android:background="@color/font_3" />
 
     <TextView
         android:id="@+id/title"
@@ -18,7 +20,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/padding_15"
         android:layout_weight="1"
-        android:text="touch.java" />
+        android:lines="1"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="touch.java"
+        android:textColor="@color/font_1"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/insertion"
@@ -26,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/padding_15"
         android:text="+1"
-        android:textColor="#ff98c685" />
+        android:textColor="#FFA1CF64" />
 
     <TextView
         android:id="@+id/deletion"
@@ -35,6 +42,6 @@
         android:layout_marginLeft="@dimen/padding_15"
         android:layout_marginRight="@dimen/padding_15"
         android:text="-1"
-        android:textColor="#ffdf7d78" />
+        android:textColor="#FFF56061" />
 
 </LinearLayout>

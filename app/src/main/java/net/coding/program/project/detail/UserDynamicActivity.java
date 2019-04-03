@@ -3,9 +3,9 @@ package net.coding.program.project.detail;
 import android.os.Bundle;
 
 import net.coding.program.R;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.TaskObject;
+import net.coding.program.network.model.user.Member;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -15,7 +15,7 @@ import org.androidannotations.annotations.Extra;
 public class UserDynamicActivity extends BackActivity {
 
     @Extra
-    TaskObject.Members mMember;
+    Member mMember;
 
     @Extra
     ProjectObject mProjectObject;

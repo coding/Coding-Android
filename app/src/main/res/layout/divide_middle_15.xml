@@ -4,9 +4,10 @@
     android:layout_height="@dimen/divide_section_15"
     android:background="@color/divide">
 
-    <View style="@style/DivideSectionTop5" android:layout_alignParentBottom="true"/>
-
     <View
-        style="@style/DivideSectionBottom5" />
+        style="@style/DivideSectionTop5"
+        android:layout_alignParentBottom="true" />
+
+    <View style="@style/DivideSectionBottom5" />
 </RelativeLayout>
 

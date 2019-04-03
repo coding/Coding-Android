@@ -1,8 +1,8 @@
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_add"
+        android:id="@+id/action_message_add"
         android:icon="@drawable/ic_menu_edit"
         android:title="发消息"
         app:showAsAction="always" />

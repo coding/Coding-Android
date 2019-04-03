@@ -12,7 +12,7 @@
     android:maxLines="1"
     android:paddingLeft="@dimen/label_list_item_padding_left"
     android:paddingRight="@dimen/label_list_item_padding_left"
-    android:singleLine="true"
+    android:lines="1"
     android:text="标签"
-    android:textColor="@color/green"
+    android:textColor="@color/font_green"
     android:textSize="12sp" />

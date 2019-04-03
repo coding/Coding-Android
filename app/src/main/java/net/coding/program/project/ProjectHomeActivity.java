@@ -1,33 +1,28 @@
 package net.coding.program.project;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.widget.FrameLayout;
 
-import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
-import net.coding.program.common.ui.BaseActivity;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.ProjectActivity;
-import net.coding.program.project.init.InitProUtils;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.ui.BackActivity;
+import net.coding.program.compatible.CodingCompat;
+import net.coding.program.param.ProjectJumpParam;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringArrayRes;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_project_home)
-//@OptionsMenu(R.menu.menu_project_home)
-public class ProjectHomeActivity extends BaseActivity {
+public class ProjectHomeActivity extends BackActivity {
 
     public static final String BROADCAST_CLOSE = ProjectHomeActivity.class.getName() + ".close";
 
@@ -35,7 +30,7 @@ public class ProjectHomeActivity extends BaseActivity {
     ProjectObject mProjectObject;
 
     @Extra
-    ProjectActivity.ProjectJumpParam mJumpParam;
+    ProjectJumpParam mJumpParam;
 
     @Extra
     boolean mNeedUpdateList = false; // 需要更新项目列表的排序
@@ -58,37 +53,38 @@ public class ProjectHomeActivity extends BaseActivity {
         }
 
         if (mProjectObject != null) {
-            initFragment();
+            mProjectUrl = mProjectObject.getHttpProjectObject();
+            initFragment(true);
         } else if (mJumpParam != null) {
-            mProjectUrl = String.format(FileUrlActivity.HOST_PROJECT, mJumpParam.mUser, mJumpParam.mProject);
-            getNetwork(mProjectUrl, mProjectUrl);
+            mProjectUrl = ProjectObject.getHttpProject(mJumpParam.user, mJumpParam.project);
+            onRefrush();
         } else {
             finish();
         }
     }
 
-    private BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(BROADCAST_CLOSE)) {
-                finish();
-            }
-        }
-    };
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BROADCAST_CLOSE);
-        registerReceiver(refreshReceiver, intentFilter);
+    public void onRefrush() {
+        getNetwork(mProjectUrl, mProjectUrl);
     }
 
     @Override
-    protected void onDestroy() {
-        unregisterReceiver(refreshReceiver);
-        super.onDestroy();
+    protected boolean userEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventProjectModify(EventProjectModify event) {
+        if (event.exitProject) {
+            finish();
+            return;
+        }
+
+        String url = event.projectUrl;
+        if (url != null) {
+            mProjectUrl = url;
+        }
+
+        onRefrush();
     }
 
     @Override
@@ -96,52 +92,31 @@ public class ProjectHomeActivity extends BaseActivity {
         if (tag.equals(mProjectUrl)) {
             if (code == 0) {
                 mProjectObject = new ProjectObject(respanse.getJSONObject("data"));
-                initFragment();
+                initFragment(false);
             } else {
                 showErrorMsg(code, respanse);
             }
-        } else if (tag.equals(PrivateProjectHomeFragment.HOST_VISTIT)) {
+        } else if (tag.equals(PrivateProjectHomeFragment.getHostVisit())) {
             if (code == 0) {
-                sendBroadcast(new Intent(ProjectFragment.RECEIVER_INTENT_REFRESH_PROJECT));
+                mNeedUpdateList = false;
+                EventBus.getDefault().post(new EventProjectModify());
             } else {
                 showErrorMsg(code, respanse);
             }
         }
     }
 
-    private void initFragment() {
+    private void initFragment(boolean needRelaod) {
         if (mNeedUpdateList) {
-            String url = String.format(PrivateProjectHomeFragment.HOST_VISTIT, mProjectObject.getId());
-            getNetwork(url, PrivateProjectHomeFragment.HOST_VISTIT);
+            String url = String.format(PrivateProjectHomeFragment.getHostVisit(), mProjectObject.getId());
+            getNetwork(url, PrivateProjectHomeFragment.getHostVisit());
         }
 
-        Fragment fragment;
-        if (mProjectObject.isPublic()) {
-            fragment = PublicProjectHomeFragment_.builder()
-                    .mProjectObject(mProjectObject)
-                    .build();
-        } else {
-            fragment = PrivateProjectHomeFragment_.builder()
-                    .mProjectObject(mProjectObject)
-                    .build();
-        }
-
+        Fragment fragment = CodingCompat.instance().getProjectHome(mProjectObject, needRelaod);
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.container, fragment)
+                .replace(R.id.container, fragment)
                 .commit();
         mCurrentFragment = fragment;
-    }
-
-    @OptionsItem(android.R.id.home)
-    final protected void clickBack() {
-        if (mCurrentFragment instanceof BaseProjectHomeFragment) {
-            if (((BaseProjectHomeFragment) mCurrentFragment).isBackToRefresh()) {
-                InitProUtils.backIntentToMain(this);
-                return;
-            }
-        }
-
-        finish();
     }
 }

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="net.coding.program.guide.EnterpriseGuideActivity">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/pager1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifView"
+            android:layout_width="0dp"
+            app:layout_widthPercent="64%"
+            app:layout_aspectRatio="118%"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp" />
+
+        <TextView
+            android:id="@+id/gifTitle"
+            android:layout_width="match_parent"
+            android:layout_height="29dp"
+            android:layout_below="@id/gifView"
+            android:gravity="center"
+            android:text="代码托管"
+            android:textColor="@color/font_2"
+            android:textSize="21sp" />
+
+        <TextView
+            android:id="@+id/gifContent"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_below="@id/gifTitle"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="提交代码、合并请求一步到位"
+            android:textColor="@color/font_2"
+            android:textSize="17sp" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/pager0"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/blurrSourceView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <View
+                android:id="@+id/ball0"
+                android:layout_width="360dp"
+                android:layout_height="360dp"
+                android:layout_marginLeft="-24dp"
+                android:layout_marginTop="164dp"
+                android:background="@drawable/guide0_circle0" />
+
+            <View
+                android:id="@+id/ball1"
+                android:layout_width="360dp"
+                android:layout_height="360dp"
+                android:layout_marginLeft="-108dp"
+                android:layout_marginBottom="-140dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/guide0_circle1" />
+
+            <View
+                android:id="@+id/ball2"
+                android:layout_width="360dp"
+                android:layout_height="360dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="-160dp"
+                android:layout_marginBottom="-60dp"
+                android:layout_alignParentBottom="true"
+
+                android:background="@drawable/guide0_circle2" />
+
+        </RelativeLayout>
+
+        <com.fivehundredpx.android.blur.BlurringView
+            android:id="@+id/blurringView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:blurRadius="20"
+            app:downsampleFactor="12"
+            app:overlayColor="#99FFFFFF"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/page0Title0"
+            android:layout_width="match_parent"
+            android:layout_height="47.5dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginTop="80dp"
+            android:gravity="left|center_vertical"
+            android:text="欢迎来到"
+            android:textColor="@color/font_2"
+            android:textSize="@dimen/guide_0_title" />
+
+        <TextView
+            android:id="@+id/page0Title1"
+            android:layout_width="match_parent"
+            android:layout_height="47.5dp"
+            android:layout_alignLeft="@id/page0Title0"
+            android:layout_alignRight="@id/page0Title0"
+            android:layout_below="@id/page0Title0"
+            android:gravity="left|center_vertical"
+            android:text="Coding Enterprise"
+            android:textColor="@color/font_green"
+            android:textSize="@dimen/guide_0_title" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_alignLeft="@id/page0Title0"
+            android:layout_alignRight="@id/page0Title0"
+            android:layout_below="@id/page0Title1"
+            android:layout_marginTop="40dp"
+            android:text="Coding Enterprise 是 CODING 专为企业打造的软件开发协作平台，让企业更好地管理项目成员，便捷而深入地把握开发进度，让开发流程更高效。"
+            android:textColor="@color/font_2"
+            android:lineSpacingExtra="@dimen/guide_0_content_line_space"
+            android:textSize="@dimen/guide_0_content" />
+
+    </RelativeLayout>
+
+    <net.coding.program.guide.IndicatorView
+        android:id="@+id/pageIndicate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_centerHorizontal="true"
+        app:pointCount="5"
+        app:pointView="@layout/guide_point_6dp" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/sendButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_above="@id/pageIndicate"
+        android:layout_marginBottom="100dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:gravity="center"
+        android:text="企业账号登录"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        app:rv_backgroundColor="@color/font_2"
+        app:rv_cornerRadius="4dp" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/sendButtonPrivate"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_above="@id/pageIndicate"
+        android:layout_marginBottom="34dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:gravity="center"
+        android:text="私有部署账号登录"
+        android:textColor="@color/font_2"
+        app:rv_strokeWidth="1dp"
+        app:rv_strokeColor="@color/font_2"
+        android:textSize="17sp"
+        app:rv_cornerRadius="4dp" />
+
+</RelativeLayout>

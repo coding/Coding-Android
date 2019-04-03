@@ -5,14 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.maopao.MaopaoListFragment;
+import net.coding.program.common.maopao.ClickImageParam;
+import net.coding.program.common.maopao.ContentAreaMushImageOption;
+import net.coding.program.common.param.MessageParse;
 
 import org.apmem.tools.layouts.FlowLayout;
 
@@ -24,16 +24,6 @@ import java.util.ArrayList;
  */
 public class ContentAreaMuchImages extends ContentAreaBase {
 
-    public static DisplayImageOptions imageOptions = new DisplayImageOptions
-            .Builder()
-            .showImageOnLoading(R.drawable.ic_default_image)
-            .showImageForEmptyUri(R.drawable.ic_default_image)
-            .showImageOnFail(R.drawable.ic_default_image)
-            .cacheInMemory(true)
-            .cacheOnDisk(true)
-            .considerExifParams(true)
-            .imageScaleType(ImageScaleType.EXACTLY)
-            .build();
     protected ImageLoadTool imageLoad;
     private View.OnClickListener mOnclickImage;
 
@@ -52,13 +42,13 @@ public class ContentAreaMuchImages extends ContentAreaBase {
     public void setDataContent(String s, Object contentObject) {
         String data = s;
 
-        Global.MessageParse maopaoData = HtmlContent.parseMessage(data);
+        MessageParse maopaoData = HtmlContent.parseMessage(data);
 
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);
         } else {
             content.setVisibility(View.VISIBLE);
-            content.setText(Global.changeHyperlinkColor(maopaoData.text, imageGetter, Global.tagHandler));
+            content.setText(GlobalCommon.changeHyperlinkColor(maopaoData.text, imageGetter, Global.tagHandler));
             content.setTag(contentObject);
         }
 
@@ -91,8 +81,8 @@ public class ContentAreaMuchImages extends ContentAreaBase {
 
         for (int i = 0; i < uris.size(); ++i) {
             ImageView image = (ImageView) mFlowLayout.getChildAt(i);
-            image.setTag(new MaopaoListFragment.ClickImageParam(uris, i, false));
-            imageLoad.loadImage(image, uris.get(i), imageOptions);
+            image.setTag(new ClickImageParam(uris, i, false));
+            imageLoad.loadImage(image, uris.get(i), ContentAreaMushImageOption.imageOptions);
         }
     }
 

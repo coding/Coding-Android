@@ -6,8 +6,6 @@
     android:orientation="vertical"
     tools:context="net.coding.program.task.add.TaskAddActivity">
 
-    <include layout="@layout/divide_top_15" />
-
     <net.coding.program.project.detail.TopicLabelBar_
         android:id="@+id/labelBar"
         android:layout_width="match_parent"
@@ -15,21 +13,21 @@
         android:layout_below="@+id/icon"
         android:layout_marginTop="5dp" />
 
-
     <EditText
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal|top"
-        android:layout_marginLeft="@dimen/padding_15"
         android:layout_marginBottom="@dimen/padding_12"
+        android:layout_marginLeft="@dimen/padding_15"
         android:layout_marginRight="@dimen/padding_15"
         android:layout_marginTop="10dp"
         android:background="@null"
         android:gravity="top"
         android:minLines="3"
-        android:textColor="@color/font_2"
+        android:hint="请输入任务标题"
+        android:textColor="@color/font_1"
         android:textSize="17sp" />
 
 </LinearLayout>

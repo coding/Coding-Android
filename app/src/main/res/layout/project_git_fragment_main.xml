@@ -1,40 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/divide"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/divide">
 
-    <FrameLayout
+    <RelativeLayout
+        android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/top">
+        android:layout_height="50dp"
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/versionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text=""
-            android:background="@color/divide"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:paddingLeft="15dp"
-            android:textSize="18sp"
-            android:paddingRight="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/font_1"
+            android:textSize="18sp" />
 
         <View
+            android:id="@+id/expandableIndicator"
             android:layout_width="12dp"
             android:layout_height="12dp"
-            android:background="@drawable/icon_git_indicator_down"
-            android:id="@+id/expandableIndicator"
-            android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="20dp" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_toEndOf="@id/versionButton"
+            android:layout_toRightOf="@id/versionButton"
+            android:background="@drawable/icon_git_indicator_down" />
 
-    </FrameLayout>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divide"
+        style="@style/DivideLine"
+        android:layout_below="@id/top" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/top">
+        android:layout_below="@id/divide">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
@@ -57,22 +63,81 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <FrameLayout
+        <RelativeLayout
             android:id="@+id/versionLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#55666666"
-            android:visibility="invisible"
-            android:paddingBottom="100dp">
+            android:background="@color/white"
+            android:visibility="invisible">
 
-            <ExpandableListView
-                android:id="@+id/versionList"
+            <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
-                android:divider="@null"
-                android:dividerHeight="0dp"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white" />
-        </FrameLayout>
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="15dp">
+
+                <FrameLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@drawable/project_git_fragment_tab"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="1dp">
+
+                        <TextView
+                            android:id="@+id/tvBranches"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/project_git_fragment_main_tab_selector"
+                            android:gravity="center"
+                            android:text="@string/branches"
+                            android:textColor="@color/tab_text_selector"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tvTags"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/project_git_fragment_main_tab_selector"
+                            android:gravity="center"
+                            android:text="@string/tags"
+                            android:textColor="@color/tab_text_selector"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <View style="@style/DivideLine" />
+
+                <ListView
+                    android:id="@+id/versionListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:divider="@null"
+                    android:dividerHeight="0dp" />
+            </LinearLayout>
+
+            <!--<ExpandableListView-->
+            <!--android:id="@+id/versionList"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/versionListView"-->
+            <!--android:background="@android:color/white"-->
+            <!--android:divider="@null"-->
+            <!--android:dividerHeight="0dp" />-->
+        </RelativeLayout>
     </FrameLayout>
 
 

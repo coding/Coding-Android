@@ -27,7 +27,7 @@
         android:gravity="left"
         android:text="这是一个危险的操作，请提供登录密码确认"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/init_advance_text_red" />
+        android:textColor="@color/font_red" />
 
     <EditText
         android:id="@+id/edit1"
@@ -40,6 +40,7 @@
         android:autoText="false"
         android:background="@drawable/edit"
         android:capitalize="none"
+        android:hint="输入登录密码"
         android:gravity="fill_horizontal"
         android:inputType="textPassword"
         android:scrollHorizontally="true"

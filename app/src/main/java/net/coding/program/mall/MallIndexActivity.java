@@ -2,12 +2,12 @@ package net.coding.program.mall;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import net.coding.program.R;
-import net.coding.program.common.SaveFragmentPagerAdapter;
 import net.coding.program.common.widget.RefreshBaseActivity;
 import net.coding.program.third.WechatTab;
 
@@ -68,10 +68,9 @@ public class MallIndexActivity extends RefreshBaseActivity {
 
     @Override
     public void onRefresh() {
-//        getNetwork(BANNER_URL, TAG_BANNER);
     }
 
-    static class MyPagerAdapter extends SaveFragmentPagerAdapter {
+    static class MyPagerAdapter extends FragmentStatePagerAdapter {
 
         private final List<Fragment> mFragments = new ArrayList<>();
 
@@ -101,62 +100,4 @@ public class MallIndexActivity extends RefreshBaseActivity {
             return mFragmentTitles.get(position);
         }
     }
-
-//    private void initBannerData() {
-//        ((ViewPager) banner.findViewById(R.id.cbLoopViewPager)).setOnPageChangeListener(
-//                new ViewPager.OnPageChangeListener() {
-//                    @Override
-//                    public void onPageScrolled(int position, float positionOffset,
-//                            int positionOffsetPixels) {
-//                    }
-//
-//                    @Override
-//                    public void onPageSelected(int position) {
-//                        bannerIndicator.setSelect(position);
-//                    }
-//
-//                    @Override
-//                    public void onPageScrollStateChanged(int state) {
-//
-//                    }
-//                });
-//    }
-//
-//    private void updateBannerData() {
-//        if (mBannerData.isEmpty()) {
-//            mBannerData.add(new MallBannerObject());
-//        }
-//        banner.setPages(new CBViewHolderCreator() {
-//            @Override
-//            public Object createHolder() {
-//                return new LocalImageHolder();
-//            }
-//        }, mBannerData);
-//
-//        int bannerStartPos = 0;
-//        bannerIndicator.setCount(mBannerData.size(), bannerStartPos);
-//    }
-//
-//    class LocalImageHolder implements CBPageAdapter.Holder<MallBannerObject> {
-//
-//        ImageView imageView;
-//
-//        @Override
-//        public View createView(Context context) {
-//            imageView = new ImageView(MallIndexActivity.this);
-//            imageView.setLayoutParams(
-//                    new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                            ViewGroup.LayoutParams.MATCH_PARENT));
-//            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-//            return imageView;
-//        }
-//
-//        @Override
-//        public void UpdateUI(Context context, int position, MallBannerObject data) {
-//            imageView.setTag(R.id.image, position);
-//            getImageLoad().loadImage(imageView, mBannerData.get(position).getImage(),
-//                    ImageLoadTool.bannerOptions);
-//        }
-//    }
-
 }

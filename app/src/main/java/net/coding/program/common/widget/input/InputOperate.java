@@ -9,9 +9,9 @@ import android.view.View;
 public interface InputOperate {
     String getContent();
 
-    void clearContent();
-
     void setContent(String s);
+
+    void clearContent();
 
     void hideKeyboard();
 

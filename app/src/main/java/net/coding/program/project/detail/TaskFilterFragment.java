@@ -10,32 +10,32 @@ import net.coding.program.R;
 import net.coding.program.common.DrawerLayoutHelper;
 import net.coding.program.common.FilterListener;
 import net.coding.program.common.Global;
+import net.coding.program.common.event.EventFilterDetail;
+import net.coding.program.common.event.EventUpdateTaskCount;
+import net.coding.program.common.model.FilterModel;
+import net.coding.program.common.model.TaskLabelModel;
+import net.coding.program.common.model.TaskProjectCountModel;
 import net.coding.program.common.network.LoadingFragment;
-import net.coding.program.event.EventFilterDetail;
-import net.coding.program.model.FilterModel;
-import net.coding.program.model.TaskLabelModel;
-import net.coding.program.model.TaskProjectCountModel;
 
-import org.json.JSONObject;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by anfs on 16/12/2016.
  */
 public class TaskFilterFragment extends LoadingFragment {
 
-    //final String urlTaskLabels = Global.HOST_API + "/v2/tasks/search_filters";
-
     //项目外
     protected final String urlTaskCountAll = Global.HOST_API + "/tasks/count";
     protected final String urlTaskLabel = Global.HOST_API + "/projects/tasks/labels?role=";
-    protected final String urlTaskSomeCount_owner = Global.HOST_API + "/tasks/search?project_id=%s&owner=%s";
-    protected final String urlTaskSomeCount_watcher = Global.HOST_API + "/tasks/search?project_id=%s&watcher=%s";
-    protected final String urlTaskSomeCount_creator = Global.HOST_API + "/tasks/search?project_id=%s&creator=%s";
+    protected final String urlTaskSomeCount_owner = Global.HOST_API + "/tasks/list?project_id=%s&owner=%s";
+    protected final String urlTaskSomeCount_watcher = Global.HOST_API + "/tasks/list?project_id=%s&watcher=%s";
+    protected final String urlTaskSomeCount_creator = Global.HOST_API + "/tasks/list?project_id=%s&creator=%s";
     protected final String urlTaskSomeOther = Global.HOST_API + "/project/%s/tasks/counts";
 
     //项目外特定项目
@@ -50,24 +50,23 @@ public class TaskFilterFragment extends LoadingFragment {
      * 进行中已完成的数量也有了
      */
     protected final String urlALL_Count = Global.HOST_API + "/project/%s/task/count";
-    protected final String urlALL_WATCH_Count = Global.HOST_API + "/tasks/search?project_id=%s&watcher=%s";
+    protected final String urlALL_WATCH_Count = Global.HOST_API + "/tasks/list?project_id=%s&watcher=%s";
     //全部任务」的标签
     protected final String urlALL_Label = Global.HOST_API + "/user/%s/project/%s/task/label?withCount=true";
 
     //某个成员的任务数量
     protected final String urlSome_Count = Global.HOST_API + "/project/%s/user/%s/tasks/counts";
     protected final String urlSome_Label = Global.HOST_API + "/project/%s/user/%s/tasks/labels";
-
+    protected final String[] mMeActions = new String[]{"owner", "watcher", "creator"};
     //任务筛选
     protected TextView toolBarTitle;
     protected List<TaskLabelModel> taskLabelModels = new ArrayList<>();
-    protected final String[] mMeActions = new String[]{"owner", "watcher", "creator"};
     protected FilterModel mFilterModel;
     protected int statusIndex = 0;////筛选的index
 
     //数量关联的唯一对象
     protected TaskProjectCountModel mTaskProjectCountModel;
-
+    private DrawerLayout drawerLayout;
 
     protected String getRole() {
         if (statusIndex >= mMeActions.length) {
@@ -77,7 +76,7 @@ public class TaskFilterFragment extends LoadingFragment {
     }
 
     protected void initFilterViews() {
-        toolBarTitle = (TextView) getActivity().findViewById(R.id.toolbarProjectTitle);
+        toolBarTitle = (TextView) getActivity().findViewById(R.id.mainTaskToolbarTitle);
     }
 
     // 用于处理推送
@@ -91,9 +90,9 @@ public class TaskFilterFragment extends LoadingFragment {
         if (getActivity() == null) return;
 
         View viewById = getActivity().findViewById(R.id.ll_task_filter);
-        viewById.setVisibility(viewById.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+        boolean needHide = viewById.getVisibility() == View.VISIBLE;
+        viewById.setVisibility(needHide ? View.GONE : View.VISIBLE);
     }
-
 
     private void iniTaskStatus() {
         if (getActivity() == null) return;
@@ -105,25 +104,17 @@ public class TaskFilterFragment extends LoadingFragment {
                 "我关注的",
                 "我创建的"
         };
-//
-//        if (mTaskCountModel != null) {
-//            filterTxtCount = new String[]{
-//                    String.format(" (%d)", mTaskCountModel.processing + mTaskCountModel.done),
-//                    String.format(" (%d)", mTaskCountModel.watchAll),
-//                    String.format(" (%d)", mTaskCountModel.create)
-//            };
-//        }
 
         if (mTaskProjectCountModel != null) {
             filterTxtCount = new String[]{
-                    String.format(" (%d)", mTaskProjectCountModel.owner),
-                    String.format(" (%d)", mTaskProjectCountModel.watcher),
-                    String.format(" (%d)", mTaskProjectCountModel.creator)
+                    String.format(" (%s)", mTaskProjectCountModel.owner),
+                    String.format(" (%s)", mTaskProjectCountModel.watcher),
+                    String.format(" (%s)", mTaskProjectCountModel.creator)
             };
         }
 
-        int font2 = getResources().getColor(R.color.font_2);
-        int green = getResources().getColor(R.color.green);
+        int font2 = getResources().getColor(R.color.font_1);
+        int green = getResources().getColor(R.color.select_1);
         for (int i = 0; i < filterItem.length; i++) {
             TextView status = (TextView) getActivity().findViewById(filterItem[i]);
             int finalI = i;
@@ -146,38 +137,16 @@ public class TaskFilterFragment extends LoadingFragment {
         }
     }
 
-    protected void postLabelJson(String tag, int code, JSONObject respanse) {
-
-    }
-
     protected void sureFilter() {
         EventBus.getDefault().post(new EventFilterDetail(mMeActions[statusIndex], mFilterModel));
     }
 
-    protected final void actionFilter() {
-        DrawerLayout drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-        if (drawerLayout == null) {
-            return;
-        }
-
+    protected void setDrawerData() {
         if (mFilterModel == null) {
             mFilterModel = new FilterModel(taskLabelModels);
         } else {
             mFilterModel.labelModels = taskLabelModels;
         }
-
-//        if (mTaskCountModel != null) {
-//            if (statusIndex == 0) {
-//                mFilterModel.statusTaskDoing = mTaskCountModel.processing;
-//                mFilterModel.statusTaskDone = mTaskCountModel.done;
-//            } else if (statusIndex == 1) {
-//                mFilterModel.statusTaskDoing = mTaskCountModel.watchAllProcessing;
-//                mFilterModel.statusTaskDone = mTaskCountModel.getWatcherDoneCount();
-//            } else if (statusIndex == 2) {
-//                mFilterModel.statusTaskDoing = mTaskCountModel.createProcessing;
-//                mFilterModel.statusTaskDone = mTaskCountModel.getCreatorDoneCount();
-//            }
-//        }
 
         if (mTaskProjectCountModel != null) {
             if (statusIndex == 0) {
@@ -192,7 +161,15 @@ public class TaskFilterFragment extends LoadingFragment {
             }
         }
 
-        DrawerLayoutHelper.getInstance().initData(getActivity(), drawerLayout, mFilterModel, new FilterListener() {
+        updateDrawer(mFilterModel);
+    }
+
+    private void updateDrawer(FilterModel filterModel) {
+        drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        if (drawerLayout == null) {
+            return;
+        }
+        DrawerLayoutHelper.getInstance().initData(getActivity(), drawerLayout, filterModel, new FilterListener() {
             @Override
             public void callback(FilterModel filterModel) {
                 mFilterModel = filterModel;
@@ -200,8 +177,12 @@ public class TaskFilterFragment extends LoadingFragment {
                 changeFilterIcon(mFilterModel.isFilter());
             }
         });
+    }
 
-        drawerLayout.openDrawer(GravityCompat.END);
+    protected final void actionFilter() {
+        if (drawerLayout != null) {
+            drawerLayout.openDrawer(GravityCompat.END);
+        }
     }
 
     private void changeFilterIcon(boolean isFilter) {
@@ -212,17 +193,52 @@ public class TaskFilterFragment extends LoadingFragment {
         }
     }
 
-    public void setStatusIndex(int statusIndex) {
-        this.statusIndex = statusIndex;
-    }
-
     public int getStatusIndex() {
         return statusIndex;
+    }
+
+    public void setStatusIndex(int statusIndex) {
+        this.statusIndex = statusIndex;
     }
 
     @Override
     public void onRefresh() {
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventUpdateCount(EventUpdateTaskCount event) {
+        if (getActivity() == null) return;
+
+        int[] filterItem = {R.id.tv_status1, R.id.tv_status2, R.id.tv_status3};
+        String[] filterTxtCount = new String[0];
+        String[] filterTxt = new String[]{
+                isProjectInner() ? "全部任务" : "我的任务",
+                "我关注的",
+                "我创建的"
+        };
+
+        if (mTaskProjectCountModel != null) {
+            filterTxtCount = new String[]{
+                    String.format(" (%s)", mTaskProjectCountModel.owner),
+                    String.format(" (%s)", mTaskProjectCountModel.watcher),
+                    String.format(" (%s)", mTaskProjectCountModel.creator)
+            };
+        }
+
+        for (int i = 0; i < filterItem.length; i++) {
+            TextView status = getActivity().findViewById(filterItem[i]);
+            if (filterTxtCount.length == 3) {
+                status.setText(filterTxt[i] + filterTxtCount[i]);
+            } else {
+                status.setText(filterTxt[i]);
+            }
+        }
+    }
+
+    @Override
+    protected boolean useEventBus() {
+        return true;
     }
 
     protected boolean isProjectInner() {

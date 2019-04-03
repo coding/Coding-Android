@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?><!-- BlankViewHelp 帮助管理 -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:visibility="invisible">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="-150dp"
+        android:background="@drawable/ic_exception_no_network"
+        tools:src="@drawable/ic_exception_no_network" />
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/icon"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="加载失败，请检查下网络"
+        android:textColor="@color/font_3"
+        android:textSize="15sp" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/btnRetry"
+        style="@style/retryButton"
+        android:layout_below="@+id/message"
+        android:text="点击重试" />
+
+
+    <net.coding.program.common.widget.LoadingView
+        android:id="@+id/loadingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+</RelativeLayout>

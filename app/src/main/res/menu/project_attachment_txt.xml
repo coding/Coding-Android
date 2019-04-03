@@ -11,11 +11,17 @@
 
     <item
         android:id="@+id/action_more"
-        android:icon="@drawable/ic_action_overflow"
+        android:icon="@drawable/ic_menu_more"
         android:title="@string/action_more"
         app:showAsAction="withText|always">
 
         <menu>
+            <!--<item-->
+            <!--android:id="@+id/action_edit"-->
+            <!--android:icon="@drawable/ic_menu_edit_txt"-->
+            <!--android:title="@string/action_edit"-->
+            <!--app:showAsAction="always" />-->
+
             <item
                 android:id="@+id/action_link_public"
                 android:icon="@drawable/ic_menu_share_link"

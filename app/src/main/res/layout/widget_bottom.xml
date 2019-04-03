@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/bottomContainer"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="@dimen/bottom_layout_high"
+        android:background="@color/color_bottom_bar"
+        android:layout_gravity="bottom"
+        android:gravity="center_vertical">
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/topShadow"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:src="@drawable/widget_bottom_shadow" />
+</merge>

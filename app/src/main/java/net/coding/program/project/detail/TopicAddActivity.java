@@ -1,6 +1,5 @@
 package net.coding.program.project.detail;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
@@ -9,12 +8,13 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.base.MDEditPreviewActivity;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.TopicLabelObject;
+import net.coding.program.common.model.TopicObject;
+import net.coding.program.common.model.topic.TopicData;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.TopicLabelObject;
-import net.coding.program.model.TopicObject;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -25,26 +25,28 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.activity_topic_add)
-public class TopicAddActivity extends BackActivity implements TopicEditFragment.SaveData, TopicLabelBar.Controller {
+public class TopicAddActivity extends MDEditPreviewActivity implements TopicLabelBar.Controller {
 
     final String HOST_TOPIC_NEW = Global.HOST_API + "/project/%s/topic?parent=0";
     final String HOST_TOPIC_EDIT = Global.HOST_API + "/topic/%d";
+
     final int RESULT_LABEL = 1000;
+
     @Extra
     protected ProjectObject projectObject;
     @Extra
     protected TopicObject topicObject;
     @InstanceState
     protected boolean labelsHasChanged;
+
     String url = "";
     String HOST_TOPIC_DETAIL_CONTENT = Global.HOST_API + "/topic/%d?type=1";
-    TopicEditFragment editFragment;
-    TopicPreviewFragment previewFragment;
+
+
     private TopicData modifyData = new TopicData();
 
     @NonNull
@@ -65,21 +67,21 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
         ActionBar actionBar = getSupportActionBar();
 
         if (isNewTopic()) {
-            ArrayList<TopicDraft> drafts = AccountInfo.loadTopicDraft(this, getProjectPath(), getTopicId());
+            ArrayList<TopicData> drafts = AccountInfo.loadTopicDraft(this, getProjectPath(), getTopicId());
             if (!drafts.isEmpty()) {
-                TopicDraft draft = drafts.get(0);
-                modifyData.content = draft.mContent;
-                modifyData.title = draft.mTitle;
+                TopicData draft = drafts.get(0);
+                modifyData.update(draft);
             }
         }
 
         editFragment = TopicEditFragment_.builder().build();
         previewFragment = TopicPreviewFragment_.builder().build();
+        initEditPreviewFragment();
 
         if (isNewTopic()) {
             actionBar.setTitle(R.string.topic_create);
             url = String.format(HOST_TOPIC_NEW, getTopicId());
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
+            switchEdit();
         } else {
             actionBar.setTitle(R.string.topic_edit);
             url = String.format(HOST_TOPIC_EDIT, topicObject.id);
@@ -91,35 +93,21 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
     public void onBackPressed() {
         if (labelsHasChanged || editFragment.isContentModify()) {
             if (isNewTopic()) {
-                showDialog("讨论", "保存为草稿？", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                TopicDraft draft = editFragment.generalDraft();
-                                AccountInfo.saveTopicDraft(TopicAddActivity.this, draft, getProjectPath(), getTopicId());
-                                finish();
-                            }
-                        }, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        }, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                AccountInfo.deleteTopicDraft(TopicAddActivity.this, getProjectPath(), getTopicId());
-                                finish();
-                            }
+                showDialog("讨论", "保存为草稿？", (dialog, which) -> {
+                            TopicData draft = editFragment.generalDraft();
+                            AccountInfo.saveTopicDraft(TopicAddActivity.this, draft, getProjectPath(), getTopicId());
+                            finish();
+                        },
+                        (dialog, which) -> finish(),
+                        (dialog, which) -> {
+                            AccountInfo.deleteTopicDraft(TopicAddActivity.this, getProjectPath(), getTopicId());
+                            finish();
                         },
                         "保存",
                         "取消",
                         "删除草稿");
             } else {
-                showDialog("讨论", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
+                showDialog("讨论", "确定放弃此次编辑？", (dialog, which) -> finish());
             }
         } else {
             finish();
@@ -158,8 +146,8 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
             if (code == 0) {
                 topicObject = new TopicObject(respanse.optJSONObject("data"));
                 modifyData = new TopicData(topicObject);
-
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
+                reloadData();
+                switchEdit();
             } else {
                 showErrorMsg(code, respanse);
             }
@@ -230,15 +218,6 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
         return modifyData;
     }
 
-    @Override
-    public void switchPreview() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
-    }
-
-    @Override
-    public void switchEdit() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
-    }
 
     @Override
     public void exit() {
@@ -288,37 +267,6 @@ public class TopicAddActivity extends BackActivity implements TopicEditFragment.
             previewFragment.updateLabels(modifyData.labels);
             labelsHasChanged = true;
             saveLabelsIfCancel();
-        }
-    }
-
-    public static class TopicData implements Serializable {
-        public ArrayList<TopicLabelObject> labels = new ArrayList<>();
-        public String title = "";
-        public String content = "";
-
-        public TopicData(TopicObject topicObject) {
-            this.title = topicObject.title;
-            this.content = topicObject.content;
-            this.labels = topicObject.labels;
-        }
-
-        public TopicData(String title, String content, ArrayList<TopicLabelObject> labels) {
-            this.title = title;
-            this.content = content;
-            this.labels = labels;
-        }
-
-        public TopicData() {
-        }
-    }
-
-    public static class TopicDraft implements Serializable {
-        String mTitle;
-        String mContent;
-
-        public TopicDraft(String mTitle, String mContent) {
-            this.mTitle = mTitle;
-            this.mContent = mContent;
         }
     }
 }

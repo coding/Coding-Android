@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+
+
+    <!--<files-path-->
+    <!--name="reward"-->
+    <!--path="download/rewards" />-->
+    <files-path
+        name="ecoding-prrivate"
+        path="/" />
+    <cache-path
+        name="ecoding-cache"
+        path="/" />
+
+    <root-path
+        name="eroot-path"
+        path="" />
+    
+</paths>

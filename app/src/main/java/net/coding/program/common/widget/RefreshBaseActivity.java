@@ -16,9 +16,6 @@ import org.androidannotations.annotations.ViewById;
 @EActivity
 public abstract class RefreshBaseActivity extends BackActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    public static final String UPDATE_ALL = "999999999";
-    public static final int UPDATE_ALL_INT = 999999999;
-
     @ViewById
     protected SwipeRefreshLayout swipeRefreshLayout;
 
@@ -34,7 +31,7 @@ public abstract class RefreshBaseActivity extends BackActivity implements SwipeR
     protected final void initRefreshBaseActivity() {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.green);
+        swipeRefreshLayout.setColorSchemeResources(R.color.font_green);
     }
 
     protected final void disableRefreshing() {

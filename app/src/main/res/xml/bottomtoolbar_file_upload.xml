@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        icon="@drawable/project_file_action_create_folder"
+        id="@+id/actionAddFolder"
+        title="新建文件夹" />
+
+    <tab
+        icon="@drawable/project_file_action_upload"
+        id="@+id/actionUpload"
+        title="上传文件" />
+</tabs>

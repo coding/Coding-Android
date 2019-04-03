@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import net.coding.program.R;
-import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 
 import java.util.ArrayList;
 
@@ -20,20 +20,18 @@ import java.util.ArrayList;
  * 根据音量大小产生音波扩散效果
  */
 public class SoundWaveView extends View {
-    private Context context;
-    //音波颜色
-    private int waveColor = 0xfffb8638;
     //最小声音大小(分贝)
     private final float minDecibel = 15.0f;
     //最大声音大小
     private final float maxDecibel = 85.0f;
-
     private final int Orientation_Left = 1;
     private final int Orientation_Right = 0;
+    private final int waveCout = 9;
+    private Context context;
+    //音波颜色
+    private int waveColor = 0xfffb8638;
     //音波震源位置
     private int soundOriginOrientation = Orientation_Right;
-
-    private final int waveCout = 9;
     //存储声音的队列
     private ArrayList<Float> queen = new ArrayList<Float>(waveCout);
     private Paint mPaint;
@@ -80,7 +78,7 @@ public class SoundWaveView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         //super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         //9个音波，每个宽度6px(2dp),最小高度9px,最大高度36px(12dp)
-        setMeasuredDimension(Global.dpToPx((waveCout * 2 - 1) * 2), Global.dpToPx(12));
+        setMeasuredDimension(GlobalCommon.dpToPx((waveCout * 2 - 1) * 2), GlobalCommon.dpToPx(12));
     }
 
     /**
@@ -125,7 +123,7 @@ public class SoundWaveView extends View {
      * @param waveHeight
      */
     private void drawWave(Canvas canvas, int position, int waveHeight) {
-        int minWaveHeight = Global.dpToPx(3);
+        int minWaveHeight = GlobalCommon.dpToPx(3);
         if (waveHeight <= minWaveHeight) {
             waveHeight = minWaveHeight;
         }
@@ -145,7 +143,7 @@ public class SoundWaveView extends View {
         right = left + waveWidth;
         top = (getMeasuredHeight() - waveHeight) / 2;
         bottom = top + waveHeight;
-        int angle = Global.dpToPx(1);
+        int angle = GlobalCommon.dpToPx(1);
         canvas.drawRoundRect(new RectF(left, top, right, bottom), angle, angle, mPaint);
     }
 }

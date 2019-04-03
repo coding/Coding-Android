@@ -6,8 +6,8 @@
     android:background="@color/color_bottom_bar"
     android:orientation="vertical">
 
-    <View
-        style="@style/DivideLine" />
+    <View style="@style/DivideLine" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -21,11 +21,11 @@
             android:layout_gravity="center_vertical">
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_centerInParent="true"
-                android:background="@drawable/ic_comment_camera"
-                android:padding="5dp" />
+                android:src="@drawable/ic_comment_camera"
+                android:layout_margin="5dp" />
 
         </RelativeLayout>
 
@@ -34,7 +34,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/edit" />
+            android:background="@drawable/edit"
+            android:textColor="@color/font_1" />
 
         <RelativeLayout
             android:layout_width="60dp"
@@ -59,7 +60,7 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="发送"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>

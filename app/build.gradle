@@ -1,136 +1,264 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
-apply plugin: 'me.tatarka.retrolambda'
+apply plugin: "kotlin-android"
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-kapt"
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    signingConfigs {
+        config {
+            // 定义在 gradle.properties
+            keyAlias KEYSTORE_ALIAS
+            keyPassword KEYSTORE_PASSWORD
+            storeFile file(KEYSTORE_PATH)
+            storePassword KEY_PASSWORD
+        }
+    }
+    compileSdkVersion compileSdkVersionValue
+    buildToolsVersion buildToolsVersionValue
 
     dexOptions {
-        javaMaxHeapSize "2g"
+        javaMaxHeapSize "4g"
     }
 
+    sourceSets {
+        main.java.srcDirs += "src/main/java"
+        main.java.srcDirs += "src/person/java"
+    }
+    dataBinding {
+        enabled = true
+    }
     defaultConfig {
-        useLibrary 'org.apache.http.legacy'
-        applicationId "net.coding.program"
-        renderscriptTargetApi 19
+//        useLibrary 'org.apache.http.legacy'
+        renderscriptTargetApi 18
+        renderscriptSupportModeEnabled true
+
         multiDexEnabled true
         minSdkVersion 15
-        targetSdkVersion 23
-    }
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                // coding 和 coding 企业版 必须使用相同的包名，否则 androidannotations 生成代码会失败
+                arguments = [resourcePackageName : "net.coding.program"]
+//                             "logLevel"          : "TRACE", // 打印更多 log，AA 生成错误会导致几百个编译错误
+//                             "logAppenderConsole": "true"]
+            }
+        }
+    }
+    android {
+        lintOptions {
+            checkReleaseBuilds false
+            abortOnError false
+        }
+    }
+    flavorDimensions "mode"
     productFlavors {
-        dev {
-            // dev utilizes minSDKVersion = 21 to allow the Android gradle plugin
-            // to pre-dex each module and produce an APK that can be tested on
-            // Android Lollipop without time consuming dex merging processes.
-            minSdkVersion 21
+
+        // 版本号不能放在
+        person {
+            dimension "mode"
+            applicationId "net.coding.program"
+            versionCode 545
+            versionName "5.4.5.20190219.1"
+            targetSdkVersion 23
+
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "0",
+                    XG_ACCESS_KEY: "0",
+            ]
+            signingConfig signingConfigs.config
         }
-        prod {
-            // The actual minSdkVersion for the application.
-            minSdkVersion 15
+        enterprise {
+            dimension "mode"
+            applicationId "net.coding.program.enterprise"
+            versionCode 298
+            versionName "2.9.9.20190225.1"
+            targetSdkVersion 21
+
+            // 信鸽依赖
+            ndk {
+                abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86_64', 'x86'
+                // 还可以添加 , 'x86_64', 'mips', 'mips64'
+            }
+
+            manifestPlaceholders = [
+                    XG_ACCESS_ID : "2100249649",
+                    XG_ACCESS_KEY: "AE6DQ4C5G35G",
+            ]
+            signingConfig signingConfigs.config
         }
     }
-
     buildTypes {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+            jniDebuggable false
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
-
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
+//gradle.projectsEvaluated {
+//    tasks.withType(JavaCompile) {
+//        options.compilerArgs << "-Xmaxerrs" << "99999" // 显示更多的编译错误，默认只显示 100 个
+//    }
+//}
+
+//kapt {
+//    correctErrorTypes = true
+
+//    javacOptions {
+//        option("-Xmaxerrs", 500)
+//    }
+//}
+
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.skyfishjy.ripplebackground:library:1.0.1'
-    compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    compile 'se.emilsjolander:stickylistheaders:2.7.0'
-    compile 'de.hdodenhof:circleimageview:1.3.0'
-    compile 'com.github.rampo.updatechecker:library:2.1.4'
-    compile 'com.daimajia.swipelayout:library:1.1.7@aar'
-    compile 'com.umeng.analytics:analytics:latest.integration'
-    compile 'com.melnykov:floatingactionbutton:1.3.0'
-    compile 'de.greenrobot:eventbus:2.4.0'
-    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.11'
-    compile 'com.android.support:support-v13:23.1.1'
-    compile 'com.ms-square:etsyblur:0.1.0'
-    compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'it.neokree:MaterialNavigationDrawer:1.3.2'
-    compile files('libs/BaiduLBS_Android.jar')
-    compile 'com.prolificinteractive:parallaxpager:2.2.1'
-    compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.5.0'
+    kapt "org.androidannotations:androidannotations:$AAVersion"
+
+    implementation project(':common-third-library')
+    implementation project(':push-coding')
+    implementation project(':push-xiaomi')
+    implementation project(':widget-pick-photo')
+    implementation project(':common-coding')
+    implementation project(':pay-coding')
+    implementation project(':terminal-coding')
+
+    // 信鸽依赖, 只有企业版用了信鸽
+    if (DEV_ENTERPRISE.toBoolean()) {
+        //信鸽jar
+        implementation 'com.tencent.xinge:xinge:3.2.2-release'
+        //wup包
+        implementation 'com.tencent.wup:wup:1.0.0.E-release'
+        //mid包
+        implementation 'com.tencent.mid:mid:4.0.6-release'
+    }
+
+    // dagger 2 依赖
+    def daggerVersion = '2.10'
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+
+    // if you use the support libraries
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    configurations {
+        all*.exclude group: 'com.android.support', module: 'support-v13'
+    }
+
+    // umeng 统计
+    implementation 'com.umeng.analytics:analytics:6.1.2'
+
     // 高版本fix使用support库crash
-    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-    compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
-    compile 'org.apmem.tools:layouts:1.9@aar'
+    implementation 'uk.co.chrisjenx:calligraphy:2.1.0'
+    implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
+    implementation 'org.apmem.tools:layouts:1.9@aar'
+
     //flow_layout
-    compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
+    implementation('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
         exclude module: 'support-v4'
     }
-    //    compile 'com.twotoasters.jazzylistview:library:1.2.1'
-    compile project(':social_sdk_library_project')
-    compile 'com.bigkoo:convenientbanner:1.0.8'
-    compile 'com.android.support:design:23.1.1'
-    compile files('libs/pinyin4j-2.5.0.jar')
-    compile files('libs/jg_filter_sdk_1.1.jar')
-    compile files('libs/wup-1.0.0.E-SNAPSHOT.jar')
-    compile files('libs/Xg_sdk_v2.45_20160510_1845.jar')
-    compile project(':bottom-bar')
 
-    compile 'com.alibaba:fastjson:1.1.44.android'
-    compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'
+    //    implementation 'com.twotoasters.jazzylistview:library:1.2.1'
 
-    compile 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
+    //    implementation project(':social_sdk_library_project')
+    implementation project(':bottom-bar')
+    implementation project(':luban')
+    implementation 'com.bigkoo:convenientbanner:1.0.8'
+
+    // 方便显示 view 显示一些样式，不用写 selector
+    implementation 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
+
+    // 列表控件，
+    implementation 'com.marshalchen.ultimaterecyclerview:library:0.7.3'
+
+    // 比 ultimaterecyclerview 轻量，用起来比较舒服，实现代码也好些
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+    implementation 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
+    implementation 'com.orhanobut:logger:1.15'
+    implementation 'com.github.bmelnychuk:atv:1.2.9'
+
+    // 仿 apple 的 segmentied control
+    implementation 'info.hoang8f:android-segmented:1.0.6'
+
+    // 圆形头像
+    implementation 'com.mikhaellopez:circularimageview:3.0.2'
+
+    // 文件下载
+    implementation 'com.liulishuo.filedownloader:library:1.4.3'
+
+    // xml 解析
+    implementation 'org.jsoup:jsoup:1.10.3'
+
+    // 常用工具类
+    implementation 'com.blankj:utilcode:1.9.0'
+
+    // git 库
+    implementation 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
+
+    // jar 依赖
+    implementation files('libs/alipaySingle-20170510.jar')
+    implementation files('libs/BaiduLBS_Android.jar')
+    implementation files('../common-coding/libs/android-viewbadger.jar')
+
+    // 小红点
+    implementation files('../common-coding/libs/pinyin4j-2.5.0.jar')
+    implementation project(':share-coding')
+    implementation project(':git-code-coding')
+
+    // 测试框架
+    implementation "com.android.support:support-annotations:$supportVersion"
+    androidTestImplementation "com.android.support.test:runner:$runnerVersion"
+    androidTestImplementation "com.android.support.test:rules:$rulesVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
 }
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'me.tatarka:gradle-retrolambda:3.2.4'
-    }
-}
-
+// 新功能提示，使用弹出框的样式 start ----------------------------------------------------------------
 repositories {
-    mavenCentral()
-    mavenLocal()
+    jcenter()
+    maven {
+        url "https://jitpack.io"
+    }
 }
 
 dependencies {
-    def AAVersion = '4.1.0'
-    apt "org.androidannotations:androidannotations:$AAVersion"
-    compile "org.androidannotations:androidannotations-api:$AAVersion"
+    implementation 'com.github.cpiz:BubbleView:1.0.2'
+
+    // 图片裁剪，系统的坑太多
+    implementation 'com.github.yalantis:ucrop:2.2.2'
 }
 
-apt {
-    arguments {
-        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
-    }
-}
+// 新功能提示，使用弹出框的样式 end ----------------------------------------------------------------
 repositories {
     flatDir {
-        dirs 'libs' //this way we can find the .aar file in libs folder
+        dirs 'libs'
     }
 }
 dependencies {
-    compile(name:'checknetwork', ext:'aar')
+    implementation(name: 'checknetwork', ext: 'aar')
 }
+
+// 高斯模糊 start --------------------------------------------------------------------------
+repositories {
+    maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
+    maven {
+        url 'https://maven.google.com/'
+        name 'Google'
+    }
+}
+
+dependencies {
+    implementation 'com.fivehundredpx:blurringview:1.0.0'
+}
+// 高斯模糊 end   --------------------------------------------------------------------------

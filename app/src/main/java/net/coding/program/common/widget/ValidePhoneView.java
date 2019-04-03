@@ -2,40 +2,48 @@ package net.coding.program.common.widget;
 
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.PhoneCountry;
 import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.network.NetworkImpl;
+import net.coding.program.common.ui.PopCaptchaDialog;
 import net.coding.program.common.util.InputCheck;
 import net.coding.program.common.util.OnTextChange;
-import net.coding.program.model.PhoneCountry;
 
 import org.json.JSONObject;
 
 /**
  * Created by chenchao on 16/1/4.
+ * 发送短信验证码的按钮
  */
-public class ValidePhoneView extends TextView {
-
-    public static final String REGISTER_SEND_MESSAGE_URL = Global.HOST_API + "/account/register/generate_phone_code";
-    public static final String RESET_SEND_MESSAGE_URL = Global.HOST_API + "/account/password/forget";
-    public static final String CHANGE_PHONE = Global.HOST_API + "/account/phone/change/code";
-
-    public static final String URL_RESET_PASSWORD = Global.HOST_API + "/account/password/reset";
-    private MyJsonResponse parseJson;
+public class ValidePhoneView extends AppCompatTextView {
 
     OnTextChange editPhone;
     String inputPhone = "";
-
     PhoneCountry pickCountry = PhoneCountry.getChina();
+    private MyJsonResponse parseJson;
+    private Type type = Type.normal;
+    private CountDownTimer countDownTimer = new CountDownTimer(60000, 1000) {
 
-    private String url = Global.HOST_API + "/user/generate_phone_code";
+        public void onTick(long millisUntilFinished) {
+            ValidePhoneView.this.setText(String.format("%s秒", millisUntilFinished / 1000));
+            ValidePhoneView.this.setEnabled(false);
+        }
+
+        public void onFinish() {
+            ValidePhoneView.this.setEnabled(true);
+            ValidePhoneView.this.setText("发送验证码");
+        }
+    };
 
     public ValidePhoneView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -44,7 +52,7 @@ public class ValidePhoneView extends TextView {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        setOnClickListener(v -> sendPhoneMessage());
+        setOnClickListener(v -> sendPhoneMessage(""));
     }
 
     public void setEditPhone(OnTextChange edit) {
@@ -59,8 +67,8 @@ public class ValidePhoneView extends TextView {
         inputPhone = phone;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public void startTimer() {
@@ -68,25 +76,12 @@ public class ValidePhoneView extends TextView {
         countDownTimer.start();
     }
 
-    private CountDownTimer countDownTimer = new CountDownTimer(60000, 1000) {
-
-        public void onTick(long millisUntilFinished) {
-            ValidePhoneView.this.setText(String.format("%d秒", millisUntilFinished / 1000));
-            ValidePhoneView.this.setEnabled(false);
-        }
-
-        public void onFinish() {
-            ValidePhoneView.this.setEnabled(true);
-            ValidePhoneView.this.setText("发送验证码");
-        }
-    };
-
     public void onStop() {
         countDownTimer.cancel();
         countDownTimer.onFinish();
     }
 
-    void sendPhoneMessage() {
+    void sendPhoneMessage(String captche) {
         if (inputPhone.isEmpty() && editPhone == null) {
             Log.e("", "editPhone is null");
             return;
@@ -115,25 +110,55 @@ public class ValidePhoneView extends TextView {
 
                 @Override
                 public void onMyFailure(JSONObject response) {
-                    super.onMyFailure(response);
                     countDownTimer.cancel();
                     countDownTimer.onFinish();
+
+                    if (response.optInt("code", 0) == NetworkImpl.NETWORK_ERROR_SEND_MESSAGE_NEED_CAPTCHA) {
+                        PopCaptchaDialog.pop(getContext(), (input, dialog) -> {
+                            ValidePhoneView.this.sendPhoneMessage(input);
+                            dialog.dismiss();
+                        });
+                    } else {
+                        super.onMyFailure(response);
+                    }
                 }
             };
         }
 
-        if (url.equals(RESET_SEND_MESSAGE_URL)) {
+        if (!TextUtils.isEmpty(captche)) {
+            params.put("j_captcha", captche);
+        }
+
+        if (type == Type.setPassword) {
+            params.put("phoneCountryCode", pickCountry.getCountryCode());
             params.put("account", phoneString);
-        } else if (url.equals(REGISTER_SEND_MESSAGE_URL)) {
+        } else if (type == Type.register) {
             params.put("phoneCountryCode", pickCountry.getCountryCode());
             params.put("phone", phoneString);
             params.put("from", "coding");
-        } else if (url.equals(CHANGE_PHONE)) {
+        } else if (type == Type.valide) {
+            params.put("phoneCountryCode", pickCountry.getCountryCode());
+            params.put("phone", phoneString);
+        } else if (type == Type.close2FA) {
             params.put("phoneCountryCode", pickCountry.getCountryCode());
             params.put("phone", phoneString);
         }
-        client.post(getContext(), url, params, parseJson);
+        client.post(getContext(), type.url, params, parseJson);
 
         countDownTimer.start();
+    }
+
+    public enum Type {
+        normal(Global.HOST_API + "/user/generate_phone_code"),
+        register(Global.HOST_API + "/account/register/generate_phone_code"),
+        setPassword(Global.HOST_API + "/account/password/forget"),
+        close2FA(Global.HOST_API + "/twofa/close/code"),
+        valide(Global.HOST_API + "/account/phone/change/code");
+
+        String url = "";
+
+        Type(String url) {
+            this.url = url;
+        }
     }
 }

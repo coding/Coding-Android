@@ -5,33 +5,27 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BaseActivity;
+import net.coding.program.common.LoadMore;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.AttachmentFolderObject;
+import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.holder.FolderHolder;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.AttachmentFolderObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,42 +39,31 @@ import java.util.regex.Pattern;
  * Created by yangzhen
  */
 @EActivity(R.layout.activity_attachments_folder_selector)
-@OptionsMenu(R.menu.project_attachment_folder_selector)
-public class AttachmentsFolderSelectorActivity extends BaseActivity implements FootUpdate.LoadMore {
+public class AttachmentsFolderSelectorActivity extends BackActivity implements LoadMore {
     private static String TAG = AttachmentsFolderSelectorActivity.class.getSimpleName();
     private final String STRING_OUT_FOLDER = "移出目录";
+
     @Extra
     int mProjectObjectId;
-
     @Extra
     AttachmentFileObject sourceFileObject;
-
     @Extra
     AttachmentFolderObject sourceRootFolder;
 
     AttachmentFolderObject mAttachmentFolderObject;
 
     @ViewById
-    Button btnLeft;
-
-    @ViewById
-    Button btnRight;
-
-    private boolean inChildFolder = false;
+    View btnLeft, btnRight;
 
     @ViewById
     ListView listView;
+
+    private boolean inChildFolder = false;
     private String HOST_FOLDER = Global.HOST_API + "/project/%s/all_folders?pageSize=9999";
     private String HOST_FOLDER_NEW = Global.HOST_API + "/project/%s/mkdir";
     private ArrayList<AttachmentFolderObject> mData = new ArrayList<>();
+
     BaseAdapter adapter = new BaseAdapter() {
-        private CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                AttachmentFolderObject data = mData.get((Integer) buttonView.getTag());
-                data.isSelected = isChecked;
-            }
-        };
 
         @Override
         public int getCount() {
@@ -99,7 +82,7 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = ViewHolder.instance(convertView, parent);
+            FolderHolder holder = FolderHolder.instance(convertView, parent);
 
             AttachmentFolderObject data = mData.get(position);
             //holder.name.setText(data.getNameCount());
@@ -107,35 +90,30 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
             if (data.name.equals(STRING_OUT_FOLDER)) {
                 holder.name.setTextColor(0xFFAAB1B9);
             } else {
-                holder.name.setTextColor(0xFF222222);
+                holder.name.setTextColor(CodingColor.font1);
             }
 
             if (data.file_id.equals("0")) {
                 if (isChildFolder()) {
                     holder.icon.setImageResource(R.drawable.icon_file_folder_out);
-                    holder.more.setVisibility(View.GONE);
                 } else {
                     holder.icon.setImageResource(R.drawable.ic_project_git_folder);
-                    holder.more.setVisibility(View.GONE);
                 }
             } else {
                 holder.icon.setImageResource(R.drawable.ic_project_git_folder2);
-                holder.more.setVisibility(View.VISIBLE);
             }
-            //iconfromNetwork(holder.icon, data.user.avatar);
 
-            holder.checkBox.setVisibility(View.GONE);
-
-            holder.more.setVisibility(View.GONE);
-
-            /*if (position == mData.size() - 1) {
-                loadMore();
-            }*/
+            if (position == (getCount() - 1)) {
+                holder.bottomLine.setVisibility(View.GONE);
+            } else {
+                holder.bottomLine.setVisibility(View.VISIBLE);
+            }
 
             return holder.getRootView();
         }
 
     };
+    private ArrayList<AttachmentFolderObject> mDefaultData = new ArrayList<>();
 
     private boolean isRootFolder() {
         return sourceRootFolder != null;
@@ -149,8 +127,6 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
         return sourceFileObject == null || !sourceFileObject.isFolder;
     }
 
-    private ArrayList<AttachmentFolderObject> mDefaultData = new ArrayList<>();
-
     @OptionsItem(android.R.id.home)
     void close() {
         if (mAttachmentFolderObject != null) {
@@ -160,13 +136,13 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
                 mData.addAll(mAttachmentFolderObject.sub_folders);
                 adapter.notifyDataSetChanged();
                 //isTopFolder = false;
-                getSupportActionBar().setTitle(mAttachmentFolderObject.name);
+                setActionBarTitle(mAttachmentFolderObject.name);
             } else {
                 mAttachmentFolderObject = null;
                 mData.clear();
                 mData.addAll(mDefaultData);
                 adapter.notifyDataSetChanged();
-                getSupportActionBar().setTitle(R.string.title_activity_attachment_folder_selector);
+                setActionBarTitle(R.string.title_activity_attachment_folder_selector);
                 ///isTopFolder = true;
             }
 
@@ -176,40 +152,32 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
         }
     }
 
-    @OptionsItem
-    void action_cancel() {
-        finish();
-    }
-
     @AfterViews
     protected final void initAttachmentsFolderSelectorActivity() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.title_activity_attachment_folder_selector);
+        setActionBarTitle(R.string.title_activity_attachment_folder_selector);
 
         setBottomBtn();
 
         HOST_FOLDER = String.format(HOST_FOLDER, mProjectObjectId);
 
-        mFootUpdate.init(listView, mInflater, this);
+        listViewAddFootSection(listView);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!isFile() && inChildFolder) {
-                    return;
-                }
-
-                inChildFolder = true;
-                mAttachmentFolderObject = mData.get(position);
-                mData.clear();
-                mData.addAll(mAttachmentFolderObject.sub_folders);
-                adapter.notifyDataSetChanged();
-                //isTopFolder = false;
-                getSupportActionBar().setTitle(mAttachmentFolderObject.name);
-                setBottomBtn();
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            if (!isFile() && inChildFolder) {
+                return;
             }
+
+            inChildFolder = true;
+            mAttachmentFolderObject = mData.get(position);
+            mData.clear();
+            mData.addAll(mAttachmentFolderObject.sub_folders);
+            adapter.notifyDataSetChanged();
+            //isTopFolder = false;
+            getSupportActionBar().setTitle(mAttachmentFolderObject.name);
+            setBottomBtn();
         });
+
         showDialogLoading();
         loadMore();
     }
@@ -259,7 +227,7 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
         View v1 = li.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) v1.findViewById(R.id.value);
         input.setHint("请输入文件夹名称");
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("新建文件夹")
                 .setView(v1)
                 .setPositiveButton("确定", (dialog, which) -> {
@@ -336,42 +304,6 @@ public class AttachmentsFolderSelectorActivity extends BaseActivity implements F
             } else {
                 showErrorMsg(code, respanse);
             }
-        }
-    }
-
-    public static class ViewHolder {
-        public ImageView icon;
-        public TextView name;
-        public CheckBox checkBox;
-        public RelativeLayout more;
-        View rootView;
-
-        public View getRootView() {
-            return rootView;
-        }
-
-        public static ViewHolder instance(View convertView, ViewGroup parent) {
-            return instance(convertView, parent, null);
-        }
-
-        public static ViewHolder instance(View convertView, ViewGroup parent, CompoundButton.OnCheckedChangeListener onCheckedChange) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.project_attachment_list_item, parent, false);
-                holder = new ViewHolder();
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
-                holder.checkBox.setOnCheckedChangeListener(onCheckedChange);
-                holder.more = (RelativeLayout) convertView.findViewById(R.id.more);
-                holder.rootView = convertView;
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            return holder;
-
         }
     }
 

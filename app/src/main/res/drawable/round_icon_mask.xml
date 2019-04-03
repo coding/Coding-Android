@@ -1,0 +1,14 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <solid android:color="@color/mask" />
+
+    <stroke
+        android:width="@dimen/project_icon_edge_width"
+        android:color="@color/divide" />
+    <corners
+        android:bottomLeftRadius="@dimen/project_icon_circle"
+        android:bottomRightRadius="@dimen/project_icon_circle"
+        android:topLeftRadius="@dimen/project_icon_circle"
+        android:topRightRadius="@dimen/project_icon_circle" />
+</shape>

@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.Space
+        android:layout_width="wrap_content"
+        android:layout_height="20dp" />
+
+    <include layout="@layout/divide_top_10" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/stand_bg"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableLeft="@mipmap/pay_zhifubao"
+            android:drawablePadding="15dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="支付宝支付"
+            android:textColor="@color/font_1"
+            android:id="@+id/zhifubao"
+            android:textSize="15sp" />
+
+        <View style="@style/DivideLine_15" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/weixin"
+            android:drawableLeft="@mipmap/pay_weixin"
+            android:gravity="center_vertical"
+            android:drawablePadding="15dp"
+            android:paddingLeft="15dp"
+            android:text="微信支付"
+            android:textColor="@color/font_1"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <include layout="@layout/divide_bottom_15" />
+
+</LinearLayout>
+
+

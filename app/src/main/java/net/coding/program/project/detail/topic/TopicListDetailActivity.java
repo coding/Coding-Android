@@ -1,8 +1,9 @@
 package net.coding.program.project.detail.topic;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.Html;
+import android.text.Spanned;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,26 +15,32 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import net.coding.program.FootUpdate;
+import net.coding.program.CodingGlobal;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.StartActivity;
-import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.base.MyJsonResponse;
 import net.coding.program.common.enter.EnterLayout;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.TopicLabelObject;
+import net.coding.program.common.model.TopicObject;
+import net.coding.program.common.model.UserObject;
+import net.coding.program.common.model.request.Project;
+import net.coding.program.common.model.topic.TopicComment;
+import net.coding.program.common.model.topic.TopicCommentChild;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.maopao.BaseUsersArea;
 import net.coding.program.maopao.item.ImageCommentHolder;
-import net.coding.program.model.TopicLabelObject;
-import net.coding.program.model.TopicObject;
-import net.coding.program.model.UserObject;
-import net.coding.program.model.request.Project;
-import net.coding.program.model.topic.TopicComment;
-import net.coding.program.model.topic.TopicCommentChild;
+import net.coding.program.network.HttpObserverRaw;
+import net.coding.program.network.Network;
+import net.coding.program.network.model.HttpResult;
 import net.coding.program.project.detail.TopicAddActivity_;
 import net.coding.program.project.detail.TopicLabelActivity;
 import net.coding.program.project.detail.TopicLabelActivity_;
 import net.coding.program.project.detail.TopicLabelBar;
+import net.coding.program.util.TextWatcherAt;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -49,8 +56,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 @EActivity(R.layout.activity_topic_list_detail)
-public class TopicListDetailActivity extends BaseTopicListDetailActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore {
+public class TopicListDetailActivity extends BaseTopicListDetailActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener, LoadMore {
 
     static final int RESULT_EDIT = 2;
     static final int RESULT_LABEL = 3;
@@ -92,7 +102,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
             ImageCommentHolder holder;
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.activity_task_comment_much_image_divide, parent, false);
-                holder = new ViewHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
+                holder = new ViewHolder(convertView, onClickComment, myImageGetter, getImageLoad(), GlobalCommon.mOnClickUser, onClickImage);
                 convertView.setTag(R.id.layout, holder);
             } else {
                 holder = (ImageCommentHolder) convertView.getTag(R.id.layout);
@@ -114,7 +124,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
     private ArrayList<UserObject> watchers = new ArrayList<>(0);
     View.OnClickListener clickAddWatch = v -> {
         WatcherListActivity_.intent(v.getContext())
-                .mProjectObjectId(topicObject.project.getId())
+                .mProjectObjectId(topicObject.project_id)
                 .topicId(topicObject.id)
                 .watchers(watchers)
                 .startForResult(RESULT_MODIFY_WATCHER);
@@ -123,7 +133,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
     @AfterViews
     protected final void initTopicListDetailActivity() {
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.green);
+        swipeRefreshLayout.setColorSchemeResources(R.color.font_green);
         mFootUpdate.init(listView, mInflater, this);
 
         showDialogLoading();
@@ -142,12 +152,28 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
 
     private void loadData() {
         if (mJumpParam != null) {
-            urlTopic = String.format(Global.HOST_API + "/topic/%s?", mJumpParam.mTopic);
-            getNetwork(urlTopic, urlTopic);
+            Network.getRetrofit(this)
+                    .getProject(mJumpParam.mUser, mJumpParam.mProject)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new HttpObserverRaw<HttpResult<ProjectObject>>(this) {
+                        @Override
+                        public void onSuccess(HttpResult<ProjectObject> data) {
+                            super.onSuccess(data);
 
+                            projectObject = data.data;
+                            urlTopic = String.format(Global.HOST_API + "/topic/%s?", mJumpParam.mTopic);
+                            getNetwork(urlTopic, urlTopic);
+                        }
+
+                        @Override
+                        public void onFail(int errorCode, @NonNull String error) {
+                            super.onFail(errorCode, error);
+                        }
+                    });
         } else if (topicObject != null) {
             owerGlobar = topicObject.owner.global_key;
-            setActionBarTitle(topicObject.project.name);
+            setActionBarTitle(projectObject.name);
 
             urlTopic = String.format(Global.HOST_API + "/topic/%s?", topicObject.id);
             getNetwork(urlTopic, urlTopic);
@@ -157,7 +183,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
     }
 
     private void initData() {
-        setActionBarTitle(topicObject.project.name);
+        setActionBarTitle(projectObject.name);
         updateHeadData();
         if (saveTopicWhenLoaded) {
             saveTopicWhenLoaded = false;
@@ -236,7 +262,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
 
     @OptionsItem
     void action_edit() {
-        TopicAddActivity_.intent(this).projectObject(topicObject.project).topicObject(topicObject).startForResult(RESULT_EDIT);
+        TopicAddActivity_.intent(this).projectObject(projectObject).topicObject(topicObject).startForResult(RESULT_EDIT);
     }
 
     @Override
@@ -252,15 +278,15 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
 
     @OptionsItem
     void action_delete() {
-        showDialog("讨论", "删除讨论?", (dialog, which) -> deleteNetwork(String.format(Global.HOST_API + "/topic/%s", topicObject.id), TAG_DELETE_TOPIC));
+        showDialog("删除讨论?", (dialog, which) -> deleteNetwork(String.format(Global.HOST_API + "/topic/%s", topicObject.id), TAG_DELETE_TOPIC));
     }
 
     @OptionsItem
     protected final void action_copy() {
-        final String urlTemplate = Global.HOST + "/u/%s/p/%s/topic/%d";
-        String url = String.format(urlTemplate, topicObject.project.owner_user_name, topicObject.project.name, topicObject.id);
-        Global.copy(this, url);
-        showButtomToast("已复制 " + url);
+//        final String urlTemplate = Global.HOST + "/u/%s/p/%s/topic/%d";
+//        String url = String.format(urlTemplate, topicObject.project.owner_user_name, topicObject.project.name, topicObject.id);
+//        Global.copy(this, url);
+//        showButtomToast("已复制 " + url);
     }
 
     void updateDisplayCommentCount() {
@@ -269,7 +295,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
     }
 
     private void updateHeadData() {
-        mEnterComment.getEnterLayout().content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_AT, topicObject.project));
+        mEnterComment.getEnterLayout().content.addTextChangedListener(new TextWatcherAt(this, this, RESULT_AT, projectObject));
 
         if (mListHead == null) {
             mListHead = mInflater.inflate(R.layout.activity_project_topic_comment_list_head, listView, false);
@@ -281,21 +307,20 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
         ImageView icon = (ImageView) mListHead.findViewById(R.id.icon);
         iconfromNetwork(icon, topicObject.owner.avatar);
         icon.setTag(topicObject.owner.global_key);
-        icon.setOnClickListener(mOnClickUser);
+        icon.setOnClickListener(GlobalCommon.mOnClickUser);
 
         TextView topicTitleTextView = ((TextView) mListHead.findViewById(R.id.title));
         topicTitleTextView.setText(topicObject.title);
 
-        final String format = "<font color='#3bbd79'>%s</font> 发布于%s";
-        String timeString = String.format(format, topicObject.owner.name, Global.dayToNow(topicObject.updated_at));
-        ((TextView) mListHead.findViewById(R.id.time)).setText(Html.fromHtml(timeString));
+        Spanned timeString = Global.createGreenHtml("", topicObject.owner.name, " 发布于" + Global.dayToNow(topicObject.updated_at));
+        ((TextView) mListHead.findViewById(R.id.time)).setText(timeString);
 
         ((TextView) mListHead.findViewById(R.id.referenceId)).setText(topicObject.getRefId());
 
         updateLabels(topicObject.labels);
 
         WebView webView = (WebView) mListHead.findViewById(R.id.comment);
-        Global.setWebViewContent(webView, "topic-android.html", topicObject.content);
+        CodingGlobal.setWebViewContent(webView, "topic-android.html", topicObject.content);
 
         textViewCommentCount = (TextView) mListHead.findViewById(R.id.commentCount);
         updateDisplayCommentCount();
@@ -351,7 +376,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
             public void onEditLabels(TopicLabelBar view) {
                 TopicLabelActivity_.intent(TopicListDetailActivity.this)
                         .labelType(TopicLabelActivity.LabelType.Topic)
-                        .projectPath(topicObject.project.getProjectPath())
+                        .projectPath(projectObject.getProjectPath())
                         .id(topicObject.id)
                         .checkedLabels(topicObject.labels)
                         .startForResult(RESULT_LABEL);
@@ -371,7 +396,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
             return;
         }
 
-        Project.topicWatchList(this, topicObject.project.getId(), topicObject.id, new MyJsonResponse(this) {
+        Project.topicWatchList(this, topicObject.project_id, topicObject.id, new MyJsonResponse(this) {
             @Override
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
@@ -578,7 +603,8 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
         public WatchHelp(View headView) {
             emptyWatchLayout = (View) headView.findViewById(R.id.emptyWatchLayout);
             TextView emptyWatchAdd = (TextView) headView.findViewById(R.id.emptyWatchAdd);
-            emptyWatchAdd.setText(Html.fromHtml("尚未添加任何关注者, <font color='#3bbd79'>去添加</font>"));
+            emptyWatchAdd.setText(Global.createGreenHtml("尚未添加任何关注者, ", "去添加", ""));
+
             emptyWatchAdd.setOnClickListener(clickAddWatch);
 
             watchUsersLayout = (View) headView.findViewById(R.id.watchUsersLayout);
@@ -587,7 +613,7 @@ public class TopicListDetailActivity extends BaseTopicListDetailActivity impleme
             watchListAdd.setOnClickListener(clickAddWatch);
             watchUsers = (LinearLayout) headView.findViewById(R.id.watchUsers);
 
-            userArea = new BaseUsersArea(watchUsers, null, TopicListDetailActivity.this, mOnClickUser, getImageLoad());
+            userArea = new BaseUsersArea(watchUsers, null, TopicListDetailActivity.this, GlobalCommon.mOnClickUser, getImageLoad());
         }
 
         public void setData(List<UserObject> watches) {

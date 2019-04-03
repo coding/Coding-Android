@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/codingAppBarLayout"
+    style="@style/AppBarLayout">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/codingToolbar"
+        style="@style/Widget_CodingActionBar">
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            style="@style/CodingToolbarTitle"
+            tools:text="我的" />
+
+    </android.support.v7.widget.Toolbar>
+
+</android.support.design.widget.AppBarLayout>

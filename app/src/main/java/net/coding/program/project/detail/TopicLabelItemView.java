@@ -9,19 +9,22 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import net.coding.program.R;
+import net.coding.program.common.model.TopicLabelObject;
 import net.coding.program.common.widget.LabelTextView;
-import net.coding.program.model.TopicLabelObject;
 
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
 /**
  * Created by Neutra on 2015/4/25.
+ * 标签管理页的 item
  */
 @EViewGroup(R.layout.activity_topic_label_item)
 public class TopicLabelItemView extends RelativeLayout implements Checkable {
+
     @ViewById
     LabelTextView textView;
+
     @ViewById
     ImageView icon;
 
@@ -53,7 +56,7 @@ public class TopicLabelItemView extends RelativeLayout implements Checkable {
     @Override
     public void setChecked(boolean checked) {
         this.checked = checked;
-        icon.setImageResource(checked ? R.drawable.ic_topic_label_checked : R.drawable.ic_topic_label_unchecked);
+        icon.setVisibility(checked ? VISIBLE : INVISIBLE);
     }
 
     @Override
@@ -63,6 +66,6 @@ public class TopicLabelItemView extends RelativeLayout implements Checkable {
 
     public void bind(TopicLabelObject data) {
         this.data = data;
-        textView.setText(data.name, data.getColor());
+        textView.setText(data.name, data.getColorValue());
     }
 }

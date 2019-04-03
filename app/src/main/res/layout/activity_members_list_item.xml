@@ -2,6 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/stand_bg"
+    android:foreground="?attr/selectableItemBackground"
     android:layout_height="wrap_content">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,7 +41,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:text="(创建者)"
-                    android:singleLine="true"
+                    android:lines="1"
                     android:id="@+id/desc"
                     android:layout_alignParentRight="true"
                     android:layout_alignBaseline="@+id/name"
@@ -52,10 +54,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:ellipsize="end"
-                    android:textColor="@color/font_2"
-                    android:singleLine="true"
+                    android:lines="1"
                     android:text="Medium Text"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/font_1" />
 
 
                 <ImageView
@@ -77,10 +79,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:ellipsize="end"
-                android:singleLine="true"
+                android:lines="1"
                 android:text="Medium Text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_6"
+                android:textColor="@color/font_2"
                 android:textSize="14sp"
                 android:visibility="gone" />
 
@@ -95,7 +97,7 @@
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/name"
             android:scaleType="center"
-            android:src="@drawable/ic_watchuser_check"
+            android:src="@drawable/ic_task_status_list_check"
             android:visibility="invisible"
             tools:visibility="visible" />
 

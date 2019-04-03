@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/MaopaoItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/padding_12"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15"
+        android:paddingTop="@dimen/padding_12">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <net.coding.program.common.widget.MemberIcon
+                android:id="@+id/icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/icon"
+                android:layout_marginLeft="@dimen/padding_12"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@id/icon"
+                android:layout_weight="1"
+                android:text="wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/font_1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/icon"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="@dimen/padding_12"
+                android:layout_toRightOf="@id/icon"
+                android:text="1小时前"
+                android:textColor="@color/font_3"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <WebView
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/name"
+            android:layout_below="@+id/name"
+            android:background="@color/transparent"
+            android:lineSpacingExtra="1dp"
+            android:lineSpacingMultiplier="1.1"
+            tools:text="陈可辛果然是香港最成功的导演，从《投名状》、《十月围城》、《武侠》"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/font_1"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/goodCommentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:clipChildren="false"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginRight="5dp"
+            android:ellipsize="end"
+            android:visibility="gone"
+            android:gravity="bottom"
+            android:lines="1"
+            android:text="北京"
+            android:textColor="@color/font_green" />
+
+
+        <TextView
+            android:id="@+id/photoType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="9dp"
+            android:drawableLeft="@drawable/icon_maopao_send_phone"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:drawablePadding="5dp"
+            android:lines="1"
+            android:text="来自 iPhone 6"
+            android:textColor="@color/font_3"
+            android:textSize="13sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginRight="@dimen/padding_15"
+            android:clipChildren="false"
+            android:minHeight="30dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/shareBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:src="@drawable/maopao_item_share"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/commentBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:drawableLeft="@drawable/maopao_extra_comment"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:src="@drawable/checkbox_comment"
+                android:textColor="@color/font_3"
+                android:textSize="14sp"
+                android:visibility="gone"
+                tools:text="17" />
+
+            <CheckBox
+                android:id="@+id/likeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:background="@null"
+                android:button="@drawable/checkbox_good"
+                android:paddingLeft="9dp"
+                android:text="0"
+                android:textColor="@color/font_3"
+                android:textSize="14sp"
+                android:visibility="gone"
+                tools:text="55" />
+
+            <TextView
+                android:id="@+id/rewardCount"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/likeBtn"
+                android:drawableLeft="@drawable/maopao_extra_reward"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:textColor="@color/font_3"
+                android:textSize="14sp"
+                android:visibility="gone"
+                tools:text="2" />
+
+            <TextView
+                android:id="@+id/deleteButton"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="删除"
+                android:textColor="@color/font_green" />
+
+            <TextView
+                android:id="@+id/editButton"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/deleteButton"
+                android:gravity="center"
+                android:text="编辑"
+                android:textColor="@color/font_green" />
+
+            <ImageView
+                android:id="@+id/maopaoGood"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:alpha="0.0"
+                android:src="@drawable/maopao_extra_liked"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/likesAllLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/likeUsersLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="8dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

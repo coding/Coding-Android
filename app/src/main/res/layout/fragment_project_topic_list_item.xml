@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
+    android:background="@color/stand_bg"
+    android:foreground="?attr/selectableItemBackground"
     android:paddingBottom="12dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
         android:layout_width="37dp"
         android:layout_height="37dp"
-        android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"
         android:src="@drawable/ic_default_user" />
 
     <LinearLayout
@@ -30,9 +33,8 @@
             android:layout_marginTop="15.3dp"
             android:ellipsize="end"
             android:lines="1"
-            android:singleLine="true"
-            android:text="Medium Text"
-            android:textColor="@color/font_2"
+            tools:text="第一次讨论"
+            android:textColor="@color/font_1"
             android:textSize="16sp" />
 
         <net.coding.program.common.widget.FlowLabelLayout
@@ -59,37 +61,5 @@
 
         <include layout="@layout/common_discuss" />
     </LinearLayout>
-    <!--<TextView-->
-    <!--android:id="@+id/time"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignLeft="@+id/title"-->
-    <!--android:singleLine="true"-->
-    <!--android:layout_marginTop="10dp"-->
-    <!--android:layout_alignStart="@+id/title"-->
-    <!--android:layout_below="@+id/title"-->
-    <!--android:text="Medium Text"-->
-    <!--android:textColor="@color/font_gray"-->
-    <!--android:textSize="12sp"-->
-    <!--android:layout_alignRight="@+id/time"-->
-    <!--android:layout_alignEnd="@+id/time" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/discuss"-->
-    <!--android:layout_width="40dp"-->
-    <!--android:gravity="left"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentEnd="true"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:layout_alignTop="@+id/name"-->
-    <!--android:layout_marginRight="0dp"-->
-    <!--android:layout_marginTop="10dp"-->
-    <!--android:layout_below="@id/title"-->
-    <!--android:singleLine="true"-->
-    <!--android:textSize="12sp"-->
-    <!--android:drawablePadding="4dp"-->
-    <!--android:drawableLeft="@drawable/ic_task_comment"-->
-    <!--android:text="888"-->
-    <!--android:textColor="@color/font_gray" />-->
 
 </RelativeLayout>

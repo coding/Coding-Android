@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -8,23 +7,25 @@
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:background="@color/divide">
+
         <TextView
             android:id="@+id/text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/list_item_icon_left"
             android:layout_marginRight="@dimen/list_item_icon_right"
+            android:layout_marginTop="20dp"
             android:layout_toRightOf="@id/icon"
             android:text="全部"
-            android:textColor="@color/font_9"
-            android:layout_marginTop="20dp"
+            android:textColor="@color/font_3"
             android:textSize="14sp" />
     </RelativeLayout>
 
-    <include layout="@layout/divide_1"
+    <include
+        layout="@layout/divide_line_1"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_gravity="bottom"/>
+        android:layout_gravity="bottom" />
 
 </FrameLayout>
 

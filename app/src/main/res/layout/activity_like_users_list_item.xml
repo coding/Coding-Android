@@ -1,38 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:background="@color/stand_bg"
+    android:foreground="?attr/selectableItemBackground"
+    android:layout_height="66dp">
 
+    <net.coding.program.maopao.LikeUserImage
+        android:id="@+id/icon"
+        android:layout_marginLeft="15dp"
+        android:layout_width="47dp"
+        android:layout_centerVertical="true"
+        android:layout_height="47dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="66dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/padding_15"
-        android:paddingRight="@dimen/padding_15">
+    <ImageView
+        android:layout_width="20dp"
+        android:id="@+id/vip"
+        android:layout_alignRight="@id/icon"
+        android:layout_alignBottom="@id/icon"
+        android:background="@drawable/member_diamond"
+        android:layout_height="20dp" />
 
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/icon"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <net.coding.program.maopao.LikeUserImage
-            android:id="@+id/icon"
-            android:layout_width="47dp"
-            android:layout_height="47dp" />
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <CheckBox
-            android:id="@+id/followMutual"
-            android:layout_width="73.5dp"
-            android:layout_height="30dp"
-            android:background="@null"
-            android:button="@drawable/checkbox_follow"
-            android:focusable="false" />
-
-    </LinearLayout>
-</FrameLayout>
+    <CheckBox
+        android:id="@+id/followMutual"
+        android:layout_width="50dp"
+        android:layout_centerVertical="true"
+        android:layout_height="30dp"
+        android:background="@null"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:button="@drawable/checkbox_follow"
+        android:focusable="false" />
+</RelativeLayout>

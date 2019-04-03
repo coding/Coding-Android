@@ -12,46 +12,4 @@
         android:title="@string/action_inverse"
         app:showAsAction="withText|always" />
 
-    <!--<item-->
-    <!--android:id="@+id/action_more"-->
-    <!--android:icon="@drawable/ic_action_overflow"-->
-    <!--android:title="@string/action_more"-->
-    <!--app:showAsAction="withText|always">-->
-
-        <!--<menu>-->
-        <!--<item-->
-        <!--android:id="@+id/action_move"-->
-        <!--android:icon="@drawable/ic_popup_attachment_move"-->
-        <!--android:title="@string/action_move"-->
-        <!--app:showAsAction="always" />-->
-        <!--<item-->
-        <!--android:id="@+id/action_download"-->
-        <!--android:icon="@drawable/ic_popup_attachment_download"-->
-        <!--android:title="@string/action_download"-->
-        <!--app:showAsAction="always" />-->
-        <!--<item-->
-        <!--android:id="@+id/action_delete"-->
-        <!--android:icon="@drawable/ic_popup_attachment_delete"-->
-        <!--android:title="@string/action_delete"-->
-        <!--app:showAsAction="always" />-->
-
-        <!--</menu>-->
-    <!--</item>-->
-
-    <!--<item android:id="@+id/action_download"
-        android:title="@string/action_download"
-        android:icon="@drawable/ic_attachment_btn_download"
-        app:showAsAction="withText|ifRoom" />-->
-    <!--<item android:id="@+id/action_move"
-        android:title="@string/action_move"
-        android:icon="@drawable/ic_menu_move"
-        app:showAsAction="withText|ifRoom" />
-
-    <item android:id="@+id/action_delete"
-        android:title="@string/action_delete"
-        android:icon="@drawable/ic_menu_delete"
-        app:showAsAction="withText|ifRoom" />
--->
-
-
 </menu>

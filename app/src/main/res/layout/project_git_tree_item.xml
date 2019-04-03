@@ -1,63 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/stand_bg"
     android:foreground="?attr/selectableItemBackground"
-    android:layout_height="wrap_content">
+    android:paddingBottom="10dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="10dp">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_project_git_folder2" />
+
+    <TextView
+        android:id="@+id/name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="12dp"
-        android:paddingRight="12dp">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/icon"
+        android:layout_toRightOf="@id/icon"
+        android:maxLines="1"
+        android:text="Medium Text"
+        android:textColor="@color/font_1"
+        android:textSize="14sp" />
 
-        <RelativeLayout
-            android:id="@+id/icon_layout"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="12dp">
+    <TextView
+        android:id="@+id/lastCommitName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="3dp"
+        android:layout_toEndOf="@id/icon"
+        android:layout_toRightOf="@id/icon"
+        android:lines="1"
+        android:text="Medium Text"
+        android:textColor="@color/font_3"
+        android:textSize="12sp" />
 
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="@dimen/folder_icon_width"
-                android:layout_height="@dimen/folder_icon_width"
-                android:src="@drawable/ic_project_git_folder2" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/file_info_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/icon_layout"
-            android:layout_marginLeft="5dp"
-            android:layout_toLeftOf="@+id/checkbox"
-            android:layout_toRightOf="@id/icon_layout"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:text="Medium Text"
-                android:textColor="@color/font_2"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/comment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="3dp"
-                android:singleLine="true"
-                android:text="Medium Text"
-                android:textColor="@color/font_9"
-                android:textSize="12sp" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
-</FrameLayout>
+    <TextView
+        android:id="@+id/comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="3dp"
+        android:layout_toEndOf="@id/lastCommitName"
+        android:layout_toRightOf="@id/lastCommitName"
+        android:drawableLeft="@drawable/ic_clock"
+        android:drawablePadding="6dp"
+        android:lines="1"
+        android:text="Medium Text"
+        android:textColor="@color/font_3"
+        android:textSize="12sp" />
+</RelativeLayout>

@@ -1,7 +1,8 @@
 package net.coding.program.task.add;
 
-import net.coding.program.model.TaskObject;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.SingleTask;
+import net.coding.program.common.model.UserObject;
+import net.coding.program.network.model.task.BoardList;
 
 /**
  * Created by chenchao on 15/7/7.
@@ -13,16 +14,18 @@ class TaskParams {
     int ownerId;
     int priority;
     String deadline = "";
+    BoardList taskBoard; // 只保存数据，不保存版本
 
     UserObject owner;
 
-    public TaskParams(TaskObject.SingleTask singleTask) {
+    public TaskParams(SingleTask singleTask) {
         content = singleTask.content;
         status = singleTask.status;
         ownerId = singleTask.owner_id;
         priority = singleTask.priority;
         owner = singleTask.owner;
         deadline = singleTask.deadline;
+        taskBoard = singleTask.taskBoardList;
     }
 
     @Override
@@ -37,6 +40,21 @@ class TaskParams {
         if (status != that.status) return false;
         if (!content.equals(that.content)) return false;
         if (!deadline.equals(that.deadline)) return false;
+
+//        if (taskBoard != null) {
+//            if (that.taskBoard != null) {
+//                if (taskBoard.id != that.taskBoard.id) {
+//                    return false;
+//                }
+//            } else {
+//                return false;
+//            }
+//        } else {
+//            if (that.taskBoard != null) {
+//                return false;
+//            }
+//        }
+
         return owner.global_key.equals(that.owner.global_key);
 
     }

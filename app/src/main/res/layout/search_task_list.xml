@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_F6F6F6"
+    android:background="@color/stand_bg"
+    android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical">
 
-    <net.coding.program.common.widget.CircleImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iconTask"
         android:layout_width="43.5dp"
         android:layout_height="43.5dp"
@@ -22,9 +23,9 @@
         android:layout_marginTop="15dp"
         android:layout_toRightOf="@id/iconTask"
         android:lineSpacingExtra="2dp"
-        android:singleLine="true"
+        android:lines="1"
         android:text="中秋首页改版"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="16sp" />
 
     <include

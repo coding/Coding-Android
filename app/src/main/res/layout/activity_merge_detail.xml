@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,22 +6,95 @@
     android:orientation="vertical"
     tools:context="net.coding.program.project.detail.merge.MergeDetailActivity">
 
+    <include layout="@layout/common_actionbar" />
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/actionbar_height">
 
-        <ListView
-            android:id="@+id/listView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/stand_bg"
-            android:clipToPadding="false"
-            android:drawSelectorOnTop="true"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/divide"
+                android:layout_weight="1">
+
+                <ListView
+                    android:id="@+id/listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
+                    android:drawSelectorOnTop="true"
+                    android:footerDividersEnabled="false"
+                    android:headerDividersEnabled="false" />
+
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+            <View style="@style/DivideLine" />
+
+            <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/actionLayout"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_gravity="bottom"
+                android:background="@color/stand_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="8dp"
+                android:paddingRight="16dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/actionCancel"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_marginLeft="@dimen/bottom_button_padding"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="取消"
+                    android:textColor="@color/font_1"
+                    android:textSize="15sp"
+                    app:rv_backgroundColor="@color/divide_line"
+                    app:rv_cornerRadius="2dp" />
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/actionRefuse"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_marginLeft="@dimen/bottom_button_padding"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="拒绝"
+                    android:textColor="@color/font_white"
+                    android:textSize="15sp"
+                    app:rv_backgroundColor="#FFF56061"
+                    app:rv_cornerRadius="2dp" />
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/actionAccept"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_marginLeft="@dimen/bottom_button_padding"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="合并"
+                    android:textColor="@color/font_white"
+                    android:textSize="15sp"
+                    app:rv_backgroundColor="@color/font_2"
+                    app:rv_cornerRadius="2dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
 
         <include
@@ -31,80 +104,4 @@
             android:layout_height="match_parent" />
 
     </FrameLayout>
-
-    <include layout="@layout/divide_1" />
-
-    <LinearLayout
-        android:id="@+id/actionLayout"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:visibility="gone"
-        android:background="@color/stand_bg"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/bottom_button_padding"
-        android:paddingRight="@dimen/bottom_button_padding">
-
-
-        <TextView
-            android:id="@+id/actionCancel"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:background="@drawable/edit_send"
-            android:gravity="center"
-            android:text="取消"
-            android:textColor="@color/font_2" />
-
-
-        <TextView
-            android:id="@+id/actionRefuse"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_merge_refuse"
-
-            android:layout_marginLeft="@dimen/bottom_button_padding"
-            android:gravity="center"
-            android:text="拒绝"
-            android:textColor="@color/font_white" />
-
-
-        <TextView
-            android:id="@+id/actionAuth"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="@dimen/bottom_button_padding"
-            android:layout_weight="1"
-            android:background="@drawable/edit_send_green"
-            android:gravity="center"
-            android:text="授权"
-            android:textColor="@color/font_white" />
-
-        <TextView
-            android:id="@+id/actionCancelAuth"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="@dimen/bottom_button_padding"
-            android:layout_weight="1"
-            android:background="@drawable/edit_send_green"
-            android:gravity="center"
-            android:text="撤消授权"
-            android:textColor="@color/font_white" />
-
-
-
-        <TextView
-            android:id="@+id/actionAccept"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/bottom_button_padding"
-            android:background="@drawable/button_merge_accept"
-            android:gravity="center"
-            android:text="合并"
-            android:textColor="@color/font_white" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>

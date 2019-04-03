@@ -1,0 +1,66 @@
+if (DEBUG_TERMINAL.toBoolean()) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 27
+
+    defaultConfig {
+
+        if (DEBUG_TERMINAL.toBoolean()) {
+            minSdkVersion 23
+        } else {
+            minSdkVersion 15
+        }
+
+        targetSdkVersion 16
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+//        sourceSets {
+//            main {
+//                if (DEBUG_TERMINAL.toBoolean()) {
+//                    manifest.srcFile "src/app/AndroidManifest.xml"
+//                } else {
+//                    manifest.srcFile "src/main/AndroidManifest.xml"
+//                }
+//            }
+//        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation project(':common-third-library')
+    implementation project(':common-coding')
+}
+
+repositories {
+    jcenter()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+
+    // 图片裁剪，系统的坑太多
+    implementation 'com.github.yalantis:ucrop:2.2.2'
+}

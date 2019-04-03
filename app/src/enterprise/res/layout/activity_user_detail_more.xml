@@ -1,0 +1,161 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/divide"
+        tools:context="net.coding.program.user.UserDetailMoreActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <include layout="@layout/divide_top_15" />
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:paddingLeft="15dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/icon"
+                    android:layout_width="53dp"
+                    android:layout_height="53dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:textColor="@color/font_1" />
+
+                <TextView
+                    android:id="@+id/nameTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/icon"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="cc"
+                    android:textColor="@color/font_1"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+
+            <include layout="@layout/divide_middle_15" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/createAtLayout"
+                    layout="@layout/list_item_2_text_align_right" />
+
+                <include layout="@layout/divideline_15" />
+
+                <include
+                    android:id="@+id/lastLoginLayout"
+                    layout="@layout/list_item_2_text_align_right" />
+
+                <include layout="@layout/divideline_15" />
+
+                <include
+                    android:id="@+id/globalKeyLayout"
+                    layout="@layout/list_item_2_text_align_right" />
+            </LinearLayout>
+
+
+            <include layout="@layout/divide_middle_15" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/sexLayout"
+                    layout="@layout/list_item_2_text_align_right" />
+
+                <include layout="@layout/divideline_15" />
+
+                <include
+                    android:id="@+id/birthdayLayout"
+                    layout="@layout/list_item_2_text_align_right" />
+
+                <include layout="@layout/divideline_15" />
+
+                <include
+                    android:id="@+id/locateLayout"
+                    layout="@layout/list_item_2_text_align_right" />
+
+                <include layout="@layout/divideline_15" />
+
+                <include
+                    android:id="@+id/loginsLayout"
+                    layout="@layout/list_item_2_text_align_right" />
+            </LinearLayout>
+
+
+            <include layout="@layout/divide_middle_15" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/degreeLayout"
+                    android:visibility="gone"
+                    layout="@layout/list_item_2_text_align_right" />
+
+                <include
+                    android:id="@+id/schoolLayout"
+                    android:visibility="gone"
+                    layout="@layout/list_item_2_text_align_right" />
+
+                <include layout="@layout/divideline_15" />
+
+                <include
+                    android:id="@+id/companyLayout"
+                    layout="@layout/list_item_2_text_align_right" />
+
+                <include layout="@layout/divideline_15" />
+
+                <include
+                    android:id="@+id/jobLayout"
+                    layout="@layout/list_item_2_text_align_right" />
+
+
+                <include
+                    android:visibility="gone"
+                    android:id="@+id/skillLayout"
+                    layout="@layout/list_item_2_text_vertical" />
+
+                <include layout="@layout/divide_middle_15" />
+
+                <include
+                    android:id="@+id/tagsLayout"
+                    layout="@layout/list_item_2_text_vertical" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include
+        android:id="@+id/blankLayout"
+        layout="@layout/view_exception"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

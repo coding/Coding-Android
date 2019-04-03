@@ -14,8 +14,8 @@
         android:dividerHeight="0dp"
         android:drawSelectorOnTop="true"
         android:overScrollMode="never"
-        android:visibility="visible"
-        android:scrollbarStyle="outsideOverlay" />
+        android:scrollbarStyle="outsideOverlay"
+        android:visibility="visible" />
 
     <FrameLayout
         android:id="@+id/container"

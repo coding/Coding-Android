@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.model.DiffFile;
 import net.coding.program.common.widget.DataAdapter;
-import net.coding.program.model.DiffFile;
 
 /**
  * Created by chenchao on 15/6/2.

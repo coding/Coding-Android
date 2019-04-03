@@ -53,7 +53,9 @@ public class FeedbackActivity extends TopicAddActivity {
                 String phoneModel = Build.MODEL;
                 int androidVersion = Build.VERSION.SDK_INT;
                 FEED_EXTRA = String.format("\nCoding %s %s (%s)", appVersion, phoneModel, androidVersion);
-            } catch (Exception e) {};
+            } catch (Exception e) {
+            }
+            ;
         }
 
         return FEED_EXTRA;

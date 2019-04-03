@@ -1,6 +1,5 @@
 package net.coding.program;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -22,10 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.umeng.socialize.sso.UMSsoHandler;
-
 import net.coding.program.common.Global;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.maopao.share.CustomShareBoard;
@@ -53,16 +49,12 @@ public class WebActivity extends BaseActivity {
 
     @ViewById
     protected ProgressBar progressBar;
-
-    String loading = "";
     protected TextView actionbarTitle;
+    String loading = "";
 
     @AfterViews
     protected final void initWebActivity() {
         Log.d("", "WebActivity " + url);
-        if (url.equals("/user/tasks")) {
-            url = Global.HOST_MOBILE + url;
-        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -158,13 +150,15 @@ public class WebActivity extends BaseActivity {
         webView.destroy();
         webView = null;
 
+        CustomShareBoard.onDestory(this);
+
         super.onDestroy();
     }
 
     @OptionsItem
     protected final void action_browser() {
         try {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webView.getUrl()));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(intent);
         } catch (Exception e) {
             Toast.makeText(WebActivity.this, "用浏览器打开失败", Toast.LENGTH_LONG).show();
@@ -173,7 +167,7 @@ public class WebActivity extends BaseActivity {
 
     @OptionsItem
     protected final void action_copy() {
-        String urlString = webView.getUrl();
+        String urlString = url;
         if (urlString == null) {
             Toast.makeText(WebActivity.this, "复制链接失败", Toast.LENGTH_SHORT).show();
             return;
@@ -185,7 +179,7 @@ public class WebActivity extends BaseActivity {
 
     @OptionsItem
     protected final void action_share() {
-        String urlString = webView.getUrl();
+        String urlString = url;
         if (urlString == null) {
             Toast.makeText(WebActivity.this, "获取链接失败", Toast.LENGTH_SHORT).show();
             return;
@@ -217,32 +211,10 @@ public class WebActivity extends BaseActivity {
         shareBoard.showAtLocation(decorView, Gravity.BOTTOM, 0, winHeight - rect.bottom);
     }
 
-    public static class CustomWebViewClient extends WebViewClient {
-
-        Context mContext;
-
-        public CustomWebViewClient(Context context) {
-            mContext = context;
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            boolean openActivity = URLSpanNoUnderline.openActivityByUri(mContext, url, false, false);
-            if (!openActivity) {
-                view.loadUrl(url);
-            }
-
-            return !openActivity;
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        UMSsoHandler ssoHandler = CustomShareBoard.getShareController().getConfig().getSsoHandler(
-                requestCode);
-        if (ssoHandler != null) {
-            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
+        CustomShareBoard.onActivityResult(requestCode, resultCode, data, this);
     }
 }
+

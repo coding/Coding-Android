@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rootLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbarLayout"
+            app:elevation="0dp"
+            style="@style/AppBarLayout">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+
+                app:layout_scrollFlags="scroll"
+                tools:context="net.coding.program.setting.order.OrderMainActivity">
+
+                <RelativeLayout
+                    android:id="@+id/topTip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/layout_yellow_bg"
+                    android:minHeight="44dp">
+
+                    <ImageView
+                        android:id="@+id/closeTipButton"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_alignParentRight="true"
+                        android:scaleType="center"
+                        android:src="@drawable/delete_edit_login_black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="44dp"
+                        android:text="APP 暂不支持订购服务，请前往企业版网站订购"
+                        android:textColor="@color/font_yellow"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/topWarn"
+                    style="@style/BaseListText"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/font_1"
+                    android:textSize="17sp"
+                    tools:text="您的服务已过期，请订购后使用" />
+
+                <TextView
+                    android:id="@+id/balanceTitle"
+                    style="@style/BaseListText"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/font_1"
+                    android:textSize="14sp"
+                    tools:text="已透支金额（元）" />
+
+                <TextView
+                    android:id="@+id/balanceContent"
+                    style="@style/BaseListText"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/font_red"
+                    android:textSize="30sp"
+                    tools:text="500.00" />
+
+                <TextView
+                    android:id="@+id/balanceTip"
+                    style="@style/BaseListText"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/font_2"
+                    android:textSize="14sp"
+                    tools:text="过期时间 2017 年 2月 25 日，已超时使用 2 天。" />
+
+                <include
+                    android:id="@+id/divideSection"
+                    layout="@layout/divide_middle_15" />
+
+
+            </LinearLayout>
+            <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+            <FrameLayout
+                android:id="@+id/containerHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </FrameLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <!--<FrameLayout-->
+        <!--android:id="@+id/container"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="200dp">-->
+
+        <!--</FrameLayout>-->
+        <include layout="@layout/common_viewpager" />
+    </android.support.design.widget.CoordinatorLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

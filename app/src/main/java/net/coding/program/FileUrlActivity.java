@@ -1,138 +1,148 @@
 package net.coding.program;
 
-import net.coding.program.common.Global;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BaseActivity;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.AttachmentFolderObject;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.AttachmentsActivity_;
-import net.coding.program.project.detail.AttachmentsDownloadDetailActivity_;
-import net.coding.program.project.detail.AttachmentsHtmlDetailActivity_;
-import net.coding.program.project.detail.AttachmentsPicDetailActivity_;
-import net.coding.program.project.detail.AttachmentsTextDetailActivity_;
+import net.coding.program.network.Network;
+import net.coding.program.network.model.HttpResult;
+import net.coding.program.network.model.file.CodingFile;
+import net.coding.program.network.model.file.CodingFileView;
+import net.coding.program.project.detail.file.v2.ProjectFileMainActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 @EActivity(R.layout.activity_file_url)
 public class FileUrlActivity extends BaseActivity {
 
-    public static final String HOST_PROJECT = Global.HOST_API + "/user/%s/project/%s";
-    public static final String PATTERN_DIR = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)$";
-    public static final String PATTERN_DIR_FILE = "^(?:https://[\\w.]*)?/u/([\\w.-]+)/p/([\\w.-]+)/attachment/([\\w.-]+)/preview/([\\d]+)$";
-    final String HOST_FILE = Global.HOST_API + "/project/%s/files/%s/view";
-
     @Extra
-    String url;
+    Param param;
 
-    private String dirId;
-    private String fileId;
-    private int projectId;
+    ProjectObject projectResult;
+    CodingFile codingFileResult;
+
+    private Subscriber<Boolean> subscriber = new Subscriber<Boolean>() {
+        @Override
+        public void onCompleted() {
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            finish();
+        }
+
+        @Override
+        public void onNext(Boolean aBoolean) {
+            if (aBoolean) {
+                ProjectFileMainActivity.fileItemJump(codingFileResult, projectResult, FileUrlActivity.this);
+            }
+
+            finish();
+            overridePendingTransition(0, 0);
+        }
+    };
 
     @AfterViews
     public void parseUrl() {
-        Pattern pattern = Pattern.compile(PATTERN_DIR);
-        Matcher matcher = pattern.matcher(url);
-        if (matcher.find()) {
-            String user = matcher.group(1);
-            String project = matcher.group(2);
-            dirId = matcher.group(3);
-
-
-            String projectUrl = String.format(HOST_PROJECT, user, project);
-            getNetwork(projectUrl, HOST_PROJECT);
-            return;
-        }
-
-        pattern = Pattern.compile(PATTERN_DIR_FILE);
-        matcher = pattern.matcher(url);
-        if (matcher.find()) {
-            String user = matcher.group(1);
-            String project = matcher.group(2);
-            dirId = matcher.group(3);
-            fileId = matcher.group(4);
-
-            String projectUrl = String.format(HOST_PROJECT, user, project);
-            getNetwork(projectUrl, PATTERN_DIR_FILE);
-            return;
+        if (param.isDir()) {
+            jumpDir();
+        } else {
+            jumpToFileDetail();
         }
     }
 
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(HOST_PROJECT)) {
-            if (code == 0) {
-                ProjectObject projectObject = new ProjectObject(respanse.optJSONObject("data"));
-                projectId = projectObject.getId();
+    public void jumpDir() {
+        String user = param.user;
+        String project = param.project;
+        int dirId = param.id;
 
-                AttachmentFolderObject folder = new AttachmentFolderObject();
-                folder.file_id = dirId;
-                folder.name = "";
-                AttachmentsActivity_.intent(this)
-                        .mAttachmentFolderObject(folder)
-                        .mProjectObjectId(projectId)
-                        .start();
-                overridePendingTransition(0, 0);
-            } else {
-                showErrorMsg(code, respanse);
-            }
-            finish();
-        } else if (tag.equals(PATTERN_DIR_FILE)) {
-            if (code == 0) {
-                ProjectObject projectObject = new ProjectObject(respanse.optJSONObject("data"));
-                projectId = projectObject.getId();
+        Observable<HttpResult<ProjectObject>> p = Network.getRetrofit(this)
+                .getProject(user, project)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
 
-                String fileUrl = String.format(HOST_FILE, projectId, fileId);
-                getNetwork(fileUrl, HOST_FILE);
-            } else {
-                showErrorMsg(code, respanse);
-                finish();
-            }
-        } else if (tag.equals(HOST_FILE)) {
-            if (code == 0) {
-                AttachmentFileObject fileObject = new AttachmentFileObject(respanse.optJSONObject("data").optJSONObject("file"));
+        Observable<HttpResult<ArrayList<CodingFile>>> d = Network.getRetrofit(this)
+                .getDirDetail(user, project, dirId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        Observable.zip(p, d, (rp, rd) -> {
+            if (rp.code == 0 && rd.code == 0) {
+                projectResult = rp.data;
 
-                AttachmentFolderObject folder = new AttachmentFolderObject();
-                AttachmentFileObject folderFile = fileObject;
-
-                if (fileObject.isImage() || fileObject.isGif()) {
-                    AttachmentsPicDetailActivity_.intent(this)
-                            .mProjectObjectId(projectId)
-                            .mAttachmentFolderObject(folder)
-                            .mAttachmentFileObject(folderFile)
-                            .start();
-
-                } else if (AttachmentFileObject.isMd(fileObject.fileType)) {
-                    AttachmentsHtmlDetailActivity_.intent(this)
-                            .mProjectObjectId(projectId)
-                            .mAttachmentFolderObject(folder)
-                            .mAttachmentFileObject(folderFile)
-                            .start();
-                } else if (AttachmentFileObject.isTxt(fileObject.fileType)) {
-                    AttachmentsTextDetailActivity_.intent(this)
-                            .mProjectObjectId(projectId)
-                            .mAttachmentFolderObject(folder)
-                            .mAttachmentFileObject(folderFile)
-                            .start();
+                if (rd.data == null || rd.data.isEmpty()) {
+                    showButtomToast("文件夹不存在");
+                    return false;
                 } else {
-                    AttachmentsDownloadDetailActivity_.intent(this)
-                            .mProjectObjectId(projectId)
-                            .mAttachmentFolderObject(folder)
-                            .mAttachmentFileObject(folderFile)
-                            .start();
+                    codingFileResult = rd.data.get(rd.data.size() - 1);
                 }
-
-                overridePendingTransition(0, 0);
-            } else {
-                showErrorMsg(code, respanse);
+                return true;
             }
-            finish();
+
+            return false;
+        }).subscribe(subscriber);
+    }
+
+    private void jumpToFileDetail() {
+        String user = param.user;
+        String project = param.project;
+        int fileId = param.id;
+
+        Observable<HttpResult<ProjectObject>> p = Network.getRetrofit(this)
+                .getProject(user, project)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        Observable<HttpResult<CodingFileView>> f = Network.getRetrofit(this)
+                .getFileDetail(user, project, fileId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        Observable.zip(p, f, (p1, f1) -> {
+            if (p1.code == 0 && f1.code == 0) {
+                codingFileResult = f1.data.file;
+                projectResult = p1.data;
+
+                if (codingFileResult == null) {
+                    showButtomToast("文件不存在");
+                    return false;
+                }
+                return true;
+            }
+
+            if (f1.code == 1304) {
+                showButtomToast("文件不存在");
+            }
+
+            return false;
+        }).subscribe(subscriber);
+    }
+
+    public static final class Param implements Serializable {
+
+        private static final long serialVersionUID = -7005258403758123690L;
+
+        public String user;
+        public String project;
+        public int id;
+        boolean isFile;
+
+        public boolean isDir() {
+            return !isFile;
+        }
+
+        public Param(String user, String project, int file, boolean isFile) {
+            this.user = user;
+            this.project = project;
+            this.id = file;
+            this.isFile = isFile;
         }
     }
 }

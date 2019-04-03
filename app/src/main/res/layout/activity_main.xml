@@ -8,86 +8,35 @@
     tools:context=".MainActivity">
 
     <!-- Your normal content view -->
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:elevation="4dp"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
-
-                <TextView
-                    android:id="@+id/toolbarTitle"
-                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <Spinner
-                    android:id="@+id/toolbarMaopaoTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/maopao_spinner"
-                    android:dropDownWidth="196dp" />
-
-                <TextView
-                    android:id="@+id/toolbarProjectTitle"
-                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/maopao_spinner"
-                    android:text="我的项目"
-                    android:textColor="@color/text_color_primary" />
-
-
-            </android.support.v7.widget.Toolbar>
-            <!--app:theme="@style/NoIconActionbar"-->
-
-        </android.support.design.widget.AppBarLayout>
-
+        <!-- battomBar 的阴影是 4 dp -->
         <FrameLayout
-            android:id="@+id/frameLayout"
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/main_container_merge_bottom" />
 
+        <!--actionbar 的阴影，用在4.4上面-->
+        <include layout="@layout/actionbar_shadow" />
 
-            <FrameLayout
-                android:id="@+id/container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:id="@+id/actionBarCompShadow"
-                android:background="@drawable/actionbar_shadow" />
-        </FrameLayout>
-
-        <View style="@style/DivideLine" />
+        <!--<View style="@style/DivideLine" />-->
 
         <com.roughike.bottombar.BottomBar
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_alignParentBottom="true"
-            android:background="#f8f8f8"
+            android:layout_gravity="bottom"
+            android:background="@color/bottomColorPrimary"
             app:bb_activeTabColor="@color/font_green"
-            app:bb_inActiveTabColor="@color/tab_font_no_active"
-            app:bb_showShadow="false"
+            app:bb_inActiveTabColor="@color/font_4"
+            app:bb_showShadow="true"
             app:bb_tabXmlResource="@xml/bottombar_tabs"
             app:bb_titleTextAppearance="@style/BottomTabTitle" />
-
-    </LinearLayout>
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

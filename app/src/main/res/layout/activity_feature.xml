@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.coding.program.common.guide.feature.FeatureActivity">
+    tools:context=".guide.feature.FeatureActivity">
 
     <ImageView
         android:layout_width="match_parent"

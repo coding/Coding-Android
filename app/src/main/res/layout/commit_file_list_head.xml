@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -15,48 +15,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/padding_15"
-            tools:text="Medium Text"
-            android:textColor="@color/font_2"
-            android:textSize="20sp" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_below="@id/title"
-            android:layout_marginLeft="@dimen/padding_15"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="0dp" />
+            android:textColor="@color/font_1"
+            android:textSize="15sp"
+            tools:text="" />
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/icon"
             android:layout_marginBottom="1dp"
+            android:layout_below="@id/title"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="@dimen/padding_15"
             android:layout_toRightOf="@+id/icon"
             android:text="chenchao"
-            android:textColor="@color/font_6" />
+            android:textSize="12sp"
+            android:textColor="@color/font_3" />
 
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/icon"
+            android:layout_alignBottom="@+id/name"
             android:layout_marginBottom="1dp"
             android:layout_toRightOf="@+id/name"
             android:text="Small Text"
-            android:textColor="@color/font_9" />
+            android:textSize="12sp"
+            android:textColor="@color/font_3" />
 
         <TextView
             android:id="@+id/mergeId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/icon"
+            android:layout_alignBottom="@id/name"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/padding_15"
             android:text="12121212"
+            android:textSize="12sp"
             android:textColor="#ff4e90bf" />
 
     </RelativeLayout>
@@ -72,6 +67,9 @@
         android:paddingRight="@dimen/padding_15"
         android:text="5个文件，共1新增和0删除" />
 
-    <include layout="@layout/divide_middle_15" />
+    <include
+        android:id="@+id/headerDivide"
+        layout="@layout/divide_middle_15"
+        android:visibility="gone" />
 
 </LinearLayout>

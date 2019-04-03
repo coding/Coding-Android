@@ -7,21 +7,19 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.tencent.android.tpush.XGPushManager;
-
-import net.coding.program.MainActivity;
-import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.guide.GuideActivity;
+import net.coding.program.common.GlobalData;
+import net.coding.program.common.event.EventMessage;
+import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
-import net.coding.program.event.EventMessage;
-import net.coding.program.model.AccountInfo;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.project.detail.file.FileSaveHelp;
+import net.coding.program.thirdplatform.ThirdPlatformLogin;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -29,27 +27,21 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.regex.Pattern;
 
-import de.greenrobot.event.EventBus;
 
 @EFragment(R.layout.fragment_setting)
 public class SettingFragment extends BaseFragment {
-
-    @ViewById
-    CheckBox allNotify;
 
     @ViewById
     TextView cacheSize;
 
     @AfterViews
     void init() {
-        boolean mLastNotifySetting = AccountInfo.getNeedPush(getActivity());
-        allNotify.setChecked(mLastNotifySetting);
         setHasOptionsMenu(true);
-
         updateCacheSize();
     }
 
@@ -61,13 +53,13 @@ public class SettingFragment extends BaseFragment {
         for (File dir : cacheDir) {
             size += getFileSize(dir);
         }
-        String sizeString = String.format("%.2f MB", (double) size / 1024 /1024);
+        String sizeString = String.format("%.2f MB", (double) size / 1024 / 1024);
 
         dispayCacheSize(sizeString);
     }
 
     File[] getAllCacheDir() {
-        return new File[] {
+        return new File[]{
                 getActivity().getCacheDir(),
                 getActivity().getExternalCacheDir()
         };
@@ -99,7 +91,7 @@ public class SettingFragment extends BaseFragment {
                 deleteFiles(item);
             }
             file.delete();
-        } else if (file.isFile()){
+        } else if (file.isFile()) {
             file.delete();
         }
     }
@@ -115,18 +107,6 @@ public class SettingFragment extends BaseFragment {
     }
 
     @Click
-    void pushSetting() {
-        allNotify.performClick();
-    }
-
-    @Click
-    void allNotify() {
-        AccountInfo.setNeedPush(getActivity(), allNotify.isChecked());
-        Intent intent = new Intent(MainActivity.BroadcastPushStyle);
-        getActivity().sendBroadcast(intent);
-    }
-
-    @Click
     void downloadPathSetting() {
         final SharedPreferences share = getActivity().getSharedPreferences(FileUtil.DOWNLOAD_SETTING, Context.MODE_PRIVATE);
         String path = new FileSaveHelp(getActivity()).getFileDownloadPath();
@@ -136,7 +116,7 @@ public class SettingFragment extends BaseFragment {
         final EditText input = (EditText) v1.findViewById(R.id.value);
         final String oldPath = path;
         input.setText(oldPath);
-        new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
                 .setTitle("下载路径设置")
                 .setView(v1)
                 .setPositiveButton("确定", (dialog, which) -> {
@@ -159,7 +139,7 @@ public class SettingFragment extends BaseFragment {
 
     @Click
     void clearCache() {
-        new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
                 .setMessage(R.string.clear_cache_message)
                 .setPositiveButton("确定", ((dialog, which) -> {
                     File[] cacheDir = getAllCacheDir();
@@ -176,11 +156,19 @@ public class SettingFragment extends BaseFragment {
 
     @Click
     void loginOut() {
-        showDialog(MyApp.sUserObject.global_key, "退出当前账号?", (dialog, which) -> {
+        showDialog(GlobalData.sUserObject.global_key, "退出当前账号?", (dialog, which) -> {
+            umengEvent(UmengEvent.E_USER_CENTER, "退登_确定退登");
             FragmentActivity activity = getActivity();
-            XGPushManager.registerPush(activity, "*");
+
+            CodingCompat.instance().loginOut(activity, GlobalData.sUserObject.global_key);
+
             AccountInfo.loginOut(activity);
-            startActivity(new Intent(activity, GuideActivity.class));
+            ThirdPlatformLogin.loginOut(activity);
+            if (GlobalData.isEnterprise()) {
+                startActivity(new Intent(activity, CodingCompat.instance().getGuideActivity()));
+            } else {
+                startActivity(new Intent(activity, CodingCompat.instance().getLoginActivity()));
+            }
             EventBus.getDefault().post(new EventMessage(EventMessage.Type.loginOut));
             activity.finish();
         });

@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="66dp"
-    android:background="@drawable/list_item_selector"
-    android:paddingBottom="10dp">
+    android:layout_height="70dp"
+    android:background="@color/stand_bg">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
-        android:layout_width="47dp"
-        android:layout_height="47dp"
+        android:layout_width="@dimen/notify_main_icon_width"
+        android:layout_height="@dimen/notify_main_icon_width"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/padding_15"
-        android:layout_marginRight="@dimen/padding_15"
-        android:layout_marginTop="10dp" />
+        android:layout_marginRight="@dimen/padding_15" />
 
     <TextView
         android:id="@+id/title"
@@ -24,10 +22,9 @@
         android:layout_toLeftOf="@+id/time"
         android:layout_toRightOf="@+id/icon"
         android:layout_toStartOf="@+id/time"
-        android:singleLine="true"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/font_2" />
+        android:lines="1"
+        android:textColor="@color/font_1"
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/time"
@@ -38,20 +35,19 @@
         android:layout_alignTop="@+id/name"
         android:layout_marginRight="15dp"
         android:layout_marginTop="12dp"
-        android:singleLine="true"
-        android:text="New Text"
-        android:textColor="@color/font_9" />
+        android:lines="1"
+        android:textColor="@color/font_3"
+        android:textSize="12sp"
+        tools:text="3分钟前" />
 
     <com.readystatesoftware.viewbadger.BadgeView
         android:id="@+id/badge"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
+        style="@style/RedPointTxt"
         android:layout_alignParentRight="true"
         android:layout_below="@id/time"
+        android:layout_marginTop="5dp"
         android:layout_gravity="center_vertical|right"
         android:layout_marginRight="15dp"
-        android:background="@drawable/ic_notify_txt"
-        android:gravity="center"
         android:visibility="invisible" />
 
     <!--...只能针对文字，表情图片是没有的，singleLine=false-->
@@ -60,17 +56,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/title"
+        android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/title"
-        android:layout_below="@+id/title"
+        android:layout_marginBottom="10dp"
         android:layout_toLeftOf="@+id/badge"
         android:layout_toStartOf="@+id/badge"
         android:ellipsize="end"
         android:lines="1"
-        android:maxLines="1"
         android:scrollHorizontally="true"
-        android:singleLine="false"
-        android:text="Medium Text"
-        android:textColor="@color/font_9"
-        android:textSize="16sp" />
+        android:textColor="@color/font_3"
+        android:textSize="15sp"
+        tools:text="[语音]" />
+
+    <View
+        style="@style/DivideLine"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/divide_line_user_list" />
 
 </RelativeLayout>

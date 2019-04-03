@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">pay-coding</string>
+    <string name="title_activity_wxentry">微信支付</string>
+</resources>

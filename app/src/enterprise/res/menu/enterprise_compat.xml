@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MyActivity">
+
+    <!--有些功能去除后，会因为缺少 R 文件的 id 导致编译失败，这个文件里面就是用于放不用的 resource-->
+
+    <item
+        android:id="@+id/action_link_public"
+        android:icon="@drawable/ic_menu_share_link"
+        android:title="@string/public_link"
+        app:showAsAction="always" />
+
+</menu>

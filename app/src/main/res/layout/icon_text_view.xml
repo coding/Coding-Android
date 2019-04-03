@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:gravity="center"
-    android:layout_height="match_parent">
-    
+    android:orientation="vertical">
+
     <ImageView
         android:id="@+id/icon"
-        tools:src="@drawable/icon_share_qq"
         android:layout_width="55dp"
-        android:layout_height="55dp" />
-    
+        android:layout_height="55dp"
+        tools:src="@drawable/icon_share_qq" />
+
     <TextView
         android:id="@+id/text"
-        tools:text="qq"
-        android:minWidth="80dp"
-        android:gravity="center"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="12dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:minWidth="80dp"
+        tools:text="qq" />
 
 </LinearLayout>

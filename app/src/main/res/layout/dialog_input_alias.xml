@@ -31,6 +31,5 @@
         android:capitalize="none"
         android:gravity="fill_horizontal"
         android:scrollHorizontally="true"
-
         android:textAppearance="?android:attr/textAppearanceMedium" />
 </LinearLayout>

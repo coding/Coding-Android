@@ -1,7 +1,6 @@
 package net.coding.program.maopao;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -13,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -22,27 +20,27 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
-import com.umeng.socialize.sso.UMSsoHandler;
 
-import net.coding.program.ImagePagerActivity_;
-import net.coding.program.MyApp;
+import net.coding.program.CodingGlobal;
+import net.coding.program.CustomWebViewClientOpenNew;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.HtmlContent;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.StartActivity;
-import net.coding.program.common.TextWatcherAt;
-import net.coding.program.common.comment.HtmlCommentHolder;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.common.model.Maopao;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.widget.input.MainInputView;
+import net.coding.program.maopao.item.HtmlCommentHolder;
 import net.coding.program.maopao.item.MaopaoLikeAnimation;
 import net.coding.program.maopao.share.CustomShareBoard;
-import net.coding.program.model.Maopao;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.project.maopao.ProjectMaopaoAddActivity_;
 import net.coding.program.third.EmojiFilter;
+import net.coding.program.util.TextWatcherAt;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -60,19 +58,17 @@ import java.util.ArrayList;
 @EActivity(R.layout.activity_maopao_detail)
 public class MaopaoDetailActivity extends BackActivity implements StartActivity, SwipeRefreshLayout.OnRefreshListener {
 
+    private static final String TAG_MAOPAO = "TAG_MAOPAO";
+    private static final String TAG_PROJECT = "TAG_PROJECT";
     final String HOST_GOOD = Global.HOST_API + "/tweet/%s/%s";
     final int RESULT_REQUEST_AT = 1;
+    private static final int RESULT_EDIT = 2;
 
+    private final String TAG_LIKE_USERS = "TAG_LIKE_USERS";
     String URI_COMMENT_DELETE = Global.HOST_API + "/tweet/%s/comment/%s";
     String URI_COMMENT = Global.HOST_API + "/tweet/%s/comments?pageSize=500";
     String ADD_COMMENT = Global.HOST_API + "/tweet/%s/comment";
-
-    private final String TAG_LIKE_USERS = "TAG_LIKE_USERS";
     String TAG_DELETE_MAOPAO = "TAG_DELETE_MAOPAO";
-
-    private static final String TAG_MAOPAO = "TAG_MAOPAO";
-    private static final String TAG_PROJECT = "TAG_PROJECT";
-
     @Extra
     Maopao.MaopaoObject mMaopaoObject;
     Maopao.MaopaoObject mMaopaoObjectOld;
@@ -90,7 +86,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
     ArrayList<Maopao.Comment> mData = new ArrayList<>();
     MyImageGetter myImageGetter = new MyImageGetter(this);
-    String bubble;
+
     View.OnClickListener onClickSend = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -129,21 +125,14 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     TextView commentBtn;
     TextView reward;
 
-    View.OnClickListener onClickDeleteMaopao = v -> action_delete_maopao();
-
-    private void action_delete_maopao() {
-        final int maopaoId = mMaopaoObject.id;
-        showDialog("冒泡", "删除冒泡？", (dialog, which) -> {
-            final String HOST_MAOPAO_DELETE = Global.HOST_API + "/tweet/%d";
-            deleteNetwork(String.format(HOST_MAOPAO_DELETE, maopaoId), TAG_DELETE_MAOPAO);
-        });
-    }
+    View.OnClickListener onClickDeleteMaopao = v -> actionDeleteMaopao();
+    View.OnClickListener onClickEditMaopao = v -> actionEditMaopao();
 
     boolean mModifyComment = false;
     View.OnClickListener onClickComment = v -> {
         final Maopao.Comment comment = (Maopao.Comment) v.getTag();
         if (comment.isMy()) {
-            showDialog("冒泡", "删除评论？", (dialog, which) -> {
+            showDialog("删除评论？", (dialog, which) -> {
                 String url = String.format(URI_COMMENT_DELETE, comment.tweet_id, comment.id);
                 deleteNetwork(url, URI_COMMENT_DELETE);
             });
@@ -173,7 +162,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
             HtmlCommentHolder holder;
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.activity_maopao_detail_item, parent, false);
-                holder = new HtmlCommentHolder(convertView, onClickComment, myImageGetter, getImageLoad(), mOnClickUser);
+                holder = new HtmlCommentHolder(convertView, onClickComment, myImageGetter, getImageLoad(), GlobalCommon.mOnClickUser);
                 convertView.setTag(R.id.layout, holder);
 
             } else {
@@ -187,6 +176,34 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         }
     };
 
+    private void actionEditMaopao() {
+        if (mClickParam == null || !mClickParam.isProjectMaopao()) {
+            return;
+        }
+
+        ProjectMaopaoAddActivity_.intent(this)
+                .projectObject(mProjectObject)
+                .maopao(mMaopaoObject)
+                .startForResult(RESULT_EDIT);
+    }
+
+    private void actionDeleteMaopao() {
+        final int maopaoId = mMaopaoObject.id;
+        showDialog("确定删除？", (dialog, which) -> {
+            final String url;
+            if (mClickParam != null && mClickParam.isProjectMaopao()) {
+                if (mProjectObject != null) {
+                    url = String.format(Global.HOST_API + "/project/%s/tweet/%s", mProjectObject.getId(), maopaoId);
+                } else {
+                    return;
+                }
+            } else {
+                url = String.format(Global.HOST_API + "/tweet/%s", maopaoId);
+            }
+            deleteNetwork(url, TAG_DELETE_MAOPAO);
+        });
+    }
+
     @AfterViews
     protected final void initMaopaoDetailActivity() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -194,14 +211,8 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         mEnterLayout.setClickSend(onClickSend);
         mEnterLayout.addTextWatcher(new TextWatcherAt(this, this, RESULT_REQUEST_AT));
 
-        try {
-            bubble = Global.readTextFile(getAssets().open("bubble.html"));
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
-
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(R.color.green);
+        swipeRefreshLayout.setColorSchemeResources(R.color.font_green);
         loadDataFromNetwork();
     }
 
@@ -228,7 +239,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
                 close();
                 return true;
             case R.id.action_del_maopao:
-                action_delete_maopao();
+                actionDeleteMaopao();
                 return true;
 
 //            case R.id.action_inform:
@@ -248,13 +259,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
     }
 
     protected final void action_copy() {
-        String link = getLink();
-        if (link.isEmpty()) {
-            showButtomToast("复制链接失败");
-        } else {
-            Global.copy(this, link);
-            showButtomToast("已复制链接 " + link);
-        }
+        Global.tipCopyLink(this, getLink());
     }
 
     @Override
@@ -279,6 +284,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
                 String projectUrl = mClickParam.getHttpProject();
                 setActionBarTitle(mClickParam.projectName);
                 getNetwork(projectUrl, TAG_PROJECT);
+                mEnterLayout.setVisibility(View.GONE);
             }
         } else {
             initData();
@@ -291,38 +297,44 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         initHead();
         listView.setAdapter(adapter);
 
+        // 项目公告不显示评论
+        if (mProjectObject != null) {
+            return;
+        }
 
         getNetwork(URI_COMMENT, URI_COMMENT);
-
         prepareAddComment(mMaopaoObject, false);
     }
 
     void initHead() {
         if (mListHead == null) {
-            mListHead = mInflater.inflate(R.layout.activity_maopao_detail_head, listView, false);
+            int maopaoHeaderId = R.layout.activity_maopao_detail_head;
+            if (mClickParam != null && mClickParam.isProjectMaopao()) {
+                maopaoHeaderId = R.layout.activity_project_maopao_detail_head;
+            }
+
+            mListHead = mInflater.inflate(maopaoHeaderId, listView, false);
             listView.addHeaderView(mListHead, null, false);
         }
 
         ImageView icon = (ImageView) mListHead.findViewById(R.id.icon);
-        icon.setOnClickListener(mOnClickUser);
+        icon.setOnClickListener(GlobalCommon.mOnClickUser);
 
         TextView name = (TextView) mListHead.findViewById(R.id.name);
-        name.setOnClickListener(mOnClickUser);
+        name.setOnClickListener(GlobalCommon.mOnClickUser);
 
         TextView time = (TextView) mListHead.findViewById(R.id.time);
         time.setText(Global.dayToNow(mMaopaoObject.created_at));
 
         iconfromNetwork(icon, mMaopaoObject.owner.avatar);
-        icon.setTag(mMaopaoObject.owner.global_key);
+        icon.setTag(mMaopaoObject.owner);
 
         name.setText(mMaopaoObject.owner.name);
         name.setTag(mMaopaoObject.owner.global_key);
 
-        WebView webView = (WebView) mListHead.findViewById(R.id.comment);
-        Global.initWebView(webView);
-        String replaceContent = bubble.replace("${webview_content}", mMaopaoObject.content);
-        webView.loadDataWithBaseURL(null, replaceContent, "text/html", "UTF-8", null);
-        webView.setWebViewClient(new CustomWebViewClient(this, mMaopaoObject.content));
+        WebView webView = mListHead.findViewById(R.id.comment);
+        webView.setWebViewClient(new CustomWebViewClientOpenNew(this, mMaopaoObject.content));
+        CodingGlobal.setWebViewContent(webView, CodingGlobal.WebviewType.markdown, mMaopaoObject.content);
 
         mListHead.setOnClickListener(v -> prepareAddComment(mMaopaoObject, true));
 
@@ -365,11 +377,11 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         });
 
 
-        likeUsersArea = new LikeUsersArea(mListHead, this, getImageLoad(), mOnClickUser);
+        likeUsersArea = new LikeUsersArea(mListHead, this, getImageLoad(), GlobalCommon.mOnClickUser);
 
         likeUsersArea.likeUsersLayout.setTag(MaopaoListBaseFragment.TAG_MAOPAO, mMaopaoObject);
         if (mMaopaoObject.like_users.isEmpty() && mMaopaoObject.likes > 0) {
-            String hostLikes = String.format(LikeUsersListActivity.HOST_LIKES_USER, mMaopaoObject.id);
+            String hostLikes = String.format(LikeUsersListActivity.getHostLikesUser(), mMaopaoObject.id);
             getNetwork(hostLikes, TAG_LIKE_USERS);
         }
         likeUsersArea.displayLikeUser();
@@ -395,14 +407,40 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         } else {
             deleteButton.setVisibility(View.INVISIBLE);
         }
-    }
 
+        View editButton = mListHead.findViewById(R.id.editButton);
+        if (editButton != null) {
+            if (mMaopaoObject.owner.isMe()) {
+                editButton.setVisibility(View.VISIBLE);
+                editButton.setOnClickListener(onClickEditMaopao);
+            } else {
+                editButton.setVisibility(View.INVISIBLE);
+            }
+
+            // 项目管理员可以编辑删除冒泡
+            if (mProjectObject != null && mProjectObject.isManagerLevel()) {
+                deleteButton.setVisibility(View.VISIBLE);
+                deleteButton.setOnClickListener(onClickDeleteMaopao);
+
+                editButton.setVisibility(View.VISIBLE);
+                editButton.setOnClickListener(onClickEditMaopao);
+            }
+        }
+    }
 
     @OnActivityResult(RESULT_REQUEST_AT)
     void onResultAt(int requestCode, Intent data) {
         if (requestCode == Activity.RESULT_OK) {
             String name = data.getStringExtra("name");
             mEnterLayout.insertText(name);
+        }
+    }
+
+    @OnActivityResult(RESULT_EDIT)
+    void onResult(int requestCode) {
+        if (requestCode == RESULT_OK) {
+            onRefresh();
+            setResult(RESULT_OK);
         }
     }
 
@@ -481,13 +519,13 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
                 maopao.liked = !maopao.liked;
                 if (maopao.liked) {
                     umengEvent(UmengEvent.MAOPAO, "冒泡点赞");
-                    Maopao.Like_user like_user = new Maopao.Like_user(MyApp.sUserObject);
+                    Maopao.Like_user like_user = new Maopao.Like_user(GlobalData.sUserObject);
                     maopao.like_users.add(0, like_user);
                     ++maopao.likes;
                 } else {
                     umengEvent(UmengEvent.MAOPAO, "冒泡取消点赞");
                     for (int j = 0; j < maopao.like_users.size(); ++j) {
-                        if (maopao.like_users.get(j).global_key.equals(MyApp.sUserObject.global_key)) {
+                        if (maopao.like_users.get(j).global_key.equals(GlobalData.sUserObject.global_key)) {
                             maopao.like_users.remove(j);
                             --maopao.likes;
                             break;
@@ -514,7 +552,7 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
 
                 String projectPath = "/project/" + mProjectObject.getId();
                 URI_COMMENT_DELETE = Global.HOST_API + projectPath + "/tweet/%s/comment/%s";
-                URI_COMMENT = Global.HOST_API + projectPath+ "/tweet/%s/comments?pageSize=500";
+                URI_COMMENT = Global.HOST_API + projectPath + "/tweet/%s/comments?pageSize=500";
                 ADD_COMMENT = Global.HOST_API + projectPath + "/tweet/%s/comment";
 
                 getNetwork(maopaoUrl, TAG_MAOPAO);
@@ -579,7 +617,11 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
             content.setTag(comment);
         } else if (data instanceof Maopao.MaopaoObject) {
             comment = new Maopao.Comment((Maopao.MaopaoObject) data);
-            content.setHint("评论冒泡");
+            if (mClickParam != null && mClickParam.isProjectMaopao()) {
+                content.setHint("评论公告");
+            } else {
+                content.setHint("评论冒泡");
+            }
             content.setTag(comment);
         }
 
@@ -611,6 +653,12 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         shareBoard.showAtLocation(decorView, Gravity.BOTTOM, 0, winHeight - rect.bottom);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        CustomShareBoard.onActivityResult(requestCode, resultCode, data, this);
+    }
+
     public static class ClickParam implements Serializable {
         String name = "";
         String maopaoId = "";
@@ -621,9 +669,9 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
             this.maopaoId = maopaoId;
         }
 
-        public ClickParam(String name, String projectName, String maopaoId) {
+        public ClickParam(String userGK, String projectName, String maopaoId) {
+            this.name = userGK;
             this.projectName = projectName;
-            this.name = name;
             this.maopaoId = maopaoId;
         }
 
@@ -636,42 +684,13 @@ public class MaopaoDetailActivity extends BackActivity implements StartActivity,
         }
     }
 
-    public static class CustomWebViewClient extends WebViewClient {
-
-        private final Context mContext;
-        private final ArrayList<String> mUris;
-
-        public CustomWebViewClient(Context context, String content) {
-            mContext = context;
-            mUris = HtmlContent.parseMessage(content).uris;
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            for (int i = 0; i < mUris.size(); ++i) {
-                if (mUris.get(i).equals(url)) {
-                    ImagePagerActivity_.intent(mContext)
-                            .mArrayUri(mUris)
-                            .mPagerPosition(i)
-                            .start();
-                    return true;
-                }
-            }
-
-            URLSpanNoUnderline.openActivityByUri(mContext, url, false, true);
-            return true;
-        }
-    }
-
-//    private UMSocialService mController = UMServiceFactory.getUMSocialService("net.coding.program");
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        UMSsoHandler ssoHandler = CustomShareBoard.getShareController().getConfig().getSsoHandler(
-                requestCode);
-        if (ssoHandler != null) {
-            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
+    protected void onDestroy() {
+        CustomShareBoard.onDestory(this);
+
+        super.onDestroy();
     }
+
+    //    private UMSocialService mController = UMServiceFactory.getUMSocialService("net.coding.program");
+
 }

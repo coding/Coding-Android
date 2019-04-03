@@ -9,23 +9,23 @@
         android:id="@+id/nameText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:lineSpacingExtra="2dp"
         android:minHeight="58dp"
-        android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:paddingLeft="@dimen/padding_15"
         android:paddingRight="@dimen/padding_15"
+        android:paddingTop="16dp"
         android:singleLine="false"
-        android:lineSpacingExtra="2dp"
-        android:gravity="center"
         android:text="coding"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="20sp"
         android:textStyle="bold" />
 
     <View
-        android:background="@drawable/line_gray"
         android:layout_width="match_parent"
-        android:layout_height="1px" />
+        android:layout_height="1px"
+        android:background="@drawable/line_gray" />
 
     <LinearLayout
         android:id="@+id/map_button"
@@ -41,9 +41,9 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:maxLines="1"
-            android:singleLine="true"
+            android:lines="1"
             android:text="位置"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_2"
             android:textSize="15sp" />
 
         <TextView
@@ -53,9 +53,9 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
-            android:singleLine="true"
+            android:lines="1"
             android:text=""
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="15sp" />
 
         <ImageView
@@ -67,23 +67,23 @@
     </LinearLayout>
 
     <View
-        android:background="@drawable/line_gray"
         android:layout_width="match_parent"
-        android:layout_height="1px" />
+        android:layout_height="1px"
+        android:background="@drawable/line_gray" />
 
     <TextView
         android:id="@+id/customText"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:maxLines="1"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:includeFontPadding="false"
         android:paddingTop="2dp"
-        android:gravity="center"
+        android:lines="1"
         android:text="此地点为用户创建"
         android:textColor="#888888"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:visibility="gone" />
 </LinearLayout>

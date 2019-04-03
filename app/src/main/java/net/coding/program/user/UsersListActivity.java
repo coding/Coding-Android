@@ -1,13 +1,13 @@
 package net.coding.program.user;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -17,29 +17,29 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
-import com.melnykov.fab.FloatingActionButton;
 
-import net.coding.program.FootUpdate;
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.HtmlContent;
+import net.coding.program.common.LoadMore;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.UserObject;
+import net.coding.program.common.model.project.ProjectServiceInfo;
+import net.coding.program.common.param.MessageParse;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.message.MessageListActivity;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.UserObject;
-import net.coding.program.model.project.ProjectServiceInfo;
+import net.coding.program.network.constant.Friend;
 import net.coding.program.third.sidebar.IndexableListView;
 import net.coding.program.third.sidebar.StringMatcher;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,66 +49,60 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-
 /*
  * 粉丝，关注的人列表
  */
 @EActivity(R.layout.activity_users_list)
-public class UsersListActivity extends BackActivity implements FootUpdate.LoadMore {
+public class UsersListActivity extends BackActivity implements LoadMore {
 
-    public static final String HOST_FOLLOW = Global.HOST_API + "/user/follow?";
-    public static final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";
     public static final String TAG_USER_FOLLOWS = "TAG_USER_FOLLOWS";
     public static final String TAG_USER_FANS = "TAG_USER_FANS";
     public static final String RESULT_EXTRA_NAME = "name";
     public static final String RESULT_EXTRA_USESR = "RESULT_EXTRA_USESR";
     private static final String TAG_RELAY_MESSAGE = "TAG_RELAY_MESSAGE";
+    private static final String TAG_ADD_PROJECT_MEMBER = "TAG_ADD_PROJECT_MEMBER";
+    public final String HOST_FOLLOW = getHostFollow();
+    public final String HOST_UNFOLLOW = getHostUnfollow();
     final String HOST_FOLLOWS = Global.HOST_API + "/user/friends?pageSize=20";
     final String HOST_FANS = Global.HOST_API + "/user/followers?pageSize=20";
-
-    private static final String TAG_ADD_PROJECT_MEMBER = "TAG_ADD_PROJECT_MEMBER";
-
     final int RESULT_REQUEST_ADD = 1;
     final int RESULT_REQUEST_DETAIL = 2;
     @Extra
     Friend type;
-
     @Extra
     boolean selectType;
-
     @Extra
     ProjectObject projectObject;
-
     @Extra
     boolean hideFollowButton; // 隐藏互相关注按钮，用于发私信选人的界面
-
     @Extra
     String titleName = ""; // 设置title
-
     @Extra
     String relayString = "";
-
     @Extra
     String statUrl; // 收藏项目的人
-
     @Extra
     ProjectServiceInfo projectServiceInfo;
-
     @Extra
     UserParams mUserParam;
+
     ArrayList<UserObject> mData = new ArrayList<>();
     ArrayList<UserObject> mSearchData = new ArrayList<>();
 
     @ViewById
     IndexableListView listView;
-
     @ViewById
     TextView maxUserCount;
 
-    @ViewById
-    FloatingActionButton floatButton;
     UserAdapter adapter = new UserAdapter();
+
+    public static String getHostFollow() {
+        return Global.HOST_API + "/user/follow?";
+    }
+
+    public static String getHostUnfollow() {
+        return Global.HOST_API + "/user/unfollow?";
+    }
 
     @Override
     protected void initSetting() {
@@ -140,20 +134,25 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
             maxUserCount.setVisibility(View.GONE);
         }
 
-        setTitle();
+        initActionBar();
 
-//        mFootUpdate.init(listView, mInflater, this);
+        if (type == Friend.Follow && isMyFriendList()) {
+            View addFollowView = getLayoutInflater().inflate(R.layout.activity_users_list_item, listView, false);
+            addFollowView.findViewById(R.id.divideTitle).setVisibility(View.GONE);
+            addFollowView.findViewById(R.id.divide_line).setVisibility(View.GONE);
+            addFollowView.findViewById(R.id.followMutual).setVisibility(View.GONE);
+            ((ImageView) addFollowView.findViewById(R.id.icon)).setImageResource(R.drawable.ic_message_add_user);
+            ((TextView) addFollowView.findViewById(R.id.name)).setText("添加好友");
+            addFollowView.findViewById(R.id.rootLayout).setOnClickListener(v -> actionAdd());
+
+            listView.addHeaderView(addFollowView, null, false);
+        }
+
         adapter.initSection();
         listView.setAdapter(adapter);
         listView.setFastScrollEnabled(true);
         listView.setFastScrollAlwaysVisible(true);
         loadMore();
-
-        if (type == Friend.Follow && isMyFriendList()) {
-            floatButton.attachToListView(listView);
-        } else {
-            floatButton.setVisibility(View.GONE);
-        }
 
         if (selectType) {
             listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -168,7 +167,7 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 String urlAddUser = Global.HOST_API + projectObject.getProjectPath() + "/members/gk/add";
                 final UserObject data = (UserObject) parent.getItemAtPosition(position);
-                new AlertDialog.Builder(UsersListActivity.this)
+                new AlertDialog.Builder(UsersListActivity.this, R.style.MyAlertDialogStyle)
                         .setMessage(String.format("添加项目成员 %s ?", data.name))
                         .setPositiveButton("确定", (dialog, which) -> {
                             RequestParams params = new RequestParams();
@@ -181,8 +180,8 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         } else if (!relayString.isEmpty()) {
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 final UserObject user = (UserObject) parent.getItemAtPosition(position);
-                showDialog("转发", "转发给" + user.name, (dialog, which) -> {
-                    Global.MessageParse messageParse = HtmlContent.parseMessage(relayString);
+                showDialog("转发给" + user.name, (dialog, which) -> {
+                    MessageParse messageParse = HtmlContent.parseMessage(relayString);
                     RequestParams params = new RequestParams();
                     String text = messageParse.text;
                     for (String url : messageParse.uris) {
@@ -192,23 +191,22 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
                     }
                     params.put("content", text);
                     params.put("receiver_global_key", user.global_key);
-                    postNetwork(MessageListActivity.HOST_MESSAGE_SEND, params, TAG_RELAY_MESSAGE);
+                    postNetwork(MessageListActivity.getSendMessage(), params, TAG_RELAY_MESSAGE);
                     showProgressBar(true, "发送中...");
                 });
             });
         } else {
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 String globalKey = ((UserObject) parent.getItemAtPosition(position)).global_key;
-                UserDetailActivity_.intent(UsersListActivity.this)
-                        .globalKey(globalKey)
-                        .startForResult(RESULT_REQUEST_DETAIL);
+                CodingCompat.instance().launchUserDetailActivity(this,
+                        globalKey, RESULT_REQUEST_DETAIL);
             });
         }
     }
 
     private boolean isMyFriendList() {
         return (mUserParam == null ||
-                mUserParam.mUser.global_key.equals(MyApp.sUserObject.global_key)) &&
+                mUserParam.mUser.global_key.equals(GlobalData.sUserObject.global_key)) &&
                 statUrl == null;
     }
 
@@ -234,9 +232,9 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         }
     }
 
-    void setTitle() {
+    void initActionBar() {
         if (!titleName.isEmpty()) {
-            getSupportActionBar().setTitle(titleName);
+            setActionBarTitle(titleName);
             return;
         }
 
@@ -253,34 +251,20 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
             title = String.format(format, mUserParam.mUser.name, type);
         }
 
-        getSupportActionBar().setTitle(title);
-    }
-
-    private Friend getType() {
-        Friend friendType = type;
-        if (friendType == null) {
-            friendType = mUserParam.mType;
-        }
-        return friendType;
+        setActionBarTitle(title);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(type == Friend.Follow ? R.menu.users_follow : R.menu.users_fans,
-                menu);
+        menuInflater.inflate(R.menu.menu_search, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        searchItem.setIcon(R.drawable.ic_menu_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-
-        try { // 更改搜索按钮的icon
-            int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
-            ImageView v = (ImageView) searchView.findViewById(searchImgId);
-            v.setImageResource(R.drawable.ic_menu_search);
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -296,6 +280,14 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         });
 
         return true;
+    }
+
+    private Friend getType() {
+        Friend friendType = type;
+        if (friendType == null) {
+            friendType = mUserParam.mType;
+        }
+        return friendType;
     }
 
     private void searchItem(String s) {
@@ -328,13 +320,7 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         }
     }
 
-    @Click
-    public final void floatButton() {
-        action_add();
-    }
-
-    @OptionsItem
-    void action_add() {
+    void actionAdd() {
         startActivityForResult(new Intent(this, AddFollowActivity_.class), RESULT_REQUEST_ADD);
     }
 
@@ -387,8 +373,6 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         } else if (tag.equals(TAG_RELAY_MESSAGE)) {
             showProgressBar(false);
             if (code == 0) {
-//                Message.MessageObject item = new Message.MessageObject(respanse.getJSONObject("data"));
-//                UsersListFragment.ReadedUserId.setReadedUser(item.friend.global_key, item);
                 showMiddleToast("发送成功");
                 finish();
             } else {
@@ -422,8 +406,8 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         }
     }
 
-    public enum Friend {
-        Follow, Fans
+    public enum Type {
+        Select
     }
 
     public static class UserParams implements Serializable {
@@ -449,11 +433,12 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
         TextView name;
         CheckBox mutual;
         TextView divideTitle;
+        View bottomLine;
     }
 
-    class UserAdapter extends BaseAdapter implements SectionIndexer, StickyListHeadersAdapter {
+    class UserAdapter extends BaseAdapter implements SectionIndexer {
 
-        private String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private String mSections = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#";
         private ArrayList<String> mSectionTitle = new ArrayList<>();
         private ArrayList<Integer> mSectionId = new ArrayList<>();
 
@@ -499,6 +484,7 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
                 holder.mutual = (CheckBox) convertView.findViewById(R.id.followMutual);
+                holder.bottomLine = convertView.findViewById(R.id.divide_line);
                 if (hideFollowButton) {
                     holder.mutual.setVisibility(View.INVISIBLE);
                 }
@@ -516,6 +502,13 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
                 holder.divideTitle.setVisibility(View.GONE);
             }
 
+            int nextPosition = position + 1;
+            if (nextPosition >= getCount() || isSection(nextPosition)) {
+                holder.bottomLine.setVisibility(View.INVISIBLE);
+            } else {
+                holder.bottomLine.setVisibility(View.VISIBLE);
+            }
+
             holder.name.setText(data.name);
             iconfromNetwork(holder.icon, data.avatar);
 
@@ -523,16 +516,13 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
                 int drawableId = data.follow ? R.drawable.checkbox_fans : R.drawable.checkbox_follow;
                 holder.mutual.setButtonDrawable(drawableId);
                 holder.mutual.setChecked(data.followed);
-                holder.mutual.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        RequestParams params = new RequestParams();
-                        params.put("users", data.global_key);
-                        if (((CheckBox) v).isChecked()) {
-                            postNetwork(HOST_FOLLOW, params, HOST_FOLLOW, position, null);
-                        } else {
-                            postNetwork(HOST_UNFOLLOW, params, HOST_UNFOLLOW, position, null);
-                        }
+                holder.mutual.setOnClickListener(v -> {
+                    RequestParams params = new RequestParams();
+                    params.put("users", data.global_key);
+                    if (((CheckBox) v).isChecked()) {
+                        postNetwork(HOST_FOLLOW, params, HOST_FOLLOW, position, null);
+                    } else {
+                        postNetwork(HOST_UNFOLLOW, params, HOST_UNFOLLOW, position, null);
                     }
                 });
             }
@@ -593,33 +583,5 @@ public class UsersListActivity extends BackActivity implements FootUpdate.LoadMo
             return sections;
         }
 
-        @Override
-        public View getHeaderView(int position, View convertView, ViewGroup parent) {
-            HeaderViewHolder holder;
-            if (convertView == null) {
-                holder = new HeaderViewHolder();
-                convertView = getLayoutInflater().inflate(R.layout.fragment_project_dynamic_list_head, parent, false);
-                holder.mHead = (TextView) convertView.findViewById(R.id.head);
-                convertView.setTag(holder);
-            } else {
-                holder = (HeaderViewHolder) convertView.getTag();
-            }
-
-            holder.mHead.setText(mSectionTitle.get(getSectionForPosition(position)));
-            return convertView;
-        }
-
-        @Override
-        public long getHeaderId(int i) {
-            return getSectionForPosition(i);
-        }
-
-        class HeaderViewHolder {
-            TextView mHead;
-        }
-    }
-
-    public enum Type {
-        Select
     }
 }

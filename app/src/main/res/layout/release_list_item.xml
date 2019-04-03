@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:background="@color/stand_bg">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="21dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="10dp"
+        android:singleLine="true"
+        android:textColor="#FF323A45"
+        android:textSize="15sp"
+        tools:text="2018年03月13日 Open 组 Hotfix" />
+
+    <TextView
+        android:id="@+id/owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:drawableLeft="@drawable/release_tag"
+        android:drawablePadding="8dp"
+        android:text="  20180323.1-hotfix 20180323.1-hotfix 20180323.1-hotfix20180323.1-hotfix"
+        android:singleLine="true"
+        android:maxWidth="140dp"
+        android:textColor="#FF76808E"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/owner"
+        android:drawableLeft="@drawable/ic_clock"
+        android:drawablePadding="8dp"
+        tools:text="3天前"
+        android:textColor="#FF76808E"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:orientation="horizontal">
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/draft"
+            android:layout_width="52dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="草稿"
+            android:textColor="@color/font_red"
+            android:textSize="12sp"
+            app:rv_cornerRadius="2dp"
+            app:rv_strokeColor="@color/font_red"
+            app:rv_strokeWidth="0.5dp" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/pre"
+            android:layout_width="52dp"
+            android:layout_height="22dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="预发布"
+            android:textColor="@color/font_blue"
+            android:textSize="12sp"
+            app:rv_cornerRadius="2dp"
+            app:rv_strokeColor="@color/font_blue"
+            app:rv_strokeWidth="0.5dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/divide"
+    android:orientation="vertical"
     tools:context="net.coding.program.project.detail.file.LocalFileListActivity">
 
     <ListView
@@ -12,29 +12,30 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/stand_bg"
+        android:divider="@color/divide_line"
+        android:dividerHeight="@dimen/divide_height"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false" />
 
     <FrameLayout
         android:id="@+id/common_files_delete"
         android:layout_width="match_parent"
-        android:visibility="gone"
+        android:layout_height="@dimen/bottom_layout_high"
         android:background="@color/stand_bg"
-        android:layout_height="48dp" >
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:drawableLeft="@drawable/project_file_action_delete"
-            android:drawablePadding="@dimen/project_action_icon_text"
+            android:drawablePadding="@dimen/bottom_button_drawablepadding"
             android:gravity="center"
             android:text="删除"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_2"
             android:textSize="16sp" />
 
-        <include layout="@layout/divideline_e2" />
+        <include layout="@layout/divideline_2" />
     </FrameLayout>
 
 </LinearLayout>

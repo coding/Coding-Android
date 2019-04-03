@@ -1,16 +1,16 @@
 package net.coding.program.mall;
 
 import android.graphics.Rect;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
-import net.coding.program.common.network.RefreshBaseAppCompatFragment;
-import net.coding.program.model.MallItemObject;
+import net.coding.program.common.GlobalData;
+import net.coding.program.common.model.MallItemObject;
+import net.coding.program.common.network.RefreshBaseFragment;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -20,36 +20,30 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
  * Created by libo on 2015/11/25.
  */
 @EFragment(R.layout.fragment_mall_index_list)
-public class MallListFragment extends RefreshBaseAppCompatFragment {
-
-    @ViewById
-    RecyclerView mallListHeaderGridView;
-
-    @ViewById
-    View blankLayout;
-
-    @FragmentArg
-    Type mType;
-
-    boolean isSlidingToLast = false;
+public class MallListFragment extends RefreshBaseFragment {
 
     final String USER_POINT_URL = Global.HOST_API + "/account/points";
-
+    @ViewById
+    RecyclerView mallListHeaderGridView;
+    @ViewById
+    View blankLayout;
+    @FragmentArg
+    Type mType;
+    boolean isSlidingToLast = false;
     double userPoint = 0.0;
 
     ArrayList<MallItemObject> mData = new ArrayList<>();
 
     String mDataUrl = Global.HOST_API + "/gifts?pageSize=20";
-
-    private MyRecyclerAdapter mAdapter;
-
     View.OnClickListener onClickRetry = v -> onRefresh();
+    private MyRecyclerAdapter mAdapter;
 
     @AfterViews
     void initView() {
@@ -60,10 +54,7 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
         } else {
             mDataUrl = Global.HOST_API + "/gifts?pageSize=20";
         }
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2,
-                GridLayoutManager.VERTICAL, false);
-        mallListHeaderGridView.setLayoutManager(layoutManager);
-        mallListHeaderGridView.setItemAnimator(new DefaultItemAnimator());
+        mallListHeaderGridView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         //item间距
         int space = getContext().getResources()
@@ -77,7 +68,7 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
         mallListHeaderGridView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                GridLayoutManager manager = (GridLayoutManager) recyclerView.getLayoutManager();
+                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     int lastVisableItem = manager.findLastCompletelyVisibleItemPosition();
                     int totalItemCount = manager.getItemCount();
@@ -98,6 +89,11 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
             }
         });
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         getNetwork(USER_POINT_URL, USER_POINT_URL);
     }
 
@@ -109,7 +105,9 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
         if (tag.equals(USER_POINT_URL)) {
             if (code == 0) {
                 JSONObject jsonObject = respanse.getJSONObject("data");
-                userPoint = jsonObject.optDouble("points_left");
+                String leftString = jsonObject.optString("points_left", "0");
+                userPoint = Double.valueOf(leftString);
+                GlobalData.sUserObject.points_left = new BigDecimal(leftString);
 
                 onRefresh();
             } else {
@@ -126,13 +124,14 @@ public class MallListFragment extends RefreshBaseAppCompatFragment {
                 }
 
                 JSONArray jsonArray = respanse.optJSONObject("data").optJSONArray("list");
+                BigDecimal userPointBigDecimal = new BigDecimal(userPoint);
                 for (int i = 0; i < jsonArray.length(); ++i) {
                     JSONObject json = jsonArray.getJSONObject(i);
                     MallItemObject orderObject = new MallItemObject(json);
                     if (mType == Type.all_goods) {
                         mData.add(orderObject);
                     } else if (mType == Type.can_change) {
-                        if (orderObject.getPoints_cost() <= userPoint) {
+                        if (orderObject.points_cost.compareTo(userPointBigDecimal) <= 0) {
                             mData.add(orderObject);
                         }
                     }

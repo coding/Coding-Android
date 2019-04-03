@@ -1,0 +1,118 @@
+apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-allopen"
+apply plugin: "kotlin-kapt"
+
+android {
+    compileSdkVersion 27
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+def AAVersion = '4.4.0'
+
+dependencies {
+    kapt "org.androidannotations:androidannotations:$AAVersion"
+    api "org.androidannotations:androidannotations-api:$AAVersion"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
+
+    // 测试框架
+    api "com.android.support:support-annotations:$supportVersion"
+    api "com.android.support.test:runner:$runnerVersion"
+    api "com.android.support.test:rules:$rulesVersion"
+    api "com.android.support.test.espresso:espresso-core:$espressoVersion"
+
+
+    api "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
+
+    api 'com.loopj.android:android-async-http:1.4.9'
+
+    // 图片显示
+    api 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    // gif 显示
+    api 'pl.droidsonroids.gif:android-gif-drawable:1.1.11'
+    api 'com.davemorrissey.labs:subsampling-scale-image-view:3.5.0'
+    api 'com.github.lzyzsd:circleprogress:1.1.0@aar'
+    // 方便显示 view 显示一些样式，不用写 selector
+    api 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
+
+    // google 兼容库
+    def supportVersion = '27.1.1'
+    // google 兼容库
+    api "com.android.support:support-v4:$supportVersion"
+    api "com.android.support:design:$supportVersion"
+    api "com.android.support:percent:$supportVersion"
+    api "com.android.support:cardview-v7:$supportVersion"
+    api "com.android.support:appcompat-v7:$supportVersion"
+    api 'com.android.support.constraint:constraint-layout:1.1.2'
+    api 'com.android.support:multidex:1.0.3'
+    api 'com.skyfishjy.ripplebackground:library:1.0.1'
+    api 'com.loopj.android:android-async-http:1.4.9'
+    api 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    api 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    api 'com.github.mtotschnig:StickyListHeaders:2.7.1'
+    api 'de.hdodenhof:circleimageview:2.1.0'
+    api 'com.github.rampo.updatechecker:library:2.1.4'
+    api 'com.daimajia.swipelayout:library:1.1.7@aar'
+    api 'com.melnykov:floatingactionbutton:1.3.0'
+    api 'org.greenrobot:eventbus:3.0.0'
+    api 'pl.droidsonroids.gif:android-gif-drawable:1.1.11'
+    api 'com.ms-square:etsyblur:0.1.0'
+    api 'com.github.lzyzsd:circleprogress:1.1.0@aar'
+    api 'it.neokree:MaterialNavigationDrawer:1.3.2'
+    api 'com.prolificinteractive:parallaxpager:2.2.1'
+    api 'com.davemorrissey.labs:subsampling-scale-image-view:3.5.0'
+//    configurations {
+//        all*.exclude group: 'com.android.support', module: 'support-v13'
+//    }
+
+    // umeng 统计
+    api 'com.umeng.analytics:analytics:latest.integration'
+
+    // kotlin
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+    // 网络请求
+    api 'com.squareup.retrofit2:retrofit:2.3.0'
+    api 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    api 'com.google.code.gson:gson:2.8.2'
+    api 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    api 'com.squareup.okhttp3:okhttp:3.9.1'
+    api 'io.reactivex:rxjava:1.2.4'
+    api 'io.reactivex:rxandroid:1.2.1'
+    api 'com.squareup.retrofit2:converter-gson:2.3.0'
+
+    // 常用工具类
+    api 'com.blankj:utilcode:1.9.0'
+    // 打印 log
+    api 'com.orhanobut:logger:1.15'
+
+    api 'org.greenrobot:eventbus:3.0.0'
+
+    // 列表控件，
+    api 'com.marshalchen.ultimaterecyclerview:library:0.7.3'
+    // 文件下载
+    api 'com.liulishuo.filedownloader:library:1.4.3'
+
+    // rx 方式请求权限
+    api 'com.github.tbruyelle:rxpermissions:0.10.1'
+}
+
+

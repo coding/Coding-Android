@@ -1,19 +1,24 @@
 package net.coding.program.common.enter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
 import net.coding.program.R;
+import net.coding.program.common.Global;
+import net.coding.program.common.ImageInfo;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.photopick.ImageInfo;
-import net.coding.program.common.photopick.PhotoPickActivity;
-import net.coding.program.common.photopick.PhotoPickDetailActivity;
-import net.coding.program.maopao.MaopaoAddActivity;
-import net.coding.program.maopao.item.ContentAreaMuchImages;
+import net.coding.program.common.maopao.ContentAreaMushImageOption;
+import net.coding.program.common.util.PermissionUtil;
+import net.coding.program.pickphoto.PhotoPickActivity;
+import net.coding.program.pickphoto.PhotoPickDetailActivity;
 
 import java.util.ArrayList;
 
@@ -39,10 +44,10 @@ public class ImageCommentLayout {
         public void onClick(View v) {
             int pos = (int) v.getTag(R.id.image);
             Intent intent = new Intent(mActivity, PhotoPickDetailActivity.class);
-            intent.putExtra(PhotoPickDetailActivity.PHOTO_BEGIN, pos);
-            intent.putExtra(PhotoPickDetailActivity.EXTRA_MAX, MaopaoAddActivity.PHOTO_MAX_COUNT);
-            intent.putExtra(PhotoPickDetailActivity.PICK_DATA, mArrayImages);
-            intent.putExtra(PhotoPickDetailActivity.ALL_DATA, mArrayImages);
+            intent.putExtra(PhotoPickDetailActivity.Companion.getPHOTO_BEGIN(), pos);
+            intent.putExtra(PhotoPickDetailActivity.Companion.getEXTRA_MAX(), Global.PHOTO_MAX_COUNT);
+            intent.putExtra(PhotoPickDetailActivity.Companion.getPICK_DATA(), mArrayImages);
+            intent.putExtra(PhotoPickDetailActivity.Companion.getALL_DATA(), mArrayImages);
             mActivity.startActivityForResult(intent, RESULT_REQUEST_COMMENT_IMAGE_DETAIL);
         }
     };
@@ -62,11 +67,18 @@ public class ImageCommentLayout {
         View v = activity.findViewById(R.id.commonEnterRoot);
         mRootLayout = v;
         v.findViewById(R.id.commentImageButton).setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("CheckResult")
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity, PhotoPickActivity.class);
-                intent.putExtra(PhotoPickActivity.EXTRA_PICKED, mArrayImages);
-                mActivity.startActivityForResult(intent, RESULT_REQUEST_COMMENT_IMAGE);
+                new RxPermissions((FragmentActivity) activity)
+                        .request(PermissionUtil.STORAGE)
+                        .subscribe(granted -> {
+                            if (granted) {
+                                Intent intent = new Intent(mActivity, PhotoPickActivity.class);
+                                intent.putExtra(PhotoPickActivity.Companion.getEXTRA_PICKED(), mArrayImages);
+                                mActivity.startActivityForResult(intent, RESULT_REQUEST_COMMENT_IMAGE);
+                            }
+                        });
             }
         });
 
@@ -137,7 +149,7 @@ public class ImageCommentLayout {
             ImageView image = (ImageView) mFlowLayout.getChildAt(i);
             image.setOnClickListener(mClickImage);
             image.setTag(R.id.image, i);
-            mImageLoader.loadImage(image, mArrayImages.get(i).path, ContentAreaMuchImages.imageOptions);
+            mImageLoader.loadImage(image, mArrayImages.get(i).path, ContentAreaMushImageOption.imageOptions);
         }
 
         mEnterLayout.updateSendButtonStyle();

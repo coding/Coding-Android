@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Commentlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/stand_bg"
     android:clickable="true">
-
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
@@ -13,16 +13,16 @@
         android:layout_height="@dimen/task_list_item_icon"
         android:layout_marginLeft="@dimen/padding_12"
         android:layout_marginRight="3dp"
-        android:layout_marginTop="@dimen/padding_12"
+        android:layout_marginTop="12dp"
         android:src="@drawable/ic_default_user" />
 
     <View
         android:id="@+id/timeLineUp"
         android:layout_width="2dp"
-        android:layout_height="@dimen/padding_12"
+        android:layout_height="11dp"
         android:layout_alignLeft="@id/icon"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="13dp"
+        android:layout_marginLeft="15.5dp"
         android:background="@color/divide" />
 
     <View
@@ -34,20 +34,22 @@
         android:layout_alignLeft="@id/icon"
         android:layout_alignRight="@+id/timeLineUp"
         android:layout_below="@id/icon"
-        android:layout_marginLeft="13dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="15.5dp"
         android:background="@color/divide" />
-
 
     <LinearLayout
         android:id="@+id/layout_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="@dimen/padding_12"
+        android:layout_marginBottom="7.5dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="7dp"
         android:layout_toRightOf="@+id/icon"
         android:background="@drawable/ic_task_dynamic_comment_bg"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingRight="15dp">
 
         <LinearLayout
             android:id="@+id/layoutContent"
@@ -59,22 +61,19 @@
                 android:id="@+id/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/icon"
-                android:layout_below="@+id/name"
-                android:layout_marginRight="@dimen/padding_15"
                 android:background="@drawable/content_pressed_selector"
                 android:lineSpacingExtra="1dp"
                 android:lineSpacingMultiplier="1.1"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/font_2"
-                android:textSize="15sp" />
+                android:textSize="14sp"
+                tools:text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
         </LinearLayout>
 
         <org.apmem.tools.layouts.FlowLayout
             android:id="@+id/flowLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal"
             android:visibility="visible" />
 
@@ -89,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="超级小胖纸"
-                android:textColor="@color/font_6"
+                android:textColor="@color/font_3"
                 android:textSize="12sp" />
 
             <TextView
@@ -99,17 +98,17 @@
                 android:layout_alignTop="@id/name"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/name"
-                android:drawableLeft="@drawable/ic_clock"
-                android:drawablePadding="5dp"
-                android:text="3分钟前"
-                android:textColor="@color/font_9"
-                android:textSize="12sp" />
+                android:textColor="@color/font_3"
+                android:textSize="12sp"
+                tools:text="3分钟前" />
 
             <TextView
                 android:id="@+id/commentWebviewDetail"
-                android:text="查看详情"
+                style="@style/commentWebviewDetail"
                 android:layout_marginRight="0dp"
-                style="@style/commentWebviewDetail" />
+                android:text="查看详情"
+                android:visibility="gone"
+                tools:visibility="gone" />
 
         </RelativeLayout>
     </LinearLayout>
@@ -117,8 +116,8 @@
     <View
         android:id="@+id/include"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.1dp"
         android:layout_below="@id/layout_1"
-        android:layout_marginTop="0dp"  />
+        android:layout_marginTop="0dp" />
 
 </RelativeLayout>

@@ -25,13 +25,24 @@ public class TaskAttrItem extends FrameLayout {
 
         inflate(context, R.layout.task_attr_item, this);
 
-        mIcon = (ImageView) findViewById(R.id.circleIcon);
         mTextView1 = (TextView) findViewById(R.id.text1);
         mTextView2 = (TextView) findViewById(R.id.text2);
 
         View topLine = findViewById(R.id.topLine);
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.TaskAttrItem);
+
+        boolean showUser = array.getBoolean(R.styleable.TaskAttrItem_taskIconUser, false);
+        ImageView user = (ImageView) findViewById(R.id.userIcon);
+        ImageView normal = (ImageView) findViewById(R.id.circleIcon);
+        if (showUser) {
+            normal.setVisibility(GONE);
+            mIcon = user;
+        } else {
+            user.setVisibility(GONE);
+            mIcon = normal;
+        }
+
         String text1 = array.getString(R.styleable.TaskAttrItem_taskText1);
         if (text1 == null) {
             text1 = "";

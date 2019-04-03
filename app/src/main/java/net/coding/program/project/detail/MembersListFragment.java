@@ -18,21 +18,20 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.FootUpdate;
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.base.CustomMoreFragment;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.TaskObject;
-import net.coding.program.model.UserObject;
-import net.coding.program.project.ProjectFragment;
-import net.coding.program.project.ProjectHomeActivity;
-import net.coding.program.user.AddFollowActivity_;
-import net.coding.program.user.UserDetailActivity_;
+import net.coding.program.compatible.CodingCompat;
+import net.coding.program.network.constant.MemberAuthority;
+import net.coding.program.network.model.user.Member;
+import net.coding.program.project.EventProjectModify;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -41,6 +40,7 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +51,7 @@ import static net.coding.program.project.detail.MembersListFragment.DataType.Use
 
 
 @EFragment(R.layout.common_refresh_listview_divide)
-public class MembersListFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
+public class MembersListFragment extends CustomMoreFragment implements LoadMore {
 
     static final int RESULT_ADD_USER = 111;
     static final int RESULT_MODIFY_AUTHORITY = 112;
@@ -59,49 +59,26 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     final String urlDeleteUser = Global.HOST_API + "/project/%d/kickout/%d";
     String urlMembers = Global.HOST_API + "/project/%d/members?pagesize=1000";
     String urlQuit = Global.HOST_API + "/project/%d/quit";
-
-    public enum Type {
-        Member,
-        Pick,
-        Team
-    }
-
-    public enum DataType {
-        Member,
-        User
-    }
-
     @FragmentArg
     ProjectObject mProjectObject;
     @FragmentArg
     String mMergeUrl;
     @FragmentArg
     Type type = Type.Member;
-
     @FragmentArg
     DataType dataType;
-
     @ViewById
     ListView listView;
-
-
     ArrayList<Object> mSearchData = new ArrayList<>();
     ArrayList<Object> mData = new ArrayList<>();
-
-    TaskObject.Members mMySelf = new TaskObject.Members();
-
+    Member mMySelf = new Member();
     BaseAdapter adapter = new BaseAdapter() {
         private View.OnClickListener quitProject = v -> {
-            new AlertDialog.Builder(getActivity())
-                    .setTitle("退出项目")
-                    .setMessage(String.format("您确定要退出 %s 项目吗？", mProjectObject.name))
-                    .setPositiveButton("确定", (dialog1, which) -> {
-                        RequestParams params = new RequestParams();
-                        postNetwork(urlQuit, params, urlQuit);
-                    })
-                    .setNegativeButton("取消", null)
-                    .show();
-
+            String message = String.format("您确定要退出 %s 项目吗？", mProjectObject.name);
+            showDialog("退出项目", message, (dialog1, which) -> {
+                RequestParams params = new RequestParams();
+                postNetwork(urlQuit, params, urlQuit);
+            });
         };
 
         @Override
@@ -143,11 +120,11 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             UserObject user;
             holder.ic.setVisibility(View.GONE);
 
-            if (object instanceof TaskObject.Members) {
-                TaskObject.Members data = (TaskObject.Members) object;
+            if (object instanceof Member) {
+                Member data = (Member) object;
                 user = data.user;
 
-                TaskObject.Members.Type memberType = data.getType();
+                MemberAuthority memberType = data.getType();
                 int iconRes = memberType.getIcon();
                 if (iconRes == 0) {
                     holder.ic.setVisibility(View.GONE);
@@ -178,11 +155,14 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
             if (type == Type.Pick) {
                 holder.btn.setVisibility(View.GONE);
-            } else if (user.name.equals(MyApp.sUserObject.name)) {
+            } else if (user.name.equals(GlobalData.sUserObject.name) &&
+                    !GlobalData.isEnterprise() &&
+                    (mProjectObject != null && mProjectObject.isPublic())) {
+                // 只有公开项目还有退出按钮
                 holder.btn.setImageResource(R.drawable.ic_member_list_quit);
                 holder.btn.setOnClickListener(quitProject);
-                if (object instanceof TaskObject.Members) {
-                    TaskObject.Members data = (TaskObject.Members) object;
+                if (object instanceof Member) {
+                    Member data = (Member) object;
                     if (data.isOwner()) {
                         holder.btn.setVisibility(View.GONE);
                     } else {
@@ -203,8 +183,8 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             Intent intent = new Intent();
             UserObject userObject;
 
-            if (object instanceof TaskObject.Members) {
-                userObject = ((TaskObject.Members) object).user;
+            if (object instanceof Member) {
+                userObject = ((Member) object).user;
             } else {
                 userObject = (UserObject) object;
             }
@@ -214,15 +194,14 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
             getActivity().finish();
         } else if (dataType == DataType.User) {
             if (object instanceof UserObject) {
-                UserDetailActivity_.intent(this)
-                        .globalKey(((UserObject) object).global_key)
-                        .start();
+                String globalKey = ((UserObject) object).global_key;
+                CodingCompat.instance().launchUserDetailActivity(getActivity(), globalKey);
             }
         } else {
             UserDynamicActivity_
                     .intent(getActivity())
                     .mProjectObject(mProjectObject)
-                    .mMember((TaskObject.Members) object)
+                    .mMember((Member) object)
                     .start();
         }
     }
@@ -244,13 +223,13 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
         if (type != Type.Pick) {
             listView.setOnItemLongClickListener((parent, view, position, id) -> {
-                TaskObject.Members member = (TaskObject.Members) mSearchData.get((int) id);
+                Member member = (Member) mSearchData.get((int) id);
 //                    if (member.user.isMe()) {
 //                        return true;
 //                    }
 
-                if (mMySelf.getType() != TaskObject.Members.Type.ower
-                        && mMySelf.getType() != TaskObject.Members.Type.manager) {
+                if (mMySelf.getType() != MemberAuthority.ower
+                        && mMySelf.getType() != MemberAuthority.manager) {
                     return true;
                 }
 
@@ -280,8 +259,8 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                         };
                         break;
                     case manager:
-                        if (member.getType() == TaskObject.Members.Type.manager
-                                || member.getType() == TaskObject.Members.Type.ower) {
+                        if (member.getType() == MemberAuthority.manager
+                                || member.getType() == MemberAuthority.ower) {
                             items = new String[]{
                                     "修改备注"
                             };
@@ -311,7 +290,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                         return true;
                 }
 
-                new AlertDialog.Builder(getActivity())
+                new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
                         .setItems(items, clicks)
                         .show();
                 return true;
@@ -330,20 +309,21 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         setHasOptionsMenu(true);
     }
 
-    private void modifyMemberAuthority(TaskObject.Members member) {
+    private void modifyMemberAuthority(Member member) {
         MemberAuthorityActivity_.intent(this)
-                .member(member)
+                .authority(member.getType())
+                .globayKey(member.user.global_key)
                 .me(mMySelf)
                 .projectId(mProjectObject.getId())
                 .startForResult(RESULT_MODIFY_AUTHORITY);
     }
 
-    private void modifyMemberAlias(TaskObject.Members member) {
+    private void modifyMemberAlias(Member member) {
         UserObject user = member.user;
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_input_alias, null);
         EditText input = (EditText) v.findViewById(R.id.edit1);
         input.setText(member.alias);
-        new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
                 .setMessage("修改备注")
                 .setView(v)
                 .setPositiveButton("确定", (dialog2, which1) -> {
@@ -372,9 +352,9 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                 .show();
     }
 
-    private void removeMember(TaskObject.Members member) {
+    private void removeMember(Member member) {
         UserObject user = member.user;
-        new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogStyle)
                 .setMessage(String.format("确定移除 %s ?", user.name))
                 .setPositiveButton("确定", (dialog2, which1) -> {
                     String url = String.format(urlDeleteUser, mProjectObject.getId(), user.id);
@@ -392,8 +372,8 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
         } else {
             for (Object item : mData) {
                 UserObject user;
-                if (item instanceof TaskObject.Members) {
-                    user = ((TaskObject.Members) item).user;
+                if (item instanceof Member) {
+                    user = ((Member) item).user;
                 } else {
                     user = (UserObject) item;
                 }
@@ -419,9 +399,13 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
 
     @OptionsItem
     void action_add() {
-        Intent intent = new Intent(getActivity(), AddFollowActivity_.class);
-        intent.putExtra("mProjectObject", mProjectObject);
-        startActivityForResult(intent, RESULT_ADD_USER);
+        ArrayList<String> picks = new ArrayList<>();
+        if (mSearchData != null && mSearchData.size() > 0 && mSearchData.get(0) instanceof Member) {
+            for (Object item : mSearchData) {
+                picks.add(((Member) item).user.global_key);
+            }
+        }
+        CodingCompat.instance().launchAddMemberActivity(this, mProjectObject, picks, RESULT_ADD_USER);
     }
 
     @OnActivityResult(RESULT_ADD_USER)
@@ -481,7 +465,7 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                         parseUser(members);
                     } else {
                         for (int i = 0; i < members.length(); ++i) {
-                            TaskObject.Members member = new TaskObject.Members(members.getJSONObject(i));
+                            Member member = new Member(members.getJSONObject(i));
                             if (member.isOwner()) {
                                 mData.add(0, member);
                             } else {
@@ -513,10 +497,9 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
                 umengEvent(UmengEvent.PROJECT, "退出项目");
 
                 showButtomToast("成功退出项目");
-                Intent intent = new Intent();
-                intent.setAction(ProjectFragment.RECEIVER_INTENT_REFRESH_PROJECT);
-                intent.setAction(ProjectHomeActivity.BROADCAST_CLOSE);
-                getActivity().sendBroadcast(intent);
+
+                EventBus.getDefault().post(new EventProjectModify().setExit());
+
                 getActivity().onBackPressed();
             } else {
                 showErrorMsg(code, respanse);
@@ -537,6 +520,16 @@ public class MembersListFragment extends CustomMoreFragment implements FootUpdat
     @Override
     protected String getLink() {
         return Global.HOST + mProjectObject.project_path + "/members";
+    }
+
+    public enum Type {
+        Member,
+        Pick,
+    }
+
+    public enum DataType {
+        Member,
+        User
     }
 
     static class ViewHolder {

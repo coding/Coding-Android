@@ -1,70 +1,67 @@
 package net.coding.program;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.AlertDialog;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.tencent.android.tpush.XGPushClickedResult;
-import com.tencent.android.tpush.XGPushManager;
 
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.LoginBackground;
 import net.coding.program.common.UnreadNotify;
-import net.coding.program.common.WeakRefHander;
-import net.coding.program.common.guide.GuideActivity;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.ui.BaseActivity;
-import net.coding.program.login.MarketingHelp;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.login.ResetPasswordActivity_;
 import net.coding.program.login.UserActiveActivity_;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.UserObject;
+import net.coding.program.login.ZhongQiuGuideActivity;
+import net.coding.program.network.HttpObserver;
+import net.coding.program.network.Network;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.AnimationRes;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by cc191954 on 14-8-14.
  * 启动页面
  */
 @EActivity(R.layout.entrance_image)
-public class EntranceActivity extends BaseActivity implements Handler.Callback {
+public class EntranceActivity extends BaseActivity {
 
-    public static final String HOST_CURRENT = Global.HOST_API + "/current_user";
-    private static final int HANDLER_MESSAGE_ANIMATION = 0;
-    private static final int HANDLER_MESSAGE_NEXT_ACTIVITY = 1;
+    private static final String TAG = Global.makeLogTag(EntranceActivity.class);
+
+    private String jumpLink = "";
+    private String imageJumpLink = "";
+
     @ViewById
     ImageView image;
     @ViewById
-    TextView title;
-    @ViewById
-    View foreMask;
-    @ViewById
-    View logo;
-    @AnimationRes
-    Animation entrance;
+    View rootLayout;
+
     Uri background = null;
-    boolean mNeedUpdateUser = false;
-    WeakRefHander mWeakRefHandler;
+
+    private boolean openNext = false;
 
     @AfterViews
     void init() {
         Uri uriData = getIntent().getData();
         if (uriData != null) {
+            String url = uriData.toString();
+            Log.d(TAG, url);
             String path = uriData.getPath();
             switch (path) {
                 case "/app/detect": {
@@ -84,19 +81,17 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
                                     .start();
                             break;
                         default:
-                            WebActivity_.intent(this)
-                                    .url(link)
-                                    .start();
+//                            WebActivity_.intent(this)
+//                                    .url(link)
+//                                    .start();
+                            // do nothings
                             break;
                     }
                     break;
                 }
 
                 default: {
-                    Intent mainIntent = new Intent(this, MainActivity_.class);
-                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mainIntent.putExtra("mPushUrl", uriData);
-                    startActivity(mainIntent);
+                    MyApp.openNewActivityFromMain(this, url);
                 }
             }
 
@@ -104,68 +99,39 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
             return;
         }
 
-        mWeakRefHandler = new WeakRefHander(this);
-
         settingBackground();
 
-        entrance.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
+        if (AccountInfo.isLogin(this)) {
+            final Context context = getApplicationContext();
+            Network.getRetrofit(context)
+                    .getCurrentUser()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new HttpObserver<UserObject>(context) {
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (!mNeedUpdateUser) {
-                    mWeakRefHandler.start(HANDLER_MESSAGE_NEXT_ACTIVITY, 500);
-                }
-            }
+                        @Override
+                        public void onSuccess(UserObject data) {
+                            super.onSuccess(data);
+                            AccountInfo.saveAccount(context, data);
+                            GlobalData.sUserObject = data;
+                            AccountInfo.saveReloginInfo(context, data);
+                        }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-
-        if (MyApp.sUserObject.global_key.isEmpty() && AccountInfo.isLogin(this)) {
-            getNetwork(HOST_CURRENT, HOST_CURRENT);
-            mNeedUpdateUser = true;
+                        @Override
+                        public void onFail(int errorCode, @NonNull String error) {
+                            // 不显示错误提示
+                        }
+                    });
         }
 
-        mWeakRefHandler.start(HANDLER_MESSAGE_ANIMATION, 900);
+        next();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        XGPushClickedResult result = XGPushManager.onActivityStarted(this);
-        if (result != null) {
-            String custom = result.getCustomContent();
-            if (custom != null && !custom.isEmpty()) {
-                try {
-                    JSONObject json = new JSONObject(custom);
-                    String url = json.getString("param_url");
-
-//                    Intent mainIntent = new Intent(this, MainActivity_.class);
-//                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    mainIntent.putExtra("mPushUrl", url);
-//                    startActivity(mainIntent);
-
-                    Intent resultIntent = new Intent(MyPushReceiver.PushClickBroadcast);
-                    resultIntent.setPackage("net.coding.program");
-                    resultIntent.putExtra("data", url);
-                    sendBroadcast(resultIntent);
-                    finish();
-
-                } catch (Exception e) {
-                    Global.errorLog(e);
-                }
-            }
+    @Click
+    void image() {
+        if (!TextUtils.isEmpty(imageJumpLink)) {
+            jumpLink = imageJumpLink;
+            realNext(true);
         }
     }
 
@@ -177,87 +143,53 @@ public class EntranceActivity extends BaseActivity implements Handler.Callback {
 //            return;
 //        }
 
-        LoginBackground.PhotoItem photoItem = new LoginBackground(this).getPhoto();
+        LoginBackground loginBackground = new LoginBackground(this);
+        loginBackground.update();
+
+        LoginBackground.PhotoItem photoItem = loginBackground.getPhoto();
         File file = photoItem.getCacheFile(this);
         getImageLoad().imageLoader.clearMemoryCache();
         if (file.exists()) {
             background = Uri.fromFile(file);
             image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("file://" + file.getPath(), ImageLoadTool.enterOptions));
-            title.setText(photoItem.getTitle());
-
-            if (photoItem.isGuoguo()) {
-                hideLogo();
-            }
-        } else {
-            ImageSize imageSize = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
-            image.setImageBitmap(getImageLoad().imageLoader.loadImageSync("drawable://" + R.drawable.entrance1, imageSize));
+            imageJumpLink = photoItem.getGroup().getLink();
         }
 
-        MarketingHelp.setUrl(photoItem.getGroup().getLink());
+//        MarketingHelp.setUrl(photoItem.getGroup().getLink());
     }
 
-    @Override
-    public boolean handleMessage(Message msg) {
-        if (msg.what == HANDLER_MESSAGE_ANIMATION) {
-            playAnimator1();
-        } else if (msg.what == HANDLER_MESSAGE_NEXT_ACTIVITY) {
-            next();
-        }
-        return true;
-    }
-
-    private void playAnimator1() {
-        foreMask.startAnimation(entrance);
-    }
-
-    private void hideLogo() {
-//        mask.setVisibility(View.GONE);
-        title.setVisibility(View.GONE);
-        logo.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(HOST_CURRENT)) {
-            mNeedUpdateUser = false;
-            if (code == 0) {
-                UserObject user = new UserObject(respanse.getJSONObject("data"));
-                AccountInfo.saveAccount(this, user);
-                MyApp.sUserObject = user;
-                AccountInfo.saveReloginInfo(this, user);
-                next();
-            } else {
-                new AlertDialog.Builder(this).setTitle("更新")
-                        .setMessage("刷新账户信息失败")
-                        .setPositiveButton("重试", (dialog, which) -> getNetwork(HOST_CURRENT, HOST_CURRENT))
-                        .setNegativeButton("关闭程序", (dialog, which) -> finish())
-                        .show();
-
-            }
-        }
-    }
-
+    @UiThread(delay = 2000)
     void next() {
+        realNext(false);
+    }
+
+    private void realNext(boolean openUrl) {
+        if (openNext || isFinishing()) return;
+
+        openNext = true;
+
         Intent intent;
         String mGlobalKey = AccountInfo.loadAccount(this).global_key;
         if (mGlobalKey.isEmpty()) {
-            intent = new Intent(this, GuideActivity.class);
-            if (background != null) {
-                intent.putExtra(LoginActivity.EXTRA_BACKGROUND, background);
-            }
-
+            intent = new Intent(this, LoginActivity_.class);
         } else {
-//            if (AccountInfo.needDisplayGuide(this)) {
-//                intent = new Intent(this, FeatureActivity_.class);
-//            } else {
-            intent = new Intent(this, MainActivity_.class);
-//            }
+            if (AccountInfo.needDisplayGuide(this)) {
+                intent = new Intent(this, ZhongQiuGuideActivity.class);
+            } else {
+                intent = new Intent(this, CodingCompat.instance().getMainActivity());
+            }
         }
 
         startActivity(intent);
-        overridePendingTransition(R.anim.scroll_in, R.anim.scroll_out);
+
+        if (openUrl && !TextUtils.isEmpty(jumpLink)) {
+            MyApp.openNewActivityFromMain(this, jumpLink);
+        } else {
+            overridePendingTransition(R.anim.entrance_fade_in, R.anim.entrance_fade_out);
+        }
 
         UnreadNotify.update(this);
+
         finish();
     }
 }

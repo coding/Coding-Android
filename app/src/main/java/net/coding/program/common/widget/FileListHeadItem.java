@@ -18,8 +18,8 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.model.AttachmentFileObject;
 import net.coding.program.project.detail.UploadStyle;
 
 import org.json.JSONObject;
@@ -31,6 +31,7 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Created by chenchao on 16/2/27.
  */
+@Deprecated
 public class FileListHeadItem extends FrameLayout {
 
     View retryUpload;
@@ -67,7 +68,7 @@ public class FileListHeadItem extends FrameLayout {
 
         if (splitName.length > 1) {
             if (AttachmentFileObject.isImage(suffix)) {
-                imageLoadTool.loadImage( ((ImageView) findViewById(R.id.icon)), Uri.fromFile(postParam.file).toString());
+                imageLoadTool.loadImage(((ImageView) findViewById(R.id.icon)), Uri.fromFile(postParam.file).toString());
             } else {
                 iconId = AttachmentFileObject.getIconResourceId(suffix);
                 ((ImageView) findViewById(R.id.icon)).setImageResource(iconId);
@@ -142,6 +143,13 @@ public class FileListHeadItem extends FrameLayout {
         public Param(String url, String dirId, File file) {
             this.url = url;
             this.dirId = dirId;
+            this.file = file;
+        }
+
+        public Param(int projectId, int dirId, File file) {
+            String urlUpload = Global.HOST_API + "/project/%s/file/upload";
+            this.url = String.format(urlUpload, projectId);
+            this.dirId = String.valueOf(dirId);
             this.file = file;
         }
     }

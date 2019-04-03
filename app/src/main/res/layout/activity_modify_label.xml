@@ -12,7 +12,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="50dp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/padding_15"
@@ -34,13 +34,13 @@
             android:layout_marginLeft="14dp"
             android:layout_marginRight="12dp"
             android:layout_weight="1"
-            android:background="@drawable/transparent"
+            android:background="@null"
             android:ellipsize="end"
             android:hint="标签名"
             android:maxLines="1"
-            android:singleLine="true"
+            android:lines="1"
             android:text=""
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textColorHint="#a3a3a3"
             android:textSize="16sp" />
 

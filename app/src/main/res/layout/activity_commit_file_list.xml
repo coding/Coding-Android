@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/divide">
+    android:layout_height="match_parent">
+
+    <include layout="@layout/common_actionbar" />
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/stand_bg">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/actionbar_height"
+        android:background="@color/divide">
 
-
-        <ListView
-            android:id="@+id/listView"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/stand_bg" />
+            android:background="@color/stand_bg">
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@color/divide_line"
+                android:dividerHeight="0.5dp"
+                android:background="@color/stand_bg" />
+
+        </FrameLayout>
+
+        <include
+            android:id="@+id/blankLayout"
+            layout="@layout/view_exception"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </FrameLayout>
-
-    <include
-        android:id="@+id/blankLayout"
-        layout="@layout/view_exception"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
 </FrameLayout>

@@ -12,14 +12,14 @@
         android:drawableRight="@drawable/ic_dropdown_normal"
         android:ellipsize="end"
         android:maxLines="1"
-        android:singleLine="true"
-        android:textColor="@color/font_2" />
+        android:lines="1"
+        android:textColor="@color/font_1" />
 
     <View
         android:id="@+id/bottomLine"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/green"
+        android:background="@color/font_green"
         android:visibility="gone" />
 </merge>

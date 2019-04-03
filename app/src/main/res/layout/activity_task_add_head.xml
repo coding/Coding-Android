@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Small Text"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="12sp" />
 
         <TextView
@@ -32,40 +32,43 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_clock"
-            android:drawablePadding="2dp"
-            android:text="Small Text"
-            android:textColor="@color/font_9"
-            android:textSize="12sp" />
+            android:textColor="@color/font_3"
+            android:textSize="12sp"
+            tools:text="2小时前" />
     </LinearLayout>
 
-    <include layout="@layout/divideline_12" />
-
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/list_item_selector"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:background="@color/stand_bg"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/descriptionButton"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
+            android:layout_height="36dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="@color/divide"
             android:gravity="center_vertical"
-            android:paddingLeft="@dimen/padding_15"
-            android:text="查看描述" />
+            android:orientation="horizontal">
 
-        <include
-            layout="@layout/list_item_common_arrow"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/padding_15" />
+            <TextView
+                android:id="@+id/descriptionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:drawablePadding="8dp"
+                android:drawableRight="@drawable/task_arrow"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/padding_15"
+                android:text="查看描述"
+                android:textColor="@color/font_green"
+                android:textSize="14sp" />
 
-    </RelativeLayout>
+        </RelativeLayout>
+    </FrameLayout>
 
     <include
         android:id="@+id/line1"
@@ -76,7 +79,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:taskIcon="@drawable/ic_task_project"
-        app:taskText1="项目名"
+        app:taskIconUser="true"
+        app:taskText1="所属项目"
         app:taskText2="未指定"
         app:taskTopLine="false" />
 
@@ -85,9 +89,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:taskIcon="@drawable/ic_task_user"
+        app:taskIconUser="true"
         app:taskText1="执行者"
         app:taskText2="cc" />
 
+    <net.coding.program.task.add.TaskAttrItem
+        android:id="@+id/layoutBoard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:taskIcon="@drawable/project_button_icon_task_board"
+        app:taskText1="看板列表"
+        app:taskText2="无" />
 
     <net.coding.program.task.add.TaskAttrItem
         android:id="@+id/layoutPriovity"
@@ -125,8 +137,8 @@
         android:id="@+id/layoutRefResourceParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <include layout="@layout/divide_middle_15" />
 
@@ -138,13 +150,6 @@
             app:taskText1="关联资源"
             app:taskText2="1个资源" />
     </LinearLayout>
-    <!--<View-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="20dp"-->
-    <!--android:layout_alignParentLeft="true"-->
-    <!--android:layout_alignParentStart="true"-->
-    <!--android:layout_below="@+id/linearlayout1"-->
-    <!--android:background="@color/task_list_head" />-->
 
     <include
         android:id="@+id/line2_comment_off"
@@ -173,7 +178,7 @@
             android:hint="添加描述"
             android:lineSpacingExtra="12dp"
             android:maxLines="3"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="16sp" />
 
     </LinearLayout>

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:background="@drawable/list_item_selector">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginLeft="@dimen/padding_15"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="18dp"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="15.5dp"
         android:src="@drawable/ic_default_user" />
 
     <LinearLayout
         android:id="@+id/layout0"
         android:layout_width="match_parent"
+        android:layout_marginLeft="75dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="18dp"
         android:layout_marginRight="@dimen/padding_15"
-        android:layout_toRightOf="@id/icon"
         android:orientation="vertical">
 
         <TextView
@@ -31,26 +31,27 @@
             android:ellipsize="end"
             android:maxLines="@integer/dynamic_title_max_lines"
             android:text="22222 Text"
-            android:textColor="@color/font_2"
-            android:textSize="16sp" />
+            android:textColor="@color/font_1"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"
+            android:ellipsize="end"
             android:lineSpacingExtra="3dp"
+            android:maxLines="3"
             android:text="1111"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/font_6"
+            android:textColor="@color/font_2"
             android:textSize="14sp" />
 
         <net.coding.program.common.widget.FlowLabelLayout
             android:id="@+id/flowLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/time"
@@ -59,52 +60,53 @@
             android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/ic_clock"
             android:drawablePadding="2dp"
-            android:text="Small Text"
-            android:textColor="@color/font_9"
-            android:textSize="11sp" />
+            android:textColor="@color/font_3"
+            android:textSize="12sp"
+            tools:text="09:12" />
 
     </LinearLayout>
 
     <View
         android:id="@+id/divideLeft"
         android:layout_width="75dp"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_below="@id/layout0"
         android:layout_marginTop="8dp"
-        android:background="@color/divide" />
+        android:background="@color/divide_line" />
 
     <View
         android:id="@+id/divideRight"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_alignTop="@id/divideLeft"
         android:layout_toRightOf="@id/divideLeft"
-        android:background="@color/divide" />
+        android:background="@color/divide_line" />
 
 
     <View
         android:id="@+id/timeLineUp"
-        android:layout_width="2dp"
-        android:layout_height="28dp"
-        android:layout_toRightOf="@id/icon"
-        android:background="@color/divide" />
+        android:layout_width="1dp"
+        android:layout_height="28.5dp"
+        android:layout_marginLeft="18dp"
+        android:background="@color/divide_line" />
 
-    <View
+    <com.flyco.roundview.RoundTextView
         android:id="@+id/timeLinePoint"
-        android:layout_width="13dp"
-        android:layout_height="13dp"
+        android:layout_width="7dp"
+        android:layout_height="7dp"
+        app:rv_isRadiusHalfHeight="true"
         android:layout_alignLeft="@id/timeLineUp"
         android:layout_below="@id/timeLineUp"
-        android:layout_marginLeft="-5.5dp"
+        android:layout_marginLeft="-3dp"
         android:background="@drawable/ic_dynamic_timeline_new" />
 
     <View
         android:id="@+id/timeLineDown"
-        android:layout_width="2dp"
+        android:layout_width="1dp"
         android:layout_height="match_parent"
         android:layout_alignBottom="@id/divideLeft"
         android:layout_alignLeft="@id/timeLineUp"
         android:layout_below="@id/timeLinePoint"
-        android:background="@color/divide" />
+        android:background="@color/divide_line" />
 
 </RelativeLayout>

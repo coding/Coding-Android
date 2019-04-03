@@ -100,7 +100,7 @@ public class UserTagAdapter extends BaseAdapter {
             if (!isSelectFill()) {
                 mHashSet.add(tagId);
             } else {
-                Toast.makeText(context, String.format("最多只能选择%d个标签", UserTagAdapter.MAX_TAG_COUNT),
+                Toast.makeText(context, String.format("最多只能选择%s个标签", UserTagAdapter.MAX_TAG_COUNT),
                         Toast.LENGTH_SHORT).show();
             }
         } else {

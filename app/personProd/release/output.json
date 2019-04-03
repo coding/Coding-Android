@@ -1,0 +1,18 @@
+[
+  {
+    "outputType": {
+      "type": "APK"
+    },
+    "apkInfo": {
+      "type": "MAIN",
+      "splits": [],
+      "versionCode": 154
+    },
+    "path": "app-person-prod-release.apk",
+    "properties": {
+      "packageId": "net.coding.program",
+      "split": "",
+      "minSdkVersion": "15"
+    }
+  }
+]

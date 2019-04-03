@@ -1,56 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_F6F6F6"
-    android:paddingBottom="16dp"
-    android:orientation="vertical">
+    android:background="@color/stand_bg"
+    android:foreground="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:paddingBottom="16dp">
 
     <ImageView
         android:id="@+id/fileImg"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="18.5dp"
+        android:layout_marginTop="15dp"
         android:scaleType="centerInside" />
 
-    <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_toRightOf="@+id/fileImg"
-        android:text="常见我让你同意"
-        android:layout_marginTop="12dp"
-        android:layout_marginLeft="15dp"
-        android:singleLine="true"
-        android:layout_marginRight="20dp"
-        android:textColor="@color/color_000000"
-        android:textSize="16sp" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/txtFileSize"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/fileImg"
-        android:text="222kb"
-        android:layout_below="@+id/txtTitle"
-        android:layout_marginTop="6dp"
-        android:layout_marginLeft="15dp"
-        android:singleLine="true"
-        android:layout_marginRight="20dp"
-        android:textColor="@color/font_9"
-        android:textSize="12sp" />
-    <TextView
-        android:id="@+id/txtContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/fileImg"
-        android:text="223232"
-        android:layout_below="@+id/txtFileSize"
-        android:layout_marginTop="6dp"
-        android:layout_marginLeft="15dp"
-        android:singleLine="true"
-        android:layout_marginRight="20dp"
-        android:textColor="@color/font_9"
-        android:textSize="12sp" />
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:lines="1"
+            android:text="常见我让你同意"
+            android:textColor="@color/font_1"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txtFileSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtTitle"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@+id/fileImg"
+            android:lines="1"
+            android:text="222kb"
+            android:textColor="@color/font_3"
+            tools:visibility="visible"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/txtContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtFileSize"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@+id/fileImg"
+            android:lines="1"
+            android:text="223232"
+            android:textColor="@color/font_3"
+            android:textSize="12sp" />
+
+    </LinearLayout>
 </RelativeLayout>

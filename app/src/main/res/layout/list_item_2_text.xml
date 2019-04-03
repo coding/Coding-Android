@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
     android:background="@drawable/list_item_selector"
-    android:minHeight="48dp"
+    android:gravity="center_vertical"
+    android:minHeight="50dp"
     android:paddingLeft="@dimen/padding_15"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:paddingRight="@dimen/padding_15">
 
     <TextView
@@ -16,7 +15,7 @@
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="15dp"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="16sp" />
 
     <TextView
@@ -26,13 +25,13 @@
         android:layout_toEndOf="@+id/first"
         android:layout_toRightOf="@+id/first"
         android:ellipsize="end"
-        android:gravity="left"
-        android:singleLine="true"
-        android:textColor="@color/font_2"
-        android:scrollHorizontally="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        tools:text="askdfja;lskdjf;alksdjf;alksdjf;alsdfasdf"
-        android:textSize="16sp" />
+        android:gravity="left"
+        android:scrollHorizontally="true"
+        android:lines="1"
+        android:textColor="@color/font_1"
+        android:textSize="16sp"
+        tools:text="askdfja;lskdjf;alksdjf;alksdjf;alsdfasdf" />
 
 </RelativeLayout>

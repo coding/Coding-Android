@@ -1,6 +1,6 @@
 package net.coding.program.common.widget.input;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -22,14 +23,17 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.coding.program.MyApp;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
+import net.coding.program.common.audio.AmrAudioRecorder;
+import net.coding.program.common.maopao.VoicePlayCallBack;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
 import net.coding.program.common.widget.SoundWaveView;
-import net.coding.program.maopao.item.ContentAreaImages;
-import net.coding.program.message.AmrAudioRecorder;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EViewGroup;
@@ -48,42 +52,19 @@ import java.util.UUID;
 @EViewGroup(R.layout.input_view_voice_view)
 public class VoiceView extends FrameLayout {
 
-    private AppCompatActivity activity;
-
-    private AnimationDrawable voiceRecrodAnimtion;
-
-    private AmrAudioRecorder mAmrAudioRecorder;
-    private boolean isRecoding;
-
-    private String out = null;
-
-    private float touchY;
-
     @ViewById
     ViewGroup soundWaveLayout;
-
     @ViewById
     ImageButton voiceRecordButton;
-
     @ViewById
     SoundWaveView soundWaveLeft, soundWaveRight;
-
     @ViewById
     TextView recordTime, tips_hold_to_talk;
-
-    public VoiceView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-
-
-        activity = (AppCompatActivity) getContext();
-    }
-
-    @AfterViews
-    void initVoiceView() {
-        voiceRecrodAnimtion = (AnimationDrawable) voiceRecordButton.getBackground();
-    }
-
-
+    private AppCompatActivity activity;
+    private AnimationDrawable voiceRecrodAnimtion;
+    private AmrAudioRecorder mAmrAudioRecorder;
+    private boolean isRecoding;
+    private String out = null;
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -116,6 +97,31 @@ public class VoiceView extends FrameLayout {
             }
         }
     };
+    private float touchY;
+    private AmrAudioRecorder.VoiceRecordingCallBack mVoiceRecordingCallBack = new AmrAudioRecorder.VoiceRecordingCallBack() {
+        @Override
+        public void onRecord(long duration, double volume) {
+            Message m = Message.obtain();
+            Bundle data = new Bundle();
+            data.putDouble("volume", volume);
+            data.putLong("duration", duration);
+            m.setData(data);
+            mHandler.sendMessage(m);
+        }
+    };
+
+
+    public VoiceView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+
+
+        activity = (AppCompatActivity) Global.getActivityFromView(this);
+    }
+
+    @AfterViews
+    void initVoiceView() {
+        voiceRecrodAnimtion = (AnimationDrawable) voiceRecordButton.getBackground();
+    }
 
     private void sendVoice() {
         tips_hold_to_talk.setText(R.string.hold_to_talk);
@@ -178,19 +184,23 @@ public class VoiceView extends FrameLayout {
         }
     }
 
+    @SuppressLint("CheckResult")
     @LongClick
     boolean voiceRecordButton() {
-        if (!PermissionUtil.checkMicrophone((Activity) getContext())) {
-            return true;
-        }
+        new RxPermissions((FragmentActivity) Global.getActivityFromView(this))
+                .request(PermissionUtil.AUDIO)
+                .subscribe(granted -> {
+                    if (granted) {
+                        if (activity instanceof VoicePlayCallBack) {
+                            VoicePlayCallBack voicePlayCallBack = (VoicePlayCallBack) activity;
+                            voicePlayCallBack.onStopPlay();
+                        }
 
-        if (activity instanceof ContentAreaImages.VoicePlayCallBack) {
-            ContentAreaImages.VoicePlayCallBack voicePlayCallBack = (ContentAreaImages.VoicePlayCallBack) activity;
-            voicePlayCallBack.onStopPlay();
-        }
+                        //开始录音...
+                        startRecord();
+                    }
+                });
 
-        //开始录音...
-        startRecord();
         return true;
     }
 
@@ -234,7 +244,6 @@ public class VoiceView extends FrameLayout {
         return false;
     }
 
-
     private void cancelRecord() {
         stopRecord();
         isRecoding = false;
@@ -264,7 +273,7 @@ public class VoiceView extends FrameLayout {
     private void startRecord() {
         if (Global.sVoiceDir == null) {
             try {
-                Global.sVoiceDir = FileUtil.getDestinationInExternalFilesDir(activity, Environment.DIRECTORY_MUSIC, FileUtil.DOWNLOAD_FOLDER).getAbsolutePath();
+                Global.sVoiceDir = FileUtil.getDestinationInExternalFilesDir(activity, Environment.DIRECTORY_MUSIC, FileUtil.getDownloadFolder()).getAbsolutePath();
             } catch (Exception e) {
                 Global.errorLog(e);
             }
@@ -294,27 +303,14 @@ public class VoiceView extends FrameLayout {
         }
     }
 
-    private AmrAudioRecorder.VoiceRecordingCallBack mVoiceRecordingCallBack = new AmrAudioRecorder.VoiceRecordingCallBack() {
-        @Override
-        public void onRecord(long duration, double volume) {
-            Message m = Message.obtain();
-            Bundle data = new Bundle();
-            data.putDouble("volume", volume);
-            data.putLong("duration", duration);
-            m.setData(data);
-            mHandler.sendMessage(m);
-        }
-    };
-
-
     private void showToast(int rid) {
         TextView tv = new TextView(activity);
         tv.setText(rid);
         tv.setTextSize(16);
         tv.setTextColor(Color.WHITE);
         tv.setBackgroundResource(R.drawable.tips_background);
-        tv.setWidth((int) (MyApp.sWidthPix * 0.7));
-        tv.setHeight(Global.dpToPx(48));
+        tv.setWidth((int) (GlobalData.sWidthPix * 0.7));
+        tv.setHeight(GlobalCommon.dpToPx(48));
         tv.setGravity(Gravity.CENTER);
         Toast toast = new Toast(activity);
         toast.setDuration(Toast.LENGTH_SHORT);

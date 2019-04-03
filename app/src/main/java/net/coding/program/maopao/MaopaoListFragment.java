@@ -2,71 +2,67 @@ package net.coding.program.maopao;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.CBPageAdapter;
-import com.bigkoo.convenientbanner.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.melnykov.fab.FloatingActionButton;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.RedPointTip;
-import net.coding.program.common.guide.IndicatorView;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
-import net.coding.program.common.network.LoadingFragment;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.BannerObject;
-import net.coding.program.model.UserObject;
-import net.coding.program.subject.SubjectWallActivity_;
-import net.coding.program.user.MyDetailActivity;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.BannerObject;
+import net.coding.program.common.model.UserObject;
+import net.coding.program.common.util.LoadGifUtil;
+import net.coding.program.guide.IndicatorView;
+import net.coding.program.route.URLSpanNoUnderline;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+
+import pl.droidsonroids.gif.GifImageView;
 
 @EFragment(R.layout.fragment_maopao_list)
 public class MaopaoListFragment extends MaopaoListBaseFragment {
 
-    final String friendUrl = Global.HOST_API + "/activities/user_tweet?last_id=%s";
+    final String friendUrl = Global.HOST_API + "/tweet/public_tweets?last_id=%s&sort=friends&filter=true";
     final String myUrl = Global.HOST_API + "/tweet/user_public?user_id=%s&last_id=%s";
+    final String TAG_BANNER = "TAG_BANNER";
+    @FragmentArg
+    Type mType;
+    @FragmentArg
+    int userId;
+    @ViewById
+    FloatingActionButton floatButton;
+    ConvenientBanner banner;
+    ArrayList<BannerObject> mBannerDatas = new ArrayList<>();
+    private IndicatorView bannerIndicator;
+    private TextView bannerName;
+    private TextView bannerTitle;
 
     @Override
     protected String getMaopaoUrlFormat() {
         return Global.HOST_API + "/tweet/public_tweets?last_id=%s&sort=%s";
     }
-
-    final String TAG_BANNER = "TAG_BANNER";
-
-    @FragmentArg
-    Type mType;
-
-    @FragmentArg
-    int userId;
-
-    @ViewById
-    FloatingActionButton floatButton;
-
-    ConvenientBanner banner;
 
     @Override
     public void onResume() {
@@ -77,34 +73,9 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         }
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (!(getActivity() instanceof MyDetailActivity)) {
-            inflater.inflate(R.menu.menu_fragment_maopao, menu);
-            super.onCreateOptionsMenu(menu, inflater);
-        }
-    }
-
-    @OptionsItem
-    void action_search() {
-        SubjectWallActivity_.intent(this).start();
-        getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
-    }
-
-    private IndicatorView bannerIndicator;
-    private TextView bannerName;
-    private TextView bannerTitle;
-
-
     @AfterViews
     protected void initMaopaoListFragment() {
-        initMaopaoListBaseFragmen();
-
-        if (getActivity() instanceof MyDetailActivity) {
-            setHasOptionsMenu(false);
-        } else {
-            setHasOptionsMenu(true);
-        }
+        initMaopaoListBaseFragmen(mType);
     }
 
     @Override
@@ -114,7 +85,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
             if (actionBar != null) {
                 String actionBarTitle = actionBar.getTitle().toString();
                 if (TextUtils.isEmpty(actionBarTitle)) {
-                    if (userId == MyApp.sUserObject.id) {
+                    if (userId == GlobalData.sUserObject.id) {
                         actionBar.setTitle("我的冒泡");
                     } else {
                         actionBar.setTitle("TA的冒泡");
@@ -153,7 +124,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
     @Override
     protected void initMaopaoType() {
         if (mType == Type.friends) {
-            id = LoadingFragment.UPDATE_ALL_INT;
+            id = Global.UPDATE_ALL_INT;
             lastTime = 0;
         }
 
@@ -174,39 +145,37 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
             getNetwork(BannerObject.getHttpBanners(), TAG_BANNER);
         }
 
-        addDoubleClickActionbar();
-
         getNetwork(createUrl(), getMaopaoUrlFormat());
     }
 
-    private void addDoubleClickActionbar() {
-        ActionBar actionBar = getActionBarActivity().getSupportActionBar();
-        View v = actionBar.getCustomView();
-        // 有些界面没有下拉刷新
-        if (v != null && v.getParent() != null) {
-            ((View) v.getParent()).setOnClickListener(new View.OnClickListener() {
-
-                final long DOUBLE_CLICK_TIME = 300;
-                long mLastTime = 0;
-
-                @Override
-                public void onClick(View v) {
-                    long lastTime = mLastTime;
-                    long nowTime = Calendar.getInstance().getTimeInMillis();
-                    mLastTime = nowTime;
-
-                    if (nowTime - lastTime < DOUBLE_CLICK_TIME) {
-                        if (listView.mSwipeRefreshLayout != null &&
-                                !listView.mSwipeRefreshLayout.isRefreshing()) {
-                            listView.setRefreshing(true);
-                            onRefresh();
-                        }
-                    }
-                }
-            });
-        }
-
-    }
+//    private void addDoubleClickActionbar() {
+//        ActionBar actionBar = getActionBarActivity().getSupportActionBar();
+//        View v = actionBar.getCustomView();
+//        // 有些界面没有下拉刷新
+//        if (v != null && v.getParent() != null) {
+//            ((View) v.getParent()).setOnClickListener(new View.OnClickListener() {
+//
+//                final long DOUBLE_CLICK_TIME = 300;
+//                long mLastTime = 0;
+//
+//                @Override
+//                public void onClick(View v) {
+//                    long lastTime = mLastTime;
+//                    long nowTime = Calendar.getInstance().getTimeInMillis();
+//                    mLastTime = nowTime;
+//
+//                    if (nowTime - lastTime < DOUBLE_CLICK_TIME) {
+//                        if (listView.mSwipeRefreshLayout != null &&
+//                                !listView.mSwipeRefreshLayout.isRefreshing()) {
+//                            listView.setRefreshing(true);
+//                            onRefresh();
+//                        }
+//                    }
+//                }
+//            });
+//        }
+//
+//    }
 
     @Override
     public void onPause() {
@@ -227,12 +196,7 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         if (mBannerDatas.isEmpty()) {
             mBannerDatas.add(new BannerObject());
         }
-        banner.setPages(new CBViewHolderCreator() {
-            @Override
-            public Object createHolder() {
-                return new LocalImageHolder();
-            }
-        }, mBannerDatas);
+        banner.setPages(() -> new LocalImageHolder(), mBannerDatas);
 
         int bannerStartPos = 0;
         bannerIndicator.setCount(mBannerDatas.size(), bannerStartPos);
@@ -243,12 +207,23 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         }
     }
 
+    private View bannerLayout;
+
+    @Override
+    public void showLoading(boolean show) {
+        super.showLoading(show);
+        if (!show && bannerLayout != null) {
+            bannerLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void initBannerData() {
-        View bannerLayout = mInflater.inflate(R.layout.maopao_banner_view_pager, listView, false);
+        bannerLayout = mInflater.inflate(R.layout.maopao_banner_view_pager, listView, false);
         banner = (ConvenientBanner) bannerLayout.findViewById(R.id.bannerViewPager);
+        bannerLayout.setVisibility(View.INVISIBLE);
 
         ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
-        layoutParams.height = MyApp.sWidthPix * 130 / 360;
+        layoutParams.height = GlobalData.sWidthPix * 130 / 360;
         banner.setLayoutParams(layoutParams);
 
         bannerIndicator = (IndicatorView) bannerLayout.findViewById(R.id.indicatorView);
@@ -308,7 +283,6 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         }
     }
 
-
     @Override
     protected void initData() {
     }
@@ -332,42 +306,18 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         user, friends, hot, my, time
     }
 
-    public static class ClickImageParam {
-        public ArrayList<String> urls;
-        public int pos;
-        public boolean needEdit;
-
-        public ClickImageParam(ArrayList<String> urlsParam, int posParam, boolean needEditParam) {
-            urls = urlsParam;
-            pos = posParam;
-            needEdit = needEditParam;
-        }
-
-        public ClickImageParam(String url) {
-            urls = new ArrayList<>();
-            urls.add(url);
-            pos = 0;
-            needEdit = false;
-        }
-    }
-
-    ArrayList<BannerObject> mBannerDatas = new ArrayList<>();
-
-    class LocalImageHolder implements CBPageAdapter.Holder<BannerObject> {
-        ImageView imageView;
+    private class LocalImageHolder implements CBPageAdapter.Holder<BannerObject> {
+        GifImageView imageView;
 
         @Override
         public View createView(Context context) {
-            imageView = new ImageView(getActivity());
+            imageView = new GifImageView(getActivity());
             imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = (int) v.getTag(R.id.image);
-                    BannerObject bannerObject = mBannerDatas.get(position);
-                    URLSpanNoUnderline.openActivityByUri(getActivity(), bannerObject.getLink(), false, true, true);
-                }
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setOnClickListener(v -> {
+                int position = (int) v.getTag(R.id.image);
+                BannerObject bannerObject = mBannerDatas.get(position);
+                URLSpanNoUnderline.openActivityByUri(getActivity(), bannerObject.getLink(), false, true, true);
             });
             return imageView;
         }
@@ -375,7 +325,19 @@ public class MaopaoListFragment extends MaopaoListBaseFragment {
         @Override
         public void UpdateUI(Context context, int position, BannerObject data) {
             imageView.setTag(R.id.image, position);
-            getImageLoad().loadImage(imageView, mBannerDatas.get(position).getImage(), ImageLoadTool.bannerOptions);
+            getImageLoad().loadImage(imageView, mBannerDatas.get(position).getImage(), ImageLoadTool.bannerOptions, new SimpleImageLoadingListener() {
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    super.onLoadingComplete(imageUri, view, loadedImage);
+                    if (imageUri.startsWith("http://") || imageUri.startsWith("https://")) {
+                        if (imageUri.endsWith(".gif")) {
+                            LoadGifUtil gifUtil = new LoadGifUtil(getActivity());
+                            gifUtil.getGifImage(imageView, imageUri);
+                        }
+                    }
+                }
+            });
         }
     }
+
 }

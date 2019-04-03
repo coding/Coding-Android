@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:layout_marginTop="35dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:scaleType="center"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/board_empty" />
+
+    <TextView
+        android:layout_width="162dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center_horizontal"
+        android:text="一键创建以下任务看板："
+        android:textColor="#FF202D40"
+        android:textSize="15sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#FFF2BF3B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:text="需求分析"
+            android:textColor="#FF76808E"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#FF41BD79" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:text="产品分析"
+            android:textColor="#FF76808E"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#FF3B83C0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开发中　"
+            android:textColor="#FF76808E"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#FF24B5AD" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:text="产品测试"
+            android:textColor="#FF76808E"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#FFD65B5C" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:text="产品上线"
+            android:textColor="#FF76808E"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#FFD65B5C"
+            android:visibility="invisible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="需求分析"
+            android:textColor="#FF76808E"
+            android:textSize="14sp"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <com.flyco.roundview.RoundTextView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:id="@+id/clickCreate"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="创建默认任务列表"
+        android:textColor="@color/font_white"
+        android:textSize="15sp"
+        app:rv_backgroundColor="#FF202D40" />
+
+    <TextView
+        android:id="@+id/clickNoCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="谢谢，我自己创建"
+        android:textColor="#FF202D40"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="10dp"
+        android:textSize="15sp" />
+
+</LinearLayout>

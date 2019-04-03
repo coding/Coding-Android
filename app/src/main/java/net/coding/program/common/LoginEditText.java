@@ -9,10 +9,11 @@ import android.view.MotionEvent;
 import android.widget.EditText;
 
 import net.coding.program.R;
-import net.coding.program.common.enter.SimpleTextWatcher;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
 
 /**
  * Created by chaochen on 15/1/6.
+ * todo  自定义控件不要乱放
  */
 public class LoginEditText extends EditText {
 
@@ -37,14 +38,16 @@ public class LoginEditText extends EditText {
                 displayDelete(s.length() > 0);
             }
         });
+
     }
 
     private void displayDelete(boolean show) {
-        if (show) {
-            setDrawableRight(drawable);
-        } else {
-            setDrawableRight(null);
-        }
+        setDrawableRight(null);
+//        if (show) {
+//            setDrawableRight(drawable);
+//        } else {
+//            setDrawableRight(null);
+//        }
     }
 
     private void setDrawableRight(Drawable drawable) {

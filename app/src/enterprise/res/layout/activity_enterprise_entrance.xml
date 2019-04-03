@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+
+    <!--<View-->
+    <!--android:id="@+id/mask"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="300dp"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:background="@drawable/entrance_bottom_bg" />-->
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:text="企业级·软件开发协作平台"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:textSize="12sp"
+        android:id="@+id/bottomTitle"
+        android:textColor="@color/black_71"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/bottomTitle"
+        android:layout_marginBottom="10dp"
+        android:src="@mipmap/entrance_enterprise_logo"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

@@ -1,16 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_EEEEEE"
+    android:background="@color/divide"
     android:orientation="vertical">
 
     <!--<include layout="@layout/activity_search_project_actionbar" />-->
 
-    <net.coding.program.third.PagerSlidingTabStrip
+    <net.coding.program.third.WechatTab
         android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="48dip"
-        android:background="@android:color/transparent"
+        style="@style/TextTabBar"
         android:visibility="gone" />
 
     <android.support.v4.view.ViewPager
@@ -21,8 +19,8 @@
 
     <!--没有搜索内容也没有历史记录-->
     <LinearLayout
-        android:layout_width="256dp"
         android:id="@+id/allEmptyView"
+        android:layout_width="256dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="51dp"
@@ -33,9 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/font_9"
-            android:textSize="15sp"
-            android:text="搜索更多内容" />
+            android:text="搜索更多内容"
+            android:textColor="@color/font_3"
+            android:textSize="15sp" />
 
         <View
             style="@style/DivideLine"
@@ -63,11 +61,6 @@
 
             <TextView
                 style="@style/searchEmptyIcon"
-                android:drawableTop="@mipmap/ic_search_topic"
-                android:text="讨论" />
-
-            <TextView
-                style="@style/searchEmptyIcon"
                 android:layout_marginRight="0dp"
                 android:drawableTop="@mipmap/ic_search_maopao"
                 android:text="冒泡" />
@@ -82,7 +75,7 @@
             <TextView
                 style="@style/searchEmptyIcon"
                 android:layout_marginLeft="0dp"
-                android:drawableTop="@mipmap/ic_search_user"
+                android:drawableTop="@mipmap/ic_search_file"
                 android:text="文件" />
 
             <TextView
@@ -95,11 +88,6 @@
                 android:drawableTop="@mipmap/ic_search_mr"
                 android:text="合并请求" />
 
-            <TextView
-                style="@style/searchEmptyIcon"
-                android:layout_marginRight="0dp"
-                android:drawableTop="@mipmap/ic_search_pr"
-                android:text="Pull 请求" />
         </LinearLayout>
 
     </LinearLayout>
@@ -110,7 +98,7 @@
         android:layout_height="match_parent"
         android:cacheColorHint="@color/transparent"
         android:clipToPadding="false"
-        android:divider="@color/color_DDDDDD"
+        android:divider="@color/divide_line"
         android:dividerHeight="0.5dp"
         android:drawSelectorOnTop="true"
         android:footerDividersEnabled="false"

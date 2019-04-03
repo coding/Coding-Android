@@ -1,18 +1,19 @@
 package net.coding.program.project.detail;
 
+import android.support.annotation.NonNull;
 import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.CodingGlobal;
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.TopicLabelObject;
+import net.coding.program.common.model.topic.TopicData;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.TopicLabelObject;
-import net.coding.program.project.detail.TopicEditFragment.SaveData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -33,15 +34,24 @@ public class TopicPreviewFragment extends BaseFragment {
     protected TopicLabelBar labelBar;
     @ViewById
     protected WebView content;
-    private SaveData saveData;
-
     protected MyJsonResponse myJsonResponse;
+    private EditPreviewMarkdown editPreviewMarkdown;
 
     @AfterViews
-    protected void init() {
-        saveData = ((SaveData) getActivity());
+    protected void initTopicPreviewFragment() {
+        editPreviewMarkdown = ((EditPreviewMarkdown) getActivity());
+        updatePreview();
+    }
 
-        TopicAddActivity.TopicData data = saveData.loadData();
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden) {
+            updatePreview();
+        }
+    }
+
+    private void updatePreview() {
+        TopicData data = editPreviewMarkdown.loadData();
         title.setText(data.title);
         updateLabels(data.labels);
 
@@ -49,39 +59,52 @@ public class TopicPreviewFragment extends BaseFragment {
             @Override
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
+                if (!isResumed()) {
+                    return;
+                }
+
                 String html = response.optString("data", "");
-                Global.setWebViewContent(content, "markdown.html", html);
+                CodingGlobal.setWebViewContent(content, getWebViewTempate(), html);
             }
         };
 
         mdToHtml(data.content);
+    }
 
+    @NonNull
+    protected String getWebViewTempate() {
+        return "markdown.html";
     }
 
     public void updateLabels(List<TopicLabelObject> labels) {
-        if (labelBar != null && getActivity() != null)
+        if (labelBar != null && (getActivity() instanceof TopicLabelBar.Controller)) {
             labelBar.bind(labels, (TopicLabelBar.Controller) getActivity());
+        }
     }
 
     @Override
     public void onDestroy() {
-        saveData = null;
+        editPreviewMarkdown = null;
         super.onDestroy();
+    }
+
+    public void switchEdit() {
+        action_edit();
     }
 
     @OptionsItem
     protected void action_edit() {
-        saveData.switchEdit();
+        editPreviewMarkdown.switchEdit();
     }
 
     @OptionsItem
     protected void action_save() {
-        saveData.exit();
+        editPreviewMarkdown.exit();
     }
 
     // 重载此函数，修改预览方法
     protected void mdToHtml(String contentMd) {
-        String uri = ProjectObject.getMdPreview(saveData.getProjectPath());
+        String uri = ProjectObject.getMdPreview(editPreviewMarkdown.getProjectPath());
         RequestParams params = new RequestParams();
         params.put("content", contentMd);
         MyAsyncHttpClient.post(getActivity(), uri, params, myJsonResponse);

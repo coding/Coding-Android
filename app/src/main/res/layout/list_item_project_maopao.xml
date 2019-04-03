@@ -77,7 +77,7 @@
                 android:singleLine="false"
                 android:text="去"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="15sp" />
 
             <FrameLayout
@@ -151,12 +151,9 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <View
-                style="@style/DivideLine"
-                android:layout_marginTop="12dp" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp">
 
@@ -165,6 +162,14 @@
                     style="@style/ListItemComment"
                     android:layout_height="wrap_content"
                     tools:text="3 条评论" />
+
+                <TextView
+                    android:id="@+id/edit"
+                    style="@style/MaopaoDelete"
+                    android:text="编辑"
+                    android:layout_marginRight="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true" />
 
                 <TextView
                     android:id="@+id/delete"

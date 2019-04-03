@@ -2,14 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_more"
-        android:icon="@drawable/ic_action_overflow"
+        android:icon="@drawable/ic_menu_more"
         android:title="@string/action_more"
         app:showAsAction="always">
 
         <menu>
             <item
                 android:id="@+id/action_copy"
-                android:icon="@drawable/ic_menu_link"
+                android:icon="@drawable/ic_menu_share_link"
                 android:orderInCategory="100"
                 android:title="复制链接"
                 app:showAsAction="always" />

@@ -5,24 +5,29 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.base.BaseLoadMoreFragment;
-import net.coding.program.model.Merge;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.event.EventRefreshMerge;
+import net.coding.program.common.model.Merge;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-@EFragment(R.layout.common_refresh_listview)
+@EFragment(R.layout.common_refresh_listview_divide)
 public class MergeListFragment extends BaseLoadMoreFragment {
+
+    public static final String EVENT_UPDATE = "EVENT_UPDATE";
 
     public static final int TYPE_OPEN = 0;
     public static final int TYPE_CLOSE = 1;
@@ -50,7 +55,6 @@ public class MergeListFragment extends BaseLoadMoreFragment {
         listViewAddHeaderSection(listView);
         listView.setVisibility(View.INVISIBLE);
         initRefreshLayout();
-        disableRefreshing();
 
         if (mProjectObject.isPublic()) {
             mUrlMerge = mProjectObject.getHttpMerge(mType == TYPE_OPEN);
@@ -60,8 +64,17 @@ public class MergeListFragment extends BaseLoadMoreFragment {
         mMergeAdapter = new MergeAdapter(new ArrayList<>(), this, getImageLoad());
         listView.setAdapter(mMergeAdapter);
         loadMore();
+    }
 
-//        showDialogLoading();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EventRefreshMerge event) {
+        initSetting();
+        loadMore();
+    }
+
+    @Override
+    protected boolean useEventBus() {
+        return true;
     }
 
     @Override
@@ -79,6 +92,7 @@ public class MergeListFragment extends BaseLoadMoreFragment {
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(HOST_MERGE)) {
+            setRefreshing(false);
 //            hideDialogLoading();
             if (code == 0) {
                 if (isLoadingFirstPage(HOST_MERGE)) {
@@ -106,5 +120,6 @@ public class MergeListFragment extends BaseLoadMoreFragment {
     @Override
     public void onRefresh() {
         initSetting();
+        loadMore();
     }
 }

@@ -2,9 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="48dp"
+    android:minHeight="50dp"
+    android:paddingBottom="5dp"
     android:paddingLeft="15dp"
-    android:paddingRight="15dp">
+    android:paddingRight="15dp"
+    android:paddingTop="5dp">
 
     <TextView
         android:id="@+id/first"
@@ -13,7 +15,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="15dp"
         android:text="性别"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="16sp" />
 
     <TextView
@@ -26,7 +28,7 @@
         android:ellipsize="end"
         android:gravity="right"
         android:text="男"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="16sp" />
 
 </RelativeLayout>

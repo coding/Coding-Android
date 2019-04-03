@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/stand_bg"
+        android:padding="14dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="项目归档后，该项目将会移到“项目所有者”的归档项目中，并且不能对该项目做任何操作，直到解除归档。同时该项目将从所有项目成员的项目列表中移除。“项目所有者”可以在项目->归档项目中进行解除归档操作，解除归档后，项目成员仍保留。"
+            android:textColor="@color/font_2"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <include layout="@layout/divide_middle_15" />
+
+    <TextView
+        android:id="@+id/deleteBut"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/stand_bg"
+        android:text="项目归档"
+        android:gravity="center"
+        android:textColor="@color/font_1"
+        android:textSize="15sp" />
+
+    <include layout="@layout/divide_bottom_5" />
+
+
+</LinearLayout>

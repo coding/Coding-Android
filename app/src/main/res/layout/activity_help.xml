@@ -5,9 +5,7 @@
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary">
+        style="@style/AppBarLayout">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -35,13 +33,14 @@
                     android:id="@+id/toolbarFeedback"
                     style="@style/TextAppearance.AppCompat.Widget.ActionBar.Menu"
                     android:layout_width="wrap_content"
-                    android:paddingLeft="15dp"
+                    android:layout_height="match_parent"
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
+                    android:paddingLeft="15dp"
+                    android:visibility="gone"
                     android:paddingRight="15dp"
-                    android:textColor="@color/font_green"
                     android:text="反馈"
-                    android:layout_height="match_parent" />
+                    android:textColor="@color/font_green" />
 
             </LinearLayout>
 

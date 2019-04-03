@@ -1,5 +1,6 @@
 package net.coding.program.message;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,38 +23,43 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import net.coding.program.FootUpdate;
-import net.coding.program.MyApp;
-import net.coding.program.MyPushReceiver;
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
-import net.coding.program.common.ClickSmallImage;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.GlobalSetting;
 import net.coding.program.common.HtmlContent;
+import net.coding.program.common.ImageInfo;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.MyMediaPlayer;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
-import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.WeakRefHander;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
-import net.coding.program.common.photopick.ImageInfo;
-import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.common.maopao.VoicePlayCallBack;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.Message;
+import net.coding.program.common.model.MyMessage;
+import net.coding.program.common.model.UserObject;
+import net.coding.program.common.param.MessageParse;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.ui.PopCaptchaDialog;
 import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.util.PermissionUtil;
+import net.coding.program.common.widget.UploadPublicHelp;
 import net.coding.program.common.widget.input.CameraAndPhoto;
 import net.coding.program.common.widget.input.MainInputView;
 import net.coding.program.common.widget.input.VoiceRecordCompleteCallback;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.maopao.ContentArea;
-import net.coding.program.maopao.item.ContentAreaImages;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.Message;
-import net.coding.program.model.UserObject;
+import net.coding.program.pickphoto.ClickSmallImage;
+import net.coding.program.pickphoto.PhotoPickActivity;
+import net.coding.program.route.BlankViewDisplay;
+import net.coding.program.route.URLSpanNoUnderline;
 import net.coding.program.third.EmojiFilter;
-import net.coding.program.user.UsersListActivity;
-import net.coding.program.user.UsersListActivity_;
+import net.coding.program.util.TextWatcherAt;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -64,21 +70,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 @EActivity(R.layout.activity_message_list)
-public class MessageListActivity extends BackActivity implements SwipeRefreshLayout.OnRefreshListener, FootUpdate.LoadMore,
-        StartActivity, CameraAndPhoto, Handler.Callback, VoiceRecordCompleteCallback,
-        ContentAreaImages.VoicePlayCallBack {
+public class MessageListActivity extends BackActivity implements SwipeRefreshLayout.OnRefreshListener, LoadMore,
+        StartActivity, CameraAndPhoto, Handler.Callback, VoiceRecordCompleteCallback, UploadPublicHelp.NetworkRequest,
+        VoicePlayCallBack {
 
     private static final int RESULT_REQUEST_FOLLOW = 1002;
     private static final int RESULT_REQUEST_PICK_PHOTO = 1003;
     private static final int RESULT_REQUEST_PHOTO = 1005;
     private static final int PAGESIZE = 20;
-    public static final String HOST_MESSAGE_SEND = Global.HOST_API + "/message/send?";
+    public final String HOST_MESSAGE_SEND = getSendMessage();
+
     final String hostDeleteMessage = Global.HOST_API + "/message/%s";
+
     final String TAG_SEND_IMAGE = "TAG_SEND_IMAGE";
     final String TAG_SEND_VOICE = "TAG_SEND_VOICE";
     final String TAG_MARK_VOICE_PLAYED = "TAG_MARK_VOICE_PLAYED";
@@ -86,7 +92,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
     final String HOST_MARK_VOICE_PLAYED = Global.HOST_API + "/message/conversations/%s/play";
     private final int REFRUSH_TIME = 3 * 1000;
-
+    private final int NEED_VALID = 3302;
     @Extra
     UserObject mUserObject;
 
@@ -98,21 +104,19 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     String mGlobalKey;
 
 //    @ViewById
-//    MainInputView inputView;
 
     ArrayList<Message.MessageObject> mData = new ArrayList<>();
+
     String url = "";
     ClickSmallImage clickImage = new ClickSmallImage(this);
-
     @ViewById
     ListView listView;
+
     @ViewById
     View blankLayout;
-
 //    EnterVoiceLayout mEnterLayout;
 
     WeakRefHander mWeakRefHandler;
-
     int mLastId = 0;
     View.OnClickListener onClickRetry = new View.OnClickListener() {
         @Override
@@ -120,31 +124,9 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             onRefresh();
         }
     };
-    String HOST_INSERT_IMAGE = Global.HOST_API + "/tweet/insert_image";
+    String HOST_INSERT_IMAGE = Global.HOST_API + "/message/send_image";
     String HOST_SEND_VOICE = Global.HOST_API + "/message/send_voice";
     MyImageGetter myImageGetter = new MyImageGetter(this);
-    View.OnClickListener mOnClickSendText = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String s = mEnterLayout.getContent();
-            if (EmojiFilter.containsEmptyEmoji(v.getContext(), s)) {
-                return;
-            }
-
-            RequestParams params = new RequestParams();
-            params.put("content", s);
-            params.put("receiver_global_key", mUserObject.global_key);
-
-            MyMessage temp = new MyMessage(MyMessage.REQUEST_TEXT, params, mUserObject);
-            temp.content = s;
-            mData.add(temp);
-            adapter.notifyDataSetChanged();
-
-            postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + temp.getCreateTime(), -1, temp.getCreateTime());
-
-            mEnterLayout.clearContent();
-        }
-    };
     private PhotoOperate photoOperate = new PhotoOperate(this);
     private Uri fileUri;
     private int mPxImageWidth = 0;
@@ -194,7 +176,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                 convertView = mInflater.inflate(res, parent, false);
                 holder = new ViewHolder();
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.icon.setOnClickListener(mOnClickUser);
+                holder.icon.setOnClickListener(GlobalCommon.mOnClickUser);
                 holder.time = (TextView) convertView.findViewById(R.id.time);
                 holder.contentArea = new ContentArea(convertView, null, clickImage, myImageGetter, getImageLoad(), mPxImageWidth);
                 holder.contentArea.clearConentLongClick();
@@ -240,9 +222,13 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                             if (myMessage.myRequestType == MyMessage.REQUEST_TEXT) {
                                 postNetwork(HOST_MESSAGE_SEND, myMessage.requestParams, HOST_MESSAGE_SEND + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
                             } else if (myMessage.myRequestType == MyMessage.REQUEST_IMAGE) {
-                                postNetwork(HOST_INSERT_IMAGE, myMessage.requestParams, TAG_SEND_IMAGE + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
+                                if (GlobalData.isPrivateEnterprise()) {
+                                    postNetwork(HOST_INSERT_IMAGE, myMessage.requestParams, TAG_SEND_IMAGE + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
+                                } else {
+                                    new UploadPublicHelp(MessageListActivity.this, myMessage.getFile(), MessageListActivity.this, myMessage.getCreateTime()).upload();
+                                }
                             } else if (myMessage.myRequestType == MyMessage.REQUEST_VOICE) {
-                                Global.MessageParse mp = ContentArea.parseVoice(myMessage.extra);
+                                MessageParse mp = ContentArea.parseVoice(myMessage.extra);
                                 postNetwork(HOST_SEND_VOICE, myMessage.requestParams, TAG_SEND_VOICE + mp.voiceUrl, -1, myMessage.getCreateTime());
                             }
                             myMessage.myStyle = MyMessage.STYLE_SENDING;
@@ -292,12 +278,40 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             BlankViewDisplay.setBlank(mData.size(), this, true, blankLayout, onClickRetry);
         }
     };
+    View.OnClickListener mOnClickSendText = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String s = mEnterLayout.getContent();
+            if (EmojiFilter.containsEmptyEmoji(v.getContext(), s)) {
+                return;
+            }
+
+            RequestParams params = new RequestParams();
+            params.put("content", s);
+            params.put("receiver_global_key", mUserObject.global_key);
+
+            MyMessage temp = new MyMessage(MyMessage.REQUEST_TEXT, params, mUserObject);
+            temp.content = s;
+            mData.add(temp);
+            adapter.notifyDataSetChanged();
+
+            postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + temp.getCreateTime(), -1, temp.getCreateTime());
+
+            mEnterLayout.clearContent();
+        }
+    };
+    private int mPxImageDivide = 0;
+    private MyMediaPlayer mMyMediaPlayer;
+    private int minBottom = GlobalCommon.dpToPx(200);
+
+    //    MainInputView inputView;
+    public static String getSendMessage() {
+        return Global.HOST_API + "/message/send?";
+    }
 
     public boolean isVoice(Message.MessageObject item) {
         return item.extra != null && item.extra.startsWith("[voice]{") && item.extra.endsWith("}[voice]");
     }
-
-    private int mPxImageDivide = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -325,11 +339,16 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     protected final void initMessageListActivity() {
         mEnterLayout.setClickSend(mOnClickSendText);
 
+        // 私有版发不了语音
+        if (GlobalData.isPrivateEnterprise()) {
+            mEnterLayout.setShowEmojiOnly(true);
+        }
+
         // 图片显示，单位为 dp
         // 72 photo 3 photo 3 photo 72
         final int divide = 3;
-        mPxImageWidth = Global.dpToPx(MyApp.sWidthDp - 72 * 2 - divide * 2) / 3;
-        mPxImageDivide = Global.dpToPx(divide);
+        mPxImageWidth = GlobalCommon.dpToPx(GlobalData.sWidthDp - 72 * 2 - divide * 2) / 3;
+        mPxImageDivide = GlobalCommon.dpToPx(divide);
 
         if (mUserObject == null) {
             getNetwork(HOST_USER_INFO + mGlobalKey, HOST_USER_INFO);
@@ -338,7 +357,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             initControl();
         }
 
-        MyPushReceiver.closeNotify(this, URLSpanNoUnderline.createMessageUrl(mGlobalKey));
+        CodingCompat.instance().closeNotify(this, URLSpanNoUnderline.createMessageUrl(mGlobalKey));
 
         GlobalSetting.getInstance().setMessageNoNotify(mGlobalKey);
 
@@ -371,9 +390,9 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 
         listView.setOnItemLongClickListener((parent, view, ppp, id) -> {
             final Message.MessageObject msg = mData.get((int) id);
-            final Global.MessageParse msgParse = HtmlContent.parseMessage(msg.content);
+            final MessageParse msgParse = HtmlContent.parseMessage(msg.content);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(MessageListActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(MessageListActivity.this, R.style.MyAlertDialogStyle);
             if (msgParse.text.isEmpty()) {
                 builder.setItems(R.array.message_action_image, (dialog, which) -> {
                     if (which == 0) {
@@ -425,11 +444,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     }
 
     private void relayMessage(Message.MessageObject message) {
-        UsersListActivity_.intent(this)
-                .type(UsersListActivity.Friend.Follow)
-                .hideFollowButton(true)
-                .relayString(message.content)
-                .start();
+        CodingCompat.instance().launchPickUser(this, message.content);
     }
 
     private void deleteMessage(Message.MessageObject msg) {
@@ -441,7 +456,7 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             deleteNetwork(url, hostDeleteMessage, msg.getId());
         }
         if (msg.extra != null && msg.extra.startsWith("[voice]{") && msg.extra.endsWith("}[voice]")) {
-            Global.MessageParse mp = ContentArea.parseVoice(msg.extra);
+            MessageParse mp = ContentArea.parseVoice(msg.extra);
             if (mp.voiceUrl != null) {
                 File f = new File(Global.sVoiceDir + File.separator + mp.voiceUrl.substring(mp.voiceUrl.lastIndexOf('/') + 1));
                 f.delete();
@@ -449,9 +464,16 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         }
     }
 
+    @SuppressLint("CheckResult")
     public void photo() {
-        Intent intent = new Intent(this, PhotoPickActivity.class);
-        startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
+        new RxPermissions(this)
+                .request(PermissionUtil.STORAGE)
+                .subscribe(granted -> {
+                    if (granted) {
+                        Intent intent = new Intent(this, PhotoPickActivity.class);
+                        startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
+                    }
+                });
     }
 
     @Override
@@ -483,7 +505,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_REQUEST_PICK_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
-
                 try {
                     @SuppressWarnings("unchecked")
                     ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
@@ -519,8 +540,27 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     }
 
     private void sendPhotoPre(Uri uri) throws Exception {
+        if (GlobalData.isPrivateEnterprise()) {
+            sendPhotoPrivateEnterprise(uri);
+            return;
+        }
+
         RequestParams params = new RequestParams();
-        params.put("tweetImg", photoOperate.scal(uri));
+        File scalFile = photoOperate.scal(uri);
+        params.put("tweetImg", scalFile);
+
+        MyMessage myMessage = new MyMessage(MyMessage.REQUEST_IMAGE, params, mUserObject);
+        String imageLink = "<div class='message-image-box'><a href='%s' target='_blank'><img class='message-image' src='%s'/?></a></div>";
+        myMessage.content = String.format(imageLink, uri.toString(), uri.toString());
+        mData.add(myMessage);
+        myMessage.setFile(scalFile);
+
+        new UploadPublicHelp(this, myMessage.getFile(), this, myMessage.getCreateTime()).upload();
+    }
+
+    private void sendPhotoPrivateEnterprise(Uri uri) throws Exception {
+        RequestParams params = new RequestParams();
+        params.put("file", photoOperate.scal(uri));
 
         MyMessage myMessage = new MyMessage(MyMessage.REQUEST_IMAGE, params, mUserObject);
         String imageLink = "<div class='message-image-box'><a href='%s' target='_blank'><img class='message-image' src='%s'/?></a></div>";
@@ -582,6 +622,31 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                 showErrorMsg(code, respanse);
             }
 
+        } else if (tag.indexOf(TAG_SEND_IMAGE) == 0) {
+            long sendId = (Long) data;
+            if (code == 0) {
+                String imageUrl = respanse.getString("data");
+                RequestParams params = new RequestParams();
+                params.put("content", String.format(" ![图片](%s) ", imageUrl));
+                params.put("receiver_global_key", mUserObject.global_key);
+                postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + sendId, -1, sendId);
+
+            } else {
+                for (int i = mData.size() - 1; i >= 0; --i) {
+                    Object singleItem = mData.get(i);
+                    if (singleItem instanceof MyMessage) {
+                        MyMessage tempMsg = (MyMessage) singleItem;
+                        if (tempMsg.getCreateTime() == sendId) {
+                            tempMsg.myStyle = MyMessage.STYLE_RESEND;
+                            break;
+                        }
+                    }
+                }
+                adapter.notifyDataSetChanged();
+
+                showErrorMsg(code, respanse);
+            }
+
         } else if (tag.equals(url)) {
             hideProgressDialog();
             showProgressBar(false);
@@ -591,8 +656,8 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                     mData.clear();
 
                     // 标记信息已读
-                    String url = String.format(UsersListFragment.HOST_MARK_MESSAGE, mGlobalKey);
-                    postNetwork(url, new RequestParams(), UsersListFragment.HOST_MARK_MESSAGE);
+                    String url = String.format(UsersListFragment.getHostMarkMessage(), mGlobalKey);
+                    postNetwork(url, new RequestParams(), UsersListFragment.getHostMarkMessage());
                 }
 
                 JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
@@ -712,36 +777,46 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
                         }
                     }
                 }
+
+                if (code == NEED_VALID) {
+                    PopCaptchaDialog.popMessageValid(this, mGlobalKey, new PopCaptchaDialog.Callback() {
+                        @Override
+                        public void callback(String captcha, AlertDialog dialog) {
+                            for (int i = mData.size() - 1; i >= 0; --i) {
+                                Object singleItem = mData.get(i);
+                                if (singleItem instanceof MyMessage) {
+                                    MyMessage myMessage = (MyMessage) singleItem;
+                                    if (myMessage.getCreateTime() == sendId) {
+
+                                        if (myMessage.myRequestType == MyMessage.REQUEST_TEXT) {
+                                            postNetwork(HOST_MESSAGE_SEND, myMessage.requestParams, HOST_MESSAGE_SEND + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
+                                        } else if (myMessage.myRequestType == MyMessage.REQUEST_IMAGE) {
+                                            if (GlobalData.isPrivateEnterprise()) {
+                                                postNetwork(HOST_INSERT_IMAGE, myMessage.requestParams, TAG_SEND_IMAGE + myMessage.getCreateTime(), -1, myMessage.getCreateTime());
+                                            } else {
+                                                new UploadPublicHelp(MessageListActivity.this, myMessage.getFile(), MessageListActivity.this, myMessage.getCreateTime()).upload();
+                                            }
+                                        } else if (myMessage.myRequestType == MyMessage.REQUEST_VOICE) {
+                                            MessageParse mp = ContentArea.parseVoice(myMessage.extra);
+                                            postNetwork(HOST_SEND_VOICE, myMessage.requestParams, TAG_SEND_VOICE + mp.voiceUrl, -1, myMessage.getCreateTime());
+                                        }
+                                        myMessage.myStyle = MyMessage.STYLE_SENDING;
+                                        adapter.notifyDataSetChanged();
+
+
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
                 showErrorMsg(code, respanse);
             }
 
             adapter.notifyDataSetChanged();
             listView.setSelection(mData.size());
 
-        } else if (tag.indexOf(TAG_SEND_IMAGE) == 0) {
-            long sendId = (Long) data;
-            if (code == 0) {
-                String imageUrl = respanse.getString("data");
-                RequestParams params = new RequestParams();
-                params.put("content", String.format(" ![图片](%s) ", imageUrl));
-                params.put("receiver_global_key", mUserObject.global_key);
-                postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + sendId, -1, sendId);
-
-            } else {
-                for (int i = mData.size() - 1; i >= 0; --i) {
-                    Object singleItem = mData.get(i);
-                    if (singleItem instanceof MyMessage) {
-                        MyMessage tempMsg = (MyMessage) singleItem;
-                        if (tempMsg.getCreateTime() == sendId) {
-                            tempMsg.myStyle = MyMessage.STYLE_RESEND;
-                            break;
-                        }
-                    }
-                }
-                adapter.notifyDataSetChanged();
-
-                showErrorMsg(code, respanse);
-            }
         } else if (tag.indexOf(TAG_SEND_VOICE) == 0) {
             long sendId = (Long) data;
             if (code == 0) {
@@ -807,6 +882,34 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
         }
     }
 
+    @Override
+    public void onProgress(long time, int progress) {
+
+    }
+
+    @Override
+    public void postImageSuccess(long sendId, String imageUrl) {
+        RequestParams params = new RequestParams();
+        params.put("content", String.format(" ![图片](%s) ", imageUrl));
+        params.put("receiver_global_key", mUserObject.global_key);
+        postNetwork(HOST_MESSAGE_SEND, params, HOST_MESSAGE_SEND + sendId, -1, sendId);
+    }
+
+    @Override
+    public void postImageFail(long sendId) {
+        for (int i = mData.size() - 1; i >= 0; --i) {
+            Object singleItem = mData.get(i);
+            if (singleItem instanceof MyMessage) {
+                MyMessage tempMsg = (MyMessage) singleItem;
+                if (tempMsg.getCreateTime() == sendId) {
+                    tempMsg.myStyle = MyMessage.STYLE_RESEND;
+                    break;
+                }
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
     private void handleVoiceMessage(Message.MessageObject item) {
         //语音消息重新设置extra
         if (item.file != null && item.file.endsWith(".amr") && item.duration > 0) {
@@ -861,10 +964,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
             Global.errorLog(e);
         }
     }
-
-
-    private MyMediaPlayer mMyMediaPlayer;
-
 
     @Override
     public void onStartPlay(String path, int id, MediaPlayer.OnPreparedListener mOnPreparedListener, MediaPlayer.OnCompletionListener mOnCompletionListener) {
@@ -936,8 +1035,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
     public int getPlayingVoiceId() {
         return mMyMediaPlayer == null ? -1 : mMyMediaPlayer.getVoiceId();
     }
-
-    private int minBottom = Global.dpToPx(200);
 //    @Override
 //    public void onChanage(int lastBottomMargin,int newBottomMargin) {
 ////        if(!mEnterLayout.isKeyboardOpen){
@@ -956,37 +1053,6 @@ public class MessageListActivity extends BackActivity implements SwipeRefreshLay
 //    public EnterLayout getEnterLayout() {
 //        return mEnterLayout;
 //    }
-
-    public static class MyMessage extends Message.MessageObject implements Serializable {
-
-        public static final int STYLE_SENDING = 0;
-        public static final int STYLE_RESEND = 1;
-
-        public static final int REQUEST_TEXT = 0;
-        public static final int REQUEST_IMAGE = 1;
-        public static final int REQUEST_VOICE = 2;
-
-        public RequestParams requestParams;
-        public int myStyle = 0;
-        public int myRequestType = 0;
-
-
-        public MyMessage(int requestType, RequestParams params, UserObject friendUser) {
-            myStyle = STYLE_SENDING;
-
-            myRequestType = requestType;
-            requestParams = params;
-
-            friend = friendUser;
-            sender = MyApp.sUserObject;
-
-            created_at = Calendar.getInstance().getTimeInMillis();
-        }
-
-        public long getCreateTime() {
-            return created_at;
-        }
-    }
 
     static class ViewHolder {
         TextView time;

@@ -11,16 +11,23 @@
     <string name="title_activity_watcher_list">关注者列表</string>
     <string name="title_activity_attachment">项目文件列表</string>
     <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_test_enterprise">Test 企业版</string>
     <string name="title_activity_setting">设置</string>
     <string name="title_activity_my_created">我创建的</string>
-    <string name="title_activity_help">帮助与反馈</string>
+    <string name="title_activity_help">帮助</string>
     <string name="title_activity_user_info">个人信息</string>
+    <string name="title_activity_user_info_skill">开发技能</string>
+    <string name="title_activity_about_point">关于码币</string>
     <string name="title_activity_my_detail">个人主页</string>
     <string name="title_activity_comment_detail">评论详情</string>
+    <string name="title_activity_history">历史版本</string>
+    <string name="title_activity_close_2fa">关闭两步验证</string>
     <string name="title_activity_set_password">修改密码</string>
     <string name="title_activity_feedback">用户反馈</string>
     <string name="title_activity_about">关于我们</string>
     <string name="title_activity_topic_comment">讨论</string>
+    <string name="tip_need_phone_and_email">验证手机和邮箱后完善资料才能升级，<u>去验证</u></string>
+    <string name="tip_need_userinfo">完善个人信息，即可升级成为银牌会员。<u>去完善</u></string>
     <string name="topic_create">创建讨论</string>
     <string name="topic_edit">编辑讨论</string>
     <string name="topic_label">标签管理</string>
@@ -32,20 +39,26 @@
     <string name="title_activity_maopao_search">搜索</string>
     <string name="title_activity_subject_wall">话题墙</string>
     <string name="title_activity_users">用户列表</string>
+    <string name="title_activity_project_members">成员管理</string>
     <string name="title_activity_add_follow">添加关注</string>
+    <string name="title_activity_enterprise_add_member">添加成员</string>
     <string name="title_activity_user_detail">好友详情</string>
     <string name="title_activity_message_list">消息</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_test_activity2">TestActivity2</string>
     <string name="title_activity_friend">选择好友</string>
+    <string name="tip_vip_expired">请到网站续费</string>
+    <string name="tip_update_app">立即升级最新 Coding 客户端</string>
+    <string name="sold_out_app">温馨提示：出于实际使用场景限制的考虑，该 App 不再进行更多新功能开发，建议您前往 PC 端网页版体验更完整的产品功能。</string>
     <string name="empty" />
+    <string name="title_activity_manually_qcode">手动添加账号</string>
     <string name="title_activity_like_users_list">打赏和点赞的用户</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_maopao_detail">冒泡详情</string>
     <string name="title_activity_user_maopao">冒泡</string>
     <string name="btn_dialog_done">完成</string>
     <string name="btn_dialog_cancel">取消</string>
-    <string name="hint_loading">正在加载中…</string>
+    <string name="hint_loading"></string>
     <string name="title_activity_picker_images">PickerImagesActivity</string>
     <string name="action_edit">编辑</string>
     <string name="action_new">新建</string>
@@ -72,7 +85,7 @@
     <string name="title_activity_notify_setting">通知栏设置</string>
     <string name="title_activity_members_select">选择项目成员</string>
     <string name="title_activity_task_description">任务描述</string>
-    <string name="title_activity_account_setting">帐号设置</string>
+    <string name="title_activity_account_setting">账号设置</string>
     <string name="title_activity_web">WebActivity</string>
     <string name="title_activity_search_project"></string>
     <string name="title_activity_update_dialog">UpdateDialogActivity</string>
@@ -102,7 +115,7 @@
     <string name="title_activity_file_url"></string>
     <string name="title_activity_project_home">项目首页</string>
     <string name="open_by_browser">用浏览器打开</string>
-    <string name="title_activity_user_detail_more">更多资料</string>
+    <string name="title_activity_user_detail_more">TA 的资料</string>
     <string name="title_activity_user_project">TA的项目</string>
     <string name="title_activity_my_project">我的项目</string>
     <string name="title_activity_base_reset_password">BaseResetPasswordActivity</string>
@@ -116,11 +129,13 @@
     <string name="title_activity_project_create">创建项目</string>
     <string name="title_activity_project_type">项目类型</string>
     <string name="title_activity_project_set">项目设置</string>
+    <string name="title_setting">设置</string>
     <string name="title_activity_project_advance_set">删除项目</string>
+    <string name="title_activity_project_archive">项目归档</string>
     <string name="logining">登录中...</string>
     <string name="no_system_download_service">"下载失败，你可能关闭了系统的\"下载管理器\"，请到设置里面开启"</string>
     <string name="title_activity_merge">MergeActivity</string>
-    <string name="recommend_create_readme">我们推荐每个项目都新建一个README文件</string>
+    <string name="recommend_create_readme">该项目暂无 README.md ，我们推荐每个项目都新建一个 README.md 文件。（客户端暂不支持创建和编辑，请前往网站创建）</string>
     <string name="title_activity_merge_detail">Merge详情</string>
     <string name="title_activity_commit_list">提交记录</string>
     <string name="title_activity_comment">评论</string>
@@ -132,7 +147,7 @@
     <string name="title_activity_branch_main">branch</string>
     <string name="title_activity_guide">guide</string>
     <string name="title_activity_source">文件详情</string>
-    <string name="title_activity_login2_fatip">两步认证</string>
+    <string name="title_activity_login2_fatip">两步验证</string>
     <string name="title_activity_valide_phone">手机验证</string>
     <string name="title_activity_email_set_password">找回密码</string>
     <string name="title_activity_phone_set_password">找回密码</string>
@@ -144,10 +159,18 @@
     <string name="title_activity_pick_project">选择项目</string>
     <string name="no_pick">未指定</string>
     <string name="pick_project_first">请先选择一个项目</string>
+    <string name="project_no_board">这个项目没有任务看板</string>
     <string name="title_activity_user_point">我的码币</string>
     <string name="title_activity_feature">FeatureActivity</string>
     <string name="title_activity_file_history">历史版本</string>
     <string name="title_activity_file_dynamic">文件动态</string>
+    <string name="title_activity_member_authority_manual">成员权限说明</string>
+    <string name="title_activity_release_detail">发布详情</string>
+    <string name="title_activity_git_main">本地阅读</string>
+    <string name="title_activity_board">任务看板</string>
+    <string name="title_activity_add_board">创建任务列表</string>
+    <string name="title_activity_pick_board_task_list">看板列表</string>
+    <string name="title_activity_edit_release_detail">编辑发布</string>
 
     <string name="hold_to_talk">按住说话</string>
     <string name="loosen_to_cancel">松开取消</string>
@@ -175,19 +198,19 @@
     <string name="alert_activity_email2">该邮箱尚未激活，请尽快去邮箱查收邮件并激活账号。如若在收件箱中未看到激活邮件，请留意一下垃圾邮件箱(T_T)。</string>
 
     <!--商城-->
+    <string name="title_activity_payment">支付</string>
     <string name="title_activity_mall">商城</string>
     <string name="title_activity_mall_order">提交订单</string>
     <string name="desc_mall_order_item_tip">身高，体重参考：S码（165-50kg），M码（170-60kg），L码（175-70kg） XL码（180-80kg），XXL码（185-90kg）</string>
     <string name="title_activity_mall_order_detail">历史订单</string>
     <string name="mall_detail_footer_tips">温馨提示：\n所有兑换商品都定于每周五发货，请耐心等待哦！</string>
     <string name="mall_exchange_title">确认订单</string>
-    <string name="title_activity_project_sqaure">项目广场</string>
     <string name="title_activity_member_authority">设置成员权限</string>
     <string name="title_activity_readme_edit">编辑 README</string>
     <string name="title_activity_phone_register">手机注册</string>
     <string name="title_activity_email_register">邮箱注册</string>
     <string name="title_activity_pick_label_color">标签颜色</string>
-    <string name="title_activity_modify_label">修改标签</string>
+    <string name="title_activity_modify_label">编辑标签</string>
     <string name="title_activity_ref_resource">关联资源</string>
     <string name="title_activity_edit_code">编辑代码</string>
     <string name="title_activity_set_global_key">设置用户名</string>
@@ -196,8 +219,10 @@
     <string name="input_format_global_key">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-</string>
 
     <string name="title_activity_country_pick">选择国家和地区</string>
-    <string name="title_activity_project_maopao">项目内冒泡</string>
-    <string name="title_activity_project_maopao_add">创建项目内冒泡</string>
+    <string name="title_activity_project_maopao">项目公告</string>
+    <string name="title_activity_project_maopao_add">创建项目公告</string>
+    <string name="project_maopao_list_empty">暂时没有项目公告哦～</string>
+    <string name="input_project_maopao_content">输入公告内容</string>
     <string name="title_activity_topic_comment_detail">讨论详情</string>
     <string name="title_activity_team_list">团队</string>
     <string name="title_activity_team_list_detail">团队首页</string>
@@ -208,5 +233,48 @@
     <string name="filter_label_bug">Bug</string>
     <string name="filter_label_function">功能</string>
     <string name="filter_label_survey">调研</string>
+    <string name="exit_app">再按一次退出Coding</string>
+    <string name="add_project_maopao">新建项目公告</string>
+    <string name="delete_maopao">删除冒泡</string>
+
+    <!--通用-->
+    <string name="search">搜索</string>
+    <string name="branches">分支</string>
+    <string name="tags">标签</string>
+
+    <!--DrawerLayout-->
+    <string name="doing_count">进行中 (%d)</string>
+    <string name="done_count">已完成 (%d)</string>
+    <string name="doing">进行中</string>
+    <string name="done">已完成</string>
+
+    <!--代码模块-->
+    <string name="create_file">新建文件</string>
+    <string name="create_catalog">创建目录</string>
+    <string name="upload_picture">上传图片</string>
+    <string name="create_file_hint">请输入文件名称</string>
+    <string name="create_catalog_hint">请输入目录名称</string>
+    <string name="file_name_error">文件名不能含有特殊符号</string>
+    <string name="name_not_null">名字不能为空</string>
+    <string name="action_exit_code">退出代码查看</string>
+    <string name="file_name_pattern">^[a-zA-Z0-9\\u4e00-\\u9fa5\\./_-]+$</string>
+
+    <!--搜索相关-->
+    <string name="search_hint">搜索</string>
+    <string name="search_head">共搜到%1$s个与“%2$s”相关的文件</string>
+
+    <!--MR-->
+    <string name="merge_default">默认</string>
+    <string name="merge_all">全部</string>
+    <string name="merge_all_MR">全部 MR</string>
+    <string name="merge_can">可合并</string>
+    <string name="merge_not">不可自动合并</string>
+    <string name="merge_refuse">已拒绝</string>
+    <string name="merge_accept">已合并</string>
+    <string name="merge_open">已处理</string>
+    <string name="merge_close">未处理</string>
+    <string name="upload_ing">正在上传图片...</string>
+    <string name="upload_img_success">上传图片成功</string>
+    <string name="readme_file_name">README.md</string>
 
 </resources>

@@ -1,7 +1,7 @@
 ### Coding Android客户端代码说明
 
 ## 编译环境
-Android Studio 2.2.3，用gradle引用的许多第三方库，第一次加载会有点慢，加载完毕后要build一下，这些待下划线的类（比如 MainActivity_）会在build之后自动生成。
+Android Studio 3.1.3，根据 `variants` 选择编译企业版或个人版。修改 `gradle.properties.sample` 为 `gradle.properties` 并修改文件中 `keystore` 相关的环境变量，编译企业版的时候，`DEV_ENTERPRISE` 设置为 `true` ,因为用 `gradle` 引用的许多第三方库，所以第一次加载会有点慢，加载完毕后要 `build` 一下，这些带下划线的类（比如 `MainActivity_`）会在build之后自动生成。
 
 ## 包说明
 >common 基类和工具类  
@@ -56,7 +56,7 @@ Android Studio 2.2.3，用gradle引用的许多第三方库，第一次加载会
 
 - 用户统计用的是[umeng](http://www.umeng.com/)，因为以前用过，觉得还好，所以就继续用了。
 
-- 推送用的是腾讯的信鸽，之前用的是umeng推送，但有延迟有时候很大，而且用新帐号登录后还能收到旧帐号的推送，多种原因之下就换了。
+- 推送用的是腾讯的信鸽，之前用的是umeng推送，但有延迟有时候很大，而且用新账号登录后还能收到旧账号的推送，多种原因之下就换了。
 
 ## 用到的一些开源库说明
 见我写的[blog](http://blog.coding.net/blog/android-open-source-library)

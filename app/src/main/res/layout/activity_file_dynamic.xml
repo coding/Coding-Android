@@ -24,7 +24,7 @@
 
         <include layout="@layout/list_item_add_comment" />
 
-        <include layout="@layout/divideline_e2" />
+        <include layout="@layout/divideline_2" />
 
     </FrameLayout>
 

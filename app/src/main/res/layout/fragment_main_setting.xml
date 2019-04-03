@@ -1,185 +1,257 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/divide"
     android:orientation="vertical"
     tools:context="net.coding.program.setting.MainSettingFragment">
 
-    <include layout="@layout/divide_top_15" />
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarSettingLayout"
+        style="@style/AppBarLayout">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:id="@+id/userLayout"
-        android:foreground="?attr/selectableItemBackground"
-        android:background="@color/stand_bg"
-        android:layout_height="86dp">
-
-        <net.coding.program.common.widget.CircleImageView
-            android:id="@+id/userIcon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp" />
-
-        <TextView
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/mainSettingToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/userName"
-            android:layout_alignTop="@id/userIcon"
-            android:layout_marginTop="3dp"
-            android:layout_toRightOf="@id/userIcon"
-            android:textColor="@color/font_2"
-            android:textSize="16sp"
-            tools:text="Man" />
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
-        <TextView
+            <TextView
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:text="我的"
+                android:textColor="@color/font_1" />
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/top_tip" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/userIcon"
-            android:id="@+id/userGK"
-            android:layout_marginBottom="3dp"
-            android:layout_toRightOf="@id/userIcon"
-            android:textColor="@color/font_6"
-            android:textSize="13sp"
-            tools:text="个性后缀" />
+            android:background="@color/divide"
+            android:orientation="vertical">
 
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <View xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="16dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/padding_15"
-            android:layout_height="16dp"
-            android:background="@drawable/user_home_arrow"
-            tools:showIn="@layout/activity_user_detail" />
+                <RelativeLayout
+                    android:id="@+id/userLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="86dp"
+                    android:background="@color/stand_bg"
+                    android:foreground="?attr/selectableItemBackground">
 
-    </RelativeLayout>
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/userIcon"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        tools:src="@drawable/icon_user_monkey"
+                        app:civ_border_width="0.5dp"
+                        app:civ_border_color="@color/divide_line"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp" />
 
-    <View style="@style/DivideLine" />
+                    <ImageView
+                        android:id="@+id/vipIcon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="49dp"
+                        android:layout_marginTop="52dp"
+                        android:scaleType="centerInside"
+                        tools:src="@drawable/member_gold" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:background="@color/stand_bg"
-        android:layout_height="75dp">
+                    <TextView
+                        android:id="@+id/userName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/userIcon"
+                        android:singleLine="true"
+                        android:layout_marginRight="15dp"
+                        android:layout_toRightOf="@id/userIcon"
+                        android:textColor="@color/font_1"
+                        android:textSize="16sp"
+                        tools:text="Mannnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn" />
 
-        <FrameLayout
-            android:layout_width="0dp"
-            android:id="@+id/projectLayout"
-            android:layout_height="match_parent"
-            android:foreground="?attr/selectableItemBackground"
-            android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="18dp"
+                        android:layout_marginLeft="80dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/globalKey"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@id/userIcon"
+                            android:layout_marginBottom="3dp"
+                            android:layout_toRightOf="@id/userIcon"
+                            android:textColor="@color/font_3"
+                            android:textSize="13sp"
+                            tools:text="到期时间" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <include layout="@layout/actionbar_shadow" />
+
+            </FrameLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="bottom">
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:visibility="gone"
+                android:background="@color/stand_bg">
 
-                <TextView
-                    android:id="@+id/projectCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/font_2"
-                    android:textSize="20sp"
-                    android:text="0" />
+                <FrameLayout
+                    android:id="@+id/projectLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:foreground="?attr/selectableItemBackground">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="项目"
-                    android:textColor="@color/font_9"
-                    android:textSize="12sp" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/projectCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/font_1"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="私有"
+                            android:textColor="@color/font_3"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                </FrameLayout>
+
+                <View
+                    style="@style/DivideLineVer"
+                    android:layout_marginBottom="18dp"
+                    android:layout_marginTop="18dp" />
+
+                <FrameLayout
+                    android:id="@+id/teamLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/teamCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/font_1"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="公有"
+                            android:textColor="@color/font_3"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+                </FrameLayout>
+
             </LinearLayout>
 
-        </FrameLayout>
+            <include layout="@layout/divide_middle_15" />
 
-        <View
-            style="@style/DivideLineVer"
-            android:layout_marginBottom="18dp"
-            android:layout_marginTop="18dp" />
-
-        <FrameLayout
-            android:layout_width="0dp"
-            android:id="@+id/teamLayout"
-            android:foreground="?attr/selectableItemBackground"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <LinearLayout
+            <net.coding.program.common.widget.ListItem1
+                android:id="@+id/itemAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="bottom">
+                app:itemIcon="@mipmap/ic_setting_mabi"
+                app:itemShowArrow="false"
+                app:itemShowBottomLine="true"
+                app:itemTitle="我的码币" />
 
-                <TextView
-                    android:id="@+id/teamCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/font_2"
-                    android:textSize="20sp"
-                    android:text="0" />
+            <net.coding.program.common.widget.ListItem1
+                android:id="@+id/itemShop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:itemIcon="@mipmap/ic_setting_shop"
+                app:itemShowArrow="false"
+                app:itemShowBottomLine="false"
+                app:itemTitle="商城" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="团队"
-                    android:textColor="@color/font_9"
-                    android:textSize="12sp" />
-            </LinearLayout>
+            <include layout="@layout/divide_middle_15" />
 
-        </FrameLayout>
+            <net.coding.program.common.widget.ListItem1
+                android:id="@+id/itemLocalFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:itemIcon="@mipmap/ic_setting_local_file"
+                app:itemShowArrow="false"
+                app:itemShowBottomLine="true"
+                app:itemTitle="本地文件" />
 
-    </LinearLayout>
+            <net.coding.program.common.widget.ListItem1
+                android:id="@+id/itemHelp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:itemIcon="@mipmap/ic_setting_help"
+                app:itemShowArrow="false"
+                app:itemShowBottomLine="true"
+                app:itemTitle="帮助" />
 
-    <include layout="@layout/divide_middle_15" />
+            <net.coding.program.common.widget.ListItem1
+                android:id="@+id/itemSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:itemIcon="@mipmap/ic_setting_setting"
+                app:itemShowArrow="false"
+                app:itemShowBottomLine="true"
+                app:itemTitle="设置" />
 
-    <net.coding.program.common.widget.ListItem1
-        android:layout_width="wrap_content"
-        app:itemIcon="@mipmap/ic_setting_account"
-        android:id="@+id/itemAccount"
-        app:itemTitle="我的账户"
-        android:layout_height="wrap_content"/>
+            <net.coding.program.common.widget.ListItem1
+                android:id="@+id/itemAbout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:itemIcon="@mipmap/ic_setting_about"
+                app:itemShowArrow="false"
+                app:itemShowBottomLine="false"
+                app:itemTitle="关于 Coding" />
 
-    <include layout="@layout/divide_middle_15" />
+            <include layout="@layout/divide_bottom_15" />
 
-
-    <net.coding.program.common.widget.ListItem1
-        android:layout_width="wrap_content"
-        app:itemIcon="@mipmap/ic_setting_local_file"
-        app:itemTitle="本地文件"
-        android:id="@+id/itemLocalFile"
-        app:itemShowBottomLine="true"
-        android:layout_height="wrap_content"/>
-
-    <net.coding.program.common.widget.ListItem1
-        android:layout_width="wrap_content"
-        app:itemIcon="@mipmap/ic_setting_help"
-        app:itemTitle="帮助和反馈"
-        android:id="@+id/itemHelp"
-        app:itemShowBottomLine="true"
-        android:layout_height="wrap_content"/>
-
-    <net.coding.program.common.widget.ListItem1
-        android:layout_width="wrap_content"
-        app:itemIcon="@mipmap/ic_setting_setting"
-        app:itemTitle="设置"
-        app:itemShowBottomLine="true"
-        android:id="@+id/itemSetting"
-        android:layout_height="wrap_content"/>
-
-    <net.coding.program.common.widget.ListItem1
-        android:layout_width="wrap_content"
-        android:id="@+id/itemAbout"
-        app:itemIcon="@mipmap/ic_setting_about"
-        app:itemTitle="关于 Coding"
-        android:layout_height="wrap_content"/>
-
-    <include layout="@layout/divide_bottom_15" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

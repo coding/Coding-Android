@@ -3,17 +3,14 @@ package net.coding.program.maopao;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.model.Maopao;
+import net.coding.program.common.model.Maopao;
 
 import java.util.ArrayList;
 
@@ -98,7 +95,7 @@ public class LikeUsersArea extends BaseUsersArea {
 
                 TextView textV = (TextView) likeUsersLayout.getChildAt(imageCount);
                 textV.setVisibility(View.VISIBLE);
-                textV.setText(readUserCount + "");
+                textV.setText(String.valueOf(readUserCount));
             }
 
         } else {
@@ -110,7 +107,7 @@ public class LikeUsersArea extends BaseUsersArea {
             likeUsersLayout.getChildAt(imageCount).setVisibility(View.GONE);
             TextView textView = (TextView) likeUsersLayout.getChildAt(imageCount + 1);
             textView.setVisibility(View.VISIBLE);
-            textView.setText(readUserCount + "");
+            textView.setText(String.valueOf(readUserCount));
         }
 
         imageCount = likeUsersLayout.getChildCount() - 1;

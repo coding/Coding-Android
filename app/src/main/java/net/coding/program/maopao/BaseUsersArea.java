@@ -11,9 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.Global;
+import net.coding.program.common.CodingColor;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.model.UserObject;
+import net.coding.program.common.model.UserObject;
 
 import java.util.List;
 
@@ -185,8 +186,8 @@ public class BaseUsersArea {
 
             width -= (layout.getPaddingLeft() + layout.getPaddingRight());
 
-            int imageWidth = Global.dpToPx(30);
-            int imageMargin = Global.dpToPx(5);
+            int imageWidth = GlobalCommon.dpToPx(30);
+            int imageMargin = GlobalCommon.dpToPx(5);
 
             int shenxia = width % (imageWidth + imageMargin);
             int count = width / (imageWidth + imageMargin);
@@ -220,7 +221,7 @@ public class BaseUsersArea {
             lp.leftMargin = imageMargin;
             lp.rightMargin = imageMargin;
             textView.setBackgroundResource(R.drawable.ic_bg_good_count);
-            textView.setTextColor(0xffffffff);
+            textView.setTextColor(CodingColor.fontWhite);
             textView.setVisibility(View.GONE);
             textView.setOnClickListener(onClickLikeUsrs);
 

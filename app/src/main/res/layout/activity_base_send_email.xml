@@ -16,7 +16,7 @@
 
         <include layout="@layout/login_baselayout_email" />
 
-        <include layout="@layout/divideline_12" />
+        <include layout="@layout/divideline_15" />
 
         <include layout="@layout/login_baselayout_valify" />
 

@@ -4,6 +4,8 @@
     android:layout_height="60dp"
     android:layout_marginLeft="@dimen/padding_15"
     android:minHeight="60dp"
+    android:background="@color/stand_bg"
+    android:foreground="?attr/selectableItemBackground"
     android:orientation="horizontal">
 
     <TextView
@@ -11,13 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
         android:drawableLeft="@drawable/subject_search_history_time"
         android:drawablePadding="12dp"
-        android:layout_marginLeft="15dp"
         android:ellipsize="end"
-        android:singleLine="true"
+        android:lines="1"
         android:text="一台一台"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="16sp" />
 
     <ImageView

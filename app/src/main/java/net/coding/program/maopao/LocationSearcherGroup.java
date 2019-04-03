@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.baidu.mapapi.model.LatLng;
 
-import net.coding.program.model.LocationObject;
+import net.coding.program.common.module.maopao.LocationObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +18,7 @@ public class LocationSearcherGroup {
     private PublicLocationSearcher publicSearcher;
     private PrivateLocationSearcher privateSearcher;
     private LocationSearcher.SearchResultListener listener;
+    private List<LocationObject> resultBuffer = new ArrayList<>();
     private LocationSearcher.SearchResultListener itemListener = new PublicLocationSearcher.SearchResultListener() {
         @Override
         public void onSearchResult(List<LocationObject> locations) {
@@ -36,8 +37,6 @@ public class LocationSearcherGroup {
             }
         }
     };
-
-    private List<LocationObject> resultBuffer = new ArrayList<>();
 
     public LocationSearcherGroup(String keyword) {
         if (keyword == null) throw new IllegalArgumentException("keywords");
@@ -80,13 +79,13 @@ public class LocationSearcherGroup {
         return publicSearcher.isComplete() && privateSearcher.isComplete();
     }
 
+    public String getKeyword() {
+        return privateSearcher.getKeyword();
+    }
+
     public synchronized void setKeyword(String keyword) {
         publicSearcher.setKeyword(keyword);
         privateSearcher.setKeyword(keyword);
-    }
-
-    public String getKeyword() {
-        return privateSearcher.getKeyword();
     }
 
     public boolean isKeywordEmpty() {

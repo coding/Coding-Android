@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -19,45 +18,46 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.adapter.SearchHistoryListAdapter;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
-import net.coding.program.common.SearchProjectCache;
-import net.coding.program.common.adapter.SearchHistoryListAdapter;
+import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.DensityUtil;
-import net.coding.program.third.PagerSlidingTabStrip;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
+import net.coding.program.third.WechatTab;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 @EActivity(R.layout.activity_search_project)
-public class SearchProjectActivity extends BackActivity implements TextView.OnEditorActionListener, TextWatcher, AdapterView.OnItemClickListener {
+public class SearchProjectActivity extends BackActivity implements TextView.OnEditorActionListener, AdapterView.OnItemClickListener {
 
     private static final String TAG = SearchProjectActivity.class.getSimpleName();
+
     @ViewById
     View emptyView;
     @ViewById
-    PagerSlidingTabStrip tabs;
+    WechatTab tabs;
 
     @ViewById(R.id.pager)
     ViewPager pager;
     @ViewById
     ListView emptyListView;
+    @ViewById
+    View allEmptyView;
+    SearchHistoryListAdapter mSearchHistoryListAdapter;
     // footer
     private TextView mSearchFooterClearAllView;
     private View mSearchFooterDivider;
-
-    @ViewById
-    View allEmptyView;
-
     private InputMethodManager imm;
-
-    SearchHistoryListAdapter mSearchHistoryListAdapter;
     // 历史搜索的记录
-    private List<String> mSearchHistoryList = new ArrayList<String>();
+    private ArrayList<String> mSearchHistoryList = new ArrayList<>();
+
     private String mSearchData = "";
     private EditText editText;
     private View btnCancel;
@@ -75,7 +75,9 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
             Global.popSoftkeyboard(this, editText, true);
         });
 
-        editText = (EditText) actionBar.findViewById(R.id.editText);
+        editText = actionBar.findViewById(R.id.editText);
+        editText.requestFocus();
+
         final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
                 .getDisplayMetrics());
         pager.setPageMargin(pageMargin);
@@ -88,56 +90,28 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
 
         initSearchFooterView();
 
-
         mSearchHistoryListAdapter = new SearchHistoryListAdapter(this, mSearchHistoryList);
         emptyListView.setAdapter(mSearchHistoryListAdapter);
         emptyListView.setOnItemClickListener(this);
         emptyListView.setVisibility(View.VISIBLE);
         loadSearchCache();
-        editText.addTextChangedListener(this);
+        editText.addTextChangedListener(new SimpleTextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)) {
+                    emptyListView.setVisibility(View.VISIBLE);
+                    pager.setVisibility(View.GONE);
+                    tabs.setVisibility(View.GONE);
+                    mSearchData = "";
+                    loadSearchCache();
+                    btnCancel.setVisibility(View.INVISIBLE);
+                } else {
+                    btnCancel.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         editText.setOnEditorActionListener(this);
-
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater menuInflater = getMenuInflater();
-//        menuInflater.inflate(R.menu.add_follow_activity, menu);
-//
-//        MenuItem menuItem = menu.findItem(R.id.action_search);
-//        menuItem.expandActionView();
-//        SearchView searchView = (SearchView) menuItem.getActionView();
-//        searchView.onActionViewExpanded();
-//        searchView.setIconified(false);
-//        searchView.setQueryHint("用户名，邮箱，昵称");
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                search(s);
-//                return true;
-//            }
-//        });
-//
-//        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem item) {
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem item) {
-//                onBackPressed();
-//                return false;
-//            }
-//        });
-//
-//        return true;
-//    }
 
     private void setTabsValue() {
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -157,7 +131,7 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
         tabs.setTextSize((int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP, 16, dm));
         // 设置Tab Indicator的颜色
-        tabs.setIndicatorColor(Color.parseColor("#3bbd79"));
+        tabs.setIndicatorColor(CodingColor.fontGreen);
 
         // 取消点击Tab时的背景色
         tabs.setTabBackground(0);
@@ -165,9 +139,9 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
 
     private void initSearchFooterView() {
         View footerView = LayoutInflater.from(this).inflate(R.layout.subject_search_history_list_footer, null);
-        mSearchFooterClearAllView = (TextView) footerView.findViewById(R.id.subject_search_hot_footer_clear);
+        mSearchFooterClearAllView = footerView.findViewById(R.id.subject_search_hot_footer_clear);
         mSearchFooterClearAllView.setOnClickListener(v -> {
-            SearchProjectCache.getInstance(SearchProjectActivity.this).clearCache();
+            AccountInfo.saveSearchProjectHistory(v.getContext(), new ArrayList<String>());
             loadSearchCache();
         });
 
@@ -178,7 +152,7 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
 
     private void loadSearchCache() {
         mSearchHistoryList.clear();
-        mSearchHistoryList.addAll(SearchProjectCache.getInstance(this).getSearchCacheList());
+        mSearchHistoryList.addAll(AccountInfo.loadSearchProjectHistory(this));
         notifySearchHistoryDataChanged();
     }
 
@@ -214,11 +188,21 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
         tabs.notifyDataSetChanged();
         editText.setText(condition);
         editText.setSelection(condition.length());
-        updateSearchResult();
-        SearchProjectCache.getInstance(SearchProjectActivity.this).add(mSearchData);
-    }
 
-    private void updateSearchResult() {
+        int pos = mSearchHistoryList.indexOf(mSearchData);
+        if (pos == -1) {
+
+            if (mSearchHistoryList.size() >= 8) {
+                mSearchHistoryList.remove(7);
+            }
+            mSearchHistoryList.add(0, mSearchData);
+            AccountInfo.saveSearchProjectHistory(this, mSearchHistoryList);
+        } else {
+            if (pos > 0) {
+                Collections.swap(mSearchHistoryList, 0, pos);
+                AccountInfo.saveSearchProjectHistory(this, mSearchHistoryList);
+            }
+        }
     }
 
     @Override
@@ -244,26 +228,4 @@ public class SearchProjectActivity extends BackActivity implements TextView.OnEd
         return false;
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (TextUtils.isEmpty(s)) {
-            emptyListView.setVisibility(View.VISIBLE);
-            pager.setVisibility(View.GONE);
-            tabs.setVisibility(View.GONE);
-            mSearchData = "";
-            loadSearchCache();
-            btnCancel.setVisibility(View.INVISIBLE);
-        } else {
-            btnCancel.setVisibility(View.VISIBLE);
-        }
-    }
 }

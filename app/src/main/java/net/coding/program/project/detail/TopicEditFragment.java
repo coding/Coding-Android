@@ -1,12 +1,12 @@
 package net.coding.program.project.detail;
 
-import android.util.Log;
 import android.widget.EditText;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MDEditFragment;
-import net.coding.program.model.TopicLabelObject;
+import net.coding.program.common.model.TopicLabelObject;
+import net.coding.program.common.model.topic.TopicData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -26,13 +26,16 @@ public class TopicEditFragment extends MDEditFragment {
     @ViewById
     protected TopicLabelBar labelBar;
 
-    private TopicAddActivity.TopicData mOldData;
+    private TopicData mOldData;
+    private TopicData newData = new TopicData();
 
     @AfterViews
-    protected void init() {
-        hasOptionsMenu();
-        mOldData = ((SaveData) getActivity()).loadData();
-        Log.e("TopicLabel", String.format("labels %s", mOldData.labels == null ? "null" : String.valueOf(mOldData.labels.size())));
+    protected void initTopicEditFragment() {
+        reloadData();
+    }
+
+    public void reloadData() {
+        mOldData = ((EditPreviewMarkdown) getActivity()).loadData();
         title.setText(mOldData.title);
         String content = mOldData.content;
         edit.setText(content);
@@ -41,54 +44,54 @@ public class TopicEditFragment extends MDEditFragment {
     }
 
     public void updateLabels(List<TopicLabelObject> labels) {
-        if (labelBar != null && getActivity() != null) {
+        if (labelBar != null && getActivity() instanceof TopicLabelBar.Controller) {
             labelBar.bind(labels, (TopicLabelBar.Controller) getActivity());
         }
     }
 
-    @OptionsItem
-    protected void action_preview() {
-        SaveData saveData = (SaveData) getActivity();
-        saveData.saveData(new TopicAddActivity.TopicData(title.getText().toString(), edit.getText().toString(), mOldData.labels));
-        saveData.switchPreview();
+    public void switchPreview() {
+        actionPreview();
+    }
+
+    @OptionsItem(R.id.action_preview)
+    protected void actionPreview() {
+        EditPreviewMarkdown editPreviewMarkdown = (EditPreviewMarkdown) getActivity();
+        newData.title = title.getText().toString();
+        newData.content = edit.getText().toString();
+        newData.labels = mOldData.labels;
+        editPreviewMarkdown.saveData(newData);
+        editPreviewMarkdown.switchPreview();
         Global.popSoftkeyboard(getActivity(), edit, false);
     }
 
-    @OptionsItem
-    protected void action_save() {
-        SaveData saveData = (SaveData) getActivity();
-        saveData.saveData(new TopicAddActivity.TopicData(title.getText().toString(), edit.getText().toString(), mOldData.labels));
-        saveData.exit();
+    @OptionsItem(R.id.action_save)
+    protected void actionSave() {
+        EditPreviewMarkdown editPreviewMarkdown = (EditPreviewMarkdown) getActivity();
+        newData.title = title.getText().toString();
+        newData.content = edit.getText().toString();
+        newData.labels = mOldData.labels;
+        editPreviewMarkdown.saveData(newData);
+        editPreviewMarkdown.exit();
     }
 
     public boolean isContentModify() {
+        String titleString = "";
+        String contentString = "";
         // title 有可能为空，因为用户可能根本没有进入编辑界面
         if (title == null) {
-            return false;
+            titleString = newData.title;
+            contentString = newData.content;
+        } else {
+            titleString = title.getText().toString();
+            contentString = edit.getText().toString();
         }
 
-        return !title.getText().toString().equals(mOldData.title) ||
-                !edit.getText().toString().equals(mOldData.content);
+        return !titleString.equals(mOldData.title) ||
+                !contentString.equals(mOldData.content);
     }
 
-    public TopicAddActivity.TopicDraft generalDraft() {
-        return new TopicAddActivity.TopicDraft(title.getText().toString(), edit.getText().toString());
+    public TopicData generalDraft() {
+        return new TopicData(title.getText().toString(), edit.getText().toString(), mOldData.labels);
     }
 
-    public interface SaveData {
-        void saveData(TopicAddActivity.TopicData data);
-
-        TopicAddActivity.TopicData loadData();
-
-        void switchPreview();
-
-        void switchEdit();
-
-        void exit();
-
-        String getProjectPath();
-
-        boolean isProjectPublic();
-
-    }
 }

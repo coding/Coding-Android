@@ -1,16 +1,12 @@
 package net.coding.program.task;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.TaskObject;
-import net.coding.program.project.detail.TopicAddActivity;
-import net.coding.program.project.detail.TopicAddActivity.TopicData;
-import net.coding.program.project.detail.TopicEditFragment;
+import net.coding.program.common.base.MDEditPreviewActivity;
+import net.coding.program.common.model.SingleTask;
+import net.coding.program.common.model.topic.TopicData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -19,10 +15,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 @EActivity(R.layout.activity_task_description)
-public class TaskDescriptionActivity extends BackActivity implements TaskDescrip, TopicEditFragment.SaveData {
+public class TaskDescriptionActivity extends MDEditPreviewActivity implements TaskDescrip {
 
     @Extra
-    TaskObject.TaskDescription descriptionData;
+    SingleTask.TaskDescription descriptionData;
 
     @Extra
     int taskId;
@@ -33,35 +29,20 @@ public class TaskDescriptionActivity extends BackActivity implements TaskDescrip
 
     String HOST_DESCRIPTION = Global.HOST_API + "/task/%s/description";
 
-    TaskDespEditFragment editFragment;
-    Fragment previewFragment;
     private TopicData modifyData = new TopicData();
 
     @AfterViews
     protected final void initTaskDescriptionActivity() {
         editFragment = TaskDespEditFragment_.builder().build();
         previewFragment = TaskDespPreviewFragment_.builder().build();
+        initEditPreviewFragment();
 
         String markdown = descriptionData.markdown;
         if (markdown.isEmpty()) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
+            switchEdit();
         } else {
             modifyData.content = markdown;
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (editFragment.isContentModify()) {
-            showDialog("任务描述", "确定放弃此次编辑？", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-        } else {
-            finish();
+            switchPreview();
         }
     }
 
@@ -104,18 +85,8 @@ public class TaskDescriptionActivity extends BackActivity implements TaskDescrip
     }
 
     @Override
-    public TopicAddActivity.TopicData loadData() {
+    public TopicData loadData() {
         return modifyData;
-    }
-
-    @Override
-    public void switchPreview() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
-    }
-
-    @Override
-    public void switchEdit() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, editFragment).commit();
     }
 
     @Override

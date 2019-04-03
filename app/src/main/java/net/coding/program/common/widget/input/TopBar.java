@@ -12,9 +12,9 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.CommentBackup;
 import net.coding.program.common.Global;
-import net.coding.program.common.enter.SimpleTextWatcher;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.CheckedChange;
@@ -31,29 +31,6 @@ import org.androidannotations.annotations.ViewById;
 public class TopBar extends FrameLayout implements InputAction, KeyboardControl, InputOperate, InputBaseCallback {
 
     FragmentActivity mActivity;
-
-    KeyboardControl keyboardControl;
-
-    @ViewById
-    EmojiEditText editText;
-
-    @ViewById
-    View voiceLayout, editTextLayout;
-
-    @ViewById
-    CheckBox popVoice, popEditButton;
-
-    @ViewById
-    CheckBox popEmoji;
-
-    @ViewById
-    View send;
-
-    @ViewById
-    TextView sendText;
-
-    private boolean disableCheckedChange = false;
-
     private final OnClickListener sendImage = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -63,10 +40,47 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
             }
         }
     };
+    KeyboardControl keyboardControl;
+    @ViewById
+    EmojiEditText editText;
+    @ViewById
+    View voiceLayout, editTextLayout;
+    @ViewById
+    CheckBox popVoice, popEditButton;
+    @ViewById
+    CheckBox popEmoji;
+    @ViewById
+    View send;
+    @ViewById
+    TextView sendText;
+
+    boolean showSendVoice = true;
+
+    private boolean disableCheckedChange = false;
+    private TextWatcher restoreWatcher = new SimpleTextWatcher() {
+        @Override
+        public void afterTextChanged(Editable s) {
+            Object tag = editText.getTag();
+            if (tag == null) {
+                return;
+            }
+
+            CommentBackup.getInstance().save(CommentBackup.BackupParam.create(tag), s.toString());
+        }
+    };
 
     public TopBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mActivity = (FragmentActivity) getContext();
+        mActivity = (FragmentActivity) Global.getActivityFromView(this);
+    }
+
+    public static void insertText(EditText edit, String s) {
+        edit.requestFocus();
+        int insertPos = edit.getSelectionStart();
+
+        String insertString = s + " ";
+        Editable editable = edit.getText();
+        editable.insert(insertPos, insertString);
     }
 
     public EditText getEditText() {
@@ -91,7 +105,7 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
             send.setVisibility(INVISIBLE);
         }
 
-        if (mActivity instanceof VoiceRecordCompleteCallback) {
+        if (mActivity instanceof VoiceRecordCompleteCallback && showSendVoice) {
             popVoice.setVisibility(VISIBLE);
         } else {
             popVoice.setVisibility(View.GONE);
@@ -118,7 +132,7 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
                     }
                 }
 
-                if (mActivity instanceof VoiceRecordCompleteCallback) {
+                if (mActivity instanceof VoiceRecordCompleteCallback && showSendVoice) {
                     popVoice.setVisibility(VISIBLE);
                 } else {
                     popVoice.setVisibility(View.GONE);
@@ -126,14 +140,15 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
 
                 if (s.length() > 0) {
                     sendText.setBackgroundResource(R.drawable.edit_send_green);
-                    sendText.setTextColor(0xffffffff);
+                    sendText.setTextColor(CodingColor.fontWhite);
                 } else {
-                    sendText.setBackgroundResource(R.drawable.edit_send);
-                    sendText.setTextColor(0xff999999);
+                    sendText.setBackgroundResource(R.drawable.round_rect_send);
+                    sendText.setTextColor(CodingColor.font3);
                 }
             }
 
         });
+        editText.setText("");
     }
 
     @CheckedChange
@@ -192,6 +207,11 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
         }
     }
 
+    public void setShowSendVoice(boolean show) {
+        showSendVoice = show;
+        popVoice.setVisibility(show ? VISIBLE : GONE);
+    }
+
     @Override
     public void showEmojiInput() {
         disableCheckedChange = true;
@@ -220,6 +240,7 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
         hideCustomInput();
     }
 
+
     @Override
     public void hideCustomInput() {
         disableCheckedChange = true;
@@ -230,11 +251,6 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
         popEmoji.setChecked(false);
 
         disableCheckedChange = false;
-    }
-
-    @Click
-    void popEmojiButton() {
-        keyboardControl.showEmojiInput();
     }
 
     @Override
@@ -248,13 +264,18 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
     }
 
     @Override
-    public String getContent() {
-        return editText.getText().toString();
+    public void numberAction(String number) {
+        editText.numberAction(number);
     }
 
     @Override
-    public void clearContent() {
-        editText.setText("");
+    public void enterAction() {
+        editText.enterAction();
+    }
+
+    @Override
+    public String getContent() {
+        return editText.getText().toString();
     }
 
     @Override
@@ -267,6 +288,11 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
     }
 
     @Override
+    public void clearContent() {
+        editText.setText("");
+    }
+
+    @Override
     public void hideKeyboard() {
         Global.popSoftkeyboard(mActivity, editText, false);
     }
@@ -274,15 +300,6 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
     @Override
     public void insertText(String s) {
         insertText(editText, s);
-    }
-
-    public static void insertText(EditText edit, String s) {
-        edit.requestFocus();
-        int insertPos = edit.getSelectionStart();
-
-        String insertString = s + " ";
-        Editable editable = edit.getText();
-        editable.insert(insertPos, insertString);
     }
 
     @Override
@@ -332,16 +349,4 @@ public class TopBar extends FrameLayout implements InputAction, KeyboardControl,
         editText.getText().append(lastInput);
         restoreSaveStart();
     }
-
-    private TextWatcher restoreWatcher = new SimpleTextWatcher() {
-        @Override
-        public void afterTextChanged(Editable s) {
-            Object tag = editText.getTag();
-            if (tag == null) {
-                return;
-            }
-
-            CommentBackup.getInstance().save(CommentBackup.BackupParam.create(tag), s.toString());
-        }
-    };
 }

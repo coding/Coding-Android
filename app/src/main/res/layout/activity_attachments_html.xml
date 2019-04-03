@@ -1,24 +1,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_fa"
+    android:background="@color/stand_bg"
     android:orientation="vertical">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <include layout="@layout/common_actionbar" />
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:context="net.coding.program.project.detail.AttachmentsHtmlDetailActivity">
-
+        android:layout_weight="1">
 
         <TextView
             android:id="@+id/textView"
-            android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/padding_15" />
+            android:padding="@dimen/padding_15"
+            android:scrollbars="vertical" />
+
         <WebView
             android:id="@+id/webview"
             android:layout_width="fill_parent"
@@ -37,9 +37,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-
     </FrameLayout>
 
-    <include layout="@layout/common_file_detail_action" />
+    <net.coding.program.common.widget.BottomToolBar
+        android:id="@+id/bottomToolBar"
+        style="@style/BottomToolBar"
+        android:layout_alignParentBottom="true"
+        app:btb_xml="@xml/bottomtoolbar_file_detail" />
 
 </LinearLayout>

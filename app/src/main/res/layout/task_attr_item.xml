@@ -1,67 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearlayout0"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/list_item_selector">
 
-    <LinearLayout
-        android:id="@+id/linearlayout0"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/circleIcon"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_task_project" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userIcon"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/ic_task_project" />
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/line1"
-        android:background="@drawable/list_item_selector"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="63dp"
+        android:layout_weight="1"
+        android:text="项目名"
+        android:textColor="@color/font_1"
+        android:textSize="16sp" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circleIcon"
-            android:layout_width="@dimen/task_add_user_icon_width"
-            android:layout_height="@dimen/task_add_user_icon_width"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_task_project" />
-
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_12"
-            android:layout_weight="1"
-            android:text="项目名"
-            android:textColor="@color/font_2"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="@string/no_pick"
-            android:textColor="@color/font_9"
-            android:textSize="16sp" />
-
-        <!--<ImageView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:src="@drawable/ic_list_right_arr" />-->
-
-
-        <View xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/arrow"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/user_home_arrow"
-            tools:showIn="@layout/activity_user_detail" />
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="150dp"
+        android:layout_marginRight="15dp"
+        android:text="@string/no_pick"
+        android:singleLine="true"
+        tools:text="cc"
+        android:textColor="@color/font_3"
+        android:textSize="16sp" />
 
     <View
         android:id="@+id/topLine"
         style="@style/DivideLine"
-        android:layout_marginLeft="15dp" />
+        android:layout_marginLeft="63dp" />
 
-</merge>
+</RelativeLayout>

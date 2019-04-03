@@ -10,13 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:singleLine="true" />
+        android:lines="1" />
 
-    <EditText
-        android:id="@+id/editCode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="密码"
-        android:singleLine="true" />
+    <!--<EditText-->
+    <!--android:id="@+id/editCode"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:hint="密码"-->
+    <!--android:lines="1"/>-->
 </LinearLayout>

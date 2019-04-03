@@ -11,11 +11,11 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.team.TeamListObject;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.team.TeamListObject;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.ProjectHomeActivity_;
-import net.coding.program.project.detail.ProjectActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -59,7 +59,7 @@ public class TeamProjectListActivity extends BackActivity {
                 return;
             }
             ProjectObject project = listAdapter.getItem(pos);
-            ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(project.owner_user_name, project.name);
+            ProjectJumpParam param = new ProjectJumpParam(project.owner_user_name, project.name);
             ProjectHomeActivity_.intent(TeamProjectListActivity.this)
                     .mJumpParam(param)
                     .start();
@@ -174,7 +174,7 @@ public class TeamProjectListActivity extends BackActivity {
             }
 
             ProjectObject data = getItem(position);
-            holder.privateIcon.setVisibility(data.isPublic() ? View.GONE : View.VISIBLE);
+            holder.privateIcon.setVisibility(!data.isShared() ? View.GONE : View.VISIBLE);
             holder.name.setText(data.name);
             holder.txtDesc.setText(data.owner_user_name);
             imagefromNetwork(holder.icon, data.icon, ImageLoadTool.optionsRounded2);

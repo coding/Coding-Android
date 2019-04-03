@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/MaopaoItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,23 +9,22 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools"
     android:paddingLeft="@dimen/padding_12"
     android:paddingRight="@dimen/padding_12">
 
-    <View
+    <FrameLayout
+        android:id="@+id/view_divider"
         android:layout_width="match_parent"
-        android:background="@color/divide"
+        android:layout_height="5dp"
         android:layout_marginLeft="-15dp"
         android:layout_marginRight="-15dp"
-        android:layout_height="6dp" />
+        android:background="@color/divide">
 
-    <include
-        layout="@layout/divide_shade_down"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginLeft="-15dp"
-        android:layout_marginRight="-15dp" />
+        <View
+            style="@style/DivideSectionTop5"
+            android:layout_gravity="bottom" />
+
+    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/maopao_item_top"
@@ -40,7 +40,7 @@
             android:drawablePadding="8dp"
             android:padding="7dp"
             android:text="置顶话题"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="14sp" />
 
         <View
@@ -52,16 +52,15 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="68dp"
+        android:layout_height="75dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <net.coding.program.common.widget.MemberIcon
             android:id="@+id/icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_centerVertical="true" />
-
 
         <TextView
             android:id="@+id/name"
@@ -72,10 +71,10 @@
             android:layout_marginTop="2dp"
             android:layout_toRightOf="@id/icon"
             android:layout_weight="1"
-            android:text="wwww"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+            android:singleLine="true"
             android:textColor="@color/font_2"
-            android:textSize="16sp" />
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/time"
@@ -86,7 +85,7 @@
             android:layout_marginLeft="@dimen/padding_12"
             android:layout_toRightOf="@id/icon"
             android:text="1小时前"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="12sp" />
 
         <ImageView
@@ -109,11 +108,9 @@
         android:background="@drawable/content_pressed_selector"
         android:lineSpacingExtra="1dp"
         android:lineSpacingMultiplier="1.1"
-        android:singleLine="false"
-        android:text="去"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/font_2"
-        android:textSize="15sp" />
+        android:textColor="@color/font_1"
+        android:textSize="15sp"
+        tools:text="去" />
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -123,7 +120,7 @@
             android:id="@+id/imageSingle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="3dp"
             android:adjustViewBounds="true"
             android:longClickable="true"
             android:maxHeight="@dimen/image_single_width"
@@ -140,17 +137,18 @@
         android:id="@+id/imageLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:orientation="vertical"
-        android:padding="2dp"
-        android:visibility="visible">
+        android:visibility="visible"
+        tools:layout_height="30dp">
 
         <LinearLayout
             android:id="@+id/imagesLayout0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <include
                 android:id="@+id/image0"
@@ -170,7 +168,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <include
                 android:id="@+id/image3"
@@ -190,102 +189,94 @@
         android:id="@+id/goodCommentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:clipChildren="false"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/location"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:ellipsize="end"
             android:gravity="bottom"
-            android:singleLine="true"
-            android:text="北京"
+            android:lines="1"
             android:textColor="@color/font_green"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:text="北京" />
 
         <TextView
             android:id="@+id/photoType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
+            android:layout_marginBottom="25dp"
             android:drawableLeft="@drawable/icon_maopao_send_phone"
+            android:drawablePadding="5dp"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:singleLine="true"
+            android:lines="1"
             android:text="来自 iPhone 6"
-            android:textColor="@color/font_9"
-            android:textSize="13sp" />
+            android:textColor="@color/font_3"
+            android:textSize="12sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="14dp"
+            android:layout_height="wrap_content"
             android:clipChildren="false"
-            android:minHeight="30dp"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/shareBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:background="@null"
-                android:visibility="gone"
-                android:src="@drawable/maopao_item_share" />
+            android:orientation="horizontal"
+            tools:layout_height="20dp">
 
             <TextView
                 android:id="@+id/commentBtn"
+                style="@style/ListItemComment"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                tools:text="17"
-                android:src="@drawable/checkbox_comment"
                 android:layout_marginRight="3dp"
-                style="@style/ListItemComment" />
+                android:drawableLeft="@drawable/maopao_extra_comment"
+                android:drawablePadding="5dp"
+                tools:text="17" />
 
             <CheckBox
                 android:id="@+id/likeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="8dp"
+                android:layout_marginLeft="3dp"
                 android:background="@null"
-                android:paddingLeft="9dp"
-
-                android:textSize="14sp"
-                android:textColor="@color/font_9"
-                android:text="0"
-                tools:text="55"
                 android:button="@drawable/checkbox_good"
-                android:layout_marginLeft="3dp" />
+                android:paddingLeft="5dp"
+                android:text="0"
+                android:textColor="@color/font_3"
+                android:textSize="14sp"
+                tools:text="55" />
 
             <TextView
+                android:id="@+id/rewardCount"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:drawableLeft="@drawable/maopao_extra_reward"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25dp"
                 android:layout_toRightOf="@id/likeBtn"
-                android:drawablePadding="9dp"
-                android:id="@+id/rewardCount"
-                android:layout_marginLeft="8dp"
-                android:textSize="14sp"
-                android:textColor="@color/font_9"
+                android:drawableLeft="@drawable/maopao_extra_reward"
+                android:drawablePadding="5dp"
                 android:gravity="center"
-                tools:text="2"/>
+                android:textColor="@color/font_3"
+                android:textSize="14sp"
+                tools:text="2" />
 
             <TextView
                 android:id="@+id/deleteButton"
+                style="@style/MaopaoDelete"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/commentBtn"
-                style="@style/MaopaoDelete" />
+                android:layout_toLeftOf="@id/commentBtn" />
 
 
             <ImageView
                 android:id="@+id/maopaoGood"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.0"
                 android:layout_centerVertical="true"
+                android:alpha="0.0"
                 android:src="@drawable/maopao_extra_liked" />
 
         </RelativeLayout>
@@ -305,7 +296,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/maopao_item_1" />
 
         <LinearLayout
@@ -338,6 +329,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_gravity="bottom"
+                    android:layout_marginLeft="15dp"
                     android:background="@drawable/maopao_comment_divide" />
             </LinearLayout>
 
@@ -379,7 +371,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/padding_15"
-                        android:src="@drawable/ic_maopao_all_comment" />
+                        android:src="@drawable/ic_task_comment" />
 
                     <TextView
                         android:id="@+id/commentMoreCount"
@@ -402,12 +394,16 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <include
-        layout="@layout/divide_shade_up"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="-15dp"
         android:layout_marginRight="-15dp"
-        android:layout_marginTop="@dimen/padding_12" />
+        android:background="@color/divide">
+
+        <View style="@style/DivideSectionBottom5" />
+
+    </FrameLayout>
 
 </LinearLayout>

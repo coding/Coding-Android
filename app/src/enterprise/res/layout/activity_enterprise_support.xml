@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    android:orientation="vertical"
+    tools:context="net.coding.program.setting.EnterpriseSupportActivity">
+
+    <include layout="@layout/divide_top_15" />
+
+    <RelativeLayout
+        android:id="@+id/itemPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_item_selector"
+        android:gravity="center_vertical"
+        android:minHeight="50dp"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:text="联系电话"
+            android:textColor="@color/font_1"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="400-930-9163"
+            android:textColor="@color/font_3"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <View style="@style/DivideLine_15" />
+
+    <RelativeLayout
+        android:id="@+id/itemEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_item_selector"
+        android:gravity="center_vertical"
+        android:minHeight="50dp"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:text="联系邮箱"
+            android:textColor="@color/font_1"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="enterprise@coding.net"
+            android:textColor="@color/font_3"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <View style="@style/DivideLine_15" />
+
+    <RelativeLayout
+        android:id="@+id/itemQQ"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_item_selector"
+        android:gravity="center_vertical"
+        android:minHeight="50dp"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:text="技术支持"
+            android:textColor="@color/font_1"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="QQ: 2847276903"
+            android:textColor="@color/font_3"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/divide_bottom_15" />
+
+
+</LinearLayout>

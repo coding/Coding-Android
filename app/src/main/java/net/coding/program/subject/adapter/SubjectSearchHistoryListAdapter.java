@@ -20,12 +20,24 @@ public class SubjectSearchHistoryListAdapter extends BaseAdapter {
 
     private List<String> historyItems;
     private Context mContext;
+    private View.OnClickListener mDelHistoryItemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = Integer.valueOf(v.getTag().toString());
+            if (historyItems != null && position >= 0 && position < historyItems.size()) {
+                String history = historyItems.get(position);
+                historyItems.remove(history);
+                SearchCache.getInstance(mContext).remove(history);
+                notifyDataSetChanged();
+            }
+        }
+    };
+
 
     public SubjectSearchHistoryListAdapter(Context context, List<String> items) {
         this.mContext = context;
         this.historyItems = items;
     }
-
 
     @Override
     public int getCount() {
@@ -74,19 +86,6 @@ public class SubjectSearchHistoryListAdapter extends BaseAdapter {
         public TextView desc;
         public ImageView delImage;
     }
-
-    private View.OnClickListener mDelHistoryItemClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int position = Integer.valueOf(v.getTag().toString());
-            if (historyItems != null && position >= 0 && position < historyItems.size()) {
-                String history = historyItems.get(position);
-                historyItems.remove(history);
-                SearchCache.getInstance(mContext).remove(history);
-                notifyDataSetChanged();
-            }
-        }
-    };
 
 
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        icon="@mipmap/tab_project"
+        id="@+id/tabProject"
+        title="项目" />
+    <tab
+        icon="@mipmap/tab_task"
+        id="@+id/tabTask"
+        title="任务" />
+    <tab
+        icon="@mipmap/tab_message"
+        id="@+id/tabMessage"
+        title="消息" />
+    <tab
+        icon="@mipmap/tab_my"
+        id="@+id/tabMy"
+        title="我的" />
+</tabs>

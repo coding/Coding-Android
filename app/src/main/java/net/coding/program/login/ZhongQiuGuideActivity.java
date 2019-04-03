@@ -1,6 +1,5 @@
 package net.coding.program.login;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,44 +8,39 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import net.coding.program.LoginActivity_;
 import net.coding.program.R;
-import net.coding.program.common.guide.IndicatorView;
+import net.coding.program.common.model.AccountInfo;
 import net.coding.program.common.ui.BaseActivity;
-import net.coding.program.model.AccountInfo;
+import net.coding.program.compatible.CodingCompat;
+import net.coding.program.guide.IndicatorView;
 
 /*
  * 用来显示特别的版本或活动, 比如中秋节, 比如 4.0 大更新
  */
 public class ZhongQiuGuideActivity extends BaseActivity {
 
-    public static void showHolidayGuide(Activity activity) {
-        if (AccountInfo.needDisplayGuide(activity)) {
-            AccountInfo.markGuideReaded(activity);
-            Intent intent1 = new Intent(activity, ZhongQiuGuideActivity.class);
-            activity.startActivity(intent1);
-        }
-    }
-
-    public static boolean isZhongqiu() {
-        return false;
-//        Calendar calendar = Calendar.getInstance();
-
-        // 25,26,27
-//        int day = calendar.get(Calendar.DAY_OF_MONTH);
-//        int month = calendar.get(Calendar.MONTH);
-//        return month == Calendar.SEPTEMBER && 25 <= day && day <= 27;
-    }
-
     ViewPager mViewPager;
     IndicatorView mIndicatorView;
     View entranceButton;
     View jumpButton;
+    int[] mBackgroundResId = new int[]{
+            R.drawable.guide_zhongqiu_0,
+//            R.drawable.guide_zhongqiu_1,
+    };
+    FragmentPagerAdapter pagerAdapter;
+
+//    public static void showHolidayGuide(Activity activity) {
+//        if (AccountInfo.needDisplayGuide(activity)) {
+//            AccountInfo.markGuideReaded(activity);
+//            Intent intent1 = new Intent(activity, ZhongQiuGuideActivity.class);
+//            activity.startActivity(intent1);
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +56,21 @@ public class ZhongQiuGuideActivity extends BaseActivity {
         mViewPager.setAdapter(pagerAdapter);
 
         jumpButton.setOnClickListener(v -> finish());
-        entranceButton.setOnClickListener(v -> finish());
+        entranceButton.setOnClickListener(v -> {
+            AccountInfo.markGuideReaded(ZhongQiuGuideActivity.this);
+
+            Intent intent;
+            String mGlobalKey = AccountInfo.loadAccount(this).global_key;
+            if (mGlobalKey.isEmpty()) {
+                intent = new Intent(this, LoginActivity_.class);
+            } else {
+                intent = new Intent(this, CodingCompat.instance().getMainActivity());
+            }
+
+            startActivity(intent);
+            overridePendingTransition(R.anim.entrance_fade_in, R.anim.entrance_fade_out);
+            finish();
+        });
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -70,19 +78,9 @@ public class ZhongQiuGuideActivity extends BaseActivity {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.d("", String.format("scr1 %d %f %d", position, positionOffset, positionOffsetPixels));
-//                if (position == 1 && positionOffset > 0) {
-//                    Fragment fragment1 = getFragment(1);
-//                    Fragment fragment2 = getFragment(2);
-//                    float alpha = 1 - positionOffset;
-//
-//                    if (indicatorWidth == 0) {
-//                        indicatorWidth = mIndicatorView.getWidth();
-//                    }
-//                    mIndicatorView.setX((MyApp.sWidthPix - indicatorWidth) / 2 - positionOffsetPixels);
-//                }
+                Log.d("", String.format("scr1 %s %f %s", position, positionOffset, positionOffsetPixels));
 
-                if (position == 2) {
+                if (position == (mBackgroundResId.length - 1)) {
                     entranceButton.setVisibility(View.VISIBLE);
                 } else {
                     entranceButton.setVisibility(View.INVISIBLE);
@@ -97,12 +95,12 @@ public class ZhongQiuGuideActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.d("", String.format("scr2 %d", position));
+                Log.d("", String.format("scr2 %s", position));
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Log.d("", String.format("scr3 %d", state)); //, positionOffset, positionOffset));
+                Log.d("", String.format("scr3 %s", state)); //, positionOffset, positionOffset));
 
             }
 
@@ -118,35 +116,25 @@ public class ZhongQiuGuideActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_zhong_qiu_guide, menu);
-        return true;
+    public void onBackPressed() {
+        // 屏蔽后退键
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public static class GuideFragment extends Fragment {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        public static final String ARGUMENT_IMAGE = "ARGUMENT_IMAGE";
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View v = inflater.inflate(R.layout.holiday_fragment, container, false);
+            ImageView imageView = (ImageView) v.findViewById(R.id.image);
+            int resId = getArguments().getInt(ARGUMENT_IMAGE, 0);
+            if (resId != 0) {
+                imageView.setImageResource(resId);
+            }
+            return v;
         }
-
-        return super.onOptionsItemSelected(item);
     }
-
-    int[] mBackgroundResId = new int[]{
-            R.drawable.guide_zhongqiu_1,
-            R.drawable.guide_zhongqiu_2,
-            R.drawable.guide_zhongqiu_3
-    };
-
-
-    FragmentPagerAdapter pagerAdapter;
 
     class HolidayPager extends FragmentPagerAdapter {
 
@@ -166,22 +154,6 @@ public class ZhongQiuGuideActivity extends BaseActivity {
         @Override
         public int getCount() {
             return mBackgroundResId.length;
-        }
-    }
-
-    public static class GuideFragment extends Fragment {
-
-        public static final String ARGUMENT_IMAGE = "ARGUMENT_IMAGE";
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View v = inflater.inflate(R.layout.holiday_fragment, container, false);
-            ImageView imageView = (ImageView) v.findViewById(R.id.image);
-            int resId = getArguments().getInt(ARGUMENT_IMAGE, 0);
-            if (resId != 0) {
-                imageView.setImageResource(resId);
-            }
-            return v;
         }
     }
 }

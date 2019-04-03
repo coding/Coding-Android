@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="50dp"
         android:background="@color/stand_bg"
         android:gravity="center">
 
@@ -32,7 +32,7 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <include layout="@layout/divide_1" />
+    <include layout="@layout/divide_line_1" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/stand_bg"
+                android:background="@color/divide"
                 android:divider="@drawable/divide_line_topic_list"
                 android:dividerHeight="@dimen/divide_height"
                 android:footerDividersEnabled="false" />

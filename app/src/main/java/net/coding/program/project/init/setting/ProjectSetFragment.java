@@ -1,18 +1,14 @@
 package net.coding.program.project.init.setting;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v7.app.AlertDialog;
+import android.support.annotation.NonNull;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
@@ -20,23 +16,25 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.enter.SimpleTextWatcher;
-import net.coding.program.common.photopick.CameraPhotoUtil;
-import net.coding.program.common.ui.BaseFragment;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.common.util.FileUtil;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.project.init.InitProUtils;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
+import net.coding.program.network.BaseHttpObserver;
+import net.coding.program.network.Network;
+import net.coding.program.project.EventProjectModify;
+import net.coding.program.project.init.setting.v2.ProjectSetFragmentBase;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by jack wang on 2015/3/31.
@@ -44,89 +42,66 @@ import java.io.File;
  */
 @EFragment(R.layout.init_fragment_project_set)
 @OptionsMenu(R.menu.menu_fragment_create)
-public class ProjectSetFragment extends BaseFragment {
+public class ProjectSetFragment extends ProjectSetFragmentBase {
 
-    public static final int RESULT_REQUEST_PHOTO = 3003;
     private static final String TAG = "ProjectSetFragment";
-    final String host = Global.HOST_API + "/project";
-    private final int RESULT_REQUEST_PHOTO_CROP = 3006;
-    ProjectObject mProjectObject;
 
-    String iconPath;
-
-    boolean isBackToRefresh = false;
     MenuItem mMenuSave;
+
     @ViewById
-    ImageView projectIcon;
-    @ViewById
-    View iconPrivate;
-    @ViewById
-    TextView projectName;
+    EditText projectName;
+
     @ViewById
     EditText description;
-    @ViewById
-    View item;
-    @ViewById
-    View itemTransfer;
 
-    TextView advanceText;
-    private Uri fileUri;
-    private Uri fileCropUri;
+    @ViewById
+    View item, itemTransfer, iconPrivate, itemArchive;
+
+    @ViewById
+    View layoutManager, layoutOwner, layoutQuit;
 
     @AfterViews
     protected void init() {
-        mProjectObject = (ProjectObject) getArguments().getSerializable("projectObject");
-
         ((TextView) itemTransfer.findViewById(R.id.title)).setText("项目转让");
+        ((TextView) itemArchive.findViewById(R.id.title)).setText("项目归档");
+        ((TextView) item.findViewById(R.id.title)).setText("删除项目");
 
-        advanceText = (TextView) item.findViewById(R.id.title);
-        advanceText.setText("删除项目");
         iconfromNetwork(projectIcon, mProjectObject.icon, ImageLoadTool.optionsRounded2);
         projectName.setText(mProjectObject.name);
         description.setText(mProjectObject.description);
-        if (!mProjectObject.isPublic()) {
-            iconPrivate.setVisibility(View.VISIBLE);
-        }
-        description.addTextChangedListener(new SimpleTextWatcher() {
+        iconPrivate.setVisibility(mProjectObject.isShared() ? View.VISIBLE : View.GONE);
 
+        SimpleTextWatcher watcher = new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
                 updateSendButton();
             }
-        });
+        };
+        description.addTextChangedListener(watcher);
+        projectName.addTextChangedListener(watcher);
+
         Global.popSoftkeyboard(getActivity(), description, false);
-    }
 
-    @Click
-    void projectIcon() {
-        new AlertDialog.Builder(getActivity())
-                .setTitle("选择图片")
-                .setCancelable(true)
-                .setItems(R.array.camera_gallery, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            camera();
-                        } else {
-                            photo();
-                        }
-                    }
-                })
-                .show();
+        if (!mProjectObject.isPublic) {
+            if (mProjectObject.isMy()) {
+                layoutManager.setVisibility(View.VISIBLE);
+                layoutOwner.setVisibility(View.VISIBLE);
+                layoutQuit.setVisibility(View.GONE);
+            } else if (mProjectObject.isManagerLevel()) {
+                layoutManager.setVisibility(View.VISIBLE);
+                layoutOwner.setVisibility(View.GONE);
+                layoutQuit.setVisibility(View.VISIBLE);
+            } else {
+                layoutManager.setVisibility(View.GONE);
+                layoutOwner.setVisibility(View.GONE);
+                layoutQuit.setVisibility(View.VISIBLE);
+            }
+        } else {
+            layoutManager.setVisibility(View.VISIBLE);
+            layoutOwner.setVisibility(View.VISIBLE);
+            layoutQuit.setVisibility(View.GONE);
+        }
     }
-
-    private void camera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        fileUri = CameraPhotoUtil.getOutputMediaFileUri();
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        startActivityForResult(intent, RESULT_REQUEST_PHOTO);
-    }
-
-    private void photo() {
-        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, RESULT_REQUEST_PHOTO);
-    }
-
 
     @Click
     public void item() {
@@ -144,19 +119,64 @@ public class ProjectSetFragment extends BaseFragment {
                 .start();
     }
 
+    @Click
+    public void itemArchive() {
+        ProjectArchiveActivity_.intent(this)
+                .mProjectObject(mProjectObject)
+                .start();
+    }
+
+    @Click
+    public void layoutQuit() {
+        String message = String.format("您确定要退出 %s 项目吗？", mProjectObject.name);
+        showDialog("退出项目", message, (dialog1, which) -> {
+            Network.getRetrofit(getActivity())
+                    .quitProject(mProjectObject.owner_user_name, mProjectObject.name)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseHttpObserver(getActivity()) {
+                        @Override
+                        public void onSuccess() {
+                            super.onSuccess();
+                            showProgressBar(false);
+
+                            umengEvent(UmengEvent.PROJECT, "退出项目");
+                            showButtomToast("已退出项目");
+                            EventBus.getDefault().post(new EventProjectModify().setExit());
+                            getActivity().onBackPressed();
+                        }
+
+                        @Override
+                        public void onFail(int errorCode, @NonNull String error) {
+                            super.onFail(errorCode, error);
+                            showProgressBar(false);
+                        }
+                    });
+            showProgressBar(true);
+        });
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         mMenuSave = menu.findItem(R.id.action_finish);
         updateSendButton();
+
+        if (mProjectObject != null && !mProjectObject.isPublic && !mProjectObject.isManagerLevel()) {
+            mMenuSave.setVisible(false);
+        }
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void updateSendButton() {
-        String text = description.getText().toString().trim();
-        if (text.isEmpty() || text.equals(mProjectObject.description)) {
-            enableSendButton(false);
+        String inputName = projectName.getText().toString().trim();
+        String inputDes = description.getText().toString().trim();
+
+        if (mProjectObject == null) {
+            enableSendButton(!TextUtils.isEmpty(inputName));
         } else {
-            enableSendButton(true);
+            enableSendButton(!TextUtils.isEmpty(inputName) &&
+                    (!inputName.equals(mProjectObject.name) || !inputDes.equals(mProjectObject.description)));
         }
     }
 
@@ -191,7 +211,7 @@ public class ProjectSetFragment extends BaseFragment {
 
     private void action_done() {
         RequestParams params = new RequestParams();
-        params.put("name", mProjectObject.name);
+        params.put("name", projectName.getText().toString());
         params.put("description", description.getText().toString().trim());
         params.put("id", mProjectObject.getId());
         params.put("default_branch", "master");
@@ -205,12 +225,15 @@ public class ProjectSetFragment extends BaseFragment {
             if (code == 0) {
                 umengEvent(UmengEvent.PROJECT, "修改项目");
                 showButtomToast("修改成功");
-                isBackToRefresh = true;
                 mProjectObject = new ProjectObject(respanse.getJSONObject("data"));
-                InitProUtils.hideSoftInput(getActivity());
-                backToRefresh();
+                Global.hideSoftKeyboard(getActivity());
+
+                getActivity().setResult(Activity.RESULT_OK);
+                EventBus.getDefault().post(new EventProjectModify().setProjectUrl(mProjectObject.getHttpProjectObject()));
+
+                getActivity().finish();
+
             } else {
-                isBackToRefresh = false;
                 showErrorMsg(code, respanse);
             }
         } else {
@@ -218,48 +241,13 @@ public class ProjectSetFragment extends BaseFragment {
                 umengEvent(UmengEvent.PROJECT, "修改项目图片");
                 showButtomToast("图片上传成功...");
                 mProjectObject = new ProjectObject(respanse.getJSONObject("data"));
-                isBackToRefresh = true;
+
+                EventBus.getDefault().post(new EventProjectModify());
             } else {
-                isBackToRefresh = false;
                 showErrorMsg(code, respanse);
             }
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT_REQUEST_PHOTO) {
-            if (resultCode == Activity.RESULT_OK) {
-                if (data != null) {
-                    fileUri = data.getData();
-                }
-                fileCropUri = CameraPhotoUtil.getOutputMediaFileUri();
-                Global.cropImageUri(this, fileUri, fileCropUri, 600, 600, RESULT_REQUEST_PHOTO_CROP);
-            }
 
-        } else if (requestCode == RESULT_REQUEST_PHOTO_CROP) {
-            if (resultCode == Activity.RESULT_OK) {
-                try {
-                    iconPath = FileUtil.getPath(getActivity(), fileCropUri);
-                    projectIcon.setImageURI(fileCropUri);
-                    showProgressBar(true, "正在上传图片...");
-                    String uploadUrl = host + "/" + mProjectObject.getId() + "/project_icon";
-                    RequestParams params = new RequestParams();
-                    params.put("file", new File(iconPath));
-                    postNetwork(uploadUrl, params, uploadUrl);
-                } catch (Exception e) {
-                }
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-
-    public void backToRefresh() {
-        Intent intent = new Intent();
-        intent.putExtra("projectObject", mProjectObject);
-        getActivity().setResult(Activity.RESULT_OK, intent);
-        getActivity().finish();
-    }
 }

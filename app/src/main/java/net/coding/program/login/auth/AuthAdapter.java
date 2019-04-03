@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.model.AccountInfo;
+import net.coding.program.common.model.AccountInfo;
 
 import java.util.ArrayList;
 
@@ -16,6 +16,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
  * Created by chenchao on 15/7/1.
+ * 身份验证器列表 adapter
  */
 public class AuthAdapter extends ArrayAdapter<AuthInfo> implements StickyListHeadersAdapter {
 
@@ -24,7 +25,6 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> implements StickyListHea
     public AuthAdapter(Context context, int resource) {
         super(context, resource);
         mLayoutInflater = LayoutInflater.from(context);
-
     }
 
     @Override
@@ -36,6 +36,7 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> implements StickyListHea
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.code = (TextView) convertView.findViewById(R.id.code);
             holder.company = (TextView) convertView.findViewById(R.id.company);
+            holder.divideSymbol = convertView.findViewById(R.id.divideSymbol);
             holder.indicator = (CountdownIndicator) convertView.findViewById(R.id.indicator);
 
             convertView.setTag(holder);
@@ -44,8 +45,15 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> implements StickyListHea
         }
 
         AuthInfo data = getItem(position);
-        holder.company.setText(data.getCompany());
+        String company = data.getCompany();
+        holder.company.setText(company);
         holder.name.setText(data.getAccountName());
+
+        if (company.isEmpty()) {
+            holder.divideSymbol.setVisibility(View.GONE);
+        } else {
+            holder.divideSymbol.setVisibility(View.VISIBLE);
+        }
 
         String code = data.getCode();
         String newCode = code;
@@ -121,6 +129,7 @@ public class AuthAdapter extends ArrayAdapter<AuthInfo> implements StickyListHea
         public TextView name;
         public TextView code;
         public TextView company;
+        public View divideSymbol;
         public CountdownIndicator indicator;
     }
 }

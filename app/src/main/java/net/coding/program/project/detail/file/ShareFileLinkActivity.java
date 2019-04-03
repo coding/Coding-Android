@@ -1,18 +1,19 @@
 package net.coding.program.project.detail.file;
 
 import android.content.Intent;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.RequestData;
+import net.coding.program.common.model.Share;
+import net.coding.program.common.model.ShareParam;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.RequestData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -32,13 +33,13 @@ public class ShareFileLinkActivity extends BackActivity {
     ProjectObject mProject;
 
     @Extra
-    AttachmentFileObject mAttachmentFileObject;
+    ShareParam mAttachmentFileObject;
 
     @ViewById
     View layoutShareLink;
 
     @ViewById
-    CheckBox clickSettingShare;
+    SwitchCompat clickSettingShare;
 
     @ViewById
     TextView linkContent;
@@ -86,7 +87,7 @@ public class ShareFileLinkActivity extends BackActivity {
             showProgressBar(false);
             if (code == 0) {
                 umengEvent(UmengEvent.FILE, "开启共享");
-                AttachmentFileObject.Share mShare = new AttachmentFileObject.Share(respanse.optJSONObject("data"));
+                Share mShare = new Share(respanse.optJSONObject("data"));
                 mAttachmentFileObject.setShereLink(mShare.getUrl());
                 bindData();
             } else {
@@ -116,7 +117,7 @@ public class ShareFileLinkActivity extends BackActivity {
     @Override
     public void finish() {
         Intent intent = new Intent();
-        intent.putExtra("data", mAttachmentFileObject);
+        intent.putExtra("intentData", mAttachmentFileObject);
         setResult(RESULT_OK, intent);
         super.finish();
     }

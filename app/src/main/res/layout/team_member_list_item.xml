@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?attr/selectableItemBackground"
-    android:background="@color/stand_bg">
+    android:background="@color/stand_bg"
+    android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,10 +17,10 @@
             android:id="@+id/icon"
             android:layout_width="47dp"
             android:layout_height="47dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
-            android:layout_marginLeft="15dp" />
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="12dp" />
 
         <!--4.1下必须这样布局才正常-->
         <LinearLayout
@@ -44,7 +44,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:text="(创建者)"
-                    android:singleLine="true"
+                    android:lines="1"
                     android:id="@+id/desc"
                     android:layout_alignParentRight="true"
                     android:layout_alignBaseline="@+id/name"
@@ -57,10 +57,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:ellipsize="end"
-                    android:singleLine="true"
+                    android:lines="1"
                     android:text="Medium Text"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/font_2" />
+                    android:textColor="@color/font_1" />
 
 
                 <ImageView
@@ -84,10 +84,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:ellipsize="end"
-                android:singleLine="true"
+                android:lines="1"
                 android:text="Medium Text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_6"
+                android:textColor="@color/font_2"
                 android:textSize="14sp"
                 android:visibility="gone" />
 
@@ -104,9 +104,9 @@
     </LinearLayout>
 
     <View
-        android:layout_marginLeft="74dp"
-        android:layout_gravity="bottom"
         android:id="@+id/bottomLine"
-        style="@style/DivideLine" />
+        style="@style/DivideLine"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="74dp" />
 
 </FrameLayout>

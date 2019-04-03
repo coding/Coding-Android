@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.baidu.mapapi.model.LatLng;
 
-import net.coding.program.model.LocationObject;
+import net.coding.program.common.module.maopao.LocationObject;
 
 import java.util.List;
 
@@ -24,10 +24,6 @@ public abstract class LocationSearcher {
         return keyword;
     }
 
-    public boolean isKeywordEmpty() {
-        return TextUtils.isEmpty(keyword);
-    }
-
     public synchronized void setKeyword(String keyword) {
         keyword = keyword == null ? "" : keyword.toString();
         if (!keyword.equals(this.keyword)) {
@@ -39,8 +35,16 @@ public abstract class LocationSearcher {
         }
     }
 
+    public boolean isKeywordEmpty() {
+        return TextUtils.isEmpty(keyword);
+    }
+
     public boolean isComplete() {
         return isComplete;
+    }
+
+    protected void setComplete(boolean isComplete) {
+        this.isComplete = isComplete;
     }
 
     public boolean isSearching() {
@@ -68,10 +72,6 @@ public abstract class LocationSearcher {
 
     protected void scheduleNextPage() {
         ++page;
-    }
-
-    protected void setComplete(boolean isComplete) {
-        this.isComplete = isComplete;
     }
 
     protected abstract void doConfigure(Context context, LatLng latLng, SearchResultListener listener);

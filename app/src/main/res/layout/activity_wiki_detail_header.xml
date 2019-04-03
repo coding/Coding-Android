@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="wiki"
+            type="net.coding.program.network.model.wiki.Wiki" />
+    </data>
+
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/wikiHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        tools:context="net.coding.program.project.detail.wiki.WikiHistoryActivity">
+
+        <TextView
+            android:id="@+id/wikiTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@{wiki.title}"
+            android:textColor="#FF272C33"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/wikiTitleTip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/wikiTitle"
+            android:layout_marginTop="10dp"
+            android:text="@{wiki.titleTip}"
+            android:textColor="@color/font_2"
+            android:textSize="12sp" />
+
+        <View
+            style="@style/DivideLine"
+            android:layout_below="@id/wikiTitleTip"
+            android:layout_marginTop="15dp" />
+
+    </RelativeLayout>
+</layout>

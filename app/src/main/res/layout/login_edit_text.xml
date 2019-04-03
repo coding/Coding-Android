@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:paddingRight="@dimen/padding_15"
+        android:orientation="horizontal">
 
         <net.coding.program.common.widget.LoginAutoCompleteEdit
             android:id="@+id/editText"
+            style="@style/EmailEdit"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_marginLeft="0dp"
-            app:closeAutoComplete="false"
             android:layout_marginRight="0dp"
-            style="@style/EmailEdit"/>
+            android:layout_weight="1"
+            app:closeAutoComplete="false" />
 
         <ImageView
             android:id="@+id/imageValify"
-            android:layout_width="72dp"
-            android:layout_height="30dp"
-            android:scaleType="fitCenter"
-            android:visibility="gone" />
+            android:visibility="gone"
+            style="@style/CaptchaImage" />
 
     </LinearLayout>
 
-    <include layout="@layout/divide_1" android:id="@+id/topLine" />
+    <include
+        android:id="@+id/topLine"
+        layout="@layout/divide_line_1" />
 
 </RelativeLayout>

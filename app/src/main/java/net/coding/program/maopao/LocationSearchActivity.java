@@ -1,6 +1,7 @@
 package net.coding.program.maopao;
 
 import android.content.Intent;
+import android.os.Looper;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
@@ -9,18 +10,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.baidu.mapapi.model.LatLng;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
-import net.coding.program.common.Global;
+import net.coding.program.common.LoadMore;
+import net.coding.program.common.module.maopao.LocationObject;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.maopao.item.LocationItem;
-import net.coding.program.model.LocationObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -38,7 +37,7 @@ import java.util.List;
  */
 @EActivity(R.layout.activity_choose_location)
 @OptionsMenu(R.menu.location_search)
-public class LocationSearchActivity extends BackActivity implements FootUpdate.LoadMore {
+public class LocationSearchActivity extends BackActivity implements LoadMore {
 
     // 行政区划,房地产,公司企业,美食,休闲娱乐,宾馆,购物,旅游景点,生活服务,汽车服务,结婚,丽人,金融,运动健身,医疗,教育,培训机构,交通设施,自然地物,政府机构,门址,道路
     private static final String RECOMMEND_KEYS = "美食$休闲娱乐$公司企业$旅游景点$道路$宾馆$生活服务$医疗";
@@ -119,26 +118,35 @@ public class LocationSearchActivity extends BackActivity implements FootUpdate.L
             public void onLocationResult(boolean success, String city, String area, double latitude, double longitude) {
                 isLoadingLocation = false;
                 if (LocationSearchActivity.this.isFinishing()) return;
-                if (success) {
-                    currentCity = city;
-                    currentArea = area;
-                    LocationSearchActivity.this.latitude = latitude;
-                    LocationSearchActivity.this.longitude = longitude;
-                    if (!(selectedLocation != null && selectedLocation.type == LocationObject.Type.City && selectedLocation.name.equals(currentCity))) {
-                        chooseAdapter.list.add(1, LocationObject.city(currentCity, latitude, longitude));
-                        chooseAdapter.notifyDataSetChanged();
-                    }
-                    LatLng latLng = new LatLng(latitude, longitude);
-                    chooseAdapter.searcher.configure(LocationSearchActivity.this, latLng, chooseAdapter);
-                    searchAdapter.searcher.configure(LocationSearchActivity.this, latLng, searchAdapter);
-                    LocationSearchActivity.this.supportInvalidateOptionsMenu();
-                    loadMore();
+
+                if (Looper.myLooper() == Looper.getMainLooper()) {
+                    updateListUI(success, city, area, latitude, longitude);
                 } else {
-                    currentCity = null;
-                    mFootUpdate.showFail();
+                    runOnUiThread(() -> updateListUI(success, city, area, latitude, longitude));
                 }
             }
         });
+    }
+
+    public void updateListUI(boolean success, String city, String area, double latitude, double longitude) {
+        if (success) {
+            currentCity = city;
+            currentArea = area;
+            LocationSearchActivity.this.latitude = latitude;
+            LocationSearchActivity.this.longitude = longitude;
+            if (!(selectedLocation != null && selectedLocation.type == LocationObject.Type.City && selectedLocation.name.equals(currentCity))) {
+                chooseAdapter.list.add(1, LocationObject.city(currentCity, latitude, longitude));
+                chooseAdapter.notifyDataSetChanged();
+            }
+            LatLng latLng = new LatLng(latitude, longitude);
+            chooseAdapter.searcher.configure(LocationSearchActivity.this, latLng, chooseAdapter);
+            searchAdapter.searcher.configure(LocationSearchActivity.this, latLng, searchAdapter);
+            LocationSearchActivity.this.supportInvalidateOptionsMenu();
+            loadMore();
+        } else {
+            currentCity = null;
+            mFootUpdate.showFail();
+        }
     }
 
     @ItemClick(R.id.listView)
@@ -169,13 +177,6 @@ public class LocationSearchActivity extends BackActivity implements FootUpdate.L
     private void initActionView(MenuItem searchItem) {
         if (searchView != null) return;
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        try { // 更改搜索按钮的icon
-            int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
-            ImageView v = (ImageView) searchView.findViewById(searchImgId);
-            v.setImageResource(R.drawable.ic_menu_search);
-        } catch (Exception e) {
-            Global.errorLog(e);
-        }
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -223,7 +224,7 @@ public class LocationSearchActivity extends BackActivity implements FootUpdate.L
         return super.onCreateOptionsMenu(menu);
     }
 
-    private abstract class LocationAdapter extends BaseAdapter implements FootUpdate.LoadMore {
+    private abstract class LocationAdapter extends BaseAdapter implements LoadMore {
         ArrayList<LocationObject> list = new ArrayList<>();
 
         @Override
@@ -279,7 +280,17 @@ public class LocationSearchActivity extends BackActivity implements FootUpdate.L
         @Override
         public void onSearchResult(List<LocationObject> locations) {
             if (LocationSearchActivity.this.isFinishing()) return;
+
             addToList(locations);
+
+            if (Looper.myLooper() == Looper.getMainLooper()) {
+                updateUI();
+            } else {
+                LocationSearchActivity.this.runOnUiThread(() -> updateUI());
+            }
+        }
+
+        public void updateUI() {
             notifyDataSetChanged();
             if (searcher.isComplete()) {
                 mFootUpdate.dismiss();
@@ -287,6 +298,7 @@ public class LocationSearchActivity extends BackActivity implements FootUpdate.L
                 mFootUpdate.showLoading();
             }
         }
+
 
         private void addToList(List<LocationObject> locations) {
             if (locations == null) return;
@@ -410,7 +422,12 @@ public class LocationSearchActivity extends BackActivity implements FootUpdate.L
             if (searcher.isComplete()) {
                 complete();
             }
-            searchAdapter.notifyDataSetChanged();
+
+            if (Looper.myLooper() == Looper.getMainLooper()) {
+                searchAdapter.notifyDataSetChanged();
+            } else {
+                runOnUiThread(() -> searchAdapter.notifyDataSetChanged());
+            }
         }
     }
 }

@@ -3,7 +3,6 @@ package net.coding.program.project;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,36 +16,37 @@ import com.loopj.android.http.RequestParams;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.UnreadNotify;
+import net.coding.program.common.event.EventRefresh;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.event.EventRefresh;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.ProjectActivity;
-import net.coding.program.project.init.InitProUtils;
+import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.init.create.ProjectCreateActivity_;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import de.greenrobot.event.EventBus;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 @EFragment(R.layout.project_list_fragment)
 public class ProjectListFragment extends RefreshBaseFragment implements View.OnClickListener, ProjectActionUtil.OnSettingListener {
 
-    private static final String URL_PIN_DELETE = Global.HOST_API + "/user/projects/pin?ids=%d";
-    private static final String URL_PIN_SET = Global.HOST_API + "/user/projects/pin";
     private static final String TAG = ProjectListFragment.class.getSimpleName();
+    private final String URL_PIN_DELETE = Global.HOST_API + "/user/projects/pin?ids=%d";
+    private final String URL_PIN_SET = Global.HOST_API + "/user/projects/pin";
     @FragmentArg
     ArrayList<ProjectObject> mData = new ArrayList<>();
     ArrayList<ProjectObject> mDataBackup = new ArrayList<>();
@@ -58,11 +58,6 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
     StickyListHeadersListView listView;
 
     boolean mRequestOk;
-    private ProjectActionUtil projectActionUtil;
-
-    private String title = "";
-    private int pos = 0;
-
     @ViewById
     View blankLayout;
     @ViewById
@@ -71,10 +66,11 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
     SwipeRefreshLayout swipeRefreshLayout;
     @ViewById
     RelativeLayout project_create_layout;
-    @ViewById
-    TextView tv_msg_tip;
     MyAdapter myAdapter = null;
     int msectionId = 0;
+    private ProjectActionUtil projectActionUtil;
+    private String title = "";
+    private int pos = 0;
     private View.OnClickListener mOnClickRetry = v -> onRefresh();
 
     public void setData(ArrayList<ProjectObject> data, boolean requestOk) {
@@ -118,7 +114,6 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
             ++msectionId;
         }
 
-        listView.setAreHeadersSticky(false);
         View listViewFooter = getActivity().getLayoutInflater().inflate(R.layout.divide_bottom_15, listView.getWrappedList(), false);
         listView.addFooterView(listViewFooter, null, false);
 
@@ -137,7 +132,6 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
 
     private void notifyEmputy() {
         if (mData.size() == 0) {
-            tv_msg_tip.setText(getTitle());
             project_create_layout.setVisibility(View.VISIBLE);
             btn_action.setText("+  去创建");
         } else {
@@ -145,41 +139,49 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
         }
     }
 
+    @Override
+    protected boolean useEventBus() {
+        return true;
+    }
+
     // 用于处理推送
-    public void onEventMainThread(EventRefresh event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventRefresh(EventRefresh event) {
         if (event.refresh) {
             notifyEmputy();
         }
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
     public void onRefresh() {
-        ((SwipeRefreshLayout.OnRefreshListener) getParentFragment()).onRefresh();
+        EventBus.getDefault().post(new EventProjectModify());
     }
 
-    public void setRead(int id) {
-        for (int i = 0; i < mData.size(); ++i) {
-            if (mData.get(i).getId() == id) {
-                mData.get(i).un_read_activities_count = 0;
-                myAdapter.notifyDataSetChanged();
-                break;
+    @Override
+    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
+        if (tag.equals(URL_PIN_SET)) {
+            if (code == 0) {
+                setPin((int) data, true);
+                EventBus.getDefault().post(new EventProjectModify());
+
+                umengEvent(UmengEvent.PROJECT, "设为常用");
+            } else {
+                showErrorMsg(code, respanse);
+            }
+
+        } else if (tag.equals(URL_PIN_DELETE)) {
+            if (code == 0) {
+                setPin((int) data, false);
+                EventBus.getDefault().post(new EventProjectModify());
+
+                umengEvent(UmengEvent.PROJECT, "取消常用");
+            } else {
+                showErrorMsg(code, respanse);
             }
         }
     }
 
-    public void setPin(int id, boolean pin) {
+    private void setPin(int id, boolean pin) {
         for (int i = 0; i < mData.size(); ++i) {
             if (mData.get(i).getId() == id) {
                 mData.get(i).setPin(pin);
@@ -198,26 +200,6 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
         }
     }
 
-    @Override
-    public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
-        if (tag.equals(URL_PIN_SET)) {
-            if (code == 0) {
-                int id = (int) data;
-                ((UpdateData) getParentFragment()).updatePin(id, true);
-            } else {
-                showErrorMsg(code, respanse);
-            }
-
-        } else if (tag.equals(URL_PIN_DELETE)) {
-            if (code == 0) {
-                int id = (int) data;
-                ((UpdateData) getParentFragment()).updatePin(id, false);
-            } else {
-                showErrorMsg(code, respanse);
-            }
-        }
-    }
-
     void listView(ProjectObject item) {
 //        if (item.un_read_activities_count > 0) {
         // 调用此函数，则按hot排序时项目会排序到有动态的项目后面
@@ -232,38 +214,14 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
         }
 
         if (type == ProjectFragment.Type.Main || type == ProjectFragment.Type.Create) {
-            ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(item.project_path);
-            ProjectHomeActivity_.intent(fragment).mJumpParam(param).startForResult(InitProUtils.REQUEST_PRO_UPDATE);
+            ProjectJumpParam param = new ProjectJumpParam(item.project_path);
+            ProjectHomeActivity_.intent(fragment).mJumpParam(param).start();
         } else {
             Intent intent = new Intent();
             intent.putExtra("data", item);
             getActivity().setResult(Activity.RESULT_OK, intent);
             getActivity().finish();
         }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == InitProUtils.REQUEST_PRO_UPDATE) {
-            if (resultCode == Activity.RESULT_OK) {
-                String action = data.getStringExtra("action");
-                if (action.equals(InitProUtils.FLAG_REFRESH)) {
-                    onRefresh();
-                } else if (action.equals(InitProUtils.FLAG_UPDATE_DYNAMIC)) {
-                    int projectId = data.getIntExtra("projectId", 0);
-                    if (projectId != 0) {
-                        Fragment parentFragment = getParentFragment();
-                        FragmentActivity activity = getActivity();
-                        if ((parentFragment instanceof UpdateData)
-                                && (activity != null)) {
-                            ((UpdateData) parentFragment).updateRead(projectId);
-                            UnreadNotify.update(activity);
-                        }
-                    }
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -352,10 +310,10 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
             ProjectObject item = (ProjectObject) getItem(position);
 
             holder.privatePin.setVisibility(item.isPin() ? View.VISIBLE : View.INVISIBLE);
-            holder.privateIcon.setVisibility(item.isPublic() ? View.INVISIBLE : View.VISIBLE);
+            holder.privateIcon.setVisibility(!item.isShared() ? View.INVISIBLE : View.VISIBLE);
             String ownerName = item.owner_user_name;
             holder.content.setText(ownerName);
-            if (!item.isPublic()) {
+            if (item.isShared()) {
                 holder.name.setVisibility(View.VISIBLE);
                 holder.name.setText(item.name);
                 holder.name2.setVisibility(View.INVISIBLE);
@@ -369,7 +327,7 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
             if (type == ProjectFragment.Type.Pick) {
                 holder.badge.setVisibility(View.INVISIBLE);
             } else {
-                int count = item.un_read_activities_count;
+                int count = item.unReadActivitiesCount;
                 BadgeView badge = holder.badge;
                 Global.setBadgeView(badge, count);
             }
@@ -384,19 +342,16 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
         }
 
         private void setClickEvent(final View fLayoutAction, final int position) {
-            fLayoutAction.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    projectActionUtil.show(fLayoutAction, position);
-                    if (!mData.get(position).isPin()) {
-                        projectActionUtil.getTxtSetting().setText("设为常用");
-                        projectActionUtil.getTxtSetting().setTextColor(getActivity().getResources().getColor(R.color.white));
-                        projectActionUtil.getTxtSetting().setBackgroundColor(getActivity().getResources().getColor(R.color.color_3BBD79));
-                    } else {
-                        projectActionUtil.getTxtSetting().setText("取消常用");
-                        projectActionUtil.getTxtSetting().setTextColor(getActivity().getResources().getColor(R.color.color_3BBD79));
-                        projectActionUtil.getTxtSetting().setBackgroundColor(getActivity().getResources().getColor(R.color.color_E5E5E5));
-                    }
+            fLayoutAction.setOnClickListener(v -> {
+                projectActionUtil.show(fLayoutAction, position);
+                if (!mData.get(position).isPin()) {
+                    projectActionUtil.getTxtSetting().setText("设为常用");
+                    projectActionUtil.getTxtSetting().setTextColor(getActivity().getResources().getColor(R.color.white));
+                    projectActionUtil.getTxtSetting().setBackgroundColor(getActivity().getResources().getColor(R.color.font_green));
+                } else {
+                    projectActionUtil.getTxtSetting().setText("取消常用");
+                    projectActionUtil.getTxtSetting().setTextColor(getActivity().getResources().getColor(R.color.font_green));
+                    projectActionUtil.getTxtSetting().setBackgroundColor(getActivity().getResources().getColor(R.color.divide));
                 }
             });
         }
@@ -404,16 +359,14 @@ public class ProjectListFragment extends RefreshBaseFragment implements View.OnC
         @Override
         public View getHeaderView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.divide_top_15, parent, false);
+                convertView = new View(parent.getContext());
             }
-
             return convertView;
         }
 
         @Override
         public long getHeaderId(int position) {
-            return 0;
+            return -1;
         }
-
     }
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flyco.roundview.RoundTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="30dp"
+    android:layout_height="3dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:rv_cornerRadius="2dp"
+    android:layout_marginRight="5dp"
+    tools:background="#FFFF639D" />

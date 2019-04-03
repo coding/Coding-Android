@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_enterprise_manager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    android:orientation="vertical"
+    tools:context="net.coding.program.setting.EnterpriseAccountActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/font_2"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@color/font_2"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/companyIcon"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="15dp" />
+
+        <TextView
+            android:id="@+id/companyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="深圳市扣钉网络科技有限公司"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/itemManagerLayout"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/itemManager"
+            android:layout_width="match_parent"
+            android:layout_height="73dp"
+            android:background="@drawable/list_item_selector">
+
+            <View
+                android:id="@+id/icon"
+                android:layout_width="@dimen/project_icon_width"
+                android:layout_height="@dimen/project_icon_width"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@mipmap/ic_setting_order" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/icon"
+                android:text="订单状态"
+                android:textColor="@color/font_1"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/accountState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="14dp"
+                android:layout_toRightOf="@id/icon"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/font_3"
+                android:textSize="13sp"
+                tools:text="15天" />
+
+            <include
+                android:id="@+id/arrow"
+                layout="@layout/list_item_common_arrow"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/divide_middle_15" />
+
+    </LinearLayout>
+
+    <net.coding.program.common.widget.ListItem1
+        android:id="@+id/itemProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:itemIcon="@mipmap/enterprise_account_project"
+        app:itemShowArrow="false"
+        app:itemShowBottomLine="true"
+        app:itemTitle="@string/title_manage_project_activity" />
+
+    <net.coding.program.common.widget.ListItem1
+        android:id="@+id/itemMember"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:itemIcon="@mipmap/enterprise_account_member"
+        app:itemShowArrow="false"
+        app:itemTitle="@string/title_manage_member_activity" />
+
+    <include layout="@layout/divide_middle_15" />
+
+    <net.coding.program.common.widget.ListItem1
+        android:id="@+id/itemSupport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:itemIcon="@mipmap/enterprise_support"
+        app:itemShowArrow="false"
+        app:itemTitle="@string/title_manage_support_activity" />
+
+
+    <include layout="@layout/divide_bottom_15" />
+
+
+</LinearLayout>

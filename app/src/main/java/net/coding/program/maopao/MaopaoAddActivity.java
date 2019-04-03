@@ -1,5 +1,6 @@
 package net.coding.program.maopao;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -26,35 +26,36 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import net.coding.program.ImagePagerActivity_;
-import net.coding.program.ImagePagerFragment;
-import net.coding.program.LoginActivity_;
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
+import net.coding.program.common.ImageInfo;
 import net.coding.program.common.ListModify;
 import net.coding.program.common.PhoneType;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.StartActivity;
-import net.coding.program.common.TextWatcherAt;
 import net.coding.program.common.WeakRefHander;
-import net.coding.program.common.enter.EnterEmojiLayout;
-import net.coding.program.common.enter.EnterLayout;
-import net.coding.program.common.enter.SimpleTextWatcher;
-import net.coding.program.common.photopick.ImageInfo;
-import net.coding.program.common.photopick.PhotoPickActivity;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.Maopao;
+import net.coding.program.common.module.maopao.LocationObject;
+import net.coding.program.common.module.maopao.MaopaoDraft;
+import net.coding.program.common.module.maopao.PhotoData;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.util.FileUtil;
 import net.coding.program.common.util.PermissionUtil;
+import net.coding.program.common.widget.input.MaopaoInputHelp;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.maopao.item.LocationCoord;
-import net.coding.program.message.EmojiFragment;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.LocationObject;
-import net.coding.program.model.Maopao;
+import net.coding.program.pickphoto.PhotoPickActivity;
+import net.coding.program.pickphoto.detail.ImagePagerActivity_;
+import net.coding.program.pickphoto.detail.ImagePagerFragment;
 import net.coding.program.subject.SubjectNewActivity_;
 import net.coding.program.third.EmojiFilter;
+import net.coding.program.util.TextWatcherAt;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -67,13 +68,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 @EActivity(R.layout.activity_maopao_add)
-public class MaopaoAddActivity extends BackActivity implements StartActivity, EmojiFragment.EnterEmojiLayout {
+public class MaopaoAddActivity extends BackActivity implements StartActivity {
 
-    public static final int PHOTO_MAX_COUNT = 6;
     public static final int RESULT_REQUEST_FOLLOW = 1002;
     public static final int RESULT_REQUEST_TOPIC = 1008;
     public static final int RESULT_REQUEST_PICK_PHOTO = 1003;
@@ -83,15 +86,20 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
     final String sendUrl = Global.HOST_API + "/tweet";
     final String HOST_IMAGE = Global.HOST_API + "/tweet/insert_image";
     String mIntentExtraString = null;
+
     @ViewById
     GridView gridView;
     @ViewById
     TextView locationText;
+
     @InstanceState
     LocationObject currentLocation = LocationObject.undefined();
+
     ImageSize mSize;
     PhotoOperate photoOperate = new PhotoOperate(this);
-    EnterEmojiLayout mEnterLayout;
+
+    MaopaoInputHelp input;
+
     EditText message;
     ArrayList<PhotoData> mData = new ArrayList<>();
     android.os.Handler mHandler = new android.os.Handler() {
@@ -129,7 +137,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
             }
 
             if (position == getCount() - 1) {
-                if (getCount() == (PHOTO_MAX_COUNT + 1)) {
+                if (getCount() == (Global.PHOTO_MAX_COUNT + 1)) {
                     holder.image.setVisibility(View.INVISIBLE);
 
                 } else {
@@ -171,8 +179,10 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         }
 
     };
-    private Uri fileUri;
+
+    private Uri fileUri = null;
     private MenuItem mMenuAdd;
+    private boolean mFirstFocus = true;
 
     private static String ensureLength(String src, int maxLength) {
         if (TextUtils.isEmpty(src)) return "";
@@ -191,8 +201,9 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        mEnterLayout = new EnterEmojiLayout(this, null);
-        message = mEnterLayout.content;
+        input = new MaopaoInputHelp(findViewById(R.id.rootLayout));
+        message = input.editText;
+
         if (mIntentExtraString != null) {
             message.setText(mIntentExtraString);
         }
@@ -200,28 +211,25 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         gridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == mData.size()) {
-                    startPhotoPickActivity();
+        gridView.setOnItemClickListener((parent, view, position, id) -> {
+            if (position == mData.size()) {
+                startPhotoPickActivity();
 
-                } else {
-                    Intent intent = new Intent(MaopaoAddActivity.this, ImagePagerActivity_.class);
-                    ArrayList<String> arrayUri = new ArrayList<>();
-                    for (PhotoData item : mData) {
-                        arrayUri.add(item.uri.toString());
-                    }
-                    intent.putExtra("mArrayUri", arrayUri);
-                    intent.putExtra("mPagerPosition", position);
-                    intent.putExtra("needEdit", true);
-                    startActivityForResult(intent, RESULT_REQUEST_IMAGE);
+            } else {
+                Intent intent = new Intent(MaopaoAddActivity.this, ImagePagerActivity_.class);
+                ArrayList<String> arrayUri = new ArrayList<>();
+                for (PhotoData item : mData) {
+                    arrayUri.add(item.uri.toString());
                 }
+                intent.putExtra("mArrayUri", arrayUri);
+                intent.putExtra("mPagerPosition", position);
+                intent.putExtra("needEdit", true);
+                startActivityForResult(intent, RESULT_REQUEST_IMAGE);
             }
         });
 
         gridView.setOnTouchListener((v, event) -> {
-            Global.popSoftkeyboard(MaopaoAddActivity.this, mEnterLayout.content, false);
+            Global.popSoftkeyboard(MaopaoAddActivity.this, message, false);
             return false;
         });
 
@@ -234,7 +242,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
 
         MaopaoDraft draft = AccountInfo.loadMaopaoDraft(this);
         if (!draft.isEmpty()) {
-            mEnterLayout.setText(draft.getInput());
+            message.setText(draft.getInput());
             mData = draft.getPhotos();
             adapter.notifyDataSetChanged();
             currentLocation = draft.getLocation();
@@ -245,12 +253,12 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
 
         setPopTopicIconShow();
 
-        mEnterLayout.content.setOnClickListener(v -> mEnterLayout.popKeyboard());
+        message.setOnClickListener(v -> input.popKeyboard());
 
-        mEnterLayout.content.setOnFocusChangeListener((v, hasFocus) -> {
+        message.setOnFocusChangeListener((v, hasFocus) -> {
             if (mFirstFocus && hasFocus) {
                 mFirstFocus = false;
-                mEnterLayout.popKeyboard();
+                input.popKeyboard();
             }
         });
 
@@ -259,17 +267,10 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
                 return false;
             }
 
-            mEnterLayout.popKeyboard();
+            input.popKeyboard();
             return false;
         });
         hander.start(0, 500);
-    }
-
-    private boolean mFirstFocus = true;
-
-    @Override
-    public EnterLayout getEnterLayout() {
-        return mEnterLayout;
     }
 
     private void setPopTopicIconShow() {
@@ -277,22 +278,28 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         ((ImageView) findViewById(R.id.popTopic)).setImageResource(icon);
     }
 
+    @SuppressLint("CheckResult")
     private void startPhotoPickActivity() {
-        int count = PHOTO_MAX_COUNT - mData.size();
-        if (count <= 0) {
-            showButtomToast(String.format("最多能添加%s张图片", PHOTO_MAX_COUNT));
-            return;
-        }
+        new RxPermissions(this)
+                .request(PermissionUtil.STORAGE)
+                .subscribe(granted -> {
+                    if (granted) {
+                        int count = Global.PHOTO_MAX_COUNT - mData.size();
+                        if (count <= 0) {
+                            showButtomToast(String.format("最多能添加%s张图片", Global.PHOTO_MAX_COUNT));
+                        } else {
+                            Intent intent = new Intent(MaopaoAddActivity.this, PhotoPickActivity.class);
+                            intent.putExtra(PhotoPickActivity.Companion.getEXTRA_MAX(), Global.PHOTO_MAX_COUNT);
 
-        Intent intent = new Intent(MaopaoAddActivity.this, PhotoPickActivity.class);
-        intent.putExtra(PhotoPickActivity.EXTRA_MAX, PHOTO_MAX_COUNT);
-
-        ArrayList<ImageInfo> pickImages = new ArrayList<>();
-        for (PhotoData item : mData) {
-            pickImages.add(item.mImageinfo);
-        }
-        intent.putExtra(PhotoPickActivity.EXTRA_PICKED, pickImages);
-        startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
+                            ArrayList<ImageInfo> pickImages = new ArrayList<>();
+                            for (PhotoData item : mData) {
+                                pickImages.add(item.mImageinfo);
+                            }
+                            intent.putExtra(PhotoPickActivity.Companion.getEXTRA_PICKED(), pickImages);
+                            startActivityForResult(intent, RESULT_REQUEST_PICK_PHOTO);
+                        }
+                    }
+                });
     }
 
     private void updateAddButton() {
@@ -302,10 +309,10 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
 
     @Override
     protected void onStop() {
-        MaopaoDraft draft = new MaopaoDraft(mEnterLayout.getContent(), mData, currentLocation);
+        MaopaoDraft draft = new MaopaoDraft(message.getText().toString(), mData, currentLocation);
         AccountInfo.saveMaopaoDraft(this, draft);
 
-        mEnterLayout.closeEnterPanel();
+        input.closeEnterPanel();
 
         super.onStop();
     }
@@ -344,22 +351,63 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
 
                     @SuppressWarnings("unchecked")
                     ArrayList<ImageInfo> pickPhots = (ArrayList<ImageInfo>) data.getSerializableExtra("data");
+
+                    List<String> photos = new ArrayList<>();
                     for (ImageInfo item : pickPhots) {
-                        File outputFile = photoOperate.scal(item.path);
-                        mData.add(new MaopaoAddActivity.PhotoData(outputFile, item));
+                        photos.add(item.getPath());
                     }
+
+                    List<File> zipPhotos = new ArrayList<>();
+                    List<ImageInfo> oldPhotos = new ArrayList<>();
+                    Luban.with(MaopaoAddActivity.this)
+                            .load(photos)                                   // 传人要压缩的图片列表
+                            .ignoreBy(300)                                  // 小于 300k 的图片不压缩
+                            .setCompressListener(new OnCompressListener() { //设置回调
+
+                                int zipCount = 0;
+
+                                @Override
+                                public void onStart() {
+                                }
+
+                                @Override
+                                public void onSuccess(File file) {
+                                    zipPhotos.add(file);
+                                    oldPhotos.add(pickPhots.get(zipCount));
+
+                                    zipCount++;
+
+                                    if (zipCount >= photos.size()) {
+                                        for (int i = 0; i < zipPhotos.size(); ++i) {
+                                            File item = zipPhotos.get(i);
+                                            ImageInfo oldInfo = oldPhotos.get(i);
+                                            mData.add(new PhotoData(item, oldInfo));
+                                        }
+
+                                        updateAddButton();
+                                    }
+                                    adapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    zipCount++;
+                                }
+
+                            }).launch();    //启动压缩
+
                 } catch (Exception e) {
                     showMiddleToast("缩放图片失败");
                     Global.errorLog(e);
                 }
-                adapter.notifyDataSetChanged();
+
             }
         } else if (requestCode == RESULT_REQUEST_PHOTO) {
             if (resultCode == RESULT_OK) {
                 try {
                     ImageInfo imageInfo = new ImageInfo(fileUri.getPath());
                     File outputFile = photoOperate.scal(fileUri);
-                    mData.add(new MaopaoAddActivity.PhotoData(outputFile, imageInfo));
+                    mData.add(new PhotoData(outputFile, imageInfo));
                     adapter.notifyDataSetChanged();
 
                 } catch (Exception e) {
@@ -382,7 +430,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         } else if (requestCode == RESULT_REQUEST_FOLLOW) {
             if (resultCode == RESULT_OK) {
                 String name = data.getStringExtra("name");
-                mEnterLayout.insertText("@" + name);
+                input.insertText("@" + name);
             }
         } else if (requestCode == RESULT_REQUEST_TOPIC) {
             if (resultCode == RESULT_OK) {
@@ -416,8 +464,8 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
     }
 
     private void finishAndHideKeyboard() {
-        mEnterLayout.content.postDelayed(() -> {
-            Global.popSoftkeyboard(MaopaoAddActivity.this, mEnterLayout.content, false);
+        message.postDelayed(() -> {
+            Global.popSoftkeyboard(MaopaoAddActivity.this, message, false);
             finish();
         }, 50);
     }
@@ -480,7 +528,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
 
     private void finishWithoutSave() {
         // 清空输入的数据，因为在onDestroy时如果检测到有数据会保存
-        mEnterLayout.clearContent();
+        input.clearContent();
         mData.clear();
         finishAndHideKeyboard();
     }
@@ -494,8 +542,8 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
 
                 JSONObject jsonData = respanse.getJSONObject("data");
                 Maopao.MaopaoObject maopaoObject = new Maopao.MaopaoObject(jsonData);
-                maopaoObject.owner = MyApp.sUserObject;
-                maopaoObject.owner_id = MyApp.sUserObject.id;
+                maopaoObject.owner = GlobalData.sUserObject;
+                maopaoObject.owner_id = GlobalData.sUserObject.id;
 
                 Intent intent = new Intent();
                 intent.putExtra(ListModify.TYPE, ListModify.Add);
@@ -533,7 +581,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         super.onCreate(savedInstanceState);
         String mGlobalKey = AccountInfo.loadAccount(this).global_key;
         if (mGlobalKey.isEmpty()) {
-            Intent intent = new Intent(this, LoginActivity_.class);
+            Intent intent = new Intent(this, CodingCompat.instance().getLoginActivity());
             this.startActivity(intent);
         }
 
@@ -547,7 +595,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
                     File outputFile;
                     try {
                         outputFile = photoOperate.scal(imageUri);
-                        mData.add(mData.size(), new MaopaoAddActivity.PhotoData(outputFile, new ImageInfo(imageUri.toString())));
+                        mData.add(mData.size(), new PhotoData(outputFile, new ImageInfo(imageUri.toString())));
                         adapter.notifyDataSetChanged();
                     } catch (Exception e) {
                         showMiddleToast("缩放图片失败");
@@ -565,7 +613,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
                     try {
                         for (Uri uri : imagesUris) {
                             File outputFile = photoOperate.scal(uri);
-                            mData.add(new MaopaoAddActivity.PhotoData(outputFile, new ImageInfo(uri.toString())));
+                            mData.add(new PhotoData(outputFile, new ImageInfo(uri.toString())));
                         }
                     } catch (Exception e) {
                         showMiddleToast("缩放图片失败");
@@ -580,8 +628,8 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
 
                 String imageUri = intent.getStringExtra(Intent.EXTRA_STREAM);
                 if (imageUri != null) {
-                    ImageSize size = new ImageSize(MyApp.sWidthPix, MyApp.sHeightPix);
-                    ImageLoader.getInstance().loadImage(imageUri, size, ImagePagerFragment.optionsImage, new SimpleImageLoadingListener() {
+                    ImageSize size = new ImageSize(GlobalData.sWidthPix, GlobalData.sHeightPix);
+                    ImageLoader.getInstance().loadImage(imageUri, size, ImagePagerFragment.Companion.getOptionsImage(), new SimpleImageLoadingListener() {
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                             if (isFinishing()) {
@@ -593,7 +641,7 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
                                 String path = "file://" + imageFile.getPath();
                                 ImageInfo imageInfo = new ImageInfo(path);
                                 File outputFile = photoOperate.scal(Uri.parse(path));
-                                mData.add(new MaopaoAddActivity.PhotoData(outputFile, imageInfo));
+                                mData.add(new PhotoData(outputFile, imageInfo));
                                 adapter.notifyDataSetChanged();
 
                             } catch (Exception e) {
@@ -609,18 +657,22 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         }
     }
 
+    @SuppressLint("CheckResult")
     @Click(R.id.locationText)
     void chooseLocation() {
         if (PhoneType.isX86or64()) {
-            showMiddleToast("定位功能不支持x86或64位的手机");
+            showMiddleToast("定位功能不支持x86手机");
             return;
         }
 
-        if (!PermissionUtil.checkLocation(this)) {
-            return;
-        }
+        new RxPermissions(this)
+                .request(PermissionUtil.LOCATION)
+                .subscribe(granted -> {
+                    if (granted) {
+                        LocationSearchActivity_.intent(this).selectedLocation(currentLocation).startForResult(RESULT_REQUEST_LOCATION);
+                    }
+                });
 
-        LocationSearchActivity_.intent(this).selectedLocation(currentLocation).startForResult(RESULT_REQUEST_LOCATION);
     }
 
     @OnActivityResult(RESULT_REQUEST_LOCATION)
@@ -655,74 +707,4 @@ public class MaopaoAddActivity extends BackActivity implements StartActivity, Em
         startActivityForResult(intent, RESULT_REQUEST_TOPIC);
     }
 
-    public static class PhotoData {
-        ImageInfo mImageinfo;
-        Uri uri = Uri.parse("");
-        String serviceUri = "";
-
-        PhotoData(File file, ImageInfo info) {
-            uri = Uri.fromFile(file);
-            mImageinfo = info;
-        }
-
-        PhotoData(PhotoDataSerializable data) {
-            uri = Uri.parse(data.uriString);
-            serviceUri = data.serviceUri;
-            mImageinfo = data.mImageInfo;
-        }
-    }
-
-    // 因为PhotoData包含Uri，不能直接序列化，所以有了这个类
-    public static class PhotoDataSerializable implements Serializable {
-        String uriString = "";
-        String serviceUri = "";
-        ImageInfo mImageInfo;
-
-        PhotoDataSerializable(PhotoData data) {
-            uriString = data.uri.toString();
-            serviceUri = data.serviceUri;
-            mImageInfo = data.mImageinfo;
-        }
-    }
-
-    public static class MaopaoDraft implements Serializable {
-        private String input = "";
-
-        private LocationObject locationObject = LocationObject.undefined();
-
-        private ArrayList<PhotoDataSerializable> photos = new ArrayList<>();
-
-        public MaopaoDraft() {
-        }
-
-        MaopaoDraft(String input, ArrayList<PhotoData> photos, LocationObject locationObject) {
-            this.input = input;
-            this.photos = new ArrayList<>();
-            for (PhotoData item : photos) {
-                this.photos.add(new PhotoDataSerializable(item));
-            }
-            this.locationObject = locationObject;
-        }
-
-        public boolean isEmpty() {
-            return input.isEmpty() && photos.isEmpty();
-        }
-
-        public String getInput() {
-            return input;
-        }
-
-        public LocationObject getLocation() {
-            return locationObject;
-        }
-
-        ArrayList<PhotoData> getPhotos() {
-            ArrayList<PhotoData> data = new ArrayList<>();
-            for (PhotoDataSerializable item : photos) {
-                data.add(new PhotoData(item));
-            }
-
-            return data;
-        }
-    }
 }

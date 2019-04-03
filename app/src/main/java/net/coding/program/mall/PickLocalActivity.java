@@ -39,44 +39,6 @@ public class PickLocalActivity extends BackActivity {
 
     MallOrderSubmitActivity.Local mLocal;
     private int mPos;
-
-    @AfterViews
-    void initPickLocalActivity() {
-        listView = (ListView) findViewById(R.id.listView);
-        mLocal = (MallOrderSubmitActivity.Local) getIntent().getSerializableExtra(EXTRA_LOCAL);
-        ArrayList<MallOrderSubmitActivity.City> listData = (ArrayList<MallOrderSubmitActivity.City>) getIntent().getSerializableExtra(EXTRA_LIST_DATA);
-        mPos = getIntent().getIntExtra(EXTRA_LOCAL_POS, 1);
-        ListAdapter mAdapter = new CityAdapter(this, R.layout.list_item_city, listData);
-        View head = LayoutInflater.from(this).inflate(R.layout.list_item_city_head, listView, false);
-        listView.addHeaderView(head, null, false);
-        listView.setAdapter(mAdapter);
-        listView.setOnItemClickListener(mItemClick);
-    }
-
-    private void pickFinish() {
-        if (mPos == 2) {
-            mLocal.district.clear();
-        } else if (mPos == 1) {
-            mLocal.district.clear();
-            mLocal.city.clear();
-        }
-
-        Intent intent = new Intent();
-        intent.putExtra("result", mLocal);
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT_LOCAL) {
-            if (resultCode == RESULT_OK) {
-                setResult(resultCode, data);
-                finish();
-            }
-        }
-    }
-
     AdapterView.OnItemClickListener mItemClick = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -123,6 +85,55 @@ public class PickLocalActivity extends BackActivity {
         }
     };
 
+    public static ArrayList<MallOrderSubmitActivity.City> citysFromJson(JSONObject response) {
+        JSONArray array = response.optJSONArray("data");
+        ArrayList<MallOrderSubmitActivity.City> citys = new ArrayList<>();
+        for (int i = 0; i < array.length(); ++i) {
+            JSONObject item = array.optJSONObject(i);
+            MallOrderSubmitActivity.City city = new MallOrderSubmitActivity.City(item.optInt("id"), item.optString("name"));
+            citys.add(city);
+        }
+
+        return citys;
+    }
+
+    @AfterViews
+    void initPickLocalActivity() {
+        listView = (ListView) findViewById(R.id.listView);
+        mLocal = (MallOrderSubmitActivity.Local) getIntent().getSerializableExtra(EXTRA_LOCAL);
+        ArrayList<MallOrderSubmitActivity.City> listData = (ArrayList<MallOrderSubmitActivity.City>) getIntent().getSerializableExtra(EXTRA_LIST_DATA);
+        mPos = getIntent().getIntExtra(EXTRA_LOCAL_POS, 1);
+        ListAdapter mAdapter = new CityAdapter(this, R.layout.list_item_city, listData);
+        View head = LayoutInflater.from(this).inflate(R.layout.list_item_city_head, listView, false);
+        listView.addHeaderView(head, null, false);
+        listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(mItemClick);
+    }
+
+    private void pickFinish() {
+        if (mPos == 2) {
+            mLocal.district.clear();
+        } else if (mPos == 1) {
+            mLocal.district.clear();
+            mLocal.city.clear();
+        }
+
+        Intent intent = new Intent();
+        intent.putExtra("result", mLocal);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RESULT_LOCAL) {
+            if (resultCode == RESULT_OK) {
+                setResult(resultCode, data);
+                finish();
+            }
+        }
+    }
+
     static class CityAdapter extends ArrayAdapter<MallOrderSubmitActivity.City> {
         public CityAdapter(Context context, int resource, ArrayList<MallOrderSubmitActivity.City> objects) {
             super(context, resource, objects);
@@ -140,18 +151,6 @@ public class PickLocalActivity extends BackActivity {
 
             return convertView;
         }
-    }
-
-    public static ArrayList<MallOrderSubmitActivity.City> citysFromJson(JSONObject response) {
-        JSONArray array = response.optJSONArray("data");
-        ArrayList<MallOrderSubmitActivity.City> citys = new ArrayList<>();
-        for (int i = 0; i < array.length(); ++i) {
-            JSONObject item = array.optJSONObject(i);
-            MallOrderSubmitActivity.City city = new MallOrderSubmitActivity.City(item.optInt("id"), item.optString("name"));
-            citys.add(city);
-        }
-
-        return citys;
     }
 
 

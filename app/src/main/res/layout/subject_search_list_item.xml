@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/stand_bg"
-    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center_vertical"
     android:orientation="vertical">
 
@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/padding_12"
+        android:layout_marginRight="@dimen/padding_12"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:layout_marginRight="@dimen/padding_12">
+        android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/maopao_user_icon"
@@ -25,18 +25,18 @@
 
         <TextView
             android:id="@+id/maopao_content"
-            tools:text="一k狂卡k矿坑龙到访e矿E酷氪氪一k狂卡k矿坑龙到访e矿E酷氪氪一k狂卡k矿坑龙到访e矿E酷氪氪一k狂卡k矿坑龙到访e矿E酷氪氪"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_14"
             android:layout_toRightOf="@+id/maopao_user_icon"
             android:ellipsize="end"
-            android:maxLines="2"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
+            android:maxLines="2"
             android:singleLine="false"
-            android:textColor="@color/font_2"
-            android:textSize="15sp" />
+            android:textColor="@color/font_1"
+            android:textSize="15sp"
+            tools:text="一k狂卡k矿坑龙到访e矿E酷氪氪一k狂卡k矿坑龙到访e矿E酷氪氪一k狂卡k矿坑龙到访e矿E酷氪氪一k狂卡k矿坑龙到访e矿E酷氪氪" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/padding_12"
                 android:text="蝈蝈已"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="12sp" />
 
             <TextView
@@ -63,7 +63,7 @@
                 android:drawableLeft="@drawable/subject_search_item_clock"
                 android:drawablePadding="4dp"
                 android:text="1小时前"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="12sp" />
 
             <LinearLayout
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:text="13"
-                    android:textColor="@color/font_9" />
+                    android:textColor="@color/font_3" />
             </LinearLayout>
 
             <TextView
@@ -95,7 +95,7 @@
                 android:drawableLeft="@drawable/subject_search_item_like"
                 android:drawablePadding="4dp"
                 android:text="9"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="12sp" />
 
 
@@ -107,16 +107,12 @@
                 android:drawableLeft="@drawable/subject_search_item_comment"
                 android:drawablePadding="4dp"
                 android:text="9"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="12sp" />
 
         </LinearLayout>
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="@dimen/padding_12"
-        android:background="@color/search_divide_color" />
+    <View style="@style/DivideLine15LeftRight" />
+
 </LinearLayout>

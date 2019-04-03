@@ -63,12 +63,13 @@
 
                     </LinearLayout>
 
-                    <View style="@style/DivideLine_15" />
+                    <View style="@style/DivideLine_15" android:id="@+id/codeLine" />
 
                     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:layout_width="match_parent"
                         android:layout_height="53dp"
+                        android:id="@+id/codeLayout1"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -86,10 +87,6 @@
                             app:hint="输入短信中的验证码"
                             app:loginInput="number"
                             app:topLine="false" />
-
-                        <View
-                            style="@style/DivideLineVer"
-                            android:layout_height="20dp" />
 
                         <net.coding.program.common.widget.ValidePhoneView
                             android:id="@+id/sendPhoneMessage"
@@ -114,13 +111,7 @@
 
                 </LinearLayout>
 
-                <include layout="@layout/divide_10_top_bottom" />
-
-                <Button
-                    android:id="@+id/loginButton"
-                    style="@style/SendButton"
-                    android:enabled="false"
-                    android:text="提交" />
+                <include layout="@layout/divide_bottom_15" />
 
             </LinearLayout>
 

@@ -11,9 +11,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 public class SearchFramgentAdapter extends FragmentStatePagerAdapter {
 
 
-    private static final String[] TITLES = {"项目", "任务", "讨论", "冒泡", "文件", "用户", "合并请求", "pull请求"};
     public static final String MERGE_REQUEST = "merge_requests";
-    private static final String[] tab = {"projects", "tasks", "project_topics", "tweets", "files", "friends", MERGE_REQUEST, "pull_requests"};
+    private static final String[] TITLES = {"项目", "任务", "冒泡", "文件", "用户", "合并请求"};
+    private static final String[] tab = {"projects", "tasks", "tweets", "files", "friends", MERGE_REQUEST};
 
     private String key;
 
@@ -41,35 +41,25 @@ public class SearchFramgentAdapter extends FragmentStatePagerAdapter {
                 task.setTabPrams(tab[position]);
                 return task;
             case 2:
-                SearchCommentFragment commentFragment = new SearchCommentFragment_();
-                commentFragment.setTabPrams(tab[position]);
-                commentFragment.setKeyword(key);
-                return commentFragment;
-            case 3:
                 SearchMaopaoFragment maopaoFragment = new SearchMaopaoFragment_();
                 maopaoFragment.setTabPrams(tab[position]);
                 maopaoFragment.setKeyword(key);
                 return maopaoFragment;
-            case 4:
+            case 3:
                 SearchFileFragment searchFileFragment = new SearchFileFragment_();
                 searchFileFragment.setTabPrams(tab[position]);
                 searchFileFragment.setKeyword(key);
                 return searchFileFragment;
-            case 5:
+            case 4:
                 SearchUserFragment searchUserFragment = new SearchUserFragment_();
                 searchUserFragment.setKeyword(key);
                 searchUserFragment.setTabPrams(tab[position]);
                 return searchUserFragment;
-            case 6:
+            default:
                 SearchMergeRequestsFragment searchMergeRequestsFragment = new SearchMergeRequestsFragment_();
                 searchMergeRequestsFragment.setKeyword(key);
                 searchMergeRequestsFragment.setTabPrams(tab[position]);
                 return searchMergeRequestsFragment;
-            default:
-                SearchMergeRequestsFragment searchMergeRequestsFragment2 = new SearchMergeRequestsFragment_();
-                searchMergeRequestsFragment2.setKeyword(key);
-                searchMergeRequestsFragment2.setTabPrams(tab[position]);
-                return searchMergeRequestsFragment2;
         }
     }
 

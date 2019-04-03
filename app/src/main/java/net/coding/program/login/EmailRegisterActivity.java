@@ -2,7 +2,6 @@ package net.coding.program.login;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -11,21 +10,21 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.MainActivity;
-import net.coding.program.MainActivity_;
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.SimpleSHA1;
+import net.coding.program.common.TermsActivity_;
 import net.coding.program.common.base.MyJsonResponse;
-import net.coding.program.common.guide.GuideActivity;
+import net.coding.program.common.event.EventLoginSuccess;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.common.util.ActivityNavigate;
 import net.coding.program.common.util.SingleToast;
 import net.coding.program.common.util.ViewStyleUtil;
 import net.coding.program.common.widget.LoginEditText;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.UserObject;
+import net.coding.program.compatible.CodingCompat;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -33,6 +32,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONObject;
 
+// 2018/1/24 邮箱注册入口已停止使用，还是留着吧，免得又要加回来
 @EActivity(R.layout.activity_email_register)
 public class EmailRegisterActivity extends BackActivity {
 
@@ -46,6 +46,23 @@ public class EmailRegisterActivity extends BackActivity {
 
     @ViewById
     TextView textClause;
+
+    static void parseRegisterSuccess(Activity activity, JSONObject respanse) {
+        UserObject user = new UserObject(respanse.optJSONObject("data"));
+        AccountInfo.saveAccount(activity, user);
+        GlobalData.sUserObject = user;
+        AccountInfo.saveReloginInfo(activity, user);
+
+        Global.syncCookie(activity);
+
+        AccountInfo.saveLastLoginName(activity, user.name);
+
+        activity.startActivity(new Intent(activity, CodingCompat.instance().getMainActivity()));
+
+        EventLoginSuccess.Companion.sendMessage();
+        activity.setResult(Activity.RESULT_OK);
+        activity.finish();
+    }
 
     @AfterViews
     void initPhoneVerifyFragment() {
@@ -67,7 +84,7 @@ public class EmailRegisterActivity extends BackActivity {
         ViewStyleUtil.editTextBindButton(loginButton, globalKeyEdit, emailEdit,
                 passwordEdit, captchaEdit);
 
-        textClause.setText(Html.fromHtml(PhoneRegisterActivity.REGIST_TIP));
+        textClause.setText(PhoneRegisterActivity.REGIST_TIP);
 
         needShowCaptch();
     }
@@ -138,23 +155,6 @@ public class EmailRegisterActivity extends BackActivity {
 
     }
 
-    static void parseRegisterSuccess(Activity activity, JSONObject respanse) {
-        UserObject user = new UserObject(respanse.optJSONObject("data"));
-        AccountInfo.saveAccount(activity, user);
-        MyApp.sUserObject = user;
-        AccountInfo.saveReloginInfo(activity, user);
-
-        Global.syncCookie(activity);
-
-        AccountInfo.saveLastLoginName(activity, user.name);
-
-        activity.startActivity(new Intent(activity, MainActivity_.class));
-
-        activity.sendBroadcast(new Intent(GuideActivity.BROADCAST_GUIDE_ACTIVITY));
-        activity.setResult(Activity.RESULT_OK);
-        activity.finish();
-    }
-
     private void needShowCaptch() {
         if (captchaEdit.getVisibility() == View.VISIBLE) {
             captchaEdit.requestCaptcha();
@@ -176,7 +176,7 @@ public class EmailRegisterActivity extends BackActivity {
 
     @Click
     void textClause() {
-        ActivityNavigate.startTermActivity(this);
+        TermsActivity_.intent(this).start();
     }
 
     @Click

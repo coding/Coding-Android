@@ -11,7 +11,6 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.init_activity_project_advance_set)
 public class ProjectAdvanceSetActivity extends ProjectAdvanceSetBaseActivity {
 
-
     void actionDelete2FA(String code) {
         showProgressBar(true);
         deleteNetwork(mProjectObject.getHttpDeleteProject2fa(code), TAG_DELETE_PROJECT_2FA);

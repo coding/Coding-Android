@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,25 +7,36 @@
     android:orientation="vertical"
     tools:context="net.coding.program.project.detail.merge.MergeAcceptActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:paddingLeft="@dimen/padding_15"
-        android:text="Message"
-        android:textColor="@color/font_9"
-        android:textSize="15sp" />
-
-    <include layout="@layout/divideline_15" />
-    <EditText
-        android:id="@+id/message"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/stand_bg"
-        android:gravity="left|top"
-        android:hint="输入合并信息"
-        android:minLines="5"
-        android:padding="@dimen/padding_15" />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/padding_15"
+            android:text="Message"
+            android:textColor="@color/font_1"
+            android:textSize="15sp" />
+
+        <include layout="@layout/divideline_15" />
+
+        <EditText
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/stand_bg"
+            android:gravity="left|top"
+            android:hint="输入合并信息"
+            android:minLines="5"
+            android:padding="@dimen/padding_15"
+            android:textColor="@color/font_1"
+            android:textSize="15sp" />
+
+    </LinearLayout>
 
     <include layout="@layout/divide_middle_15" />
 
@@ -42,7 +54,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="删除源分支" />
+            android:text="删除源分支"
+            android:textColor="@color/font_1"
+            android:textSize="15sp" />
 
         <View
             android:id="@+id/delSrc"
@@ -54,15 +68,16 @@
 
     <include layout="@layout/divide_bottom_15" />
 
-    <TextView
+    <com.flyco.roundview.RoundTextView
         android:id="@+id/send"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="@dimen/bottom_button_padding"
         android:layout_marginRight="@dimen/bottom_button_padding"
-        android:background="@drawable/button_merge_accept"
         android:gravity="center"
         android:text="合并"
-        android:textColor="@color/font_white" />
+        android:textColor="@color/font_white"
+        app:rv_backgroundColor="@color/font_2"
+        app:rv_cornerRadius="2dp" />
 
 </LinearLayout>

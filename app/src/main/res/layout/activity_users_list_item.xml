@@ -1,66 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/stand_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/divideTitle"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@color/divide"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/padding_15"
+        android:textColor="@color/font_4"
+        android:textSize="14sp"
+        tools:text="aaaa" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="70dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:id="@+id/rootLayout"
+        android:paddingLeft="15dp"
+        android:paddingRight="30dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp" />
 
         <TextView
-            android:id="@+id/divideTitle"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@color/divide"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/padding_15"
-            android:text="" />
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:textColor="@color/font_1"
+            android:textSize="17sp"
+            tools:text="ccc" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="66dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="30dp">
-
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/icon"
-                android:layout_width="47dp"
-                android:layout_height="47dp" />
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_15"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:text="Medium Text"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <CheckBox
-                android:id="@+id/followMutual"
-                android:layout_width="73.5dp"
-                android:layout_height="30dp"
-                android:background="@null"
-                android:button="@drawable/checkbox_follow"
-                android:focusable="false" />
-
-        </LinearLayout>
-
-        <View
-            android:id="@+id/divide_line"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="@dimen/padding_12"
-            android:layout_marginRight="@dimen/padding_12"
-            android:background="@color/divide_line"
-            android:visibility="gone" />
+        <CheckBox
+            android:id="@+id/followMutual"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:background="@null"
+            android:button="@drawable/checkbox_follow"
+            android:focusable="false" />
 
     </LinearLayout>
 
-</FrameLayout>
+    <View
+        android:id="@+id/divide_line"
+        style="@style/DivideLine_15"
+        android:visibility="gone"
+        android:layout_marginLeft="75dp"
+        tools:visibility="visible" />
+
+</LinearLayout>
+

@@ -9,11 +9,12 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.common.network.LoadingFragment;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.model.Maopao;
+import net.coding.program.common.model.Subject;
+import net.coding.program.common.model.UserObject;
+import net.coding.program.common.widget.MemberIcon;
 import net.coding.program.maopao.MaopaoListBaseFragment;
-import net.coding.program.model.Maopao;
-import net.coding.program.model.Subject;
-import net.coding.program.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -22,8 +23,6 @@ import org.apmem.tools.layouts.FlowLayout;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 @EFragment(R.layout.subject_detail_maopao_list)
 public class SubjectDetailFragment extends MaopaoListBaseFragment {
@@ -44,14 +43,8 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
 
     View mListHeaderView;
     TextView mSubjectDetailJoin;
-
-    @Override
-    protected void setActionTitle() {
-    }
-
     private TextView mJoinedPeopleTv;
     private FlowLayout mAllJoinedPeopleLayout;
-
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -64,10 +57,14 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
         }
     };
 
+    @Override
+    protected void setActionTitle() {
+    }
+
     @AfterViews
     protected void init() {
         mIsToMaopaoTopic = true;
-        initMaopaoListBaseFragmen();
+        initMaopaoListBaseFragmen(null);
     }
 
     @Override
@@ -127,12 +124,13 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
     @Override
     protected String createUrl() {
         if (subjectDescObject != null) {
-            if (id == LoadingFragment.UPDATE_ALL_INT) {
+            if (id == Global.UPDATE_ALL_INT) {
                 return String.format(maopaoUrlFirstFormat, subjectDescObject.id);
             } else
                 return String.format(maopaoUrlFormat, subjectDescObject.id, id);
         }
-        return "";
+
+        return String.format(maopaoUrlFirstFormat, topicId);
     }
 
     @Override
@@ -143,7 +141,7 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
                 if (json != null) {
                     Maopao.MaopaoObject item = new Maopao.MaopaoObject(json);
                     mIsToMaopaoTopic = true;
-                    if (id == LoadingFragment.UPDATE_ALL_INT) {
+                    if (id == Global.UPDATE_ALL_INT) {
                         mData.clear();
                         mData.add(0, item);
                         id = item.id;
@@ -174,16 +172,16 @@ public class SubjectDetailFragment extends MaopaoListBaseFragment {
             if (code == 0) {
                 JSONArray json = respanse.optJSONArray("data");
                 if (json != null) {
-                    CircleImageView circleImageView;
+                    MemberIcon circleImageView;
                     UserObject userObject;
                     FlowLayout.LayoutParams layoutParams;
                     int countLimit = getUserAvatarCount();
                     int size = countLimit > json.length() ? json.length() : countLimit;
                     for (int i = 0; i < size; i++) {
                         userObject = new UserObject(json.optJSONObject(i));
-                        circleImageView = new CircleImageView(getActivity());
-                        circleImageView.setTag(userObject.global_key);
-                        circleImageView.setOnClickListener(mOnClickUser);
+                        circleImageView = new MemberIcon(getActivity());
+                        circleImageView.setTag(userObject);
+                        circleImageView.setOnClickListener(GlobalCommon.mOnClickUser);
                         layoutParams = new FlowLayout.LayoutParams(getPxValue(40f), getPxValue(40f));
                         layoutParams.weight = 1;
                         layoutParams.newLine = false;

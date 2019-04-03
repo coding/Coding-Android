@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <net.coding.program.common.widget.LoginAutoCompleteEdit
+            android:id="@+id/editText"
+            style="@style/EmailEdit"
+            android:layout_width="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textColor="@color/font_1"
+            app:closeAutoComplete="false" />
+
+        <ImageView
+            android:id="@+id/imageValify"
+            android:layout_width="72dp"
+            android:layout_height="30dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/topLine"
+        style="@style/LoginBottomLine"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

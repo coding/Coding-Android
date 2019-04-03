@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?><!--<View style="@style/DivideLineVer" android:id="@id/divide"/>-->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemLayout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="0dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        tools:drawableLeft="@drawable/project_file_action_download"
+        android:drawablePadding="@dimen/bottom_button_drawablepadding"
+        android:gravity="center"
+        android:id="@+id/itemText"
+        tools:text="下载"
+        android:textColor="@drawable/bottom_text"
+        android:textSize="16sp" />
+
+</FrameLayout>

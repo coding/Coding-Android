@@ -1,63 +1,16 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="net.coding.program.project.detail.merge.ProjectMergeFragment">
 
-    <net.coding.program.third.WechatTab
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="48dip"
-        android:background="@android:color/transparent" />
+    <include layout="@layout/common_refresh_listview_divide" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+    <include
+        layout="@layout/view_merge_menu"
+        android:visibility="gone" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:background="@color/divide"
-        android:layout_height="wrap_content">
-
-        <RadioGroup
-            android:id="@+id/checkGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/padding_10"
-            android:paddingLeft="@dimen/padding_15"
-            android:paddingRight="@dimen/padding_15"
-            android:paddingTop="@dimen/padding_10">
-
-            <RadioButton
-                android:id="@+id/checkOpen"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/merge_button_left"
-                android:button="@null"
-                android:checked="true"
-                android:gravity="center"
-                android:text="未处理"
-                android:textColor="@drawable/merge_button_color" />
-
-            <RadioButton
-                android:id="@+id/checkClose"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/merge_button_right"
-                android:button="@null"
-                android:gravity="center"
-                android:text="已处理"
-                android:textColor="@drawable/merge_button_color" />
-        </RadioGroup>
-
-        <include layout="@layout/divide_1" />
-
-    </FrameLayout>
-
-</LinearLayout>
+    <include
+        layout="@layout/view_public_merge_menu"
+        android:visibility="gone" />
+</FrameLayout>

@@ -2,19 +2,16 @@ package net.coding.program.search;
 
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import net.coding.program.R;
+import net.coding.program.adapter.SearchMaopaoAdapter;
 import net.coding.program.common.Global;
 import net.coding.program.common.MyImageGetter;
-import net.coding.program.common.adapter.SearchMaopaoAdapter;
-import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.model.Maopao;
+import net.coding.program.common.model.Maopao;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.InstanceState;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,39 +22,18 @@ import java.util.ArrayList;
  * Created by Vernon on 15/11/28.
  */
 @EFragment(R.layout.fragment_search_list)
-public class SearchMaopaoFragment extends RefreshBaseFragment {
+public class SearchMaopaoFragment extends SearchBaseFragment {
     final String url = Global.HOST_API + "/esearch/all?q=%s";
     final String tmp = "&types=%s&pageSize=10";
+    @InstanceState
+    protected String keyword = "";
     String page = "&page=%s";
     int pos = 1;
     ArrayList<Maopao.MaopaoObject> mData = new ArrayList<>();
-    private String keyword = "";
+    SearchMaopaoAdapter adapter;
     private String tabPrams;
     private boolean hasMore = true;
     private boolean isLoading = true;
-    private LinearLayout emptyView;
-    private MyImageGetter myImageGetter;
-
-    @ViewById
-    ListView listView;
-
-
-    SearchMaopaoAdapter adapter;
-
-    @AfterViews
-    protected void init() {
-        initRefreshLayout();
-        myImageGetter = new MyImageGetter(getActivity());
-        setRefreshing(true);
-        emptyView = (LinearLayout) getView().findViewById(R.id.emptyView);
-        mFootUpdate.init(listView, mInflater, this);
-
-        adapter = new SearchMaopaoAdapter(mData, myImageGetter, getActivity());
-        listView.setAdapter(adapter);
-        listView.setOnScrollListener(mOnScrollListener);
-        loadMore();
-    }
-
     AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -74,9 +50,27 @@ public class SearchMaopaoFragment extends RefreshBaseFragment {
             }
         }
     };
+    private MyImageGetter myImageGetter;
+
+    @AfterViews
+    protected void init() {
+        initRefreshLayout();
+        myImageGetter = new MyImageGetter(getActivity());
+        setRefreshing(true);
+        mFootUpdate.init(listView, mInflater, this);
+
+        adapter = new SearchMaopaoAdapter(mData, myImageGetter, getActivity());
+        listView.setAdapter(adapter);
+        listView.setOnScrollListener(mOnScrollListener);
+        loadMore();
+    }
 
     public String getKeyword() {
         return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public String getTabPrams() {
@@ -85,10 +79,6 @@ public class SearchMaopaoFragment extends RefreshBaseFragment {
 
     public void setTabPrams(String tabPrams) {
         this.tabPrams = tabPrams;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
     }
 
     private String getUrl(int pos) {
@@ -105,7 +95,7 @@ public class SearchMaopaoFragment extends RefreshBaseFragment {
 
     @Override
     public void onRefresh() {
-        pos = 1;
+//        pos = 1;
         loadMore();
     }
 

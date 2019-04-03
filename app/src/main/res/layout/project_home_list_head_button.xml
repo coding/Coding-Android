@@ -20,8 +20,7 @@
         android:layout_marginLeft="@dimen/padding_15"
         android:layout_weight="1"
         android:text="动态"
-
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="@dimen/project_icon_text"
         android:visibility="visible" />
 

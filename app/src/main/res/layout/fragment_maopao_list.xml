@@ -22,7 +22,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/divide"
                 android:divider="@null"
-                android:dividerHeight="6dp"
+                android:dividerHeight="0dp"
                 android:footerDividersEnabled="false"
                 android:scrollingCache="false" />
 
@@ -41,7 +41,7 @@
                 android:layout_margin="16dp"
                 android:src="@drawable/ic_float_button_add"
                 app:fab_colorNormal="@color/font_green"
-                app:fab_colorPressed="@color/font_green_1" />
+                app:fab_colorPressed="@color/font_green" />
             <!--fab:fab_colorRipple="@color/ripple"-->
 
         </FrameLayout>

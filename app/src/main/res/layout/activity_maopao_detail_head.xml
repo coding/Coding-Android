@@ -22,12 +22,11 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <net.coding.program.common.widget.MemberIcon
                 android:id="@+id/icon"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_centerVertical="true" />
-
 
             <TextView
                 android:id="@+id/name"
@@ -38,9 +37,10 @@
                 android:layout_marginTop="2dp"
                 android:layout_toRightOf="@id/icon"
                 android:layout_weight="1"
-                android:text="wwww"
+                android:text="wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+                android:singleLine="true"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="16sp" />
 
             <TextView
@@ -52,7 +52,7 @@
                 android:layout_marginLeft="@dimen/padding_12"
                 android:layout_toRightOf="@id/icon"
                 android:text="1小时前"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="12sp" />
 
         </RelativeLayout>
@@ -66,9 +66,9 @@
             android:background="@color/transparent"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
-            android:text="陈可辛果然是香港最成功的导演，从《投名状》、《十月围城》、《武侠》"
+            tools:text="陈可辛果然是香港最成功的导演，从《投名状》、《十月围城》、《武侠》"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -106,9 +106,10 @@
             android:drawableLeft="@drawable/icon_maopao_send_phone"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:singleLine="true"
+            android:drawablePadding="5dp"
+            android:lines="1"
             android:text="来自 iPhone 6"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="13sp" />
 
         <RelativeLayout
@@ -138,10 +139,10 @@
                 android:layout_centerVertical="true"
                 android:background="@null"
                 android:drawableLeft="@drawable/maopao_extra_comment"
-                android:drawablePadding="9dp"
+                android:drawablePadding="5dp"
                 android:gravity="center"
                 android:src="@drawable/checkbox_comment"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="14sp"
                 tools:text="17" />
 
@@ -155,7 +156,7 @@
                 android:button="@drawable/checkbox_good"
                 android:paddingLeft="9dp"
                 android:text="0"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="14sp"
                 tools:text="55" />
 
@@ -166,9 +167,9 @@
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@id/likeBtn"
                 android:drawableLeft="@drawable/maopao_extra_reward"
-                android:drawablePadding="9dp"
+                android:drawablePadding="5dp"
                 android:gravity="center"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="14sp"
                 tools:text="2" />
 
@@ -207,8 +208,11 @@
             android:layout_height="50dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="8dp"
+            android:paddingLeft="15dp"
             android:paddingRight="8dp" />
+
     </LinearLayout>
+
+    <View style="@style/DivideLine_15" />
 
 </LinearLayout>

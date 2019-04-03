@@ -1,42 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/clickProject"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
+    android:layout_height="50dp"
     android:background="@drawable/list_item_selector"
     android:paddingLeft="15sp"
-    xmlns:tools="http://schemas.android.com/tools"
     android:paddingRight="15sp">
 
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
         android:layout_width="20dp"
-        android:layout_centerVertical="true"
         android:layout_height="20dp"
+        android:layout_centerVertical="true"
         android:layout_marginRight="15dp"
-        android:src="@color/red_f75" />
+        tools:src="@color/font_green" />
 
     <TextView
         android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:singleLine="true"
-        android:textColor="@color/font_2"
-        tools:text="红色"
-        android:textSize="16sp" />
+        android:lines="1"
+        android:textColor="@color/font_1"
+        android:textSize="16sp"
+        tools:text="红色" />
 
     <ImageView
+        android:id="@+id/picked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_task_status_list_check"
-        android:id="@+id/picked"/>
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_task_status_list_check" />
 
-    <include layout="@layout/divide_1" android:id="@+id/topLine" />
+    <include
+        android:id="@+id/topLine"
+        layout="@layout/divide_line_1" />
 
 </RelativeLayout>

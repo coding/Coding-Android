@@ -11,77 +11,78 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@color/stand_bg"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/stand_bg">
 
         <ImageView
-            android:background="@drawable/round_icon_path"
-            android:layout_marginTop="12dp"
+            android:id="@+id/icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginBottom="12dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="12dp"
-            android:id="@+id/icon"
-            tools:src="@drawable/ic_default_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp" />
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_icon_path"
+            tools:src="@drawable/ic_default_image" />
 
         <TextView
             android:id="@+id/title"
-            android:textColor="#1E2D42"
-            android:layout_toRightOf="@id/icon"
-            android:textSize="15sp"
-            tools:text="CodingTeamA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignTop="@id/icon"
             android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_toRightOf="@id/icon"
+            android:textColor="#1E2D42"
+            android:textSize="15sp"
+            tools:text="CodingTeamA" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_below="@id/title"
-            android:layout_alignLeft="@id/title"
-            android:layout_marginRight="15dp"
             android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/title"
+            android:layout_below="@id/title"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="8dp"
             android:lineSpacingExtra="2dp"
+            android:textColor="@color/font_3"
             android:textSize="12sp"
-            android:textColor="@color/font_9"
-            tools:text="这是 Coding 产品设计部使用团队，专门用于管理产品设计相关项目。 "
-            android:layout_height="wrap_content" />
+            tools:text="这是 Coding 产品设计部使用团队，专门用于管理产品设计相关项目。 " />
 
     </RelativeLayout>
 
     <include layout="@layout/divide_middle_15" />
 
     <FrameLayout
-        android:background="@color/stand_bg"
-        android:layout_width="match_parent"
-        android:foreground="?attr/selectableItemBackground"
         android:id="@+id/teamProject"
-        android:layout_height="48dp">
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/stand_bg"
+        android:foreground="?attr/selectableItemBackground">
+
         <TextView
-            android:layout_marginLeft="15dp"
-            android:text="团队项目"
-            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:text="团队项目" />
     </FrameLayout>
 
-    <View
-        style="@style/DivideLine" />
+    <View style="@style/DivideLine" />
 
     <FrameLayout
-        android:background="@color/stand_bg"
-        android:layout_width="match_parent"
-        android:foreground="?attr/selectableItemBackground"
         android:id="@+id/teamMember"
-        android:layout_height="48dp">
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/stand_bg"
+        android:foreground="?attr/selectableItemBackground">
+
         <TextView
-            android:layout_marginLeft="15dp"
-            android:text="团队成员"
-            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:text="团队成员" />
     </FrameLayout>
 
     <include layout="@layout/divide_bottom_15" />

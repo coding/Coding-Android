@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    xmlns:tools="http://schemas.android.com/tools"
+<TextView xmlns:tools="http://schemas.android.com/tools"
     style="@style/TextViewFilterTag"
-    tools:showIn="@layout/dialog_task_filter"/>
+    tools:showIn="@layout/dialog_task_filter" />

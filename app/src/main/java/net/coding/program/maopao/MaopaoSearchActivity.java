@@ -13,8 +13,8 @@ import android.widget.TextView;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.SearchCache;
+import net.coding.program.common.model.Subject;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.Subject;
 import net.coding.program.subject.SubjectDetailActivity_;
 import net.coding.program.subject.SubjectSearchFragment_;
 import net.coding.program.subject.adapter.SubjectSearchHistoryListAdapter;
@@ -42,13 +42,11 @@ public class MaopaoSearchActivity extends BackActivity {
     ListView emptyListView;
     FlowLayout mSearchHotLayout;
     SubjectSearchHistoryListAdapter mSearchHistoryListAdapter;
-
+    SearchView editText;
     // footer
     private TextView mSearchFooterClearAllView;
     private View mSearchFooterDivider;
-
     private String mHotTweetUrl = "/tweet_topic/hot?page=1&pageSize=6";
-    SearchView editText;
     private SubjectSearchFragment_ searchFragment;
     // 热门话题列表的数据
     private List<Subject.SubjectDescObject> mSubjectList = new ArrayList<>();
@@ -56,6 +54,36 @@ public class MaopaoSearchActivity extends BackActivity {
     private List<String> mSearchHistoryList = new ArrayList<>();
 
     private String mSearchData = "";
+    private View.OnClickListener mHotTweetClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = Integer.valueOf(v.getTag().toString());
+            if (position >= 0 && position < mSubjectList.size()) {
+                SubjectDetailActivity_.intent(MaopaoSearchActivity.this).subjectDescObject(mSubjectList.get(position)).start();
+            }
+        }
+    };
+    private AdapterView.OnItemClickListener mHistoryItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            int pos = position - emptyListView.getHeaderViewsCount();
+            if (pos >= 0 && pos < mSearchHistoryList.size()) {
+                String searchKey = mSearchHistoryList.get(pos);
+                editText.setQuery(searchKey, true);
+            }
+        }
+    };
+    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.subject_search_hot_footer_clear:
+                    SearchCache.getInstance(MaopaoSearchActivity.this).clearCache();
+                    loadSearchCache();
+                    break;
+            }
+        }
+    };
 
     @AfterViews
     void init() {
@@ -213,10 +241,10 @@ public class MaopaoSearchActivity extends BackActivity {
                 textView.setOnClickListener(mHotTweetClickListener);
                 if (i == 0) {
                     textView.setBackgroundResource(R.drawable.round_green_corner);
-                    textView.setTextColor(getResources().getColor(R.color.merge_green));
+                    textView.setTextColor(getResources().getColor(R.color.font_green));
                 } else {
                     textView.setBackgroundResource(R.drawable.round_gray_corner);
-                    textView.setTextColor(getResources().getColor(R.color.font_2));
+                    textView.setTextColor(getResources().getColor(R.color.font_1));
                 }
                 mSearchHotLayout.addView(itemView);
                 if (i > 4)
@@ -224,37 +252,4 @@ public class MaopaoSearchActivity extends BackActivity {
             }
         }
     }
-
-    private View.OnClickListener mHotTweetClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int position = Integer.valueOf(v.getTag().toString());
-            if (position >= 0 && position < mSubjectList.size()) {
-                SubjectDetailActivity_.intent(MaopaoSearchActivity.this).subjectDescObject(mSubjectList.get(position)).start();
-            }
-        }
-    };
-
-    private AdapterView.OnItemClickListener mHistoryItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            int pos = position - emptyListView.getHeaderViewsCount();
-            if (pos >= 0 && pos < mSearchHistoryList.size()) {
-                String searchKey = mSearchHistoryList.get(pos);
-                editText.setQuery(searchKey, true);
-            }
-        }
-    };
-
-    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.subject_search_hot_footer_clear:
-                    SearchCache.getInstance(MaopaoSearchActivity.this).clearCache();
-                    loadSearchCache();
-                    break;
-            }
-        }
-    };
 }

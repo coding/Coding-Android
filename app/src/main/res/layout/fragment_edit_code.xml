@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/stand_bg"
     tools:context="net.coding.program.project.git.EditCodeFragment">
 
     <EditText
@@ -10,12 +11,13 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
         android:background="@color/transparent"
         android:gravity="start"
         android:hint="编辑代码"
-        android:textSize="16sp"
-        android:textColorHint="#a3a3a3"
         android:minHeight="600dp"
-        android:textColor="@color/font_6" />
+        android:textColor="@color/font_2"
+        android:textColorHint="#a3a3a3"
+        android:textSize="16sp" />
 
 </FrameLayout>

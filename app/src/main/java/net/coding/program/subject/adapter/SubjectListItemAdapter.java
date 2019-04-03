@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
-import net.coding.program.model.Subject;
+import net.coding.program.common.model.Subject;
+import net.coding.program.common.param.MessageParse;
 
 import java.util.List;
 
@@ -69,8 +71,8 @@ public class SubjectListItemAdapter extends BaseAdapter {
             if (subjectDescObject != null) {
                 viewHolder.title.setText("#" + subjectDescObject.name + "#");
                 if (subjectDescObject.hot_tweet != null) {
-                    Global.MessageParse parse = HtmlContent.parseMessage(subjectDescObject.hot_tweet.content);
-                    viewHolder.desc.setText(Global.changeHyperlinkColor(HtmlContent.parseReplacePhotoMonkeySpecifyTitle(parse.text), mImageGetter, Global.tagHandler));
+                    MessageParse parse = HtmlContent.parseMessage(subjectDescObject.hot_tweet.content);
+                    viewHolder.desc.setText(GlobalCommon.changeHyperlinkColor(HtmlContent.parseReplacePhotoMonkeySpecifyTitle(parse.text), mImageGetter, Global.tagHandler));
                 } else {
                     viewHolder.desc.setText("");
                 }

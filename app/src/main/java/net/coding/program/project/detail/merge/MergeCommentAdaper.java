@@ -7,7 +7,7 @@ import android.widget.SectionIndexer;
 
 import net.coding.program.R;
 import net.coding.program.common.comment.BaseCommentParam;
-import net.coding.program.model.BaseComment;
+import net.coding.program.common.model.BaseComment;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 

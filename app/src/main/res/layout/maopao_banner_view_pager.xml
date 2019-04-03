@@ -3,31 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/stand_bg"
     android:orientation="vertical">
 
     <com.bigkoo.convenientbanner.ConvenientBanner
         android:id="@+id/bannerViewPager"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_marginBottom="@dimen/padding_14" />
+        android:layout_height="130dp" />
 
-    <LinearLayout xmlns:custom="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="44dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/padding_14"
         android:paddingLeft="@dimen/padding_12"
         android:paddingRight="@dimen/padding_12">
 
         <TextView
             android:id="@+id/bannerName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="16dp"
+            android:gravity="center"
             android:background="@drawable/round_rect_edge"
-            android:textColor="@color/font_9"
-            android:textSize="13sp"
+            android:textColor="@color/font_3"
+            android:textSize="10sp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
             android:visibility="invisible"
             tools:text="活动" />
 
@@ -38,21 +40,20 @@
             android:layout_marginLeft="6dp"
             android:layout_weight="1"
             android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/font_6"
-            android:textSize="14sp"
+            android:lines="1"
+            android:textColor="@color/font_2"
+            android:textSize="13sp"
             tools:text="hahahah" />
 
-        <net.coding.program.common.guide.IndicatorView
+        <net.coding.program.guide.IndicatorView
             android:id="@+id/indicatorView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            custom:pointView="@layout/banner_point" />
+            app:pointView="@layout/banner_point" />
 
     </LinearLayout>
 
-
-    <include layout="@layout/divide_shade_up" />
+    <include layout="@layout/divide_bottom_5" />
 
 </LinearLayout>
 

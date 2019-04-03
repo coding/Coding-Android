@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.flyco.roundview.RoundTextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.flyco.roundview.RoundTextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
-    android:padding="5dp"
-    android:text="已关注"
-    android:textColor="@color/tab_font_no_active"
+    android:paddingBottom="4dp"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
+    android:paddingTop="4dp"
+    android:textColor="@color/font_3"
     android:textSize="12sp"
     app:rv_backgroundColor="@color/divide"
     app:rv_cornerRadius="2dp"
-    app:rv_strokeColor="@color/divide_line"
-    app:rv_strokeWidth="@dimen/divide_height"/>
+    tools:text="已关注" />

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="net.coding.program.user.UsersListActivity">
+
+    <item
+        android:id="@+id/actionMore"
+        android:icon="@drawable/ic_menu_add"
+        android:title="@string/action_more"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/actionCreateProject"
+                android:icon="@drawable/ic_menu_add_project"
+                android:title="创建项目"
+                app:showAsAction="always" />
+            <item
+                android:id="@+id/actionCreateTask"
+                android:icon="@drawable/ic_menu_add_task"
+                android:title="创建任务"
+                app:showAsAction="always" />
+
+            <item
+                android:id="@+id/actionSendMessage"
+                android:icon="@drawable/ic_menu_add_message"
+                android:title="发消息"
+                app:showAsAction="always" />
+
+            <item
+                android:id="@+id/action2fa"
+                android:icon="@drawable/ic_menu_add_task_2fa"
+                android:title="@string/title_activity_login2_fatip"
+                app:showAsAction="always" />
+        </menu>
+    </item>
+
+
+</menu>

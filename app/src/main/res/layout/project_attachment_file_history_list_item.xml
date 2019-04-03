@@ -55,9 +55,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="middle"
-                android:singleLine="true"
+                android:lines="1"
                 android:text="Medium Text"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="17sp" />
 
             <LinearLayout
@@ -71,8 +71,8 @@
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:lines="1"
                     android:paddingRight="5dp"
-                    android:singleLine="true"
                     android:text="UserName"
                     android:textColor="@color/font_green"
                     android:textSize="12sp" />
@@ -81,9 +81,9 @@
                     android:id="@+id/desc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
+                    android:lines="1"
                     android:text="Medium Text"
-                    android:textColor="@color/font_9"
+                    android:textColor="@color/font_3"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -101,23 +101,14 @@
                     android:id="@+id/progressBar"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="0dp"
-                    android:layout_height="4dp"
+                    android:layout_height="3dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="100"
                     android:progress="30"
                     android:progressDrawable="@drawable/progressbg" />
 
-                <TextView
-                    android:id="@+id/cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_cancel"
-                    android:textColor="#FC503F"
-                    android:textSize="12sp" />
-
             </LinearLayout>
-
 
         </LinearLayout>
 
@@ -133,7 +124,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:text="查看"
-            android:textColor="@color/green"
+            android:textColor="@color/font_green"
             android:visibility="gone" />
 
         <RelativeLayout
@@ -149,11 +140,12 @@
 
             <TextView
                 android:id="@+id/downloadFlag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/project_file_list_download_bg"
-                android:textColor="@color/white"
+                android:gravity="center"
+                android:textColor="@color/font_3"
                 android:textSize="14sp"
                 tools:text="下载" />
 
@@ -161,11 +153,10 @@
 
         <View
             android:id="@+id/bottomLine"
-            android:layout_width="fill_parent"
-            android:layout_height="0.3dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/font_black_content_disabled" />
-    </RelativeLayout>
+            style="@style/DivideLine"
+            android:layout_alignLeft="@id/file_info_layout"
+            android:layout_alignParentBottom="true" />
 
+    </RelativeLayout>
 
 </FrameLayout>

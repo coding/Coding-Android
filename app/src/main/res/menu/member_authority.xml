@@ -4,8 +4,8 @@
     tools:context="net.coding.program.project.detail.FileHistoryActivity">
     <item
         android:id="@+id/action_about"
+        android:icon="@drawable/ic_menu_tip"
         android:orderInCategory="100"
         android:title="关于"
-        android:icon="@drawable/ic_project_info"
         app:showAsAction="always" />
 </menu>

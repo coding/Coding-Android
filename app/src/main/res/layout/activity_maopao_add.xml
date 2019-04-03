@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/stand_bg"
+    android:id="@+id/rootLayout"
     tools:context="net.coding.program.maopao.MaopaoAddActivity">
 
     <LinearLayout
@@ -17,20 +19,20 @@
             android:minHeight="150dp"
             android:orientation="horizontal">
 
-
-            <EditText
-                android:id="@+id/comment"
+            <net.coding.program.common.widget.input.EmojiEditText
+                android:id="@+id/editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:maxHeight="200dp"
                 android:gravity="top|left"
                 android:hint="来，发个冒泡吧~"
+                android:layerType="software"
+                android:maxHeight="200dp"
                 android:minLines="5"
                 android:paddingLeft="@dimen/padding_15"
                 android:paddingRight="@dimen/padding_15"
                 android:paddingTop="14dp"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="14sp" />
 
             <RelativeLayout
@@ -107,10 +109,10 @@
             android:maxLines="1"
             android:paddingLeft="9dp"
             android:paddingRight="12dp"
-            android:singleLine="true"
+            android:lines="1"
             android:text=""
-            android:textColor="@color/font_2"
-            android:textColorHint="@color/font_9"
+            android:textColor="@color/font_1"
+            android:textColorHint="@color/font_3"
             android:textSize="15sp" />
 
         <LinearLayout
@@ -120,10 +122,7 @@
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="0.5dp"
-                android:background="#cfcfcf" />
+            <View style="@style/DivideLine" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -199,9 +198,11 @@
                 android:layout_height="0.5dp"
                 android:background="#cfcfcf" />
 
-            <include
-                layout="@layout/emoji_keyboard_content"
-                android:visibility="gone" />
+            <net.coding.program.common.widget.input.EmojiKeyboard_
+                android:id="@+id/emojiKeyboard"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

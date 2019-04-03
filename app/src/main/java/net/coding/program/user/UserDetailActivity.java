@@ -3,13 +3,12 @@ package net.coding.program.user;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,14 +17,16 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.UserDetailEditActivity_;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
+import net.coding.program.common.maopao.MaopaoRequestTag;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.util.DensityUtil;
 import net.coding.program.common.widget.ListItem1;
+import net.coding.program.compatible.CodingCompat;
 import net.coding.program.message.MessageListActivity_;
-import net.coding.program.model.UserObject;
 import net.coding.program.project.detail.file.LocalProjectFileActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -42,11 +43,13 @@ import org.json.JSONObject;
 @EActivity(R.layout.activity_user_detail)
 public class UserDetailActivity extends UserDetailCommonActivity {
 
-    public static final String HOST_FOLLOW = Global.HOST_API + "/user/follow?";
-    public static final String HOST_UNFOLLOW = Global.HOST_API + "/user/unfollow?";
-    public final int RESULT_EDIT = 0;
-    final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
+    public final String HOST_FOLLOW = getHostFollow();
 
+    public final String HOST_UNFOLLOW = getHostUnfollow();
+
+    public final int RESULT_EDIT = 0;
+
+    final String HOST_USER_INFO = Global.HOST_API + "/user/key/";
     @Extra
     String globalKey;
     @ViewById
@@ -57,19 +60,37 @@ public class UserDetailActivity extends UserDetailCommonActivity {
     String[] user_detail_list_first;
     String[] user_detail_list_second;
     boolean isMe = false;
-
     boolean mNeedUpdate = false;
 
+    @NonNull
+    public static String getHostFollow() {
+        return Global.HOST_API + "/user/follow?";
+    }
+
+    @NonNull
+    public static String getHostUnfollow() {
+        return Global.HOST_API + "/user/unfollow?";
+    }
+
+    public static SpannableString createSpan(Context context, String s) {
+        SpannableString itemContent = new SpannableString(s);
+        final ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.font_count));
+
+        itemContent.setSpan(colorSpan, 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        itemContent.setSpan(new AbsoluteSizeSpan(15, true), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        itemContent.setSpan(new StyleSpan(Typeface.BOLD), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return itemContent;
+    }
 
     @AfterViews
     protected final void initUserDetailActivity() {
         //initListFirst();
 
         if (globalKey != null) {
-            if (globalKey.equals(MyApp.sUserObject.global_key)) {
+            if (globalKey.equals(GlobalData.sUserObject.global_key)) {
                 isMe = true;
 
-                MyDetailActivity_.intent(this).start();
+                CodingCompat.instance().launchMyDetailActivity(this);
                 finish();
                 return;
             }
@@ -78,10 +99,10 @@ public class UserDetailActivity extends UserDetailCommonActivity {
         } else {
             try {
                 String name = getIntent().getData().getQueryParameter("name");
-                if (name.equals(MyApp.sUserObject.name)) {
+                if (name.equals(GlobalData.sUserObject.name)) {
                     isMe = true;
 
-                    MyDetailActivity_.intent(this).start();
+                    CodingCompat.instance().launchMyDetailActivity(this);
                     finish();
                     return;
                 }
@@ -115,7 +136,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
     // 自己的和他人的显示项目有所不同
     private void bindViewType() {
         if (isMe) {
-            getSupportActionBar().setTitle("个人主页");
+            setActionBarTitle("个人主页");
             ((ListItem1) findViewById(R.id.clickProject)).setText("我的项目");
             ((ListItem1) findViewById(R.id.clickMaopao)).setText("我的冒泡");
             ((ListItem1) findViewById(R.id.clickTopic)).setText("我的话题");
@@ -125,7 +146,6 @@ public class UserDetailActivity extends UserDetailCommonActivity {
         }
         findViewById(R.id.pointDivide).setVisibility(isMe ? View.VISIBLE : View.GONE);
         findViewById(R.id.clickPointRecord).setVisibility(isMe ? View.VISIBLE : View.GONE);
-
     }
 
     @OptionsItem
@@ -182,19 +202,16 @@ public class UserDetailActivity extends UserDetailCommonActivity {
         // 自己的页面不显示 关注
         if (!isMe) {
             if (mUserObject.follow && mUserObject.followed) {
-                tv_follow_state.setText("相关关注");
-                tv_follow_state.setTextColor(getResources().getColor(R.color.color_323A45));
-                rl_follow_state.getDelegate().setBackgroundColor(getResources().getColor(R.color.divide));
+                tv_follow_state.setText("互相关注");
+                tv_follow_state.setTextColor(getResources().getColor(R.color.font_1));
                 tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_follow_state3, 0, 0, 0);
             } else if (!mUserObject.follow && mUserObject.followed) {
                 tv_follow_state.setText("已关注");
-                tv_follow_state.setTextColor(getResources().getColor(R.color.color_323A45));
-                rl_follow_state.getDelegate().setBackgroundColor(getResources().getColor(R.color.divide));
+                tv_follow_state.setTextColor(getResources().getColor(R.color.font_1));
                 tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_follow_state2, 0, 0, 0);
             } else {
                 tv_follow_state.setText("关注");
-                rl_follow_state.getDelegate().setBackgroundColor(getResources().getColor(R.color.white));
-                tv_follow_state.setTextColor(getResources().getColor(R.color.color_2EBE76));
+                tv_follow_state.setTextColor(getResources().getColor(R.color.font_green));
                 tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_follow_state1, 0, 0, 0);
             }
 
@@ -202,9 +219,9 @@ public class UserDetailActivity extends UserDetailCommonActivity {
                 RequestParams params = new RequestParams();
                 params.put("users", mUserObject.global_key);
                 if (!mUserObject.followed) {
-                    postNetwork(HOST_FOLLOW, params, HOST_FOLLOW);
+                    postNetwork(HOST_FOLLOW, params, MaopaoRequestTag.TAG_HOST_FOLLOW);
                 } else {
-                    postNetwork(HOST_UNFOLLOW, params, HOST_UNFOLLOW);
+                    postNetwork(HOST_UNFOLLOW, params, MaopaoRequestTag.TAG_HOST_UNFOLLOW);
                 }
             });
         }
@@ -212,21 +229,9 @@ public class UserDetailActivity extends UserDetailCommonActivity {
 
     private void followState(String value, int txtColor, int bgColor, int logo) {
         tv_follow_state.setText(value);
-        rl_follow_state.getDelegate().setBackgroundColor(getResources().getColor(bgColor));
         tv_follow_state.setTextColor(getResources().getColor(txtColor));
         tv_follow_state.setCompoundDrawablesWithIntrinsicBounds(logo, 0, 0, 0);
     }
-
-    public static SpannableString createSpan(Context context, String s) {
-        SpannableString itemContent = new SpannableString(s);
-        final ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.font_2));
-
-        itemContent.setSpan(colorSpan, 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        itemContent.setSpan(new AbsoluteSizeSpan(15, true), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        itemContent.setSpan(new StyleSpan(Typeface.BOLD), 2, itemContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return itemContent;
-    }
-
 
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
@@ -238,7 +243,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
                 showButtomToast("获取用户信息错误");
                 onBackPressed();
             }
-        } else if (tag.equals(HOST_FOLLOW)) {
+        } else if (tag.equals(MaopaoRequestTag.TAG_HOST_FOLLOW)) {
             if (code == 0) {
                 mNeedUpdate = true;
                 showButtomToast(R.string.follow_success);
@@ -247,7 +252,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
                 showButtomToast(R.string.follow_fail);
             }
             displayUserinfo();
-        } else if (tag.equals(HOST_UNFOLLOW)) {
+        } else if (tag.equals(MaopaoRequestTag.TAG_HOST_UNFOLLOW)) {
             if (code == 0) {
                 mNeedUpdate = true;
                 showButtomToast(R.string.unfollow_success);
@@ -257,7 +262,7 @@ public class UserDetailActivity extends UserDetailCommonActivity {
             }
             displayUserinfo();
         }
-        operActivenessResult(code, respanse, tag);
+        openActivenessResult(code, respanse, tag);
     }
 
 

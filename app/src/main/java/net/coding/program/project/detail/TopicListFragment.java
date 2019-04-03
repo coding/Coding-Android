@@ -14,17 +14,17 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.coding.program.FootUpdate;
-import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
+import net.coding.program.common.LoadMore;
 import net.coding.program.common.base.CustomMoreFragment;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.TopicObject;
 import net.coding.program.common.widget.FlowLabelLayout;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.TopicObject;
 import net.coding.program.project.detail.topic.TopicListDetailActivity_;
-import net.coding.program.user.UserDetailActivity_;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -43,7 +43,7 @@ import java.util.List;
 
 @EFragment(R.layout.fragment_project_topic_list)
 @OptionsMenu(R.menu.project_task)
-public class TopicListFragment extends CustomMoreFragment implements FootUpdate.LoadMore {
+public class TopicListFragment extends CustomMoreFragment implements LoadMore {
 
     static final int RESULT_ADD = 1;
     static final int RESULT_DETAIL = 2;
@@ -59,13 +59,13 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     private static final int ID_ORDER_REPLY_TIME = 51;
     private static final int ID_ORDER_PUBLISH_TIME = 49;
     private static final int ID_ORDER_HOT = 53;
-    private static final String URI_TOPICS = Global.HOST_API + "/user/%s/project/%s/topics/mobile?type=%s&orderBy=%s";
-    private static final String URI_TYPE_COUNTS = Global.HOST_API + "/user/%s/project/%s/topics/count";
-    private static final String URI_ALL_LABELS = Global.HOST_API + "/user/%s/project/%s/topics/labels?withCount=true";
-    private static final String URI_MY_LABELS = Global.HOST_API + "/user/%s/project/%s/topics/labels/my";
     // 刷新页面后如果当前标签不再存在，则自动变回【全部标签】再刷新
     private static final String URI_ALL_LABELS_THEN_RELOAD = "URI_ALL_LABELS_THEN_RELOAD";
     private static final String URI_MY_LABELS_THEN_RELOAD = "URI_MY_LABELS_THEN_RELOAD";
+    private final String URI_TOPICS = Global.HOST_API + "/user/%s/project/%s/topics/mobile?type=%s&orderBy=%s";
+    private final String URI_TYPE_COUNTS = Global.HOST_API + "/user/%s/project/%s/topics/count";
+    private final String URI_ALL_LABELS = Global.HOST_API + "/user/%s/project/%s/topics/labels?withCount=true";
+    private final String URI_MY_LABELS = Global.HOST_API + "/user/%s/project/%s/topics/labels/my";
     @FragmentArg
     ProjectObject mProjectObject;
     @ViewById
@@ -80,12 +80,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
     View blankLayout;
     @AnimationRes
     Animation dropdown_in, dropdown_out, dropdown_mask_out;
-    View.OnClickListener onClickUser = v -> {
-        String globaKey = (String) v.getTag();
-        Intent intent = new Intent(getActivity(), UserDetailActivity_.class);
-        intent.putExtra("globalKey", globaKey);
-        startActivity(intent);
-    };
+
     private ArrayList<TopicObject> mData = new ArrayList<>();
     private String urlGet;
 
@@ -114,7 +109,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
                 convertView = mInflater.inflate(R.layout.fragment_project_topic_list_item, parent, false);
                 holder = new ViewHolder();
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-                holder.icon.setOnClickListener(onClickUser);
+                holder.icon.setOnClickListener(GlobalCommon.mOnClickUser);
 
                 holder.title = (TextView) convertView.findViewById(R.id.title);
                 holder.time = (TextView) convertView.findViewById(R.id.time);
@@ -136,15 +131,15 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             iconfromNetwork(holder.icon, data.owner.avatar);
             holder.icon.setTag(data.owner.global_key);
 
-            holder.title.setText(Global.changeHyperlinkColor(data.title));
+            holder.title.setText(GlobalCommon.changeHyperlinkColor(data.title));
 
             holder.refId.setText(data.getRefId());
 
             holder.name.setText(data.owner.name);
-            holder.time.setText(Global.changeHyperlinkColor(Global.dayToNow(data.created_at)));
-            holder.discuss.setText(String.format("%d", data.child_count));
+            holder.time.setText(GlobalCommon.changeHyperlinkColor(Global.dayToNow(data.created_at)));
+            holder.discuss.setText(String.format("%s", data.child_count));
 
-            int flowWidth = MyApp.sWidthPix - Global.dpToPx(66 + 12);
+            int flowWidth = GlobalData.sWidthPix - GlobalCommon.dpToPx(66 + 12);
             holder.flowLayout.setLabels(data.labels, flowWidth);
 
             if (position == (getCount() - 1)) {
@@ -178,6 +173,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), TopicListDetailActivity_.class);
                 intent.putExtra("topicObject", ((TopicObject) baseAdapter.getItem((int) id)));
+                intent.putExtra("projectObject", mProjectObject);
                 getParentFragment().startActivityForResult(intent, RESULT_DETAIL);
             }
         });
@@ -512,7 +508,7 @@ public class TopicListFragment extends CustomMoreFragment implements FootUpdate.
                 if (topicsCount == 0 && targetList == datasetAllLabel) continue;
                 DropdownItemObject item = new DropdownItemObject(name, id, String.valueOf(id));
                 if (targetList == datasetAllLabel)
-                    item.setSuffix(String.format(" (%d)", data.optInt("count", 0)));
+                    item.setSuffix(String.format(" (%s)", data.optInt("count", 0)));
                 targetList.add(item);
             }
             updateLabels(targetList);

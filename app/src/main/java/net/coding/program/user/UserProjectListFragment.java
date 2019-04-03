@@ -12,13 +12,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.UserObject;
 import net.coding.program.project.ProjectHomeActivity_;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

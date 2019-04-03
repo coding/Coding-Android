@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import net.coding.program.R;
+import net.coding.program.common.model.TopicLabelObject;
 import net.coding.program.common.widget.LabelTextView;
-import net.coding.program.model.TopicLabelObject;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
@@ -118,7 +118,7 @@ public class TopicLabelBar extends RelativeLayout {
             if (view == null) {
                 view = (LabelTextView) inflater.inflate(R.layout.project_topic_label_bar_item, flowLayout, false);
             }
-            view.setText(item.name, item.getColor());
+            view.setText(item.name, item.getColorValue());
             view.setTag(item);
             if (controller.canEditLabels()) {
                 view.setOnClickListener(onClickLabel);

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        icon="@drawable/project_file_action_download"
+        id="@+id/filesDownload"
+        title="下载" />
+
+    <tab
+        icon="@drawable/project_file_action_move"
+        id="@+id/filesMove"
+        title="移动" />
+
+    <tab
+        icon="@drawable/project_file_action_delete"
+        id="@+id/filesDelete"
+        title="删除" />
+</tabs>

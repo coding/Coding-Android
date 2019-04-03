@@ -12,20 +12,22 @@ import java.util.ArrayList;
  */
 public abstract class SimpleAdapter<T, H> extends BaseAdapter {
 
-    public abstract void bindData(H h, T t, int position);
-    public abstract int getItemlayoutId();
-    public abstract H createViewHolder(View v);
-
     public ArrayList<T> listData;
-
-    public void init(ArrayList<T> data) {
-        listData = data;
-    }
 
     public SimpleAdapter() {
     }
 
     public SimpleAdapter(ArrayList<T> data) {
+        listData = data;
+    }
+
+    public abstract void bindData(H h, T t, int position);
+
+    public abstract int getItemlayoutId();
+
+    public abstract H createViewHolder(View v);
+
+    public void init(ArrayList<T> data) {
         listData = data;
     }
 

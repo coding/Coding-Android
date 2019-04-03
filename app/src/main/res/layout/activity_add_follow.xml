@@ -9,10 +9,10 @@
     <TextView
         android:id="@+id/maxUserCount"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center"
+        android:layout_height="50dp"
         android:background="@color/stand_bg"
-        android:textColor="@color/font_6"
+        android:gravity="center"
+        android:textColor="@color/font_2"
         android:textSize="14sp"
         tools:text="你还可以添加 4 个项目成员" />
 
@@ -22,16 +22,18 @@
         android:layout_below="@id/maxUserCount" />
 
     <ListView
-        android:layout_below="@id/userCountLine"
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:dividerHeight="0dp"
+        android:divider="@null"
+        android:layout_below="@id/userCountLine" />
 
     <LinearLayout
-        android:layout_below="@id/userCountLine"
         android:id="@+id/friendLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/userCountLine"
         android:background="@color/stand_bg"
         android:orientation="vertical"
         android:visibility="gone"
@@ -60,7 +62,7 @@
                     android:layout_marginLeft="12dp"
                     android:layout_weight="1"
                     android:text="我的关注"
-                    android:textColor="@color/font_6"
+                    android:textColor="@color/font_2"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -92,7 +94,7 @@
                     android:layout_marginLeft="12dp"
                     android:layout_weight="1"
                     android:text="我的粉丝"
-                    android:textColor="@color/font_6"
+                    android:textColor="@color/font_2"
                     android:textSize="16sp" />
 
             </LinearLayout>

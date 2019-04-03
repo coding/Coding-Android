@@ -1,72 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mall_list_item_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="110dp"
     android:addStatesFromChildren="true"
-    android:orientation="vertical"
-    android:paddingBottom="10dp"
-    android:paddingLeft="7dp"
-    android:background="@color/white"
-    android:paddingRight="7dp"
-    android:paddingTop="10dp">
+    android:background="@color/stand_bg">
     <!--android:paddingLeft="16dp"-->
     <!--android:paddingRight="16dp"-->
 
     <ImageView
         android:id="@+id/mall_list_item_img"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
         android:scaleType="centerCrop" />
 
     <!--android:paddingBottom="5dp"-->
-    <net.coding.program.common.widget.MarqueeView
-        android:id="@+id/mall_list_item_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:ellipsize="end"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:gravity="center_horizontal"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:scrollHorizontally="true"
-        android:singleLine="true"
-        android:text="title" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingTop="5dp">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="115dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="wrap_content"
-
+        <TextView
+            android:id="@+id/mall_list_item_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_icon" />
+            android:ellipsize="end"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:lines="1"
+            android:textColor="@color/font_1"
+            android:textSize="15sp"
+            tools:text="title" />
 
         <TextView
             android:id="@+id/mall_list_item_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingEnd="10dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="10dp"
-            android:paddingStart="8dp"
-            android:text="5 码币" />
+            android:layout_marginTop="6dp"
+            android:drawableLeft="@mipmap/ic_setting_mabi_small"
+            android:drawablePadding="7dp"
+            android:gravity="center_vertical"
+            android:text="5 码币"
+            android:textColor="@color/font_3"
+            android:textSize="14sp" />
 
-        <ImageView
-            android:id="@+id/mall_list_item_exchange"
+        <android.support.v4.widget.Space
             android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_exchange" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/rmbPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥49/2套"
+                android:textColor="@color/font_1"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/sales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="销量：1952"
+                android:textColor="@color/font_3"
+                android:textSize="12sp" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.flyco.roundview.RoundTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minHeight="18dp"
+                android:id="@+id/exchangeable"
+                android:minWidth="38dp"
+                android:text="可兑换"
+                app:rv_cornerRadius="2dp"
+                android:textColor="@color/font_orange"
+                android:textSize="10sp"
+                app:rv_backgroundColor="#FAECC1"
+                app:rv_strokeColor="@color/font_orange"
+                app:rv_strokeWidth="0.5dp" />
+        </LinearLayout>
+
     </LinearLayout>
-</LinearLayout>
+
+    <View
+        style="@style/DivideLine_15"
+        android:layout_gravity="bottom" />
+
+</FrameLayout>

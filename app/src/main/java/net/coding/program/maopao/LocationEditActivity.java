@@ -6,8 +6,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import net.coding.program.R;
+import net.coding.program.common.module.maopao.LocationObject;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.LocationObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;

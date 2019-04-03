@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:showIn="@layout/enterprise_activity_login">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:showIn="@layout/enterprise_activity_login">
+
+        <net.coding.program.common.widget.LoginEditTextNew
+            android:id="@+id/enterpriseEdit"
+            style="@style/EmailEdit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            app:digits="@string/input_format_global_key"
+            app:hint="企业域名"
+            app:topLine="false" />
+
+        <View
+            style="@style/DivideLineVer"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:id="@+id/countryCode"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginRight="15dp"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:text=".coding.net"
+            android:textColor="@color/font_1"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/enterpriseLine"
+        style="@style/LoginBottomLine"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp" />
+
+</LinearLayout>
+                            

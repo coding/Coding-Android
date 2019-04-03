@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:custom="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/stand_bg">
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/stand_bg">
 
-	<com.bigkoo.convenientbanner.ConvenientBanner
-			android:id="@+id/bannerViewPager"
-			android:layout_width="match_parent"
-			android:layout_height="250dp"
-			android:layout_marginBottom="@dimen/padding_14"
-			/>
+    <com.bigkoo.convenientbanner.ConvenientBanner
+        android:id="@+id/bannerViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginBottom="@dimen/padding_14" />
 
-	<net.coding.program.common.guide.IndicatorView
-			android:layout_alignBottom="@+id/bannerViewPager"
-			android:layout_centerHorizontal="true"
-			android:layout_marginBottom="0dp"
-			android:id="@+id/indicatorView"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			custom:pointView="@layout/banner_point"/>
+    <net.coding.program.guide.IndicatorView
+        android:id="@+id/indicatorView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/bannerViewPager"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="0dp"
+        custom:pointView="@layout/banner_point" />
 
 </RelativeLayout>
 

@@ -11,10 +11,10 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.model.ISubjectRecommendObject;
+import net.coding.program.common.model.Subject;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.Subject;
 import net.coding.program.subject.adapter.SubjectLastListAdapter;
-import net.coding.program.subject.service.ISubjectRecommendObject;
 import net.coding.program.subject.util.TopicLastCache;
 
 import org.androidannotations.annotations.AfterViews;
@@ -35,12 +35,10 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 @EActivity(R.layout.activity_subject_create)
 public class SubjectNewActivity extends BackActivity {
 
-    final String subjectHotTweetUrl = Global.HOST_API + "/tweet_topic/hot?page=1&pageSize=20";
-    final String hotRecommendUrl = Global.HOST_API + "/tweet/pop";
-
     private static final String TAG_HOT_SUBJECT = "TAG_HOT_SUBJECT";
     private static final String TAG_HOT_RECOMMEND = "TAG_HOT_RECOMMEND";
-
+    final String subjectHotTweetUrl = Global.HOST_API + "/tweet_topic/hot?page=1&pageSize=20";
+    final String hotRecommendUrl = Global.HOST_API + "/tweet/pop";
     @ViewById
     View emptyView;
     @ViewById
@@ -52,14 +50,37 @@ public class SubjectNewActivity extends BackActivity {
     TextView topicCreateName;
     @ViewById(R.id.topic_create_btn)
     TextView topicCreateBtn;
-
-    private SubjectLastListAdapter subjectListItemAdapter;
     SearchView editText;
-
+    private SubjectLastListAdapter subjectListItemAdapter;
     private List<ISubjectRecommendObject> subjectRecommendObjectList = new ArrayList<>();
     private List<ISubjectRecommendObject> showRecommendObjectList = new ArrayList<>();
 
     private String mTopicName;
+    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (position >= 0 && position < subjectRecommendObjectList.size()) {
+                ISubjectRecommendObject recommendObject = subjectRecommendObjectList.get(position);
+                mTopicName = recommendObject.getName();
+                TopicLastCache.getInstance(SubjectNewActivity.this).add(mTopicName);
+                finish();
+            }
+        }
+    };
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.topic_create_btn:
+                    if (topicCreateName != null && topicCreateName.getText() != null) {
+                        mTopicName = topicCreateName.getText().toString();
+                        TopicLastCache.getInstance(SubjectNewActivity.this).add(mTopicName);
+                        finish();
+                    }
+                    break;
+            }
+        }
+    };
 
     @AfterViews
     void init() {
@@ -167,33 +188,6 @@ public class SubjectNewActivity extends BackActivity {
             }
         }
     }
-
-    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (position >= 0 && position < subjectRecommendObjectList.size()) {
-                ISubjectRecommendObject recommendObject = subjectRecommendObjectList.get(position);
-                mTopicName = recommendObject.getName();
-                TopicLastCache.getInstance(SubjectNewActivity.this).add(mTopicName);
-                finish();
-            }
-        }
-    };
-
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.topic_create_btn:
-                    if (topicCreateName != null && topicCreateName.getText() != null) {
-                        mTopicName = topicCreateName.getText().toString();
-                        TopicLastCache.getInstance(SubjectNewActivity.this).add(mTopicName);
-                        finish();
-                    }
-                    break;
-            }
-        }
-    };
 
     @Override
     public void finish() {

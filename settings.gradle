@@ -1,1 +1,9 @@
-include ':app', ':social_sdk_library_project', ':bottom-bar'
+include ':app', ':widget-pick-photo', ':common-coding', ':pay-coding', ':share-coding', ':recyclerview-coding', ':git-code-coding', ':common-third-library'
+include ':bottom-bar'
+include ':luban'
+
+include ':terminal-coding'
+include ':push-coding'
+include ":push-xiaomi"
+include ":push-huawei"
+

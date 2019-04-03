@@ -1,35 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
 
     <RelativeLayout
+        android:id="@+id/topSection"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:background="@color/divide"
-        android:id="@+id/topSection"
         android:orientation="vertical">
 
-        <View
-            style="@style/DivideSectionBottom5" />
+        <View style="@style/DivideSectionBottom5" />
 
         <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/padding_15"
             android:layout_marginRight="@dimen/padding_15"
-            android:id="@+id/title"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="14sp"
-            tools:text="A"
-            android:layout_width="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_height="wrap_content" />
+            tools:text="A" />
 
         <View
-            android:layout_alignParentBottom="true"
-            style="@style/DivideSectionTop5" />
+            style="@style/DivideSectionTop5"
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 
@@ -45,17 +44,17 @@
         <TextView
             android:id="@+id/countryName"
             android:layout_width="wrap_content"
-            android:textColor="@color/font_2"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:textColor="@color/font_1" />
 
         <TextView
             android:id="@+id/countryPhone"
             android:layout_width="wrap_content"
-            android:textColor="@color/font_9"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:textColor="@color/font_3" />
 
         <View
             android:id="@+id/topLine"

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">terminal-coding</string>
+    <string name="terminal_activity">Terminal</string>
+</resources>

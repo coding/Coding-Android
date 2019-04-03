@@ -19,18 +19,20 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.maopao.ClickImageParam;
+import net.coding.program.common.maopao.VoicePlayCallBack;
+import net.coding.program.common.model.BaseComment;
+import net.coding.program.common.model.Maopao;
+import net.coding.program.common.param.MessageParse;
 import net.coding.program.common.widget.GifMarkImageView;
 import net.coding.program.maopao.MaopaoListBaseFragment;
-import net.coding.program.maopao.MaopaoListFragment;
-import net.coding.program.model.BaseComment;
-import net.coding.program.model.Maopao;
 
-import cz.msebera.android.httpclient.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,6 +43,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by chenchao on 15/3/31.
@@ -60,6 +64,7 @@ public class ContentAreaImages extends ContentAreaBase {
             R.id.image5
     };
     private static final int itemImagesMaxCount = itemImages.length;
+    private static final HashMap<String, Boolean> mUpdating = new HashMap<>();
     protected ImageLoadTool imageLoad;
     protected View imageLayout0;
     protected View imageLayout1;
@@ -67,7 +72,6 @@ public class ContentAreaImages extends ContentAreaBase {
     protected LinearLayout voiceLayout;
     protected View linearLayout;//气泡
     protected boolean isRight;
-    private AnimationDrawable voicePlayAnim;
     protected DisplayImageOptions imageOptions = new DisplayImageOptions
             .Builder()
             .showImageOnLoading(R.drawable.ic_default_image)
@@ -78,10 +82,25 @@ public class ContentAreaImages extends ContentAreaBase {
             .considerExifParams(true)
             .imageScaleType(ImageScaleType.EXACTLY)
             .build();
+    int frame = 0;
+    private AnimationDrawable voicePlayAnim;
     private int contentMarginBottom = 0;
     private ImageView images[] = new ImageView[itemImagesMaxCount];
+    private Handler mHandler = new Handler();
+    private boolean isAnimRuning;
+    private int id;
+    private boolean isNeedDownload = true;
+    private String voicePath;
+    private VoicePlayCallBack mVoicePlayCallBack;
+    private Runnable task = new Runnable() {
+        @Override
+        public void run() {
+            if (isAnimRuning) {
+                playVoiceAnim();
+            }
 
-    private static final HashMap<String, Boolean> mUpdating = new HashMap<>();
+        }
+    };
 
     public ContentAreaImages(View convertView, View.OnClickListener onClickContent, View.OnClickListener onclickImage, Html.ImageGetter imageGetterParamer, ImageLoadTool loadParams, int pxImageWidth) {
         super(convertView, onClickContent, imageGetterParamer);
@@ -107,19 +126,10 @@ public class ContentAreaImages extends ContentAreaBase {
         contentMarginBottom = convertView.getResources().getDimensionPixelSize(R.dimen.message_text_margin_bottom);
     }
 
-    // 用来设置冒泡的
-    public void setData(Maopao.MaopaoObject maopaoObject) {
-        setDataContent(maopaoObject.content, maopaoObject);
-    }
-
-    public void setData(BaseComment comment) {
-        setDataContent(comment.content, comment);
-    }
-
     //[voice]{'id':1,'voiceUrl':'/sd/voice/a.amr','voiceDuration':10,'played':1}[voice]
-    public static Global.MessageParse parseVoice(String s) {
+    public static MessageParse parseVoice(String s) {
         String str = s.substring(7, s.length() - 7);
-        Global.MessageParse mp = new Global.MessageParse();
+        MessageParse mp = new MessageParse();
         mp.text = "";
         try {
             JSONObject jo = new JSONObject(str);
@@ -134,22 +144,30 @@ public class ContentAreaImages extends ContentAreaBase {
         return mp;
     }
 
+    // 用来设置冒泡的
+    public void setData(Maopao.MaopaoObject maopaoObject) {
+        setDataContent(maopaoObject.content, maopaoObject);
+    }
+
+    public void setData(BaseComment comment) {
+        setDataContent(comment.content, comment);
+    }
+
     private void setDataContent(String data, Object contentObject) {
-        Global.MessageParse maopaoData = HtmlContent.parseMessage(data);
+        MessageParse maopaoData = HtmlContent.parseMessage(data);
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);
 
         } else {
             content.setTag(MaopaoListBaseFragment.TAG_COMMENT_TEXT, maopaoData.text);
             content.setVisibility(View.VISIBLE);
-            content.setText(Global.changeHyperlinkColorMaopao(maopaoData.text, imageGetter, Global.tagHandler,
+            content.setText(GlobalCommon.changeHyperlinkColorMaopao(maopaoData.text, imageGetter, Global.tagHandler,
                     content.getContext().getAssets()), TextView.BufferType.EDITABLE);
             content.setTag(contentObject);
         }
 
         setImageUrl(maopaoData.uris);
     }
-
 
     public String getVocicePath() {
         return voicePath;
@@ -213,10 +231,6 @@ public class ContentAreaImages extends ContentAreaBase {
         }
     }
 
-    private Handler mHandler = new Handler();
-    int frame = 0;
-    private boolean isAnimRuning;
-
     private void playVoiceAnim() {
         if (mVoicePlayCallBack.getPlayingVoiceId() == id) {
             isAnimRuning = true;
@@ -247,30 +261,13 @@ public class ContentAreaImages extends ContentAreaBase {
         }
     }
 
-
-    private Runnable task = new Runnable() {
-        @Override
-        public void run() {
-            if (isAnimRuning) {
-                playVoiceAnim();
-            }
-
-        }
-    };
-
-
     public void setVoiceNeedDownload(boolean isNeedDownload) {
         this.isNeedDownload = isNeedDownload;
     }
 
-    private int id;
-    private boolean isNeedDownload = true;
-    private String voicePath;
-    private VoicePlayCallBack mVoicePlayCallBack;
-
     // 用来设置message的
     public void setData(String data) {
-        final Global.MessageParse maopaoData = data.startsWith("[voice]{") && data.endsWith("}[voice]") ? parseVoice(data) : HtmlContent.parseMessage(data);
+        final MessageParse maopaoData = data.startsWith("[voice]{") && data.endsWith("}[voice]") ? parseVoice(data) : HtmlContent.parseMessage(data);
         LinearLayout.LayoutParams lp_voiceLayout = (LinearLayout.LayoutParams) voiceLayout.getLayoutParams();
         if (maopaoData.text.isEmpty()) {
             content.setVisibility(View.GONE);
@@ -278,7 +275,7 @@ public class ContentAreaImages extends ContentAreaBase {
         } else {
             content.setTag(MaopaoListBaseFragment.TAG_COMMENT_TEXT, maopaoData.text);
             content.setVisibility(View.VISIBLE);
-            content.setText(Global.changeHyperlinkColorMaopao(maopaoData.text, imageGetter,
+            content.setText(GlobalCommon.changeHyperlinkColorMaopao(maopaoData.text, imageGetter,
                     Global.tagHandler, content.getContext().getAssets()));
             ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) content.getLayoutParams();
             if (maopaoData.uris.size() > 0) {
@@ -311,8 +308,8 @@ public class ContentAreaImages extends ContentAreaBase {
             content.setFocusableInTouchMode(false);
 
             //让气泡的宽度随着录音长度变化 为什么还要在减去一个32dp?根据布局文件来算不需要的
-            int maxWidth = MyApp.sWidthPix - (isRight ? Global.dpToPx(57 + 53 + 36 + 32) : Global.dpToPx(57 + 53 + 24 + 32));
-            int minWidth = Global.dpToPx(60);
+            int maxWidth = GlobalData.sWidthPix - (isRight ? GlobalCommon.dpToPx(57 + 53 + 36 + 32) : GlobalCommon.dpToPx(57 + 53 + 24 + 32));
+            int minWidth = GlobalCommon.dpToPx(60);
             int s = maopaoData.voiceDuration >= 60 ? 60 : maopaoData.voiceDuration;
             int width = minWidth + (maxWidth - minWidth) * s / 60;
             width = width < minWidth ? minWidth : width;
@@ -436,27 +433,12 @@ public class ContentAreaImages extends ContentAreaBase {
 
     private void displayImage(ImageView images, ArrayList<String> uris, int pos) {
         images.setVisibility(View.VISIBLE);
-        images.setTag(new MaopaoListFragment.ClickImageParam(uris, pos, false));
+        images.setTag(new ClickImageParam(uris, pos, false));
         if (images instanceof GifMarkImageView) {
             ((GifMarkImageView) images).showGifFlag(uris.get(pos));
         }
 
         imageLoad.loadImage(images, uris.get(pos), imageOptions);
-    }
-
-    /**
-     * 语音播放回调接口
-     */
-    public interface VoicePlayCallBack {
-        void onStartPlay(String path, int id, MediaPlayer.OnPreparedListener mOnPreparedListener, MediaPlayer.OnCompletionListener mOnCompletionListener);
-
-        String getPlayingVoicePath();
-
-        void onStopPlay();
-
-        void markVoicePlayed(int id);
-
-        int getPlayingVoiceId();
     }
 
 }

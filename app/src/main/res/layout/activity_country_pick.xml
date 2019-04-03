@@ -7,11 +7,11 @@
 
     <net.coding.program.third.country.sidebar.IndexableListView
         android:id="@+id/listView"
-        android:fastScrollEnabled="true"
-        android:fastScrollAlwaysVisible="true"
-        android:dividerHeight="0dp"
-        android:divider="@null"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:fastScrollAlwaysVisible="true"
+        android:fastScrollEnabled="true" />
 
 </FrameLayout>

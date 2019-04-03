@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="net.coding.program.project.MainProjectFragment">
+
+    <android.support.design.widget.AppBarLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/appbarProjectLayout"
+        style="@style/AppBarLayout">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/mainProjectToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+            <TextView
+                android:id="@+id/toolbarTitle"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/maopao_spinner"
+                android:text="我的项目"
+                android:textColor="@color/font_1" />
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/top_tip" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/terminalClick"
+            android:layout_width="wrap_content"
+            android:src="@mipmap/float_terminal"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:visibility="invisible"
+            android:layout_marginRight="5dp" />
+
+        <include layout="@layout/actionbar_shadow" />
+    </FrameLayout>
+
+</LinearLayout>

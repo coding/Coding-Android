@@ -2,32 +2,33 @@ package net.coding.program.common.widget.input;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.Spannable;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.EditText;
 
 import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
-import net.coding.program.common.enter.SimpleTextWatcher;
+import net.coding.program.common.GlobalCommon;
 
 /**
  * Created by chenchao on 16/1/25.
  */
 
-public class EmojiEditText extends EditText {
+public class EmojiEditText extends AppCompatEditText {
 
     View rootView;
     int rootViewHigh;
 
     AppCompatActivity mActivity;
+    InputBaseCallback callback;
 
     public EmojiEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        mActivity = (AppCompatActivity) getContext();
+        mActivity = (AppCompatActivity) Global.getActivityFromView(this);
         rootView = mActivity.findViewById(android.R.id.content);
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             int lastHigh = rootViewHigh;
@@ -107,14 +108,24 @@ public class EmojiEditText extends EditText {
         editable.setSpan(new EmojiconSpan(mActivity, s), insertPos, insertPos + replaced.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
+    public void numberAction(String number) {
+        int insertPos = getSelectionStart();
+        Editable editable = getText();
+        editable.insert(insertPos, number);
+    }
+
+    public void enterAction() {
+        int insertPos = getSelectionStart();
+        Editable editable = getText();
+        editable.insert(insertPos, "\n");
+    }
+
     public boolean isPopSystemInput() {
         int rootViewHigh = rootView.getHeight();
-        final int bottomHigh = Global.dpToPx(100); // 底部虚拟按键高度，nexus5是73dp，以防万一，所以设大一点
+        final int bottomHigh = GlobalCommon.dpToPx(100); // 底部虚拟按键高度，nexus5是73dp，以防万一，所以设大一点
         int rootParentHigh = rootView.getRootView().getHeight();
         return rootParentHigh - rootViewHigh > bottomHigh;
     }
-
-    InputBaseCallback callback;
 
     public void setCallback(InputBaseCallback callback) {
         this.callback = callback;

@@ -10,12 +10,13 @@ import com.loopj.android.http.RequestParams;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.GitFileBlobObject;
+import net.coding.program.common.model.GitFileInfoObject;
+import net.coding.program.common.model.GitFileObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.umeng.UmengEvent;
 import net.coding.program.common.url.UrlCreate;
-import net.coding.program.model.GitFileBlobObject;
-import net.coding.program.model.GitFileInfoObject;
-import net.coding.program.model.GitFileObject;
 import net.coding.program.project.detail.ProjectGitFragment;
 
 import org.androidannotations.annotations.AfterViews;
@@ -40,7 +41,7 @@ public class EditCodeActivity extends BackActivity {
     GitFileObject file;
 
     @Extra
-    String mVersion = ProjectGitFragment.MASTER;;
+    String mVersion = ProjectGitFragment.MASTER;
 
     private PreviewCodeFragment previewFragment;
     private EditCodeFragment editFragment;
@@ -99,12 +100,13 @@ public class EditCodeActivity extends BackActivity {
         RequestParams params = new RequestParams();
         params.put("content", editFragment.getInput());
         mGitAll.getGitFileObject().data = editFragment.getInput();
-        params.put("message", "update " +  mGitFileInfoObject.name);
+        params.put("message", "update " + mGitFileInfoObject.name);
         params.put("lastCommitSha", mGitAll.getCommitId());
         MyAsyncHttpClient.post(this, url, params, new MyJsonResponse(EditCodeActivity.this) {
             @Override
             public void onMySuccess(JSONObject response) {
                 super.onMySuccess(response);
+                umengEvent(UmengEvent.E_GIT, "编辑代码_提交");
                 closeAndSave();
             }
 
@@ -129,5 +131,15 @@ public class EditCodeActivity extends BackActivity {
         intent.putExtra("resultData", mGitAll);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (editFragment.isModify()) {
+            String msg = "如果不保存，更改将丢失，是否确认返回？";
+            showDialog("", msg, (dialog, which) -> super.onBackPressed(), null, "确认返回", "取消");
+        } else {
+            super.onBackPressed();
+        }
     }
 }

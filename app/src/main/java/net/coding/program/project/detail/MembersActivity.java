@@ -9,12 +9,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.LoadMore;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.TaskObject;
-import net.coding.program.model.UserObject;
+import net.coding.program.network.constant.MemberAuthority;
+import net.coding.program.network.model.user.Member;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -28,7 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_members)
-public class MembersActivity extends BackActivity implements FootUpdate.LoadMore {
+public class MembersActivity extends BackActivity implements LoadMore {
 
     @Extra
     protected int mProjectObjectId;
@@ -36,7 +37,7 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
     protected String getProjectMembers = "getProjectMembers";
     protected String urlMembers = "";
 
-    protected ArrayList<TaskObject.Members> mMembersArray = new ArrayList<>();
+    protected ArrayList<Member> mMembersArray = new ArrayList<>();
 
     @ViewById
     protected ListView listView;
@@ -73,7 +74,7 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            TaskObject.Members data = mMembersArray.get(position);
+            Member data = mMembersArray.get(position);
             holder.name.setText(data.user.name);
             iconfromNetwork(holder.icon, data.user.avatar);
 
@@ -81,7 +82,7 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
 
             UserObject user = data.user;
 
-            TaskObject.Members.Type memberType = data.getType();
+            MemberAuthority memberType = data.getType();
             int iconRes = memberType.getIcon();
             if (iconRes == 0) {
                 holder.ic.setVisibility(View.GONE);
@@ -106,7 +107,7 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
 
     };
 
-    protected void updateChecked(ViewHolder holder, TaskObject.Members data) {
+    protected void updateChecked(ViewHolder holder, Member data) {
     }
 
     @AfterViews
@@ -118,7 +119,7 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent();
-            TaskObject.Members members = mMembersArray.get(position);
+            Member members = mMembersArray.get(position);
             intent.putExtra("members", members);
             setResult(Activity.RESULT_OK, intent);
             finish();
@@ -136,12 +137,12 @@ public class MembersActivity extends BackActivity implements FootUpdate.LoadMore
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(getProjectMembers)) {
             if (code == 0) {
-                ArrayList<TaskObject.Members> usersInfo = new ArrayList<>();
+                ArrayList<Member> usersInfo = new ArrayList<>();
 
                 JSONArray members = respanse.getJSONObject("data").getJSONArray("list");
 
                 for (int i = 0; i < members.length(); ++i) {
-                    mMembersArray.add(new TaskObject.Members(members.getJSONObject(i)));
+                    mMembersArray.add(new Member(members.getJSONObject(i)));
                 }
 
                 adapter.notifyDataSetChanged();

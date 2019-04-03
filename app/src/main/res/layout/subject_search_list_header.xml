@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
     <TextView
         android:id="@+id/maopao_search_result"
         android:layout_width="match_parent"
@@ -12,12 +11,9 @@
         android:layout_centerVertical="true"
         android:gravity="center"
         android:text="热门话题搜索"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="14sp" />
 
+    <View style="@style/DivideLine" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/search_divide_color"></View>
 </LinearLayout>

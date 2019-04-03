@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MyActivity">
+
+    <item
+        android:id="@+id/actionPull"
+        android:title="pull"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/actionDelete"
+        android:title="删除本地代码"
+        app:showAsAction="never" />
+
+</menu>

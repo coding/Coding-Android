@@ -7,13 +7,14 @@ import android.webkit.WebView;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.CodingGlobal;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.GitFileBlobObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.url.UrlCreate;
-import net.coding.program.model.GitFileBlobObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -55,7 +56,7 @@ public class PreviewCodeFragment extends BaseFragment {
                 public void onMySuccess(JSONObject response) {
                     super.onMySuccess(response);
                     file.getGitFileObject().preview = response.optString("data");
-                    Global.setWebViewContent(webview, file.getGitFileObject());
+                    CodingGlobal.setWebViewContent(webview, file.getGitFileObject());
                 }
 
                 @Override
@@ -67,7 +68,7 @@ public class PreviewCodeFragment extends BaseFragment {
             customLoadingView.setVisibility(View.VISIBLE);
 
         } else {
-            Global.setWebViewContent(webview, file.getGitFileObject());
+            CodingGlobal.setWebViewContent(webview, file.getGitFileObject());
         }
     }
 }

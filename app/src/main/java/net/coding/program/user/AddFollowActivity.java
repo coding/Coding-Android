@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,15 +22,18 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.WeakRefHander;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.UserObject;
+import net.coding.program.common.model.project.ProjectServiceInfo;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.UserObject;
-import net.coding.program.model.project.ProjectServiceInfo;
+import net.coding.program.compatible.CodingCompat;
+import net.coding.program.network.constant.Friend;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -49,13 +53,10 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
 
     public static final int RESULT_USER_DETAIL = 1000;
     private static final int RESULT_ADD_PROJECT_MEMBER = 1;
-
+    private static final String TAG_SERVICE_INFO = "TAG_SERVICE_INFO";
     String HOST_SEARCH_USER = Global.HOST_API + "/user/search?key=%s";
     String urlAddUser = "";
     ArrayList<UserObject> mData = new ArrayList<>();
-
-    private static final String TAG_SERVICE_INFO = "TAG_SERVICE_INFO";
-
     boolean mNeedUpdate = false;
 
     @Extra
@@ -78,6 +79,22 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
 
     ProjectServiceInfo serviceInfo;
 
+    public static void bindData(TextView maxUserCount, ProjectServiceInfo serviceInfo) {
+        if (TextUtils.isEmpty(GlobalData.getEnterpriseGK())) {
+            maxUserCount.setVisibility(View.VISIBLE);
+            int count = serviceInfo.maxmember - serviceInfo.member;
+            if (count > 0) {
+                maxUserCount.setText(String.format("你还可以添加 %s 个项目成员", count));
+                maxUserCount.setTextColor(CodingColor.font2);
+            } else {
+                maxUserCount.setText("已达到成员最大数，不能再继续添加成员！");
+                maxUserCount.setTextColor(CodingColor.fontRed);
+            }
+        } else {
+            maxUserCount.setVisibility(View.GONE);
+        }
+    }
+
     @AfterViews
     protected final void initAddFollowActivity() {
         mHandler = new WeakRefHander(this);
@@ -89,10 +106,8 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
             baseAdapter = new FollowAdapter(this, true, mData);
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 UserObject userObject = mData.get((int) id);
-                UserDetailActivity_
-                        .intent(AddFollowActivity.this)
-                        .globalKey(userObject.global_key)
-                        .startForResult(RESULT_USER_DETAIL);
+                CodingCompat.instance().launchUserDetailActivity(this, userObject.global_key,
+                        RESULT_USER_DETAIL);
             });
         } else {
             urlAddUser = Global.HOST_API + mProjectObject.getProjectPath() + "/members/gk/add";
@@ -103,7 +118,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
             baseAdapter = new FollowAdapter(this, false, mData);
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 final UserObject data = mData.get((int) id);
-                new AlertDialog.Builder(this)
+                new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                         .setMessage(String.format("添加项目成员 %s ?", data.name))
                         .setPositiveButton("确定", (dialog, which) -> {
                             RequestParams params = new RequestParams();
@@ -118,7 +133,6 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
         loadServiceInfo();
     }
 
-
     private void loadServiceInfo() {
         if (mProjectObject == null) {
             return;
@@ -126,19 +140,6 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
 
         final String url = mProjectObject.getHttpProjectApi() + "/service_info";
         getNetwork(url, TAG_SERVICE_INFO);
-    }
-
-    public static void bindData(TextView maxUserCount, ProjectServiceInfo serviceInfo) {
-        maxUserCount.setVisibility(View.VISIBLE);
-        int count = serviceInfo.maxmember - serviceInfo.member;
-        if (count > 0) {
-            maxUserCount.setText(String.format("你还可以添加 %s 个项目成员", count));
-            maxUserCount.setTextColor(0xff666666);
-        } else {
-            maxUserCount.setText("已达到成员最大数，不能再继续添加成员！");
-            maxUserCount.setTextColor(0xfff34a4a);
-        }
-
     }
 
     @Override
@@ -165,7 +166,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
             }
             baseAdapter.notifyDataSetChanged();
 
-        } else if (tag.equals(UsersListActivity.HOST_FOLLOW)) {
+        } else if (tag.equals(UsersListActivity.getHostFollow())) {
             if (code == 0) {
                 umengEvent(UmengEvent.PROJECT, "关注他人");
                 mNeedUpdate = true;
@@ -175,7 +176,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
                 showButtomToast(R.string.follow_fail);
             }
             baseAdapter.notifyDataSetChanged();
-        } else if (tag.equals(UsersListActivity.HOST_UNFOLLOW)) {
+        } else if (tag.equals(UsersListActivity.getHostUnfollow())) {
             umengEvent(UmengEvent.USER, "取消关注");
 
             if (code == 0) {
@@ -210,13 +211,13 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
 
     @Click
     void listItemFollow() {
-        UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(MyApp.sUserObject,
-                UsersListActivity.Friend.Follow);
+        UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(GlobalData.sUserObject,
+                Friend.Follow);
 
         UsersListActivity_
                 .intent(this)
                 .mUserParam(userParams)
-                .type(UsersListActivity.Friend.Follow)
+                .type(Friend.Follow)
                 .hideFollowButton(true)
                 .projectObject(mProjectObject)
                 .projectServiceInfo(serviceInfo)
@@ -225,13 +226,13 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
 
     @Click
     void listItemFans() {
-        UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(MyApp.sUserObject,
-                UsersListActivity.Friend.Fans);
+        UsersListActivity.UserParams userParams = new UsersListActivity.UserParams(GlobalData.sUserObject,
+                Friend.Fans);
 
         UsersListActivity_
                 .intent(this)
                 .mUserParam(userParams)
-                .type(UsersListActivity.Friend.Fans)
+                .type(Friend.Fans)
                 .projectObject(mProjectObject)
                 .projectServiceInfo(serviceInfo)
                 .hideFollowButton(true)
@@ -278,7 +279,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
         return true;
     }
 
-    void search(String s) {
+    protected void search(String s) {
         if (s == null || s.replaceAll(" ", "").replaceAll("　", "").isEmpty()) {
             if (mProjectObject != null) {
                 friendLayout.setVisibility(View.VISIBLE);
@@ -359,9 +360,9 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
                             RequestParams params = new RequestParams();
                             params.put("users", user.global_key);
                             if (((CheckBox) v).isChecked()) {
-                                postNetwork(UsersListActivity.HOST_FOLLOW, params, UsersListActivity.HOST_FOLLOW, -1, user);
+                                postNetwork(UsersListActivity.getHostFollow(), params, UsersListActivity.getHostFollow(), -1, user);
                             } else {
-                                postNetwork(UsersListActivity.HOST_UNFOLLOW, params, UsersListActivity.HOST_UNFOLLOW, -1, user);
+                                postNetwork(UsersListActivity.getHostUnfollow(), params, UsersListActivity.getHostUnfollow(), -1, user);
                             }
                         }
                     });
@@ -377,7 +378,7 @@ public class AddFollowActivity extends BackActivity implements Handler.Callback 
             final UserObject data = getItem(position);
 
             iconfromNetwork(holder.icon, data.avatar);
-            holder.name.setText(String.format("%s - %s", data.name, data.global_key));
+            holder.name.setText(String.format("%s", data.name));
 
             if (mShowFollowButton) {
                 int drawableId = data.follow ? R.drawable.checkbox_fans : R.drawable.checkbox_follow;

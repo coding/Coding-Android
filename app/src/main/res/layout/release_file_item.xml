@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="36dp"
+    android:background="@color/stand_bg">
+
+    <View style="@style/DivideLine" />
+
+
+    <TextView
+        android:id="@+id/fileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:drawableLeft="@drawable/release_file"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/font_2"
+        android:textSize="14sp"
+        tools:text="技能类型技能类型技能类型技能类型技能类型技能类型技能类型：" />
+
+    <TextView
+        android:id="@+id/fileSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:drawablePadding="4dp"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:textColor="@color/font_2"
+        android:textSize="14sp"
+        tools:text="35Mb" />
+
+</RelativeLayout>

@@ -12,7 +12,7 @@
     android:maxLines="1"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
-    android:singleLine="true"
+    android:lines="1"
     android:text="标签"
-    android:textColor="@color/green"
+    android:textColor="@color/font_green"
     android:textSize="@dimen/labal_detail_font" />

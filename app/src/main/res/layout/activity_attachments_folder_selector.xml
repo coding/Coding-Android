@@ -1,65 +1,64 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="net.coding.program.project.detail.AttachmentsActivity">
+    android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/listView"
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="@dimen/padding_15"
-        android:divider="@drawable/divide_line_project_item"
-        android:layout_above="@+id/rl_btn_layout"
-        android:footerDividersEnabled="false" />
+        android:layout_above="@+id/rl_btn_layout">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/rl_btn_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/bottom_layout_high"
         android:layout_alignParentBottom="true"
-        android:background="@color/divide"
+        android:background="@color/color_bottom_bar"
         android:orientation="vertical">
 
-        <include layout="@layout/divideline_e2" />
+        <include layout="@layout/divide_line_1" />
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="15dp"
             android:orientation="horizontal">
 
-            <Button
+            <TextView
                 android:id="@+id/btnLeft"
-                style="?android:textAppearanceButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/login_button"
                 android:gravity="center"
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp"
+                android:layout_marginLeft="@dimen/padding_15"
                 android:text="新建文件夹"
                 android:textColor="@color/white"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+                android:textSize="16dp" />
 
-
-            <Button
+            <TextView
                 android:id="@+id/btnRight"
-                style="?android:textAppearanceButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
+                android:layout_marginLeft="@dimen/padding_15"
                 android:layout_weight="1"
                 android:background="@drawable/login_button"
                 android:gravity="center"
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp"
                 android:text="移动"
                 android:textColor="@color/white"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+                android:textSize="16dp" />
+
         </LinearLayout>
 
 

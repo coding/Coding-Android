@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/popDialogBg">
+    android:background="@color/popDialogBg"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tipText"
-        android:layout_margin="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginTop="30dp"
+        android:layout_margin="15dp"
         android:layout_marginBottom="30dp"
-        android:textColor="@color/divide_line"
-        android:textSize="16sp"
+        android:layout_marginTop="30dp"
         android:text="示例
 工作经历
 公司名称：某某公司
@@ -25,5 +24,6 @@
 职位名称：项目经理
 在职时间：2015.8至今
 岗位职责：Coding码市v2版本测试和码市悬赏项目的跟进管理。"
-        />
+        android:textColor="@color/divide_line"
+        android:textSize="16sp" />
 </RelativeLayout>

@@ -1,5 +1,4 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,14 +7,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null"
-        android:dividerHeight="0dp"/>
+        android:dividerHeight="0dp" />
 
     <LinearLayout
         android:id="@+id/topic_create_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,9 +26,9 @@
                 android:layout_width="0dp"
                 android:layout_height="53.3dp"
                 android:layout_weight="1"
-                android:textColor="@color/font_2"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/padding_12"
+                android:textColor="@color/font_1"
                 android:textSize="16sp" />
 
             <TextView
@@ -40,15 +39,12 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="@dimen/padding_12"
                 android:text="创建"
-                android:textColor="@color/green"
+                android:textColor="@color/font_green"
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="@dimen/padding_15"
-            android:background="@color/search_divide_color" />
+        <View style="@style/DivideLine_15" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -74,7 +70,7 @@
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.1"
             android:text="搜索项目名称或创建人的用户名\n都可以进行项目搜索哦！"
-            android:textColor="@color/font_9" />
+            android:textColor="@color/font_3" />
 
     </LinearLayout>
 

@@ -2,5 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
     <corners android:radius="2dp" />
-    <stroke android:color="@color/divide_line" android:width="0.5dp" />
+    <stroke
+        android:width="0.5dp"
+        android:color="@color/divide_line" />
 </shape>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id = "@+id/message_list_list_item_right"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/message_list_list_item_right"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -14,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:text="Small Text"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="12sp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -27,7 +28,7 @@
         android:layout_marginRight="12dp"
         android:src="@drawable/ic_lancher" />
 
-    <LinearLayout xmlns:custom="http://schemas.android.com/apk/res/net.coding.program"
+    <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,23 +45,27 @@
         android:paddingTop="10dp"
         android:visibility="visible">
 
-        <LinearLayout android:id="@+id/voiceLayout"
+        <LinearLayout
+            android:id="@+id/voiceLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|left"
             android:orientation="horizontal">
-            <ImageView android:id="@+id/voice_play"
+
+            <ImageView
+                android:id="@+id/voice_play"
                 android:layout_width="20sp"
                 android:layout_height="20sp"
                 android:layout_marginRight="4dp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
+
             <net.coding.program.common.enter.GifSpanTextView
                 android:id="@+id/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/content_pressed_selector"
                 android:text="this is contentasdfasdfasdfasdfasdfasdfasdfasdfasdfas"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -76,9 +81,9 @@
             android:minHeight="@dimen/image_single_min_width"
             android:minWidth="@dimen/image_single_min_width"
             android:scaleType="centerCrop"
-            custom:microSize="@dimen/image_single_micro_width"
-            custom:minHeight="@dimen/image_single_min_size"
-            custom:minWidth="@dimen/image_single_min_size" />
+            app:microSize="@dimen/image_single_micro_width"
+            app:minHeight="@dimen/image_single_min_size"
+            app:minWidth="@dimen/image_single_min_size" />
 
         <LinearLayout
             android:id="@+id/imagesLayout0"
@@ -135,26 +140,26 @@
             android:id="@+id/resend"
             android:layout_width="21dp"
             android:layout_height="21dp"
-            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_red_circle"
             android:gravity="center"
             android:text="!"
-            android:visibility="gone"
-            android:layout_gravity="center"
-            android:background="@drawable/shape_red_circle" />
-<!--
-        <View
-            android:id="@+id/resend"
-            android:layout_width="21dp"
-            android:layout_height="21dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_message_resend" />
--->
+            android:textColor="@color/white"
+            android:visibility="gone" />
+        <!--
+                <View
+                    android:id="@+id/resend"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_message_resend" />
+        -->
         <ProgressBar
             android:id="@+id/sending"
             style="?android:attr/progressBarStyleSmall"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
 
     </FrameLayout>
 

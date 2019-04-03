@@ -27,6 +27,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 
 /**
  * Circular countdown indicator. The indicator is a filled arc which starts as a full circle ({@code
@@ -35,7 +36,7 @@ import net.coding.program.R;
  * @author klyubin@google.com (Alex Klyubin)
  */
 public class CountdownIndicator extends View {
-    private static final int DEFAULT_COLOR = 0xff666666;
+    private static final int DEFAULT_COLOR = CodingColor.font2;
     private final Paint mRemainingSectorPaint;
     private final Paint mBorderPaint;
     /**

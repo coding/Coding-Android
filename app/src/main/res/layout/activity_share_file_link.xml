@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,19 +12,16 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff7f3d5"
         android:padding="@dimen/padding_12"
-        android:text="适用于所有人，无需登录。\n当前未开启分享，请先创建公开链接。"
-        android:textColor="@color/font_6"
-        android:textSize="16sp" />
-
-    <include layout="@layout/divide_middle_15" />
+        android:text="该链接适用于所有人，无需登录。"
+        android:textColor="@color/font_3"
+        android:textSize="15sp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_selector"
-        android:minHeight="48dp"
+        android:minHeight="50dp"
         android:paddingLeft="@dimen/padding_12"
         android:paddingRight="@dimen/padding_12">
 
@@ -32,17 +30,18 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="共享链接"
-            android:textColor="@color/font_2"
-            android:textSize="16sp" />
+            android:textColor="@color/font_1"
+            android:textSize="15sp" />
 
-        <CheckBox
+        <android.support.v7.widget.SwitchCompat
             android:id="@+id/clickSettingShare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/push_checkbox"
-            android:button="@null" />
+            app:theme="@style/Widget_Switch"
+            android:buttonTint="@color/font_green"
+            app:colorControlActivated="@color/font_green" />
 
     </RelativeLayout>
 
@@ -51,11 +50,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_selector"
-        android:minHeight="48dp"
+        android:minHeight="50dp"
         android:paddingLeft="@dimen/padding_12"
         android:paddingRight="@dimen/padding_12">
 
-        <include layout="@layout/divide_1" />
+        <include layout="@layout/divide_line_1" />
 
         <TextView
             android:id="@+id/linkContent"
@@ -64,11 +63,10 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="60dp"
             android:ellipsize="end"
-            android:singleLine="true"
+            android:lines="1"
             android:text="linkContent"
-            android:textColor="@color/font_2"
-            android:textSize="16sp"
-            tools:text="https://coding.net/32l3k23l/akldsfj;asdk,ajdsf;alksdfaadsfasdfads" />
+            android:textColor="@color/font_1"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/clickShareLink"

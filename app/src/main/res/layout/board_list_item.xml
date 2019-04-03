@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flyco.roundview.RoundFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="50dp"
+    app:rv_backgroundColor="@color/stand_bg"
+    app:rv_cornerRadius="4dp">
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:button="@drawable/checkbox_task_0"
+        android:checked="false"
+        android:focusable="false" />
+
+    <View
+        android:id="@+id/taskPriority"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignLeft="@id/title"
+        android:layout_marginBottom="10dp"
+        android:layout_alignTop="@id/title"
+        android:layout_marginLeft="34dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/ic_task_priority_0"
+        android:focusable="false" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="61dp"
+        tools:visibility="visible"
+        android:orientation="vertical"
+        android:paddingTop="15dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Web ，App 需同步。Web ..."
+            android:textColor="#FF202D40"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/deadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="今天"
+            android:textColor="#FFF78636"
+            android:textSize="12sp"
+            tools:visibility="gone" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="15dp" />
+
+        <net.coding.program.common.widget.BoardLabelLayout
+            android:id="@+id/labelLayout"
+            android:layout_width="match_parent"
+            tools:visibility="visible"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+    </LinearLayout>
+</com.flyco.roundview.RoundFrameLayout>

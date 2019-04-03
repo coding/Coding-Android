@@ -14,12 +14,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.CommentBackup;
 import net.coding.program.common.EmojiTranslate;
 import net.coding.program.common.Global;
-import net.coding.program.common.enter.SimpleTextWatcher;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.widget.EnterLayoutAnimSupportContainer;
 
 import java.lang.reflect.Method;
@@ -34,7 +35,6 @@ public abstract class EnterLayout implements InputAction {
     public TextView sendText;
     public ImageButton send;
     public EditText content;
-    private Activity mActivity;
     protected ViewGroup commonEnterRoot;
     protected Type mType = Type.Default;
     protected int inputBoxHeight = 0;
@@ -42,6 +42,7 @@ public abstract class EnterLayout implements InputAction {
     protected int panelHeight;
     protected EnterLayoutAnimSupportContainer mEnterLayoutAnimSupportContainer;
     protected boolean mEnterLayoutStatus;
+    private Activity mActivity;
     private TextWatcher restoreWatcher = new SimpleTextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
@@ -54,18 +55,14 @@ public abstract class EnterLayout implements InputAction {
         }
     };
 
-    public EnterLayoutAnimSupportContainer getEnterLayoutAnimSupportContainer() {
-        return mEnterLayoutAnimSupportContainer;
-    }
-
     public EnterLayout(Activity activity, View.OnClickListener sendTextOnClick, Type type) {
         mType = type;
 
         mActivity = activity;
 
-        panelHeight = Global.dpToPx(200);
-        inputBoxHeight = Global.dpToPx(48);
-        screenHeight = MyApp.sHeightPix;
+        panelHeight = GlobalCommon.dpToPx(200);
+        inputBoxHeight = GlobalCommon.dpToPx(48);
+        screenHeight = GlobalData.sHeightPix;
 
         commonEnterRoot = (ViewGroup) mActivity.findViewById(R.id.commonEnterRoot);
         if (commonEnterRoot != null && commonEnterRoot.getParent() instanceof EnterLayoutAnimSupportContainer) {
@@ -160,6 +157,23 @@ public abstract class EnterLayout implements InputAction {
         });
     }
 
+    public EnterLayout(Activity activity, View.OnClickListener sendTextOnClick) {
+        this(activity, sendTextOnClick, Type.Default);
+    }
+
+    public static void insertText(EditText edit, String s) {
+        edit.requestFocus();
+        int insertPos = edit.getSelectionStart();
+
+        String insertString = s + " ";
+        Editable editable = edit.getText();
+        editable.insert(insertPos, insertString);
+    }
+
+    public EnterLayoutAnimSupportContainer getEnterLayoutAnimSupportContainer() {
+        return mEnterLayoutAnimSupportContainer;
+    }
+
     private void interceptInputMethod(EditText et) {
         // Android.edittext点击时,隐藏系统弹出的键盘,显示出光标
         // 3.0以下版本可以用editText.setInputType(InputType.TYPE_NULL)来实现。
@@ -177,19 +191,6 @@ public abstract class EnterLayout implements InputAction {
         } else {
             et.setInputType(EditorInfo.TYPE_NULL);
         }
-    }
-
-    public EnterLayout(Activity activity, View.OnClickListener sendTextOnClick) {
-        this(activity, sendTextOnClick, Type.Default);
-    }
-
-    public static void insertText(EditText edit, String s) {
-        edit.requestFocus();
-        int insertPos = edit.getSelectionStart();
-
-        String insertString = s + " ";
-        Editable editable = edit.getText();
-        editable.insert(insertPos, insertString);
     }
 
     public void animEnterLayoutStatusChanaged(final boolean isOpen) {
@@ -248,10 +249,10 @@ public abstract class EnterLayout implements InputAction {
 
         if (sendButtonEnable()) {
             sendText.setBackgroundResource(R.drawable.edit_send_green);
-            sendText.setTextColor(0xffffffff);
+            sendText.setTextColor(CodingColor.fontWhite);
         } else {
             sendText.setBackgroundResource(R.drawable.edit_send);
-            sendText.setTextColor(0xff999999);
+            sendText.setTextColor(CodingColor.font3);
         }
     }
 

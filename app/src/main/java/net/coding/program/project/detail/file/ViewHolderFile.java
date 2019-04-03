@@ -16,7 +16,6 @@ import net.coding.program.R;
  */
 public class ViewHolderFile {
     public ImageView icon;
-    public TextView icon_txt;
     public TextView name;
     public TextView content;
     public TextView desc;
@@ -36,7 +35,6 @@ public class ViewHolderFile {
 
     public LinearLayout desc_layout, progress_layout;
     public ProgressBar progressBar;
-    public TextView cancel;
     public TextView downloadFlag;
     public View item_layout_root;
 
@@ -44,7 +42,6 @@ public class ViewHolderFile {
         item_layout_root = convertView.findViewById(R.id.item_layout_root);
         name = (TextView) convertView.findViewById(R.id.name);
         icon = (ImageView) convertView.findViewById(R.id.icon);
-        icon_txt = (TextView) convertView.findViewById(R.id.icon_txt);
         content = (TextView) convertView.findViewById(R.id.comment);
         desc = (TextView) convertView.findViewById(R.id.desc);
         checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
@@ -63,7 +60,6 @@ public class ViewHolderFile {
         desc_layout = (LinearLayout) convertView.findViewById(R.id.desc_layout);
         progress_layout = (LinearLayout) convertView.findViewById(R.id.progress_layout);
         progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
-        cancel = (TextView) convertView.findViewById(R.id.cancel);
         shareMark = convertView.findViewById(R.id.shareMark);
     }
 

@@ -1,48 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Commentlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/stand_bg"
     android:clickable="true"
-    android:visibility="visible">
+    android:minHeight="50dp"
+    android:visibility="visible"
+    tools:minHeight="80dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/icon"
-        android:layout_width="@dimen/task_list_item_icon"
-        android:layout_height="@dimen/task_list_item_icon"
-        android:layout_marginLeft="@dimen/padding_12"
-        android:layout_marginRight="@dimen/padding_12"
-        android:layout_marginTop="@dimen/padding_12"
-        android:src="@drawable/ic_default_user" />
+    <LinearLayout
+        android:layout_width="63dp"
+        android:gravity="center_horizontal"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <View
-        android:id="@+id/timeLineUp"
-        android:layout_width="2dp"
-        android:layout_height="@dimen/padding_12"
-        android:layout_alignLeft="@id/icon"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="13dp"
-        android:background="@color/divide" />
+        <View
+            android:id="@+id/timeLineUp"
+            android:layout_width="2dp"
+            android:layout_height="14dp"
+            android:background="@color/divide" />
 
-    <View
-        android:id="@+id/timeLineDown"
-        android:layout_width="2dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/include"
-        android:layout_alignEnd="@+id/timeLineUp"
-        android:layout_alignLeft="@id/icon"
-        android:layout_alignRight="@+id/timeLineUp"
-        android:layout_below="@id/icon"
-        android:layout_marginLeft="13dp"
-        android:background="@color/divide" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/task_list_item_icon"
+            android:layout_height="@dimen/task_list_item_icon"
+            android:layout_marginTop="1dp"
+            android:src="@drawable/ic_default_user" />
+
+        <View
+            android:id="@+id/timeLineDown"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:background="@color/divide" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layout_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/icon"
-        android:layout_toRightOf="@+id/icon"
+        android:layout_marginTop="15dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -51,51 +52,33 @@
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
-            <!--<TextView-->
-            <!--android:id="@+id/name"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignLeft="@id/layoutContent"-->
-            <!--android:layout_below="@id/layoutContent"-->
-            <!--android:text="超级小胖纸"-->
-            <!--android:textColor="@color/font_6"-->
-            <!--android:textSize="14sp" />-->
-
             <TextView
                 android:id="@+id/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/name"
-                android:layout_toRightOf="@id/name"
                 android:drawablePadding="5dp"
-
-                android:text="3分钟前"
-                android:textColor="@color/font_9"
-                android:textSize="14sp" />
+                android:layout_marginRight="15dp"
+                android:textColor="@color/font_3"
+                android:textSize="14sp"
+                tools:text="You can find more information on Jean-François Arcand's blog. Jean-François is the original author of this library." />
         </LinearLayout>
 
         <TextView
             android:id="@+id/linkContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_14"
-            android:padding="8dp"
-            android:lineSpacingExtra="3dp"
-            android:visibility="gone"
-            android:text="1111"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/font_6"
-            android:background="@color/gray_dark"
             android:layout_below="@id/title"
-            android:textSize="14sp" />
+            android:layout_marginTop="@dimen/padding_14"
+            android:layout_marginRight="15dp"
+            android:background="@color/gray_dark"
+            android:lineSpacingExtra="3dp"
+            android:padding="8dp"
+            android:textColor="@color/font_2"
+            android:textSize="14sp"
+            android:visibility="gone"
+            tools:text="jdaklsdj;falksdjf;al;sdlkjf"
+            tools:visibility="visible" />
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/include"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/layout_1"
-        android:layout_marginTop="0dp" />
-
-</RelativeLayout>
+</LinearLayout>

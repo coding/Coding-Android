@@ -83,7 +83,7 @@
                     android:background="@drawable/content_pressed_selector"
                     android:lineSpacingExtra="1dp"
                     android:lineSpacingMultiplier="1.1"
-                    android:textColor="@color/font_2"
+                    android:textColor="@color/font_1"
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="超级小胖纸"
-                    android:textColor="@color/font_9"
+                    android:textColor="@color/font_3"
                     android:textSize="12sp" />
 
                 <TextView
@@ -123,13 +123,13 @@
                     android:drawableLeft="@drawable/ic_clock"
                     android:drawablePadding="5dp"
                     android:text="3分钟前"
-                    android:textColor="@color/font_9"
+                    android:textColor="@color/font_3"
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/commentWebviewDetail"
-                    android:text="查看详情"
-                    style="@style/commentWebviewDetail" />
+                    style="@style/commentWebviewDetail"
+                    android:text="查看详情" />
 
             </RelativeLayout>
 

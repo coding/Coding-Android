@@ -1,11 +1,13 @@
 package net.coding.program.project.detail.merge;
 
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.model.DiffFile;
+import net.coding.program.common.model.Merge;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.DiffFile;
-import net.coding.program.model.Merge;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -17,9 +19,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-//@EActivity(R.layout.activity_merge_file_list)
 @EActivity(R.layout.activity_commit_list)
-//@OptionsMenu(R.menu.menu_merge_file_list)
 public class MergeFileListActivity extends BackActivity {
 
     private static final String HOST_MERGE_FILES = "HOST_MERGE_FILES";
@@ -29,8 +29,13 @@ public class MergeFileListActivity extends BackActivity {
     ListView listView;
     MergeFileAdapter mAdapter;
 
+    View header;
+
     @AfterViews
     protected final void initCommitListActivity() {
+        header = getLayoutInflater().inflate(R.layout.commit_file_list_simple, listView, false);
+        listView.addHeaderView(header, null, false);
+        header.setVisibility(View.INVISIBLE);
         mAdapter = new MergeFileAdapter();
         listView.setAdapter(mAdapter);
 
@@ -52,6 +57,12 @@ public class MergeFileListActivity extends BackActivity {
         if (tag.equals(HOST_MERGE_FILES)) {
             if (code == 0) {
                 DiffFile diffFile = new DiffFile(respanse.getJSONObject("data"));
+                header.setVisibility(View.VISIBLE);
+                ((TextView) header.findViewById(R.id.fileCount)).setText(String.format("%s 个文件", diffFile.getFileCount()));
+                ((TextView) header.findViewById(R.id.fileChange))
+                        .setText(String.format("共 %s 新增和 %s 删除", diffFile.getInsertions(), diffFile.getDeletions()));
+
+
                 mAdapter.appendDataUpdate((ArrayList) diffFile.getFiles());
             } else {
                 showErrorMsg(code, respanse);

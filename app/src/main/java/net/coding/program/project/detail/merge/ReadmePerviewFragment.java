@@ -4,7 +4,7 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.project.detail.TopicPreviewFragment;
+import net.coding.program.task.TaskDespPreviewFragment;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
@@ -14,8 +14,8 @@ import org.androidannotations.annotations.FragmentArg;
  * 专门用来预览 markdown 文件
  */
 
-@EFragment(R.layout.fragment_task_desp_preview)
-public class ReadmePerviewFragment extends TopicPreviewFragment {
+@EFragment(R.layout.fragment_topic_preview)
+public class ReadmePerviewFragment extends TaskDespPreviewFragment {
 
     @FragmentArg
     String url = "";

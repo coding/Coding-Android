@@ -24,6 +24,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.ColorRes;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
@@ -47,6 +48,7 @@ import net.coding.program.common.ImageLoadTool;
 
 import java.util.Locale;
 
+
 public class MyPagerSlidingTabStrip extends HorizontalScrollView {
 
     // @formatter:off
@@ -66,11 +68,11 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
     private float currentPositionOffset = 0f;
     private Paint rectPaint;
     private Paint dividerPaint;
-    private int indicatorColor = 0xFF3bbd79;
-    private int underlineColor = 0xffdddddd;
-    private int dividerColor = 0x00ffffff;
+    private int indicatorColor;
+    private int underlineColor;
+    private int dividerColor;
     private boolean shouldExpand = false;
-    private boolean textAllCaps = true;
+    private boolean textAllCaps = false;
     private int scrollOffset = 52;
     private int indicatorHeight = 3;
     private int underlineHeight = 1;
@@ -78,11 +80,11 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
     private int tabPadding = 0;
     private int dividerWidth = 1;
     private int tabTextSize = 12;
-    private int tabTextColor = 0xFF666666;
+    private int tabTextColor;
     private Typeface tabTypeface = null;
     private int tabTypefaceStyle = Typeface.BOLD;
     private int lastScrollX = 0;
-    private int tabBackgroundResId = 0x00000000;
+    private int tabBackgroundResId;
     private Locale locale;
     private int iconPadding = 21; // 5 + (44 - 12) / 2  保证中间留下 12dp
     private int myPaddingLeft = 0;
@@ -123,6 +125,8 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
         tabTextSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, tabTextSize, dm);
         iconPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, iconPadding, dm);
 
+        tabTextColor = getColor(net.coding.program.R.color.font_2);
+
         // get system attrs (android:textSize and android:textColor)
 
 //        TypedArray a = context.obtainStyledAttributes(attrs, ATTRS);
@@ -136,14 +140,14 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PagerSlidingTabStrip);
 
-        indicatorColor = a.getColor(R.styleable.PagerSlidingTabStrip_pstsIndicatorColor, indicatorColor);
-        underlineColor = a.getColor(R.styleable.PagerSlidingTabStrip_pstsUnderlineColor, underlineColor);
-        dividerColor = a.getColor(R.styleable.PagerSlidingTabStrip_pstsDividerColor, dividerColor);
+        indicatorColor = a.getColor(R.styleable.PagerSlidingTabStrip_pstsIndicatorColor, getColor(net.coding.program.R.color.select_1));
+        underlineColor = a.getColor(R.styleable.PagerSlidingTabStrip_pstsUnderlineColor, getColor(net.coding.program.R.color.divide_line));
+        dividerColor = a.getColor(R.styleable.PagerSlidingTabStrip_pstsDividerColor, getColor(net.coding.program.R.color.white));
         indicatorHeight = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsIndicatorHeight, indicatorHeight);
         underlineHeight = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsUnderlineHeight, underlineHeight);
         dividerPadding = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsDividerPadding, dividerPadding);
         tabPadding = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsTabPaddingLeftRight, tabPadding);
-        tabBackgroundResId = a.getResourceId(R.styleable.PagerSlidingTabStrip_pstsTabBackground, tabBackgroundResId);
+        tabBackgroundResId = a.getResourceId(R.styleable.PagerSlidingTabStrip_pstsTabBackground, getColor(net.coding.program.R.color.transparent));
         shouldExpand = a.getBoolean(R.styleable.PagerSlidingTabStrip_pstsShouldExpand, shouldExpand);
         scrollOffset = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsScrollOffset, scrollOffset);
         textAllCaps = a.getBoolean(R.styleable.PagerSlidingTabStrip_pstsTextAllCaps, textAllCaps);
@@ -164,6 +168,10 @@ public class MyPagerSlidingTabStrip extends HorizontalScrollView {
         if (locale == null) {
             locale = getResources().getConfiguration().locale;
         }
+    }
+
+    private int getColor(@ColorRes int color) {
+        return getResources().getColor(color);
     }
 
     public void setViewPager(ViewPager pager) {

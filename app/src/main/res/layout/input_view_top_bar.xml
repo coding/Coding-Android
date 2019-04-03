@@ -8,17 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:minHeight="48dp"
+        android:minHeight="50dp"
         android:orientation="horizontal">
-
 
         <CheckBox
             android:id="@+id/popVoice"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="13dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="0dp"
             android:background="@drawable/checkbox_pop_voice"
             android:button="@null"
             android:visibility="visible" />
@@ -35,24 +34,17 @@
                 android:id="@+id/voiceLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/edit_select_transparent"
+                android:layout_marginLeft="54.5dp"
                 android:visibility="visible">
 
                 <CheckBox
                     android:id="@+id/popEditButton"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/checkbox_pop_arrow"
                     android:button="@null" />
 
-                <Button
-                    android:id="@+id/popEmojiButton"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/pop_emoji" />
             </RelativeLayout>
 
             <LinearLayout
@@ -70,25 +62,26 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_vertical"
                     android:layout_marginLeft="0dp"
-                    android:maxHeight="105dp"
-                    android:layout_marginTop="3dp"
                     android:layout_weight="1"
+                    android:textColorHint="@color/font_4"
                     android:background="@null"
+                    android:maxHeight="105dp"
                     android:maxLines="4"
-                    android:textColor="@color/font_2" />
+                    android:textColor="@color/font_1" />
 
-                <CheckBox
-                    android:id="@+id/popEmoji"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="right|center_vertical"
-                    android:layout_marginRight="0dp"
-                    android:background="@null"
-                    android:button="@drawable/checkbox_pop_emoji"
-                    android:checked="false" />
             </LinearLayout>
         </FrameLayout>
 
+        <CheckBox
+            android:id="@+id/popEmoji"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="0dp"
+            android:background="@null"
+            android:layout_marginLeft="10dp"
+            android:button="@drawable/checkbox_pop_emoji"
+            android:checked="false" />
 
         <RelativeLayout
             android:layout_width="54dp"
@@ -98,18 +91,16 @@
 
             <ImageButton
                 android:id="@+id/send"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/message_button_add"
-
                 android:padding="5dp" />
-
 
             <TextView
                 android:id="@+id/sendText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="44dp"
+                android:layout_height="32dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/edit_send_green"
                 android:gravity="center"

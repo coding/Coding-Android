@@ -3,19 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:foreground="?attr/selectableItemBackground"
     android:background="@color/stand_bg"
+    android:foreground="?attr/selectableItemBackground"
     tools:context="net.coding.program.user.team.TeamListActivity">
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:background="@drawable/round_icon_path"
+        android:layout_marginBottom="@dimen/padding_12"
         android:layout_marginLeft="@dimen/padding_15"
         android:layout_marginRight="@dimen/padding_12"
         android:layout_marginTop="@dimen/padding_12"
-        android:layout_marginBottom="@dimen/padding_12" />
+        android:background="@drawable/round_icon_path" />
 
     <TextView
         android:id="@+id/name"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/icon"
         android:layout_toRightOf="@id/icon"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="15sp"
         tools:text="CodingDesign" />
 
@@ -38,16 +38,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/font_9"
-            android:textSize="12sp"
-            android:text="项目" />
+            android:text="项目"
+            android:textColor="@color/font_3"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/projectCount"
-            android:layout_marginLeft="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/font_6"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/font_2"
             android:textSize="14sp"
             tools:text="10" />
 
@@ -55,23 +55,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
-            android:textColor="@color/font_9"
-            android:textSize="12sp"
-            android:text="成员" />
+            android:text="成员"
+            android:textColor="@color/font_3"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/memberCount"
-            android:layout_marginLeft="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/font_2"
             android:textSize="14sp"
-            android:textColor="@color/font_6"
             tools:text="10" />
     </LinearLayout>
 
     <View
-        style="@style/DivideLine"
         android:id="@+id/bottomLine"
+        style="@style/DivideLine"
         android:layout_alignLeft="@id/icon"
         android:layout_below="@id/icon" />
 

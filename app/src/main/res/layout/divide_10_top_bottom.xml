@@ -4,7 +4,7 @@
     android:layout_height="@dimen/divide_section_10"
     android:background="@color/divide">
 
-    <View style="@style/DivideSectionBottom5" />
+    <include layout="@layout/divide_bottom" />
 
     <View
         style="@style/DivideSectionTop5"

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/stand_bg"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/divide_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="77dp"
+            android:layout_marginRight="@dimen/padding_12"
+            android:background="@color/divide_line"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/divideTitle"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/divide"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/padding_15"
+            android:text="" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:gravity="center_vertical"
+            android:foreground="?attr/selectableItemBackground"
+            android:paddingLeft="15dp"
+            android:paddingRight="30dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/icon"
+                android:layout_width="47dp"
+                android:layout_height="47dp" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="@dimen/padding_15"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="Medium Text" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

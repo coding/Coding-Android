@@ -40,67 +40,51 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 
 import java.util.Locale;
 
 
 public class WechatTab extends HorizontalScrollView {
 
-    public interface IconTabProvider {
-        public int getPageIconResId(int position);
-    }
-
     // @formatter:off
     private static final int[] ATTRS = new int[]{
             android.R.attr.textSize,
             android.R.attr.textColor
     };
+    private final PageListener pageListener = new PageListener();
     // @formatter:on
-
+    public OnPageChangeListener delegatePageListener;
     private LinearLayout.LayoutParams defaultTabLayoutParams;
     private LinearLayout.LayoutParams expandedTabLayoutParams;
-
-    private final PageListener pageListener = new PageListener();
-    public OnPageChangeListener delegatePageListener;
-
     private LinearLayout tabsContainer;
     private ViewPager pager;
-
     private int tabCount;
-
     private int currentPosition = 0;
     private int selectedPosition = 0;
     private float currentPositionOffset = 0f;
-
     private Paint rectPaint;
     private Paint dividerPaint;
-
-    private int indicatorColor = 0xFF666666;
+    private int indicatorColor = CodingColor.font2;
     private int underlineColor = 0x1A000000;
     private int dividerColor = 0x1A000000;
-
     private boolean shouldExpand = false;
-    private boolean textAllCaps = true;
-
+    private boolean textAllCaps = false;
     private int scrollOffset = 52;
     private int indicatorHeight = 2;
     private int underlineHeight = 2;
     private int dividerPadding = 12;
     private int tabPadding = 3; // tab 为 textview 时的padding
     private int dividerWidth = 1;
-
     private int mMyUnderlinePadding = 12;
-
     private int tabTextSize = 12;
-    private int tabTextColor = 0xFF666666;
-    private int selectedTabTextColor = 0xFF666666;
+    private int halfIndecatorWidth = 6;
+    private int tabTextColor = CodingColor.font2;
+    private int selectedTabTextColor = CodingColor.font2;
     private Typeface tabTypeface = null;
     private int tabTypefaceStyle = Typeface.NORMAL;
-
     private int lastScrollX = 0;
-
     private int tabBackgroundResId = R.drawable.background_tab;
-
     private Locale locale;
 
     public WechatTab(Context context) {
@@ -131,6 +115,7 @@ public class WechatTab extends HorizontalScrollView {
         tabPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, tabPadding, dm);
         dividerWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dividerWidth, dm);
         tabTextSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, tabTextSize, dm);
+        halfIndecatorWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, halfIndecatorWidth, dm);
 
         // get system attrs (android:textSize and android:textColor)
 
@@ -193,15 +178,20 @@ public class WechatTab extends HorizontalScrollView {
         setTextSize((int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP, 16, dm));
         // 设置Tab Indicator的颜色
-        setIndicatorColor(Color.parseColor("#3bbd79"));
+        setIndicatorColor(CodingColor.fontGreen);
         // 设置选中Tab文字的颜色 (这是我自定义的一个方法)
-        setSelectedTextColor(Color.parseColor("#3bbd79"));
+        setSelectedTextColor(CodingColor.fontGreen);
         // 取消点击Tab时的背景色
         setTabBackground(0);
+
+        updateTabStyles();
     }
 
     public void setViewPager(ViewPager pager) {
         this.pager = pager;
+        this.selectedPosition = 0;
+
+        setTabsValue();
 
         if (pager.getAdapter() == null) {
             throw new IllegalStateException("ViewPager does not have adapter instance.");
@@ -211,7 +201,6 @@ public class WechatTab extends HorizontalScrollView {
 
         notifyDataSetChanged();
 
-        setTabsValue();
     }
 
     public void setOnPageChangeListener(OnPageChangeListener listener) {
@@ -376,7 +365,19 @@ public class WechatTab extends HorizontalScrollView {
 //            padding = 0;
 //        }
 
-        canvas.drawRect(lineLeft + mMyUnderlinePadding, height - indicatorHeight, lineRight - mMyUnderlinePadding, height, rectPaint);
+        float padding = 0.0f;
+        if (currentTab instanceof TextView) {
+            TextView itemTextView = (TextView) currentTab;
+            float textWidth = itemTextView.getPaint().measureText(itemTextView.getText().toString());
+            padding = (lineRight - lineLeft - textWidth) / 2;
+        }
+        if (padding <= 0.0f) {
+            padding = mMyUnderlinePadding;
+        }
+
+        float lineMiddle = (lineLeft + lineRight) / 2;
+//        canvas.drawRect(lineLeft + padding, height - indicatorHeight, lineRight - padding, height, rectPaint);
+        canvas.drawRect(lineMiddle - halfIndecatorWidth, height - indicatorHeight, lineMiddle + halfIndecatorWidth, height, rectPaint);
 
         // draw divider
 
@@ -384,6 +385,216 @@ public class WechatTab extends HorizontalScrollView {
         for (int i = 0; i < tabCount - 1; i++) {
             View tab = tabsContainer.getChildAt(i);
             canvas.drawLine(tab.getRight(), dividerPadding, tab.getRight(), height - dividerPadding, dividerPaint);
+        }
+    }
+
+    public void setIndicatorColorResource(int resId) {
+        this.indicatorColor = getResources().getColor(resId);
+        invalidate();
+    }
+
+    public int getIndicatorColor() {
+        return this.indicatorColor;
+    }
+
+    public void setIndicatorColor(int indicatorColor) {
+        this.indicatorColor = indicatorColor;
+        invalidate();
+    }
+
+    public int getIndicatorHeight() {
+        return indicatorHeight;
+    }
+
+    public void setIndicatorHeight(int indicatorLineHeightPx) {
+        this.indicatorHeight = indicatorLineHeightPx;
+        invalidate();
+    }
+
+    public void setUnderlineColorResource(int resId) {
+        this.underlineColor = getResources().getColor(resId);
+        invalidate();
+    }
+
+    public int getUnderlineColor() {
+        return underlineColor;
+    }
+
+    public void setUnderlineColor(int underlineColor) {
+        this.underlineColor = underlineColor;
+        invalidate();
+    }
+
+    public void setDividerColorResource(int resId) {
+        this.dividerColor = getResources().getColor(resId);
+        invalidate();
+    }
+
+    public int getDividerColor() {
+        return dividerColor;
+    }
+
+    public void setDividerColor(int dividerColor) {
+        this.dividerColor = dividerColor;
+        invalidate();
+    }
+
+    public int getUnderlineHeight() {
+        return underlineHeight;
+    }
+
+    public void setUnderlineHeight(int underlineHeightPx) {
+        this.underlineHeight = underlineHeightPx;
+        invalidate();
+    }
+
+    public int getDividerPadding() {
+        return dividerPadding;
+    }
+
+    public void setDividerPadding(int dividerPaddingPx) {
+        this.dividerPadding = dividerPaddingPx;
+        invalidate();
+    }
+
+    public int getScrollOffset() {
+        return scrollOffset;
+    }
+
+    public void setScrollOffset(int scrollOffsetPx) {
+        this.scrollOffset = scrollOffsetPx;
+        invalidate();
+    }
+
+    public boolean getShouldExpand() {
+        return shouldExpand;
+    }
+
+    public void setShouldExpand(boolean shouldExpand) {
+        this.shouldExpand = shouldExpand;
+        notifyDataSetChanged();
+    }
+
+    public boolean isTextAllCaps() {
+        return textAllCaps;
+    }
+
+    public void setAllCaps(boolean textAllCaps) {
+        this.textAllCaps = textAllCaps;
+    }
+
+    public void setUnderlinePadding0() {
+        mMyUnderlinePadding = 0;
+    }
+
+    public int getTextSize() {
+        return tabTextSize;
+    }
+
+    public void setTextSize(int textSizePx) {
+        this.tabTextSize = textSizePx;
+        updateTabStyles();
+    }
+
+    public void setTextColorResource(int resId) {
+        this.tabTextColor = getResources().getColor(resId);
+        updateTabStyles();
+    }
+
+    public int getTextColor() {
+        return tabTextColor;
+    }
+
+    public void setTextColor(int textColor) {
+        this.tabTextColor = textColor;
+        updateTabStyles();
+    }
+
+    public void setSelectedTextColorResource(int resId) {
+        this.selectedTabTextColor = getResources().getColor(resId);
+        updateTabStyles();
+    }
+
+    public int getSelectedTextColor() {
+        return selectedTabTextColor;
+    }
+
+    public void setSelectedTextColor(int textColor) {
+        this.selectedTabTextColor = textColor;
+        updateTabStyles();
+    }
+
+    public void setTypeface(Typeface typeface, int style) {
+        this.tabTypeface = typeface;
+        this.tabTypefaceStyle = style;
+        updateTabStyles();
+    }
+
+    public int getTabBackground() {
+        return tabBackgroundResId;
+    }
+
+    public void setTabBackground(int resId) {
+        this.tabBackgroundResId = resId;
+        updateTabStyles();
+    }
+
+    public int getTabPaddingLeftRight() {
+        return tabPadding;
+    }
+
+    public void setTabPaddingLeftRight(int paddingPx) {
+        this.tabPadding = paddingPx;
+        updateTabStyles();
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        SavedState savedState = (SavedState) state;
+        super.onRestoreInstanceState(savedState.getSuperState());
+        currentPosition = savedState.currentPosition;
+        requestLayout();
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState savedState = new SavedState(superState);
+        savedState.currentPosition = currentPosition;
+        return savedState;
+    }
+
+    public interface IconTabProvider {
+        public int getPageIconResId(int position);
+    }
+
+    static class SavedState extends BaseSavedState {
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+        int currentPosition;
+
+        public SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            currentPosition = in.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeInt(currentPosition);
         }
     }
 
@@ -423,213 +634,6 @@ public class WechatTab extends HorizontalScrollView {
             }
         }
 
-    }
-
-    public void setIndicatorColor(int indicatorColor) {
-        this.indicatorColor = indicatorColor;
-        invalidate();
-    }
-
-    public void setIndicatorColorResource(int resId) {
-        this.indicatorColor = getResources().getColor(resId);
-        invalidate();
-    }
-
-    public int getIndicatorColor() {
-        return this.indicatorColor;
-    }
-
-    public void setIndicatorHeight(int indicatorLineHeightPx) {
-        this.indicatorHeight = indicatorLineHeightPx;
-        invalidate();
-    }
-
-    public int getIndicatorHeight() {
-        return indicatorHeight;
-    }
-
-    public void setUnderlineColor(int underlineColor) {
-        this.underlineColor = underlineColor;
-        invalidate();
-    }
-
-    public void setUnderlineColorResource(int resId) {
-        this.underlineColor = getResources().getColor(resId);
-        invalidate();
-    }
-
-    public int getUnderlineColor() {
-        return underlineColor;
-    }
-
-    public void setDividerColor(int dividerColor) {
-        this.dividerColor = dividerColor;
-        invalidate();
-    }
-
-    public void setDividerColorResource(int resId) {
-        this.dividerColor = getResources().getColor(resId);
-        invalidate();
-    }
-
-    public int getDividerColor() {
-        return dividerColor;
-    }
-
-    public void setUnderlineHeight(int underlineHeightPx) {
-        this.underlineHeight = underlineHeightPx;
-        invalidate();
-    }
-
-    public int getUnderlineHeight() {
-        return underlineHeight;
-    }
-
-    public void setDividerPadding(int dividerPaddingPx) {
-        this.dividerPadding = dividerPaddingPx;
-        invalidate();
-    }
-
-    public int getDividerPadding() {
-        return dividerPadding;
-    }
-
-    public void setScrollOffset(int scrollOffsetPx) {
-        this.scrollOffset = scrollOffsetPx;
-        invalidate();
-    }
-
-    public int getScrollOffset() {
-        return scrollOffset;
-    }
-
-    public void setShouldExpand(boolean shouldExpand) {
-        this.shouldExpand = shouldExpand;
-        notifyDataSetChanged();
-    }
-
-    public boolean getShouldExpand() {
-        return shouldExpand;
-    }
-
-    public boolean isTextAllCaps() {
-        return textAllCaps;
-    }
-
-    public void setAllCaps(boolean textAllCaps) {
-        this.textAllCaps = textAllCaps;
-    }
-
-    public void setTextSize(int textSizePx) {
-        this.tabTextSize = textSizePx;
-        updateTabStyles();
-    }
-
-    public void setUnderlinePadding0() {
-        mMyUnderlinePadding = 0;
-    }
-
-    public int getTextSize() {
-        return tabTextSize;
-    }
-
-    public void setTextColor(int textColor) {
-        this.tabTextColor = textColor;
-        updateTabStyles();
-    }
-
-    public void setTextColorResource(int resId) {
-        this.tabTextColor = getResources().getColor(resId);
-        updateTabStyles();
-    }
-
-    public int getTextColor() {
-        return tabTextColor;
-    }
-
-    public void setSelectedTextColor(int textColor) {
-        this.selectedTabTextColor = textColor;
-        updateTabStyles();
-    }
-
-    public void setSelectedTextColorResource(int resId) {
-        this.selectedTabTextColor = getResources().getColor(resId);
-        updateTabStyles();
-    }
-
-    public int getSelectedTextColor() {
-        return selectedTabTextColor;
-    }
-
-    public void setTypeface(Typeface typeface, int style) {
-        this.tabTypeface = typeface;
-        this.tabTypefaceStyle = style;
-        updateTabStyles();
-    }
-
-    public void setTabBackground(int resId) {
-        this.tabBackgroundResId = resId;
-        updateTabStyles();
-    }
-
-    public int getTabBackground() {
-        return tabBackgroundResId;
-    }
-
-    public void setTabPaddingLeftRight(int paddingPx) {
-        this.tabPadding = paddingPx;
-        updateTabStyles();
-    }
-
-    public int getTabPaddingLeftRight() {
-        return tabPadding;
-    }
-
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        SavedState savedState = (SavedState) state;
-        super.onRestoreInstanceState(savedState.getSuperState());
-        currentPosition = savedState.currentPosition;
-        requestLayout();
-    }
-
-    @Override
-    public Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-        SavedState savedState = new SavedState(superState);
-        savedState.currentPosition = currentPosition;
-        return savedState;
-    }
-
-    static class SavedState extends BaseSavedState {
-        int currentPosition;
-
-        public SavedState(Parcelable superState) {
-            super(superState);
-        }
-
-        private SavedState(Parcel in) {
-            super(in);
-            currentPosition = in.readInt();
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            super.writeToParcel(dest, flags);
-            dest.writeInt(currentPosition);
-        }
-
-        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
-            @Override
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
     }
 
 }

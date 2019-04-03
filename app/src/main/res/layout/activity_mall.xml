@@ -1,108 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:orientation="vertical">
-	<!--<android.support.v7.widget.Toolbar-->
-			<!--android:id="@+id/toolbar"-->
-			<!--android:layout_width="match_parent"-->
-			<!--android:layout_height="?attr/actionBarSize"-->
-			<!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>-->
-			<!--app:layout_collapseMode="pin"-->
-	<android.support.v4.widget.SwipeRefreshLayout
-			android:id="@+id/swipeRefreshLayout"
-			android:layout_width="match_parent"
-			android:layout_height="0dp"
-			>
-			</android.support.v4.widget.SwipeRefreshLayout>
-	<android.support.design.widget.CoordinatorLayout
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:fitsSystemWindows="true">
-		<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-		<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-		<!--android:orientation="vertical"-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--<android.support.v7.widget.Toolbar-->
+    <!--android:id="@+id/toolbar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="?attr/actionBarSize"-->
+    <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>-->
+    <!--app:layout_collapseMode="pin"-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"></android.support.v4.widget.SwipeRefreshLayout>
 
-		<!--<android.support.design.widget.AppBarLayout-->
-				<!--android:layout_width="match_parent"-->
-				<!--android:layout_height="240dp"-->
-				<!--android:fitsSystemWindows="true"-->
-				<!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">-->
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--android:orientation="vertical"-->
 
-			<!--<android.support.design.widget.CollapsingToolbarLayout-->
-					<!--android:id="@+id/collapsing_toolbar"-->
-					<!--android:layout_width="match_parent"-->
-					<!--android:layout_height="match_parent"-->
-					<!--android:fitsSystemWindows="true"-->
-					<!--app:contentScrim="?attr/colorPrimary"-->
-					<!--app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
-				<!--&lt;!&ndash;app:expandedTitleMarginEnd="64dp"&ndash;&gt;-->
-				<!--&lt;!&ndash;app:expandedTitleMarginStart="48dp"&ndash;&gt;-->
+        <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="240dp"-->
+        <!--android:fitsSystemWindows="true"-->
+        <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">-->
 
-				<!--<android.support.v4.widget.SwipeRefreshLayout-->
-						<!--android:id="@+id/swipeRefreshLayout"-->
-						<!--app:layout_collapseParallaxMultiplier="0.5"-->
-						<!--app:layout_collapseMode="parallax"-->
-						<!--android:layout_width="match_parent"-->
-						<!--android:layout_height="wrap_content"-->
-						<!--android:fitsSystemWindows="true">-->
+        <!--<android.support.design.widget.CollapsingToolbarLayout-->
+        <!--android:id="@+id/collapsing_toolbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:fitsSystemWindows="true"-->
+        <!--app:contentScrim="?attr/colorPrimary"-->
+        <!--app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
+        <!--&lt;!&ndash;app:expandedTitleMarginEnd="64dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;app:expandedTitleMarginStart="48dp"&ndash;&gt;-->
 
-					<!--&lt;!&ndash;app:layout_collapseParallaxMultiplier="0.5"&ndash;&gt;-->
-					<!--&lt;!&ndash;app:layout_collapseMode="parallax"&ndash;&gt;-->
-					<!--&lt;!&ndash;android:fitsSystemWindows="true"&ndash;&gt;-->
-					<!--<include-->
-							<!--android:id="@+id/mall_banner"-->
-							<!--android:layout_width="match_parent"-->
-							<!--android:layout_height="0dp"-->
-							<!--layout="@layout/mall_banner_view_pager"/>-->
-				<!--</android.support.v4.widget.SwipeRefreshLayout>-->
+        <!--<android.support.v4.widget.SwipeRefreshLayout-->
+        <!--android:id="@+id/swipeRefreshLayout"-->
+        <!--app:layout_collapseParallaxMultiplier="0.5"-->
+        <!--app:layout_collapseMode="parallax"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:fitsSystemWindows="true">-->
 
-				<!--&lt;!&ndash;<android.support.v7.widget.Toolbar&ndash;&gt;-->
-						<!--&lt;!&ndash;android:id="@+id/toolbar"&ndash;&gt;-->
-						<!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-						<!--&lt;!&ndash;android:layout_height="?attr/actionBarSize"&ndash;&gt;-->
-						<!--&lt;!&ndash;app:layout_collapseMode="pin"&ndash;&gt;-->
-						<!--&lt;!&ndash;app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;app:layout_collapseParallaxMultiplier="0.5"&ndash;&gt;-->
+        <!--&lt;!&ndash;app:layout_collapseMode="parallax"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:fitsSystemWindows="true"&ndash;&gt;-->
+        <!--<include-->
+        <!--android:id="@+id/mall_banner"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--layout="@layout/mall_banner_view_pager"/>-->
+        <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+
+        <!--&lt;!&ndash;<android.support.v7.widget.Toolbar&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/toolbar"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="?attr/actionBarSize"&ndash;&gt;-->
+        <!--&lt;!&ndash;app:layout_collapseMode="pin"&ndash;&gt;-->
+        <!--&lt;!&ndash;app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>&ndash;&gt;-->
 
 
-			<!--</android.support.design.widget.CollapsingToolbarLayout>-->
+        <!--</android.support.design.widget.CollapsingToolbarLayout>-->
 
-		<!--</android.support.design.widget.AppBarLayout>-->
+        <!--</android.support.design.widget.AppBarLayout>-->
 
-		<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:orientation="vertical"
-				app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-			<!--<android.support.design.widget.TabLayout-->
-			<!--android:id="@+id/sliding_tabs"-->
-			<!--android:layout_width="match_parent"-->
-			<!--android:layout_height="wrap_content"-->
-			<!--app:tabGravity="fill"-->
-			<!--app:tabMode="fixed"/>-->
+            <!--<android.support.design.widget.TabLayout-->
+            <!--android:id="@+id/sliding_tabs"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:tabGravity="fill"-->
+            <!--app:tabMode="fixed"/>-->
 
-			<net.coding.program.third.WechatTab
-					app:tabGravity="fill"
-					app:tabMode="fixed"
-					android:id="@+id/mallTab"
-					android:layout_width="match_parent"
-					android:layout_height="48dp"
-					android:background="@android:color/transparent"/>
+            <net.coding.program.third.WechatTab
+                android:id="@+id/mallTab"
+                style="@style/TextTabBar"
+                app:tabGravity="fill"
+                app:tabMode="fixed" />
 
-			<android.support.v4.view.ViewPager
-					android:id="@+id/viewpager"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"/>
-		</LinearLayout>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
-		<include
-				android:id="@+id/blankLayout"
-				layout="@layout/view_exception"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"/>
+        <include
+            android:id="@+id/blankLayout"
+            layout="@layout/view_exception"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-	</android.support.design.widget.CoordinatorLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

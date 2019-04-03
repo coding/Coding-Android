@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:background="@color/stand_bg"
+    android:layout_height="66dp">
 
-    <LinearLayout
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/icon"
+        android:layout_marginLeft="15dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="36dp"
+        android:layout_height="36dp" />
+
+    <TextView
+        android:id="@+id/name"
         android:layout_width="match_parent"
-        android:layout_height="66dp"
-        android:layout_marginLeft="@dimen/padding_15"
-        android:layout_marginRight="@dimen/padding_15"
-        android:gravity="center_vertical">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="66dp"
+        android:textSize="16dp"
+        android:layout_marginRight="105dp"
+        android:textColor="@color/font_2"
+        android:text="Medium Text" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/icon"
-            android:layout_width="36dp"
-            android:layout_height="36dp" />
+    <CheckBox
+        android:id="@+id/followed"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="15dp"
+        android:layout_width="73.5dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="12dp"
+        android:button="@null"
+        android:focusable="false" />
 
-        <TextView
-            android:layout_marginLeft="12dp"
-            android:id="@+id/name"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+    <View
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="66dp"
+        style="@style/DivideLine_15" />
 
-        <CheckBox
-            android:layout_marginLeft="12dp"
-            android:id="@+id/followed"
-            android:layout_width="73.5dp"
-            android:button="@null"
-            android:focusable="false"
-            android:layout_height="30dp" />
-
-    </LinearLayout>
 </FrameLayout>

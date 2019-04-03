@@ -34,6 +34,11 @@ public class LocationProvider {
     public void requestLocation(final LocationResultListener listener, final int retry) {
         locationClient.start();
         locationClient.registerLocationListener(new BDLocationListener() {
+
+            @Override
+            public void onConnectHotSpotMessage(String s, int i) {
+            }
+
             @Override
             public void onReceiveLocation(BDLocation bdLocation) {
                 locationClient.unRegisterLocationListener(this);

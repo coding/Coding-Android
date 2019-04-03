@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- base application theme. -->
+    <!--todo base-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!--<item name="android:windowBackground">@color/windowBackground</item>-->
+
+        <!--<item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>-->
+
+        <!--<item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>-->
+        <!--<item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>-->
+        <!--<item name="android:actionModeBackground">@color/color_primary</item>-->
+        <!--<item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>-->
+        <!--<item name="android:windowActionModeOverlay">true</item>-->
+
+        <!--<item name="android:divider">@color/divide_line</item>-->
+        <!--<item name="android:alertDialogTheme">@style/MyAlertDialogStyle</item>-->
+        <!--<item name="alertDialogTheme">@style/MyAlertDialogStyle</item>-->
+
+        <!--<item name="android:textColorPrimary">@color/font_green</item>-->
+
+        <!--<item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>-->
+
+        <!--<item name="colorPrimary">@color/color_primary</item>-->
+        <!--<item name="actionMenuTextColor">@color/phone_message</item>-->
+        <!--<item name="android:actionMenuTextColor">@color/phone_message</item>-->
+
+        <!--<item name="navigationIcon">@drawable/ic_menu_back</item>-->
+
+        <!--<item name="searchViewStyle">@style/MySearchViewStyle</item>-->
+    </style>
+
+    <style name="ActionbarNoIcon" parent="AppTheme"></style>
+    <style name="TranslateTheme" parent="ActionbarNoIcon">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+</resources>

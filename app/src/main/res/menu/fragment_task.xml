@@ -1,17 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context="net.coding.program.user.UsersListActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="net.coding.program.user.UsersListActivity">
     <item
         android:id="@+id/action_filter"
         android:icon="@drawable/ic_menu_filter"
         android:orderInCategory="100"
         android:title="筛选"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
     <item
-        android:id="@+id/action_add"
+        android:id="@+id/action_setting_add"
         android:icon="@drawable/ic_menu_add"
         android:orderInCategory="100"
         android:title="添加"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 </menu>

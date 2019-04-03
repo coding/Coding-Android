@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="pickimage_gridlist_item_space">4dp</dimen>
+    <dimen name="padding_15">15dp</dimen>
+</resources>

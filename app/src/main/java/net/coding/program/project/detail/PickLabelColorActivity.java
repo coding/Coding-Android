@@ -9,9 +9,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import net.coding.program.R;
-import net.coding.program.common.enter.SimpleTextWatcher;
+import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.widget.PickLabelColorItem;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -77,7 +78,7 @@ public class PickLabelColorActivity extends BackActivity {
     }
 
     private void updateInput() {
-        String colorString = String.format("%06X", 0xFFFFFF & generateColor);
+        String colorString = Global.colorToStringNoWellNumber(generateColor);
         inputColor.setText(colorString);
         inputColor.setSelection(colorString.length());
     }

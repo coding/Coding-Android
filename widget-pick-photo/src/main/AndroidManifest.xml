@@ -1,0 +1,22 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="net.coding.program.pickphoto">
+
+    <application>
+        <activity
+            android:name=".PhotoPickDetailActivity"
+            android:label="@string/app_name"
+            android:process=":pickimage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="PhotoPickActivity"
+            android:label="@string/app_name"
+            android:process=":pickimage"
+            android:screenOrientation="portrait"
+            android:theme="@style/TranslateTheme" />
+
+        <activity
+            android:name=".detail.ImagePagerActivity_"
+            android:label="" />
+
+    </application>
+</manifest>

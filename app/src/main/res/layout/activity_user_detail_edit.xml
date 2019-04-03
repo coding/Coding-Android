@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:background="@color/divide"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ListView
-        android:id="@+id/listView"
+    <data>
+
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@color/divide_line"
-        android:dividerHeight="0.5dp" />
+        android:id="@+id/rootLayout"
+        android:layout_height="match_parent"
+        android:background="@color/divide"
+        android:orientation="vertical">
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/stand_bg"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
 
-</FrameLayout>
+    </LinearLayout>
+</layout>

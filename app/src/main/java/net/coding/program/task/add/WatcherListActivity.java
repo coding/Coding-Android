@@ -7,9 +7,9 @@ import android.view.View;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.network.MyAsyncHttpClient;
-import net.coding.program.model.TaskObject;
-import net.coding.program.model.UserObject;
+import net.coding.program.network.model.user.Member;
 import net.coding.program.project.detail.MembersActivity;
 
 import org.androidannotations.annotations.AfterViews;
@@ -35,7 +35,7 @@ public class WatcherListActivity extends MembersActivity {
     @AfterViews
     void initWatcherListActivity() {
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            TaskObject.Members members = mMembersArray.get(position);
+            Member members = mMembersArray.get(position);
             for (int i = 0; i < mWatchUsers.size(); ++i) {
                 UserObject item = mWatchUsers.get(i);
                 if (members.user.id == item.id) {
@@ -96,7 +96,7 @@ public class WatcherListActivity extends MembersActivity {
     }
 
     @Override
-    protected void updateChecked(ViewHolder holder, TaskObject.Members data) {
+    protected void updateChecked(ViewHolder holder, Member data) {
         for (UserObject item : mWatchUsers) {
             if (data.user.id == item.id) {
                 holder.watchCheck.setVisibility(View.VISIBLE);

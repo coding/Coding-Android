@@ -4,8 +4,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import net.coding.program.common.model.Maopao;
 import net.coding.program.maopao.item.LocationCoord;
-import net.coding.program.model.Maopao;
 
 /**
  * Created by Neutra on 2015/3/14.

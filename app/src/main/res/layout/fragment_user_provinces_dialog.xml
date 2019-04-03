@@ -2,31 +2,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="net.coding.program.user.UserProvincesDialogFragment"
     android:layout_weight="1"
     android:gravity="center"
+    android:orientation="horizontal"
     android:paddingLeft="40dp"
     android:paddingRight="40dp"
-    android:orientation="horizontal">
+    tools:context="net.coding.program.user.UserProvincesDialogFragment">
 
     <NumberPicker
+        android:id="@+id/provinces"
+        style="@style/NumberPick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dip"
         android:layout_marginEnd="1dip"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:layout_marginRight="20dp"
+        android:layout_marginStart="1dip"
         android:layout_weight="1"
-        android:id="@+id/provinces" />
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
     <NumberPicker
+        android:id="@+id/city"
+        style="@style/NumberPick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dip"
         android:layout_marginEnd="1dip"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
+        android:layout_marginStart="1dip"
         android:layout_weight="1.8"
-        android:id="@+id/city" />
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
 </LinearLayout>

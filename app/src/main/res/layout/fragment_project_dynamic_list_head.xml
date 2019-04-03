@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="30dp"
+    android:layout_height="36dp"
     android:background="@color/divide">
 
     <View
         style="@style/DivideSectionTop5"
         android:layout_alignParentBottom="true" />
 
+    <View style="@style/DivideSectionBottom5" />
 
     <TextView
         android:id="@+id/head"
@@ -16,7 +17,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/padding_15"
         android:text="Medium Text"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="14sp" />
 
 </RelativeLayout>

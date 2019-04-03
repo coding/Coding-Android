@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+
+    <dimen name="guide_0_title">31dp</dimen>
+    <dimen name="guide_0_content">17dp</dimen>
+    <dimen name="guide_0_content_line_space">10dp</dimen>
+
+</resources>

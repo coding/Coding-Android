@@ -3,7 +3,7 @@ package net.coding.program.maopao.item;
 import android.text.TextUtils;
 import android.util.Log;
 
-import net.coding.program.model.LocationObject;
+import net.coding.program.common.module.maopao.LocationObject;
 
 /**
  * Created by Neutra on 2015/3/14.
@@ -42,6 +42,6 @@ public class LocationCoord {
 
     @Override
     public String toString() {
-        return String.format("%f,%f,%d", latitude, longitude, (isCustom ? 1 : 0));
+        return String.format("%f,%f,%s", latitude, longitude, (isCustom ? 1 : 0));
     }
 }

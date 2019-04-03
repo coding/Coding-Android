@@ -13,6 +13,6 @@
         android:gravity="center_vertical|center_horizontal"
         android:text="技术变现，让赚钱更简单"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="18sp" />
 </FrameLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/topTip"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/layout_yellow_bg"
+    tools:showIn="@layout/fragment_main_setting">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:scaleType="center"
+        android:visibility="gone"
+        android:src="@drawable/top_tip_icon" />
+
+    <TextView
+        android:id="@+id/topTipText"
+        android:layout_width="0dp"
+        android:layout_marginLeft="@dimen/padding_15"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingBottom="@dimen/padding_10"
+        android:paddingRight="@dimen/padding_15"
+        android:paddingTop="@dimen/padding_10"
+        android:text="@string/tip_need_userinfo"
+        tools:text="@string/sold_out_app"
+        android:lineSpacingExtra="5dp"
+        android:textColor="@color/layout_yellow_font"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/closeTipButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_fork_yellow" />
+
+</LinearLayout>
+
+    

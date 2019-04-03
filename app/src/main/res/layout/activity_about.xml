@@ -5,13 +5,14 @@
     android:background="@color/divide"
     tools:context="net.coding.program.setting.AboutActivity">
 
-    <View
+    <ImageView
         android:id="@+id/icon"
-        android:layout_width="83dp"
-        android:layout_height="83dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/icon_user_monkey_circle" />
+        android:layout_marginTop="60dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_user_monkey_circle" />
 
     <TextView
         android:id="@+id/t1"
@@ -19,10 +20,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/icon"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="20dp"
         android:text="Coding-让开发更简单"
-        android:textColor="#000000"
-        android:textSize="18sp" />
+        android:textColor="@color/font_1"
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/version"
@@ -30,16 +31,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/t1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:text="222"
-        android:textColor="@color/font_6"
-        android:textSize="13sp" />
+        android:layout_marginTop="10dp"
+        android:textColor="@color/font_3"
+        android:textSize="12sp"
+        tools:text="222" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/version"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="25dp"
         android:orientation="vertical">
 
         <include layout="@layout/divide_top_15" />
@@ -48,41 +49,39 @@
             android:id="@+id/markCoding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/list_item_selector"
+            android:background="@color/stand_bg"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:minHeight="48dp"
-            android:paddingBottom="@dimen/padding_12"
-            android:paddingLeft="@dimen/padding_15"
-            android:paddingRight="@dimen/padding_15"
-            android:paddingTop="@dimen/padding_12">
+            android:minHeight="50dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="给 Coding 好评"
-                android:textColor="@color/font_2"
-                android:textSize="18sp" />
+                android:layout_marginLeft="@dimen/padding_15"
+                android:text="去评分"
+                android:textColor="@color/font_1"
+                android:textSize="15sp" />
 
         </RelativeLayout>
 
-        <View style="@style/DivideLine" />
+        <View style="@style/DivideLine_15" />
 
         <RelativeLayout
             android:id="@+id/checkUpdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/list_item_selector"
+            android:background="@color/stand_bg"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:minHeight="48dp"
-            android:paddingLeft="@dimen/padding_15">
+            android:minHeight="50dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="12dp"
+                android:layout_marginLeft="@dimen/padding_15"
                 android:text="检查更新"
-                android:textColor="@color/font_2"
-                android:textSize="18sp" />
+                android:textColor="@color/font_1"
+                android:textSize="15sp" />
 
         </RelativeLayout>
 
@@ -94,43 +93,34 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="30dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingBottom="15dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/codingWebsite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="官网：https://coding.net"
-            android:textColor="@color/font_6"
-            android:textSize="12sp" />
+            style="@style/aboutBottomText"
+            android:text="官网：https://coding.net" />
 
         <TextView
             android:id="@+id/email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="E-mail：link@coding.net"
-            android:textColor="@color/font_6"
-            android:textSize="12sp" />
+            style="@style/aboutBottomText"
+            android:text="E-mail：support@coding.net" />
 
         <TextView
             android:id="@+id/weibo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="微博：Coding"
-            android:textColor="@color/font_6"
-            android:textSize="12sp" />
+            style="@style/aboutBottomText"
+            android:text="微博：Coding" />
 
         <TextView
             android:id="@+id/wechat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="微信：扣钉Coding"
-            android:textColor="@color/font_6"
-            android:textSize="12sp" />
+            style="@style/aboutBottomText"
+            android:text="微信：扣钉CODING" />
+
+        <TextView
+            android:id="@+id/qq"
+            style="@style/aboutBottomText"
+            android:text="QQ群：617404718" />
 
     </LinearLayout>
 

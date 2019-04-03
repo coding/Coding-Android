@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/stand_bg"
+        android:layout_height="50dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fileCount"
+            android:layout_marginLeft="15dp"
+            android:text="5 个文件"
+            android:textColor="#FF4F95E8"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fileChange"
+            android:layout_marginLeft="10dp"
+            android:text="5 个文件  共 1 新增 和 0 删除"
+            android:textColor="@color/font_1"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <include layout="@layout/divide_middle_15" />
+</LinearLayout>

@@ -22,6 +22,7 @@ public class ListItem1 extends FrameLayout {
     private View mIcon;
     private TextView mText;
     private View badge;
+    public TextView text2;
 
     public ListItem1(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -32,15 +33,18 @@ public class ListItem1 extends FrameLayout {
     private void init(Context context, AttributeSet attrs) {
         View.inflate(context, R.layout.list_item_1, this);
         mIcon = findViewById(R.id.icon);
-        mText = (TextView) findViewById(R.id.title);
+        mText = findViewById(R.id.title);
         badge = findViewById(R.id.badge);
         badge.setVisibility(INVISIBLE);
+        text2 = findViewById(R.id.text2);
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ListItem1);
         String title = array.getString(R.styleable.ListItem1_itemTitle);
         int icon = array.getResourceId(R.styleable.ListItem1_itemIcon, R.drawable.user_home_project);
 
         boolean showBottomLine = array.getBoolean(R.styleable.ListItem1_itemShowBottomLine, false);
+        boolean showTopLine = array.getBoolean(R.styleable.ListItem1_itemShowTopLine, false);
+        boolean showArrow = array.getBoolean(R.styleable.ListItem1_itemShowArrow, true);
 
         boolean center = array.getBoolean(R.styleable.ListItem1_itemCenter, false);
         array.recycle();
@@ -52,6 +56,15 @@ public class ListItem1 extends FrameLayout {
         if (showBottomLine) {
             View line = findViewById(R.id.bottomLine);
             line.setVisibility(VISIBLE);
+        }
+
+        if (showTopLine) {
+            View line = findViewById(R.id.topLine);
+            line.setVisibility(VISIBLE);
+        }
+
+        if (!showArrow) {
+            findViewById(R.id.arrow).setVisibility(GONE);
         }
 
         if (center) {
@@ -79,4 +92,5 @@ public class ListItem1 extends FrameLayout {
     public void showBadge(boolean show) {
         badge.setVisibility(show ? VISIBLE : INVISIBLE);
     }
+
 }

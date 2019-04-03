@@ -8,9 +8,9 @@ import android.widget.SectionIndexer;
 import net.coding.program.R;
 import net.coding.program.common.comment.BaseCommentHolder;
 import net.coding.program.common.comment.BaseCommentParam;
+import net.coding.program.common.model.BaseComment;
+import net.coding.program.common.model.DiffFile;
 import net.coding.program.maopao.item.ImageCommentHolder;
-import net.coding.program.model.BaseComment;
-import net.coding.program.model.DiffFile;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
@@ -105,6 +105,5 @@ public class CommitFileAdapter extends MergeFileAdapter implements StickyListHea
     @Override
     public long getHeaderId(int i) {
         return i < mFilesCount ? 0 : 1;
-//        return i;
     }
 }

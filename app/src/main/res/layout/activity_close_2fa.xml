@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    tools:context="net.coding.program.login.phone.Close2FAActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title"
+            layout="@layout/common_listview_head_tip" />
+
+        <RelativeLayout
+            android:id="@+id/layoutRoot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/stand_bg">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/list_item_height"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/countryCode"
+                            android:layout_width="55dp"
+                            android:layout_height="match_parent"
+                            android:focusable="false"
+                            android:gravity="center_vertical"
+                            android:text="+86"
+                            android:textColor="@color/font_green"
+                            android:textSize="15sp" />
+
+                        <View
+                            style="@style/DivideLineVer"
+                            android:layout_height="20dp" />
+
+                        <net.coding.program.common.widget.LoginEditTextNew
+                            android:id="@+id/editPhone"
+                            style="@style/SingleLineEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="0dp"
+                            android:layout_marginLeft="@dimen/padding_15"
+                            android:layout_marginTop="0dp"
+                            app:hint="输入手机号码"
+                            app:loginInput="number"
+                            app:topLine="false" />
+
+                    </LinearLayout>
+
+                    <!--为了兼容企业版的-->
+                    <View
+                        android:visibility="gone"
+                        android:id="@+id/phoneLine"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp" />
+
+                    <View
+                        android:visibility="gone"
+                        android:id="@+id/codeLine"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp" />
+
+                    <View style="@style/DivideLine" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/list_item_height"
+                        android:background="@color/stand_bg"
+                        android:layout_marginRight="@dimen/padding_15"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <net.coding.program.common.widget.LoginEditTextNew
+                            android:id="@+id/editCode"
+                            style="@style/SingleLineEditText"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/list_item_height"
+                            android:layout_marginBottom="0dp"
+                            android:layout_marginRight="@dimen/padding_15"
+                            android:layout_marginTop="0dp"
+                            android:layout_weight="1"
+                            android:inputType="phone"
+                            app:hint="输入短信中的验证码"
+                            app:loginInput="number"
+                            app:topLine="false" />
+
+                        <net.coding.program.common.widget.ValidePhoneView
+                            android:id="@+id/sendPhoneMessage"
+                            style="@style/ValidePhoneView"
+                            android:layout_marginRight="0dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <include layout="@layout/divide_middle_15" />
+
+        <TextView
+            android:id="@+id/loginButton"
+            style="@style/ButtonExit"
+            android:text="关闭两步验证" />
+
+        <include layout="@layout/divide_bottom_15" />
+
+    </LinearLayout>
+</ScrollView>

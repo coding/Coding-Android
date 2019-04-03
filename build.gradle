@@ -1,20 +1,46 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext.gradleVersion = '3.1.2'
+    ext.kotlinVersion = '1.2.30'
+    ext.supportVersion = '27.1.1'
+    ext.AAVersion = '4.4.0'
+    ext.compileSdkVersionValue = 27
+    ext.buildToolsVersionValue = '27.0.3'
+
+    // 测试框架版本号
+    ext.runnerVersion = '1.0.2'
+    ext.rulesVersion = '1.0.2'
+    ext.espressoVersion = '3.0.2'
+
     repositories {
         jcenter()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'com.google.gms:google-services:1.4.0-beta3'
-//        classpath "com.android.databinding:dataBinder:1.+"
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath "com.android.tools.build:gradle:$gradleVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
+        google()
+
+        maven { url "https://jitpack.io" }
+        // huawei push need
+        maven { url 'http://developer.huawei.com/repo/' }
     }
 }
+

@@ -7,9 +7,9 @@ import com.umeng.analytics.MobclickAgent;
 
 import net.coding.program.R;
 import net.coding.program.WebActivity_;
+import net.coding.program.common.model.BannerObject;
 import net.coding.program.common.ui.BaseFragment;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.model.BannerObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

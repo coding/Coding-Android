@@ -9,6 +9,16 @@ import android.view.MotionEvent;
  */
 public class AutoScrollLoopViewPager extends LoopViewPager {
 
+    private static final int INTERVAL = 5000;
+    private boolean isPagingEnabled = true;
+    private Runnable mAutoScrollAction = new Runnable() {
+        @Override
+        public void run() {
+            sendScrollMessage();
+            goForwardSmoothly();
+        }
+    };
+
     public AutoScrollLoopViewPager(Context context) {
         super(context);
     }
@@ -16,9 +26,6 @@ public class AutoScrollLoopViewPager extends LoopViewPager {
     public AutoScrollLoopViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
-    private static final int INTERVAL = 5000;
-    private boolean isPagingEnabled = true;
 
     @Override
     protected void onDetachedFromWindow() {
@@ -29,14 +36,6 @@ public class AutoScrollLoopViewPager extends LoopViewPager {
     private void sendScrollMessage() {
         postDelayed(mAutoScrollAction, INTERVAL);
     }
-
-    private Runnable mAutoScrollAction = new Runnable() {
-        @Override
-        public void run() {
-            sendScrollMessage();
-            goForwardSmoothly();
-        }
-    };
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {

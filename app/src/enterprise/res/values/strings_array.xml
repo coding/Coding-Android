@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+
+    <string-array name="dynamic_type">
+        <item>全部</item>
+        <item>任务</item>
+        <item>Wiki</item>
+        <item>文件</item>
+        <item>代码</item>
+        <item>其它</item>
+    </string-array>
+
+    <string-array name="dynamic_type_params">
+        <item>all</item>
+        <item>task</item>
+        <item>wiki</item>
+        <item>file</item>
+        <item>code</item>
+        <item>other</item>
+    </string-array>
+
+    <string-array name="guide_title">
+        <item></item>
+        <item>任务协作</item>
+        <item>文件管理</item>
+        <item>Wiki 知识库</item>
+        <item>代码托管</item>
+    </string-array>
+
+    <string-array name="guide_content">
+        <item></item>
+        <item>任务进度与代码仓库无缝衔接</item>
+        <item>云端共享，支持在线预览、编辑、评论</item>
+        <item>文档书写，记录整个项目的来龙去脉</item>
+        <item>提交代码、合并请求一步到位</item>
+    </string-array>
+
+    <string-array name="user_info_list_first">
+        <item>名字</item>
+        <item>性别</item>
+        <item>生日</item>
+        <item>所在地</item>
+        <item>座右铭</item>
+        <item>学历</item>
+        <item>学校</item>
+        <item>部门</item>
+        <item>工作</item>
+        <item>开发技能</item>
+        <item>个性标签</item>
+    </string-array>
+
+
+    <string-array name="user_detail_more_list_first">
+        <item>加入时间</item>
+        <item>最后活动</item>
+        <item>用户名</item>
+        <item>性别</item>
+        <item>生日</item>
+        <item>所在地</item>
+        <item>座右铭</item>
+        <item>学历</item>
+        <item>学校</item>
+        <item>部门</item>
+        <item>职位</item>
+        <item>开发技能</item>
+        <item>个性标签</item>
+    </string-array>
+
+
+    <string-array name="guide_gif_down">
+        <item></item>
+        <item>icon-1-down.gif</item>
+        <item>icon-2-down.gif</item>
+        <item>icon-3-down.gif</item>
+        <item>icon-4-down.gif</item>
+    </string-array>
+
+
+    <string-array name="guide_gif_up">
+        <item></item>
+        <item>icon-1-up.gif</item>
+        <item>icon-2-up.gif</item>
+        <item>icon-3-up.gif</item>
+        <item>icon-4-up.gif</item>
+    </string-array>
+
+</resources>

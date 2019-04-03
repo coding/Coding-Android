@@ -15,15 +15,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.enter.SimpleTextWatcher;
-import net.coding.program.model.AccountInfo;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.widget.input.SimpleTextWatcher;
 
 public class LoginAutoCompleteEdit extends AutoCompleteTextView {
     private static final String TAG = "LoginAutoCompleteEdit";
 
     private boolean mDisableAuto = false;
+    private boolean showClear = true;
 
     private String[] emailSufixs;
+    private Drawable drawable;
 
     public LoginAutoCompleteEdit(Context context) {
         super(context);
@@ -86,10 +88,12 @@ public class LoginAutoCompleteEdit extends AutoCompleteTextView {
         }
     }
 
-    private Drawable drawable;
+    public void showClear(boolean show) {
+        showClear = show;
+    }
 
     private void displayDelete(boolean show) {
-        if (show) {
+        if (show && showClear) {
             setDrawableRight(drawable);
         } else {
             setDrawableRight(null);
@@ -106,7 +110,6 @@ public class LoginAutoCompleteEdit extends AutoCompleteTextView {
             if (getCompoundDrawables()[2] != null) {
                 boolean touchable = event.getX() > (getWidth() - getTotalPaddingRight())
                         && (event.getX() < ((getWidth() - getPaddingRight())));
-
                 if (touchable) {
                     this.setText("");
                 }

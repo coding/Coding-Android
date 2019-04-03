@@ -1,46 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@null"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:orientation="vertical">
 
     <!--<RelativeLayout-->
-        <!--android:id="@+id/subject_search_hot_header_title"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginBottom="18dp"-->
-        <!--android:layout_marginTop="18dp"-->
-        <!--android:paddingLeft="@dimen/padding_12"-->
-        <!--android:paddingRight="@dimen/padding_12">-->
+    <!--android:id="@+id/subject_search_hot_header_title"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="18dp"-->
+    <!--android:layout_marginTop="18dp"-->
+    <!--android:paddingLeft="@dimen/padding_12"-->
+    <!--android:paddingRight="@dimen/padding_12">-->
 
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:text="热门话题搜索"-->
-            <!--android:textColor="@color/font_black_9"-->
-            <!--android:textSize="14sp"/>-->
-
-
-
-        <!--<View-->
-            <!--android:layout_width="15dp"-->
-            <!--android:layout_height="15dp"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:id="@+id/temp_arrow"-->
-            <!--android:background="@drawable/user_home_arrow"></View>-->
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:text="热门话题搜索"-->
+    <!--android:textColor="@color/font_black_9"-->
+    <!--android:textSize="14sp"/>-->
 
 
-        <!--<com.readystatesoftware.viewbadger.BadgeView-->
-            <!--android:id="@+id/badge"-->
-            <!--android:layout_width="9dp"-->
-            <!--android:layout_height="9dp"-->
-            <!--android:layout_marginRight="12dp"-->
-            <!--android:background="@drawable/ic_notify"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_toLeftOf="@id/temp_arrow"-->
-            <!--android:visibility="invisible" />-->
+    <!--<View-->
+    <!--android:layout_width="15dp"-->
+    <!--android:layout_height="15dp"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:id="@+id/temp_arrow"-->
+    <!--android:background="@drawable/user_home_arrow"></View>-->
+
+
+    <!--<com.readystatesoftware.viewbadger.BadgeView-->
+    <!--android:id="@+id/badge"-->
+    <!--android:layout_width="9dp"-->
+    <!--android:layout_height="9dp"-->
+    <!--android:layout_marginRight="12dp"-->
+    <!--android:background="@drawable/ic_notify"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_toLeftOf="@id/temp_arrow"-->
+    <!--android:visibility="invisible" />-->
     <!--</RelativeLayout>-->
 
     <org.apmem.tools.layouts.FlowLayout
@@ -48,12 +47,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="6dp"
-        android:paddingTop="6dp"
         android:paddingLeft="8.5dp"
-        android:paddingRight="8.5dp"></org.apmem.tools.layouts.FlowLayout>
+        android:paddingRight="8.5dp"
+        android:paddingTop="6dp" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/search_divide_color" />
+    <View style="@style/DivideLine" />
+
 </LinearLayout>

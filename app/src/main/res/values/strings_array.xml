@@ -1,12 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string-array name="drawer_title">
-        <item>我的项目</item>
-        <item>我的任务</item>
-        <item />
-        <item>@string/title_activity_message_list</item>
-        <item>我的</item>
-    </string-array>
 
     <string-array name="program_title">
         <item>全部项目</item>
@@ -50,14 +43,6 @@
         <item>热门冒泡</item>
     </string-array>
 
-    <string-array name="setting_list_items">
-        <item>帐号设置</item>
-        <item>消息推送</item>
-        <item>下载路径设置</item>
-        <item>意见反馈</item>
-        <item>关于Coding</item>
-    </string-array>
-
     <string-array name="sexs">
         <item>男</item>
         <item>女</item>
@@ -72,7 +57,7 @@
     <string-array name="dynamic_type">
         <item>全部</item>
         <item>任务</item>
-        <item>讨论</item>
+        <item>Wiki</item>
         <item>文件</item>
         <item>代码</item>
         <item>其它</item>
@@ -81,7 +66,7 @@
     <string-array name="dynamic_type_params">
         <item>all</item>
         <item>task</item>
-        <item>topic</item>
+        <item>wiki</item>
         <item>file</item>
         <item>code</item>
         <item>other</item>
@@ -126,9 +111,19 @@
         <item>生日</item>
         <item>所在地</item>
         <item>座右铭</item>
+        <item>学历</item>
+        <item>学校</item>
         <item>公司</item>
-        <item>职位</item>
+        <item>工作</item>
+        <item>开发技能</item>
         <item>个性标签</item>
+    </string-array>
+
+    <string-array name="user_degree">
+        <item>高中及以下</item>
+        <item>大专</item>
+        <item>本科</item>
+        <item>硕士及以上</item>
     </string-array>
 
     <string-array name="user_detail_activity_list_first">
@@ -155,8 +150,11 @@
         <item>生日</item>
         <item>所在地</item>
         <item>座右铭</item>
+        <item>学历</item>
+        <item>学校</item>
         <item>公司</item>
         <item>职位</item>
+        <item>开发技能</item>
         <item>个性标签</item>
     </string-array>
 
@@ -221,10 +219,67 @@
 
     <string-array name="mall_order_detail_tab">
         <item>全部订单</item>
+        <item>未付款</item>
         <item>未发货</item>
         <item>已发货</item>
     </string-array>
 
+    <string-array name="merge_status">
+        <item>默认</item>
+        <item>可合并</item>
+        <item>不可自动合并</item>
+        <item>已拒绝</item>
+        <item>已合并</item>
+    </string-array>
+
+    <string-array name="merge_status_english">
+        <item>all</item>
+        <item>CANMERGE</item>
+        <item>CANNOTMERGE</item>
+        <item>REFUSED</item>
+        <item>ACCEPTED</item>
+    </string-array>
+
+    <string-array name="pr_status">
+        <item>全部</item>
+        <item>已处理</item>
+        <item>未处理</item>
+    </string-array>
+
+    <string-array name="file_type">
+        <item>图片</item>
+        <item>其他文件</item>
+    </string-array>
+
+    <string-array name="manager_project_item">
+        <item>删除项目</item>
+    </string-array>
+
+    <string-array name="manager_member_by_manager">
+        <item>项目权限设置</item>
+        <item>移除成员</item>
+    </string-array>
+
+    <string-array name="manager_member_by_owner">
+        <item>企业角色设置</item>
+        <item>项目权限设置</item>
+        <item>移除成员</item>
+    </string-array>
+
+    <string-array name="manager_member_to_owner">
+        <item>项目权限设置</item>
+    </string-array>
+
+    <string-array name="add_qcode">
+        <item>扫描二维码</item>
+        <item>手动添加账号</item>
+    </string-array>
+
+
+    <string-array name="modify_board_list">
+        <item>重命名</item>
+        <item>删除</item>
+    </string-array>
     <!--<string-array name="commnet_my">-->
     <!--<item>复制</item>-->
     <!--<item>回复</item>-->

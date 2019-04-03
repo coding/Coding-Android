@@ -1,60 +1,41 @@
 package net.coding.program.project.detail;
 
-import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import net.coding.program.FileUrlActivity;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.network.NetworkCallback;
 import net.coding.program.common.network.NetworkImpl;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.merge.ProjectMergeFragment_;
-import net.coding.program.project.detail.merge.ProjectPullFragment_;
-import net.coding.program.project.detail.readme.ReadmeFragment_;
+import net.coding.program.param.ProjectJumpParam;
+import net.coding.program.project.detail.file.v2.ProjectFileMainActivity_;
+import net.coding.program.project.detail.wiki.WikiMainActivity_;
+import net.coding.program.project.git.local.GitMainActivity_;
+import net.coding.program.task.board.TaskBoardActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OnActivityResult;
+import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @EActivity(R.layout.activity_project_parent)
 public class ProjectActivity extends BackActivity implements NetworkCallback {
-
-    public static final ProjectJumpParam.JumpType[] PRIVATE_JUMP_TYPES = new ProjectJumpParam.JumpType[]{
-            ProjectJumpParam.JumpType.typeDynamic,
-            ProjectJumpParam.JumpType.typeTask,
-            ProjectJumpParam.JumpType.typeTopic,
-            ProjectJumpParam.JumpType.typeDocument,
-            ProjectJumpParam.JumpType.typeCode,
-            ProjectJumpParam.JumpType.typeMember,
-            ProjectJumpParam.JumpType.typeReadme,
-            ProjectJumpParam.JumpType.typeMerge
-    };
-    public static final ProjectJumpParam.JumpType[] PUBLIC_JUMP_TYPES = new ProjectJumpParam.JumpType[]{
-            ProjectJumpParam.JumpType.typeDynamic,
-            ProjectJumpParam.JumpType.typeTopic,
-            ProjectJumpParam.JumpType.typeCode,
-            ProjectJumpParam.JumpType.typeMember,
-            ProjectJumpParam.JumpType.typeReadme,
-            ProjectJumpParam.JumpType.typeMerge
-    };
 
     @Extra
     ProjectObject mProjectObject;
@@ -63,37 +44,14 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
     ProjectJumpParam mJumpParam;
 
     @Extra
-    ProjectJumpParam.JumpType mJumpType = ProjectJumpParam.JumpType.typeDynamic;
+    ProjectFunction mJumpType = ProjectFunction.dynamic;
 
     List<WeakReference<Fragment>> mFragments = new ArrayList<>();
-    ArrayList<String> project_activity_action_list = new ArrayList<>(Arrays.asList(
-            "项目动态",
-            "项目讨论",
-            "项目代码",
-            "项目成员",
-            "readme",
-            "mergerequest"
-    ));
     String urlProject;
-
-    //    MaopaoTypeAdapter mSpinnerAdapter;
-    ArrayList<Integer> spinnerIcons = new ArrayList<>(Arrays.asList(
-            R.drawable.ic_spinner_dynamic,
-            R.drawable.ic_spinner_topic,
-            R.drawable.ic_spinner_git,
-            R.drawable.ic_spinner_user,
-            R.drawable.ic_spinner_user,
-            R.drawable.ic_spinner_user
-    ));
-
-    ArrayList<Class> spinnerFragments = new ArrayList<Class>(Arrays.asList(
-            ProjectDynamicParentFragment_.class,
-            TopicFragment_.class,
-            ProjectGitFragmentMain_.class,
-            MembersListFragment_.class,
-            ReadmeFragment_.class,
-            ProjectPullFragment_.class
-    ));
+    @ViewById
+    TextView toolbarProjectTitle;
+    @ViewById(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
     private NetworkImpl networkImpl;
 
     @AfterViews
@@ -107,17 +65,14 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         }
 
         if (mJumpParam != null) {
-            urlProject = String.format(FileUrlActivity.HOST_PROJECT, mJumpParam.mUser, mJumpParam.mProject);
-            //setActionBarTitle(mJumpParam.mProject);
-
+            urlProject = ProjectObject.getHttpProject(mJumpParam.user, mJumpParam.project);
             networkImpl = new NetworkImpl(this, this);
             networkImpl.initSetting();
 
             getNetwork(urlProject, urlProject);
 
         } else if (mProjectObject != null) {
-            //setActionBarTitle(mProjectObject.name);
-            initData();
+            selectFragment();
 
         } else {
             finish();
@@ -129,7 +84,7 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         if (tag.equals(urlProject)) {
             if (code == 0) {
                 mProjectObject = new ProjectObject(respanse.getJSONObject("data"));
-                initData();
+                selectFragment();
             } else {
                 Toast.makeText(this, Global.getErrorMsg(respanse), Toast.LENGTH_LONG).show();
             }
@@ -141,124 +96,71 @@ public class ProjectActivity extends BackActivity implements NetworkCallback {
         networkImpl.loadData(uri, null, tag, -1, null, NetworkImpl.Request.Get);
     }
 
-    private void initData() {
-        // 私有项目才有任务
-        if (!mProjectObject.isPublic()) {
-            final int insertPos = 1;
-            spinnerIcons.add(insertPos, R.drawable.ic_spinner_task);
-            spinnerFragments.add(insertPos, ProjectTaskFragment_.class);
-            project_activity_action_list.add(insertPos, "项目任务");
-
-            // 私有项目添加项目文件
-            final int insertAttPos = 3;
-            spinnerIcons.add(insertAttPos, R.drawable.ic_spinner_attachment);
-            spinnerFragments.add(insertAttPos, ProjectAttachmentFragment_.class);
-            project_activity_action_list.add(insertAttPos, "项目文件");
+    private void selectFragment() {
+        if (mJumpType == ProjectFunction.member) {
+            ProjectMembersActivity_.intent(this).projectObject(mProjectObject).start();
+            finish();
+            return;
+        } else if (mJumpType == ProjectFunction.taskBoard) {
+            TaskBoardActivity_.intent(this).projectObject(mProjectObject)
+                    .param(new ProjectJumpParam(mProjectObject)).start();
+            finish();
+            return;
+        } else if (mJumpType == ProjectFunction.git) {
+            GitMainActivity_.intent(this).project(mProjectObject).start();
+            finish();
+            return;
+        } else if (mJumpType == ProjectFunction.wiki) {
+            WikiMainActivity_.intent(this).project(mProjectObject).start();
+            finish();
+            return;
+        } else if (mJumpType == ProjectFunction.document) {
+//            if (!GlobalData.isPrivateEnterprise()) {
+            ProjectFileMainActivity_.intent(this).project(mProjectObject).start();
+//            } else {
+//                AttachmentsActivity_.intent(this)
+//                        .mAttachmentFolderObject(AttachmentFolderObject.create(AttachmentFolderObject.ROOT_FOLDER_ID))
+//                        .mProjectObjectId(mProjectObject.id)
+//                        .mProject(mProjectObject)
+//                        .start();
+//            }
+            finish();
+            return;
         }
-        selectFragment(getJumpPos());
-    }
 
-    private int getJumpPos() {
-        if (mProjectObject.isPublic()) {
-            for (int i = 0; i < PUBLIC_JUMP_TYPES.length; ++i) {
-                if (PUBLIC_JUMP_TYPES[i] == mJumpType) {
-                    return i;
-                }
-            }
-        } else {
-            for (int i = 0; i < PRIVATE_JUMP_TYPES.length; ++i) {
-                if (PRIVATE_JUMP_TYPES[i] == mJumpType) {
-                    return i;
-                }
-            }
-        }
-
-        return 0;
-    }
-
-    private void selectFragment(int position) {
         Fragment fragment;
         Bundle bundle = new Bundle();
 
         try {
-            Class fragmentClass = spinnerFragments.get(position);
-            if (fragmentClass == ProjectPullFragment_.class && !mProjectObject.isPublic()) {
-                fragmentClass = ProjectMergeFragment_.class;
+            if (mJumpType == ProjectFunction.task) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    AppBarLayout appbar = (AppBarLayout) findViewById(R.id.appbar);
+                    appbar.setElevation(0);
+                }
+                hideActionbarShade();
+            } else {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                toolbarProjectTitle.setBackgroundResource(0);
             }
 
+            Class fragmentClass = mJumpType.fragment;
             fragment = (Fragment) fragmentClass.newInstance();
 
             bundle.putSerializable("mProjectObject", mProjectObject);
-            bundle.putSerializable("mProjectPath", ProjectObject.translatePath(mProjectObject.project_path));
+            bundle.putSerializable("mProjectPath", ProjectObject.translatePath(mProjectObject.getBackendProjectPath()));
             fragment.setArguments(bundle);
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.container, fragment, project_activity_action_list.get(position));
+            ft.replace(R.id.container, fragment, fragmentClass.getName());
             ft.commit();
 
             mFragments.add(new WeakReference(fragment));
 
+            toolbarProjectTitle.setText(mJumpType.title);
+
         } catch (Exception e) {
             Global.errorLog(e);
-        }
-    }
-
-    @OnActivityResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES)
-    void onFileResult(int resultCode, Intent data) {
-        for (WeakReference<Fragment> item : mFragments) {
-            Fragment f = item.get();
-            if (f instanceof ProjectAttachmentFragment_) {
-                ((ProjectAttachmentFragment_) f).onFileResult(resultCode, data);
-            }
-        }
-    }
-
-    public static class ProjectJumpParam implements Serializable {
-        public String mProject = "";
-        public String mUser = "";
-
-        public ProjectJumpParam(String mUser, String mProject) {
-            this.mUser = mUser;
-            this.mProject = mProject;
-        }
-
-        public ProjectJumpParam(String path) {
-            String[] regexs = new String[]{
-                    "^/u/(.*?)/p/(.*?)(?:/git)?$",
-                    "^/user/(.*)/project/(.*)$",
-                    "^/t/(.*?)/p/(.*?)(?:/git)?$",
-                    "^/team/(.*)/p/(.*)$"
-            };
-
-            for (String item : regexs) {
-                if (isMatch(path, item)) {
-                    break;
-                }
-            }
-        }
-
-        private boolean isMatch(String path, String regex) {
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(path);
-            if (matcher.find()) {
-                this.mUser = matcher.group(1);
-                this.mProject = matcher.group(2);
-                return true;
-            }
-
-            return false;
-        }
-
-        public enum JumpType {
-            typeDynamic,
-            typeTask,
-            typeTopic,
-            typeDocument,
-            typeCode,
-            typeMember,
-            typeReadme,
-            typeMerge,
-            typeHome
         }
     }
 }

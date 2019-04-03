@@ -3,37 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <include layout="@layout/common_actionbar" />
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/divide"
-        android:orientation="vertical">
+        android:layout_marginTop="@dimen/actionbar_height"
+        android:layout_height="match_parent">
 
-        <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:background="@color/task_list_head"-->
-        <!--android:layout_weight="1">-->
-
-        <ListView
-            android:id="@+id/listView"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:background="@color/divide"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false"/>
+            android:orientation="vertical">
 
-        <include layout="@layout/common_enter_image" />
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/divide"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:footerDividersEnabled="false"
+                android:headerDividersEnabled="false" />
 
-    </LinearLayout>
+            <include layout="@layout/common_enter_image" />
 
-    <include
-        android:id="@+id/blankLayout"
-        layout="@layout/view_exception"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        </LinearLayout>
 
+        <include
+            android:id="@+id/blankLayout"
+            layout="@layout/view_exception"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
 </FrameLayout>

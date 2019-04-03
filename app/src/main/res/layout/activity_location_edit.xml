@@ -30,9 +30,9 @@
                 android:layout_marginRight="15dp"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:singleLine="true"
+                android:lines="1"
                 android:text="位置名称"
-                android:textColor="@color/font_6"
+                android:textColor="@color/font_2"
                 android:textSize="16sp" />
 
             <EditText
@@ -44,9 +44,9 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:singleLine="true"
+                android:lines="1"
                 android:text=""
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -69,9 +69,9 @@
                 android:layout_marginRight="15dp"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:singleLine="true"
+                android:lines="1"
                 android:text="所在地区"
-                android:textColor="@color/font_6"
+                android:textColor="@color/font_2"
                 android:textSize="16sp" />
 
             <EditText
@@ -84,9 +84,9 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:singleLine="true"
+                android:lines="1"
                 android:text=""
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -109,9 +109,9 @@
                 android:layout_marginRight="15dp"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:singleLine="true"
+                android:lines="1"
                 android:text="详细地址"
-                android:textColor="@color/font_6"
+                android:textColor="@color/font_2"
                 android:textSize="16sp" />
 
             <EditText
@@ -124,9 +124,9 @@
                 android:gravity="center_vertical"
                 android:hint="街道门牌信息"
                 android:maxLines="1"
-                android:singleLine="true"
+                android:lines="1"
                 android:text=""
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textColorHint="#a3a3a3"
                 android:textSize="16sp" />
         </LinearLayout>

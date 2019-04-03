@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/emptyLayout"
+    android:layout_width="match_parent"
+    android:layout_height="44dp">
+
+    <TextView
+        style="@style/OrderLeft"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:text="充值订单"
+        android:textColor="@color/font_1" />
+
+    <View
+        style="@style/DivideLine"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

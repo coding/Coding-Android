@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    tools:context="net.coding.program.project.detail.MemberAuthorityActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/divide_top_15" />
+
+        <include
+            android:id="@+id/enterprseManager"
+            layout="@layout/dropdown_tab_list_item" />
+
+        <View style="@style/DivideLine_15" />
+
+        <include
+            android:id="@+id/enterpriseMember"
+            layout="@layout/dropdown_tab_list_item" />
+
+        <include layout="@layout/divide_bottom_15" />
+
+    </LinearLayout>
+
+    <include
+        layout="@layout/view_exception"
+        android:id="@+id/blankLayout" />
+
+</FrameLayout>

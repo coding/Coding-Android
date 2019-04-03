@@ -5,11 +5,11 @@ import android.widget.ListView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
+import net.coding.program.common.model.RequestData;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.RequestData;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 @EActivity(R.layout.activity_inform_maopao)
 public class InformMaopaoActivity extends BackActivity {
+    private static final String TAG_INFORM_MAOPAO = "TAG_INFORM_MAOPAO";
     private final String[] types = new String[]{
             "淫秽色情",
             "垃圾广告",
@@ -29,9 +30,6 @@ public class InformMaopaoActivity extends BackActivity {
             "侵犯版权",
             "骚扰我"
     };
-
-    private static final String TAG_INFORM_MAOPAO = "TAG_INFORM_MAOPAO";
-
     @Extra
     int maopaoId = 1;
 
@@ -50,7 +48,7 @@ public class InformMaopaoActivity extends BackActivity {
         showDialog("举报", item, (dialog, which) -> {
             final String url = Global.HOST_API + "/inform/tweet";
             RequestParams params = new RequestParams();
-            params.put("user", MyApp.sUserObject.global_key);
+            params.put("user", GlobalData.sUserObject.global_key);
             params.put("content", maopaoId);
             params.put("reason", item);
             postNetwork(new RequestData(url, params), TAG_INFORM_MAOPAO);

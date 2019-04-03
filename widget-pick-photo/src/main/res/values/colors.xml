@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 基本颜色 -->
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#ff000000</color>
+
+    <color name="divide_line">#D8DDE4</color>
+    <color name="camera_background">#ff353535</color>
+</resources>

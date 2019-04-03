@@ -37,9 +37,9 @@
                 android:layout_alignTop="@id/icon"
                 android:layout_marginRight="@dimen/padding_15"
                 android:layout_toRightOf="@id/icon"
-                android:singleLine="true"
+                android:lines="1"
                 android:text="Medium Text"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="16sp" />
 
             <TextView
@@ -51,8 +51,8 @@
                 android:layout_marginRight="@dimen/padding_15"
                 android:layout_marginTop="1dp"
                 android:ellipsize="end"
-                android:singleLine="true"
-                android:textColor="@color/font_6"
+                android:lines="1"
+                android:textColor="@color/font_2"
                 android:textSize="14sp"
                 android:visibility="visible" />
 
@@ -71,7 +71,7 @@
                     android:drawableLeft="@drawable/project_home_button_public_star"
                     android:drawablePadding="3dp"
                     android:text="122"
-                    android:textColor="@color/font_9"
+                    android:textColor="@color/font_3"
                     android:textSize="12sp" />
 
                 <TextView
@@ -84,7 +84,7 @@
                     android:drawableLeft="@drawable/project_home_button_public_watch"
                     android:drawablePadding="3dp"
                     android:text="122"
-                    android:textColor="@color/font_9"
+                    android:textColor="@color/font_3"
                     android:textSize="12sp" />
 
                 <TextView
@@ -98,7 +98,7 @@
                     android:drawablePadding="3dp"
                     android:text="122"
 
-                    android:textColor="@color/font_9"
+                    android:textColor="@color/font_3"
                     android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>

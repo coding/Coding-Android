@@ -9,12 +9,12 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
+import net.coding.program.CodingGlobal;
 import net.coding.program.R;
-import net.coding.program.common.Global;
+import net.coding.program.common.model.Depot;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.maopao.MaopaoDetailActivity;
-import net.coding.program.model.Depot;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.common.widget.LoadingView;
 import net.coding.program.project.detail.merge.ReadmeEditActivity;
 import net.coding.program.project.detail.merge.ReadmeEditActivity_;
 
@@ -44,6 +44,9 @@ public class ReadmeFragment extends BaseFragment {
     @ViewById
     TextView readme;
 
+    @ViewById
+    LoadingView loadingView;
+
     private String hostGitTree;
     private String hostProjectGit;
     private ReadmeEditActivity.PostParam mPostParam;
@@ -61,6 +64,7 @@ public class ReadmeFragment extends BaseFragment {
     @Override
     public void parseJson(int code, JSONObject respanse, String tag, int pos, Object data) throws JSONException {
         if (tag.equals(hostGitTree)) {
+            loadingView.setVisibility(View.GONE);
             if (code == 0) {
                 JSONObject jsonData = respanse.optJSONObject("data");
                 JSONObject readmeJson = jsonData.optJSONObject("readme");
@@ -82,17 +86,7 @@ public class ReadmeFragment extends BaseFragment {
                         needReadme.setVisibility(View.GONE);
                         webView.setVisibility(View.VISIBLE);
 
-                        Global.initWebView(webView);
-
-                        String bubble = "${webview_content}";
-                        try {
-                            bubble = Global.readTextFile(getResources().getAssets().open("markdown.html"));
-                        } catch (Exception e) {
-                            Global.errorLog(e);
-                        }
-
-                        webView.loadDataWithBaseURL(null, bubble.replace("${webview_content}", readmeHtml), "text/html", "UTF-8", null);
-                        webView.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity(), readmeHtml));
+                        CodingGlobal.setWebViewContent(webView, CodingGlobal.WebviewType.markdown, readmeHtml);
                     }
                 }
             } else if (code == 1209) {
@@ -114,7 +108,7 @@ public class ReadmeFragment extends BaseFragment {
     }
 
     private void showEmptyReadme() {
-        readme.setText("README.md");
+        readme.setVisibility(View.GONE);
         needReadme.setVisibility(View.VISIBLE);
         webView.setVisibility(View.GONE);
     }

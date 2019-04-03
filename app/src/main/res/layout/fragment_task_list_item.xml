@@ -8,23 +8,21 @@
 
     <CheckBox
         android:id="@+id/checkbox"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="28dp"
         android:button="@drawable/checkbox_task_0"
         android:checked="false"
         android:focusable="false" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@+id/checkbox"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_marginLeft="47dp"
+        android:layout_marginTop="19.5dp"
         android:src="@drawable/ic_default_user" />
-
 
     <TextView
         android:id="@+id/title"
@@ -33,14 +31,13 @@
         android:layout_alignParentRight="true"
         android:layout_marginLeft="11dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="15dp"
         android:layout_toRightOf="@+id/icon"
         android:ellipsize="end"
         android:lineSpacingExtra="3dp"
-        android:maxLines="2"
-        android:phoneNumber="false"
+        android:lines="1"
         android:text="      江龙减法看东方看a东皇反抗a双簧反抗a荒废"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="15sp" />
 
     <View
@@ -50,7 +47,7 @@
         android:layout_alignLeft="@id/title"
         android:layout_alignTop="@id/title"
         android:layout_marginTop="1.5dp"
-        android:background="@drawable/task_mark_0"
+        android:background="@drawable/ic_task_priority_0"
         android:focusable="false" />
 
     <LinearLayout
@@ -59,8 +56,8 @@
         android:layout_alignLeft="@+id/title"
         android:layout_alignStart="@+id/title"
         android:layout_below="@+id/title"
-        android:layout_marginBottom="12dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="12dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -109,11 +106,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:lines="1"
                 android:drawableLeft="@drawable/icon_task_des"
                 android:drawablePadding="4dp"
+                android:lines="1"
                 android:text="描述"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -121,6 +118,7 @@
 
     <View
         style="@style/DivideLine"
+        android:id="@+id/bottomLine"
         android:layout_alignLeft="@id/icon"
         android:layout_alignParentBottom="true" />
 

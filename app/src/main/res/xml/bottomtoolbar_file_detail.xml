@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        icon="@drawable/project_file_button_dynamic"
+        id="@+id/clickFileDynamic"
+        title="文件动态" />
+
+    <tab
+        icon="@drawable/project_file_button_history"
+        id="@+id/clickFileHistory"
+        title="历史版本" />
+</tabs>

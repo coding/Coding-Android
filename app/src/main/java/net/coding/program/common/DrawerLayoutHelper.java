@@ -19,8 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.model.FilterModel;
-import net.coding.program.model.TaskLabelModel;
+import net.coding.program.common.model.FilterModel;
+import net.coding.program.common.model.TaskLabelModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +56,8 @@ public class DrawerLayoutHelper {
         this.mContext = context;
         this.mFilterModel = filterModel;
         this.showLabelCount = false;
-        font2 = mContext.getResources().getColor(R.color.font_2);
-        green = mContext.getResources().getColor(R.color.green);
+        font2 = mContext.getResources().getColor(R.color.font_1);
+        green = mContext.getResources().getColor(R.color.font_green);
 
         this.drawerLayout = drawerLayout;
         this.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -152,7 +152,7 @@ public class DrawerLayoutHelper {
     }
 
     private void iniLabels(FilterListener filterListener, EditText etSearch) {
-        if (mFilterModel == null || mFilterModel.labelModels == null || mFilterModel.labelModels.size() == 0) {
+        if (mFilterModel == null || mFilterModel.labelModels == null) {
             return;
         }
 
@@ -174,7 +174,7 @@ public class DrawerLayoutHelper {
             }
 
             TextView labelItem = (TextView) layoutInflater.inflate(R.layout.dialog_task_filter_label_item, null);
-            String str = showLabelCount ? String.format("%s (%d/%d)", item.name, item.processing, item.all) : item.name;
+            String str = showLabelCount ? String.format("%s (%s/%s)", item.name, item.processing, item.all) : item.name;
             labelItem.setText(str);
             setLeftDrawable(labelItem, item.color, item.name.equals(mFilterModel.label));
             labelItem.setOnClickListener(v -> {
@@ -199,12 +199,13 @@ public class DrawerLayoutHelper {
             TextView taskView = (TextView) drawerLayout.findViewById(taskViews[i]);
             String txt = taskStr[i];
             if (i == 0) {
+
                 if (mFilterModel != null && mFilterModel.statusTaskDoing > 0) {
-                    txt += String.format(" (%d)", mFilterModel.statusTaskDoing);
+                    txt += String.format(" (%s)", mFilterModel.statusTaskDoing);
                 }
             } else {
                 if (mFilterModel != null && mFilterModel.statusTaskDone > 0) {
-                    txt += String.format(" (%d)", mFilterModel.statusTaskDone);
+                    txt += String.format(" (%s)", mFilterModel.statusTaskDone);
                 }
             }
             taskView.setText(txt);
@@ -244,7 +245,7 @@ public class DrawerLayoutHelper {
             return;
         }
 
-        final Drawable originalBitmapDrawable = mContext.getResources().getDrawable(R.drawable.ic_project_topic_label).mutate();
+        final Drawable originalBitmapDrawable = mContext.getResources().getDrawable(R.drawable.ic_project_topic_label_light).mutate();
         Drawable right = isChecked ? mContext.getResources().getDrawable(R.drawable.ic_task_status_list_check) : null;
 
         ColorStateList colorStateList = ColorStateList.valueOf(Color.parseColor(color));

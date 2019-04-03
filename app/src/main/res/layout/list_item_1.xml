@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="48dp"
     android:id="@+id/clickProject"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
     android:background="@drawable/list_item_selector">
 
     <View
         android:id="@+id/icon"
-        android:layout_marginLeft="15dp"
-        android:layout_centerVertical="true"
         android:layout_width="@dimen/project_icon_width"
         android:layout_height="@dimen/project_icon_width"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
         android:background="@drawable/user_home_project" />
 
     <LinearLayout
-        android:layout_toRightOf="@id/icon"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
         android:id="@+id/contentLayout"
-        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/icon"
+        android:gravity="center_vertical"
         android:paddingRight="15sp">
 
         <TextView
@@ -28,9 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ellipsize="end"
-            android:singleLine="true"
+            android:lines="1"
             android:text="TA的项目"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="15sp" />
 
         <com.readystatesoftware.viewbadger.BadgeView
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="@string/no_pick"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="16sp"
             android:visibility="gone" />
 
@@ -59,10 +59,17 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/topLine"
+        style="@style/DivideLine"
+        android:layout_alignLeft="@id/contentLayout"
+        android:layout_alignParentTop="true"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/bottomLine"
+        style="@style/DivideLine"
         android:layout_alignLeft="@id/contentLayout"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        android:id="@+id/bottomLine"
-        style="@style/DivideLine" />
+        android:visibility="gone" />
 
 </RelativeLayout>

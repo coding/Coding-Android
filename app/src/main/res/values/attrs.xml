@@ -14,20 +14,7 @@
         <attr name="pstsShouldExpandWe" format="boolean" />
         <attr name="pstsTextAllCapsWe" format="boolean" />
     </declare-styleable>
-    <!--TabStrip选项卡切换属性-->
-    <declare-styleable name="PagerSlidingTabStrip">
-        <attr name="pstsIndicatorColor" format="color" />
-        <attr name="pstsUnderlineColor" format="color" />
-        <attr name="pstsDividerColor" format="color" />
-        <attr name="pstsIndicatorHeight" format="dimension" />
-        <attr name="pstsUnderlineHeight" format="dimension" />
-        <attr name="pstsDividerPadding" format="dimension" />
-        <attr name="pstsTabPaddingLeftRight" format="dimension" />
-        <attr name="pstsScrollOffset" format="dimension" />
-        <attr name="pstsTabBackground" format="reference" />
-        <attr name="pstsShouldExpand" format="boolean" />
-        <attr name="pstsTextAllCaps" format="boolean" />
-    </declare-styleable>
+
     <declare-styleable name="MinSizeImageView">
         <attr name="minWidth" format="dimension" />
         <attr name="minHeight" format="dimension" />
@@ -49,15 +36,18 @@
         <attr name="itemTitle" format="string" />
         <attr name="itemCenter" format="boolean" />
         <attr name="itemShowBottomLine" format="boolean" />
+        <attr name="itemShowTopLine" format="boolean" />
+        <attr name="itemShowArrow" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="TaskAttrItem">
         <attr name="taskIcon" format="reference" />
         <attr name="taskText1" format="string" />
         <attr name="taskText2" format="string" />
+        <attr name="taskIconUser" format="boolean" />
         <attr name="taskTopLine" format="boolean" />
     </declare-styleable>
-    
+
     <declare-styleable name="IconTextView">
         <attr name="iconTextIcon" format="reference" />
         <attr name="iconTextTitle" format="string" />
@@ -77,19 +67,14 @@
     </declare-styleable>
 
     <declare-styleable name="SoundWaveView">
-        <attr name="waveColor" format="color"/>
+        <attr name="waveColor" format="color" />
         <attr name="soundOriginOrientation">
-            <enum name="left" value="1"/>
-            <enum name="right" value="0"/>
+            <enum name="left" value="1" />
+            <enum name="right" value="0" />
         </attr>
     </declare-styleable>
     <declare-styleable name="EnterLayoutAnimSupportContainer">
-        <attr name="isAdjustResize" format="boolean"/>
-    </declare-styleable>
-    <!-- 圆形图片 -->
-    <declare-styleable name="CircleImageView">
-        <attr name="border_width" format="dimension" />
-        <attr name="border_color" format="color" />
+        <attr name="isAdjustResize" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="LoginEditText">
@@ -107,7 +92,7 @@
     </declare-styleable>
 
     <declare-styleable name="VoiceView">
-        <attr name="InputType" format="enum" >
+        <attr name="InputType" format="enum">
             <enum name="message" value="0" />
             <enum name="comment" value="1" />
         </attr>
@@ -116,5 +101,10 @@
 
     <declare-styleable name="MainInputView">
         <attr name="showEmojiOnly" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="BottomToolBar">
+        <attr name="btb_xml" format="reference" />
+        <attr name="btb_shadow" format="boolean" />
     </declare-styleable>
 </resources>

@@ -1,22 +1,21 @@
 package net.coding.program.project;
 
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.event.EventPosition;
+import net.coding.program.common.model.MenuCount;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.event.EventPosition;
-import net.coding.program.model.MenuCount;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by Vernon on 15/11/14.
@@ -24,22 +23,14 @@ import de.greenrobot.event.EventBus;
 @EFragment(R.layout.fragment_menu_project)
 public class MenuProjectFragment extends BaseFragment {
 
-    private static final String URL_PROJECT_COUNT = Global.HOST_API + "/project_count";
     public static final int POS_MY_CREATE = 2;
-
+    private final String URL_PROJECT_COUNT = Global.HOST_API + "/project_count";
     @ViewById
     RadioButton rb_all_project;
     @ViewById
     RadioButton rb_my_build;
     @ViewById
     RadioButton rb_join_project;
-    @ViewById
-    RadioButton rb_my_intrest;
-    @ViewById
-    RadioButton rb_my_collected;
-
-    @ViewById
-    LinearLayout ll_square;
 
     public MenuProjectFragment() {
     }
@@ -61,16 +52,6 @@ public class MenuProjectFragment extends BaseFragment {
     }
 
     @Click
-    void rb_my_intrest() {//我关注的
-        EventBus.getDefault().post(new EventPosition(3, "我关注的"));
-    }
-
-    @Click
-    void rb_my_collected() {//我收藏的
-        EventBus.getDefault().post(new EventPosition(4, "我收藏的"));
-    }
-
-    @Click
     void rb_all_project() {//全部项目
         EventBus.getDefault().post(new EventPosition(0, "全部项目"));
     }
@@ -78,12 +59,6 @@ public class MenuProjectFragment extends BaseFragment {
     @Click
     void rb_my_build() {//我创建的
         EventBus.getDefault().post(new EventPosition(POS_MY_CREATE, "我创建的"));
-    }
-
-    @Click
-    void ll_square() {//项目广场
-//                EventBus.getDefault().post(new EventPosition(6));
-        ProjectSquareActivity_.intent(this).start();
     }
 
     @Override
@@ -102,9 +77,7 @@ public class MenuProjectFragment extends BaseFragment {
 
     private void setData(MenuCount bean) {
         rb_all_project.setText("全部项目 (" + bean.getAll() + ")");
-        rb_my_intrest.setText("我关注的 (" + bean.getWatched() + ")");
         rb_my_build.setText("我创建的 (" + bean.getCreated() + ")");
-        rb_my_collected.setText("我收藏的 (" + bean.getStared() + ")");
         rb_join_project.setText("我参与的 (" + bean.getJoined() + ")");
     }
 }

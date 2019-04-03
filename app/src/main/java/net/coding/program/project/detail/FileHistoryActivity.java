@@ -21,14 +21,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
+import net.coding.program.common.model.AttachmentFileHistoryObject;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.RequestData;
+import net.coding.program.common.model.util.FileRequestHelp;
+import net.coding.program.common.ui.holder.FileHistoryHolder;
 import net.coding.program.common.util.FileUtil;
-import net.coding.program.model.AttachmentFileHistoryObject;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.RequestData;
-import net.coding.program.model.util.FileRequestHelp;
 import net.coding.program.project.detail.file.FileDownloadBaseActivity;
 import net.coding.program.project.detail.file.FileDynamicActivity;
-import net.coding.program.project.detail.file.ViewHolderFile;
+import net.coding.program.project.detail.file.v2.ProjectFileMainActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -55,9 +57,7 @@ import java.util.List;
     fragment 和 activity
 
  */
-//@EActivity(R.layout.activity_attachments)
 @EActivity(R.layout.activity_file_history)
-//@OptionsMenu(R.menu.menu_file_history)
 public class FileHistoryActivity extends FileDownloadBaseActivity {
 
     final public static int FILE_DELETE_CODE = 11;
@@ -70,31 +70,26 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
     ListView listView;
     FileHistoryAdapter mAdapter;
     ArrayList<AttachmentFileHistoryObject> mData = new ArrayList<>();
-    protected View.OnClickListener onMoreClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Integer position = (Integer) view.getTag();
-            AttachmentFileObject file = mData.get(position);
 
-            int selectedPosition = position;
-            if (file.isDownload) {
-                listViewItemClicked(position);
+    protected View.OnClickListener onMoreClickListener = view -> {
+        Integer position = (Integer) view.getTag();
+        AttachmentFileObject file = mData.get(position);
+
+        int selectedPosition = position;
+        if (file.isDownload) {
+            listViewItemClicked(position);
+        } else {
+            if (file.bytesAndStatus != null && file.bytesAndStatus[1] < 0) {
+                long downloadId = file.downloadId;
+                removeDownloadFile(downloadId);
+                file.downloadId = 0L;
+                mAdapter.notifyDataSetChanged();
             } else {
                 action_download_single(mData.get(selectedPosition));
             }
         }
     };
-    protected View.OnClickListener cancelClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            AttachmentFileObject data = mData.get((Integer) v.getTag());
 
-            long downloadId = data.downloadId;
-            removeDownloadFile(downloadId);
-            data.downloadId = 0L;
-            mAdapter.notifyDataSetChanged();
-        }
-    };
     FileRequestHelp mFileRequest;
 
     @AfterViews
@@ -104,6 +99,7 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
         getNetwork(mFileRequest.getHttpRequest(), TAG_FILE_HISTORY);
 
         mAdapter = new FileHistoryAdapter(this, mData);
+        listViewAddFootSection(listView);
         listView.setAdapter(mAdapter);
     }
 
@@ -130,7 +126,7 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
     @ItemLongClick
     protected void listViewItemLongClicked(final int pos) {
         if (pos == 0) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
             builder
                     .setItems(new String[]{"修改备注"}, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -140,7 +136,7 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
             builder.show();
         } else {
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
             String[] itemTitles = {"修改备注"};
             if (mData.get(pos).owner.isMe()) {
                 itemTitles = new String[]{"修改备注", "删除"};
@@ -169,25 +165,9 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
     protected void listViewItemClicked(int position) {
         AttachmentFileObject data = mData.get(position);
 
-        if (data.isFolder) {
-            AttachmentsActivity_.intent(this)
-                    .mAttachmentFolderObject(data.folderObject)
-                    .mProjectObjectId(mProjectFileParam.getProjectId())
-                    .mProject(mProjectFileParam.getProject())
-                    .startForResult(ProjectAttachmentFragment.RESULT_REQUEST_FILES);
-        } else if (data.isImage()) {
-            AttachmentsPicDetailActivity_.intent(this)
-                    .mProjectObjectId(mProjectFileParam.getProjectId())
-                    .mAttachmentFileObject(data)
-                    .startForResult(FILE_DELETE_CODE);
-        } else {
-            AttachmentsDownloadDetailActivity_.intent(this)
-                    .mProjectObjectId(mProjectFileParam.getProjectId())
-                    .mHideHistoryLayout(true)
-                    .mAttachmentFileObject(data)
-                    .mProject(mProjectFileParam.getProject())
-                    .startForResult(FILE_DELETE_CODE);
-        }
+        ProjectFileMainActivity.fileItemJump(data,
+                mProjectFileParam.getProject(),
+                this, true, FILE_DELETE_CODE);
     }
 
     @OnActivityResult(FILE_DELETE_CODE)
@@ -223,7 +203,7 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
         final View textEntryView = factory.inflate(R.layout.dialog_remark_file_history, null);
         final EditText edit2fa = (EditText) textEntryView.findViewById(R.id.edit);
         edit2fa.setText(item.getRemark());
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         AlertDialog dialog = builder
                 .setTitle("修改备注")
                 .setView(textEntryView)
@@ -259,7 +239,6 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
         for (AttachmentFileObject fileObject : mData) {
             if (!fileObject.isFolder) {
                 setDownloadStatus(fileObject);
-                //Log.d("onResume", "update status:" + fileObject.name + " " + fileObject.isDownload);
             }
         }
         mAdapter.notifyDataSetChanged();
@@ -301,24 +280,23 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolderFile holder;
+            FileHistoryHolder holder;
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.project_attachment_file_history_list_item, parent, false);
-                holder = new ViewHolderFile(convertView);
+                holder = new FileHistoryHolder(convertView);
                 convertView.setTag(holder);
             } else {
-                holder = (ViewHolderFile) convertView.getTag();
+                holder = (FileHistoryHolder) convertView.getTag();
             }
 
             AttachmentFileHistoryObject data = mData.get(position);
 
-            holder.icon_txt.setText(data.getVersionString());
+            holder.iconText.setText(data.getVersionString());
             holder.name.setText(data.getRemark());
 
             holder.username.setText(data.owner.name);
             holder.desc.setText(data.getActionMsg());
 
-            holder.downloadFlag.setText(data.isDownload ? "查看" : "下载");
             convertView.setBackgroundResource(data.isDownload
                     ? R.drawable.list_item_selector_project_file
                     : R.drawable.list_item_selector);
@@ -332,7 +310,6 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
             }
 
             if (data.downloadId != 0L) {
-                holder.cancel.setTag(position);
                 int status = data.bytesAndStatus[2];
                 if (AttachmentsDownloadDetailActivity.isDownloading(status)) {
                     if (data.bytesAndStatus[1] < 0) {
@@ -343,6 +320,7 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
                     data.isDownload = false;
                     holder.desc_layout.setVisibility(View.GONE);
                     holder.progress_layout.setVisibility(View.VISIBLE);
+                    holder.downloadFlag.setText("取消");
                 } else {
                     if (status == DownloadManager.STATUS_FAILED) {
                         data.isDownload = false;
@@ -357,25 +335,30 @@ public class FileHistoryActivity extends FileDownloadBaseActivity {
 
                     holder.desc_layout.setVisibility(View.VISIBLE);
                     holder.progress_layout.setVisibility(View.GONE);
+                    holder.downloadFlag.setText(data.isDownload ? "查看" : "下载");
                 }
             } else {
                 holder.desc_layout.setVisibility(View.VISIBLE);
                 holder.progress_layout.setVisibility(View.GONE);
+                holder.downloadFlag.setText(data.isDownload ? "查看" : "下载");
             }
 
             if (position == 0) {
-                holder.icon_txt.setTextColor(0xffffffff);
-                holder.icon_txt.setBackgroundResource(R.drawable.round_rect_file_history_orange);
+                holder.iconText.setTextColor(CodingColor.fontWhite);
+                holder.iconText.setBackgroundResource(R.drawable.round_rect_file_history_orange);
             } else {
-                holder.icon_txt.setTextColor(0xff808080);
-                holder.icon_txt.setBackgroundResource(R.drawable.round_rect_file_history_gray);
+                holder.iconText.setTextColor(CodingColor.font3);
+                holder.iconText.setBackgroundResource(R.drawable.round_rect_file_history_gray);
             }
 
-            holder.cancel.setOnClickListener(cancelClickListener);
+            if (position == mData.size() - 1) {
+                holder.bottomLine.setVisibility(View.INVISIBLE);
+            } else {
+                holder.bottomLine.setVisibility(View.VISIBLE);
+            }
 
             holder.more.setTag(position);
             holder.more.setOnClickListener(onMoreClickListener);
-            holder.downloadFlag.setText(data.isDownload ? "查看" : "下载");
             return convertView;
         }
     }

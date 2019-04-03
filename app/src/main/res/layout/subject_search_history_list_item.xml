@@ -16,13 +16,13 @@
             android:id="@+id/subject_search_list_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:drawableLeft="@drawable/subject_search_history_time"
             android:drawablePadding="12dp"
             android:ellipsize="end"
-            android:singleLine="true"
-            android:layout_centerVertical="true"
+            android:lines="1"
             android:text="一台一台"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="15sp" />
 
         <ImageView
@@ -30,15 +30,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:paddingRight="@dimen/padding_12"
             android:paddingLeft="@dimen/padding_12"
+            android:paddingRight="@dimen/padding_12"
             android:src="@drawable/subject_search_history_del" />
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginLeft="15dp"
-        android:background="@color/search_divide_color" />
+    <View style="@style/DivideLine_15" />
+
 </LinearLayout>

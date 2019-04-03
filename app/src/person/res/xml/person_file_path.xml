@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+
+
+    <!--<files-path-->
+    <!--name="reward"-->
+    <!--path="download/rewards" />-->
+    <files-path
+        name="coding-private"
+        path="/" />
+    <cache-path
+        name="coding-cache"
+        path="/" />
+
+    <root-path
+        name="root-path"
+        path="" />
+
+</paths>

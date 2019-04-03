@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.coding.program"
-    android:versionCode="130"
-    android:versionName="4.1">
+    package="net.coding.program">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,22 +12,6 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <!-- 信鸽需要的权限 begin ———————————————————————————————————————————————————————————— -->
-    <!-- 【必须】 信鸽SDK所需权限 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <!-- 【常用】 信鸽SDK所需权限 -->
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- 信鸽需要的权限 end —————————————————————————————————————————————————————————————— -->
-
 
     <!-- 友盟分析需要 begin  —————————————————————————————————————————————————————————————— -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -55,8 +37,8 @@
 
 
     <!-- 百度LBS检索 -->
-    <!--READ_PHONE_STATE 是必须的，感觉有点流氓-->
-    <!--<uses-permission android:name="android.permission.GET_ACCOUNTS" />-->
+    <!-- READ_PHONE_STATE 是必须的，感觉有点流氓 -->
+    <!-- <uses-permission android:name="android.permission.GET_ACCOUNTS" /> -->
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
@@ -82,113 +64,34 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <!-- 支付宝 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
-        android:name=".MyApp"
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
-        android:label="@string/app_name"
+        android:resizeableActivity="true"
         android:largeHeap="true"
         android:theme="@style/ActionbarNoIcon">
 
-        <!-- 友盟社会化分享需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
-        <!-- ###################注册SDK使用的Activity###################### -->
-        <!-- 分享编辑页 -->
+        <!-- alipay start  ———————————————————————————————————————————————————————————————————————————— -->
         <activity
-            android:name="com.umeng.socialize.view.ShareActivity"
-            android:configChanges="orientation|keyboard"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:theme="@style/Theme.UMDialog"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
-
-        <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.tencent.tauth.AuthActivity"
-            android:launchMode="singleTask"
-            android:noHistory="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- 100424468，如果你使用的公用账号，则不需要修改；否则修改成你在QQ开放平台申请的 APP ID -->
-                <data android:scheme="tencent100424468" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.tencent.connect.common.AssistActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!-- 友盟社会化分享需要的组件  end  ———————————————————————————————————————————————————————————————————————————— -->
-
-
-        <!-- 信鸽需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
-        <!-- 【必须】 信鸽receiver广播接收 -->
-        <receiver
-            android:name="com.tencent.android.tpush.XGPushReceiver"
-            android:process=":xg_service_v2">
-            <intent-filter android:priority="0x7fffffff">
-
-                <!-- 【必须】 信鸽SDK的内部广播 -->
-                <action android:name="com.tencent.android.tpush.action.SDK" />
-                <action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE" />
-                <!-- 【必须】 系统广播：网络切换 -->
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-
-                <!-- 【可选】 系统广播：开屏 -->
-                <action android:name="android.intent.action.USER_PRESENT" />
-
-                <!-- 【可选】 一些常用的系统广播，增强信鸽service的复活机会，请根据需要选择。当然，你也可以添加APP自定义的一些广播让启动service -->
-                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-            </intent-filter>
-            <!-- 【可选】 usb相关的系统广播，增强信鸽service的复活机会，请根据需要添加 -->
-            <intent-filter android:priority="0x7fffffff">
-                <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
-                <action android:name="android.intent.action.MEDIA_REMOVED" />
-                <action android:name="android.intent.action.MEDIA_CHECKING" />
-                <action android:name="android.intent.action.MEDIA_EJECT" />
-
-                <data android:scheme="file" />
-            </intent-filter>
-        </receiver>
-        <!-- 【必须】 (2.30及以上版新增)展示通知的activity -->
-        <!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理 -->
-        <activity
-            android:name="com.tencent.android.tpush.XGPushActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action" />
-            </intent-filter>
-        </activity>
-
-        <!-- 【必须】 信鸽service -->
-        <service
-            android:name="com.tencent.android.tpush.service.XGPushService"
-            android:exported="true"
-            android:persistent="true"
-            android:process=":xg_service_v2" />
-
-        <receiver android:name=".common.PushReceiver">
-            <intent-filter>
-
-                <!-- 接收消息透传 -->
-                <action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE" />
-                <!-- 监听注册、反注册、设置/删除标签、通知被点击等处理结果 -->
-                <action android:name="com.tencent.android.tpush.action.FEEDBACK" />
-            </intent-filter>
-        </receiver>
-
-        <!-- 【必须】 通知service，此选项有助于提高抵达率 -->
-        <service
-            android:name="com.tencent.android.tpush.rpc.XGRemoteService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="net.coding.program.PUSH_ACTION" />
-            </intent-filter>
-        </service>
-        <!-- 信鸽需要的组件 end ———————————————————————————————————————————————————————————————————————————— -->
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <!-- alipay end  ———————————————————————————————————————————————————————————————————————————— -->
 
         <service
             android:name="com.baidu.location.f"
@@ -199,73 +102,53 @@
             android:name="UMENG_CHANNEL"
             android:value="Channel" />
 
-        <activity
-            android:name=".TestActivity"
-            android:label="@string/title_activity_test"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+        <activity android:name=".TestActivity">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
+
         <activity
             android:name=".MainActivity_"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustUnspecified|stateHidden"
-            android:theme="@style/ActionbarSpannerTheme1" />
+            android:theme="@style/ActionbarSpannerTheme1"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".LoginActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/AppThemeNoActionbar"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".project.detail.ProjectActivity_"
+            android:configChanges="orientation|keyboardHidden"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_project"
-            android:theme="@style/ThemeProject"
-            android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="adjustPan|stateAlwaysVisible|adjustUnspecified|stateHidden"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".EntranceActivity_"
-            android:icon="@drawable/app_icon"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionbar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <data
-                    android:host="coding.net"
-                    android:pathPattern="/.*"
-                    android:scheme="https" />
-                <data
-                    android:host="m.coding.net"
-                    android:pathPattern="/.*"
-                    android:scheme="https" />
-
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/ThemeProject"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".task.add.TaskAddActivity_"
             android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_task_add"
+            android:label="@string/empty"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".project.detail.MembersActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_members"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.ProjectMembersActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_members"
             android:screenOrientation="portrait" />
@@ -280,30 +163,23 @@
             android:label="@string/title_activity_watcher_list"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".project.detail.AttachmentsActivity_"
-            android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_attachment"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".project.detail.AttachmentsPicDetailActivity_"
-            android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_attachment"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".project.detail.AttachmentsHtmlDetailActivity_"
             android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_attachment"
-            android:screenOrientation="portrait" />
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.detail.AttachmentsTextDetailActivity_"
             android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_attachment"
-            android:screenOrientation="portrait" />
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.detail.AttachmentsDownloadDetailActivity_"
             android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_attachment"
-            android:screenOrientation="portrait" />
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.detail.AttachmentsFolderSelectorActivity_"
             android:icon="@drawable/ic_lancher"
@@ -320,6 +196,24 @@
             android:label="@string/title_activity_user_info"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
+        <activity
+            android:name=".user.SetUserInfoListActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_user_info"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
+        <activity
+            android:name=".user.SetUserSkillsActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_user_info_skill"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".user.point.AboutPointActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_about_point"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".user.SetUserTagActivity_"
             android:icon="@drawable/ic_lancher"
@@ -344,8 +238,9 @@
         <activity
             android:name=".project.detail.topic.TopicListDetailActivity_"
             android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_topic_comment"
+            android:label="@string/empty"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".project.detail.TopicAddActivity_"
@@ -364,36 +259,7 @@
             android:icon="@drawable/app_icon"
             android:label="@string/title_activity_make_maopao"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND.net.coding.program" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="image/*" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="image/*" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/plain" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEND_MULTIPLE" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="image/*" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".maopao.LocationSearchActivity_"
             android:icon="@drawable/app_icon"
@@ -449,7 +315,7 @@
         <activity
             android:name=".user.UsersListActivity_"
             android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_users"
+            android:label="@string/empty"
             android:screenOrientation="portrait" />
         <activity
             android:name=".user.UserTopicActivity_"
@@ -472,10 +338,6 @@
             android:label="@string/title_activity_message_list"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".ImagePagerActivity_"
-            android:icon="@drawable/ic_lancher"
-            android:label="" />
         <activity
             android:name=".message.NotifyListActivity_"
             android:icon="@drawable/ic_lancher"
@@ -503,32 +365,19 @@
             android:label="@string/title_activity_user_dynamic"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".common.photopick.PhotoPickDetailActivity"
-            android:label="@string/title_activity_photo_pick_detail"
-            android:process=":pickimage"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".common.photopick.PhotoPickActivity"
-            android:label="@string/app_name"
-            android:process=":pickimage"
-            android:screenOrientation="portrait"
-            android:theme="@style/TranslateTheme" />
-        <activity
             android:name=".project.detail.GitTreeActivity_"
             android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_git_tree"
-            android:screenOrientation="portrait" />
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".project.detail.GitViewActivity_"
             android:configChanges="orientation"
             android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_git_tree"
-            android:screenOrientation="unspecified" />
-        <activity
-            android:name=".setting.NotifySetting_"
-            android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_notify_setting"
-            android:screenOrientation="portrait" />
+            android:label="@string/empty"
+            android:screenOrientation="unspecified"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.detail.MembersSelectActivity_"
             android:icon="@drawable/ic_lancher"
@@ -551,30 +400,22 @@
             android:label="@string/title_activity_account_setting"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".project.ProjectSquareActivity_"
-            android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_project_sqaure"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".WebActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/empty"
-            android:process=":customweb"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar" />
         <activity
             android:name=".setting.HelpActivity_"
-            android:label="@string/empty"
+            android:label="@string/title_activity_help"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionbar" />
         <activity
             android:name=".search.SearchProjectActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_search_project"
+            android:windowSoftInputMode="adjustResize|stateVisible"
             android:screenOrientation="portrait" />
-
-        <service android:name=".UpdateService" />
-
         <activity
             android:name=".UpdateDialogActivity"
             android:icon="@drawable/ic_lancher"
@@ -591,12 +432,6 @@
             android:label="@string/title_activity_terms"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".setting.UpdateTipActivity"
-            android:icon="@drawable/ic_lancher"
-            android:label="@string/title_activity_update_tip"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.Light.Dialog" />
-        <activity
             android:name=".FileUrlActivity_"
             android:icon="@drawable/ic_lancher"
             android:label="@string/title_activity_file_url"
@@ -605,16 +440,6 @@
             android:name=".project.ProjectHomeActivity_"
             android:label="@string/title_activity_project_home"
             android:screenOrientation="portrait" />
-
-        <receiver
-            android:name=".MyPushReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="net.coding.program.MyPushReceiver.PushClickBroadcast" />
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name=".user.UserDetailMoreActivity_"
             android:label="@string/title_activity_user_detail_more"
@@ -661,12 +486,16 @@
             android:label="@string/title_activity_project_create"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".project.init.create.ProjectTypeActivity_"
-            android:label="@string/title_activity_project_type"
+            android:name=".project.init.setting.ProjectSettingMainActivity_"
+            android:label="@string/title_activity_setting"
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.init.setting.ProjectSetActivity_"
             android:label="@string/title_activity_project_set"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.init.setting.ProjectArchiveActivity_"
+            android:label="@string/title_activity_project_archive"
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.init.setting.ProjectAdvanceSetActivity_"
@@ -677,9 +506,14 @@
             android:label="@string/title_activity_merge"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".project.detail.merge.MergeDetailActivity_"
-            android:label="@string/title_activity_merge_detail"
+            android:name=".project.init.setting.v2.EnterpriseProjectSetActivity_"
+            android:label="@string/title_activity_project_set"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.merge.MergeDetailActivity_"
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.git.CommitListActivity_"
             android:label="@string/title_activity_commit_list"
@@ -695,8 +529,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.detail.merge.CommitFileListActivity_"
-            android:label="@string/title_activity_commit_file_list"
-            android:screenOrientation="portrait" />
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.detail.merge.MergeAcceptActivity_"
             android:label="@string/title_activity_merge_accept"
@@ -711,10 +546,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".project.git.BranchMainActivity_"
-            android:label="@string/title_activity_branch_main"
-            android:screenOrientation="portrait" />
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
-            android:name=".common.guide.GuideActivity"
+            android:name=".guide.GuideActivity"
             android:label="@string/title_activity_guide"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -725,6 +561,10 @@
         <activity
             android:name=".login.auth.AuthListActivity"
             android:label="@string/auth_list_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".login.auth.ManuallyAddQCodeActivity_"
+            android:label="@string/title_activity_manually_qcode"
             android:screenOrientation="portrait" />
         <activity
             android:name=".login.auth.QRScanActivity"
@@ -762,8 +602,9 @@
             android:windowSoftInputMode="adjustResize|stateUnspecified" />
         <activity
             android:name=".project.detail.AttachmentsPhotoDetailActivity_"
-            android:label="@string/title_activity_attachments_photo_detail"
-            android:screenOrientation="portrait" />
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar" />
         <activity
             android:name=".project.detail.file.ShareFileLinkActivity_"
             android:label="@string/title_activity_share_file_link"
@@ -773,19 +614,10 @@
             android:label="@string/title_activity_inform_maopao"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".maopao.share.ShareSinaHelpActivity"
-            android:label="@string/title_activity_share_sina_help"
-            android:screenOrientation="portrait"
-            android:theme="@style/TranslateThemeFull" />
-        <activity
             android:name=".login.ZhongQiuGuideActivity"
             android:label="@string/title_activity_zhong_qiu_guide"
             android:screenOrientation="portrait"
             android:theme="@style/TranslateThemeFull" />
-        <activity
-            android:name=".Test2Activity"
-            android:label="@string/title_activity_test2"
-            android:theme="@style/TranslateTheme" />
         <activity
             android:name=".project.git.ForksListActivity_"
             android:label="@string/title_activity_forks_list"
@@ -808,6 +640,10 @@
             android:screenOrientation="portrait" />
 
         <!-- 商城 -->
+        <activity
+            android:name=".mall.PaymentActivity_"
+            android:label="@string/title_activity_payment"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mall.MallIndexActivity_"
             android:label="@string/title_activity_mall"
@@ -835,15 +671,13 @@
         <activity
             android:name=".login.phone.EmailSetPasswordActivity_"
             android:label="@string/title_activity_email_set_password"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".login.phone.InputAccountActivity_"
-            android:label="@string/title_input_account_activity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar" />
         <activity
             android:name=".login.phone.PhoneSetPasswordActivity_"
             android:label="@string/title_activity_phone_set_password"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar" />
         <activity
             android:name=".project.detail.MemberAuthorityActivity_"
             android:label="@string/title_activity_member_authority"
@@ -856,7 +690,8 @@
         <activity
             android:name=".login.PhoneRegisterActivity_"
             android:label="@string/title_activity_phone_register"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar" />
         <activity
             android:name=".login.EmailRegisterActivity_"
             android:label="@string/title_activity_email_register"
@@ -870,8 +705,6 @@
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.main" /> -->
-
-
             <!-- <category android:name="android.intent.category.launcher" /> -->
             <!-- </intent-filter> -->
         </activity>
@@ -891,6 +724,7 @@
         <activity
             android:name=".login.SetGlobalKeyActivity_"
             android:label="@string/title_activity_set_global_key"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".setting.ModifyEmailActivity_"
@@ -913,8 +747,9 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".project.detail.topic.TopicCommentDetail_"
-            android:label="@string/title_activity_topic_comment_detail"
+            android:label="@string/empty"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".user.team.TeamListActivity_"
@@ -937,7 +772,7 @@
             android:label="@string/title_activity_setting"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".setting.MyCreateProjectListActivity_"
+            android:name=".setting.MyCreateProjectListActivity"
             android:label="@string/title_activity_my_created"
             android:screenOrientation="portrait" />
         <activity
@@ -948,6 +783,78 @@
             android:name=".common.activity.WebviewDetailActivity_"
             android:label="@string/title_activity_comment_detail"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".search.SearchProjectGitActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_search_project"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.file.OldSearchProjectFileActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_search_project"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.file.v2.SearchProjectFileActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_search_project"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.wiki.WikiMainActivity_"
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme_CodingActionBar"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".project.detail.wiki.WikiEditActivity_"
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".project.detail.wiki.WikiHistoryActivity_"
+            android:label="@string/title_activity_history"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.wiki.WikiHistoryDetailActivity_"
+            android:label="@string/title_activity_history"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.file.v2.ProjectFileMainActivity_"
+            android:screenOrientation="portrait"
+            android:label="@string/empty"
+            android:theme="@style/Theme_CodingActionBar" />
+        <activity
+            android:name=".project.member.MemberAuthorityManualActivity_"
+            android:label="@string/title_activity_member_authority_manual"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.merge.ReleaseDetailActivity_"
+            android:label="@string/title_activity_release_detail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.merge.EditReleaseDetailActivity_"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".project.git.local.GitMainActivity_"
+            android:label="@string/title_activity_git_main"
+            android:screenOrientation="portrait" />
+        <service
+            android:name=".project.git.local.CloneCodeService"
+            android:exported="false" />
+        <activity android:name=".task.board.TaskBoardActivity_"
+            android:label="@string/title_activity_board"
+            android:screenOrientation="portrait" />
+        <activity android:name=".task.board.AddBoardListActivity_"
+            android:label="@string/title_activity_add_board"
+            android:screenOrientation="portrait"  />
+
+        <activity android:name=".task.board.PickTaskBoardActivity_"
+            android:label="@string/title_activity_pick_board_task_list"
+            android:screenOrientation="portrait"  />
+
     </application>
 
 </manifest>

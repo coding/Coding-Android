@@ -2,20 +2,16 @@ package net.coding.program.search;
 
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import net.coding.program.R;
+import net.coding.program.adapter.SearchFileAdapter;
 import net.coding.program.common.Global;
-import net.coding.program.common.adapter.SearchFileAdapter;
-import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.model.AttachmentFileObject;
+import net.coding.program.common.model.AttachmentFileObject;
 import net.coding.program.project.detail.AttachmentsDetailBaseActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +22,7 @@ import java.util.ArrayList;
  * Created by Vernon on 15/11/30.
  */
 @EFragment(R.layout.fragment_search_list)
-public class SearchFileFragment extends RefreshBaseFragment {
+public class SearchFileFragment extends SearchBaseFragment {
 
     private static final String TAG = SearchTaskFragment.class.getSimpleName();
     final String url = Global.HOST_API + "/esearch/all?q=%s";
@@ -34,33 +30,11 @@ public class SearchFileFragment extends RefreshBaseFragment {
     ArrayList<AttachmentFileObject> mData = new ArrayList<>();
     String page = "&page=%s";
     int pos = 1;
+    SearchFileAdapter adapter;
     private String keyword = "";
     private String tabPrams;
     private boolean hasMore = true;
     private boolean isLoading = true;
-    @ViewById
-    ListView listView;
-    @ViewById(R.id.emptyView)
-    LinearLayout emptyView;
-
-    SearchFileAdapter adapter;
-
-    @AfterViews
-    protected void init() {
-        initRefreshLayout();
-        setRefreshing(true);
-        mFootUpdate.init(listView, mInflater, this);
-        adapter = new SearchFileAdapter(mData, keyword, getActivity());
-        listView.setOnScrollListener(mOnScrollListener);
-        listView.setAdapter(adapter);
-        loadMore();
-    }
-
-    @ItemClick
-    final void listView(AttachmentFileObject itemData) {
-        AttachmentsDetailBaseActivity_.intent(this).mAttachmentFileObject(itemData).start();
-    }
-
     AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -78,8 +52,28 @@ public class SearchFileFragment extends RefreshBaseFragment {
         }
     };
 
+    @AfterViews
+    protected void init() {
+        initRefreshLayout();
+        setRefreshing(true);
+        mFootUpdate.init(listView, mInflater, this);
+        adapter = new SearchFileAdapter(mData, keyword, getActivity());
+        listView.setOnScrollListener(mOnScrollListener);
+        listView.setAdapter(adapter);
+        loadMore();
+    }
+
+    @ItemClick
+    final void listView(AttachmentFileObject itemData) {
+        AttachmentsDetailBaseActivity_.intent(this).mAttachmentFileObject(itemData).start();
+    }
+
     public String getKeyword() {
         return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public String getTabPrams() {
@@ -88,10 +82,6 @@ public class SearchFileFragment extends RefreshBaseFragment {
 
     public void setTabPrams(String tabPrams) {
         this.tabPrams = tabPrams;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
     }
 
     private String getUrl(int pos) {
@@ -108,7 +98,7 @@ public class SearchFileFragment extends RefreshBaseFragment {
 
     @Override
     public void onRefresh() {
-        pos = 1;
+//        pos = 1;
         loadMore();
     }
 

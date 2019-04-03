@@ -13,7 +13,7 @@
         android:layout_marginTop="12dp"
         android:maxLines="2"
         android:text="Medium Text"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="20sp"
         android:visibility="gone" />
 

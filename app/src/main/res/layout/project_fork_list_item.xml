@@ -29,9 +29,9 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/icon"
-            android:singleLine="true"
+            android:lines="1"
             android:text="Medium Text"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="18sp" />
 
         <TextView
@@ -41,9 +41,9 @@
             android:layout_alignBottom="@id/icon"
             android:layout_alignLeft="@+id/name"
             android:layout_marginBottom="5dp"
-            android:singleLine="true"
+            android:lines="1"
             android:text="cc"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="15sp" />
 
     </RelativeLayout>

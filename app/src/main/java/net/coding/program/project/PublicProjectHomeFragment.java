@@ -5,18 +5,21 @@ import android.content.DialogInterface;
 import android.view.View;
 import android.widget.TextView;
 
+import com.flyco.roundview.RoundLinearLayout;
 import com.loopj.android.http.RequestParams;
 import com.readystatesoftware.viewbadger.BadgeView;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
 import net.coding.program.common.RedPointTip;
+import net.coding.program.common.model.DynamicObject;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.umeng.UmengEvent;
-import net.coding.program.model.DynamicObject;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.detail.MembersSelectActivity_;
-import net.coding.program.project.detail.ProjectActivity;
 import net.coding.program.project.detail.ProjectActivity_;
+import net.coding.program.project.detail.ProjectFunction;
 import net.coding.program.project.git.ForksListActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -36,10 +39,25 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
     ProjectMarkButton mButtonStar;
     ProjectMarkButton mButtonWatch;
     ProjectMarkButton mButtonFork;
+
     String mUrlStar;
     String mUrlUnstar;
     String mUrlWatch;
     String mUrlUnwatch;
+    View.OnClickListener onClickStatCount = v -> {
+        String title = String.format("收藏了 %s 的人", mProjectObject.name);
+        String url = mProjectObject.getHttptStargazers();
+        startUserList(title, url);
+    };
+    View.OnClickListener onClickFollowCount = v -> {
+        String title = String.format("关注了 %s 的人", mProjectObject.name);
+        String url = mProjectObject.getHttptwatchers();
+        startUserList(title, url);
+    };
+    View.OnClickListener onClickForkCount = v -> ForksListActivity_
+            .intent(PublicProjectHomeFragment.this)
+            .mProjectObject(mProjectObject)
+            .start();
     private String httpProjectObject;
     private String forkUrl;
 
@@ -55,7 +73,12 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         initHead3(mRoot);
 
         httpProjectObject = mProjectObject.getHttpProjectObject();
-        getNetwork(httpProjectObject);
+
+        if (needReload) {
+            getNetwork(httpProjectObject);
+        } else {
+            initHead2();
+        }
     }
 
     @Override
@@ -99,7 +122,7 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                 JSONObject jsonData = respanse.getJSONObject("data");
                 String projectName = jsonData.optString("name");
                 DynamicObject.Owner owner = new DynamicObject.Owner(jsonData.optJSONObject("owner"));
-                ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(owner.global_key,
+                ProjectJumpParam param = new ProjectJumpParam(owner.global_key,
                         projectName);
                 ProjectHomeActivity_
                         .intent(this)
@@ -120,9 +143,9 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         };
 
         int[][] titlesColors = new int[][]{
-                new int[]{0xff222222, 0xffffffff},
-                new int[]{0xff222222, 0xffffffff},
-                new int[]{0xff222222, 0xff222222},
+                new int[]{CodingColor.font2, CodingColor.fontWhite},
+                new int[]{CodingColor.font2, CodingColor.fontWhite},
+                new int[]{CodingColor.font2, CodingColor.font2},
         };
 
         int[][] icons = new int[][]{
@@ -132,33 +155,15 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         };
 
         int[][] backgroundLeft = new int[][]{
-                new int[]{R.drawable.public_star_button_bg_left0, R.drawable.public_star_button_bg_left1},
-                new int[]{R.drawable.public_star_button_bg_left0, R.drawable.public_star_button_bg_left1},
-                new int[]{R.drawable.public_star_button_bg_left0, R.drawable.public_star_button_bg_left0},
+                new int[]{CodingColor.bg, CodingColor.font1},
+                new int[]{CodingColor.bg, CodingColor.fontBlue},
+                new int[]{CodingColor.divideLine, CodingColor.divideLine},
         };
 
-        int[][] backgroundRight = new int[][]{
-                new int[]{R.drawable.public_star_button_bg_right0, R.drawable.public_star_button_bg_right1},
-                new int[]{R.drawable.public_star_button_bg_right0, R.drawable.public_star_button_bg_right1},
-                new int[]{R.drawable.public_star_button_bg_right0, R.drawable.public_star_button_bg_right0},
-        };
-
-        mButtonStar = new ProjectMarkButton(buttonStar, titles[0], titlesColors[0], icons[0], backgroundLeft[0], backgroundRight[0], mProjectObject.stared, mProjectObject.star_count, onClickStatCount);
-        mButtonWatch = new ProjectMarkButton(buttonWatch, titles[1], titlesColors[1], icons[1], backgroundLeft[1], backgroundRight[1], mProjectObject.watched, mProjectObject.watch_count, onClickFollowCount);
-        mButtonFork = new ProjectMarkButton(buttonFork, titles[2], titlesColors[2], icons[2], backgroundLeft[2], backgroundRight[2], mProjectObject.forked, mProjectObject.fork_count, onClickForkCount);
+        mButtonStar = new ProjectMarkButton(buttonStar, titles[0], titlesColors[0], icons[0], backgroundLeft[0], mProjectObject.stared, mProjectObject.star_count, onClickStatCount);
+        mButtonWatch = new ProjectMarkButton(buttonWatch, titles[1], titlesColors[1], icons[1], backgroundLeft[1], mProjectObject.watched, mProjectObject.watch_count, onClickFollowCount);
+        mButtonFork = new ProjectMarkButton(buttonFork, titles[2], titlesColors[2], icons[2], backgroundLeft[2], mProjectObject.forked, mProjectObject.fork_count, onClickForkCount);
     }
-
-    View.OnClickListener onClickStatCount = v -> {
-        String title = String.format("收藏了 %s 的人", mProjectObject.name);
-        String url = mProjectObject.getHttptStargazers();
-        startUserList(title, url);
-    };
-
-    View.OnClickListener onClickFollowCount = v -> {
-        String title = String.format("关注了 %s 的人", mProjectObject.name);
-        String url = mProjectObject.getHttptwatchers();
-        startUserList(title, url);
-    };
 
     private void startUserList(String title, String url) {
 //        UsersListActivity_.intent(PublicProjectHomeFragment.this)
@@ -171,75 +176,52 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
                 .start();
     }
 
-    View.OnClickListener onClickForkCount = v -> ForksListActivity_
-            .intent(PublicProjectHomeFragment.this)
-            .mProjectObject(mProjectObject)
-            .start();
+    protected ProjectFunction[] getItems() {
+        return new ProjectFunction[]{
+                ProjectFunction.dynamic,
+                ProjectFunction.topic,
+                ProjectFunction.code,
+                ProjectFunction.member,
+                ProjectFunction.readme,
+                ProjectFunction.pullRequest
+        };
+    }
 
     private void initHead3(View root) {
-        final int[] buttons = new int[]{
-                R.id.itemDynamic,
-                R.id.itemTopic,
-                R.id.itemCode,
-                R.id.itemMember,
-                R.id.itemReadme,
-                R.id.itemMerge
-        };
+        final ProjectFunction[] items = getItems();
 
-        final int[] buttonBackgrounds = new int[]{
-                R.drawable.project_button_icon_dynamic,
-                R.drawable.project_button_icon_topic,
-                R.drawable.project_button_icon_code,
-                R.drawable.project_button_icon_member,
-                R.drawable.project_button_icon_readme,
-                R.drawable.project_button_icon_merge
-        };
+        for (ProjectFunction item : items) {
+            View view = root.findViewById(item.id);
+            view.findViewById(R.id.icon).setBackgroundResource(item.icon);
+            ((TextView) view.findViewById(R.id.title)).setText(item.title);
+            view.setOnClickListener(v -> {
+                switch (v.getId()) {
+                    case R.id.itemDynamic:
+                        updateDynamic();
+                        break;
 
-        final String[] titles = new String[]{
-                "动态",
-                "讨论",
-                "代码",
-                "成员",
-                "Readme",
-                "Pull Request"
-        };
+                    case R.id.itemCode:
+                        break;
 
-        for (int i = 0; i < buttons.length; ++i) {
-            View item = root.findViewById(buttons[i]);
-            item.findViewById(R.id.icon).setBackgroundResource(buttonBackgrounds[i]);
-            ((TextView) item.findViewById(R.id.title)).setText(titles[i]);
-            final int pos = i;
-            item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switch (buttons[pos]) {
-                        case R.id.itemDynamic:
-                            updateDynamic();
-                            break;
+                    case R.id.itemReadme:
+                        break;
 
-                        case R.id.itemCode:
-                            break;
-
-                        case R.id.itemReadme:
-                            break;
-
-                        case R.id.itemMerge:
-                            markUsed(RedPointTip.Type.Merge320);
-                            break;
-                    }
-
-                    ProjectActivity_.intent(PublicProjectHomeFragment.this)
-                            .mProjectObject(mProjectObject)
-                            .mJumpType(ProjectActivity.PUBLIC_JUMP_TYPES[pos])
-                            .start();
+                    case R.id.itemMerge:
+                        markUsed(RedPointTip.Type.Merge320);
+                        break;
                 }
+
+                ProjectActivity_.intent(PublicProjectHomeFragment.this)
+                        .mProjectObject(mProjectObject)
+                        .mJumpType(ProjectFunction.idToEnum(v.getId()))
+                        .start();
             });
 
-            if (titles[i].equals("动态")) {
-                dynamicBadge = (BadgeView) item.findViewById(R.id.badge);
-                Global.setBadgeView(dynamicBadge, mProjectObject.un_read_activities_count);
+            if (item == ProjectFunction.dynamic) {
+                dynamicBadge = (BadgeView) view.findViewById(R.id.badge);
+                Global.setBadgeView(dynamicBadge, mProjectObject.unReadActivitiesCount);
             } else {
-                Global.setBadgeView((BadgeView) item.findViewById(R.id.badge), 0);
+                Global.setBadgeView((BadgeView) view.findViewById(R.id.badge), 0);
             }
         }
 
@@ -293,7 +275,7 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         if (mProjectObject.isMy()) {
             showButtomToast("不能fork自己的项目");
         } else {
-            forkUrl = Global.HOST_API + mProjectObject.backend_project_path + "/git/fork";
+            forkUrl = Global.HOST_API + mProjectObject.getBackendProjectPath() + "/git/fork";
             showDialog("fork", "fork将会将此项目复制到您的个人空间，确定要fork吗?", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -311,14 +293,13 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
         int[] titleColor;
         int[] icon;
         int[] leftBackground;
-        int[] rightBackground;
 
         boolean mCheck = false;
         int mCount = 0;
         View mButton;
 
         ProjectMarkButton(View button, String[] title, int[] titleColor, int[] icon, int[] leftBackground,
-                          int[] rightBackground, final boolean mCheck, int mCount, View.OnClickListener onClickListener) {
+                          final boolean mCheck, int mCount, View.OnClickListener onClickListener) {
             this.title = title;
             this.titleColor = titleColor;
             this.icon = icon;
@@ -326,7 +307,6 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
             this.mCheck = mCheck;
             this.mCount = mCount;
             this.mButton = button;
-            this.rightBackground = rightBackground;
 
             button.findViewById(R.id.count).setOnClickListener(onClickListener);
             updateControl();
@@ -357,15 +337,16 @@ public class PublicProjectHomeFragment extends BaseProjectHomeFragment {
             TextView countView = (TextView) mButton.findViewById(R.id.count);
             countView.setText(String.valueOf(mCount));
             countView.setTextColor(!mCheck ? titleColor[0] : titleColor[1]);
-            countView.setBackgroundResource(!mCheck ? rightBackground[0] : rightBackground[1]);
 
             mButton.findViewById(R.id.icon).setBackgroundResource(!mCheck ? icon[0] : icon[1]);
             TextView title = (TextView) mButton.findViewById(R.id.title);
             title.setText(!mCheck ? this.title[0] : this.title[1]);
             title.setTextColor(!mCheck ? titleColor[0] : titleColor[1]);
 
-            mButton.findViewById(R.id.leftBg).setBackgroundResource(!mCheck ? leftBackground[0] : leftBackground[1]);
+            View line = mButton.findViewById(R.id.divideLine);
+            line.setBackgroundColor(!mCheck ? titleColor[0] : titleColor[1]);
 
+            ((RoundLinearLayout) mButton).getDelegate().setBackgroundColor(!mCheck ? leftBackground[0] : leftBackground[1]);
         }
 
         public boolean isChecked() {

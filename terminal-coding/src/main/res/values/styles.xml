@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- base application theme. -->
+    <!--todo base-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!--<item name="android:windowBackground">@color/windowBackground</item>-->
+
+        <!--<item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>-->
+
+        <!--<item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>-->
+        <!--<item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>-->
+        <!--<item name="android:actionModeBackground">@color/color_primary</item>-->
+        <!--<item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>-->
+        <!--<item name="android:windowActionModeOverlay">true</item>-->
+
+        <!--<item name="android:divider">@color/divide_line</item>-->
+        <!--<item name="android:alertDialogTheme">@style/MyAlertDialogStyle</item>-->
+        <!--<item name="alertDialogTheme">@style/MyAlertDialogStyle</item>-->
+
+        <!--<item name="android:textColorPrimary">@color/font_green</item>-->
+
+        <!--<item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>-->
+
+        <!--<item name="colorPrimary">@color/color_primary</item>-->
+        <!--<item name="actionMenuTextColor">@color/phone_message</item>-->
+        <!--<item name="android:actionMenuTextColor">@color/phone_message</item>-->
+
+        <!--<item name="navigationIcon">@drawable/ic_menu_back</item>-->
+
+        <!--<item name="searchViewStyle">@style/MySearchViewStyle</item>-->
+    </style>
+
+    <style name="ActionbarNoIcon" parent="AppTheme"></style>
+    <style name="TranslateTheme" parent="ActionbarNoIcon">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="KeyItem">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/font_1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:background">#BBC2CA</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginRight">1dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="KeyExtItem">
+        <item name="android:layout_width">33dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/stand_bg</item>
+        <item name="android:layout_marginLeft">2dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_height">31dp</item>
+    </style>
+</resources>

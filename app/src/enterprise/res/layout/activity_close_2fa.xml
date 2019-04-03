@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="net.coding.program.login.phone.Close2FAActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/layoutRoot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="7.5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7.5dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/countryCode"
+                            android:layout_width="55dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/padding_15"
+                            android:focusable="false"
+                            android:gravity="center_vertical"
+                            android:text="+86"
+                            android:textColor="@color/font_green"
+                            android:textSize="16sp" />
+
+                        <View
+                            style="@style/DivideLineVer"
+                            android:layout_height="20dp" />
+
+                        <net.coding.program.common.widget.LoginEditTextNew
+                            android:id="@+id/editPhone"
+                            style="@style/SingleLineEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="53dp"
+                            android:layout_marginBottom="0dp"
+                            android:layout_marginLeft="@dimen/padding_15"
+                            android:layout_marginTop="0dp"
+                            app:hint="输入手机号码"
+                            app:loginInput="number"
+                            app:topLine="false" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/phoneLine"
+                        style="@style/LoginBottomLine" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="53dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <net.coding.program.common.widget.LoginEditTextNew
+                            android:id="@+id/editCode"
+                            style="@style/SingleLineEditText"
+                            android:layout_width="0dp"
+                            android:layout_height="53dp"
+                            android:layout_marginBottom="0dp"
+                            android:layout_marginRight="@dimen/padding_15"
+                            android:layout_marginTop="0dp"
+                            android:layout_weight="1"
+                            android:inputType="phone"
+                            app:hint="输入短信中的验证码"
+                            app:loginInput="number"
+                            app:topLine="false" />
+
+                        <net.coding.program.common.widget.ValidePhoneView
+                            android:id="@+id/sendPhoneMessage"
+                            style="@style/ValidePhoneView" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/codeLine"
+                        style="@style/LoginBottomLine" />
+
+                </LinearLayout>
+
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/loginButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="下一步"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    app:rv_backgroundColor="@color/font_2"
+                    app:rv_cornerRadius="4dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

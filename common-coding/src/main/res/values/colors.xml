@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+
+    <!-- 基本颜色 -->
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#ff000000</color>
+
+    <!--修改过的颜色-->
+    <!--actionbar 的底色不能有透明度-->
+    <color name="color_primary">#FDFDFD</color>
+    <color name="color_primary_dark">#494E57</color>
+    <color name="text_color_primary">@color/font_green</color>
+    <color name="windowBackground">@color/divide</color>
+
+    <color name="bottomColorPrimary">#FDFDFD</color>
+    <color name="color_bottom_bar">@color/white</color>
+
+    <color name="divide">#F2F4F6</color>
+    <color name="divide_line">#D8DDE4</color>
+
+    <color name="transparent">@android:color/transparent</color>
+    <color name="stand_bg">@color/white</color>
+
+    <color name="mask">#33000000</color>
+
+    <color name="font_black">@color/black</color>
+    <color name="font_1">#323A45</color>
+    <color name="font_2">#425063</color>
+    <color name="font_3">#76808E</color>
+    <color name="font_4">#A9B3BE</color>
+    <color name="font_dynamic_content">#003200</color>
+    <color name="font_dynamic_content_comment">#002000</color>
+
+    <color name="select_1">#FF136BFB</color>
+    <!--链接颜色-->
+    <color name="select_2">#FF2D59A2</color>
+
+    <color name="font_count">#FF4F565F</color>
+
+    <color name="font_white">@color/white</color>
+    <color name="font_white_hint">#7fffffff</color>
+
+    <color name="font_green">#FF0060FF</color>
+    <color name="font_green_disable">#990060FF</color>
+    <color name="font_pink">#F75288</color>
+    <color name="font_orange">#F68435</color>
+    <color name="font_red">#F56061</color>
+    <color name="font_red_disable">#99F56061</color>
+    <color name="font_blue">#5BA2FF</color>
+
+    <color name="font_yellow">#F3C033</color>
+
+    <color name="layout_yellow_bg">#FFECF9FF</color>
+    <color name="layout_yellow_font">#FF136BFB</color>
+
+    <color name="emoji_line">@color/divide_line</color>
+
+    <!--对话框背景色-->
+    <color name="popDialogBg">#99000000</color>
+
+    <!--待修改颜色-->
+
+    <!--结束-->
+
+    <drawable name="line_gray">#ffc7cacc</drawable>
+
+    <color name="button_disable">#ffc6c6c6</color>
+
+    <color name="background_tab_pressed">#ffffff</color>
+    <color name="bottom_white">#e6ffffff</color>
+    <color name="white_pressed">#ffd5d5d5</color>
+    <color name="white_pressed1">#ffdfdfdf</color>
+    <drawable name="white">#ffffffff</drawable>
+
+    <color name="file_downloaded">#FFEEF5FF</color>
+
+    <color name="input_background">#ffe8e8e8</color>
+
+    <color name="gray_dark">#f0f0f0</color>
+
+    <color name="font_black_content_disabled">#ffcacaca</color>
+
+    <color name="list_font_title">#FF1E2D42</color>
+    <color name="list_font_enable">@color/font_2</color>
+
+    <color name="stand_tab_bg">@color/color_primary</color>
+    <color name="bg_fa">#e2e2e2</color>
+
+    <color name="spinner_black">#ff313743</color>
+    <color name="spinner_divider">#ff252b37</color>
+
+    <color name="camera_background">#ff353535</color>
+
+    <!-- user info tags -->
+    <color name="user_info_tags_bg_1">#EBEBEB</color>
+    <!-- user info tags end -->
+    <color name="commom_loading_font">#28303B</color>
+
+    <color name="attachment_btn_layout">#E2E2E2</color>
+    <color name="attachment_btn_color">#A5A5A5</color>
+
+    <!--二维码扫描界面-->
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+    <color name="font_black_e">@color/divide</color>
+    <color name="color_F6F6F6">#f6f6f6</color>
+    <color name="color_2EBE76">#FF0060FF</color>
+    <color name="color_E5E5E5">#e5e5e5</color>
+    <color name="color_hint">#686D75</color>
+
+    <color name="color_f8f8f8">#f8f8f8</color>
+    <color name="color_B5B5B5">#B5B5B5</color>
+    <color name="color_FDF2CB">#FDF2CB</color>
+    <color name="color_FAFAFA">#FAFAFA</color>
+
+    <color name="chunkWhite">#FFFFFF</color>
+    <color name="chunkGrey">#EEEEEE</color>
+    <color name="chunkGreen1">#d6e685</color>
+    <color name="chunkGreen2">#8cc665</color>
+    <color name="chunkGreen3">#44a340</color>
+    <color name="chunkGreen4">#1e6923</color>
+
+    <array name="pull_to_refrush">
+        <item>@color/font_green</item>
+    </array>
+
+
+    <color name="font_hint">#FFA9B3BE</color>
+
+    <color name="text_disable">#BDC8D5</color>
+
+</resources>

@@ -9,18 +9,20 @@ import android.widget.ListView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.ClickSmallImage;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.MyImageGetter;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.BaseComment;
+import net.coding.program.common.model.DynamicObject;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.RequestData;
 import net.coding.program.common.ui.BackActivity;
 import net.coding.program.common.util.FileUtil;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.BaseComment;
-import net.coding.program.model.DynamicObject;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.model.RequestData;
+import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.project.detail.merge.CommentActivity;
 import net.coding.program.project.detail.merge.CommentActivity_;
 import net.coding.program.task.add.CommentHolder;
@@ -42,7 +44,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.activity_file_dynamic)
-//@OptionsMenu(R.menu.menu_file_dynamic)
 public class FileDynamicActivity extends BackActivity {
 
     public static final int RESULT_COMMENT = 1;
@@ -57,9 +58,15 @@ public class FileDynamicActivity extends BackActivity {
     @Extra
     ProjectFileParam mProjectFileParam;
 
+    private View listFooter;
+
     @AfterViews
     protected void initFileDynamicActivity() {
         adapter = new DynamicFileAdapter(this, 0, mData);
+
+        listFooter = mInflater.inflate(R.layout.task_add_footer, listView, false);
+        listView.addFooterView(listFooter);
+        listFooter.setVisibility(View.GONE);
         listView.setAdapter(adapter);
 
         getNetwork(mProjectFileParam.getHttpDynamic(), TAG_HTTP_FILE_DYNAMIC);
@@ -85,6 +92,8 @@ public class FileDynamicActivity extends BackActivity {
                         mData.add(dynamic);
                     }
                 }
+                listFooter.setVisibility(View.VISIBLE);
+
                 adapter.notifyDataSetChanged();
 
             } else {
@@ -114,7 +123,7 @@ public class FileDynamicActivity extends BackActivity {
         }
     }
 
-    static class FileDynamicParam extends CommentActivity.CommentParam implements Serializable {
+    public static class FileDynamicParam extends CommentActivity.CommentParam implements Serializable {
 
         int fileId;
         String atSomeOne;
@@ -164,9 +173,16 @@ public class FileDynamicActivity extends BackActivity {
         //        private int mProjectid;
         private ProjectObject mProject;
 
+        public boolean openByEditor = false;
+
         public ProjectFileParam(AttachmentFileObject fileObject, ProjectObject project) {
             mFileObject = fileObject;
             mProject = project;
+        }
+
+        public ProjectFileParam openByEditor() {
+            openByEditor = true;
+            return this;
         }
 
         public String getProjectPath() {
@@ -255,7 +271,7 @@ public class FileDynamicActivity extends BackActivity {
                 }
 
                 final int itemIdFinal = itemId;
-                if (globalKey.equals(MyApp.sUserObject.global_key)) {
+                if (globalKey.equals(GlobalData.sUserObject.global_key)) {
                     showDialog("评论", "删除评论？", (dialog, which) ->
                             deleteNetwork(mProjectFileParam.getHttpDeleteComment(itemIdFinal), TAG_HTTP_COMMENT_DELETE, tagData));
                 } else {
@@ -297,7 +313,7 @@ public class FileDynamicActivity extends BackActivity {
                 CommentHolder holder;
                 if (convertView == null) {
                     convertView = mInflater.inflate(R.layout.activity_task_comment_much_image_task, parent, false);
-                    holder = new CommentHolder(convertView, mOnClickComment, myImageGetter, getImageLoad(), mOnClickUser, onClickImage);
+                    holder = new CommentHolder(convertView, mOnClickComment, myImageGetter, getImageLoad(), GlobalCommon.mOnClickUser, onClickImage);
                     convertView.setTag(R.id.layout, holder);
                 } else {
                     holder = (CommentHolder) convertView.getTag(R.id.layout);
@@ -360,8 +376,8 @@ public class FileDynamicActivity extends BackActivity {
                         break;
                 }
 
-                content = data.user.name + " " + content;
-                holder.mContent.setText(content);
+                String contentString = String.format("  %s - %s", content, Global.dayToNow(data.created_at, true));
+                holder.mContent.setText(Global.createColorHtml("", data.user.name, contentString, CodingColor.font1));
                 holder.mIcon.setImageResource(resId);
 
                 holder.updateLine(position, count);

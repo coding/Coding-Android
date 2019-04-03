@@ -6,12 +6,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.coding.program.FootUpdate;
 import net.coding.program.R;
 import net.coding.program.common.Global;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.LoadMore;
+import net.coding.program.common.model.Merge;
 import net.coding.program.common.widget.DataAdapter;
-import net.coding.program.model.Merge;
 import net.coding.program.project.detail.TopicListFragment;
 
 import java.util.ArrayList;
@@ -22,17 +22,11 @@ import java.util.ArrayList;
  */
 public class MergeAdapter extends DataAdapter<Merge> {
 
-    ImageLoadTool mImageLoadr;
-    FootUpdate.LoadMore mLoadMore;
+    LoadMore mLoadMore;
 
-    public MergeAdapter(ArrayList<Merge> data, FootUpdate.LoadMore loadMore, ImageLoadTool imageLoader) {
+    public MergeAdapter(ArrayList<Merge> data, LoadMore loadMore, ImageLoadTool imageLoader) {
         super(data);
         mLoadMore = loadMore;
-        mImageLoadr = imageLoader;
-    }
-
-    class MergeItemHolder extends TopicListFragment.ViewHolder {
-        TextView mergeId;
     }
 
     @Override
@@ -49,13 +43,15 @@ public class MergeAdapter extends DataAdapter<Merge> {
             holder.time.setFocusable(false);
 
             holder.discuss = (TextView) convertView.findViewById(R.id.discuss);
-            holder.discuss.setVisibility(View.GONE);
 
             holder.refId = (TextView) convertView.findViewById(R.id.referenceId);
             holder.refId.setVisibility(View.GONE);
 
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.mergeId = (TextView) convertView.findViewById(R.id.mergeId);
+
+            holder.branchSrc = (TextView) convertView.findViewById(R.id.branchSrc);
+            holder.branchDesc = (TextView) convertView.findViewById(R.id.branchDesc);
 
             convertView.setTag(holder);
 
@@ -69,17 +65,37 @@ public class MergeAdapter extends DataAdapter<Merge> {
 
         Merge data = (Merge) getItem(position);
 
-        mImageLoadr.loadImage(holder.icon, data.getAuthor().avatar);
+//        mImageLoadr.loadImage(holder.icon, data.getAuthor().avatar);
+        if (data.isStyleCanMerge()) {
+            holder.icon.setImageResource(R.drawable.merge_can_merge);
+        } else if (data.isStyleCannotMerge()) {
+            holder.icon.setImageResource(R.drawable.merge_can_not_merge);
+        } else if (data.isMergeAccept()) {
+            holder.icon.setImageResource(R.drawable.merge_accepted);
+        } else if (data.isMergeRefuse()) {
+            holder.icon.setImageResource(R.drawable.merge_refused);
+        } else {
+            holder.icon.setImageResource(R.drawable.merge_can_not_merge);
+        }
+
         holder.icon.setTag(data.getAuthor().global_key);
 
         holder.title.setText(data.getTitleSpannable());
 
         holder.name.setText(data.getAuthor().name);
-        holder.time.setText(Global.dayToNowCreate(data.getCreatedAt()));
-//        holder.discuss.setText(String.format("%d", data.child_count));
+        holder.time.setText(Global.dayToNow(data.getCreatedAt()));
+        holder.discuss.setText(String.format("%s", data.getCommentCount()));
         holder.mergeId.setText(data.getTitleIId());
+        holder.branchSrc.setText(data.getSrcBranch());
+        holder.branchDesc.setText(data.getDescBranch());
 
         return convertView;
+    }
+
+    class MergeItemHolder extends TopicListFragment.ViewHolder {
+        TextView mergeId;
+        TextView branchSrc;
+        TextView branchDesc;
     }
 
 }

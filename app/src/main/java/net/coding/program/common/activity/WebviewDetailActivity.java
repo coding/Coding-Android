@@ -2,8 +2,8 @@ package net.coding.program.common.activity;
 
 import android.webkit.WebView;
 
+import net.coding.program.CodingGlobal;
 import net.coding.program.R;
-import net.coding.program.common.Global;
 import net.coding.program.common.ui.BackActivity;
 
 import org.androidannotations.annotations.AfterViews;
@@ -22,6 +22,6 @@ public class WebviewDetailActivity extends BackActivity {
 
     @AfterViews
     void initWeviewDetailActivity() {
-        Global.setWebViewContent(webView, "topic-android.html", comment);
+        CodingGlobal.setWebViewContent(webView, "topic-android.html", comment);
     }
 }

@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:orientation="vertical"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-	<RelativeLayout
-			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
-		<android.support.v4.widget.SwipeRefreshLayout
-				android:id="@+id/swipeRefreshLayout"
-				android:layout_width="match_parent"
-				android:layout_above="@+id/list_footer"
-				android:layout_height="match_parent">
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/list_footer">
 
-			<ListView
-					android:id="@+id/listView"
-					android:scrollingCache="false"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:background="@color/divide"
-					android:divider="@null"
-					android:dividerHeight="0dp"
-					android:footerDividersEnabled="false"/>
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/divide"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:footerDividersEnabled="false"
+                android:scrollingCache="false" />
 
-		</android.support.v4.widget.SwipeRefreshLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
-		<include
-				android:layout_alignParentBottom="true"
-				android:id="@+id/list_footer"
-				layout="@layout/mall_detail_list_footer"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"/>
-	</RelativeLayout>
+        <include
+            android:id="@+id/list_footer"
+            layout="@layout/mall_detail_list_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
 
-	<include
-			android:layout_marginTop="-48dp"
-			android:id="@+id/blankLayout"
-			layout="@layout/view_exception"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"/>
+    <include
+        android:id="@+id/blankLayout"
+        layout="@layout/view_exception"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-48dp" />
 </FrameLayout>

@@ -1,14 +1,18 @@
 package net.coding.program.project.detail.file;
 
-import android.content.Intent;
+import android.view.View;
 import android.widget.EditText;
+
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.RequestData;
+import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.RequestData;
-import net.coding.program.project.detail.AttachmentsActivity;
+import net.coding.program.common.umeng.UmengEvent;
+import net.coding.program.common.util.BlankViewHelp;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity;
 
 import org.androidannotations.annotations.AfterViews;
@@ -17,12 +21,15 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+
+import cz.msebera.android.httpclient.Header;
 
 @EActivity(R.layout.activity_txt_edit)
 @OptionsMenu(R.menu.menu_txt_edit)
@@ -37,7 +44,12 @@ public class TxtEditActivity extends BackActivity {
     @ViewById
     EditText editText;
 
+    @ViewById(R.id.blankLayout)
+    View blankLayout;
+
     private FileSaveHelp mFileSaveHelp;
+
+    String oldContent = "";
 
     public static void writeFile(File srcFile, String content) {
         try {
@@ -54,18 +66,52 @@ public class TxtEditActivity extends BackActivity {
         getSupportActionBar().setTitle(mParam.getFileObject().getName());
         mFileSaveHelp = new FileSaveHelp(this);
 
+        BlankViewHelp.setBlankLoading(blankLayout, true);
         File file = mParam.getLocalFile(mFileSaveHelp.getFileDownloadPath());
         if (file != null && file.exists()) {
-            String content = "";
-            try {
-                FileInputStream is = new FileInputStream(file);
-                content = AttachmentsHtmlDetailActivity.readTextFile(is);
-            } catch (Exception e) {
-                Global.errorLog(e);
-            }
-            editText.setText(content);
+            initFile(file);
+            BlankViewHelp.setBlankLoading(blankLayout, false);
         } else {
-            showButtomToast("文件未保存到本地");
+            String urlDownload = Global.HOST_API + "/project/%d/files/%s/download";
+            String url = String.format(urlDownload, mParam.getProjectId(), mParam.getFileId());
+            MyAsyncHttpClient.get(this, url, new FileAsyncHttpResponseHandler(this) {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, File file) {
+                    initFile(file);
+                }
+
+                @Override
+                public void onFinish() {
+                    super.onFinish();
+                    BlankViewHelp.setBlankLoading(blankLayout, false);
+                }
+            });
+
+        }
+    }
+
+    private void initFile(File file) {
+        String content = "";
+        try {
+            FileInputStream is = new FileInputStream(file);
+            content = AttachmentsHtmlDetailActivity.readTextFile(is);
+        } catch (Exception e) {
+            Global.errorLog(e);
+        }
+        oldContent = content;
+        editText.setText(oldContent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!editText.getText().toString().equals(oldContent)) {
+            showDialog("确定放弃此次编辑？", (dialog, which) -> finish());
+        } else {
             finish();
         }
     }
@@ -82,6 +128,8 @@ public class TxtEditActivity extends BackActivity {
         if (tag.equals(TAG_SAVE_CONTENT)) {
             showProgressBar(false);
             if (code == 0) {
+                umengEvent(UmengEvent.E_FILE, "点击编辑");
+
                 showProgressBar(true, "正在保存");
                 setResult(RESULT_OK);
                 String url = mParam.getHtttpFileView();
@@ -103,10 +151,8 @@ public class TxtEditActivity extends BackActivity {
                 writeFile(localFile, editText.getText().toString());
                 fileObject.isDownload = true;
 
-                Intent intent = new Intent();
-                intent.putExtra(AttachmentFileObject.RESULT, fileObject);
-                intent.putExtra(AttachmentsActivity.FileActions.ACTION_NAME, AttachmentsActivity.FileActions.ACTION_EDIT);
-                setResult(RESULT_OK, intent);
+                EventBus.getDefault().post(new EventFileModify());
+                setResult(RESULT_OK);
                 finish();
             } else {
                 showErrorMsg(code, respanse);

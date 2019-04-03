@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:background="@color/color_primary"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="66dp"
+        android:layout_marginRight="66dp"
+        android:background="@color/transparent"
+        android:imeOptions="actionSearch"
+        android:maxLines="1"
+        android:lines="1"
+        android:textColor="@color/font_1"
+        android:textColorHint="@color/color_hint"
+        android:textSize="15sp" />
+
+    <ImageView
+        android:id="@+id/btnCancel"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:scaleType="center"
+        android:src="@drawable/ic_actionbar_cancel"
+        android:visibility="invisible" />
+</RelativeLayout>

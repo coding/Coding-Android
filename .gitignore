@@ -41,3 +41,10 @@ gradlew.bat
 gradle.properties
 app/manifest-merger-release-report.txt
 /captures/
+app/src/main/java/net/coding/program/network/model/baidumap/
+
+/.gradle/
+/gradle
+
+coding.jks
+

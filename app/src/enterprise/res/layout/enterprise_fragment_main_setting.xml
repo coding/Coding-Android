@@ -1,0 +1,168 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    android:orientation="vertical"
+    tools:context="net.coding.program.setting.MainSettingFragment">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarSettingLayout"
+        style="@style/AppBarLayout">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/mainSettingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:text="我的"
+                android:textColor="@color/font_1" />
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/userLayout"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="@color/stand_bg"
+            android:foreground="?attr/selectableItemBackground">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/userIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                app:civ_border_width="0.5dp"
+                app:civ_border_color="@color/divide_line"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/userIcon"
+                android:layout_toRightOf="@id/userIcon"
+                android:textColor="@color/font_1"
+                android:textSize="17sp"
+                tools:text="Man" />
+
+            <TextView
+                android:id="@+id/userGK"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/userIcon"
+                android:layout_toRightOf="@id/userIcon"
+                android:textColor="@color/font_2"
+                android:textSize="14sp"
+                tools:text="个性后缀" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/actionbar_shadow" />
+
+    </FrameLayout>
+
+
+    <include layout="@layout/divide_middle_15" />
+
+    <RelativeLayout
+        android:id="@+id/itemManager"
+        android:layout_width="match_parent"
+        android:layout_height="73dp"
+        android:background="@drawable/list_item_selector">
+
+        <View
+            android:id="@+id/icon"
+            android:layout_width="@dimen/project_icon_width"
+            android:layout_height="@dimen/project_icon_width"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@mipmap/ic_setting_enterprise" />
+
+        <TextView
+            android:id="@+id/companyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/icon"
+            android:textColor="@color/font_1"
+            android:textSize="15sp"
+            tools:text="深圳市扣钉网络科技有限公司" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="14dp"
+            android:layout_toRightOf="@id/icon"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/font_2"
+            android:textSize="13sp"
+            android:text="企业账户管理中心" />
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/itemManagerDivide"
+        layout="@layout/divide_middle_15" />
+
+    <net.coding.program.common.widget.ListItem1
+        android:id="@+id/itemLocalFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:itemIcon="@mipmap/ic_setting_local_file"
+        app:itemShowArrow="false"
+        app:itemShowBottomLine="false"
+        app:itemTitle="本地文件" />
+
+    <include layout="@layout/divide_middle_15" />
+
+    <net.coding.program.common.widget.ListItem1
+        android:id="@+id/itemHelp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:itemIcon="@mipmap/ic_setting_help"
+        app:itemShowArrow="false"
+        app:itemShowBottomLine="true"
+        app:itemTitle="帮助中心" />
+
+    <net.coding.program.common.widget.ListItem1
+        android:id="@+id/itemSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:itemIcon="@mipmap/ic_setting_setting"
+        app:itemShowBottomLine="true"
+        app:itemShowArrow="false"
+        app:itemTitle="设置" />
+
+    <net.coding.program.common.widget.ListItem1
+        android:id="@+id/itemAbout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:itemIcon="@mipmap/ic_setting_about"
+        app:itemShowBottomLine="false"
+        app:itemShowArrow="false"
+        app:itemTitle="关于 Coding" />
+
+    <include layout="@layout/divide_bottom_15" />
+
+</LinearLayout>

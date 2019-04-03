@@ -1,7 +1,9 @@
 package net.coding.program.project.detail.merge;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.Nullable;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -10,17 +12,20 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
-import net.coding.program.common.BlankViewDisplay;
-import net.coding.program.common.ClickSmallImage;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.comment.BaseCommentParam;
+import net.coding.program.common.model.BaseComment;
+import net.coding.program.common.model.Commit;
+import net.coding.program.common.model.DiffFile;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.RequestData;
 import net.coding.program.common.network.NetworkImpl;
-import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.BaseComment;
-import net.coding.program.model.Commit;
-import net.coding.program.model.DiffFile;
-import net.coding.program.model.RequestData;
+import net.coding.program.common.ui.CodingToolbarBackActivity;
+import net.coding.program.pickphoto.ClickSmallImage;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -35,8 +40,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_commit_file_list)
-//@OptionsMenu(R.menu.menu_commit_file_list)
-public class CommitFileListActivity extends BackActivity {
+public class CommitFileListActivity extends CodingToolbarBackActivity {
 
     public static final int RESULT_COMMENT = 1;
     private static final String HOST_COMMIT_FILES = "HOST_COMMIT_FILES";
@@ -60,21 +64,15 @@ public class CommitFileListActivity extends BackActivity {
     CommitFileAdapter mAdapter;
     private View mListHead;
 
-    private View.OnClickListener mOnClickItem = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            final BaseComment item = (BaseComment) v.getTag();
-            if (item.isMy()) {
-                showDialog("merge", "删除评论?", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String url = Commit.getHttpDeleteComment(mProjectPath, item.id);
-                        deleteNetwork(url, HOST_DELETE_COMMENT, item);
-                    }
-                });
-            } else {
-                startSendCommentActivity();
-            }
+    private View.OnClickListener mOnClickItem = v -> {
+        final BaseComment item = (BaseComment) v.getTag();
+        if (item.isMy()) {
+            showDialog("删除评论?", (dialog, which) -> {
+                String url = Commit.getHttpDeleteComment(mProjectPath, item.id);
+                deleteNetwork(url, HOST_DELETE_COMMENT, item);
+            });
+        } else {
+            startSendCommentActivity();
         }
     };
 
@@ -105,10 +103,23 @@ public class CommitFileListActivity extends BackActivity {
             getNetwork(s, HOST_COMMIT_DETAIL);
             showDialogLoading();
         }
+
+        setActionBarTitle("commit 详情");
+    }
+
+    @Nullable
+    @Override
+    protected ProjectObject getProject() {
+        return null;
+    }
+
+    @Override
+    protected String getProjectPath() {
+        return mProjectPath;
     }
 
     private void initByCommit() {
-        BaseCommentParam param = new BaseCommentParam(new ClickSmallImage(this), mOnClickItem, new MyImageGetter(this), getImageLoad(), mOnClickUser);
+        BaseCommentParam param = new BaseCommentParam(new ClickSmallImage(this), mOnClickItem, new MyImageGetter(this), getImageLoad(), GlobalCommon.mOnClickUser);
         mAdapter = new CommitFileAdapter(param);
 
         initListhead();
@@ -121,14 +132,9 @@ public class CommitFileListActivity extends BackActivity {
     }
 
     private void initListFooter() {
-        View footer = mInflater.inflate(R.layout.activity_merge_detail_footer, null);
+        View footer = mInflater.inflate(R.layout.activity_commit_list_footer, listView, false);
         listView.addFooterView(footer, null, false);
-        footer.findViewById(R.id.itemAddComment).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startSendCommentActivity();
-            }
-        });
+        footer.findViewById(R.id.itemAddComment).setOnClickListener(v -> startSendCommentActivity());
     }
 
     private void startSendCommentActivity() {
@@ -144,14 +150,23 @@ public class CommitFileListActivity extends BackActivity {
         mListHead = mInflater.inflate(R.layout.commit_file_list_head, listView, false);
         listView.addHeaderView(mListHead, null, false);
 
-        bindData(mListHead, R.id.title, mCommit.getTitle());
-        bindData(mListHead, R.id.icon, mCommit.getIcon());
+        String title = mCommit.getTitle();
+        if (TextUtils.isEmpty(title)) title = "未填写";
+        bindData(mListHead, R.id.title, title);
         bindData(mListHead, R.id.name, mCommit.getName());
-        bindData(mListHead, R.id.time, Global.dayToNow(mCommit.getCommitTime(), "创建%s"));
+        bindData(mListHead, R.id.time, Global.dayToNow(mCommit.getCommitTime(), "创建于 %s"));
         bindData(mListHead, R.id.mergeId, mCommit.getCommitIdPrefix());
 
         String preString = "";
         bindData(mListHead, R.id.preView, preString);
+    }
+
+    private void bindData(View view, int textViewId, CharSequence text) {
+        View v = view.findViewById(textViewId);
+        if (v instanceof TextView) {
+            TextView textview = (TextView) v;
+            textview.setText(text);
+        }
     }
 
     private void bindData(View view, int textViewId, String text) {
@@ -172,9 +187,13 @@ public class CommitFileListActivity extends BackActivity {
                 DiffFile diffFile = new DiffFile(respanse.getJSONObject("data"));
 
                 findViewById(R.id.preView);
-                String s = String.format("%d 个文件，共 %d 新增和 %d 删除", diffFile.getFileCount(),
-                        diffFile.getInsertions(), diffFile.getDeletions());
+                String files = String.format("%s 个文件", diffFile.getFileCount());
+                String all = String.format(" 共 %s 新增和 %s 删除", diffFile.getInsertions(), diffFile.getDeletions());
+                Spanned s = Global.createColorHtml("", files, all, CodingColor.fontBlue);
                 bindData(mListHead, R.id.preView, s);
+                if (diffFile.getFileCount() > 0) {
+                    mListHead.findViewById(R.id.headerDivide).setVisibility(View.VISIBLE);
+                }
 
                 mAdapter.setFilesCount(diffFile.getFiles().size());
                 mAdapter.insertDataUpdate((ArrayList) diffFile.getFiles());

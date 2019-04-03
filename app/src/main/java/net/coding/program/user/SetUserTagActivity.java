@@ -1,6 +1,7 @@
 package net.coding.program.user;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -9,9 +10,9 @@ import com.loopj.android.http.RequestParams;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.UserObject;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.UserObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -28,12 +29,15 @@ import org.json.JSONObject;
 public class SetUserTagActivity extends BackActivity {
 
     final String HOST_USERINFO = Global.HOST_API + "/user/updateInfo";
+
     @Extra("title")
     String title;
-    String tags;
-    UserObject user;
+
     @ViewById
     GridView gridView;
+
+    String tags;
+    UserObject user;
     JSONArray tagJSONArray;
     String HOST_USER_TAG_LIST = Global.HOST_API + "/tagging/user_tag_list";
 
@@ -69,16 +73,19 @@ public class SetUserTagActivity extends BackActivity {
         user.tags = adapter.getSelected();
         //user.tags_str = adapter.getSelectedStr();
         try {
-            params.put("email", user.email);
-            params.put("lavatar", user.lavatar);
+//            params.put("email", user.email);
+//            params.put("lavatar", user.lavatar);
+            params.put("id", user.id);
             params.put("name", user.name);
             params.put("sex", user.sex);
-            params.put("phone", user.phone);
+
             params.put("birthday", user.birthday);
             params.put("location", user.location);
             params.put("company", user.company);
             params.put("slogan", user.slogan);
-            params.put("introduction", user.introduction);
+            if (!TextUtils.isEmpty(user.introduction)) {
+                params.put("introduction", user.introduction);
+            }
             params.put("job", user.job);
             params.put("tags", user.tags);
 

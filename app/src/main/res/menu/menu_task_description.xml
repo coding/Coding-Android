@@ -1,9 +1,9 @@
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_edit"
-        android:title="修改"
         android:icon="@drawable/ic_menu_edit"
         android:orderInCategory="100"
+        android:title="修改"
         app:showAsAction="always" />
 </menu>

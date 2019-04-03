@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,8 +15,8 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.model.PhoneCountry;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.PhoneCountry;
 import net.coding.program.third.country.sidebar.IndexableListView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -31,22 +30,19 @@ import java.util.ArrayList;
 @EActivity(R.layout.activity_country_pick)
 public class CountryPickActivity extends BackActivity {
 
-    @ViewById
-    IndexableListView listView;
-
-    CountryAdapter countryAdapter;
-
-    private ArrayList<PhoneCountry> countryDataSrc = new ArrayList<>();
-    private ArrayList<PhoneCountry> countryDataTargetFull = new ArrayList<>();
-    private ArrayList<PhoneCountry> countryDataTargetSearch = new ArrayList<>();
-//    private Tess adapter;
-
     private final String[] topCountryCode = new String[]{
             "86",
             "852",
             "853",
             "886"
     };
+    @ViewById
+    IndexableListView listView;
+    CountryAdapter countryAdapter;
+    private ArrayList<PhoneCountry> countryDataSrc = new ArrayList<>();
+    private ArrayList<PhoneCountry> countryDataTargetFull = new ArrayList<>();
+    //    private Tess adapter;
+    private ArrayList<PhoneCountry> countryDataTargetSearch = new ArrayList<>();
 
 //    private RecyclerView.LayoutManager manager;
 
@@ -106,13 +102,6 @@ public class CountryPickActivity extends BackActivity {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
-
-//        MenuItem menuItem = menu.findItem(R.id.action_search);
-////        menuItem.expandActionView();
-//        SearchView searchView = (SearchView) menuItem.getActionView();
-//        searchView.onActionViewExpanded();
-//        searchView.setIconified(false);
-//        searchView.setQueryHint("");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -126,18 +115,6 @@ public class CountryPickActivity extends BackActivity {
             }
         });
 
-//        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem item) {
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem item) {
-//                onBackPressed();
-//                return false;
-//            }
-//        });
 
         return true;
     }
@@ -173,16 +150,14 @@ public class CountryPickActivity extends BackActivity {
 
         private final String mSections = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private final String TOP_SECTION = "常用";
-//        private ArrayList<String> mSectionTitle = new ArrayList<>();
+        //        private ArrayList<String> mSectionTitle = new ArrayList<>();
 //        private ArrayList<Integer> mSectionId = new ArrayList<>();
-
+        ArrayList<String> headData = new ArrayList<>();
+        ArrayList<Integer> posData = new ArrayList<>();
         private ArrayList<PhoneCountry> mData;
         private LayoutInflater mInflater;
 
-        ArrayList<String> headData = new ArrayList<>();
-        ArrayList<Integer> posData = new ArrayList<>();
-
-        public CountryAdapter(ArrayList<PhoneCountry> data , LayoutInflater mInflater, int topItemCount) {
+        public CountryAdapter(ArrayList<PhoneCountry> data, LayoutInflater mInflater, int topItemCount) {
             this.mData = data;
             this.mInflater = mInflater;
             updateSection(topItemCount);
@@ -294,7 +269,6 @@ public class CountryPickActivity extends BackActivity {
 //                return 1;
 //            }
 
-            Log.d("", "dddddd " + section);
             String tagetLetter;
             if (section == 0) {
                 tagetLetter = TOP_SECTION;

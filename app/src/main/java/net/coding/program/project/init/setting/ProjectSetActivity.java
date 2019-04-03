@@ -1,13 +1,15 @@
 package net.coding.program.project.init.setting;
 
-import android.os.Bundle;
-
 import net.coding.program.R;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.project.EventProjectModify;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by jack wang on 2015/3/31.
@@ -17,13 +19,12 @@ public class ProjectSetActivity extends BackActivity {
 
     ProjectSetFragment fragment;
 
+    @Extra
+    ProjectObject projectObject;
+
     @AfterViews
     protected final void initProjectSetActivity() {
-        fragment = ProjectSetFragment_.builder().build();
-        ProjectObject projectObject = (ProjectObject) getIntent().getSerializableExtra("projectObject");
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("projectObject", projectObject);
-        fragment.setArguments(bundle);
+        fragment = ProjectSetFragment_.builder().mProjectObject(projectObject).build();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, fragment)
@@ -31,11 +32,18 @@ public class ProjectSetActivity extends BackActivity {
     }
 
     @Override
+    protected boolean userEventBus() {
+        return true;
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventProjectModify(EventProjectModify event) {
+        finish();
+    }
+
+    @Override
     public void onBackPressed() {
-        if (fragment.isBackToRefresh) {
-            fragment.backToRefresh();
-            return;
-        }
         finish();
     }
 }

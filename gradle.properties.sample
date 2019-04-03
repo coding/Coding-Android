@@ -1,0 +1,15 @@
+KEYSTORE_PATH=打包 key 的相对路径
+KEYSTORE_PASSWORD=
+KEYSTORE_ALIAS=
+KEY_PASSWORD=
+
+DEV_ENTERPRISE=true
+
+DEBUG_TERMINAL=false
+
+# 信鸽要求加上的
+android.useDeprecatedNdk=true
+
+# databinding
+android.databinding.enableV2=true
+

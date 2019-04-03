@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:id="@+id/boardListTitle"
+        android:textColor="#FF717F8F"
+        android:singleLine="true"
+        android:layout_marginLeft="15dp"
+        android:textSize="15sp"
+        android:ellipsize="middle"
+        android:layout_marginRight="80dp"
+        tools:text="待待处理待处理待处理待处理待处理待处理待待处理待处理待处理处理 · 5" />
+
+    <ImageView
+        android:id="@+id/modifyList"
+        android:layout_gravity="right"
+        android:layout_marginRight="15dp"
+        android:src="@drawable/board_more"
+        android:layout_marginTop="15dp"
+        android:scaleType="center"
+        android:gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="46dp"
+        android:id="@+id/refreshLayout"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+</FrameLayout>

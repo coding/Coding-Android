@@ -1,19 +1,25 @@
 package net.coding.program.project.detail;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
 import net.coding.program.R;
-import net.coding.program.common.umeng.UmengActivity;
-import net.coding.program.model.GitFileInfoObject;
+import net.coding.program.common.event.EventExitCode;
+import net.coding.program.common.model.GitFileInfoObject;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.ui.CodingToolbarBackActivity;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 @EActivity(R.layout.activity_project_git_tree)
-public class GitTreeActivity extends UmengActivity {
+public class GitTreeActivity extends CodingToolbarBackActivity {
 
     @Extra
     String mProjectPath;
@@ -28,8 +34,7 @@ public class GitTreeActivity extends UmengActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        EventBus.getDefault().register(this);
 
         if (savedInstanceState != null) {
             mVersion = savedInstanceState.getString("mVersion", ProjectGitFragment.MASTER);
@@ -43,6 +48,17 @@ public class GitTreeActivity extends UmengActivity {
             ft.replace(R.id.container, fragment, mGitFileInfoObject.name);
             ft.commit();
         }
+    }
+
+    @Nullable
+    @Override
+    protected ProjectObject getProject() {
+        return null;
+    }
+
+    @Override
+    protected String getProjectPath() {
+        return mProjectPath;
     }
 
     @Override
@@ -66,5 +82,16 @@ public class GitTreeActivity extends UmengActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventExitCode(EventExitCode notify) {
+        finish();
     }
 }

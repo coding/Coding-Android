@@ -30,6 +30,9 @@ import net.coding.program.common.Global;
 
 public class IndexScroller {
 
+    private static final int STATE_HIDDEN = 0;
+    //	private static final int STATE_SHOWING = 1;
+    private static final int STATE_SHOWN = 2;
     private float mIndexbarWidth;
     private float mIndexbarMargin;
     private float mPreviewPadding;
@@ -46,10 +49,6 @@ public class IndexScroller {
     private String[] mSections = null;
     private RectF mIndexbarRect;
     private int mBackgroundColor = Color.TRANSPARENT;
-
-    private static final int STATE_HIDDEN = 0;
-    //	private static final int STATE_SHOWING = 1;
-    private static final int STATE_SHOWN = 2;
 //	private static final int STATE_HIDING = 3;
 
     public IndexScroller(Context context, ListView lv) {
@@ -102,7 +101,7 @@ public class IndexScroller {
             }
 
             Paint indexPaint = new Paint();
-            indexPaint.setColor(0xFF4289DB);
+            indexPaint.setColor(0xff565656);
 //			indexPaint.setAlpha((int) (255 * mAlphaRate));
             indexPaint.setAntiAlias(true);
             indexPaint.setTextSize(15 * mScaledDensity);

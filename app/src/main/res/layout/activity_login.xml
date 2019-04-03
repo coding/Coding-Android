@@ -1,42 +1,55 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:id="@+id/rootScrollView"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootScrollView"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/stand_bg">
 
         <RelativeLayout
             android:id="@+id/layoutRoot"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/backgroundImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/entrance1" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/entrance_bottom_bg" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#4c000000" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout xmlns:custom="http://schemas.android.com/apk/res/net.coding.program"
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:id="@+id/layoutTop2FA"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/backImage"
+                        android:layout_marginLeft="15dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_menu_back" />
+
+                    <TextView
+                        android:id="@+id/loginClose2FA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="56dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:layout_marginRight="15dp"
+                        android:gravity="center"
+                        android:text="关闭两步验证"
+                        android:textColor="@color/font_green"
+                        android:textSize="15sp" />
+
+                </FrameLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -44,103 +57,66 @@
                     android:paddingLeft="22dp"
                     android:paddingRight="22dp">
 
-                    <LinearLayout
-                        android:id="@+id/login_2fa"
+                    <TextView
+                        android:id="@+id/login2FA"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="56dp"
                         android:layout_gravity="right"
-                        android:orientation="horizontal">
+                        android:gravity="center"
+                        android:text="@string/title_activity_login2_fatip"
+                        android:textColor="@color/font_green"
+                        android:textSize="15sp" />
 
-                        <View
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_gravity="center_vertical"
-                            android:background="@drawable/ic_login_2fa" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:gravity="center"
-                            android:text="@string/title_activity_login2_fatip"
-                            android:textColor="@color/font_white"
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/userIcon"
-                        android:layout_width="83dp"
-                        android:layout_height="83dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="25dp"
-                        android:layout_marginTop="25dp"
-                        android:src="@drawable/icon_user_monkey"
-                        app:border_color="#ffffffff"
-                        app:border_width="1.5dp" />
-
-                    <LinearLayout xmlns:custom="http://schemas.android.com/apk/res/net.coding.program"
+                    <LinearLayout
                         android:id="@+id/loginLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:visibility="visible">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/loginTitle"
+                            android:minHeight="42dp"
+                            android:text="登录"
+                            android:textColor="#FF212B3A"
+                            android:textSize="30sp" />
+
                         <net.coding.program.common.widget.LoginAutoCompleteEdit
                             android:id="@+id/editName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/login_edit"
+                            style="@style/EditLogin"
                             android:hint="用户名/手机/邮箱"
                             android:inputType="textEmailAddress"
-                            android:lines="1"
-                            android:textColor="@color/font_white"
-                            android:textColorHint="@color/font_white_disable"
-                            android:textCursorDrawable="@null"
-                            android:textSize="18sp"
-                            custom:darkness="true" />
+                            app:darkness="true" />
 
                         <net.coding.program.common.LoginEditText
                             android:id="@+id/editPassword"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:background="@drawable/login_edit"
+                            style="@style/EditLogin"
                             android:hint="密码"
                             android:imeOptions="actionUnspecified"
                             android:inputType="textPassword"
-                            android:maxLines="1"
-                            android:singleLine="true"
-                            android:textColor="@color/font_white"
-                            android:textColorHint="@color/font_white_disable"
-                            android:textCursorDrawable="@null"
-                            android:textSize="18sp"
-                            custom:dark="true" />
+                            app:dark="true" />
 
                         <RelativeLayout
                             android:id="@+id/captchaLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
+                            tools:visibility="visible"
                             android:visibility="gone">
 
                             <EditText
                                 android:id="@+id/editValify"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/login_edit"
-                                android:hint="验证码"
-                                android:singleLine="true"
-                                android:textColor="@color/font_white"
-                                android:textColorHint="@color/font_white_disable"
-                                android:textCursorDrawable="@null"
-                                android:textSize="18sp" />
+                                style="@style/EditLogin"
+                                android:hint="验证码" />
 
                             <ImageView
                                 android:id="@+id/imageValify"
                                 android:layout_width="72dp"
                                 android:layout_height="30dp"
+                                android:layout_marginTop="25dp"
+                                tools:background="@color/font_2"
                                 android:layout_alignParentRight="true"
                                 android:scaleType="fitCenter" />
 
@@ -148,89 +124,100 @@
                     </LinearLayout>
 
 
-                    <LinearLayout xmlns:custom="http://schemas.android.com/apk/res/net.coding.program"
+                    <LinearLayout
                         android:id="@+id/layout2fa"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minHeight="42dp"
+                            android:text="两步验证"
+                            android:textColor="#FF212B3A"
+                            android:textSize="30sp" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/round_rect_2fa"
-                            android:gravity="center"
-                            android:padding="@dimen/padding_12"
-                            android:text="您的帐户开启了两步验证，请输入动态验证码"
-                            android:textColor="#ffEB7A19" />
-
+                            android:layout_marginTop="10dp"
+                            android:text="您的账户开启了两步验证，请输入动态验证码登录"
+                            android:textColor="@color/font_1"
+                            android:textSize="14sp" />
 
                         <net.coding.program.common.LoginEditText
                             android:id="@+id/edit2FA"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:background="@drawable/login_edit"
-                            android:hint="输入动态验证码"
+                            style="@style/EditLogin"
+                            android:layout_marginTop="25dp"
+                            android:hint="两步验证码"
                             android:imeOptions="actionUnspecified"
                             android:inputType="number"
-                            android:maxLines="1"
-                            android:singleLine="true"
-                            android:textColor="@color/font_white"
-                            android:textColorHint="@color/font_white_disable"
-                            android:textCursorDrawable="@null"
-                            android:textSize="18sp"
-                            custom:dark="true" />
+                            app:dark="true" />
+
                     </LinearLayout>
 
-
-                    <Button
-                        android:id="@+id/loginButton"
-                        style="?android:textAppearanceButton"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/loginFail"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="25dp"
-                        android:background="@drawable/login_button"
+                        android:paddingTop="15dp"
+                        android:layout_gravity="right"
+                        android:gravity="center"
+                        android:text="忘记密码？"
+                        android:textColor="@color/font_green"
+                        android:textSize="14sp" />
+
+                    <com.flyco.roundview.RoundTextView
+                        android:id="@+id/loginButton"
                         android:text="登录"
-                        android:textColor="@drawable/font_login_button"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        app:rv_backgroundColor="@color/font_green"
+                        style="@style/sendRoundButton" />
+
+
+                    <TextView
+                        android:id="@+id/loginWeixin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:drawableLeft="@drawable/ic_login_wexin"
+                        android:drawablePadding="8dp"
+                        android:gravity="center"
+                        android:text="微信登录"
+                        android:textColor="@color/font_1"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
-
                 <RelativeLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/loginFail"
-                        android:layout_width="100dp"
-                        android:layout_height="50dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center"
-                        android:text="找回密码"
-                        android:textColor="@color/font_white"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/register"
-                        android:layout_width="80dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="21dp"
-                        android:gravity="center"
-                        android:text="去注册"
-                        android:textColor="@color/font_white"
-                        android:textSize="16sp" />
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
 
+                        <TextView
+                            android:id="@+id/register"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:text="注册新账号"
+                            android:textColor="@color/font_1"
+                            android:textSize="14sp" />
 
+                    </LinearLayout>
 
                 </RelativeLayout>
 

@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.model.TopicLabelObject;
+import net.coding.program.common.model.TopicLabelObject;
 
 import org.apmem.tools.layouts.FlowLayout;
 
@@ -52,7 +52,7 @@ public class FlowLabelLayout extends FlowLayout {
                 realWidth += itemWidth;
                 LabelTextView label = (LabelTextView) LayoutInflater.from(getContext()).inflate(R.layout.project_topic_list_item_label, this, false);
                 addView(label);
-                label.setText(item.name, item.getColor());
+                label.setText(item.name, item.getColorValue());
             } else {
                 View end = LayoutInflater.from(getContext()).inflate(R.layout.project_topic_list_item_label_more, this, false);
                 addView(end);

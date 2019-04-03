@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="net.coding.program">
+
+    <!--&lt;!&ndash; 信鸽需要的权限 begin ———————————————————————————————————————————————————————————— &ndash;&gt;-->
+    <!--&lt;!&ndash; 【必须】 信鸽SDK所需权限 &ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_SETTINGS" />-->
+    <!--<uses-permission android:name="android.permission.WAKE_LOCK" />-->
+    <!--<uses-permission android:name="android.permission.VIBRATE" />-->
+    <!--&lt;!&ndash; 【常用】 信鸽SDK所需权限 &ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />-->
+    <!--<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+
+    <!--&lt;!&ndash; 信鸽需要的权限 end —————————————————————————————————————————————————————————————— &ndash;&gt;-->
+    <application
+        android:name=".EnterpriseApp"
+        android:label="@string/app_name"
+        android:resizeableActivity="true"
+        tools:replace="android:name">
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="kZ4gu0Xx9vlcDVPK4Gtd1V2W" />
+        <!-- 友盟标示 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5881da0875ca35702c00103e" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="net.coding.program.enterprise.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/enterprise_file_path" />
+        </provider>
+
+        <!-- 信鸽需要的组件 begin———————————————————————————————————————————————————————————————————————————— -->
+        <!-- 【必须】 信鸽receiver广播接收 -->
+        <!--<receiver-->
+        <!--android:name="com.tencent.android.tpush.XGPushReceiver"-->
+        <!--android:process=":xg_service_v2">-->
+        <!--<intent-filter android:priority="0x7fffffff">-->
+
+        <!--&lt;!&ndash; 【必须】 信鸽SDK的内部广播 &ndash;&gt;-->
+        <!--<action android:name="com.tencent.android.tpush.action.SDK" />-->
+        <!--<action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE" />-->
+        <!--&lt;!&ndash; 【必须】 系统广播：网络切换 &ndash;&gt;-->
+        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+
+        <!--&lt;!&ndash; 【可选】 系统广播：开屏 &ndash;&gt;-->
+        <!--<action android:name="android.intent.action.USER_PRESENT" />-->
+
+        <!--&lt;!&ndash; 【可选】 一些常用的系统广播，增强信鸽service的复活机会，请根据需要选择。当然，你也可以添加APP自定义的一些广播让启动service &ndash;&gt;-->
+        <!--<action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />-->
+        <!--<action android:name="android.intent.action.ACTION_POWER_CONNECTED" />-->
+        <!--<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />-->
+        <!--</intent-filter>-->
+        <!--&lt;!&ndash; 【可选】 usb相关的系统广播，增强信鸽service的复活机会，请根据需要添加 &ndash;&gt;-->
+        <!--<intent-filter android:priority="0x7fffffff">-->
+        <!--<action android:name="android.intent.action.MEDIA_UNMOUNTED" />-->
+        <!--<action android:name="android.intent.action.MEDIA_REMOVED" />-->
+        <!--<action android:name="android.intent.action.MEDIA_CHECKING" />-->
+        <!--<action android:name="android.intent.action.MEDIA_EJECT" />-->
+
+        <!--<data android:scheme="file" />-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
+        <!--&lt;!&ndash; 【必须】 (2.30及以上版新增)展示通知的activity &ndash;&gt;-->
+        <!--&lt;!&ndash; 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理 &ndash;&gt;-->
+        <!--<activity-->
+        <!--android:name="com.tencent.android.tpush.XGPushActivity"-->
+        <!--android:exported="true">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action" />-->
+        <!--</intent-filter>-->
+        <!--</activity>-->
+
+        <!-- 【必须】 信鸽service -->
+        <!--<service-->
+        <!--android:name="com.tencent.android.tpush.service.XGPushService"-->
+        <!--android:exported="true"-->
+        <!--android:persistent="true"-->
+        <!--android:process=":xg_service_v2" />-->
+
+        <receiver android:name=".EnterprisePushReceiver">
+            <intent-filter>
+                <!-- 接收消息透传 -->
+                <action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE" />
+                <!-- 监听注册、反注册、设置/删除标签、通知被点击等处理结果 -->
+                <action android:name="com.tencent.android.tpush.action.FEEDBACK" />
+            </intent-filter>
+        </receiver>
+
+        <!--&lt;!&ndash; 【必须】 通知service，此选项有助于提高抵达率 &ndash;&gt;-->
+        <!--<service-->
+        <!--android:name="com.tencent.android.tpush.rpc.XGRemoteService"-->
+        <!--android:exported="true">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="net.coding.program.enterprise.PUSH_ACTION" />-->
+        <!--</intent-filter>-->
+        <!--</service>-->
+        <!-- 信鸽需要的组件 end ———————————————————————————————————————————————————————————————————————————— -->
+
+        <activity
+            android:name=".setting.EnterpriseNameActivity_"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionbarTranslate"
+            android:windowSoftInputMode="stateVisible|adjustResize">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".user.EnterpriseLoginActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name=".EntranceActivity_"
+            android:icon="@drawable/app_icon"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar" />
+        <activity
+            android:name=".EnterpriseEntranceActivity_"
+            android:icon="@drawable/app_icon"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".user.EnterpriseAddMemberActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_enterprise_add_member"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.EnterpriseUserDetailActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_user_detail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".project.detail.GitTreeActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_activity_git_tree"
+            android:screenOrientation="portrait"
+            tools:replace="android:label" />
+
+        <receiver
+            android:name=".EnterpriseMyPushReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="net.coding.program.EnterpriseMyPushReceiver.PushClickBroadcast" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".login.phone.EnterprisePrivateEmailSetPasswordActivity_"
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionbarTranslate" />
+        <activity
+            android:name=".login.phone.EnterpriseEmailSetPasswordActivity_"
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionbarTranslate" />
+        <activity
+            android:name=".project.maopao.EnterpriseProjectMaopaoActivity_"
+            android:label="@string/title_activity_project_maopao"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.EnterpriseMyDetailActivity_"
+            android:label="@string/title_activity_my_detail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EnterpriseMainActivity_"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionbarSpannerTheme1"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name=".user.PickUserActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_pick_user_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.PickUserRelayMessageActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_pick_user_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".setting.EnterpriseAccountActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_enterprise_account_activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AccountTheme" />
+        <activity
+            android:name=".setting.ManageProjectListActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_manage_project_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".setting.ManageMemberActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_manage_member_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".setting.EnterpriseSettingActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/empty"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".setting.order.OrderMainActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_manage_order_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".setting.CommonPickProjectActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_common_pick_project"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".setting.SetEnterpriseAuthorityActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_set_enterprise_authority"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".guide.EnterpriseGuideActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/empty"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionbar" />
+        <activity
+            android:name=".login.phone.Close2FAActivity_"
+            android:label="@string/title_activity_close_2fa"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionbarTranslate" />
+        <activity
+            android:name=".setting.EnterpriseSupportActivity_"
+            android:icon="@drawable/ic_lancher"
+            android:label="@string/title_manage_support_activity"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

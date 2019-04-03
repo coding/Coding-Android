@@ -17,10 +17,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import net.coding.program.R;
+import net.coding.program.common.model.RequestData;
+import net.coding.program.common.model.TopicLabelObject;
+import net.coding.program.common.model.TopicObject;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.RequestData;
-import net.coding.program.model.TopicLabelObject;
-import net.coding.program.model.TopicObject;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -92,6 +92,10 @@ public class TopicLabelActivity extends BackActivity {
         }
     }
 
+    public static int getRandomColor() {
+        return 0xFF000000 | new Random().nextInt(0xFFFFFF);
+    }
+
     @AfterViews
     protected final void initTopicLabelActivity() {
         generateColor = getRandomColor();
@@ -141,7 +145,6 @@ public class TopicLabelActivity extends BackActivity {
         }
     }
 
-
     @OnActivityResult(RESULT_PICK_COLOR)
     void onResultPickColor(int result, @OnActivityResult.Extra int resultData) {
         if (result == RESULT_OK) {
@@ -156,7 +159,7 @@ public class TopicLabelActivity extends BackActivity {
             if (allLabels.containsKey(currentLabelId)) {
                 TopicLabelObject topicLabelObject = allLabels.get(currentLabelId);
                 topicLabelObject.name = resultData.name;
-                topicLabelObject.color = resultData.color;
+                topicLabelObject.setColorValue(resultData.getColorValue());
             }
             updateList();
         }
@@ -258,15 +261,11 @@ public class TopicLabelActivity extends BackActivity {
         postNetwork(post.url, post.params, "URI_ADD_LABEL");
     }
 
-    public static int getRandomColor() {
-        return 0xFF000000 | new Random().nextInt(0xFFFFFF);
-    }
-
     private void endAddLabel(int code, JSONObject json) throws JSONException {
         if (code == 0) {
             currentLabelId = json.getInt("data");
             editText.setText("");
-            allLabels.put(currentLabelId, new TopicLabelObject(currentLabelId, currentLabelName, Color.parseColor(COLOR)));
+            allLabels.put(currentLabelId, new TopicLabelObject(currentLabelId, currentLabelName, Color.parseColor(COLOR), COLOR));
             updateList();
             showButtomToast("添加标签成功^^");
 
@@ -389,7 +388,7 @@ public class TopicLabelActivity extends BackActivity {
     }
 
     public void showPop(View view) {
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setItems(R.array.topic_label_action, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -415,7 +414,7 @@ public class TopicLabelActivity extends BackActivity {
     }
 
     private void doDelete() {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("删除标签").setMessage(String.format("确定要删除标签“%s”么？", currentLabelName))
                 .setPositiveButton("确定", (dialog1, which) -> {
                     if (lockViews()) {
@@ -431,7 +430,7 @@ public class TopicLabelActivity extends BackActivity {
         View view = inflater.inflate(R.layout.dialog_input, null);
         final EditText input = (EditText) view.findViewById(R.id.value);
         input.setText(currentLabelName);
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
                 .setTitle("重命名")
                 .setView(view)
                 .setPositiveButton("确定", (dialog1, which) -> {

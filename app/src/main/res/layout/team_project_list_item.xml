@@ -26,7 +26,7 @@
         android:layout_alignTop="@id/icon"
         android:layout_marginTop="6dp"
         android:layout_toRightOf="@id/icon"
-        android:background="@drawable/ic_project_private1"
+        android:background="@drawable/ic_share_project1"
         android:visibility="visible" />
 
     <TextView
@@ -39,8 +39,8 @@
         android:layout_marginTop="2dp"
         android:layout_toRightOf="@id/privateIcon"
         android:lineSpacingMultiplier="1.5"
-        android:singleLine="true"
-        android:textColor="@color/font_2"
+        android:lines="1"
+        android:textColor="@color/font_1"
         android:textSize="15sp"
         tools:text="title" />
 
@@ -55,14 +55,14 @@
         android:layout_toRightOf="@id/icon"
         android:ellipsize="end"
         android:lineSpacingMultiplier="1.5"
-        android:singleLine="true"
-        android:textColor="@color/font_9"
+        android:lines="1"
+        android:textColor="@color/font_3"
         android:textSize="12sp"
         tools:text="aaaaa" />
 
     <View
-        style="@style/DivideLine"
         android:id="@+id/bottomLine"
+        style="@style/DivideLine"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="15dp" />
 

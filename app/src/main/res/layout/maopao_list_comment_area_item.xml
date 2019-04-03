@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="12dp"
+    android:layout_marginLeft="15dp"
     android:layout_marginRight="10dp">
 
     <TextView
@@ -12,9 +12,8 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="6dp"
         android:text="呵呵呵aa呵呵呵aa呵呵呵aa呵"
-        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/font_2"
-        android:textSize="15sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/name"
@@ -22,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/comment"
         android:text="超级小胖纸"
-        android:textColor="@color/font_6"
+        android:textColor="@color/font_3"
         android:textSize="12sp" />
 
     <TextView
@@ -35,7 +34,7 @@
         android:drawableLeft="@drawable/ic_clock"
         android:drawablePadding="5dp"
         android:text="3分钟前"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="12sp" />
 
 

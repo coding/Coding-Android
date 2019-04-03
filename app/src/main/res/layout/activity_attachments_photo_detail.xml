@@ -1,10 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/black"
-    tools:context="net.coding.program.project.detail.AttachmentsPhotoDetailActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="net.coding.program.project.detail.AttachmentsPhotoDetailActivity">
+
+    <include layout="@layout/common_actionbar" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -24,20 +27,23 @@
     </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/bottomPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:id="@+id/bottomPanel"
         android:orientation="vertical">
 
         <include
             layout="@layout/common_image_download"
             android:visibility="visible" />
 
-        <include
-            layout="@layout/common_file_detail_action"
-            android:visibility="visible" />
-    </LinearLayout>
+        <net.coding.program.common.widget.BottomToolBar
+            android:id="@+id/bottomToolBar"
+            style="@style/BottomToolBar"
+            android:layout_height="@dimen/bottom_layout_high"
+            app:btb_shadow="false"
+            app:btb_xml="@xml/bottomtoolbar_file_detail" />
 
+    </LinearLayout>
 
 </LinearLayout>

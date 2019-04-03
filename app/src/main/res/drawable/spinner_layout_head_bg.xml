@@ -15,8 +15,8 @@
 
 <!--<selector xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:autoMirrored="true">--><!--<item android:state_enabled="false"--><!--android:drawable="@drawable/spinner_layout_bg_green" />--><!--<item android:state_pressed="true"--><!--android:drawable="@drawable/spinner_layout_bg_green" />--><!--<item android:state_pressed="false" android:state_focused="true"--><!--android:drawable="@drawable/spinner_layout_bg_green" />--><!--<item android:drawable="@drawable/spinner_layout_bg_green" />--><!--</selector>-->
 <selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" android:autoMirrored="true" tools:ignore="UnusedAttribute">
-    <item android:state_enabled="false" android:drawable="@drawable/spinner_ab_disabled_holo_dark" />
-    <item android:state_pressed="true" android:drawable="@drawable/spinner_ab_pressed_holo_dark" />
-    <item android:state_pressed="false" android:state_focused="true" android:drawable="@drawable/spinner_ab_focused_holo_dark" />
+    <item android:drawable="@drawable/spinner_ab_disabled_holo_dark" android:state_enabled="false" />
+    <item android:drawable="@drawable/spinner_ab_pressed_holo_dark" android:state_pressed="true" />
+    <item android:drawable="@drawable/spinner_ab_focused_holo_dark" android:state_focused="true" android:state_pressed="false" />
     <item android:drawable="@drawable/spinner_ab_default_holo_dark" />
 </selector>

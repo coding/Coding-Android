@@ -4,142 +4,159 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/divide"
+    android:background="@color/stand_bg"
     tools:context="net.coding.program.login.PhoneRegisterActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/divide"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/layoutRoot"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/backImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_menu_back" />
+
+            </FrameLayout>
+
 
             <LinearLayout
+                android:id="@+id/firstLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:visibility="visible">
 
-                <include layout="@layout/login_baselayout_title" />
+                <TextView
+                    style="@style/NewTitle"
+                    android:layout_marginLeft="20dp"
+                    android:text="注册" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:orientation="vertical">
 
-                    <net.coding.program.common.widget.LoginEditText
+                    <net.coding.program.common.widget.LoginAutoCompleteEdit
                         android:id="@+id/globalKeyEdit"
-                        style="@style/EmailEdit"
-                        app:hint="用户名(个性后缀)"
-                        app:digits="@string/input_format_global_key"
-                        app:topLine="false" />
+                        style="@style/EditLogin"
+                        android:digits="@string/input_format_global_key"
+                        android:hint="用户名(个性后缀)"
+                        app:darkness="true" />
 
-                    <include
-                        layout="@layout/divide_1"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginLeft="@dimen/padding_15"
-                        android:layout_marginRight="@dimen/padding_15" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/countryCode"
-                            android:layout_width="55dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/padding_15"
-                            android:focusable="false"
-                            android:gravity="center_vertical"
-                            android:text="+861"
-                            android:textColor="@color/font_green"
-                            android:textSize="16sp" />
-
-                        <View
-                            style="@style/DivideLineVer"
-                            android:layout_height="20dp" />
-
-                        <net.coding.program.common.widget.LoginEditText
+                        <net.coding.program.common.LoginEditText
                             android:id="@+id/phoneEdit"
-                            style="@style/EmailEdit"
+                            style="@style/EditLogin"
+                            android:inputType="phone"
+                            android:paddingLeft="55dp"
                             app:hint="手机号"
                             app:loginInput="number"
                             app:topLine="false" />
 
-                    </LinearLayout>
+                        <TextView
+                            android:id="@+id/countryCode"
+                            style="@style/PhoneCountry"
+                            android:text="+86" />
 
+                    </FrameLayout>
 
-                    <include
-                        layout="@layout/divide_1"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginLeft="@dimen/padding_15"
-                        android:layout_marginRight="@dimen/padding_15" />
+                        android:layout_height="wrap_content">
 
-                    <net.coding.program.common.widget.LoginEditText
-                        android:id="@+id/passwordEdit"
-                        style="@style/EmailEdit"
-                        app:hint="设置密码"
-                        app:showPassword="true"
-                        app:loginInput="password"
-                        app:topLine="false" />
-
-                    <include
-                        layout="@layout/divide_1"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginLeft="@dimen/padding_15"
-                        android:layout_marginRight="@dimen/padding_15" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <net.coding.program.common.widget.LoginEditText
+                        <net.coding.program.common.LoginEditText
                             android:id="@+id/phoneCodeEdit"
-                            style="@style/EmailEdit"
-                            android:layout_width="0dp"
+                            style="@style/EditLogin"
+                            android:layout_width="match_parent"
                             android:layout_weight="1"
-
-                            android:visibility="visible"
-                            app:hint="手机验证码"
-                            app:loginInput="number"
-                            app:topLine="false" />
-
-                        <View
-                            style="@style/DivideLineVer"
-                            android:layout_height="15dp" />
+                            android:hint="手机验证码"
+                            android:inputType="number"
+                            android:visibility="visible" />
 
                         <net.coding.program.common.widget.ValidePhoneView
                             android:id="@+id/sendCode"
-                            style="@style/ValidePhoneView" />
+                            style="@style/ValidePhoneView"
+                            android:layout_gravity="right|bottom"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginRight="0dp"
+                            android:background="@null"
+                            android:textColor="@color/font_1"
+                            android:textSize="15sp" />
 
-                    </LinearLayout>
-
-                    <net.coding.program.common.widget.LoginEditText
-                        android:id="@+id/captchaEdit"
-                        style="@style/EmailEdit"
-                        app:captcha="true"
-                        app:hint="验证码"
-                        android:visibility="gone" />
+                    </FrameLayout>
 
                 </LinearLayout>
 
-                <include layout="@layout/divide_10_top_bottom" />
+                <com.flyco.roundview.RoundTextView
+                    android:id="@+id/firstStep"
+                    style="@style/sendRoundButton"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="下一步"
+                    app:rv_backgroundColor="@color/font_green" />
 
-                <Button
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/secondLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="42dp"
+                    android:text="设置密码"
+                    android:textColor="#FF212B3A"
+                    android:textSize="30sp" />
+
+
+                <net.coding.program.common.LoginEditText
+                    android:id="@+id/passwordEdit"
+                    style="@style/EditLogin"
+                    android:hint="设置密码"
+                    android:inputType="textPassword" />
+
+                <net.coding.program.common.LoginEditText
+                    android:id="@+id/passwordEditAgain"
+                    style="@style/EditLogin"
+                    android:hint="重复密码"
+                    android:inputType="textPassword" />
+
+                <com.flyco.roundview.RoundTextView
                     android:id="@+id/loginButton"
-                    style="@style/SendButton"
-                    android:enabled="true"
-                    android:text="注册" />
+                    style="@style/sendRoundButton"
+                    android:layout_marginTop="25dp"
+                    android:enabled="false"
+                    android:text="注册"
+                    app:rv_backgroundColor="@color/font_green" />
 
                 <TextView
                     android:id="@+id/textClause"
@@ -147,27 +164,29 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/padding_15"
                     android:layout_marginRight="@dimen/padding_15"
+                    android:layout_marginTop="25dp"
                     android:gravity="center_horizontal"
-                    android:textColor="@color/font_6"
+                    android:textColor="@color/font_2"
                     android:textSize="14sp"
                     tools:text="码市用户" />
 
             </LinearLayout>
 
+            <android.support.v4.widget.Space
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
             <TextView
-                android:id="@+id/otherRegister"
-                android:layout_width="80dp"
-                android:layout_height="50dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="21dp"
-                android:gravity="center"
-                android:text="邮箱注册"
-                android:textColor="@color/font_green"
-                android:textSize="16sp" />
+                android:id="@+id/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="30dp"
+                android:text="已有 Coding 账号？"
+                android:textColor="#FF212B3A"
+                android:textSize="15sp" />
 
-        </RelativeLayout>
-
-
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

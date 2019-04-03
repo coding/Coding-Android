@@ -1,61 +1,74 @@
 package net.coding.program;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Toast;
+import android.webkit.WebView;
 
-import net.coding.program.common.ui.PopCaptchaDialog;
-import net.coding.program.login.auth.QRScanActivity;
-import net.coding.program.project.detail.PickLabelColorActivity_;
+import net.coding.program.common.Global;
+import net.coding.program.common.base.MyJsonResponse;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.network.MyAsyncHttpClient;
+import net.coding.program.common.ui.BackActivity;
+import net.coding.program.project.detail.wiki.WikiMainActivity_;
+import net.coding.program.user.SetUserSkillsActivity_;
 
+import org.json.JSONObject;
 
-public class TestActivity extends AppCompatActivity {
+public class TestActivity extends BackActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
+        findViewById(R.id.button).setOnClickListener(v -> click());
+
+        click();
+
     }
 
-    public void click1(View v) {
-//        test1();
-        PopCaptchaDialog.pop(this);
+    private void click() {
+        WebView webView = findViewById(R.id.webView);
+
+        WebView.setWebContentsDebuggingEnabled(true);
+        Global.initWebView(webView);
+        webView.setWebViewClient(new CustomWebViewClient(this));
+        Global.syncCookie(this);
+
+//        webView.loadUrl("http://www.baidu.com");
+        webView.loadUrl("http://pd.codingprod.net/p/ww/setting/notice/4");
+
     }
 
-    public void click2(View v) {
-        Intent intent = new Intent(this, QRScanActivity.class);
-//        intent.putExtra(QRScanActivity.EXTRA_OPEN_URL, "true");
-        startActivity(intent);
-    }
-
-    public void click3(View v) {
-//        EntranceActivity_.intent(this).start();
-        MainActivity_.intent(this).start();
-    }
-
-    int mColor = 0xffff5722;
-
-    void test1() {
-        PickLabelColorActivity_.intent(this)
-                .generateColor(mColor)
-                .startForResult(1);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            int color = data.getIntExtra("resultData", 0);
-            Toast.makeText(TestActivity.this, "color" + color, Toast.LENGTH_SHORT).show();
-            mColor = color;
-        }
+    private void openGuide() {
+        SetUserSkillsActivity_.intent(this).start();
     }
 
 
-    public void clickMain() {
-        Intent intent = new Intent(TestActivity.this, EntranceActivity_.class);
-        startActivity(intent);
+    private void click1() {
     }
+
+    private void click2() {
+        String urlProject = ProjectObject.getHttpProject("codingcorp", "TestWiki");
+
+        getNetwork(urlProject, urlProject);
+        MyAsyncHttpClient.get(this, urlProject, new MyJsonResponse(this) {
+            @Override
+            public void onMySuccess(JSONObject response) {
+                super.onMySuccess(response);
+                try {
+                    ProjectObject projectObject = new ProjectObject(response.optJSONObject("data"));
+                    WikiMainActivity_.intent(TestActivity.this).project(projectObject).start();
+                } catch (Exception e) {
+                    Global.errorLog(e);
+                }
+            }
+
+            @Override
+            public void onMyFailure(JSONObject response) {
+                super.onMyFailure(response);
+            }
+        });
+    }
+
+
 }

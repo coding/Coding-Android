@@ -2,21 +2,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_code_search"
+        android:icon="@drawable/ic_menu_search"
+        android:title="@string/search"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_history"
         android:icon="@drawable/ic_menu_history"
-        android:title="提交历史"
+        android:title="@string/title_activity_branch_commit_list"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_more"
-        android:icon="@drawable/ic_action_overflow"
+        android:icon="@drawable/ic_menu_add"
         android:title="@string/action_more"
         app:showAsAction="always">
-        <menu>
-            <item
-                android:id="@+id/action_copy"
-                android:icon="@drawable/ic_menu_link"
-                android:title="@string/copy_link"
-                app:showAsAction="always" />
-        </menu>
+
+        <!--<menu>-->
+
+        <item
+            android:id="@+id/action_create_file"
+            android:title="@string/create_file"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_upload_picture"
+            android:title="@string/upload_picture"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/action_exit_code"
+            android:title="@string/action_exit_code"
+            app:showAsAction="never" />
+        <!--</menu>-->
+        <!--<item-->
+        <!--android:id="@+id/action_copy"-->
+        <!--android:icon="@drawable/ic_menu_share_link"-->
+        <!--android:title="@string/copy_link"-->
+        <!--app:showAsAction="ifRoom" />-->
     </item>
 </menu>

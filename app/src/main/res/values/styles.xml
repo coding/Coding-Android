@@ -1,28 +1,13 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- 背景设为透明，用于启动和登录页面-->
     <!--<style name="TranslateThemeFull" parent="android:style/Theme.Holo.Light.NoActionBar">-->
     <style name="TranslateThemeFull" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/transparent</item>
+        <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="TranslateTheme" parent="ActionbarNoIcon">
-        <item name="android:windowBackground">@drawable/transparent</item>
-    </style>
-
-    <!--透明的actionbar-->
-    <style name="TranslateActionbar" parent="AppTheme">
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="windowActionBarOverlay">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="colorPrimary">@color/transparent</item>
-        <item name="color">@color/white</item>
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:popupMenuStyle">@style/MyApp.PopupMenu</item>
-    </style>
-
-    <style name="WhiteFontTranslateActionbar" parent="TranslateActionbar">
-        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:windowBackground">@color/transparent</item>
     </style>
 
     <style name="MyApp.PopupMenu" parent="@style/Widget.AppCompat.Light.PopupMenu">
@@ -34,120 +19,96 @@
         <item name="android:windowBackground">@color/popDialogBg</item>
     </style>
 
-    <!--<item name="actionBarTheme">@style/ThemeOverlay.AppCompat.ActionBar</item-->
-    <style name="CommonActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:elevation">2dp</item>
-        <item name="elevation">2dp</item>
-    </style>
-
-    <style name="AAActionbar" parent="Widget.AppCompat.ActionBar">
-        <item name="android:elevation">2dp</item>
-        <item name="elevation">2dp</item>
-    </style>
-
-    <style name="Theme.MyApp.ActionBar" parent="style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <!-- remove shadow below action bar -->
-        <!-- <item name="android:elevation">0dp</item> -->
-        <!-- Support library compatibility -->
-        <item name="elevation">2dp</item>
-        <item name="android:elevation">2dp</item>
-    </style>
-
-    <!-- Base application theme. -->
+    <!-- base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="android:windowBackground">@color/windowBackground</item>
+
         <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
-        <item name="android:windowBackground">@color/stand_bg</item>
-        <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
+
         <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
-        <item name="android:actionModeBackground">@drawable/color_primary</item>
+        <item name="android:actionModeBackground">@color/color_primary</item>
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
         <item name="android:windowActionModeOverlay">true</item>
 
-        <item name="android:divider">@drawable/divide_line</item>
+        <item name="android:divider">@color/divide_line</item>
+        <item name="android:alertDialogTheme">@style/MyAlertDialogStyle</item>
+        <item name="alertDialogTheme">@style/MyAlertDialogStyle</item>
 
         <item name="android:textColorPrimary">@color/font_green</item>
-        <!--<item name="android:actionBarStyle">@style/AAActionbar</item>-->
-        <!--<item name="actionBarStyle">@style/AAActionbar</item>-->
-
-        <!--<item name="actionBarStyle">@style/Theme.MyApp.ActionBar</item>-->
-        <!--<item name="android:actionBarStyle">@style/Theme.MyApp.ActionBar</item>-->
-
-        <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
-        <item name="android:actionMenuTextColor">@color/font_6</item>
 
-        <item name="colorPrimary">@drawable/color_primary</item>
-    </style>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="actionMenuTextColor">@color/phone_message</item>
+        <item name="android:actionMenuTextColor">@color/phone_message</item>
 
-    <!--没有icon的actionbar -->
-    <style name="NoIconActionbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:icon">@android:color/transparent</item>
-        <item name="icon">@android:color/transparent</item>
+        <item name="navigationIcon">@drawable/ic_menu_back</item>
+
+        <item name="searchViewStyle">@style/MySearchViewStyle</item>
     </style>
 
     <style name="ToolbarColoredBackArrow" parent="AppTheme">
-        <item name="android:textColorSecondary">@color/text_color_primary</item>
+        <item name="android:textColorSecondary">@color/font_1</item>
     </style>
 
     <!--主窗口的theme-->
     <style name="ActionbarSpannerTheme1" parent="Theme.AppCompat.Light.NoActionBar">
-        <!--<item name="android:actionDropDownStyle">@style/MyGreenSpinner</item>-->
-        <!--<item name="android:dropDownListViewStyle">@style/SpinnerDropDownListView</item>-->
-        <!--<item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>-->
-        <!--<item name="android:windowBackground">@color/stand_bg</item>-->
-        <!--<item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>-->
-        <!--<item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>-->
-        <!--<item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>-->
-        <!--<item name="android:actionModeBackground">@drawable/gray_drawable</item>-->
-        <!--<item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>-->
-        <!--<item name="android:windowActionModeOverlay">true</item>-->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
 
-        <!--<item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>-->
-        <!--<item name="android:actionMenuTextColor">@color/white</item>-->
+        <item name="android:divider">@color/divide_line</item>
 
-        <item name="colorPrimary">@drawable/color_primary</item>
-        <item name="android:textColorPrimary">@drawable/text_color_primary</item>
-        <item name="colorPrimaryDark">@drawable/color_primary_dark</item>
-
-        <item name="android:divider">@drawable/divide_line</item>
-
+        <item name="android:textColorPrimary">@color/font_green</item>
+        <item name="actionMenuTextColor">@color/font_green</item>
 
         <item name="color">@color/white</item>
-        <item name="android:windowBackground">@color/stand_bg</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+
         <item name="popupMenuStyle">@style/MyApp.PopupMenu</item>
 
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
         <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
-        <item name="android:actionModeBackground">@drawable/color_primary</item>
+        <item name="android:actionModeBackground">@color/color_primary</item>
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
         <item name="android:windowActionModeOverlay">true</item>
 
         <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
+        <!--<item name="navigationIcon">@drawable/ic_menu_back</item>-->
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
-        <item name="android:actionMenuTextColor">@color/white</item>
 
-
-        <!--抽屉导航的旋转箭头-->
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-
+        <item name="searchViewStyle">@style/MySearchViewStyle</item>
+        <item name="autoCompleteTextViewStyle">@style/cursorColor</item>
     </style>
 
-    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">true</item>
-        <item name="color">@android:color/white</item>
+    <style name="MySearchViewStyle" parent="Widget.AppCompat.Light.SearchView">
+        <item name="searchIcon">@drawable/ic_menu_search</item>
+        <item name="android:searchIcon">@drawable/ic_menu_search</item>
+    </style>
+
+    <style name="cursorColor" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:textCursorDrawable">@drawable/cursor</item>
+    </style>
+
+    <style name="Toolbar.MyStyle" parent="Base.Widget.AppCompat.Toolbar">
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
     </style>
 
     <style name="AppThemeNoActionbar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:textColorPrimary">@color/text_color_primary</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+
         <item name="android:popupMenuStyle">@style/PopupMenu.ListPopupWindow</item>
-        <item name="android:windowBackground">@color/black</item>
+
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
         <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
-        <item name="android:actionModeBackground">@drawable/color_primary</item>
+        <item name="android:actionModeBackground">@color/color_primary</item>
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
 
@@ -159,25 +120,23 @@
 
         <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
-        <item name="colorPrimary">@drawable/color_primary</item>
-        <item name="colorPrimaryDark">@drawable/color_primary_dark</item>
+        <item name="navigationIcon">@drawable/ic_menu_back</item>
+
+        <item name="android:actionMenuTextColor">@color/font_2</item>
+        <item name="actionMenuTextColor">@color/font_green</item>
     </style>
 
-    <!--商城界面主题-->
-    <style name="ThemeMall" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@drawable/color_primary</item>
-        <item name="colorPrimaryDark">@color/black</item>
-    </style>
 
     <style name="ThemeProject" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textColorPrimary">@color/green</item>
-        <item name="android:colorControlNormal">@color/green</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
 
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:textColorPrimary">@color/font_green</item>
+        <item name="android:colorControlNormal" tools:ignore="NewApi">@color/font_green</item>
+
         <item name="android:alertDialogTheme">@style/ThemeHoloLightDialogAlert</item>
         <item name="android:textAppearanceLargePopupMenu">@style/MyPopupMenu.Large</item>
         <item name="android:textAppearanceSmallPopupMenu">@style/MyPopupMenu.Small</item>
-        <item name="android:actionModeBackground">@drawable/color_primary</item>
+        <item name="android:actionModeBackground">@color/color_primary</item>
         <item name="android:actionModeCloseDrawable">@drawable/task_add_cab_back</item>
         <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
 
@@ -189,14 +148,15 @@
 
         <!--<item name="android:background">@drawable/gray_drawable</item>-->
 
-        <item name="colorPrimary">@drawable/color_primary</item>
-        <item name="colorPrimaryDark">@drawable/color_primary_dark</item>
+        <item name="navigationIcon">@drawable/ic_menu_back</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
 
     </style>
 
     <!--弹出菜单字体颜色-->
     <style name="myCustomMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
-        <item name="android:textColor">@color/font_2</item>
+        <item name="android:textColor">@color/font_1</item>
     </style>
 
     <!--<style name="MyGreenSpinner" parent="android:style/Widget.Holo.Light.Spinner">-->
@@ -210,8 +170,19 @@
 
     </style>
 
-    <style name="ActionbarNoIcon" parent="AppTheme">
-        <!--<item name="android:actionBarStyle">@style/ActionBarStyle</item>-->
+    <style name="ActionbarNoIcon" parent="AppTheme"></style>
+
+    <style name="Theme_CodingActionBar" parent="ActionbarNoIcon">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionModeOverlay">true</item>
+    </style>
+
+    <style name="ActionbarTranslate" parent="ActionbarNoIcon">
+        <!--<item name="actionBarStyle">@style/ActionbarTranslate</item>-->
+        <item name="elevation">0dp</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="colorPrimary">@color/white</item>
     </style>
 
     <style name="ThemeHoloLightDialogAlert" parent="@android:style/Theme.Holo.Light.Dialog">
@@ -232,15 +203,6 @@
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">@color/font_green</item>
     </style>
-
-    <!--<style name="WidgetHoloNumberPicker" parent="@android:style/Widget.Holo.NumberPicker">
-        <item name="internalLayout">@android:layout/number_picker</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:fadingEdge">vertical</item>
-        <item name="android:fadingEdgeLength">50dip</item>
-
-        <item name="selectionDivider">@drawable/line_green</item>
-    </style>-->
 
     <style name="AttachmentUploadInfo">
         <item name="android:textColor">@color/white</item>
@@ -294,20 +256,24 @@
     <style name="SingleLineEditText" parent="@android:style/Widget.EditText">
         <item name="android:textCursorDrawable">@drawable/edittext_cursor</item>
         <item name="android:background">@null</item>
-        <item name="android:textColor">@color/font_6</item>
-        <item name="android:textColorHint">@color/addjob_radio_text_gray</item>
+        <item name="android:textColor">@color/font_2</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">16sp</item>
+        <item name="android:textColorHint">@color/font_4</item>
         <item name="android:layout_marginTop">@dimen/padding_15</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:singleLine">true</item>
     </style>
 
     <style name="EmailEdit" parent="SingleLineEditText">
-        <item name="android:layout_height">53dp</item>
+        <item name="android:layout_height">@dimen/login_edit_height</item>
         <item name="android:layout_marginTop">0dp</item>
         <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:layout_marginLeft">@dimen/padding_15</item>
+    </style>
+
+    <style name="EmailEdit.MarginLeftRight" parent="EmailEdit">
         <item name="android:layout_marginLeft">@dimen/padding_15</item>
         <item name="android:layout_marginRight">@dimen/padding_15</item>
     </style>
@@ -321,7 +287,7 @@
     <style name="TextTitle" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/font_2</item>
+        <item name="android:textColor">@color/font_1</item>
         <item name="android:textSize">18sp</item>
     </style>
 
@@ -336,14 +302,14 @@
 
 
     <style name="ValidePhoneView" parent="@android:style/TextAppearance.Medium">
-        <item name="android:layout_width">100dp</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">90dp</item>
+        <item name="android:layout_height">30dp</item>
         <item name="android:layout_marginRight">@dimen/padding_15</item>
         <item name="android:background">@drawable/phone_message_bg</item>
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">center</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:text">发送验证码</item>
         <item name="android:textColor">@color/phone_message</item>
     </style>
@@ -361,11 +327,6 @@
         <item name="android:layout_gravity">center_vertical</item>
     </style>
 
-    <style name="DivideSectionBottom5">
-        <item name="android:background">@mipmap/shadow_bottom</item>
-        <item name="android:layout_height">5dp</item>
-        <item name="android:layout_width">match_parent</item>
-    </style>
 
     <style name="DivideSectionTop5">
         <item name="android:background">@mipmap/shadow_top</item>
@@ -381,9 +342,21 @@
         <item name="android:background">@color/divide_line</item>
     </style>
 
+    <style name="TreeDivideLine" parent="DivideLine"></style>
+
+    <style name="LoginBottomLine" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/divide_line</item>
+    </style>
+
     <style name="DivideLine_15" parent="DivideLine">
         <item name="android:layout_marginLeft">@dimen/padding_15</item>
         <item name="android:layout_marginRight">0dp</item>
+    </style>
+
+    <style name="DivideLine15LeftRight" parent="DivideLine_15">
+        <item name="android:layout_marginRight">@dimen/padding_15</item>
     </style>
 
     <style name="DivideLineHomeList" parent="DivideLine">
@@ -396,7 +369,7 @@
         <item name="android:background">@null</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/font_9</item>
+        <item name="android:textColor">@color/font_3</item>
         <item name="android:drawablePadding">9dp</item>
         <item name="android:drawableLeft">@drawable/maopao_extra_comment</item>
     </style>
@@ -406,12 +379,13 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/font_green</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:text">@string/delete</item>
     </style>
 
     <style name="TopicWatchCount">
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:textColor">@color/font_9</item>
+        <item name="android:textColor">@color/font_3</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
@@ -421,12 +395,12 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:drawablePadding">3dp</item>
-        <item name="android:textColor">@color/font_9</item>
+        <item name="android:textColor">@color/font_3</item>
     </style>
 
     <style name="BottomTabTitle">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/font_2</item>
+        <item name="android:textColor">@color/font_3</item>
     </style>
 
     <style name="TextViewFilterTag">
@@ -439,7 +413,7 @@
         <item name="android:paddingLeft">20dp</item>
         <item name="android:textSize">15sp</item>
         <item name="android:paddingTop">15dp</item>
-        <item name="android:textColor">@color/font_2</item>
+        <item name="android:textColor">@color/font_1</item>
     </style>
 
     <style name="FilterDialog" parent="@android:style/Theme.Dialog">
@@ -448,6 +422,7 @@
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+
     <style name="commentWebviewDetail">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -466,8 +441,210 @@
         <item name="android:drawablePadding">7dp</item>
         <item name="android:textSize">13sp</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/font_9</item>
+        <item name="android:textColor">@color/font_3</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="aboutBottomText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:textColor">@color/font_3</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="loginButton">
+        <item name="android:layout_width">@dimen/float_button</item>
+        <item name="android:layout_height">@dimen/float_button</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:src">@drawable/ic_float_login</item>
+        <item name="android:background">@drawable/float_button_login</item>
+        <item name="android:scaleType">center</item>
+        <item name="borderWidth">0dp</item>
+        <item name="fabSize">mini</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+
+    <style name="BaseListText">
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="OrderLeft">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/font_2</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+    </style>
+
+    <style name="OrderRight" parent="OrderLeft">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:textColor">@color/font_1</item>
+    </style>
+
+    <style name="GreenTextButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">#FF0060FF</item>
+    </style>
+
+    <style name="GrayTextButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">#FF999999</item>
+    </style>
+
+    <style name="NumberPick" parent="Theme.AppCompat.Light">
+        <item name="android:textColorPrimary">@color/font_1</item>
+        <item name="colorControlNormal">@color/font_1</item>
+    </style>
+
+    <style name="Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+    </style>
+
+    <style name="TextTabBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@color/stand_tab_bg</item>
+    </style>
+
+    <style name="MarkdownEditBarItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">31dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:background">@drawable/button_markdown_hotkey</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minWidth">31dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <style name="ImageTab">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/image_tab_height</item>
+        <item name="android:background">@color/color_primary</item>
+    </style>
+
+    <style name="AppBarLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/color_primary</item>
+        <item name="android:stateListAnimator">@animator/appbar_elevation</item>
+    </style>
+
+    <style name="MySearchView" parent="@style/Widget.AppCompat.SearchView.ActionBar">
+    </style>
+
+    <style name="RedPointTxt">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/ic_notify_txt</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="BottomBotton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="BottomToolBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/bottom_layout_real_high</item>
+    </style>
+
+    <style name="Button_ListBottom">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/stand_bg</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:textColor">@drawable/font_green_button</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="ButtonExit" parent="@style/Button_ListBottom">
+        <item name="android:textColor">@drawable/font_exit_button</item>
+    </style>
+
+    <style name="Widget_CodingActionBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+        <item name="searchViewStyle">@style/MySearchViewStyle</item>
+        <item name="android:searchViewStyle">@style/MySearchViewStyle</item>
+    </style>
+
+    <style name="CodingToolbarTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:lines">1</item>
+        <item name="android:textColor">@color/font_green</item>
+    </style>
+
+    <style name="Widget_Switch">
+        <item name="colorControlActivated">@color/font_green</item>
+    </style>
+
+    <style name="EditLogin">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/login_edit</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/font_1</item>
+        <item name="android:textColorHint">@color/font_hint</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="sendRoundButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginTop">25dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/font_login_button</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CaptchaImage">
+        <item name="android:layout_width">72dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="NewTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:minHeight">42dp</item>
+        <item name="android:textColor">#FF212B3A</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="PhoneCountry">
+        <item name="android:layout_width">55dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:focusable">false</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/font_green</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <!--正则替换工具-->

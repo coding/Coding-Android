@@ -2,20 +2,17 @@ package net.coding.program.search;
 
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import net.coding.program.R;
+import net.coding.program.adapter.SearchMergeAdapter;
 import net.coding.program.common.Global;
-import net.coding.program.common.adapter.SearchMergeAdapter;
-import net.coding.program.common.network.RefreshBaseFragment;
-import net.coding.program.model.MergeObject;
+import net.coding.program.common.model.Merge;
 import net.coding.program.project.detail.merge.MergeDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,35 +23,19 @@ import java.util.ArrayList;
  * Created by Vernon on 15/11/30.
  */
 @EFragment(R.layout.fragment_search_list)
-public class SearchMergeRequestsFragment extends RefreshBaseFragment {
+public class SearchMergeRequestsFragment extends SearchBaseFragment {
     private static final String TAG = SearchTaskFragment.class.getSimpleName();
     final String url = Global.HOST_API + "/esearch/%s?q=%s";
     final String tmp = "&types=%s&pageSize=10";
-    ArrayList<MergeObject> mData = new ArrayList<>();
+    @InstanceState
+    protected String tabPrams;
+    ArrayList<Merge> mData = new ArrayList<>();
     String page = "&page=%s";
     int pos = 1;
+    SearchMergeAdapter adapter;
     private String keyword = "";
-    private String tabPrams;
     private boolean hasMore = true;
     private boolean isLoading = true;
-    @ViewById
-    ListView listView;
-    @ViewById(R.id.emptyView)
-    LinearLayout emptyView;
-
-    SearchMergeAdapter adapter;
-
-    @AfterViews
-    protected void init() {
-        initRefreshLayout();
-        setRefreshing(true);
-        mFootUpdate.init(listView, mInflater, this);
-        adapter = new SearchMergeAdapter(mData, keyword, getActivity());
-        listView.setAdapter(adapter);
-        listView.setOnScrollListener(mOnScrollListener);
-        loadMore();
-    }
-
     AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -72,9 +53,20 @@ public class SearchMergeRequestsFragment extends RefreshBaseFragment {
         }
     };
 
+    @AfterViews
+    protected void init() {
+        initRefreshLayout();
+        setRefreshing(true);
+        mFootUpdate.init(listView, mInflater, this);
+        adapter = new SearchMergeAdapter(mData, keyword, getActivity());
+        listView.setAdapter(adapter);
+        listView.setOnScrollListener(mOnScrollListener);
+        loadMore();
+    }
+
     @ItemClick
-    final void listView(MergeObject itemData) {
-        if (itemData.isMergeCannel()) {
+    final void listView(Merge itemData) {
+        if (itemData.getMergeStatus() == Merge.Status.CANCEL) {
             return;
         }
 
@@ -86,16 +78,16 @@ public class SearchMergeRequestsFragment extends RefreshBaseFragment {
         return keyword;
     }
 
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
     public String getTabPrams() {
         return tabPrams;
     }
 
     public void setTabPrams(String tabPrams) {
         this.tabPrams = tabPrams;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
     }
 
     private String getUrl(int pos) {
@@ -112,7 +104,6 @@ public class SearchMergeRequestsFragment extends RefreshBaseFragment {
 
     @Override
     public void onRefresh() {
-        pos = 1;
         loadMore();
     }
 
@@ -127,7 +118,7 @@ public class SearchMergeRequestsFragment extends RefreshBaseFragment {
                 JSONArray array = respanse.getJSONObject("data").getJSONArray("list");
                 for (int i = 0; i < array.length(); ++i) {
                     JSONObject item = array.getJSONObject(i);
-                    MergeObject oneData = new MergeObject(item);
+                    Merge oneData = new Merge(item);
                     mData.add(oneData);
                 }
                 emptyView.setVisibility(mData.size() == 0 ? View.VISIBLE : View.GONE);

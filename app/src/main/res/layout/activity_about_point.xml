@@ -1,0 +1,81 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divide"
+    tools:context="net.coding.program.setting.AboutActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:background="@color/stand_bg"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="什么是码币"
+                android:textColor="#FF323A45"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="码币是 Coding 平台推出的线上虚拟货币，可通过在 Coding 上进行冒泡、完善个人信息等操作免费获取。也可以使用人民币进行兑换，码币与人民币的兑换标准是 1 码币 = 50 元人民币（0.1 码币起购买）,支持支付宝及微信付款。"
+                android:textColor="#FF425063"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="码币的用途"
+                android:textColor="#FF323A45"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="使用码币购买 Shop 页面所列 Coding 定制等商品：如洋葱猴抱枕、Coding 毛巾、T恤、短裤、Coding 定制拖鞋等\n购买 Coding 推出的会员升级服务"
+                android:textColor="#FF425063"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="如何获取码币"
+                android:textColor="#FF323A45"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="
+• 使用人民币购买码币\n
+• 过生日赠送 0.1mb\n
+• App 首次登录，奖励 0.1mb\n
+• Coding 不定时举办的码币活动\n
+• 给 Coding 博客 投稿 奖励 1-2mb\n
+• 冒泡被管理员推荐上广场，奖励 0.01mb"
+                android:textColor="#FF425063"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</RelativeLayout>
+
+

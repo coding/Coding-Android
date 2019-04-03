@@ -2,46 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/init_common_bg"
+    android:background="@color/divide"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/init_advance_header_bg"
         android:orientation="vertical"
+        android:background="@color/stand_bg"
         android:padding="14dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="删除项目将会连同其相关的所有数据（包括 issues ,pull requests, 动态等在内）一起删除"
-            android:textColor="@color/font_6"
-            android:textSize="16sp" />
+            android:textColor="@color/font_2"
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="此操作无法恢复！"
-            android:textColor="@color/init_advance_text_red"
-            android:textSize="16sp" />
+            android:textColor="@color/font_red"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <include layout="@layout/divide_middle_15" />
 
-    <Button
+    <TextView
         android:id="@+id/deleteBut"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/list_item_selector"
-        android:text="删 除 项 目"
-        android:textColor="@color/init_advance_text_red"
-        android:textSize="18sp" />
+        android:layout_height="45dp"
+        android:background="@color/stand_bg"
+        android:text="删除项目"
+        android:gravity="center"
+        android:textColor="@color/font_red"
+        android:textSize="15sp" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/divide_15_top" />
+    <include layout="@layout/divide_bottom_5" />
+
 
 </LinearLayout>

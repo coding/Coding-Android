@@ -38,12 +38,12 @@ public class LoopPagerAdapterWrapper extends PagerAdapter {
 
     private boolean mBoundaryCaching;
 
-    void setBoundaryCaching(boolean flag) {
-        mBoundaryCaching = flag;
-    }
-
     LoopPagerAdapterWrapper(PagerAdapter adapter) {
         this.mAdapter = adapter;
+    }
+
+    void setBoundaryCaching(boolean flag) {
+        mBoundaryCaching = flag;
     }
 
     @Override

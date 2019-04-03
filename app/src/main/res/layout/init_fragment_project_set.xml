@@ -3,83 +3,141 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/divide"
+              xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:id="@+id/layoutManager"
         android:layout_height="wrap_content"
-        android:background="@color/stand_bg"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="14dp">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/projectIcon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/round_icon_path"
-            android:padding="1dp"
-            android:src="@color/font_black_0" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/stand_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="14dp">
+
+            <FrameLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/round_icon_path"
+                android:layout_marginRight="8dp"
+                android:src="@color/font_black">
+
+                <ImageView
+                    android:id="@+id/projectIcon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/round_icon_path"
+                    android:padding="1dp"
+                    android:src="@color/font_black" />
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/round_icon_mask"
+                    android:padding="1dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_project_icon_edit" />
+
+            </FrameLayout>
+
+            <View
+                android:id="@+id/iconPrivate"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/ic_share_project1"
+                android:layout_marginRight="-4dp"
+                tools:visibility="visible"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/projectName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:singleLine="true"
+                android:text="这是 Coding 的客户端"
+                android:background="@null"
+                android:textColor="@color/font_1"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
         <View
-            android:id="@+id/iconPrivate"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
             android:layout_marginLeft="14dp"
-            android:background="@drawable/ic_project_private1"
-            android:visibility="gone" />
+            android:background="@color/divide" />
 
-        <TextView
-            android:id="@+id/projectName"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:singleLine="true"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/font_2"
-            android:textSize="18sp" />
+            android:background="@color/stand_bg"
+            android:gravity="start"
+            android:hint="填写项目描述..."
+            android:lines="5"
+            android:maxLines="5"
+            android:padding="14dp"
+            android:textColor="@color/font_1"
+            android:textSize="15sp" />
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="14dp"
-        android:background="@color/divide" />
-
-    <EditText
-        android:id="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/stand_bg"
-        android:gravity="start"
-        android:hint="填写项目描述..."
-        android:lines="5"
-        android:maxLines="5"
-        android:padding="14dp"
-        android:textColor="@color/font_2"
-        android:textSize="15sp" />
-
     <include layout="@layout/divide_middle_15" />
 
-    <include
-        android:id="@+id/itemTransfer"
-        layout="@layout/init_common_item" />
-
-    <include
-        layout="@layout/divideline_12" />
-
-    <include
-        android:id="@+id/item"
-        layout="@layout/init_common_item" />
-
-    <View
+    <LinearLayout
+        android:id="@+id/layoutOwner"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/divide_15_top" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/itemTransfer"
+            layout="@layout/init_common_item" />
+
+        <include layout="@layout/divideline_15" />
+
+        <include
+            android:id="@+id/itemArchive"
+            layout="@layout/init_common_item" />
+
+        <include layout="@layout/divideline_15" />
+
+        <include
+            android:id="@+id/item"
+            layout="@layout/init_common_item" />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/layoutQuit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/project_item_height"
+        android:background="@drawable/list_item_selector"
+        android:clickable="true"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:text="退出项目"
+            android:textColor="@color/font_red"
+            android:textSize="@dimen/project_icon_text" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/divide_bottom_15" />
 
 </LinearLayout>

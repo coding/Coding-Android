@@ -11,12 +11,12 @@ import android.webkit.WebView;
 
 import com.loopj.android.http.RequestParams;
 
+import net.coding.program.CustomWebViewClientOpenNew;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BaseFragment;
-import net.coding.program.maopao.MaopaoDetailActivity;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.TopicEditFragment;
+import net.coding.program.project.detail.EditPreviewMarkdown;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -110,7 +110,7 @@ public class TaskDescripHtmlFragment extends BaseFragment {
     private void displayWebView() {
         String locateHtml = ((TaskDescrip) getActivity()).createLocateHtml(contentHtml);
 
-        descWeb.setWebViewClient(new MaopaoDetailActivity.CustomWebViewClient(getActivity(), locateHtml));
+        descWeb.setWebViewClient(new CustomWebViewClientOpenNew(getActivity(), locateHtml));
         descWeb.getSettings().setJavaScriptEnabled(true);
         descWeb.setBackgroundColor(0);
         descWeb.getBackground().setAlpha(0);
@@ -147,7 +147,7 @@ public class TaskDescripHtmlFragment extends BaseFragment {
 
         RequestParams params = new RequestParams();
         params.put("content", contentMd);
-        String projectPath = ((TopicEditFragment.SaveData) getActivity()).getProjectPath();
+        String projectPath = ((EditPreviewMarkdown) getActivity()).getProjectPath();
         String uri = ProjectObject.getMdPreview(projectPath);
         postNetwork(uri, params, TAG_HTTP_MD_PREVIEW);
     }

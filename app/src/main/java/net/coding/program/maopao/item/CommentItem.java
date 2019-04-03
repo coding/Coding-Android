@@ -5,12 +5,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import net.coding.program.R;
-import net.coding.program.common.DialogCopy;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.HtmlContent;
 import net.coding.program.common.LongClickLinkMovementMethod;
+import net.coding.program.common.maopao.MaopaoRequestTag;
+import net.coding.program.common.model.Maopao;
+import net.coding.program.common.param.MessageParse;
 import net.coding.program.maopao.MaopaoListBaseFragment;
-import net.coding.program.model.Maopao;
 
 /**
  * Created by chaochen on 15/1/14.
@@ -34,14 +36,14 @@ class CommentItem {
     }
 
     public void setContent(Maopao.Comment commentData, Html.ImageGetter imageGetter, Html.TagHandler tagHandler) {
-        layout.setTag(MaopaoListBaseFragment.TAG_COMMENT, commentData);
-        comment.setTag(MaopaoListBaseFragment.TAG_COMMENT, commentData);
+        layout.setTag(MaopaoRequestTag.TAG_COMMENT, commentData);
+        comment.setTag(MaopaoRequestTag.TAG_COMMENT, commentData);
         comment.setTag(MaopaoListBaseFragment.TAG_COMMENT_TEXT, commentData.content);
 
         name.setText(commentData.owner.name);
         time.setText(Global.dayToNow(commentData.created_at));
-        Global.MessageParse parse = HtmlContent.parseMessage(commentData.content);
-        comment.setText(Global.changeHyperlinkColor(parse.text, imageGetter, tagHandler));
+        MessageParse parse = HtmlContent.parseMessage(commentData.content);
+        comment.setText(GlobalCommon.changeHyperlinkColor(parse.text, imageGetter, tagHandler));
     }
 
     public void setVisibility(int visibility) {

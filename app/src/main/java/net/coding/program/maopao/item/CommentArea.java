@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.model.Maopao;
+import net.coding.program.common.model.Maopao;
 
 import java.util.ArrayList;
 
@@ -22,14 +22,12 @@ public class CommentArea {
             R.id.comment3,
             R.id.comment4
     };
-
+    private static final int commentMaxCount = commentIds.length;
     private View commentMore;
     private Html.ImageGetter imageGetter;
     private TextView commentMoreCount;
     private View commentLayout;
-
     private CommentItem comment[];
-    private static final int commentMaxCount = commentIds.length;
 
     public CommentArea(View convertView, View.OnClickListener onClickComment, Html.ImageGetter imageGetterParamer) {
         imageGetter = imageGetterParamer;
@@ -66,7 +64,7 @@ public class CommentArea {
 
             if ((data.comments > commentMaxCount) || (data.comments > data.comment_list.size())) {
                 commentMore.setVisibility(View.VISIBLE);
-                commentMoreCount.setText(String.format("查看全部%d条评论", data.comments));
+                commentMoreCount.setText(String.format("查看全部%s条评论", data.comments));
             } else {
                 commentMore.setVisibility(View.GONE);
             }

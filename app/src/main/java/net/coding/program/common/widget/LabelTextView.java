@@ -3,16 +3,17 @@ package net.coding.program.common.widget;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import net.coding.program.R;
+import net.coding.program.common.CodingColor;
 
 /**
  * Created by chenchao on 15/7/21.
  * 标签控件
  */
-public class LabelTextView extends TextView {
+public class LabelTextView extends AppCompatTextView {
 
     public LabelTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -25,9 +26,9 @@ public class LabelTextView extends TextView {
 
         double value = Color.red(color) * 0.299 + Color.green(color) * 0.587 + Color.blue(color) * 0.114;
         if (value < 186) {
-            setTextColor(0xffffffff);
+            setTextColor(CodingColor.fontWhite);
         } else {
-            setTextColor(0xff222222);
+            setTextColor(CodingColor.font1);
         }
     }
 }

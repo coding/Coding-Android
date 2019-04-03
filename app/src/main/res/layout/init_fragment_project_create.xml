@@ -13,17 +13,45 @@
         android:orientation="horizontal"
         android:padding="14dp">
 
-        <ImageView
-            android:id="@+id/projectIcon"
+        <FrameLayout
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:background="@drawable/round_icon_path"
-            android:padding="1dp"
-            android:src="@color/font_black_0" />
+            android:src="@color/font_black">
 
+            <FrameLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/round_icon_path"
+                android:src="@color/font_black">
+
+                <ImageView
+                    android:id="@+id/projectIcon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/round_icon_path"
+                    android:padding="1dp"
+                    android:src="@color/font_black" />
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/round_icon_mask"
+                    android:padding="1dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_project_icon_edit" />
+
+            </FrameLayout>
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/round_icon_mask"
+                android:padding="1dp"
+                android:scaleType="center"
+                android:src="@drawable/ic_project_icon_edit" />
+
+        </FrameLayout>
 
         <EditText
             android:id="@+id/projectName"
@@ -33,7 +61,7 @@
             android:background="@null"
             android:hint="项目名称"
             android:singleLine="true"
-            android:textColor="@color/font_2"
+            android:textColor="@color/font_1"
             android:textSize="20sp" />
 
     </LinearLayout>
@@ -54,23 +82,17 @@
         android:lines="5"
         android:maxLines="5"
         android:padding="14dp"
-        android:textColor="@color/font_2"
+        android:textColor="@color/font_1"
         android:textSize="15sp" />
 
     <include layout="@layout/divide_middle_15" />
-
-    <include
-        android:id="@+id/item"
-        layout="@layout/init_common_item" />
-
-    <include layout="@layout/divide_1" />
 
     <RelativeLayout
         android:id="@+id/pushSetting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_selector"
-        android:minHeight="48dp"
+        android:minHeight="50dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp">
 
@@ -79,8 +101,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="启用README.md文件初始化项目"
-            android:textSize="@dimen/project_icon_text"
-            android:textColor="@color/font_2" />
+            android:textColor="@color/font_1"
+            android:textSize="@dimen/project_icon_text" />
 
         <CheckBox
             android:id="@+id/generateReadme"

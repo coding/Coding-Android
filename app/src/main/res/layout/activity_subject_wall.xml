@@ -3,8 +3,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,15 +29,14 @@
 
             <net.coding.program.third.WechatTab
                 android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="48dip"
-                android:background="@android:color/transparent" />
+                style="@style/TextTabBar" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/pager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
         <FrameLayout
             android:id="@+id/topic_hot_container"
             android:layout_width="match_parent"

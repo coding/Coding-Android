@@ -21,6 +21,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.network.MyAsyncHttpClient;
 import net.coding.program.common.util.OnTextChange;
 
@@ -32,18 +33,23 @@ import cz.msebera.android.httpclient.Header;
 public class LoginEditText extends FrameLayout implements OnTextChange {
     private static final String TAG = "LoginEditText";
 
-    private EditText editText;
-    private View topLine;
+    protected EditText editText;
+    protected View topLine;
     private ImageView imageValidfy;
     private boolean showPassword = false;
+    private boolean showPasswordFlag;
 
     public LoginEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
+    protected int getLayoutId() {
+        return R.layout.login_edit_text;
+    }
+
     private void init(final Context context, AttributeSet attrs) {
-        inflate(context, R.layout.login_edit_text, this);
+        inflate(context, getLayoutId(), this);
         editText = (EditText) findViewById(R.id.editText);
         topLine = findViewById(R.id.topLine);
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.LoginEditText, 0, 0);
@@ -65,15 +71,15 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
                 requestCaptcha();
             }
 
-            boolean showPassword = a.getBoolean(R.styleable.LoginEditText_showPassword, false);
-            if (showPassword) {
+            showPasswordFlag = a.getBoolean(R.styleable.LoginEditText_showPassword, false);
+            if (showPasswordFlag) {
                 imageValidfy = (ImageView) findViewById(R.id.imageValify);
                 imageValidfy.setVisibility(VISIBLE);
                 imageValidfy.setOnClickListener(v -> togglePassword());
                 ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) imageValidfy.getLayoutParams();
                 params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
-                params.setMargins(Global.dpToPx(15), 0, 0, 0);
+                params.setMargins(GlobalCommon.dpToPx(15), 0, 0, 0);
                 imageValidfy.setLayoutParams(params);
                 imageValidfy.setImageResource(R.drawable.ic_password_normal);
             }
@@ -96,14 +102,6 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
         } finally {
             a.recycle();
         }
-    }
-
-    public void setText(String text) {
-        if (text == null) {
-            return;
-        }
-
-        editText.setText(text);
     }
 
     private void togglePassword() {
@@ -140,6 +138,12 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
         });
     }
 
+    protected void hideDisplayPassword() {
+        if (imageValidfy != null && showPasswordFlag) {
+            imageValidfy.setVisibility(GONE);
+        }
+    }
+
     @Override
     public boolean isEmpty() {
         return editText.getText().length() == 0;
@@ -155,8 +159,23 @@ public class LoginEditText extends FrameLayout implements OnTextChange {
         return editText.getText();
     }
 
+    public void setText(String text) {
+        if (text == null) {
+            return;
+        }
+
+        editText.setText(text);
+    }
+
+    public EditText getEditText() {
+        return editText;
+    }
+
     public String getTextString() {
         return editText.getText().toString();
     }
 
+    public void setOnEditFocusChange(OnFocusChangeListener focusChange) {
+        editText.setOnFocusChangeListener(focusChange);
+    }
 }

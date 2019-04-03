@@ -22,7 +22,7 @@
                 android:layout_centerVertical="true"
                 android:paddingTop="5dp"
                 android:text="热门参与者"
-                android:textColor="@color/font_2"
+                android:textColor="@color/font_1"
                 android:textSize="14sp" />
 
             <TextView
@@ -36,7 +36,7 @@
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
                 android:text="查看全部"
-                android:textColor="@color/font_9"
+                android:textColor="@color/font_3"
                 android:textSize="14sp" />
         </RelativeLayout>
 

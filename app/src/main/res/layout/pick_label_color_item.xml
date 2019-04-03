@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<net.coding.program.common.widget.PickLabelColorItem
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<net.coding.program.common.widget.PickLabelColorItem xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:labelColor="#FF90A4AE"
-    app:labelColorString="灰色"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    android:layout_height="wrap_content"
+    app:labelColor="#FF90A4AE"
+    app:labelColorString="灰色" />

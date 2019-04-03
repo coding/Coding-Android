@@ -59,7 +59,7 @@
 
                 </LinearLayout>
 
-                <include layout="@layout/divide_10_top_bottom" />
+                <include layout="@layout/divide_bottom_15" />
 
                 <Button
                     android:id="@+id/loginButton"
@@ -74,7 +74,7 @@
                     android:layout_marginLeft="@dimen/padding_15"
                     android:layout_marginRight="@dimen/padding_15"
                     android:gravity="center_horizontal"
-                    android:textColor="@color/font_6"
+                    android:textColor="@color/font_2"
                     android:textSize="14sp"
                     tools:text="码市用户" />
 

@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_F6F6F6"
+    android:background="@color/stand_bg"
+    android:foreground="?attr/selectableItemBackground"
     android:paddingBottom="13dp">
 
-    <net.coding.program.common.widget.CircleImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/personImg"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -20,9 +21,9 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="12dp"
         android:layout_toRightOf="@id/personImg"
-        android:singleLine="true"
+        android:lines="1"
         android:text="22"
-        android:textColor="@color/color_000000"
+        android:textColor="@color/font_1"
         android:textSize="16sp" />
 
     <LinearLayout
@@ -37,18 +38,18 @@
         <ImageView
             android:layout_width="12dp"
             android:layout_height="12dp"
-            android:scaleType="centerInside"
             android:layout_gravity="center_vertical"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_clock" />
 
         <TextView
             android:id="@+id/txtContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
             android:layout_gravity="center_vertical"
-            android:singleLine="true"
-            android:textColor="@color/font_9"
+            android:layout_marginLeft="6dp"
+            android:lines="1"
+            android:textColor="@color/font_3"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -59,24 +60,25 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="5dp"
         android:layout_marginTop="18dp"
-        android:background="@drawable/round_solider_gray"
-         >
+        android:background="@drawable/round_solider_gray">
+
         <ImageView
             android:id="@+id/email"
             android:layout_width="12dp"
-            android:layout_centerVertical="true"
             android:layout_height="9dp"
-            android:scaleType="centerInside"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="18dp"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_private_email" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="2dp"
             android:layout_toRightOf="@id/email"
             android:text="私信"
-            android:layout_centerVertical="true"
-            android:textColor="@color/font_9"
+            android:textColor="@color/font_3"
             android:textSize="10sp" />
     </RelativeLayout>
 </RelativeLayout>

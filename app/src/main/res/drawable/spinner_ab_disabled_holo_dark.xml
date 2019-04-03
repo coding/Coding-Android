@@ -18,6 +18,6 @@
 
 <nine-patch xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:src="@drawable/spinner_ab_disabled_holo_dark_am"
     android:autoMirrored="true"
+    android:src="@drawable/spinner_ab_disabled_holo_dark_am"
     tools:ignore="UnusedAttribute" />

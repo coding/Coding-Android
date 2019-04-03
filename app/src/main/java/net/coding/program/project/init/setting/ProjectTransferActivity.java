@@ -7,10 +7,10 @@ import android.widget.TextView;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
-import net.coding.program.model.TaskObject;
+import net.coding.program.common.GlobalData;
+import net.coding.program.network.model.user.Member;
 import net.coding.program.project.detail.MembersActivity_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -22,7 +22,6 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.activity_project_transfer)
 public class ProjectTransferActivity extends ProjectAdvanceSetBaseActivity {
 
-
     public static final int RESULT_REQUEST_SELECT_USER = 3;
 
     @ViewById
@@ -30,7 +29,7 @@ public class ProjectTransferActivity extends ProjectAdvanceSetBaseActivity {
     @ViewById
     TextView name;
 
-    TaskObject.Members mUser;
+    Member mUser;
 
     @Click
     public void linearlayout1() {
@@ -51,7 +50,7 @@ public class ProjectTransferActivity extends ProjectAdvanceSetBaseActivity {
 
     @AfterViews
     final void initProjectTransferActivity() {
-        mUser = new TaskObject.Members(MyApp.sUserObject);
+        mUser = new Member(GlobalData.sUserObject);
         updatePickMemberDisplay();
     }
 
@@ -67,7 +66,7 @@ public class ProjectTransferActivity extends ProjectAdvanceSetBaseActivity {
     @OnActivityResult(RESULT_REQUEST_SELECT_USER)
     void onResultPickMember(int result, Intent intent) {
         if (result == RESULT_OK) {
-            mUser = (TaskObject.Members) intent.getSerializableExtra("members");
+            mUser = (Member) intent.getSerializableExtra("members");
             updatePickMemberDisplay();
         }
     }

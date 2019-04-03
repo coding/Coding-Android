@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/divide"
     android:layout_height="match_parent"
+    android:background="@color/divide"
     tools:context="net.coding.program.user.team.TeamListActivity">
 
     <ListView
@@ -12,5 +12,11 @@
         android:layout_height="wrap_content"
         android:divider="@null"
         android:dividerHeight="0dp" />
+
+    <include
+        android:id="@+id/blankLayout"
+        layout="@layout/view_exception"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

@@ -23,8 +23,7 @@
         android:drawSelectorOnTop="true"
         android:overScrollMode="never"
         android:scrollbarStyle="outsideOverlay"
-        android:visibility="gone"/>
-
+        android:visibility="gone" />
 
 
     <include

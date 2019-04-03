@@ -1,9 +1,7 @@
 package net.coding.program.maopao;
 
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -12,14 +10,15 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
+import net.coding.program.common.model.DynamicObject;
+import net.coding.program.common.model.Maopao;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.DynamicObject;
-import net.coding.program.model.Maopao;
+import net.coding.program.compatible.CodingCompat;
+import net.coding.program.network.constant.VIP;
 import net.coding.program.user.UserDetailActivity;
-import net.coding.program.user.UserDetailActivity_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -34,15 +33,12 @@ import java.util.ArrayList;
 @EActivity(R.layout.activity_like_users_list)
 public class LikeUsersListActivity extends BackActivity {
 
+    public final String HOST_LIKES_USER = getHostLikesUser();
+    public String UriLikeUsers = HOST_LIKES_USER;
     @Extra
     int id;
-
     @ViewById
     ListView listView;
-
-    public static final String HOST_LIKES_USER = Global.HOST_API + "/tweet/%s/allLikesAndRewards?pageSize=5000";
-    public String UriLikeUsers = HOST_LIKES_USER;
-
     private ArrayList<DynamicObject.User> mData = new ArrayList<>();
     BaseAdapter baseAdapter = new BaseAdapter() {
         @Override
@@ -68,6 +64,7 @@ public class LikeUsersListActivity extends BackActivity {
                 holder = new ViewHolder();
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                holder.vip = (ImageView) convertView.findViewById(R.id.vip);
                 holder.mutual = (CheckBox) convertView.findViewById(R.id.followMutual);
                 convertView.setTag(holder);
             } else {
@@ -79,7 +76,17 @@ public class LikeUsersListActivity extends BackActivity {
             holder.icon.setTag(LikeUserImage.TAG, data);
             iconfromNetwork(holder.icon, data.avatar);
 
-            if (MyApp.sUserObject.global_key.equals(data.global_key)) {
+            if (data.vip == VIP.diamond) {
+                holder.vip.setVisibility(View.VISIBLE);
+                holder.vip.setImageResource(R.drawable.member_diamond);
+            } else if (data.vip == VIP.gold) {
+                holder.vip.setVisibility(View.VISIBLE);
+                holder.vip.setImageResource(R.drawable.member_gold);
+            } else {
+                holder.vip.setVisibility(View.INVISIBLE);
+            }
+
+            if (GlobalData.sUserObject.global_key.equals(data.global_key)) {
                 holder.mutual.setVisibility(View.INVISIBLE);
 
             } else {
@@ -95,9 +102,9 @@ public class LikeUsersListActivity extends BackActivity {
                         RequestParams params = new RequestParams();
                         params.put("users", data.global_key);
                         if (((CheckBox) v).isChecked()) {
-                            postNetwork(UserDetailActivity.HOST_FOLLOW, params, UserDetailActivity.HOST_FOLLOW, position, null);
+                            postNetwork(UserDetailActivity.getHostFollow(), params, UserDetailActivity.getHostFollow(), position, null);
                         } else {
-                            postNetwork(UserDetailActivity.HOST_UNFOLLOW, params, UserDetailActivity.HOST_UNFOLLOW, position, null);
+                            postNetwork(UserDetailActivity.getHostUnfollow(), params, UserDetailActivity.getHostUnfollow(), position, null);
                         }
                     }
                 });
@@ -107,18 +114,18 @@ public class LikeUsersListActivity extends BackActivity {
         }
     };
 
+    public static String getHostLikesUser() {
+        return Global.HOST_API + "/tweet/%s/allLikesAndRewards?pageSize=5000";
+    }
+
     @AfterViews
     protected final void initLikeUsersListActivity() {
         UriLikeUsers = String.format(UriLikeUsers, id);
 
         listView.setAdapter(baseAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(LikeUsersListActivity.this, UserDetailActivity_.class);
-                intent.putExtra("globalKey", mData.get((int) id).global_key);
-                startActivity(intent);
-            }
+        listView.setOnItemClickListener((parent, view, position, id1) -> {
+            CodingCompat.instance().launchUserDetailActivity(LikeUsersListActivity.this,
+                    mData.get((int) id1).global_key);
         });
 
         getNetwork(UriLikeUsers, UriLikeUsers);
@@ -162,5 +169,6 @@ public class LikeUsersListActivity extends BackActivity {
         ImageView icon;
         TextView name;
         CheckBox mutual;
+        ImageView vip;
     }
 }

@@ -1,9 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:orientation="vertical"
-             tools:context="net.coding.program.task.TaskFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="net.coding.program.task.TaskFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,18 +13,17 @@
 
         <View
             android:id="@+id/actionDivideLine"
-            style="@style/DivideLine"/>
+            style="@style/DivideLine"
+            android:visibility="gone" />
 
         <net.coding.program.third.MyPagerSlidingTabStrip
             android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="77dip"
-            android:background="@color/stand_bg"/>
+            style="@style/ImageTab" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pagerTaskFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -32,8 +31,8 @@
         android:id="@+id/baseLoadingView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
 
-    <include layout="@layout/view_task_status_filter"/>
+    <include layout="@layout/view_task_status_filter" />
 
 </FrameLayout>

@@ -15,24 +15,25 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
-import net.coding.program.common.ClickSmallImage;
+import net.coding.program.common.CodingColor;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
+import net.coding.program.common.ImageInfo;
 import net.coding.program.common.ImageLoadTool;
 import net.coding.program.common.MyImageGetter;
 import net.coding.program.common.PhotoOperate;
 import net.coding.program.common.enter.EnterLayout;
 import net.coding.program.common.enter.ImageCommentLayout;
-import net.coding.program.common.photopick.ImageInfo;
-import net.coding.program.common.ui.BackActivity;
+import net.coding.program.common.model.BaseComment;
+import net.coding.program.common.model.DynamicObject;
+import net.coding.program.common.model.ProjectObject;
+import net.coding.program.common.model.TopicObject;
+import net.coding.program.common.model.topic.TopicComment;
+import net.coding.program.common.model.topic.TopicCommentChild;
+import net.coding.program.common.ui.CodingToolbarBackActivity;
 import net.coding.program.maopao.item.ImageCommentHolder;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.BaseComment;
-import net.coding.program.model.DynamicObject;
-import net.coding.program.model.TopicObject;
-import net.coding.program.model.topic.TopicComment;
-import net.coding.program.model.topic.TopicCommentChild;
+import net.coding.program.pickphoto.ClickSmallImage;
 import net.coding.program.third.EmojiFilter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -54,7 +55,7 @@ import java.util.HashMap;
  */
 
 @EActivity(R.layout.activity_topic_list_detail)
-public abstract class BaseTopicListDetailActivity extends BackActivity {
+public abstract class BaseTopicListDetailActivity extends CodingToolbarBackActivity {
 
     static final int RESULT_AT = 1;
     static final int RESULT_COMMENT = 5;
@@ -68,6 +69,10 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
     HashMap<String, String> mSendedImages = new HashMap<>();
     @Extra
     TopicObject topicObject;
+
+    @Extra
+    ProjectObject projectObject;
+
     @ViewById
     ListView listView;
     @ViewById
@@ -81,7 +86,7 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
 
             if (comment.isMy()) {
                 String item1 = "回复" + comment.owner.name;
-                new AlertDialog.Builder(v.getContext())
+                new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle)
                         .setItems(new String[]{item1, "删除"}, (dialog, which) -> {
                             if (which == 1) {
                                 showOptionDialog(comment, tag, v);
@@ -96,10 +101,10 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
         }
 
         void showOptionDialog(final BaseComment comment, final Object tag, final View v) {
-            new AlertDialog.Builder(v.getContext())
+            new AlertDialog.Builder(v.getContext(), R.style.MyAlertDialogStyle)
                     .setTitle("删除评论")
                     .setPositiveButton("确定", (dialog, which) -> {
-                        String url = String.format(Global.HOST_API + "/project/%s/topic/%s/comment/%s", topicObject.project.getId(), topicObject.id, comment.id);
+                        String url = String.format(Global.HOST_API + "/project/%s/topic/%s/comment/%s", topicObject.project_id, topicObject.id, comment.id);
                         if (tag instanceof TopicComment) {
                             deleteNetwork(url, TAG_DELETE_TOPIC_COMMENT, tag);
                         } else if (tag instanceof TopicCommentChild) {
@@ -140,7 +145,7 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
             DynamicObject.Owner voteOwner = findVoteOwnerWithMe(users);
 
             String host = String.format("%s/project/%s/topic/%s/comment/%s/upvote", Global.HOST_API,
-                    topicObject.project.getId(), topicObject.id, comment.id);
+                    topicObject.project_id, topicObject.id, comment.id);
             if (voteOwner == null) {
                 postNetwork(host, new RequestParams(), TAG_TOPIC_COMMENT_VOTE, -1, comment);
             } else {
@@ -153,6 +158,12 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
     void initBaseTopicListDetailActivity() {
         mEnterComment = new ImageCommentLayout(this, mOnClickSend, getImageLoad());
         prepareComment();
+    }
+
+    @Nullable
+    @Override
+    protected ProjectObject getProject() {
+        return projectObject;
     }
 
     protected void prepareComment() {
@@ -198,13 +209,13 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
             String imagePath = item.path;
             if (!mSendedImages.containsKey(imagePath)) {
                 try {
-                    String url = topicObject.project.getHttpUploadPhoto();
+                    String url = ProjectObject.getPublicTopicUploadPhoto(topicObject.project_id);
                     RequestParams params = new RequestParams();
                     params.put("dir", 0);
                     File fileImage = new File(imagePath);
                     if (!Global.isGifByFile(fileImage)) {
                         Uri uri = Uri.parse(imagePath);
-                        fileImage = new PhotoOperate(this).scal(uri);
+                        fileImage = new PhotoOperate(this).getFile(uri);
                     }
 
                     params.put("file", fileImage);
@@ -231,12 +242,13 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
         if (tag.equals(tagUrlCommentPhoto)) {
             if (code == 0) {
                 String fileUri;
-                if (topicObject.project.isPublic()) {
-                    fileUri = respanse.optString("data", "");
-                } else {
-                    AttachmentFileObject fileObject = new AttachmentFileObject(respanse.optJSONObject("data"));
-                    fileUri = fileObject.owner_preview;
-                }
+//                if (topicObject.project.isPublic()) {
+                // 现在只有公开项目可以看 topic
+                fileUri = respanse.optString("data", "");
+//                } else {
+//                    AttachmentFileObject fileObject = new AttachmentFileObject(respanse.optJSONObject("data"));
+//                    fileUri = fileObject.owner_preview;
+//                }
                 String mdPhotoUri = String.format("\n![图片](%s)", fileUri);
                 mSendedImages.put((String) data, mdPhotoUri);
                 sendCommentAll();
@@ -290,7 +302,7 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
     public DynamicObject.Owner findVoteOwnerWithMe(ArrayList<DynamicObject.Owner> users) {
         DynamicObject.Owner voteOwner = null;
         for (DynamicObject.Owner item : users) {
-            if (item.global_key.equals(MyApp.sUserObject.global_key)) {
+            if (item.global_key.equals(GlobalData.sUserObject.global_key)) {
                 voteOwner = item;
                 break;
             }
@@ -344,7 +356,7 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
             ChildHolder childHolder3 = new ChildHolder(convertView.findViewById(R.id.child3), R.id.child3, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
             ChildHolder childHolder4 = new ChildHolder(convertView.findViewById(R.id.child4), R.id.child4, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
             ChildHolder childHolder5 = new ChildHolder(convertView.findViewById(R.id.child5), R.id.child5, onClickComment, imageGetter, imageLoadTool, clickUser, clickImage);
-            childHolders = new ChildHolder[] {
+            childHolders = new ChildHolder[]{
                     childHolder0,
                     childHolder1,
                     childHolder2,
@@ -365,10 +377,10 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
             voteView.setText(String.format("+%s", comment.upvotecounts));
             if (findVoteOwnerWithMe(comment.upVoteUsers) == null) {
                 voteView.setBackgroundResource(R.drawable.shape_vote_no);
-                voteView.setTextColor(0xff999999);
+                voteView.setTextColor(CodingColor.font3);
             } else {
                 voteView.setBackgroundResource(R.drawable.shape_vote);
-                voteView.setTextColor(0xffffffff);
+                voteView.setTextColor(CodingColor.fontWhite);
             }
             voteView.setTag(comment);
 
@@ -394,6 +406,7 @@ public abstract class BaseTopicListDetailActivity extends BackActivity {
                 moreChildComment.setOnClickListener(v -> {
                     TopicCommentDetail_.intent(v.getContext())
                             .topicObject(topicObject)
+                            .projectObject(projectObject)
                             .topicComment(comment)
                             .startForResult(RESULT_COMMENT);
                 });

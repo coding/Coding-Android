@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,9 +28,10 @@ import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
+import com.orhanobut.logger.Logger;
 
 import net.coding.program.R;
-import net.coding.program.common.htmltext.URLSpanNoUnderline;
+import net.coding.program.route.URLSpanNoUnderline;
 
 import java.io.InputStream;
 
@@ -39,12 +41,12 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
 //    public static final String EXTRA_TIP = "EXTRA_TIP";
 
     public static final String EXTRA_OPEN_AUTH_LIST = "EXTRA_OPEN_AUTH_LIST"; // true 表示需要打开二次验证列表
-
-    private QRCodeReaderView qrCodeView;
-
     private final int RESULT_REQUEST_PHOTO = 1;
-
+    View codeViewRoot;
+    boolean enableScan = true;
+    private QRCodeReaderView qrCodeView;
     private boolean openAuthList = true;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +84,6 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
         return super.onOptionsItemSelected(item);
     }
 
-    View codeViewRoot;
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -101,7 +101,6 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
         startActivityForResult(i, RESULT_REQUEST_PHOTO);
     }
 
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -115,11 +114,12 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
 
     }
 
-    boolean enableScan = true;
-
     @Override
     public void onQRCodeRead(String s, PointF[] pointFs) {
-        Log.d("", "scan " + s);
+        Logger.d("scan " + s);
+
+        if (TextUtils.isEmpty(s)) return;
+
         if (!enableScan) {
             return;
         }
@@ -134,11 +134,17 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
         if (!AuthInfo.isAuthUrl(s)) {
             Uri uri = Uri.parse(s);
             String host = uri.getHost();
-            if (host.toLowerCase().endsWith("coding.net")) { // coding.net 结尾的使用内部浏览器打开, 比如 mart.coding.net
+            if (TextUtils.isEmpty(host)) {
+                enableScan = true;
+                return;
+            }
+
+            if (host.toLowerCase().endsWith("coding.net"))
+            { // coding.net 结尾的使用内部浏览器打开, 比如 mart.coding.net
                 URLSpanNoUnderline.openActivityByUri(this, s, false, true, true);
                 finish();
-            } else {
-                new AlertDialog.Builder(QRScanActivity.this)
+            } else{
+                new AlertDialog.Builder(QRScanActivity.this, R.style.MyAlertDialogStyle)
                         .setTitle("打开外部链接")
                         .setMessage(s)
                         .setPositiveButton("确定", (dialog, which) -> {
@@ -169,8 +175,6 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
             finish();
         }
     }
-
-    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -253,7 +257,7 @@ public class QRScanActivity extends AppCompatActivity implements QRCodeReaderVie
             }
 
             if (result == null) {
-                new AlertDialog.Builder(QRScanActivity.this)
+                new AlertDialog.Builder(QRScanActivity.this, R.style.MyAlertDialogStyle)
                         .setTitle("提示")
                         .setMessage("未发现二维码")
                         .setPositiveButton("确定", null)

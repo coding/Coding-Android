@@ -2,6 +2,7 @@ package net.coding.program.subject;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -18,14 +19,13 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import net.coding.program.MyApp;
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalData;
 import net.coding.program.common.ImageLoadTool;
-import net.coding.program.common.SaveFragmentPagerAdapter;
+import net.coding.program.common.model.Subject;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.maopao.MaopaoSearchActivity_;
-import net.coding.program.model.Subject;
 import net.coding.program.subject.loop.AutoScrollLoopViewPager;
 import net.coding.program.third.WechatTab;
 
@@ -84,13 +84,8 @@ public class SubjectWallActivity extends BaseActivity {
             ImageView imageView = new ImageView(SubjectWallActivity.this);
             imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             imageView.setTag(position);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SubjectDetailActivity_.intent(SubjectWallActivity.this).subjectDescObject(mHotTweetDescObjects.get(position)).start();
-                }
-            });
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setOnClickListener(v -> SubjectDetailActivity_.intent(SubjectWallActivity.this).subjectDescObject(mHotTweetDescObjects.get(position)).start());
             getImageLoad().loadImage(imageView, mHotTweetDescObjects.get(position).image_url, ImageLoadTool.bannerOptions);
             container.addView(imageView);
             return imageView;
@@ -155,7 +150,7 @@ public class SubjectWallActivity extends BaseActivity {
 
     private void showHotTopic() {
         Fragment fragment = SubjectListFragment_.builder()
-                .userKey(MyApp.sUserObject.global_key)
+                .userKey(GlobalData.sUserObject.global_key)
                 .mType(SubjectListFragment.Type.hot)
                 .build();
         getSupportFragmentManager().beginTransaction().replace(R.id.topic_hot_container, fragment).commit();
@@ -269,7 +264,7 @@ public class SubjectWallActivity extends BaseActivity {
         }
     }
 
-    class MyPagerAdapter extends SaveFragmentPagerAdapter {
+    class MyPagerAdapter extends FragmentStatePagerAdapter {
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -294,13 +289,10 @@ public class SubjectWallActivity extends BaseActivity {
                     SubjectListFragment.Type.join
             };
 
-            Fragment fragment = SubjectListFragment_.builder()
-                    .userKey(MyApp.sUserObject.global_key)
+            return SubjectListFragment_.builder()
+                    .userKey(GlobalData.sUserObject.global_key)
                     .mType(types[position])
                     .build();
-
-            saveFragment(fragment);
-            return fragment;
         }
     }
 }

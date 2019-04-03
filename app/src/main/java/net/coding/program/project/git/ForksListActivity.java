@@ -7,23 +7,35 @@ import android.widget.TextView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.GlobalCommon;
 import net.coding.program.common.ImageLoadTool;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.ActivityParamBuilder;
 import net.coding.program.common.ui.BaseListActivity;
-import net.coding.program.model.ProjectObject;
+import net.coding.program.param.ProjectJumpParam;
 import net.coding.program.project.ProjectHomeActivity_;
-import net.coding.program.project.detail.ProjectActivity;
-import net.coding.program.project.init.InitProUtils;
-import net.coding.program.user.UserDetailActivity_;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 
 @EActivity(R.layout.activity_notify_list)
 public class ForksListActivity extends BaseListActivity {
 
+    @AfterViews
+    public void initForksListActivity() {
+        initBaseListActivity();
+    }
+
     @Extra
     ProjectObject mProjectObject;
+    AdapterView.OnItemClickListener mItemClick = (parent, view, position, id) -> {
+        ProjectObject projectObject = (ProjectObject) parent.getItemAtPosition(position);
+        ProjectJumpParam param = new ProjectJumpParam(projectObject.depot_path);
+        ProjectHomeActivity_.intent(ForksListActivity.this)
+                .mJumpParam(param)
+                .start();
+    };
 
     @Override
     public ActivityParam getActivityParam() {
@@ -34,14 +46,6 @@ public class ForksListActivity extends BaseListActivity {
                 .setItemClick(mItemClick)
                 .createActivityParam();
     }
-
-    AdapterView.OnItemClickListener mItemClick = (parent, view, position, id) -> {
-        ProjectObject projectObject = (ProjectObject) parent.getItemAtPosition(position);
-        ProjectActivity.ProjectJumpParam param = new ProjectActivity.ProjectJumpParam(projectObject.depot_path);
-        ProjectHomeActivity_.intent(ForksListActivity.this)
-                .mJumpParam(param)
-                .startForResult(InitProUtils.REQUEST_PRO_UPDATE);
-    };
 
     public static class ViewHold implements BaseViewHold {
         ImageView icon;
@@ -58,7 +62,7 @@ public class ForksListActivity extends BaseListActivity {
             title = (TextView) v.findViewById(R.id.name);
             content = (TextView) v.findViewById(R.id.comment);
             mImageTool = imageLoadTool;
-            icon.setOnClickListener(mClickIcon);
+            icon.setOnClickListener(GlobalCommon.mOnClickUser);
         }
 
         public void setData(Object item) {
@@ -68,14 +72,6 @@ public class ForksListActivity extends BaseListActivity {
             mImageTool.loadImage(icon, data.getOwner().avatar);
             icon.setTag(data.getOwner().global_key);
         }
-
-        View.OnClickListener mClickIcon = v -> {
-            String globalKey = (String) v.getTag();
-            UserDetailActivity_.intent(v.getContext())
-                    .globalKey(globalKey)
-                    .start();
-        };
-
     }
 
 }

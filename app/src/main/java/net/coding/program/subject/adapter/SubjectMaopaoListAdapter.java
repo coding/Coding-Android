@@ -7,11 +7,11 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.coding.program.common.model.Maopao;
 import net.coding.program.common.ui.BaseActivity;
 import net.coding.program.maopao.ContentArea;
 import net.coding.program.maopao.LikeUsersArea;
 import net.coding.program.maopao.item.CommentArea;
-import net.coding.program.model.Maopao;
 
 import java.util.List;
 

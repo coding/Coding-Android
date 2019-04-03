@@ -13,11 +13,11 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 
 import net.coding.program.R;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.AttachmentFolderObject;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.AttachmentFolderObject;
+import net.coding.program.common.ui.holder.FolderHolder;
 import net.coding.program.project.detail.AttachmentsDownloadDetailActivity;
-import net.coding.program.project.detail.AttachmentsFolderSelectorActivity;
 import net.coding.program.project.detail.AttachmentsHtmlDetailActivity_;
 import net.coding.program.project.detail.AttachmentsPhotoDetailActivity_;
 import net.coding.program.project.detail.AttachmentsTextDetailActivity_;
@@ -50,13 +50,51 @@ public class LocalFileListActivity extends BackActivity {
     ListView listView;
     @ViewById
     View common_files_delete;
-
-    private LocalAdapter adapter;
-
     boolean editMode = false;
-
     HashSet<Integer> pickItems = new HashSet<>();
+    private LocalAdapter adapter;
     private ActionMode actionMode;
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.project_attachment_file_edit, menu);
+
+            common_files_delete.setVisibility(View.VISIBLE);
+
+            editMode = true;
+            adapter.notifyDataSetChanged();
+
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;// Return false if nothing is done
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.action_all:
+                    action_all();
+                    return true;
+                case R.id.action_inverse:
+                    action_inverse();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode actionMode) {
+            common_files_delete.setVisibility(View.GONE);
+            editMode = false;
+            adapter.notifyDataSetChanged();
+        }
+    };
 
     @AfterViews
     protected void initLocalFileListActivity() {
@@ -93,7 +131,7 @@ public class LocalFileListActivity extends BackActivity {
 ////                            .mProjectObjectId(mProjectObjectId)
 ////                            .mAttachmentFolderObject(mAttachmentFolderObject)
 ////                            .mAttachmentFileObject(data)
-////                            .mProject(mProject)
+////                            .mProject(project)
 ////                            .startForResult(FILE_DELETE_CODE);
 //
 //
@@ -131,7 +169,6 @@ public class LocalFileListActivity extends BackActivity {
                 if (extension.matches(imageType)) {
                     AttachmentsPhotoDetailActivity_.intent(LocalFileListActivity.this)
                             .mProjectObjectId(projectId)
-                            .mAttachmentFolderObject(folder)
                             .mAttachmentFileObject(folderFile)
                             .mExtraFile(fileData)
                             .start();
@@ -139,7 +176,6 @@ public class LocalFileListActivity extends BackActivity {
                 } else if (extension.matches(htmlMdType)) {
                     AttachmentsHtmlDetailActivity_.intent(LocalFileListActivity.this)
                             .mProjectObjectId(projectId)
-                            .mAttachmentFolderObject(folder)
                             .mAttachmentFileObject(folderFile)
                             .mExtraFile(fileData)
                             .start();
@@ -148,7 +184,6 @@ public class LocalFileListActivity extends BackActivity {
                     AttachmentsTextDetailActivity_.intent(LocalFileListActivity.this)
                             .mProjectObjectId(projectId)
                             .mExtraFile(fileData)
-                            .mAttachmentFolderObject(folder)
                             .mAttachmentFileObject(folderFile)
                             .start();
                 } else {
@@ -197,64 +232,6 @@ public class LocalFileListActivity extends BackActivity {
         actionMode = startActionMode(mActionModeCallback);
     }
 
-    class LocalAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return files.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return files.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        CompoundButton.OnCheckedChangeListener checkChange = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                int pos = (int) compoundButton.getTag();
-                if (b) {
-                    pickItems.add(pos);
-                } else {
-                    pickItems.remove(pos);
-                }
-            }
-        };
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            AttachmentsFolderSelectorActivity.ViewHolder holder =
-                    AttachmentsFolderSelectorActivity.ViewHolder.instance(convertView, parent, checkChange);
-
-            if (editMode) {
-                holder.checkBox.setVisibility(View.VISIBLE);
-            } else {
-                holder.checkBox.setVisibility(View.GONE);
-            }
-
-            holder.checkBox.setTag(position);
-            holder.checkBox.setChecked(pickItems.contains(position));
-
-            holder.more.setVisibility(View.INVISIBLE);
-            File data = (File) getItem(position);
-            AttachmentFileObject fileHelp = createFileHelp(data);
-            holder.name.setText(fileHelp.getName());
-
-            if (fileHelp.isImage()) {
-                getImageLoad().loadImage(holder.icon, "file://" + data.getAbsolutePath());
-            } else {
-                holder.icon.setImageResource(fileHelp.getIconResourceId());
-            }
-
-            return holder.getRootView();
-        }
-    }
-
     private AttachmentFileObject createFileHelp(File data) {
         AttachmentFileObject fileHelp = new AttachmentFileObject();
         String[] split = data.getName().split("\\|\\|\\|");
@@ -274,47 +251,6 @@ public class LocalFileListActivity extends BackActivity {
         return fileHelp;
     }
 
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.project_attachment_file_edit, menu);
-
-            common_files_delete.setVisibility(View.VISIBLE);
-
-            editMode = true;
-            adapter.notifyDataSetChanged();
-
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;// Return false if nothing is done
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.action_all:
-                    action_all();
-                    return true;
-                case R.id.action_inverse:
-                    action_inverse();
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode actionMode) {
-            common_files_delete.setVisibility(View.GONE);
-            adapter.notifyDataSetChanged();
-        }
-    };
-
     private void action_all() {
         for (int i = 0; i < files.size(); ++i) {
             pickItems.add(i);
@@ -331,5 +267,61 @@ public class LocalFileListActivity extends BackActivity {
         }
         pickItems = temp;
         adapter.notifyDataSetChanged();
+    }
+
+    class LocalAdapter extends BaseAdapter {
+
+        CompoundButton.OnCheckedChangeListener checkChange = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                int pos = (int) compoundButton.getTag();
+                if (b) {
+                    pickItems.add(pos);
+                } else {
+                    pickItems.remove(pos);
+                }
+            }
+        };
+
+        @Override
+        public int getCount() {
+            return files.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return files.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            FolderHolder holder = FolderHolder.instance(convertView, parent, checkChange);
+
+            if (editMode) {
+                holder.checkBox.setVisibility(View.VISIBLE);
+            } else {
+                holder.checkBox.setVisibility(View.GONE);
+            }
+
+            holder.checkBox.setTag(position);
+            holder.checkBox.setChecked(pickItems.contains(position));
+
+            File data = (File) getItem(position);
+            AttachmentFileObject fileHelp = createFileHelp(data);
+            holder.name.setText(fileHelp.getName());
+
+            if (fileHelp.isImage()) {
+                getImageLoad().loadImage(holder.icon, "file://" + data.getAbsolutePath());
+            } else {
+                holder.icon.setImageResource(fileHelp.getIconResourceId());
+            }
+
+            return holder.getRootView();
+        }
     }
 }

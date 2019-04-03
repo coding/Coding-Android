@@ -5,8 +5,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:background="@color/stand_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/stand_bg"
         android:orientation="vertical" />
 </merge>

@@ -1,30 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingBottom="12dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="110dp"
+    android:background="@color/stand_bg"
+    android:foreground="?attr/selectableItemBackground">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="12.5dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
         android:src="@drawable/ic_default_user" />
 
     <LinearLayout
         android:id="@+id/layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/icon"
-        android:layout_toRightOf="@+id/icon"
+        android:layout_marginLeft="54dp"
+        android:layout_marginTop="15dp"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/padding_15"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="Medium Text"
+            android:textColor="@color/font_1"
+            android:textSize="15sp" />
+
+        <include
+            layout="@layout/layout_merge_flowlayout_in_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/padding_15"
-            android:layout_marginTop="15.3dp"
+            android:layout_alignLeft="@id/layout1"
+            android:layout_below="@id/layout1"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
@@ -33,79 +58,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
                 android:ellipsize="end"
-                android:lines="1"
                 android:singleLine="true"
+                android:maxWidth="150dp"
                 android:text="Medium Text"
-                android:textColor="@color/merge_id"
-                tools:text="#2245"
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="1"
-                android:singleLine="true"
-                android:text="Medium Text"
-                android:textColor="@color/font_2"
-                android:textSize="16sp" />
+                android:textColor="@color/font_3"
+                android:textSize="12sp"
+                tools:text="#7 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww" />
+
+            <include layout="@layout/common_ref_id" />
+
+            <include layout="@layout/common_name" />
+
+            <include layout="@layout/common_time" />
+
+            <include layout="@layout/common_discuss" />
         </LinearLayout>
-
-        <net.coding.program.common.widget.FlowLabelLayout
-            android:id="@+id/flowLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/layout1"
-        android:layout_below="@id/layout1"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <include layout="@layout/common_ref_id" />
-
-        <include layout="@layout/common_name" />
-
-        <include layout="@layout/common_time" />
-
-        <include layout="@layout/common_discuss" />
-    </LinearLayout>
-    <!--<TextView-->
-    <!--android:id="@+id/time"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignLeft="@+id/title"-->
-    <!--android:singleLine="true"-->
-    <!--android:layout_marginTop="10dp"-->
-    <!--android:layout_alignStart="@+id/title"-->
-    <!--android:layout_below="@+id/title"-->
-    <!--android:text="Medium Text"-->
-    <!--android:textColor="@color/font_gray"-->
-    <!--android:textSize="12sp"-->
-    <!--android:layout_alignRight="@+id/time"-->
-    <!--android:layout_alignEnd="@+id/time" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/discuss"-->
-    <!--android:layout_width="40dp"-->
-    <!--android:gravity="left"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentEnd="true"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:layout_alignTop="@+id/name"-->
-    <!--android:layout_marginRight="0dp"-->
-    <!--android:layout_marginTop="10dp"-->
-    <!--android:layout_below="@id/title"-->
-    <!--android:singleLine="true"-->
-    <!--android:textSize="12sp"-->
-    <!--android:drawablePadding="4dp"-->
-    <!--android:drawableLeft="@drawable/ic_task_comment"-->
-    <!--android:text="888"-->
-    <!--android:textColor="@color/font_gray" />-->
+    <View
+        style="@style/DivideLine_15"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

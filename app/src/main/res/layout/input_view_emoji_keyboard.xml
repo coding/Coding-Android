@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/emojiKeyboardLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/emojiKeyboardLayout"
-    android:visibility="visible"
-    android:focusable="true"
     android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:visibility="visible"
     tools:showIn="@layout/common_enter_emoji">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="7.5dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="7.5dp">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
@@ -22,12 +22,12 @@
             android:layout_height="120dp" />
 
         <LinearLayout
-            android:layout_marginTop="7.5dp"
             android:id="@+id/emojiKeyboardIndicator"
             android:layout_width="match_parent"
             android:layout_height="14.5dp"
-            android:orientation="horizontal"
-            android:gravity="center" />
+            android:layout_marginTop="7.5dp"
+            android:gravity="center"
+            android:orientation="horizontal" />
 
     </LinearLayout>
 
@@ -42,25 +42,40 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/emojiButton"
             android:layout_width="@dimen/emoji_switch_button_width"
             android:layout_height="match_parent"
-            android:id="@+id/emojiButton"
             android:gravity="center"
-            android:src="@drawable/ic_emoji_small"
-            android:scaleType="centerInside" />
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_emoji_small" />
 
         <View
+            android:id="@+id/codeButtonLeftLine"
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
             android:background="@color/emoji_line" />
 
         <ImageView
+            android:id="@+id/codeButton"
             android:layout_width="@dimen/emoji_switch_button_width"
             android:layout_height="match_parent"
-            android:id="@+id/monkeyButton"
             android:gravity="center_vertical"
-            android:src="@drawable/ic_emoji_monkey"
-            android:scaleType="centerInside" />
+            android:scaleType="centerInside"
+            android:src="@drawable/code_emoji" />
+
+        <View
+            android:id="@+id/selectMonkeyDivideLine3"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/emoji_line" />
+
+        <ImageView
+            android:id="@+id/monkeyButton"
+            android:layout_width="@dimen/emoji_switch_button_width"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_emoji_monkey" />
 
         <View
             android:id="@+id/selectMonkeyDivideLine1"
@@ -69,18 +84,19 @@
             android:background="@color/emoji_line" />
 
         <ImageView
+            android:id="@+id/zhongqiuButton"
             android:layout_width="@dimen/emoji_switch_button_width"
             android:layout_height="match_parent"
-            android:id="@+id/zhongqiuButton"
             android:gravity="center_vertical"
-            android:src="@drawable/ic_emoji_zhongqiu"
-            android:scaleType="centerInside" />
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_emoji_zhongqiu" />
 
         <View
             android:id="@+id/selectMonkeyDivideLine2"
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
             android:background="@color/emoji_line" />
+
 
     </RadioGroup>
 

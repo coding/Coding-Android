@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id = "@+id/message_list_list_item_left"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/message_list_list_item_left"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -15,7 +16,7 @@
         android:background="@drawable/content_pressed_selector"
         android:gravity="center"
         android:text="Small Text"
-        android:textColor="@color/font_9"
+        android:textColor="@color/font_3"
         android:textSize="12sp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -28,139 +29,138 @@
         android:layout_marginLeft="12dp"
         android:src="@drawable/ic_lancher" />
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/time"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="57dp"
+        android:layout_toRightOf="@+id/icon"
+        android:background="@drawable/message_list_item_left_selector"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
+        android:paddingLeft="17dp"
+        android:paddingRight="12dp"
+        android:paddingTop="10dp"
+        android:visibility="visible">
 
-        <LinearLayout xmlns:custom="http://schemas.android.com/apk/res/net.coding.program"
-            android:id="@+id/linearLayout"
+        <LinearLayout
+            android:id="@+id/voiceLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/message_list_item_left_selector"
-            android:orientation="vertical"
-            android:layout_below="@+id/time"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="57dp"
-            android:layout_toRightOf="@+id/icon"
-            android:paddingBottom="12dp"
-            android:paddingLeft="17dp"
-            android:paddingRight="12dp"
-            android:paddingTop="10dp"
+            android:gravity="center_vertical|right"
+            android:orientation="horizontal">
+
+            <net.coding.program.common.enter.GifSpanTextView
+                android:id="@+id/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:text="this is content"
+                android:textColor="@color/font_1"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/voice_play"
+                android:layout_width="20sp"
+                android:layout_height="20sp"
+                android:layout_marginLeft="4dp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+
+        <net.coding.program.common.widget.MinSizeImageView
+            android:id="@+id/imageSingle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:longClickable="true"
+            android:maxHeight="@dimen/image_single_width"
+            android:maxWidth="@dimen/image_single_width"
+            android:minHeight="@dimen/image_single_min_width"
+            android:minWidth="@dimen/image_single_min_width"
+            android:scaleType="centerCrop"
+            app:microSize="@dimen/image_single_micro_width"
+            app:minHeight="@dimen/image_single_min_size"
+            app:minWidth="@dimen/image_single_min_size" />
+
+
+        <LinearLayout
+            android:id="@+id/imagesLayout0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:visibility="visible">
 
-            <LinearLayout android:id="@+id/voiceLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical|right"
-                android:orientation="horizontal">
-                <net.coding.program.common.enter.GifSpanTextView
-                    android:id="@+id/content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="this is content"
-                    android:textColor="@color/font_2"
-                    android:background="@color/transparent"
-                    android:textSize="16sp" />
-                <ImageView android:id="@+id/voice_play"
-                    android:layout_width="20sp"
-                    android:layout_height="20sp"
-                    android:layout_marginLeft="4dp"
-                    android:visibility="gone"
-                    />
-            </LinearLayout>
+            <include
+                android:id="@+id/image0"
+                layout="@layout/maopao_image" />
 
+            <include
+                android:id="@+id/image1"
+                layout="@layout/maopao_image" />
 
-            <net.coding.program.common.widget.MinSizeImageView
-                android:id="@+id/imageSingle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:longClickable="true"
-                android:maxHeight="@dimen/image_single_width"
-                android:maxWidth="@dimen/image_single_width"
-                android:minHeight="@dimen/image_single_min_width"
-                android:minWidth="@dimen/image_single_min_width"
-                android:scaleType="centerCrop"
-                custom:microSize="@dimen/image_single_micro_width"
-                custom:minHeight="@dimen/image_single_min_size"
-                custom:minWidth="@dimen/image_single_min_size" />
+            <include
+                android:id="@+id/image2"
+                layout="@layout/maopao_image" />
 
-
-            <LinearLayout
-                android:id="@+id/imagesLayout0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="visible">
-
-                <include
-                    android:id="@+id/image0"
-                    layout="@layout/maopao_image" />
-
-                <include
-                    android:id="@+id/image1"
-                    layout="@layout/maopao_image" />
-
-                <include
-                    android:id="@+id/image2"
-                    layout="@layout/maopao_image" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/imagesLayout1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <include
-                    android:id="@+id/image3"
-                    layout="@layout/maopao_image" />
-
-                <include
-                    android:id="@+id/image4"
-                    layout="@layout/maopao_image" />
-
-                <include
-                    android:id="@+id/image5"
-                    layout="@layout/maopao_image" />
-            </LinearLayout>
         </LinearLayout>
-        <FrameLayout
+
+        <LinearLayout
+            android:id="@+id/imagesLayout1"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignTop="@id/linearLayout"
-            android:layout_marginLeft="-46dp"
-            android:layout_alignBottom="@id/linearLayout"
-            android:layout_toRightOf="@id/linearLayout">
-            <!--小红点与气泡的间距是15dp,理论上marginLeft应该是-42dp才对？-->
-            <TextView
-                android:id="@+id/resend"
-                android:layout_width="9dp"
-                android:layout_height="9dp"
-                android:textColor="@color/white"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:background="@drawable/shape_red_circle" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <!--
-            <View
-                android:id="@+id/resend"
-                android:layout_width="21dp"
-                android:layout_height="21dp"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_message_resend" />
-    -->
+            <include
+                android:id="@+id/image3"
+                layout="@layout/maopao_image" />
 
-            <ProgressBar
-                android:id="@+id/sending"
-                style="?android:attr/progressBarStyleSmall"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <include
+                android:id="@+id/image4"
+                layout="@layout/maopao_image" />
 
-        </FrameLayout>
+            <include
+                android:id="@+id/image5"
+                layout="@layout/maopao_image" />
+        </LinearLayout>
+    </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/linearLayout"
+        android:layout_alignTop="@id/linearLayout"
+        android:layout_marginLeft="-46dp"
+        android:layout_toRightOf="@id/linearLayout">
+        <!--小红点与气泡的间距是15dp,理论上marginLeft应该是-42dp才对？-->
+        <TextView
+            android:id="@+id/resend"
+            android:layout_width="9dp"
+            android:layout_height="9dp"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_red_circle"
+            android:gravity="center"
+            android:textColor="@color/white" />
 
+        <!--
+        <View
+            android:id="@+id/resend"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_message_resend" />
+-->
 
+        <ProgressBar
+            android:id="@+id/sending"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
 
+    </FrameLayout>
 
 
 </RelativeLayout>

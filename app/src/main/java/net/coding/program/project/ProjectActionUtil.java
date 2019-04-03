@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import net.coding.program.common.util.DensityUtil;
 import net.coding.program.R;
+import net.coding.program.common.util.DensityUtil;
 
 /**
  * Created by Vernon on 15/11/17.
@@ -66,7 +66,7 @@ public class ProjectActionUtil extends PopupWindow implements View.OnClickListen
 
     public void show(View parentView, int postion) {
         this.pos = postion;
-        showAsDropDown(parentView, -DensityUtil.dip2px(mContext, 24), -DensityUtil.dip2px(mContext, 107));
+        showAsDropDown(parentView, -DensityUtil.dip2px(mContext, 24), -DensityUtil.dip2px(mContext, 110));
     }
 
     @Override

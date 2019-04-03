@@ -3,17 +3,17 @@ package net.coding.program.project.detail.file;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import net.coding.program.R;
 import net.coding.program.common.Global;
+import net.coding.program.common.model.AccountInfo;
+import net.coding.program.common.model.AttachmentFileObject;
+import net.coding.program.common.model.ProjectObject;
 import net.coding.program.common.ui.BackActivity;
-import net.coding.program.model.AccountInfo;
-import net.coding.program.model.AttachmentFileObject;
-import net.coding.program.model.ProjectObject;
-import net.coding.program.project.detail.AttachmentsFolderSelectorActivity;
+import net.coding.program.common.ui.holder.FolderHolder;
+import net.coding.program.route.BlankViewDisplay;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -35,9 +35,33 @@ public class LocalProjectFileActivity extends BackActivity {
     @ViewById
     ListView listView;
 
+    @ViewById
+    View blankLayout;
+
     Map<String, ArrayList<File>> data = new HashMap<>();
     private LocalAdapter adapter;
     private String[] setStrings;
+
+    public static ArrayList<File> getListFiles(Object obj) {
+        File directory;
+        if (obj instanceof File) {
+            directory = (File) obj;
+        } else {
+            directory = new File(obj.toString());
+        }
+        ArrayList<File> files = new ArrayList<File>();
+        if (directory.isFile()) {
+            files.add(directory);
+            return files;
+        } else if (directory.isDirectory()) {
+            File[] fileArr = directory.listFiles();
+            for (int i = 0; i < fileArr.length; i++) {
+                File fileOne = fileArr[i];
+                files.addAll(getListFiles(fileOne));
+            }
+        }
+        return files;
+    }
 
     @AfterViews
     protected final void initLocalProjectFileActivity() {
@@ -76,25 +100,19 @@ public class LocalProjectFileActivity extends BackActivity {
             singleProjectFiles.add(file);
         }
 
-//        String ss = "";
-//        for (String s : data.keySet()) {
-//            ss += s;
-//        }
-//        Log.d("", ss);
         listViewAddHeaderSection(listView);
         setStrings = createListData();
         adapter = new LocalAdapter();
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = (String) adapterView.getItemAtPosition(i);
-                LocalFileListActivity_.intent(LocalProjectFileActivity.this)
-                        .title(item)
-                        .files(data.get(item))
-                        .startForResult(RESULT_FILE_LIST);
-            }
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            String item = (String) adapterView.getItemAtPosition(i);
+            LocalFileListActivity_.intent(LocalProjectFileActivity.this)
+                    .title(item)
+                    .files(data.get(item))
+                    .startForResult(RESULT_FILE_LIST);
         });
+
+        BlankViewDisplay.setBlank(data.size(), this, true, blankLayout, null);
 
     }
 
@@ -118,27 +136,6 @@ public class LocalProjectFileActivity extends BackActivity {
         adapter.notifyDataSetChanged();
     }
 
-    public static ArrayList<File> getListFiles(Object obj) {
-        File directory;
-        if (obj instanceof File) {
-            directory = (File) obj;
-        } else {
-            directory = new File(obj.toString());
-        }
-        ArrayList<File> files = new ArrayList<File>();
-        if (directory.isFile()) {
-            files.add(directory);
-            return files;
-        } else if (directory.isDirectory()) {
-            File[] fileArr = directory.listFiles();
-            for (int i = 0; i < fileArr.length; i++) {
-                File fileOne = fileArr[i];
-                files.addAll(getListFiles(fileOne));
-            }
-        }
-        return files;
-    }
-
     class LocalAdapter extends BaseAdapter {
 
         @Override
@@ -158,14 +155,11 @@ public class LocalProjectFileActivity extends BackActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            AttachmentsFolderSelectorActivity.ViewHolder holder =
-                    AttachmentsFolderSelectorActivity.ViewHolder.instance(convertView, parent);
+            FolderHolder holder = FolderHolder.instance(convertView, parent);
 
-            holder.checkBox.setVisibility(View.INVISIBLE);
-            holder.more.setVisibility(View.INVISIBLE);
             String name = (String) getItem(position);
             int count = data.get(name).size();
-            holder.name.setText(String.format("%s (%d)", name, count));
+            holder.name.setText(String.format("%s (%s)", name, count));
             return holder.getRootView();
         }
     }
