@@ -76,8 +76,12 @@ public class EnterpriseLoginActivity extends BaseActivity {
     private final String CLOSE_2FA_TIP = "关闭两步验证";
     private String TAG_HOST_NEED_CAPTCHA = "TAG_HOST_NEED_CAPTCHA";
     private final String TAG_LOGIN = "TAG_LOGIN";
+    private final String CE_INFO = "CE_INFO";
 
     private static final int RESULT_CLOSE = 100;
+
+    private String ssoType = "default";
+    private boolean ssoEnabled = false;
 
     @Extra
     Uri background;
@@ -299,11 +303,8 @@ public class EnterpriseLoginActivity extends BaseActivity {
 
     @Click
     protected final void loginButton() {
-        if (layout2fa.getVisibility() == View.GONE) {
-            login();
-        } else {
-            login2fa();
-        }
+        updateGlobalHost();
+        getNetwork(Global.HOST_API + "/enterprise/info/ce", CE_INFO);
     }
 
     private void login2fa() {
@@ -321,7 +322,7 @@ public class EnterpriseLoginActivity extends BaseActivity {
         Global.popSoftkeyboard(this, edit2FA, false);
     }
 
-    private void login() {
+    private void login(boolean sha1) {
         try {
             String name = editName.getTextString();
             String password = editPassword.getTextString();
@@ -340,7 +341,11 @@ public class EnterpriseLoginActivity extends BaseActivity {
             RequestParams params = new RequestParams();
 
             params.put("account", name);
-            params.put("password", SimpleSHA1.sha1(password));
+            if (sha1) {
+                params.put("password", SimpleSHA1.sha1(password));
+            } else {
+                params.put("password", password);
+            }
             if (captchaLayout.getVisibility() == View.VISIBLE) {
                 params.put("j_captcha", captcha);
             }
@@ -357,6 +362,10 @@ public class EnterpriseLoginActivity extends BaseActivity {
         } catch (Exception e) {
             Global.errorLog(e);
         }
+    }
+
+    private void login() {
+        login(true);
     }
 
     private void updateGlobalHost() {
@@ -455,6 +464,25 @@ public class EnterpriseLoginActivity extends BaseActivity {
                 loginFail(code, respanse, true);
             }
 
+        } else if (tag.equals(CE_INFO)) {
+            if (code == 0) {
+                try {
+                    ssoEnabled = respanse.getJSONObject("data").getJSONObject("settings").getBoolean("ssoEnabled");
+                    ssoType = respanse.getJSONObject("data").getJSONObject("settings").getString("ssoType");
+                } catch (Exception e) {
+                    ssoEnabled = false;
+                    ssoType = "default";
+                }
+                if (layout2fa.getVisibility() == View.GONE) {
+                    if (ssoEnabled && "ldap".equals(ssoType)) {
+                        login(false);
+                    } else {
+                        login();
+                    }
+                } else {
+                    login2fa();
+                }
+            }
         } else if (tag.equals(TAG_HOST_USER_NEED_2FA)) {
             if (code == 0) {
                 loginSuccess(respanse);
